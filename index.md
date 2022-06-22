@@ -2,9 +2,9 @@
 layout: index
 ---
 
-# SkipTo, version 4.1
+# SkipTo, version 5.0
 
-## by PayPal Accessibility Team and University of Illinois
+## by Jon Gunderson and University of Illinois
 
 See the [Authors](#authors) section for more information.
 
