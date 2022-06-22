@@ -63,7 +63,7 @@ var SkipToConfig =  {
 
 ## Benefits
 
-* Modern way to conform to the "[Bypass Blocks](https://www.w3.org/TR/WCAG/#bypass-blocks)" requirement of the [Web Content Accessibility Guidelines](https://www.w3.org/TR/WCAG/).
+* Modern way to conform to the "[SC 2.4.1 Bypass Blocks](https://www.w3.org/TR/WCAG/#bypass-blocks)" requirement of the [Web Content Accessibility Guidelines](https://www.w3.org/TR/WCAG/).
 * Screen reader users can get a higher level navigation menu without having to use the screen reader landmark and header navigation commands which typically include longer lists of lower level headings and less used landmarks.
 * Keyboard only users can more efficiently navigate to content on a page.
 * Speech recognition users can use the menu to more efficiently navigate to content on a page.
