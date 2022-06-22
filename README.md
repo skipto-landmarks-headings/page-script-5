@@ -51,7 +51,9 @@ A shortcut key can be used to open the SKipTo menu from anywhere on the page.  V
 
 ## Adding to Website
 
-All you need are either skipto.js or skipto.min.js from the "downloads/js" directory. Please note that skipto.min.js is a minified (a lighter version) of the script.
+When you add a reference to the skipto.js script it will automatically add the "Skip To Content" button to your page.   
+By default the button will be visible and centered at the top of the page.
+There are many configuration options to customize it's position or for the button to initially be invisible and then popup (e.g. become visible) when it recives focus.  Please note that skipto.min.js is a minified (a lighter version) of the script.
 If you would like to be able to debug your production-ready script, include the provided skipto.min.js.map file as well.
 
 ### CDN Service
