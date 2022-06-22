@@ -1,22 +1,22 @@
 {
   "name": "skipto",
   "description": "This plugin provides a dynamically-generated drop-down menu that allows keyboard and screen reader users to quickly skip to the most important places on the webpage.",
-  "version": "4.2.0",
+  "version": "5.0.0",
   "keywords": [
     "accessibility",
     "Navigation",
     "Skip to"
   ],
-  "homepage": "https://github.com/paypal/skipto",
+  "homepage": "https://github.com/skipto-landmarks-headings/page-script-5",
   "author": "Jon Gunderson",
   "repository": {
     "type": "git",
-    "url": "https://github.com/paypal/skipto"
+    "url": "https://github.com/skipto-landmarks-headings/page-script-5"
   },
   "licenses": [
     {
       "type": "BSD",
-      "url": "https://github.com/paypal/skipto/blob/master/BSDLicense.txt"
+      "url": "https://github.com/skipto-landmarks-headings/page-script-5/blob/main/LICENSE.md"
     }
   ],
   "engines": {
