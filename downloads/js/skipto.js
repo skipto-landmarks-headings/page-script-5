@@ -1,4 +1,4 @@
-/*! skipto - v4.2.0 - 2022-06-16
+/*! skipto - v4.2.0 - 2022-06-22
 * https://github.com/paypal/skipto
 * Copyright (c) 2022 Jon Gunderson; Licensed BSD
 * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD */
