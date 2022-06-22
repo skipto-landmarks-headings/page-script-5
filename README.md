@@ -54,6 +54,14 @@ A shortcut key can be used to open the SKipTo menu from anywhere on the page.  V
 All you need are either skipto.js or skipto.min.js from the "downloads/js" directory. Please note that skipto.min.js is a minified (a lighter version) of the script.
 If you would like to be able to debug your production-ready script, include the provided skipto.min.js.map file as well.
 
+### CDN Service
+
+The easiest way is to include a reference to `skipto.min.js`  on your HTML page or template is through the CDN service, as follows:
+
+```html
+<script src="https://cdn.disability.illinois.edu/skipto.min.js"></script>
+```
+
 ### Local File on Your Web Server
 
 Copy the `skipto.js` or `skipto.min.js` to the file system of your web server and reference it from your web page or templates using a `script` tag, as follows:
@@ -62,13 +70,6 @@ Copy the `skipto.js` or `skipto.min.js` to the file system of your web server an
 <script src="https://[path to Javascript files]/skipto.min.js"></script>
 ```
 
-### CDN Service
-
-The easiest way is to include a reference to `skipto.min.js`  on your HTML page or template is through the CDN service, as follows:
-
-```html
-<script src="https://paypal.github.io/skipto/downloads/js/skipto.min.js"></script>
-```
 
 NOTE: CDN referenced files may not be available to computers behind firewall protected networks.
 
@@ -244,10 +245,10 @@ var SkipToConfig =  {
 The source code in this section is for developers to understand the HTML, classes and ids used in the SkipTo menu button and menu for use in custom styling.
 
 ```html
-<div
-  class="skip-to"
-  title='Keyboard Navigation Shortcut is "Alt+0"'
->
+<!--
+  The following HTML is generated automatically by the script 
+-->
+<div class="skip-to">
   <!--
   //
   // Menu Button
