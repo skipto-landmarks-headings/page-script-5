@@ -242,7 +242,7 @@ var SkipToConfig =  {
 
 ### HTML, Classes and Ids for custom styling
 
-The source code in this section is for developers to understand the HTML, classes and ids used in the SkipTo menu button and menu for use in custom styling.
+The following HTML is genrated by the script and is for the benefit of developers to understand the HTML, classes and ids used in the SkipTo menu button and menu for use in custom styling.
 
 ```html
 <!--
