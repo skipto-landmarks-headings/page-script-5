@@ -440,9 +440,6 @@ Happy skipping!
 **Jon Gunderson**
 [https://github.com/jongund](https://github.com/jongund)
 
-**Matt King**
-[https://github.com/mcking65](https://github.com/mcking65)
-
 **Nicholas Hoyt**
 [https://github.com/nhoyt](https://github.com/nhoyt)
 
