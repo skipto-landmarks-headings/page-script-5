@@ -13,18 +13,18 @@ To add the "Skip To Content" button to your page, just add the CDN reference to 
 <script src="https://cdn.disability.illinois.edu/skipto.min.js"></script>
 ```
 
-### Common configuration options for customizing Fonts and Color
+### Customizing Fonts and Color
 
 The most common customizations is to have the menu button and menu items intergrated into the color them and typography of the web page.
 A simple configuration object can be used to override default colors and typography.  
-NOTE: A CSS stylesheet can also be used to style the menu button and menun items by using the elements, ids and classes in the generated code as selectors, see details later in a later section.
+NOTE: A CSS stylesheet can also be used to style the menu button and menun items by using the elements, ids and classes in the generated code as selectors, more information in a later section.
 
 ```html
 <script>
 var SkipToConfig =  {
   'settings': {
     'skipTo': {
-      fontFamily: 'Noto Sans, Trebuchet MS, Helvetica Neue, Arial, sans-serif',  // default is 'inherit'
+      fontFamily: 'Arial, sans-serif',         // default is 'inherit'
       fontSize: '14px',                        // default is 'inherit'
       menuTextColor: '#000',                   // default is '#1a1a1a'
       menuBackgroundColor: '#def',             // default is '#dcdcdc'
