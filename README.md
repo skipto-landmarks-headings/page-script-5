@@ -51,7 +51,7 @@ var SkipToConfig =  {
   'settings': {
     'skipTo': {
       displayOption: 'popup',  // default is 'static'
-      positionLeft: '0px', // left justifed, default is 46%
+      positionLeft: '0px',     // default is 46%
     }
   }
 };
