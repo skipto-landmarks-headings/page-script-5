@@ -1,4 +1,4 @@
-# skipto@5.0
+# SkipTo Landmarks and Headings Page Script Version 5.0
 
 See the [Authors](#authors) section for more information.
 
