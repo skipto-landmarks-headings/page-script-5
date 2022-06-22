@@ -16,22 +16,6 @@ module.exports = function(grunt) {
 
 		footer: '/*@end @*/\n',
 
-		greaseBanner:
-			'// -----------------------------------------------------' + '\n' +
-			'// Title: Skip to Options User script' + '\n' +
-			'// version: <%= pkg.version %>' + '\n' +
-			'// Date: <%=grunt.template.today("yyyy-mm-dd")%>' + '\n' +
-			'// Author: <%= pkg.author %>' + '\n' +
-			'// Homepage: <%= pkg.homepage %>' + '\n' +
-			'// Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>' + '\n' +
-			'// -----------------------------------------------------' + '\n' +
-			'//' + '\n' +
-			'// ==UserScript==' + '\n' +
-			'// @name <%=pkg.name %>' + '\n' +
-			'// @namespace <%=pkg.name %>' + '\n' +
-			'// @description <%=pkg.description%>' + '\n' +
-			'// @include *' + '\n' +
-			'// ==/UserScript==' + '\n' + '\n',
 		jshint: {
 			files: [
 				'**/*.js',
@@ -53,13 +37,6 @@ module.exports = function(grunt) {
 				},
 				src:   ['src/js/<%= pkg.name %>.js'],
 				dest:  './downloads/js/<%= pkg.name %>.js'
-			},
-			gm: {
-				options: {
-					banner: '<%= greaseBanner %>'
-				},
-				src:   './downloads/js/<%= pkg.name %>.min.js',
-				dest:  './downloads/js/<%= pkg.name %>.user.js'
 			}
 		},
 
@@ -120,7 +97,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 	grunt.registerTask('test', ['jshint']);
-	grunt.registerTask('gm', 'concat:gm');
-	grunt.registerTask('default', ['jshint', 'concat:core', 'uglify', 'cssmin', 'replace', 'concat:gm']);
-	grunt.registerTask('all', ['jshint', 'concat:core', 'uglify', 'replace', 'concat:gm']);
+	grunt.registerTask('default', ['jshint', 'concat:core', 'uglify', 'cssmin', 'replace']);
+	grunt.registerTask('all', ['jshint', 'concat:core', 'uglify', 'replace']);
 };
