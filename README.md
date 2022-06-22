@@ -5,6 +5,14 @@ See the [Authors](#authors) section for more information.
 SkipTo is a replacement for your old classic "Skip To Main Content" link, (so please use it as such)!
 The SkipTo script creates a drop-down menu consisting of the links to important landmarks and headings on a given web page identified by the author. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.
 
+### Quick Start
+
+To add the "Skip To Content" button to your page, just add the CDN reference to your web pages.
+
+```html
+<script src="https://cdn.disability.illinois.edu/skipto.min.js"></script>
+```
+
 ### Benefits
 
 * Modern way to conform to the "[Bypass Blocks](https://www.w3.org/TR/WCAG/#bypass-blocks)" requirement of the [Web Content Accessibility Guidelines](https://www.w3.org/TR/WCAG/).
