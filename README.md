@@ -60,7 +60,7 @@ var SkipToConfig =  {
 
 By default the menu button is visible at the top of the page and centered in the middle of the page.
 If you prefer the menu button to be initially hidden and popup when it receives focus, change then`displayOption` property to `popup`.
-To change the horizontal position of the menu button on the screen when it is visible, use the `positionLeft` property.  
+To change the horizontal position of the menu button on the screen when it is visible, use the `positionLeft` property.
 CSS length values can be used for setting the position.
 
 ```html
