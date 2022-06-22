@@ -15,9 +15,9 @@ To add the "Skip To Content" button to your page, just add the CDN reference to 
 
 ### Customizing fonts and colors
 
-The most common customizations is to have the menu button and menu items intergrated into the color them and typography of the web page.
+The most common customization is to have the button and menu items integrated into the color theme and typography of the rest of the web page.
 A simple configuration object can be used to override default colors and typography.  
-NOTE: A CSS stylesheet can also be used to style the menu button and menun items by using the elements, ids and classes in the generated code as selectors, more information in a later section.
+NOTE: A CSS stylesheet can also be used to style the menu button and menu items by using the elements, ids and classes in the generated code as selectors, more information in a later section.
 
 ```html
 <script>
@@ -33,6 +33,22 @@ var SkipToConfig =  {
       focusBorderColor: '#005a9c',             // default is '#1a1a1a'
       buttonTextColor: '#005a9c',              // default is '#1a1a1a'
       buttonBackgroundColor: '#ddd',           // default is '#eeeeee'
+    }
+  }
+};
+</script>
+```
+
+### Illinois Color Theme
+
+For website at the University of Illinois you can get the default Illinois colors using the "colorTheme" option.
+
+```html
+<script>
+var SkipToConfig =  {
+  'settings': {
+    'skipTo': {
+      colorTheme: 'illinois'
     }
   }
 };
