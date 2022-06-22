@@ -5,7 +5,7 @@ See the [Authors](#authors) section for more information.
 SkipTo is a replacement for your old classic "Skip To Main Content" link, (so please use it as such)!
 The SkipTo script creates a drop-down menu consisting of the links to important landmarks and headings on a given web page identified by the author. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.
 
-### Quick Start
+## Quick Start
 
 To add the "Skip To Content" button to your page, just add the CDN reference to your web pages.
 
@@ -13,7 +13,55 @@ To add the "Skip To Content" button to your page, just add the CDN reference to 
 <script src="https://cdn.disability.illinois.edu/skipto.min.js"></script>
 ```
 
-### Benefits
+### Common configuration options for customizing Fonts and Color
+
+The most common customizations is to have the menu button and menu items intergrated into the color them and typography of the web page.
+A simple configuration object can be used to override default colors and typography.  
+NOTE: A CSS stylesheet can also be used to style the menu button and menun items by using the elements, ids and classes in the generated code as selectors, see details later in a later section.
+
+```html
+<script>
+var SkipToConfig =  {
+  'settings': {
+    'skipTo': {
+      fontFamily: 'Noto Sans, Trebuchet MS, Helvetica Neue, Arial, sans-serif',  // default is 'inherit'
+      fontSize: '14px',                        // default is 'inherit'
+      menuTextColor: '#000',                   // default is '#1a1a1a'
+      menuBackgroundColor: '#def',             // default is '#dcdcdc'
+      menuitemFocusTextColor: '#fff',          // default is '#eeeeee'
+      menuitemFocusBackgroundColor: '#005a9c', // default is '#1a1a1a'
+      focusBorderColor: '#005a9c',             // default is '#1a1a1a'
+      buttonTextColor: '#005a9c',              // default is '#1a1a1a'
+      buttonBackgroundColor: '#ddd',           // default is '#eeeeee'
+    }
+  }
+};
+</script>
+```
+
+### Change Menu Button behavior to "popup"
+
+By default the menu button is visible at the top of the page and centered in the middle of the page.
+If you prefer the menu button to be initially hidden and popup when it receives focus you can chnage `displayOption` to `popup`.
+To change the horizontal position of the menu button on the screen you can use the `positionLeft` property.
+
+```html
+<script>
+var SkipToConfig =  {
+  'settings': {
+    'skipTo': {
+      displayOption: 'popup',  // default is 'static'
+      positionLeft: '0px', // left justifed, default is 46%
+    }
+  }
+};
+</script>
+```
+
+
+
+
+## Benefits
 
 * Modern way to conform to the "[Bypass Blocks](https://www.w3.org/TR/WCAG/#bypass-blocks)" requirement of the [Web Content Accessibility Guidelines](https://www.w3.org/TR/WCAG/).
 * Screen reader users can get a higher level navigation menu without having to use the screen reader landmark and header navigation commands which typically include longer lists of lower level headings and less used landmarks.
