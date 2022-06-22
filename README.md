@@ -2,8 +2,8 @@
 
 See the [Authors](#authors) section for more information.
 
-SkipTo is a replacement for your old classic "Skip To Main Content" link, (so please use it as such)!
-The SkipTo script creates a drop-down menu consisting of the links to important landmarks and headings on a given web page identified by the author. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.
+SkipTo Landmarks and Headings is a replacement for your old classic "Skip To Main Content" link, (so please use it as such)!
+The SkipTo script adds a button to the page that is used to open a drop-down menu consisting of important landmarks and headings on a given web page.  The selectors used to identify the landmarks and headings for the menu is configurable by the author.  The default SkipTo selectors include the most important landmarks and headings.  Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.
 
 ## Quick Start
 
