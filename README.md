@@ -135,6 +135,8 @@ The easiest way is to include a reference to `skipto.min.js`  on your HTML page 
 <script src="https://cdn.disability.illinois.edu/skipto.min.js"></script>
 ```
 
+**NOTE:** CDN referenced files may not be available to computers behind firewall protected networks.
+
 ### Local File on Your Web Server
 
 Copy the `skipto.js` or `skipto.min.js` to the file system of your web server and reference it from your web page or templates using a `script` tag, as follows:
@@ -151,8 +153,6 @@ Here are links to the source code files for SkipTo.js:
 * [skipto.min.js](https://skipto-landmarks-headings.github.io/page-script-5/downloads/js/skipto.min.js)
 * [skipto.min.js.map](https://skipto-landmarks-headings.github.io/page-script-5/downloads/js/skipto.min.js.map)
 
-
-NOTE: CDN referenced files may not be available to computers behind firewall protected networks.
 
 ### What About Joomla?
 
