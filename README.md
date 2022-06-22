@@ -143,6 +143,14 @@ Copy the `skipto.js` or `skipto.min.js` to the file system of your web server an
 <script src="https://[path to Javascript files]/skipto.min.js"></script>
 ```
 
+### Location of SkipTo Landmark and Headings Source Files
+
+Here are links to the source code files for SkipTo.js:
+
+* [skipto.js](https://skipto-landmarks-headings.github.io/page-script-5/downloads/js/skipto.js)
+* [skipto.min.js](https://skipto-landmarks-headings.github.io/page-script-5/downloads/js/skipto.min.js)
+* [skipto.min.js.map](https://skipto-landmarks-headings.github.io/page-script-5/downloads/js/skipto.min.js.map)
+
 
 NOTE: CDN referenced files may not be available to computers behind firewall protected networks.
 
