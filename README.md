@@ -1,6 +1,4 @@
-<img src="images/logo_347x50_PPa11y.png" alt="PayPal accessibility logo">
-
-# skipto@4.2
+# skipto@5.0
 
 See the [Authors](#authors) section for more information.
 
