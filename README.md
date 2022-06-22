@@ -13,7 +13,7 @@ To add the "Skip To Content" button to your page, just add the CDN reference to 
 <script src="https://cdn.disability.illinois.edu/skipto.min.js"></script>
 ```
 
-### Customizing Fonts and Color
+### Customizing fonts and colors
 
 The most common customizations is to have the menu button and menu items intergrated into the color them and typography of the web page.
 A simple configuration object can be used to override default colors and typography.  
@@ -39,7 +39,7 @@ var SkipToConfig =  {
 </script>
 ```
 
-### Change Menu Button behavior to "popup"
+### Change behavior to "popup"
 
 By default the menu button is visible at the top of the page and centered in the middle of the page.
 If you prefer the menu button to be initially hidden and popup when it receives focus you can chnage `displayOption` to `popup`.
