@@ -224,10 +224,7 @@ NOTE: Configuration objects in version 4.x are still supported for compatoibilit
 The source code in this section is for developers to understand the HTML, classes and ids used in the SkipTo menu button and menu for use in custom styling.
 
 ```html
-<div
-  class="skip-to"
-  title='Keyboard Navigation Shortcut is "Alt+0"'
->
+<div class="skip-to">
   <!--
   //
   // Menu Button
@@ -328,11 +325,11 @@ The source code in this section is for developers to understand the HTML, classe
 You may feel slightly adventurous and decide to change some colors or even enhance the script with your changes. Once you do this, here is how you compile the skipTo script for production.
 
 ```sh
-git clone https://github.com/paypal/skipto.git
-cd skipto
+git clone https://github.com/skipto-landmarks-headings/page-script-5.git
+cd page-script-5
 sudo npm install grunt-cli -g
 npm install
-grunt
+gulp
 ```
 
 1. You should now have a directory called **`downloads`** with the necessary files in it.
@@ -363,9 +360,6 @@ Happy skipping!
 **Jon Gunderson**
 [https://github.com/jongund](https://github.com/jongund)
 
-**Matt King**
-[https://github.com/mcking65](https://github.com/mcking65)
-
 **Nicholas Hoyt**
 [https://github.com/nhoyt](https://github.com/nhoyt)
 
@@ -389,7 +383,7 @@ Happy skipping!
 
 ## Version History
 
-### Version 5.0
+### Version 5.0.2
 * Supports headings and landmarks in custom web components.  This required changing heading and landmark identification from using simple CSS selectors to using comma separated string of headings and landmarks to include.  There is some level of compatibility with previous versions of SkipTo, please see configuration information. 
 * Unify shortcut key to be consistent between browers and to support screen reader users using the shortcut by changing the shortcut to use Javascript rather than the HTML `accesskey` attribute.
 * Support a scrollable menu if the list of menu items does not fit in the current window size.
@@ -398,6 +392,9 @@ Happy skipping!
 * Fixes bug with Safari visual rendering of the menu item with focus.
 * Deprecates "All headings" and "All landmarks" option to reduce code and configuration complexity
 * Simplifies configuration object
+* Uses modules to organize code into smaller files
+* Switch from using `grunt` to `gulp` for building release files
+* Use template element for creating `style` element
 
 ### Version 4.1.6
 * Revert the changes from 4.1.4
