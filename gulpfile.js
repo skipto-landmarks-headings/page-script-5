@@ -26,16 +26,21 @@ gulp.task('build', () => {
     })
     .then(bundle => {
       return bundle.write({
-        file: './releases/skipto.js',
+        file: './downloads/js/skipto.js',
         format: 'es',
       });
     });
 });
 
  gulp.task('compress', () => {
-    return src('./releases/skipto.js', { allowEmpty: true }) 
-        .pipe(minify({noSource: true}))
-        .pipe(dest('./releases'))
+    return src('./downloads/js/skipto.js', { allowEmpty: true }) 
+        .pipe(minify({
+          ext: {
+            min: '.min.js' // Set the file extension for minified files to .min.js
+          },
+          noSource: true
+        }))
+        .pipe(dest('./downloads'))
 });
 
 const linting  = task('linting');

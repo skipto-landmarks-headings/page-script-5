@@ -69,7 +69,7 @@ Copy the `skipto.js` or `skipto.min.js` to the file system of your web server an
 The easiest way is to include a reference to `skipto.min.js`  on your HTML page or template is through the CDN service, as follows:
 
 ```html
-<script src="https://paypal.github.io/skipto/downloads/js/skipto.min.js"></script>
+<script src="https://cdn.disability.illinois.edu/skipto.min.js"></script>
 ```
 
 NOTE: CDN referenced files may not be available to computers behind firewall protected networks.
@@ -90,8 +90,7 @@ The following options are useful for identify where the menu will be in the DOM 
 | :------------- | :---------- | :---------- |
 | `displayOption` | 'static' | Values of `static`, `fixed` or `popup` are defined.  The value `static` the button is always visible, the value `fixed` the button is always visible at the top of the page even when the page scrolls, and the value `popup` is used the button is initially not visible, but becomes visible when it receives focus. |
 | `attachElement` | 'header' | A CSS selector for identifying which element to attach the menu button container.  If the `header` element is not present, it will use the `body` element as the default.|
-| `containerElement` | 'div' | Element to use as a container for the button and the menu.
-| `customClass` | none | CSS class added to the container element. Can be used for customize styling of the button and menu with author supplied stylesheet. |
+| `customClass` | none | CSS class added to the container `div` element. Can be used for customize styling of the button and menu with author supplied stylesheet. |
 | `containerRole` | none | Optional landmark role added to a container element, if the container element is not within a landmark.  Ideally the menu button is placed within the `banner` landmark (e.g. `header` element. |
 | `altShortcut`    | '0'      | Shortcut character for Windows/Linux/Unix when the alt key is pressed to open the menu. | 
 | `optionShortcut` | 'º'      | Shortcut character for macOS when the option key is pressed to open the menu. |
