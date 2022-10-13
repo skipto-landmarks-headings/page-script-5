@@ -54,7 +54,6 @@ A shortcut key can be used to open the SKipTo menu from anywhere on the page.  V
 ## Adding to Website
 
 All you need are either skipto.js or skipto.min.js from the "downloads/js" directory. Please note that skipto.min.js is a minified (a lighter version) of the script.
-If you would like to be able to debug your production-ready script, include the provided skipto.min.js.map file as well.
 
 ### Local File on Your Web Server
 
@@ -405,6 +404,7 @@ Happy skipping!
 * Uses modules to organize code into smaller files
 * Switch from using `grunt` to `gulp` for building release files
 * Use template element for creating `style` element
+* `skipto.min.js.map` file is no longer generated for `skipto.min.js` for debugging, reference `skipto.js` instead 
 
 ### Version 4.1.6
 * Revert the changes from 4.1.4
