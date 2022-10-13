@@ -60,6 +60,7 @@ If you would like to be able to debug your production-ready script, include the 
 
 Copy the `skipto.js` or `skipto.min.js` to the file system of your web server and reference it from your web page or templates using a `script` tag, as follows:
 
+
 ```html
 <script src="https://[path to Javascript files]/skipto.min.js"></script>
 ```
@@ -67,6 +68,16 @@ Copy the `skipto.js` or `skipto.min.js` to the file system of your web server an
 ### CDN Service
 
 The easiest way is to include a reference to `skipto.min.js`  on your HTML page or template is through the CDN service, as follows:
+
+github.com CDN service:
+
+```html
+<script src="https://skipto-landmarks-headings.github.io/page-script-5/downloads/js/skipto.js"></script>
+```
+
+or
+
+University of Illinois CDN service:
 
 ```html
 <script src="https://cdn.disability.illinois.edu/skipto.min.js"></script>
