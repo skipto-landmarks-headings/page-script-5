@@ -170,39 +170,9 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       // Add skipto style sheet to document
       renderStyleElement(this.colorThemes, this.config, this.skipToId);
 
-      this.domNode = new SkiptoMenuButton(attachElement, this.config);
+      new SkiptoMenuButton(attachElement, this.config);
 
-      this.domNode.classList.add('skip-to');
-      if (this.isNotEmptyString(this.config.customClass)) {
-        this.domNode.classList.add(this.config.customClass);
-      }
-      if (this.isNotEmptyString(this.config.containerRole)) {
-        this.domNode.setAttribute('role', this.config.containerRole);
-      }
-      let displayOption = this.config.displayOption;
-      if (typeof displayOption === 'string') {
-        displayOption = displayOption.trim().toLowerCase();
-        if (displayOption.length) {
-          switch (this.config.displayOption) {
-            case 'fixed':
-              this.domNode.classList.add('fixed');
-              break;
-            case 'onfocus':  // Legacy option
-            case 'popup':
-              this.domNode.classList.add('popup');
-              break;
-            default:
-              break;
-          }
-        }
-      }
 
-      if (this.usesAltKey || this.usesOptionKey) {
-        document.addEventListener(
-          'keydown',
-          this.handleDocumentKeydown.bind(this)
-        );
-      }
     },
 
     /*

@@ -174,7 +174,7 @@ function checkForLandmark (node) {
  * @returns (Object) @desc
  */
 function queryDOMForSkipToId (targetId) {
-  debug.log(`[queryDOMForSkipToId]`);
+  debug.flag && debug.log(`[queryDOMForSkipToId]`);
   function transverseDOMForSkipToId(startingNode) {
     var targetNode = null;
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
@@ -351,19 +351,20 @@ function queryDOMForHeadings (targets) {
   return headingNodes;
 }
 
-function getHeadings (config, targets) {
+function getHeadings (config) {
   let dataId, level;
+  let targets = config.headings;
   // If targets undefined, use default settings
   if (typeof targets !== 'string') {
-    targets = config.headings;
+    targets = 'h1 h2';
   }
   let headingElementsArr = [];
   if (typeof targets !== 'string' || targets.length === 0) return;
   const headings = queryDOMForHeadings(targets);
-  debug.log(`[getHeadings][headings]: ${headings.length}`);
+  debug.flag && debug.log(`[getHeadings][headings]: ${headings.length}`);
   for (let i = 0, len = headings.length; i < len; i += 1) {
     let heading = headings[i];
-    debug.log(`[getHeadings][${i}]: ${heading.tagName}: ${heading.textContent}`);
+    debug.flag && debug.log(`[getHeadings][${i}]: ${heading.tagName}: ${heading.textContent}`);
     let role = heading.getAttribute('role');
     if ((typeof role === 'string') && (role === 'presentation')) continue;
     if (isVisible(heading) && isNotEmptyString(heading.innerHTML)) {
@@ -542,13 +543,13 @@ function queryDOMForLandmarks (targets) {
  * @desc Traverses the DOM, including web compnents, for ARIA a set of landmarks
  *
  * @param {Object} config  - Object with configuration information
- * @param {String} targets - String with landamrk and/or tag names
  *
  * @returns Array of dom nodes that are identified as landmarks
  */
-function getLandmarks(config, targets) {
+function getLandmarks(config) {
+  let targets = config.landmarks;
   if (typeof targets !== 'string') {
-    targets = config.landmarks;
+    targets = 'main search navigation';
   }
   let landmarks = queryDOMForLandmarks(targets);
   let mainElements = [];
@@ -562,11 +563,9 @@ function getLandmarks(config, targets) {
   let dataId = '';
   for (let i = 0, len = landmarks.length; i < len; i += 1) {
     let landmark = landmarks[i];
-    // To do JRG
-    // if skipto is a landmark don't include it in the list
-//    if (landmark === this.domNode) {
-//      continue;
-//    }
+    if (landmark.classList.contains('skip-to')) {
+       continue;
+    }
     let role = landmark.getAttribute('role');
     let tagName = landmark.tagName.toLowerCase();
     if ((typeof role === 'string') && (role === 'presentation')) continue;

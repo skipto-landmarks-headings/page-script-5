@@ -5,7 +5,7 @@ import DebugLogging  from './debug.js';
 
 /* Constants */
 const debug = new DebugLogging('Utils', false);
-debug.flag(false);
+debug.flag = false;
 
 /* Exports */
 
@@ -106,10 +106,10 @@ function getAccessibleName (elem) {
     }
     name = strings.join(" ");
   } else {
-    if (this.isNotEmptyString(label)) {
+    if (isNotEmptyString(label)) {
       name = label;
     } else {
-      if (this.isNotEmptyString(title)) {
+      if (isNotEmptyString(title)) {
         name = title;
       }
     }

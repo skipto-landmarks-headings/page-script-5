@@ -1,6 +1,6 @@
 <img src="images/logo_347x50_PPa11y.png" alt="PayPal accessibility logo">
 
-# skipto@5.0
+# skipto@5.1
 
 See the [Authors](#authors) section for more information.
 
@@ -101,7 +101,6 @@ The following options are useful for identify where the menu will be in the DOM 
 | `displayOption` | 'static' | Values of `static`, `fixed` or `popup` are defined.  The value `static` the button is always visible, the value `fixed` the button is always visible at the top of the page even when the page scrolls, and the value `popup` is used the button is initially not visible, but becomes visible when it receives focus. |
 | `attachElement` | 'header' | A CSS selector for identifying which element to attach the menu button container.  If the `header` element is not present, it will use the `body` element as the default.|
 | `customClass` | none | CSS class added to the container `div` element. Can be used for customize styling of the button and menu with author supplied stylesheet. |
-| `containerRole` | none | Optional landmark role added to a container element, if the container element is not within a landmark.  Ideally the menu button is placed within the `banner` landmark (e.g. `header` element. |
 | `altShortcut`    | '0'      | Shortcut character for Windows/Linux/Unix when the alt key is pressed to open the menu. | 
 | `optionShortcut` | 'º'      | Shortcut character for macOS when the option key is pressed to open the menu. |
 
@@ -392,7 +391,15 @@ Happy skipping!
 
 ## Version History
 
-### Version 5.0.2
+### Version 5.1.0
+* Makes the skipto container element a navigation landmark with an accessible name
+* Deprecates the `containerElement` and `containerRole` configuration options
+* Reorganizes the code into modules for imporved development and readability
+* Switch from using `grunt` to `gulp` for building release files
+* Use template element for creating `style` element
+* `skipto.min.js.map` file is no longer generated for `skipto.min.js` for debugging, reference `skipto.js` instead 
+
+### Version 5.0.1
 * Supports headings and landmarks in custom web components.  This required changing heading and landmark identification from using simple CSS selectors to using comma separated string of headings and landmarks to include.  There is some level of compatibility with previous versions of SkipTo, please see configuration information. 
 * Unify shortcut key to be consistent between browers and to support screen reader users using the shortcut by changing the shortcut to use Javascript rather than the HTML `accesskey` attribute.
 * Support a scrollable menu if the list of menu items does not fit in the current window size.
@@ -401,10 +408,6 @@ Happy skipping!
 * Fixes bug with Safari visual rendering of the menu item with focus.
 * Deprecates "All headings" and "All landmarks" option to reduce code and configuration complexity
 * Simplifies configuration object
-* Uses modules to organize code into smaller files
-* Switch from using `grunt` to `gulp` for building release files
-* Use template element for creating `style` element
-* `skipto.min.js.map` file is no longer generated for `skipto.min.js` for debugging, reference `skipto.js` instead 
 
 ### Version 4.1.6
 * Revert the changes from 4.1.4
