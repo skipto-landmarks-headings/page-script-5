@@ -1,4 +1,3 @@
-<img src="images/logo_347x50_PPa11y.png" alt="PayPal accessibility logo">
 
 # skipto@5.1
 
@@ -71,7 +70,7 @@ The easiest way is to include a reference to `skipto.min.js`  on your HTML page 
 github.com CDN service:
 
 ```html
-<script src="https://skipto-landmarks-headings.github.io/page-script-5/downloads/js/skipto.js"></script>
+<script src="https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js"></script>
 ```
 
 or
