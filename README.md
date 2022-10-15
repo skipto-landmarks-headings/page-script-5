@@ -5,7 +5,7 @@
 See the [Authors](#authors) section for more information.
 
 SkipTo is a replacement for your old classic "Skip To Main Content" link, (so please use it as such)!
-The SkipTo script creates a drop-down menu consisting of the links to important landmarks and headings on a given web page identified by the author. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.
+The SkipTo script creates a drop-down menu consisting of the links to important landmarks and headings on a given web page identified by the author. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.  
 
 ### Benefits
 
@@ -321,7 +321,7 @@ The source code in this section is for developers to understand the HTML, classe
 * When the custom class is specified (see the customClass parameter), the user can override the style:
 
 ```css
-.skip-to.MyCustomClass {
+nav#skip-to.MyCustomClass {
   background:  red;
   left: 50px;
   top: 50px;
@@ -340,24 +340,12 @@ npm install
 gulp
 ```
 
-1. You should now have a directory called **`downloads`** with the necessary files in it.
+1. You should now have a directory called **`dist`** with the necessary files in it.
 1. See instructions above on which files you need to get the SkipTo script running on your web site.
-
-Note: On Windows, build-win.bat runs npm install and grunt modules (Step 3). To successfully run, you must launch a Windows command prompt as an Admin (Ctrl+Shift+Enter) and then run build-win.bat from this command prompt.
-
-## Cleaning up
-
-If you would like to revert your local code repository to its initial state, simply run
-
-```sh
-grunt clean
-```
-
-from the root directory of your repository.
 
 ## Of course, we want feedback
 
-Please do not hesitate to [raise issues and comment on Github](https://github.com/paypal/skipto/issues) if something doesn't work or you have ideas on how to improve the script.
+Please do not hesitate to [raise issues and comment on Github](https://github.com/skipto-landmarks-headings/page-script-5/issues) if something doesn't work or you have ideas on how to improve the script.
 
 Happy skipping!
 

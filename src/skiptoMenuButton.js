@@ -19,7 +19,7 @@ debug.flag = false;
 
 const menuButtonTemplate = document.createElement('template');
 menuButtonTemplate.innerHTML = `
-  <nav class="skip-to" arial0label-"Skip To Content">
+  <nav id="id-skip-to" arial0label-"Skip To Content">
     <button
       aria-label="Skip to content, shortcut alt plus zero"
       aria-haspopup="true"

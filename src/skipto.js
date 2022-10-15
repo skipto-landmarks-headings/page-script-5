@@ -212,7 +212,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
           ) {
           this.config[name] = appConfigSettings[name];
         } else {
-          throw new Error('** SkipTo problem with configuration option "' + name + '".');
+          console.log('[SkipTo]: Unsuported or deprecated configuration option "' + name + '".');
         }
       }
     }

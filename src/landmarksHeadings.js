@@ -563,7 +563,7 @@ function getLandmarks(config) {
   let dataId = '';
   for (let i = 0, len = landmarks.length; i < len; i += 1) {
     let landmark = landmarks[i];
-    if (landmark.classList.contains('skip-to')) {
+    if (landmark.id === 'id-skip-to') {
        continue;
     }
     let role = landmark.getAttribute('role');
