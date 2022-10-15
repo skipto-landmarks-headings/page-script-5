@@ -32,6 +32,9 @@ gulp.task('build', () => {
     });
 });
 
+
+// output to downloads directory is to support 
+
  gulp.task('compress', () => {
     return src('./dist/skipto.js', { allowEmpty: true }) 
         .pipe(dest('./downloads/js'))        

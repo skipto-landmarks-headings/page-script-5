@@ -212,7 +212,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
           ) {
           this.config[name] = appConfigSettings[name];
         } else {
-          console.log('[SkipTo]: Unsuported or deprecated configuration option "' + name + '".');
+          console.warn('[SkipTo]: Unsuported or deprecated configuration option "' + name + '".');
         }
       }
     }
