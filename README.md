@@ -194,10 +194,8 @@ The labels and messages can be localized for specific languages or updated to re
 
 #### Deprecated Configuration Properties
 
-The following properties were deprecated and will be ignored if defined.
+The following properties were deprecated from previous versions of SkipTo and will be ignored if defined.
 
-* `buttonTitle` 
-* `buttonTitleAccesskey` 
 * `actionGroupLabel` 
 * `actionShowHeadingsHelp` 
 * `actionShowSelectedHeadingsLabel` 
@@ -209,10 +207,14 @@ The following properties were deprecated and will be ignored if defined.
 * `actionShowAllHeadingsAriaLabel` 
 * `actionShowSelectedLandmarksAriaLabel` 
 * `actionShowAllLandmarksAriaLabel`
+* `buttonTitle` 
+* `buttonTitleAccesskey` 
+* `containerElement`
+* `containerRole`
 
 ## Example Settings
 
-If have different requirements for your website and include other heading levels as well as ARIA landmarks, you will need to provide a Javascript object containing the necessary configuration parameters. The following is a sample configuration:
+You can custiomize SkipTo to the features of your website by using a configuration object. The following is a sample configuration:
 
 ```html
 <script>
