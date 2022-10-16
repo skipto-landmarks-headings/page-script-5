@@ -1,6 +1,6 @@
 <img src="./images/skipto-128.png" alt="SkipTo logo"/>
 
-# skipto@5.1
+# skipto@5.1 Page Script
 
 See the [Authors](#authors) section for more information.
 
