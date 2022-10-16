@@ -1,4 +1,4 @@
-<img src="./images/skipto-129.png" alt="SkipTo logo"/>
+<img src="./images/skipto-128.png" alt="SkipTo logo"/>
 
 # skipto@5.1
 
