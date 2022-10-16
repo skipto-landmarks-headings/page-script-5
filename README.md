@@ -1,3 +1,4 @@
+<imh src="./images/skipto-129.png" alt="SkipTo logo"/>
 
 # skipto@5.1
 
