@@ -4,23 +4,26 @@
 import DebugLogging  from './debug.js';
 
 import {
-  getTextContent,
   isNotEmptyString,
   isVisible,
-  getAccessibleName
 } from './utils.js';
+
+
+import {
+  getAccessibleName
+} from './accName.js';
 
 
 /*Exports */
 export {
-  getHeadings,
-  getLandmarks,
+  getLandmarksAndHeadings,
   queryDOMForSkipToId,
   skipToElement
 };
 
 /* Constants */
 const debug = new DebugLogging('landmarksHeadings', false);
+debug.flag = true;
 
 const skipableElements = [
   'base',
@@ -174,7 +177,6 @@ function checkForLandmark (node) {
  * @returns (Object) @desc
  */
 function queryDOMForSkipToId (targetId) {
-  debug.flag && debug.log(`[queryDOMForSkipToId]`);
   function transverseDOMForSkipToId(startingNode) {
     var targetNode = null;
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
@@ -222,28 +224,84 @@ function queryDOMForSkipToId (targetId) {
   return transverseDOMForSkipToId(document.body);
 }
 
+/**
+ * @function findVisibleElement
+ *
+ * @desc Returns the first DOM node that matches a set of element tag names
+ * 
+ * @param {node}   startingNode  - dom node to start search for element
+ * @param {Array}  tagNames      - Array of tag names
+ * 
+ * @returns (node} Returns first element found ot elem if none found 
+ */
+function findVisibleElement (startingNode, tagNames) {
+
+  function transverseDOMForVisibleElement(startingNode, targetTagName) {
+    var targetNode = null;
+    for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const tagName = node.tagName.toLowerCase();
+        if ((tagName === targetTagName) && isVisible(node)) {
+          return node;
+        }
+        if (!isSkipableElement(tagName, node.getAttribute('type'))) {
+
+          // check for slotted content
+          if (isSlotElement(node)) {
+              // if no slotted elements, check for default slotted content
+            const assignedNodes = node.assignedNodes().length ?
+                                  node.assignedNodes() :
+                                  node.assignedNodes({ flatten: true });
+            for (let i = 0; i < assignedNodes.length; i += 1) {
+              const assignedNode = assignedNodes[i];
+              if (assignedNode.nodeType === Node.ELEMENT_NODE) {
+                if ((assignedNode.tagName.toLowerCase() === targetTagName) && 
+                    isVisible(assignedNode)) {
+                  return assignedNode;
+                }                    
+              }
+            }
+          } else {
+            // check for custom elements
+            if (isCustomElement(tagName)) {
+              if (node.shadowRoot) {
+                targetNode = transverseDOMForVisibleElement(node.shadowRoot, targetTagName);
+                if (targetNode) {
+                  return targetNode;
+                }
+              }
+            } else {
+              targetNode = transverseDOMForVisibleElement(node, targetTagName);
+              if (targetNode) {
+                return targetNode;
+              }
+            }
+          }
+        }
+      } // end if
+    } // end for
+    return startingNode;
+  } // end function
+  let targetNode = startingNode;
+
+  // Go through the tag names one at a time
+  for (let i = 0; i < tagNames.length; i += 1) {
+    targetNode = transverseDOMForVisibleElement(startingNode, tagNames[i]);
+    if (targetNode !== startingNode) {
+      break;
+    }
+  }
+  return targetNode;
+}
+
 function skipToElement(menuitem) {
 
   let focusNode = false;
   let scrollNode = false;
   let elem;
 
-  function findVisibleElement(e, selectors) {
-    if (e) {
-      for (let j = 0; j < selectors.length; j += 1) {
-        const elems = e.querySelectorAll(selectors[j]);
-        for(let i = 0; i < elems.length; i +=1) {
-          if (isVisible(elems[i])) {
-            return elems[i];
-          }
-        }
-      }
-    }
-    return e;
-  }
-
-  const searchSelectors = ['input', 'button', 'input[type=button]', 'input[type=submit]', 'a'];
-  const navigationSelectors = ['a', 'input', 'button', 'input[type=button]', 'input[type=submit]'];
+  const searchSelectors = ['input', 'button', 'a'];
+  const navigationSelectors = ['a', 'input', 'button'];
   const landmarkSelectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'section', 'article', 'p', 'li', 'a'];
 
   const isLandmark = menuitem.classList.contains('landmark');
@@ -287,19 +345,25 @@ function getHeadingTargets(targets) {
   return targetHeadings;
 }
 
-function queryDOMForHeadings (targets) {
-  targets = targets.toLowerCase();
-  let headingNodes = [];
-  let targetHeadings = getHeadingTargets(targets);
-  let onlyInMain = targets.includes('main');
+function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
+  let headingInfo = [];
+  let landmarkInfo = [];
+  let targetLandmarks = getLandmarkTargets(landmarkTargets.toLowerCase());
+  let targetHeadings  = getHeadingTargets(headingTargets.toLowerCase());
+  let onlyInMain = headingTargets.includes('main');
 
-  function transverseDOMForHeadings(startingNode, inMain = false) {
+  function transverseDOM(startingNode, doc, inMain = false) {
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE) {
         const tagName = node.tagName.toLowerCase();
+        if (targetLandmarks.indexOf(checkForLandmark(node)) >= 0) {
+          landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
+            debug.flag && debug.log(`[transverseDOM]: ${tagName}[role=${node.getAttribute('role')}][aria-labelledby=${node.getAttribute('aria-labelledby')}]`, 1);
+            debug.flag && debug.log(`[transverseDOM][accName]: ${getAccessibleName(doc, node)}]`);
+        }
         if (targetHeadings.indexOf(tagName) >= 0) {
           if (!onlyInMain || inMain) {
-            headingNodes.push(node);
+            headingInfo.push({ node: node, name: getAccessibleName(doc, node)});
           }
         }
         if ((tagName === 'main') || 
@@ -317,9 +381,13 @@ function queryDOMForHeadings (targets) {
               const assignedNode = assignedNodes[i];
               if (assignedNode.nodeType === Node.ELEMENT_NODE) {
                 const tagName = assignedNodes[i].tagName.toLowerCase();
+                if (targetLandmarks.indexOf(checkForLandmark(node)) >= 0) {
+                  landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
+                }
+
                 if (targetHeadings.indexOf(tagName) >= 0) {
                   if (!onlyInMain || inMain) {
-                    headingNodes.push(assignedNode);
+                    headingInfo.push({ node: assignedNode, name: getAccessibleName(doc, assignedNode)});
                   }
                 }
               }
@@ -328,10 +396,10 @@ function queryDOMForHeadings (targets) {
             // check for custom elements
             if (isCustomElement(tagName)) {
               if (node.shadowRoot) {
-                transverseDOMForHeadings(node.shadowRoot, inMain);
+                transverseDOM(node.shadowRoot, node.shadowRoot, inMain);
               }
             } else {
-              transverseDOMForHeadings(node, inMain);
+              transverseDOM(node, doc, inMain);
             }
           }
         }
@@ -339,49 +407,73 @@ function queryDOMForHeadings (targets) {
     } // end for
   } // end function
 
-  transverseDOMForHeadings(document.body);
+  transverseDOM(document.body, document);
 
   // If no elements found when onlyInMain is set, try 
   // to find any headings
-  if (headingNodes.length === 0 && onlyInMain) {
+  if (headingInfo.length === 0 && onlyInMain) {
     onlyInMain = false;
-    transverseDOMForHeadings(document.body);
+    transverseDOM(document.body, document);
   }
 
-  return headingNodes;
+  return [landmarkInfo, headingInfo];
 }
 
-function getHeadings (config) {
-  let dataId, level;
-  let targets = config.headings;
-  // If targets undefined, use default settings
-  if (typeof targets !== 'string') {
-    targets = 'h1 h2';
+/*
+ * @function getLandmarksAndHeadings
+ *
+ * @desc 
+ *
+ * @param {Object} config - 
+ *
+ * @return {Array} 
+ */
+
+function getLandmarksAndHeadings (config) {
+
+  let landmarkTargets = config.landmarks;
+  if (typeof landmarkTargets !== 'string') {
+    landmarkTargets = 'main search navigation';
   }
+
+  let headingTargets = config.headings;
+  // If targets undefined, use default settings
+  if (typeof headingTargets !== 'string') {
+    headingTargets = 'h1 h2';
+  }
+
+  const [landmarks, headings] = queryDOMForLandmarksAndHeadings(landmarkTargets, headingTargets);
+
+  return [getLandmarks(config, landmarks), getHeadings(config, headings)];
+}
+
+
+function getHeadings (config, headings) {
+  let dataId, level;
   let headingElementsArr = [];
-  if (typeof targets !== 'string' || targets.length === 0) return;
-  const headings = queryDOMForHeadings(targets);
+
   debug.flag && debug.log(`[getHeadings][headings]: ${headings.length}`);
+
   for (let i = 0, len = headings.length; i < len; i += 1) {
     let heading = headings[i];
-    debug.flag && debug.log(`[getHeadings][${i}]: ${heading.tagName}: ${heading.textContent}`);
-    let role = heading.getAttribute('role');
+    debug.flag && debug.log(`[getHeadings][${i}]: ${heading.node.tagName}: ${heading.name}`);
+    let role = heading.node.getAttribute('role');
     if ((typeof role === 'string') && (role === 'presentation')) continue;
-    if (isVisible(heading) && isNotEmptyString(heading.innerHTML)) {
-      if (heading.hasAttribute('data-skip-to-id')) {
-        dataId = heading.getAttribute('data-skip-to-id');
+    if (isVisible(heading.node) && isNotEmptyString(heading.node.innerHTML)) {
+      if (heading.node.hasAttribute('data-skip-to-id')) {
+        dataId = heading.node.getAttribute('data-skip-to-id');
       } else {
-        heading.setAttribute('data-skip-to-id', getSkipToIdIndex());
         dataId = getSkipToIdIndex();
+        heading.node.setAttribute('data-skip-to-id', dataId);
       }
-      level = heading.tagName.substring(1);
+      level = heading.node.tagName.substring(1);
       const headingItem = {};
       headingItem.dataId = dataId.toString();
       headingItem.class = 'heading';
-      headingItem.name = getTextContent(heading);
+      headingItem.name = heading.name;
       headingItem.ariaLabel = headingItem.name + ', ';
       headingItem.ariaLabel += config.headingLevelLabel + ' ' + level;
-      headingItem.tagName = heading.tagName.toLowerCase();
+      headingItem.tagName = heading.node.tagName.toLowerCase();
       headingItem.role = 'heading';
       headingItem.level = level;
       headingElementsArr.push(headingItem);
@@ -481,77 +573,19 @@ function getLandmarkTargets (targets) {
   return targetLandmarks;
 }
 
-/*
- * @function queryDOMForLandmarks
- *
- * @desc Traverses the DOM, including web compnents, for ARIA a set of landmarks
- *
- * @param {String} targets - String with landamrk and/or tag names
- *
- * @returns Array of dom nodes that are identified as landmarks
- */
-function queryDOMForLandmarks (targets) {
-  let landmarkNodes = [];
-  let targetLandmarks = getLandmarkTargets(targets);
-
-  function transverseDOMForLandmarks(startingNode) {
-    for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        const tagName = node.tagName.toLowerCase();
-        if (targetLandmarks.indexOf(checkForLandmark(node)) >= 0) {
-          landmarkNodes.push(node);
-        }
-
-        if (!isSkipableElement(tagName, node.getAttribute('type'))) {
-          // check for slotted content
-          if (isSlotElement(node)) {
-              // if no slotted elements, check for default slotted content
-            const assignedNodes = node.assignedNodes().length ?
-                                  node.assignedNodes() :
-                                  node.assignedNodes({ flatten: true });
-            for (let i = 0; i < assignedNodes.length; i += 1) {
-              const assignedNode = assignedNodes[i];
-              if (assignedNode.nodeType === Node.ELEMENT_NODE) {
-                if (targetLandmarks.indexOf(checkForLandmark(node)) >= 0) {
-                  landmarkNodes.push(assignedNode);
-                }
-              }
-            }
-          } else {
-            // check for custom elements
-            if (isCustomElement(tagName)) {
-              if (node.shadowRoot) {
-                transverseDOMForLandmarks(node.shadowRoot);
-              }
-            } else {
-              transverseDOMForLandmarks(node);
-            }
-          }
-        }
-      } // end if
-    } // end for
-  } // end function
-
-  transverseDOMForLandmarks(document.body);
-
-  return landmarkNodes;
-}
 
 /*
  * @function getLandmarks
  *
  * @desc Traverses the DOM, including web compnents, for ARIA a set of landmarks
  *
- * @param {Object} config  - Object with configuration information
+ * @param {Object} config     - Object with configuration information
+ * @param {Array}  landmarks  - Array of objects containing the DOM node and 
+ *                              accessible name for landmarks
  *
  * @returns Array of dom nodes that are identified as landmarks
  */
-function getLandmarks(config) {
-  let targets = config.landmarks;
-  if (typeof targets !== 'string') {
-    targets = 'main search navigation';
-  }
-  let landmarks = queryDOMForLandmarks(targets);
+function getLandmarks(config, landmarks) {
   let mainElements = [];
   let searchElements = [];
   let navElements = [];
@@ -559,22 +593,17 @@ function getLandmarks(config) {
   let footerElements = [];
   let regionElements = [];
   let otherElements = [];
-  let allLandmarks = [];
   let dataId = '';
   for (let i = 0, len = landmarks.length; i < len; i += 1) {
     let landmark = landmarks[i];
-    if (landmark.id === 'id-skip-to') {
+    if (landmark.node.id === 'id-skip-to') {
        continue;
     }
-    let role = landmark.getAttribute('role');
-    let tagName = landmark.tagName.toLowerCase();
+    let role = landmark.node.getAttribute('role');
+    let tagName = landmark.node.tagName.toLowerCase();
     if ((typeof role === 'string') && (role === 'presentation')) continue;
-    if (isVisible(landmark)) {
+    if (isVisible(landmark.node)) {
       if (!role) role = tagName;
-      let name = getAccessibleName(landmark);
-      if (typeof name !== 'string') {
-        name = '';
-      }
       // normalize tagNames
       switch (role) {
         case 'banner':
@@ -608,24 +637,23 @@ function getLandmarks(config) {
       if (['aside', 'footer', 'form', 'header', 'main', 'nav', 'section', 'search'].indexOf(tagName) < 0) {
         tagName = 'main';
       }
-      if (landmark.hasAttribute('aria-roledescription')) {
-        tagName = landmark.getAttribute('aria-roledescription').trim().replace(' ', '-');
+      if (landmark.node.hasAttribute('aria-roledescription')) {
+        tagName = landmark.node.getAttribute('aria-roledescription').trim().replace(' ', '-');
       }
-      if (landmark.hasAttribute('data-skip-to-id')) {
-        dataId = landmark.getAttribute('data-skip-to-id');
+      if (landmark.node.hasAttribute('data-skip-to-id')) {
+        dataId = landmark.node.getAttribute('data-skip-to-id');
       } else {
-        landmark.setAttribute('data-skip-to-id', getSkipToIdIndex());
         dataId =  getSkipToIdIndex();
+        landmark.node.setAttribute('data-skip-to-id', dataId);
       }
       const landmarkItem = {};
       landmarkItem.dataId = dataId.toString();
       landmarkItem.class = 'landmark';
-      landmarkItem.hasName = name.length > 0;
-      landmarkItem.name = getLocalizedLandmarkName(config, tagName, name);
+      landmarkItem.hasName = landmark.name.length > 0;
+      landmarkItem.name = getLocalizedLandmarkName(config, tagName, landmark.name);
       landmarkItem.tagName = tagName;
       landmarkItem.nestingLevel = 0;
       incSkipToIdIndex();
-      allLandmarks.push(landmarkItem);
 
       // For sorting landmarks into groups
       switch (tagName) {

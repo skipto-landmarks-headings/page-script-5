@@ -8,8 +8,7 @@ import {
 } from './utils.js';
 
 import {
-  getHeadings,
-  getLandmarks,
+  getLandmarksAndHeadings,
   skipToElement
 } from './landmarksHeadings.js';
 
@@ -355,12 +354,9 @@ export default class SkiptoMenuButton {
       }
 
       // Create landmarks group
-      const landmarkElements = getLandmarks(this.config);
+      const [landmarkElements, headingElements] = getLandmarksAndHeadings(this.config);
       this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, this.config.msgNoLandmarksFound);
-
-      // Create headings group
-      const headingElements = getHeadings(this.config);
-      this.renderMenuitemsToGroup(this.headingGroupNode, headingElements, this.config.msgNoHeadingsFound);
+      this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, this.config.msgNoHeadingsFound);
 
       // Update list of menuitems
       this.updateMenuitems();

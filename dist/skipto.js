@@ -91,7 +91,7 @@ class DebugLogging {
 /* style.js */
 
 /* Constants */
-const debug$3 = new DebugLogging('style', false);
+const debug$5 = new DebugLogging('style', false);
 
 const styleTemplate = document.createElement('template');
 styleTemplate.innerHTML = `
@@ -311,21 +311,21 @@ function getTheme(colorThemes, config) {
 }
 
 function updateStyle(stylePlaceholder, value, defaultValue) {
-  debug$3.flag && debug$3.log(`[updateStyle]: ${stylePlaceholder} ${value} ${defaultValue}`);
+  debug$5.flag && debug$5.log(`[updateStyle]: ${stylePlaceholder} ${value} ${defaultValue}`);
   if (typeof value !== 'string' || value.length === 0) {
     value = defaultValue;
   }
   let cssContent = styleTemplate.innerHTML;
   let index1 = cssContent.indexOf(stylePlaceholder);
   let index2 = index1 + stylePlaceholder.length;
-  debug$3.flag && debug$3.log(`[updateStyle]: ${index1} ${index2}`);
+  debug$5.flag && debug$5.log(`[updateStyle]: ${index1} ${index2}`);
   while (index1 >= 0 && index2 < cssContent.length) {
     cssContent = cssContent.substring(0, index1) + value + cssContent.substring(index2);
     index1 = cssContent.indexOf(stylePlaceholder, index2);
     index2 = index1 + stylePlaceholder.length;
   }
   styleTemplate.innerHTML = cssContent;
-  debug$3.flag && debug$3.log(`[updateStyle]: ${styleTemplate.innerHTML}`);
+  debug$5.flag && debug$5.log(`[updateStyle]: ${styleTemplate.innerHTML}`);
 }
 
 /*
@@ -355,7 +355,7 @@ function addCSSColors (colorThemes, config) {
 }
 
 function renderStyleElement (colorThemes, config, skipToId) {
-  debug$3.flag && debug$3.log(`[renderStyleElement]`);
+  debug$5.flag && debug$5.log(`[renderStyleElement]`);
   addCSSColors(colorThemes, config);
   const styleNode = styleTemplate.content.cloneNode(true);
   const headNode = document.getElementsByTagName('head')[0];
@@ -366,87 +366,32 @@ function renderStyleElement (colorThemes, config, skipToId) {
 /* utils.js */
 
 /* Constants */
-const debug$2 = new DebugLogging('Utils', false);
-debug$2.flag = false;
+const debug$4 = new DebugLogging('Utils', false);
+debug$4.flag = false;
+
+
+/*
+*   getAttributeValue: Return attribute value if present on element,
+*   otherwise return empty string.
+*/
+function getAttributeValue (element, attribute) {
+  let value = element.getAttribute(attribute);
+  return (value === null) ? '' : normalize(value);
+}
+
+/*
+*   normalize: Trim leading and trailing whitespace and condense all
+*   internal sequences of whitespace to a single space. Adapted from
+*   Mozilla documentation on String.prototype.trim polyfill. Handles
+*   BOM and NBSP characters.
+*/
+function normalize (s) {
+  let rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+  return s.replace(rtrim, '').replace(/\s+/g, ' ');
+}
 
 function isNotEmptyString (str) {
   return (typeof str === 'string') && str.length && str.trim() && str !== "&nbsp;";
-}
-
-/**
- * @fuction getTextContent
- *
- * @desc Returns the text content of a OOM element
- *
- * @param {node}  elem  - DOM element node
- */
-
-function getTextContent (elem) {
-  function getText(e, strings) {
-    // If text node get the text and return
-    if (e.nodeType === Node.TEXT_NODE) {
-      strings.push(e.data);
-    } else {
-      // if an element for through all the children elements looking for text
-      if (e.nodeType === Node.ELEMENT_NODE) {
-        // check to see if IMG or AREA element and to use ALT content if defined
-        let tagName = e.tagName.toLowerCase();
-        if ((tagName === 'img') || (tagName === 'area')) {
-          if (e.alt) {
-            strings.push(e.alt);
-          }
-        } else {
-          let c = e.firstChild;
-          while (c) {
-            getText(c, strings);
-            c = c.nextSibling;
-          } // end loop
-        }
-      }
-    }
-  } // end function getStrings
-  // Create return object
-  let str = "Test",
-    strings = [];
-  getText(elem, strings);
-  if (strings.length) str = strings.join(" ");
-  return str;
-}
-
-/**
- * @fuction getAccessibleName
- *
- * @desc Returns the accessible name for an instractive element
- *
- * @param {node}  elem  - DOM element node of a labelable element
- */
-
-function getAccessibleName (elem) {
-  let labelledbyIds = elem.getAttribute('aria-labelledby'),
-    label = elem.getAttribute('aria-label'),
-    title = elem.getAttribute('title'),
-    name = "";
-  if (labelledbyIds && labelledbyIds.length) {
-    let str,
-      strings = [],
-      ids = labelledbyIds.split(' ');
-    if (!ids.length) ids = [labelledbyIds];
-    for (let i = 0, l = ids.length; i < l; i += 1) {
-      let e = document.getElementById(ids[i]);
-      if (e) str = this.getTextContent(e);
-      if (str && str.length) strings.push(str);
-    }
-    name = strings.join(" ");
-  } else {
-    if (isNotEmptyString(label)) {
-      name = label;
-    } else {
-      if (isNotEmptyString(title)) {
-        name = title;
-      }
-    }
-  }
-  return name;
 }
 
 /**
@@ -457,7 +402,7 @@ function getAccessibleName (elem) {
  * @param {node}  elem  - DOM element node of a labelable element
  */
 
-function isVisible (element) {
+function isVisible$1 (element) {
   function isVisibleRec(el) {
     if (el.parentNode.nodeType !== 1 || 
         (el.parentNode.tagName === 'BODY')) {
@@ -479,10 +424,331 @@ function isVisible (element) {
   return isVisibleRec(element);
 }
 
+/*
+*   namefrom.js
+*/
+
+/* constants */
+
+const debug$3 = new DebugLogging('nameFrom', false);
+debug$3.flag = false;
+
+/*
+* @function isHeadingElement
+* 
+* @desc  Is element a heading element
+*
+* @returns true if heading element, otherwsie is false  
+*/
+function isHeadingElement (element) {
+  let tagName = element.tagName.toLowerCase();
+
+  switch (tagName) {
+    case 'h1':
+    case 'h2':
+    case 'h3':
+    case 'h4':
+    case 'h5':
+    case 'h6':
+      return true;
+    default:
+      return false;
+  }
+}
+
+/*
+*   getElementContents: Construct the ARIA text alternative for element by
+*   processing its element and text node descendants and then adding any CSS-
+*   generated content if present.
+*/
+function getElementContents (element) {
+  let result = '';
+  if (isVisible(element)) {
+    if (element.hasChildNodes()) {
+      let children = element.childNodes,
+          arrayOfStrings = [];
+
+      for (let i = 0; i < children.length; i++) {
+        let contents = getNodeContents(children[i]);
+        if (contents.length) arrayOfStrings.push(contents);
+      }
+
+      result = (arrayOfStrings.length) ? arrayOfStrings.join(' ') : '';
+    }
+    return addCssGeneratedContent(element, result);
+  }
+  return '';
+}
+
+// HIGHER-LEVEL FUNCTIONS THAT RETURN AN OBJECT WITH SOURCE PROPERTY
+
+/*
+*   nameFromAttribute
+*/
+function nameFromAttribute (element, attribute) {
+  let name;
+
+  name = getAttributeValue(element, attribute);
+  if (name.length) {
+    return name;
+  }
+
+  return '';
+}
+
+//
+// LOW-LEVEL HELPER FUNCTIONS (NOT EXPORTED)
+
+/*
+*   isHidden: Checks to see if the node or any of it's ancestor
+*   are hidden for the purpose of accessible name calculation
+*/
+
+function isHidden (node) {
+
+  if (!node) {
+    return false;
+  }
+
+  if (node.nodeType !== Node.ELEMENT_NODE) {
+    if ((node.nodeType === Node.TEXT_NODE) &&
+        (node.parentNode.nodeType !== Node.ELEMENT_NODE)) {
+      node = node.parentNode;
+    }
+    return false;
+  }
+
+  if (node.hasAttribute('hidden')) {
+    return true;
+  }
+
+  if (node.hasAttribute('aria-hidden')) {
+    return node.getAttribute('aria-hidden').toLowerCase() === 'true';
+  }
+
+  const style = window.getComputedStyle(node, null);
+
+  const display = style.getPropertyValue("display");
+  if (display === 'none') { 
+    return true;
+  }
+
+  if (node.parentNode) {
+    return isHidden(node.parentNode);
+  }
+
+  return false;
+}
+
+/*
+*   isVisible: Checks to see if the node or any of it's ancestor
+*   are visible for the purpose of accessible name calculation
+*/
+
+function isVisible (node) {
+  return !isHidden(node);
+}
+
+/*
+*   isHiddenCSSVisibilityProp: Checks to see if the node or any of it's ancestor
+*   are visible based on CSS visibility property for the purpose of accessible name calculation
+*/
+
+function isHiddenCSSVisibilityProp(node) {
+
+  if (!node) {
+    return false;
+  }
+
+  if (node.nodeType !== Node.ELEMENT_NODE) {
+    if ((node.nodeType === Node.TEXT_NODE) &&
+        (node.parentNode.nodeType !== Node.ELEMENT_NODE)) {
+      node = node.parentNode;
+    }
+    return false;
+  }
+  const style = window.getComputedStyle(node, null);
+
+  const visibility = style.getPropertyValue("visibility");
+  if (visibility) {
+    return (visibility === 'hidden') || (visibility === 'collapse');
+  }
+
+  if (node.parentNode) {
+    return isHidden(node.parentNode);
+  }
+
+  return false;
+}
+
+/*
+*   getNodeContents: Recursively process element and text nodes by aggregating
+*   their text values for an ARIA text equivalent calculation.
+*   1. This includes special handling of elements with 'alt' text and embedded
+*      controls.
+*/
+function getNodeContents (node) {
+  let contents = '';
+  let nc;
+  let arr = [];
+
+  if (isHidden(node)) {
+    return '';
+  } 
+
+  switch (node.nodeType) {
+    case Node.ELEMENT_NODE:
+      if (node instanceof HTMLSlotElement) {
+        // if no slotted elements, check for default slotted content
+        const assignedNodes = node.assignedNodes().length ? node.assignedNodes() : node.assignedNodes({ flatten: true });
+        assignedNodes.forEach( assignedNode => {
+          nc = getNodeContents(assignedNode);
+          if (nc.length) arr.push(nc);
+        });
+        contents = (arr.length) ? arr.join(' ') : '';
+      } else {
+        if (couldHaveAltText(node)) {
+          contents = getAttributeValue(node, 'alt');
+        }
+        else {
+          if (node.hasChildNodes()) {
+            let children = Array.from(node.childNodes);
+            children.forEach( child => {
+              nc = getNodeContents(child);
+              if (nc.length) arr.push(nc);
+            });
+            contents = (arr.length) ? arr.join(' ') : '';
+          }
+        }
+        // For all branches of the ELEMENT_NODE case...
+      }
+      contents = addCssGeneratedContent(node, contents);
+      break;
+
+    case Node.TEXT_NODE:
+      if (!isHiddenCSSVisibilityProp(node.parentNode)) {
+        contents = normalize(node.textContent);
+      }
+      break;
+  }
+
+  return contents;
+}
+
+/*
+*   couldHaveAltText: Based on HTML5 specification, determine whether
+*   element could have an 'alt' attribute.
+*/
+function couldHaveAltText (element) {
+  let tagName = element.tagName.toLowerCase();
+
+  switch (tagName) {
+    case 'img':
+    case 'area':
+      return true;
+    case 'input':
+      return (element.type && element.type === 'image');
+  }
+
+  return false;
+}
+
+/*
+*   addCssGeneratedContent: Add CSS-generated content for pseudo-elements
+*   :before and :after. According to the CSS spec, test that content value
+*   is other than the default computed value of 'none'.
+*
+*   Note: Even if an author specifies content: 'none', because browsers add
+*   the double-quote character to the beginning and end of computed string
+*   values, the result cannot and will not be equal to 'none'.
+*/
+function addCssGeneratedContent (element, contents) {
+  let result = contents,
+      prefix = getComputedStyle(element, ':before').content,
+      suffix = getComputedStyle(element, ':after').content;
+
+  if (prefix !== 'none') result = prefix + result;
+  if (suffix !== 'none') result = result + suffix;
+
+  return result;
+}
+
+/* accName.js */
+
+/* Constants */
+const debug$2 = new DebugLogging('accName', false);
+debug$2.flag = true;
+
+/**
+ * @fuction getAccessibleName
+ *
+ * @desc Returns the accessible name for an heading or landamrk 
+ *
+ * @paramn {Object}   dom      - Document of the current element
+ * @param  {node}     element  - DOM element node for either a heading or
+ *                               landmark
+ * @param  {Boolean}  recFlag  - if traversing a aria-labelledbyby, do not restart
+ *                                another recursion  
+ * 
+ * @return {String} The accessible name for the landmark or heading element
+ */
+
+function getAccessibleName (doc, element, recFlag=false) {
+  let accName = '';
+
+  if (!recFlag) {
+    accName = nameFromAttributeIdRefs(doc, element, 'aria-labelledby');
+  }
+  if (accName === '') {
+    accName = nameFromAttribute(element, 'aria-label');
+  }
+  if ((accName === '') && 
+      (isHeadingElement(element)) || recFlag) {
+    accName =  getElementContents(element);
+    debug$2.flag && debug$2.log(`[getElementContents]: ${getElementContents(element)}`);
+  }
+  return accName;
+}
+
+/*
+*   nameFromAttributeIdRefs: Get the value of attrName on element (a space-
+*   separated list of IDREFs), visit each referenced element in the order it
+*   appears in the list and obtain its accessible name (skipping recursive
+*   aria-labelledby or aria-describedby calculations), and return an object
+*   with name property set to a string that is a space-separated concatena-
+*   tion of those results if any, otherwise return null.
+*/
+function nameFromAttributeIdRefs (doc, element, attribute) {
+  const value = getAttributeValue(element, attribute);
+  const arr = [];
+
+  if (value.length) {
+    debug$2.flag && debug$2.log(`[nameFromAttributeIdRefs][value]: ${value}`);
+    const idRefs = value.split(' ');
+
+    for (let i = 0; i < idRefs.length; i++) {
+      const refElement = doc.getElementById(idRefs[i]);
+      debug$2.flag && debug$2.log(`[nameFromAttributeIdRefs][refElement]: ${refElement}`);
+      if (refElement) {
+        const accName = getAccessibleName(doc, refElement, true);
+        debug$2.flag && debug$2.log(`[nameFromAttributeIdRefs][accName]: ${accName}`);
+        if (accName && accName.length) arr.push(accName);
+      }
+    }
+  }
+
+  if (arr.length) {
+    return arr.join(' ');
+  }
+
+  return '';
+}
+
 /* landmarksHeadings.js */
 
 /* Constants */
 const debug$1 = new DebugLogging('landmarksHeadings', false);
+debug$1.flag = true;
 
 const skipableElements = [
   'base',
@@ -633,7 +899,6 @@ function checkForLandmark (node) {
  * @returns (Object) @desc
  */
 function queryDOMForSkipToId (targetId) {
-  debug$1.flag && debug$1.log(`[queryDOMForSkipToId]`);
   function transverseDOMForSkipToId(startingNode) {
     var targetNode = null;
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
@@ -681,28 +946,84 @@ function queryDOMForSkipToId (targetId) {
   return transverseDOMForSkipToId(document.body);
 }
 
+/**
+ * @function findVisibleElement
+ *
+ * @desc Returns the first DOM node that matches a set of element tag names
+ * 
+ * @param {node}   startingNode  - dom node to start search for element
+ * @param {Array}  tagNames      - Array of tag names
+ * 
+ * @returns (node} Returns first element found ot elem if none found 
+ */
+function findVisibleElement (startingNode, tagNames) {
+
+  function transverseDOMForVisibleElement(startingNode, targetTagName) {
+    var targetNode = null;
+    for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const tagName = node.tagName.toLowerCase();
+        if ((tagName === targetTagName) && isVisible$1(node)) {
+          return node;
+        }
+        if (!isSkipableElement(tagName, node.getAttribute('type'))) {
+
+          // check for slotted content
+          if (isSlotElement(node)) {
+              // if no slotted elements, check for default slotted content
+            const assignedNodes = node.assignedNodes().length ?
+                                  node.assignedNodes() :
+                                  node.assignedNodes({ flatten: true });
+            for (let i = 0; i < assignedNodes.length; i += 1) {
+              const assignedNode = assignedNodes[i];
+              if (assignedNode.nodeType === Node.ELEMENT_NODE) {
+                if ((assignedNode.tagName.toLowerCase() === targetTagName) && 
+                    isVisible$1(assignedNode)) {
+                  return assignedNode;
+                }                    
+              }
+            }
+          } else {
+            // check for custom elements
+            if (isCustomElement(tagName)) {
+              if (node.shadowRoot) {
+                targetNode = transverseDOMForVisibleElement(node.shadowRoot, targetTagName);
+                if (targetNode) {
+                  return targetNode;
+                }
+              }
+            } else {
+              targetNode = transverseDOMForVisibleElement(node, targetTagName);
+              if (targetNode) {
+                return targetNode;
+              }
+            }
+          }
+        }
+      } // end if
+    } // end for
+    return startingNode;
+  } // end function
+  let targetNode = startingNode;
+
+  // Go through the tag names one at a time
+  for (let i = 0; i < tagNames.length; i += 1) {
+    targetNode = transverseDOMForVisibleElement(startingNode, tagNames[i]);
+    if (targetNode !== startingNode) {
+      break;
+    }
+  }
+  return targetNode;
+}
+
 function skipToElement(menuitem) {
 
   let focusNode = false;
   let scrollNode = false;
   let elem;
 
-  function findVisibleElement(e, selectors) {
-    if (e) {
-      for (let j = 0; j < selectors.length; j += 1) {
-        const elems = e.querySelectorAll(selectors[j]);
-        for(let i = 0; i < elems.length; i +=1) {
-          if (isVisible(elems[i])) {
-            return elems[i];
-          }
-        }
-      }
-    }
-    return e;
-  }
-
-  const searchSelectors = ['input', 'button', 'input[type=button]', 'input[type=submit]', 'a'];
-  const navigationSelectors = ['a', 'input', 'button', 'input[type=button]', 'input[type=submit]'];
+  const searchSelectors = ['input', 'button', 'a'];
+  const navigationSelectors = ['a', 'input', 'button'];
   const landmarkSelectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'section', 'article', 'p', 'li', 'a'];
 
   const isLandmark = menuitem.classList.contains('landmark');
@@ -718,7 +1039,7 @@ function skipToElement(menuitem) {
     if (isNav) {
       focusNode = findVisibleElement(elem, navigationSelectors);
     }
-    if (focusNode && isVisible(focusNode)) {
+    if (focusNode && isVisible$1(focusNode)) {
       focusNode.focus();
       focusNode.scrollIntoView({block: 'nearest'});
     }
@@ -746,19 +1067,25 @@ function getHeadingTargets(targets) {
   return targetHeadings;
 }
 
-function queryDOMForHeadings (targets) {
-  targets = targets.toLowerCase();
-  let headingNodes = [];
-  let targetHeadings = getHeadingTargets(targets);
-  let onlyInMain = targets.includes('main');
+function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
+  let headingInfo = [];
+  let landmarkInfo = [];
+  let targetLandmarks = getLandmarkTargets(landmarkTargets.toLowerCase());
+  let targetHeadings  = getHeadingTargets(headingTargets.toLowerCase());
+  let onlyInMain = headingTargets.includes('main');
 
-  function transverseDOMForHeadings(startingNode, inMain = false) {
+  function transverseDOM(startingNode, doc, inMain = false) {
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE) {
         const tagName = node.tagName.toLowerCase();
+        if (targetLandmarks.indexOf(checkForLandmark(node)) >= 0) {
+          landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
+            debug$1.flag && debug$1.log(`[transverseDOM]: ${tagName}[role=${node.getAttribute('role')}][aria-labelledby=${node.getAttribute('aria-labelledby')}]`, 1);
+            debug$1.flag && debug$1.log(`[transverseDOM][accName]: ${getAccessibleName(doc, node)}]`);
+        }
         if (targetHeadings.indexOf(tagName) >= 0) {
           if (!onlyInMain || inMain) {
-            headingNodes.push(node);
+            headingInfo.push({ node: node, name: getAccessibleName(doc, node)});
           }
         }
         if ((tagName === 'main') || 
@@ -776,9 +1103,13 @@ function queryDOMForHeadings (targets) {
               const assignedNode = assignedNodes[i];
               if (assignedNode.nodeType === Node.ELEMENT_NODE) {
                 const tagName = assignedNodes[i].tagName.toLowerCase();
+                if (targetLandmarks.indexOf(checkForLandmark(node)) >= 0) {
+                  landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
+                }
+
                 if (targetHeadings.indexOf(tagName) >= 0) {
                   if (!onlyInMain || inMain) {
-                    headingNodes.push(assignedNode);
+                    headingInfo.push({ node: assignedNode, name: getAccessibleName(doc, assignedNode)});
                   }
                 }
               }
@@ -787,10 +1118,10 @@ function queryDOMForHeadings (targets) {
             // check for custom elements
             if (isCustomElement(tagName)) {
               if (node.shadowRoot) {
-                transverseDOMForHeadings(node.shadowRoot, inMain);
+                transverseDOM(node.shadowRoot, node.shadowRoot, inMain);
               }
             } else {
-              transverseDOMForHeadings(node, inMain);
+              transverseDOM(node, doc, inMain);
             }
           }
         }
@@ -798,49 +1129,73 @@ function queryDOMForHeadings (targets) {
     } // end for
   } // end function
 
-  transverseDOMForHeadings(document.body);
+  transverseDOM(document.body, document);
 
   // If no elements found when onlyInMain is set, try 
   // to find any headings
-  if (headingNodes.length === 0 && onlyInMain) {
+  if (headingInfo.length === 0 && onlyInMain) {
     onlyInMain = false;
-    transverseDOMForHeadings(document.body);
+    transverseDOM(document.body, document);
   }
 
-  return headingNodes;
+  return [landmarkInfo, headingInfo];
 }
 
-function getHeadings (config) {
-  let dataId, level;
-  let targets = config.headings;
-  // If targets undefined, use default settings
-  if (typeof targets !== 'string') {
-    targets = 'h1 h2';
+/*
+ * @function getLandmarksAndHeadings
+ *
+ * @desc 
+ *
+ * @param {Object} config - 
+ *
+ * @return {Array} 
+ */
+
+function getLandmarksAndHeadings (config) {
+
+  let landmarkTargets = config.landmarks;
+  if (typeof landmarkTargets !== 'string') {
+    landmarkTargets = 'main search navigation';
   }
+
+  let headingTargets = config.headings;
+  // If targets undefined, use default settings
+  if (typeof headingTargets !== 'string') {
+    headingTargets = 'h1 h2';
+  }
+
+  const [landmarks, headings] = queryDOMForLandmarksAndHeadings(landmarkTargets, headingTargets);
+
+  return [getLandmarks(config, landmarks), getHeadings(config, headings)];
+}
+
+
+function getHeadings (config, headings) {
+  let dataId, level;
   let headingElementsArr = [];
-  if (typeof targets !== 'string' || targets.length === 0) return;
-  const headings = queryDOMForHeadings(targets);
+
   debug$1.flag && debug$1.log(`[getHeadings][headings]: ${headings.length}`);
+
   for (let i = 0, len = headings.length; i < len; i += 1) {
     let heading = headings[i];
-    debug$1.flag && debug$1.log(`[getHeadings][${i}]: ${heading.tagName}: ${heading.textContent}`);
-    let role = heading.getAttribute('role');
+    debug$1.flag && debug$1.log(`[getHeadings][${i}]: ${heading.node.tagName}: ${heading.name}`);
+    let role = heading.node.getAttribute('role');
     if ((typeof role === 'string') && (role === 'presentation')) continue;
-    if (isVisible(heading) && isNotEmptyString(heading.innerHTML)) {
-      if (heading.hasAttribute('data-skip-to-id')) {
-        dataId = heading.getAttribute('data-skip-to-id');
+    if (isVisible$1(heading.node) && isNotEmptyString(heading.node.innerHTML)) {
+      if (heading.node.hasAttribute('data-skip-to-id')) {
+        dataId = heading.node.getAttribute('data-skip-to-id');
       } else {
-        heading.setAttribute('data-skip-to-id', getSkipToIdIndex());
         dataId = getSkipToIdIndex();
+        heading.node.setAttribute('data-skip-to-id', dataId);
       }
-      level = heading.tagName.substring(1);
+      level = heading.node.tagName.substring(1);
       const headingItem = {};
       headingItem.dataId = dataId.toString();
       headingItem.class = 'heading';
-      headingItem.name = getTextContent(heading);
+      headingItem.name = heading.name;
       headingItem.ariaLabel = headingItem.name + ', ';
       headingItem.ariaLabel += config.headingLevelLabel + ' ' + level;
-      headingItem.tagName = heading.tagName.toLowerCase();
+      headingItem.tagName = heading.node.tagName.toLowerCase();
       headingItem.role = 'heading';
       headingItem.level = level;
       headingElementsArr.push(headingItem);
@@ -940,77 +1295,19 @@ function getLandmarkTargets (targets) {
   return targetLandmarks;
 }
 
-/*
- * @function queryDOMForLandmarks
- *
- * @desc Traverses the DOM, including web compnents, for ARIA a set of landmarks
- *
- * @param {String} targets - String with landamrk and/or tag names
- *
- * @returns Array of dom nodes that are identified as landmarks
- */
-function queryDOMForLandmarks (targets) {
-  let landmarkNodes = [];
-  let targetLandmarks = getLandmarkTargets(targets);
-
-  function transverseDOMForLandmarks(startingNode) {
-    for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        const tagName = node.tagName.toLowerCase();
-        if (targetLandmarks.indexOf(checkForLandmark(node)) >= 0) {
-          landmarkNodes.push(node);
-        }
-
-        if (!isSkipableElement(tagName, node.getAttribute('type'))) {
-          // check for slotted content
-          if (isSlotElement(node)) {
-              // if no slotted elements, check for default slotted content
-            const assignedNodes = node.assignedNodes().length ?
-                                  node.assignedNodes() :
-                                  node.assignedNodes({ flatten: true });
-            for (let i = 0; i < assignedNodes.length; i += 1) {
-              const assignedNode = assignedNodes[i];
-              if (assignedNode.nodeType === Node.ELEMENT_NODE) {
-                if (targetLandmarks.indexOf(checkForLandmark(node)) >= 0) {
-                  landmarkNodes.push(assignedNode);
-                }
-              }
-            }
-          } else {
-            // check for custom elements
-            if (isCustomElement(tagName)) {
-              if (node.shadowRoot) {
-                transverseDOMForLandmarks(node.shadowRoot);
-              }
-            } else {
-              transverseDOMForLandmarks(node);
-            }
-          }
-        }
-      } // end if
-    } // end for
-  } // end function
-
-  transverseDOMForLandmarks(document.body);
-
-  return landmarkNodes;
-}
 
 /*
  * @function getLandmarks
  *
  * @desc Traverses the DOM, including web compnents, for ARIA a set of landmarks
  *
- * @param {Object} config  - Object with configuration information
+ * @param {Object} config     - Object with configuration information
+ * @param {Array}  landmarks  - Array of objects containing the DOM node and 
+ *                              accessible name for landmarks
  *
  * @returns Array of dom nodes that are identified as landmarks
  */
-function getLandmarks(config) {
-  let targets = config.landmarks;
-  if (typeof targets !== 'string') {
-    targets = 'main search navigation';
-  }
-  let landmarks = queryDOMForLandmarks(targets);
+function getLandmarks(config, landmarks) {
   let mainElements = [];
   let searchElements = [];
   let navElements = [];
@@ -1021,18 +1318,14 @@ function getLandmarks(config) {
   let dataId = '';
   for (let i = 0, len = landmarks.length; i < len; i += 1) {
     let landmark = landmarks[i];
-    if (landmark.id === 'id-skip-to') {
+    if (landmark.node.id === 'id-skip-to') {
        continue;
     }
-    let role = landmark.getAttribute('role');
-    let tagName = landmark.tagName.toLowerCase();
+    let role = landmark.node.getAttribute('role');
+    let tagName = landmark.node.tagName.toLowerCase();
     if ((typeof role === 'string') && (role === 'presentation')) continue;
-    if (isVisible(landmark)) {
+    if (isVisible$1(landmark.node)) {
       if (!role) role = tagName;
-      let name = getAccessibleName(landmark);
-      if (typeof name !== 'string') {
-        name = '';
-      }
       // normalize tagNames
       switch (role) {
         case 'banner':
@@ -1064,20 +1357,20 @@ function getLandmarks(config) {
       if (['aside', 'footer', 'form', 'header', 'main', 'nav', 'section', 'search'].indexOf(tagName) < 0) {
         tagName = 'main';
       }
-      if (landmark.hasAttribute('aria-roledescription')) {
-        tagName = landmark.getAttribute('aria-roledescription').trim().replace(' ', '-');
+      if (landmark.node.hasAttribute('aria-roledescription')) {
+        tagName = landmark.node.getAttribute('aria-roledescription').trim().replace(' ', '-');
       }
-      if (landmark.hasAttribute('data-skip-to-id')) {
-        dataId = landmark.getAttribute('data-skip-to-id');
+      if (landmark.node.hasAttribute('data-skip-to-id')) {
+        dataId = landmark.node.getAttribute('data-skip-to-id');
       } else {
-        landmark.setAttribute('data-skip-to-id', getSkipToIdIndex());
         dataId =  getSkipToIdIndex();
+        landmark.node.setAttribute('data-skip-to-id', dataId);
       }
       const landmarkItem = {};
       landmarkItem.dataId = dataId.toString();
       landmarkItem.class = 'landmark';
-      landmarkItem.hasName = name.length > 0;
-      landmarkItem.name = getLocalizedLandmarkName(config, tagName, name);
+      landmarkItem.hasName = landmark.name.length > 0;
+      landmarkItem.name = getLocalizedLandmarkName(config, tagName, landmark.name);
       landmarkItem.tagName = tagName;
       landmarkItem.nestingLevel = 0;
       incSkipToIdIndex();
@@ -1456,12 +1749,9 @@ class SkiptoMenuButton {
       }
 
       // Create landmarks group
-      const landmarkElements = getLandmarks(this.config);
+      const [landmarkElements, headingElements] = getLandmarksAndHeadings(this.config);
       this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, this.config.msgNoLandmarksFound);
-
-      // Create headings group
-      const headingElements = getHeadings(this.config);
-      this.renderMenuitemsToGroup(this.headingGroupNode, headingElements, this.config.msgNoHeadingsFound);
+      this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, this.config.msgNoHeadingsFound);
 
       // Update list of menuitems
       this.updateMenuitems();

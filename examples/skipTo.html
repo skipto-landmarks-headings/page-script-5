@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <title>Defaults: SkipTo Menu Example Page</title>
     <link href="./skipTo.css" rel="stylesheet"/>
-    <script type="text/javascript" src="../dist/skipto.js"></script>
+    <script src="../dist/skipto.js"></script>
+    <script src="./webComponentStructure.js"></script>
 </head>
 <body>
     <header role="banner">
@@ -51,6 +52,12 @@
             <h1>Hidden h1 for testing</h1>
         </header>
         <h1>Example Content</h1>
+        <structure-webcomponent>
+            <h1 slot="title">Test Title</h1>
+            <span slot="section-1-title">Section 1.1: Web Component</span>
+            <span slot="section-2-title">Section 1.2: Web Component</span>
+        </structure-webcomponent>
+        <structure-webcomponent></structure-webcomponent>
         <article>
             <header>
                 <h2>Pastrami</h2>
