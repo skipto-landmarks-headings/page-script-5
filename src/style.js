@@ -217,6 +217,15 @@ nav#id-skip-to [role="menuitem"]:focus .label {
 </style>
 `;
 
+/*
+ *   @function 
+ *
+ *   @desc  
+ *
+ *   @param 
+ *
+ *   @returns 
+ */
 function getTheme(colorThemes, config) {
   if (typeof colorThemes[config.colorTheme] === 'object') {
     return colorThemes[config.colorTheme];
@@ -224,6 +233,15 @@ function getTheme(colorThemes, config) {
   return colorThemes['default'];
 }
 
+/*
+ *   @function 
+ *
+ *   @desc  
+ *
+ *   @param 
+ *
+ *   @returns 
+ */
 function updateStyle(stylePlaceholder, value, defaultValue) {
   if (typeof value !== 'string' || value.length === 0) {
     value = defaultValue;
@@ -244,6 +262,10 @@ function updateStyle(stylePlaceholder, value, defaultValue) {
  *
  * @desc Updates the styling information in the attached
  *       stylesheet to use the configured colors  
+ *
+ *   @param 
+ *
+ *   @returns 
  */
 function addCSSColors (colorThemes, config) {
   const theme = getTheme(colorThemes, config);
@@ -265,6 +287,15 @@ function addCSSColors (colorThemes, config) {
   updateStyle('$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor);
 }
 
+/*
+ *   @function 
+ *
+ *   @desc  
+ *
+ *   @param 
+ *
+ *   @returns 
+ */
 export default function renderStyleElement (colorThemes, config, skipToId) {
   addCSSColors(colorThemes, config);
   const styleNode = styleTemplate.content.cloneNode(true);

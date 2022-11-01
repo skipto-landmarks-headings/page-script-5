@@ -370,6 +370,13 @@ export default class SkiptoMenuButton {
 // Menu scripting helper functions and event handlers
 //
 
+    /*
+     * @method setFocusToMenuitem
+     *
+     * @desc 
+     *
+     * @param {Object}  menuItem  - DOM node used as a menu item
+     */
     setFocusToMenuitem(menuitem) {
       if (menuitem) {
         menuitem.focus();
@@ -384,6 +391,11 @@ export default class SkiptoMenuButton {
       this.setFocusToMenuitem(this.lastMenuitem);
     }
 
+    /*
+     * @method setFocusToPreviousMenuitem
+     *
+     * @desc 
+     */
     setFocusToPreviousMenuitem(menuitem) {
       let newMenuitem, index;
       if (menuitem === this.firstMenuitem) {
@@ -396,6 +408,11 @@ export default class SkiptoMenuButton {
       return newMenuitem;
     }
 
+    /*
+     * @method setFocusToNextMenuitem
+     *
+     * @desc 
+     */
     setFocusToNextMenuitem(menuitem) {
       let newMenuitem, index;
       if (menuitem === this.lastMenuitem) {
@@ -408,6 +425,11 @@ export default class SkiptoMenuButton {
       return newMenuitem;
     }
 
+    /*
+     * @method setFocusByFirstCharacter
+     *
+     * @desc 
+     */
     setFocusByFirstCharacter(menuitem, char) {
       let start, index;
       if (char.length > 1) {
@@ -445,6 +467,13 @@ export default class SkiptoMenuButton {
       }
     }
 
+    /*
+     * @method openPopup
+     *
+     * @desc
+     *
+     * @returns {Number} 
+     */
     getIndexFirstChars(startIndex, char) {
       for (let i = startIndex; i < this.firstChars.length; i += 1) {
         if (char === this.firstChars[i]) {
@@ -469,6 +498,11 @@ export default class SkiptoMenuButton {
       this.buttonNode.setAttribute('aria-expanded', 'true');
     }
 
+    /*
+     * @method closePopup
+     *
+     * @desc 
+     */
     closePopup() {
       if (this.isOpen()) {
         this.buttonNode.setAttribute('aria-expanded', 'false');
@@ -476,6 +510,11 @@ export default class SkiptoMenuButton {
       }
     }
 
+    /*
+     * @method isOpen
+     *
+     * @desc 
+     */
     isOpen() {
       return this.buttonNode.getAttribute('aria-expanded') === 'true';
     }

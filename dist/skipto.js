@@ -304,6 +304,15 @@ nav#id-skip-to [role="menuitem"]:focus .label {
 </style>
 `;
 
+/*
+ *   @function 
+ *
+ *   @desc  
+ *
+ *   @param 
+ *
+ *   @returns 
+ */
 function getTheme(colorThemes, config) {
   if (typeof colorThemes[config.colorTheme] === 'object') {
     return colorThemes[config.colorTheme];
@@ -311,6 +320,15 @@ function getTheme(colorThemes, config) {
   return colorThemes['default'];
 }
 
+/*
+ *   @function 
+ *
+ *   @desc  
+ *
+ *   @param 
+ *
+ *   @returns 
+ */
 function updateStyle(stylePlaceholder, value, defaultValue) {
   if (typeof value !== 'string' || value.length === 0) {
     value = defaultValue;
@@ -331,6 +349,10 @@ function updateStyle(stylePlaceholder, value, defaultValue) {
  *
  * @desc Updates the styling information in the attached
  *       stylesheet to use the configured colors  
+ *
+ *   @param 
+ *
+ *   @returns 
  */
 function addCSSColors (colorThemes, config) {
   const theme = getTheme(colorThemes, config);
@@ -352,6 +374,15 @@ function addCSSColors (colorThemes, config) {
   updateStyle('$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor);
 }
 
+/*
+ *   @function 
+ *
+ *   @desc  
+ *
+ *   @param 
+ *
+ *   @returns 
+ */
 function renderStyleElement (colorThemes, config, skipToId) {
   addCSSColors(colorThemes, config);
   const styleNode = styleTemplate.content.cloneNode(true);
@@ -1884,6 +1915,13 @@ class SkiptoMenuButton {
 // Menu scripting helper functions and event handlers
 //
 
+    /*
+     * @method setFocusToMenuitem
+     *
+     * @desc 
+     *
+     * @param {Object}  menuItem  - DOM node used as a menu item
+     */
     setFocusToMenuitem(menuitem) {
       if (menuitem) {
         menuitem.focus();
@@ -1898,6 +1936,11 @@ class SkiptoMenuButton {
       this.setFocusToMenuitem(this.lastMenuitem);
     }
 
+    /*
+     * @method setFocusToPreviousMenuitem
+     *
+     * @desc 
+     */
     setFocusToPreviousMenuitem(menuitem) {
       let newMenuitem, index;
       if (menuitem === this.firstMenuitem) {
@@ -1910,6 +1953,11 @@ class SkiptoMenuButton {
       return newMenuitem;
     }
 
+    /*
+     * @method setFocusToNextMenuitem
+     *
+     * @desc 
+     */
     setFocusToNextMenuitem(menuitem) {
       let newMenuitem, index;
       if (menuitem === this.lastMenuitem) {
@@ -1922,6 +1970,11 @@ class SkiptoMenuButton {
       return newMenuitem;
     }
 
+    /*
+     * @method setFocusByFirstCharacter
+     *
+     * @desc 
+     */
     setFocusByFirstCharacter(menuitem, char) {
       let start, index;
       if (char.length > 1) {
@@ -1959,6 +2012,13 @@ class SkiptoMenuButton {
       }
     }
 
+    /*
+     * @method openPopup
+     *
+     * @desc
+     *
+     * @returns {Number} 
+     */
     getIndexFirstChars(startIndex, char) {
       for (let i = startIndex; i < this.firstChars.length; i += 1) {
         if (char === this.firstChars[i]) {
@@ -1983,6 +2043,11 @@ class SkiptoMenuButton {
       this.buttonNode.setAttribute('aria-expanded', 'true');
     }
 
+    /*
+     * @method closePopup
+     *
+     * @desc 
+     */
     closePopup() {
       if (this.isOpen()) {
         this.buttonNode.setAttribute('aria-expanded', 'false');
@@ -1990,6 +2055,11 @@ class SkiptoMenuButton {
       }
     }
 
+    /*
+     * @method isOpen
+     *
+     * @desc 
+     */
     isOpen() {
       return this.buttonNode.getAttribute('aria-expanded') === 'true';
     }
