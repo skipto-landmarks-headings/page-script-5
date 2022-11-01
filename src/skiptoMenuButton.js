@@ -140,6 +140,10 @@ export default class SkiptoMenuButton {
      * @desc Identifies the operating system and updates labels for 
      *       shortcut key to use either the "alt" or the "option"
      *       label  
+     *
+     * @param {Object}  -  SkipTp configure object
+     *
+     * @return {Array}  - An array of two strings used for the button label
      */
     getBrowserSpecificShortcut (config) {
       const platform =  navigator.platform.toLowerCase();

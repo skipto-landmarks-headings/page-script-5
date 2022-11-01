@@ -92,6 +92,7 @@ class DebugLogging {
 
 /* Constants */
 const debug$5 = new DebugLogging('style', false);
+debug$5.flag = false;
 
 const styleTemplate = document.createElement('template');
 styleTemplate.innerHTML = `
@@ -311,21 +312,18 @@ function getTheme(colorThemes, config) {
 }
 
 function updateStyle(stylePlaceholder, value, defaultValue) {
-  debug$5.flag && debug$5.log(`[updateStyle]: ${stylePlaceholder} ${value} ${defaultValue}`);
   if (typeof value !== 'string' || value.length === 0) {
     value = defaultValue;
   }
   let cssContent = styleTemplate.innerHTML;
   let index1 = cssContent.indexOf(stylePlaceholder);
   let index2 = index1 + stylePlaceholder.length;
-  debug$5.flag && debug$5.log(`[updateStyle]: ${index1} ${index2}`);
   while (index1 >= 0 && index2 < cssContent.length) {
     cssContent = cssContent.substring(0, index1) + value + cssContent.substring(index2);
     index1 = cssContent.indexOf(stylePlaceholder, index2);
     index2 = index1 + stylePlaceholder.length;
   }
   styleTemplate.innerHTML = cssContent;
-  debug$5.flag && debug$5.log(`[updateStyle]: ${styleTemplate.innerHTML}`);
 }
 
 /*
@@ -355,7 +353,6 @@ function addCSSColors (colorThemes, config) {
 }
 
 function renderStyleElement (colorThemes, config, skipToId) {
-  debug$5.flag && debug$5.log(`[renderStyleElement]`);
   addCSSColors(colorThemes, config);
   const styleNode = styleTemplate.content.cloneNode(true);
   const headNode = document.getElementsByTagName('head')[0];
@@ -371,25 +368,40 @@ debug$4.flag = false;
 
 
 /*
-*   getAttributeValue: Return attribute value if present on element,
-*   otherwise return empty string.
-*/
+ * @function getAttributeValue
+ * 
+ * @desc Return attribute value if present on element,
+ *       otherwise return empty string.
+ *
+ * @returns {String} see @desc
+ */
 function getAttributeValue (element, attribute) {
   let value = element.getAttribute(attribute);
   return (value === null) ? '' : normalize(value);
 }
 
 /*
-*   normalize: Trim leading and trailing whitespace and condense all
-*   internal sequences of whitespace to a single space. Adapted from
-*   Mozilla documentation on String.prototype.trim polyfill. Handles
-*   BOM and NBSP characters.
-*/
+ * @function normalize
+ *
+ * @desc Trim leading and trailing whitespace and condense all
+ *       internal sequences of whitespace to a single space. Adapted from
+ *       Mozilla documentation on String.prototype.trim polyfill. Handles
+ *       BOM and NBSP characters.
+ *
+ * @return {String}  see @desc
+ */
 function normalize (s) {
   let rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
   return s.replace(rtrim, '').replace(/\s+/g, ' ');
 }
 
+/**
+ * @fuction isNotEmptyString
+ *
+ * @desc Returns true if the string has content, otherwise false
+ *
+ * @param {Boolean}  see @desc
+ */
 function isNotEmptyString (str) {
   return (typeof str === 'string') && str.length && str.trim() && str !== "&nbsp;";
 }
@@ -401,27 +413,38 @@ function isNotEmptyString (str) {
  *
  * @param {node}  elem  - DOM element node of a labelable element
  */
+function isVisible (element) {
 
-function isVisible$1 (element) {
-  function isVisibleRec(el) {
-    if (el.parentNode.nodeType !== 1 || 
-        (el.parentNode.tagName === 'BODY')) {
-      return true;
-    }
-    const computedStyle = window.getComputedStyle(el);
-    const display = computedStyle.getPropertyValue('display');
-    const visibility = computedStyle.getPropertyValue('visibility');
-    const hidden = el.getAttribute('hidden');
-    if ((display === 'none') ||
-      (visibility === 'hidden') ||
-      (hidden !== null)) {
+  function isDisplayNone(el) {
+    if (!el || (el.nodeType !== Node.ELEMENT_NODE)) {
       return false;
     }
-    const isVis = isVisibleRec(el.parentNode);
-    return isVis;
+
+    if (el.hasAttribute('hidden')) {
+      return true;
+    }
+
+    const style = window.getComputedStyle(el, null);
+    const display = style.getPropertyValue("display");
+    if (display === 'none') { 
+      return true;
+    }
+
+    // check ancestors for display none
+    if (el.parentNode) {
+      return isDisplayNone(el.parentNode);
+    }
+
+    return false;
   }
 
-  return isVisibleRec(element);
+  const computedStyle = window.getComputedStyle(element);
+  let visibility = computedStyle.getPropertyValue('visibility');
+  if ((visibility === 'hidden') || (visibility === 'collapse')) {
+    return false;
+  }
+
+  return !isDisplayNone(element);
 }
 
 /*
@@ -433,200 +456,201 @@ function isVisible$1 (element) {
 const debug$3 = new DebugLogging('nameFrom', false);
 debug$3.flag = false;
 
-/*
-* @function isHeadingElement
-* 
-* @desc  Is element a heading element
-*
-* @returns true if heading element, otherwsie is false  
-*/
-function isHeadingElement (element) {
-  let tagName = element.tagName.toLowerCase();
-
-  switch (tagName) {
-    case 'h1':
-    case 'h2':
-    case 'h3':
-    case 'h4':
-    case 'h5':
-    case 'h6':
-      return true;
-    default:
-      return false;
-  }
-}
-
-/*
-*   getElementContents: Construct the ARIA text alternative for element by
-*   processing its element and text node descendants and then adding any CSS-
-*   generated content if present.
-*/
-function getElementContents (element) {
-  let result = '';
-  if (isVisible(element)) {
-    if (element.hasChildNodes()) {
-      let children = element.childNodes,
-          arrayOfStrings = [];
-
-      for (let i = 0; i < children.length; i++) {
-        let contents = getNodeContents(children[i]);
-        if (contents.length) arrayOfStrings.push(contents);
-      }
-
-      result = (arrayOfStrings.length) ? arrayOfStrings.join(' ') : '';
-    }
-    return addCssGeneratedContent(element, result);
-  }
-  return '';
-}
-
-// HIGHER-LEVEL FUNCTIONS THAT RETURN AN OBJECT WITH SOURCE PROPERTY
-
-/*
-*   nameFromAttribute
-*/
-function nameFromAttribute (element, attribute) {
-  let name;
-
-  name = getAttributeValue(element, attribute);
-  if (name.length) {
-    return name;
-  }
-
-  return '';
-}
-
 //
 // LOW-LEVEL HELPER FUNCTIONS (NOT EXPORTED)
 
 /*
-*   isHidden: Checks to see if the node or any of it's ancestor
-*   are hidden for the purpose of accessible name calculation
+*   @function  isDisplayNone 
+*
+*   @desc Returns true if the element or parent element has set the CSS
+*         display property to none or has the hidden attribute,
+*         otherwise false
+*
+*   @param  {Object}  node  - a DOM node
+*
+*   @returns  {Boolean} see @desc 
 */
 
-function isHidden (node) {
+function isDisplayNone (node) {
 
   if (!node) {
     return false;
   }
 
-  if (node.nodeType !== Node.ELEMENT_NODE) {
-    if ((node.nodeType === Node.TEXT_NODE) &&
-        (node.parentNode.nodeType !== Node.ELEMENT_NODE)) {
+  if (node.nodeType === Node.TEXT_NODE) {
       node = node.parentNode;
+  }
+
+  if (node.nodeType === Node.ELEMENT_NODE) {
+
+    if (node.hasAttribute('hidden')) {
+      return true;
     }
+
+    // aria-hidden attribute with the value "true" is an same as 
+    // setting the hidden attribute for name calcuation
+    if (node.hasAttribute('aria-hidden')) {
+      if (node.getAttribute('aria-hidden').toLowerCase()  === 'true') {
+        return true;
+      }
+    }
+
+    const style = window.getComputedStyle(node, null);
+
+    const display = style.getPropertyValue("display");
+
+    if (display) {
+      return display === 'none';
+    }
+  }
+  return false;
+}
+
+/*
+*   @function isVisibilityHidden 
+*   
+*   @desc Returns true if the node (or it's parrent) has the CSS visibility 
+*         property set to "hidden" or "collapse", otherwise false
+*
+*   @param  {Object}   node  -  DOM node
+*
+*   @return  see @desc
+*/
+
+function isVisibilityHidden(node) {
+
+  if (!node) {
     return false;
   }
 
-  if (node.hasAttribute('hidden')) {
-    return true;
+  if (node.nodeType === Node.TEXT_NODE) {
+    node = node.parentNode;
   }
 
-  if (node.hasAttribute('aria-hidden')) {
-    return node.getAttribute('aria-hidden').toLowerCase() === 'true';
+  if (node.nodeType === Node.ELEMENT_NODE) {
+    const style = window.getComputedStyle(node, null);
+
+    const visibility = style.getPropertyValue("visibility");
+    if (visibility) {
+      return (visibility === 'hidden') || (visibility === 'collapse');
+    }
+  }
+  return false;
+}
+
+/*
+*   @function isAriaHiddenFalse 
+*   
+*   @desc Returns true if the node has the aria-hidden property set to
+*         "false", otherwise false.  
+*         NOTE: This function is important in the accessible namce 
+*               calculation, since content hidden with a CSS technique 
+*               can be included in the accessible name calculation when 
+*               aria-hidden is set to false
+*
+*   @param  {Object}   node  -  DOM node
+*
+*   @return  see @desc
+*/
+
+function isAriaHIddenFalse(node) {
+
+  if (!node) {
+    return false;
   }
 
-  const style = window.getComputedStyle(node, null);
-
-  const display = style.getPropertyValue("display");
-  if (display === 'none') { 
-    return true;
+  if (node.nodeType === Node.TEXT_NODE) {
+      node = node.parentNode;
   }
 
-  if (node.parentNode) {
-    return isHidden(node.parentNode);
+  if (node.nodeType === Node.ELEMENT_NODE) {
+    return (node.hasAttribute('aria-hidden') && 
+        (node.getAttribute('aria-hidden').toLowerCase() === 'false'));
   }
 
   return false;
 }
 
 /*
-*   isVisible: Checks to see if the node or any of it's ancestor
-*   are visible for the purpose of accessible name calculation
+*   @function includeContentInName 
+*   
+*   @desc Checks the CSS display and hidden properties, and
+*         the aria-hidden property to see if the content
+*         should be included in the accessible name
+*        calculation.  Returns true if it should be 
+*         included, otherwise false
+*
+*   @param  {Object}   node  -  DOM node
+*
+*   @return  see @desc
 */
 
-function isVisible (node) {
-  return !isHidden(node);
+function includeContentInName(node) {
+  const flag = isAriaHIddenFalse(node) || 
+    (!isVisibilityHidden(node) && 
+    !isDisplayNone(node));
+  return flag;
 }
 
 /*
-*   isHiddenCSSVisibilityProp: Checks to see if the node or any of it's ancestor
-*   are visible based on CSS visibility property for the purpose of accessible name calculation
-*/
-
-function isHiddenCSSVisibilityProp(node) {
-
-  if (!node) {
-    return false;
-  }
-
-  if (node.nodeType !== Node.ELEMENT_NODE) {
-    if ((node.nodeType === Node.TEXT_NODE) &&
-        (node.parentNode.nodeType !== Node.ELEMENT_NODE)) {
-      node = node.parentNode;
-    }
-    return false;
-  }
-  const style = window.getComputedStyle(node, null);
-
-  const visibility = style.getPropertyValue("visibility");
-  if (visibility) {
-    return (visibility === 'hidden') || (visibility === 'collapse');
-  }
-
-  if (node.parentNode) {
-    return isHidden(node.parentNode);
-  }
-
-  return false;
-}
-
-/*
-*   getNodeContents: Recursively process element and text nodes by aggregating
-*   their text values for an ARIA text equivalent calculation.
-*   1. This includes special handling of elements with 'alt' text and embedded
-*      controls.
+*   @function getNodeContents
+*
+*   @desc  Recursively process element and text nodes by aggregating
+*          their text values for an ARIA accessible name or description
+*          calculation.
+*
+*          NOTE: This includes special handling of elements with 'alt' 
+*                text and embedded controls.
+*  
+*  @param {Object}  node  - A DOM node
+* 
+*  @return {String}  The text content for an accessible name or description
 */
 function getNodeContents (node) {
   let contents = '';
   let nc;
   let arr = [];
 
-  if (isHidden(node)) {
-    return '';
-  } 
-
   switch (node.nodeType) {
     case Node.ELEMENT_NODE:
-      if (node instanceof HTMLSlotElement) {
-        // if no slotted elements, check for default slotted content
-        const assignedNodes = node.assignedNodes().length ? node.assignedNodes() : node.assignedNodes({ flatten: true });
-        assignedNodes.forEach( assignedNode => {
-          nc = getNodeContents(assignedNode);
-          if (nc.length) arr.push(nc);
-        });
-        contents = (arr.length) ? arr.join(' ') : '';
-      } else {
-        if (couldHaveAltText(node)) {
-          contents = getAttributeValue(node, 'alt');
+      // If aria-label is present, node recursion stops and
+      // aria-label value is returned
+      if (node.hasAttribute('aria-label')) {
+        if (includeContentInName(node)) {
+          contents = node.getAttribute('aria-label');
         }
-        else {
-          if (node.hasChildNodes()) {
-            let children = Array.from(node.childNodes);
-            children.forEach( child => {
-              nc = getNodeContents(child);
-              if (nc.length) arr.push(nc);
-            });
-            contents = (arr.length) ? arr.join(' ') : '';
+      }
+      else {
+        if (node instanceof HTMLSlotElement) {
+          // if no slotted elements, check for default slotted content
+          const assignedNodes = node.assignedNodes().length ? node.assignedNodes() : node.assignedNodes({ flatten: true });
+          assignedNodes.forEach( assignedNode => {
+            nc = getNodeContents(assignedNode);
+            if (nc.length) arr.push(nc);
+          });
+          contents = (arr.length) ? arr.join(' ') : '';
+        } else {
+          if (couldHaveAltText(node) && includeContentInName(node)) {
+            contents = getAttributeValue(node, 'alt');
           }
+          else {
+            if (node.hasChildNodes()) {
+              let children = Array.from(node.childNodes);
+              children.forEach( child => {
+                nc = getNodeContents(child);
+                if (nc.length) arr.push(nc);
+              });
+              contents = (arr.length) ? arr.join(' ') : '';
+            }
+          }
+          // For all branches of the ELEMENT_NODE case...
         }
-        // For all branches of the ELEMENT_NODE case...
       }
       contents = addCssGeneratedContent(node, contents);
       break;
 
     case Node.TEXT_NODE:
-      if (!isHiddenCSSVisibilityProp(node.parentNode)) {
+      if (includeContentInName(node)) {
         contents = normalize(node.textContent);
       }
       break;
@@ -636,8 +660,15 @@ function getNodeContents (node) {
 }
 
 /*
-*   couldHaveAltText: Based on HTML5 specification, determine whether
-*   element could have an 'alt' attribute.
+*   @function couldHaveAltText
+*   
+*   @desc  Based on HTML5 specification, returns true if 
+*          the element could have an 'alt' attribute,
+*          otherwise false.
+* 
+*   @param  {Object}  element  - DOM eleemnt node
+*
+*   @return {Boolean}  see @desc
 */
 function couldHaveAltText (element) {
   let tagName = element.tagName.toLowerCase();
@@ -654,13 +685,22 @@ function couldHaveAltText (element) {
 }
 
 /*
-*   addCssGeneratedContent: Add CSS-generated content for pseudo-elements
-*   :before and :after. According to the CSS spec, test that content value
-*   is other than the default computed value of 'none'.
+*   @function addCssGeneratedContent
 *
-*   Note: Even if an author specifies content: 'none', because browsers add
-*   the double-quote character to the beginning and end of computed string
-*   values, the result cannot and will not be equal to 'none'.
+*   @desc Adds CSS-generated content for pseudo-elements
+*         :before and :after. According to the CSS spec, test that content 
+*         value is other than the default computed value of 'none'.
+* 
+*         Note: Even if an author specifies content: 'none', because browsers 
+*               add the double-quote character to the beginning and end of 
+*               computed string values, the result cannot and will not be 
+*               equal to 'none'.
+*
+*   @param {Object}  element   - DOM node element
+*   @param {String}  contents  - Text content for DOM node
+*
+*   @returns  {String}  see @desc
+*
 */
 function addCssGeneratedContent (element, contents) {
   let result = contents,
@@ -677,35 +717,32 @@ function addCssGeneratedContent (element, contents) {
 
 /* Constants */
 const debug$2 = new DebugLogging('accName', false);
-debug$2.flag = true;
+debug$2.flag = false;
 
 /**
- * @fuction getAccessibleName
+ *   @fuction getAccessibleName
  *
- * @desc Returns the accessible name for an heading or landamrk 
+ *   @desc Returns the accessible name for an heading or landamrk 
  *
- * @paramn {Object}   dom      - Document of the current element
- * @param  {node}     element  - DOM element node for either a heading or
+ *   @paramn {Object}   dom      - Document of the current element
+ *   @param  {node}     element  - DOM element node for either a heading or
  *                               landmark
- * @param  {Boolean}  recFlag  - if traversing a aria-labelledbyby, do not restart
- *                                another recursion  
+ *   @param  {Boolean}  fromContent  - if true will compute name from content
  * 
- * @return {String} The accessible name for the landmark or heading element
+ *   @return {String} The accessible name for the landmark or heading element
  */
 
-function getAccessibleName (doc, element, recFlag=false) {
+function getAccessibleName (doc, element, fromContent=false) {
   let accName = '';
 
-  if (!recFlag) {
-    accName = nameFromAttributeIdRefs(doc, element, 'aria-labelledby');
+  accName = nameFromAttributeIdRefs(doc, element, 'aria-labelledby');
+
+  if (accName === '' && element.hasAttribute('aria-label')) {
+    accName =  element.getAttribute('aria-label').trim();
   }
-  if (accName === '') {
-    accName = nameFromAttribute(element, 'aria-label');
-  }
-  if ((accName === '') && 
-      (isHeadingElement(element)) || recFlag) {
-    accName =  getElementContents(element);
-    debug$2.flag && debug$2.log(`[getElementContents]: ${getElementContents(element)}`);
+
+  if (accName === '' && fromContent) {
+    accName =  getNodeContents(element);
   }
   return accName;
 }
@@ -723,15 +760,12 @@ function nameFromAttributeIdRefs (doc, element, attribute) {
   const arr = [];
 
   if (value.length) {
-    debug$2.flag && debug$2.log(`[nameFromAttributeIdRefs][value]: ${value}`);
     const idRefs = value.split(' ');
 
     for (let i = 0; i < idRefs.length; i++) {
       const refElement = doc.getElementById(idRefs[i]);
-      debug$2.flag && debug$2.log(`[nameFromAttributeIdRefs][refElement]: ${refElement}`);
       if (refElement) {
-        const accName = getAccessibleName(doc, refElement, true);
-        debug$2.flag && debug$2.log(`[nameFromAttributeIdRefs][accName]: ${accName}`);
+        const accName = getNodeContents(refElement);
         if (accName && accName.length) arr.push(accName);
       }
     }
@@ -748,7 +782,7 @@ function nameFromAttributeIdRefs (doc, element, attribute) {
 
 /* Constants */
 const debug$1 = new DebugLogging('landmarksHeadings', false);
-debug$1.flag = true;
+debug$1.flag = false;
 
 const skipableElements = [
   'base',
@@ -791,40 +825,80 @@ const higherLevelElements = [
 
 let idIndex = 0;
 
+/*
+ *   @function getSkipToIdIndex
+ *
+ *   @desc
+ *
+ *   @returns  {Number} see @desc
+ */ 
 function getSkipToIdIndex () {
   return idIndex;
 }
 
+/*
+ *   @function incSkipToIdIndex
+ *
+ *   @desc
+ */ 
 function incSkipToIdIndex () {
   idIndex += 1;
 }
 
-// Tests if a tag name can be skipped
-function isSkipableElement(tagName, type) {
-    const elemSelector = ((tagName === 'input') && (typeof type === 'string')) ? 
+/*
+ *   @function isSkipableElement
+ *
+ *   @desc Returns true if the element is skipable, otherwise false
+ *
+ *   @param  {Object}  element  - DOM element node
+ *
+ *   @returns {Boolean}  see @desc
+ */ 
+function isSkipableElement(element) {
+    const tagName = element.tagName.toLowerCase();
+    const type    = element.hasAttribute('type') ? element.getAttribute('type') : '';
+    const elemSelector = (tagName === 'input') && type.length ? 
                             `${tagName}[type=${type}]` :
                             tagName;
     return skipableElements.includes(elemSelector);
 }
 
-// Tests if a tag name is a custom element
-function isCustomElement(tagName) {
-  return tagName.indexOf('-') >= 0;
+/*
+ *   @function isCustomElement
+ *
+ *   @desc  Reuturns true if the element is a custom element, otherwise
+ *          false
+ *
+ *   @param  {Object}  element  - DOM element node
+ *
+ *   @returns {Boolean}  see @desc
+ */ 
+function isCustomElement(element) {
+  return element.tagName.indexOf('-') >= 0;
 }
 
-// Tests if a node is a slot element
+/*
+ *   @function sSlotElement
+ *
+ *   @desc  Reuturns true if the element is a slot element, otherwise
+ *          false
+ *
+ *   @param  {Object}  element  - DOM element node
+ *
+ *   @returns {Boolean}  see @desc
+ */ 
 function isSlotElement(node) {
   return (node instanceof HTMLSlotElement);
 }
 
 /**
-* @function isTopLevel
+*   @function isTopLevel
 *
-* @desc Tests the node to see if it is in the content of any other
-*       elements with default landmark roles or is the descendant
-*       of an element with a defined landmark role
+*   @desc Tests the node to see if it is in the content of any other
+*         elements with default landmark roles or is the descendant
+*         of an element with a defined landmark role
 *
-* @param  {Object}  node        - Element node from a berowser DOM
+*   @param  {Object}  node        - Element node from a berowser DOM
 */
 
 function isTopLevel (node) {
@@ -845,15 +919,23 @@ function isTopLevel (node) {
   return true;
 }  
 
-// checks if an element node is a landmark
-function checkForLandmark (node) {
-  if (node.hasAttribute('role')) {
-    const role = node.getAttribute('role').toLowerCase();
+/*
+ *   @function checkForLandmark
+ *
+ *   @desc
+ *
+ *   @param  {Object}  element  - DOM element node
+ *
+ *   @returns {String}  see @desc
+ */ 
+function checkForLandmark (element) {
+  if (element.hasAttribute('role')) {
+    const role = element.getAttribute('role').toLowerCase();
     if (allowedLandmarkSelectors.indexOf(role) >= 0) {
       return role;
     }
   } else {
-    const tagName = node.tagName.toLowerCase();
+    const tagName = element.tagName.toLowerCase();
 
     switch (tagName) {
       case 'aside':
@@ -866,20 +948,20 @@ function checkForLandmark (node) {
         return 'navigation';
 
       case 'header':
-        if (isTopLevel(node)) {
+        if (isTopLevel(element)) {
           return 'banner';
         }
         break;
 
       case 'footer':
-        if (isTopLevel(node)) {
+        if (isTopLevel(element)) {
           return 'contentinfo';
         }
         break;
 
       case 'section':
         // Sections need an accessible name for be considered a "region" landmark
-        if (node.hasAttribute('aria-label') || node.hasAttribute('aria-labelledby')) {
+        if (element.hasAttribute('aria-label') || element.hasAttribute('aria-labelledby')) {
           return 'region';
         }
         break;
@@ -903,11 +985,10 @@ function queryDOMForSkipToId (targetId) {
     var targetNode = null;
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE) {
-        const tagName = node.tagName.toLowerCase();
         if (node.getAttribute('data-skip-to-id') === targetId) {
           return node;
         }
-        if (!isSkipableElement(tagName, node.getAttribute('type'))) {
+        if (!isSkipableElement(node)) {
           // check for slotted content
           if (isSlotElement(node)) {
               // if no slotted elements, check for default slotted content
@@ -924,7 +1005,7 @@ function queryDOMForSkipToId (targetId) {
             }
           } else {
             // check for custom elements
-            if (isCustomElement(tagName)) {
+            if (isCustomElement(node)) {
               if (node.shadowRoot) {
                 targetNode = transverseDOMForSkipToId(node.shadowRoot);
                 if (targetNode) {
@@ -949,12 +1030,12 @@ function queryDOMForSkipToId (targetId) {
 /**
  * @function findVisibleElement
  *
- * @desc Returns the first DOM node that matches a set of element tag names
+ * @desc Returns the first isible decsendant DOM node that matches a set of element tag names
  * 
  * @param {node}   startingNode  - dom node to start search for element
  * @param {Array}  tagNames      - Array of tag names
  * 
- * @returns (node} Returns first element found ot elem if none found 
+ * @returns (node} Returns first descendmt element found or startingNode if none found 
  */
 function findVisibleElement (startingNode, tagNames) {
 
@@ -963,10 +1044,10 @@ function findVisibleElement (startingNode, tagNames) {
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE) {
         const tagName = node.tagName.toLowerCase();
-        if ((tagName === targetTagName) && isVisible$1(node)) {
+        if ((tagName === targetTagName) && isVisible(node)) {
           return node;
         }
-        if (!isSkipableElement(tagName, node.getAttribute('type'))) {
+        if (!isSkipableElement(node)) {
 
           // check for slotted content
           if (isSlotElement(node)) {
@@ -978,14 +1059,14 @@ function findVisibleElement (startingNode, tagNames) {
               const assignedNode = assignedNodes[i];
               if (assignedNode.nodeType === Node.ELEMENT_NODE) {
                 if ((assignedNode.tagName.toLowerCase() === targetTagName) && 
-                    isVisible$1(assignedNode)) {
+                    isVisible(assignedNode)) {
                   return assignedNode;
                 }                    
               }
             }
           } else {
             // check for custom elements
-            if (isCustomElement(tagName)) {
+            if (isCustomElement(node)) {
               if (node.shadowRoot) {
                 targetNode = transverseDOMForVisibleElement(node.shadowRoot, targetTagName);
                 if (targetNode) {
@@ -1016,6 +1097,15 @@ function findVisibleElement (startingNode, tagNames) {
   return targetNode;
 }
 
+/*
+ *   @function skipToElement
+ *
+ *   @desc
+ *
+ *   @param
+ *
+ *   @returns 
+ */ 
 function skipToElement(menuitem) {
 
   let focusNode = false;
@@ -1039,7 +1129,7 @@ function skipToElement(menuitem) {
     if (isNav) {
       focusNode = findVisibleElement(elem, navigationSelectors);
     }
-    if (focusNode && isVisible$1(focusNode)) {
+    if (focusNode && isVisible(focusNode)) {
       focusNode.focus();
       focusNode.scrollIntoView({block: 'nearest'});
     }
@@ -1057,6 +1147,15 @@ function skipToElement(menuitem) {
   }
 }
 
+/*
+ *   @function getHeadingTargets
+ *
+ *   @desc
+ *
+ *   @param
+ *
+ *   @returns 
+ */ 
 function getHeadingTargets(targets) {
   let targetHeadings = [];
   ['h1','h2','h3','h4','h5','h6'].forEach( h => {
@@ -1067,6 +1166,30 @@ function getHeadingTargets(targets) {
   return targetHeadings;
 }
 
+/*
+ *   @function isMain
+ *
+ *   @desc
+ *
+ *   @param
+ *
+ *   @returns {Boolean}  see @desc
+ */ 
+function isMain (element) {
+  const tagName = element.tagName.toLowerCase();
+  const role = element.hasAttribute('role') ? element.getAttribute('role').toLowerCase() : '';
+  return (tagName === 'main') || (role === 'main');
+}
+
+/*
+ *   @function 
+ *
+ *   @desc
+ *
+ *   @param
+ *
+ *   @returns 
+ */ 
 function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
   let headingInfo = [];
   let landmarkInfo = [];
@@ -1080,19 +1203,18 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
         const tagName = node.tagName.toLowerCase();
         if (targetLandmarks.indexOf(checkForLandmark(node)) >= 0) {
           landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
-            debug$1.flag && debug$1.log(`[transverseDOM]: ${tagName}[role=${node.getAttribute('role')}][aria-labelledby=${node.getAttribute('aria-labelledby')}]`, 1);
-            debug$1.flag && debug$1.log(`[transverseDOM][accName]: ${getAccessibleName(doc, node)}]`);
         }
         if (targetHeadings.indexOf(tagName) >= 0) {
           if (!onlyInMain || inMain) {
-            headingInfo.push({ node: node, name: getAccessibleName(doc, node)});
+            headingInfo.push({ node: node, name: getAccessibleName(doc, node, true)});
           }
         }
-        if ((tagName === 'main') || 
-            (node.hasAttribute('role') && node.getAttribute('role').toLowerCase === 'role')) {
+
+        if (isMain(node)) {
           inMain = true;
         }
-        if (!isSkipableElement(tagName, node.getAttribute('type'))) {
+
+        if (!isSkipableElement(node)) {
           // check for slotted content
           if (isSlotElement(node)) {
               // if no slotted elements, check for default slotted content
@@ -1109,14 +1231,14 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
 
                 if (targetHeadings.indexOf(tagName) >= 0) {
                   if (!onlyInMain || inMain) {
-                    headingInfo.push({ node: assignedNode, name: getAccessibleName(doc, assignedNode)});
+                    headingInfo.push({ node: assignedNode, name: getAccessibleName(doc, assignedNode, true)});
                   }
                 }
               }
             }
           } else {
             // check for custom elements
-            if (isCustomElement(tagName)) {
+            if (isCustomElement(node)) {
               if (node.shadowRoot) {
                 transverseDOM(node.shadowRoot, node.shadowRoot, inMain);
               }
@@ -1174,14 +1296,11 @@ function getHeadings (config, headings) {
   let dataId, level;
   let headingElementsArr = [];
 
-  debug$1.flag && debug$1.log(`[getHeadings][headings]: ${headings.length}`);
-
   for (let i = 0, len = headings.length; i < len; i += 1) {
     let heading = headings[i];
-    debug$1.flag && debug$1.log(`[getHeadings][${i}]: ${heading.node.tagName}: ${heading.name}`);
     let role = heading.node.getAttribute('role');
     if ((typeof role === 'string') && (role === 'presentation')) continue;
-    if (isVisible$1(heading.node) && isNotEmptyString(heading.node.innerHTML)) {
+    if (isVisible(heading.node) && isNotEmptyString(heading.node.innerHTML)) {
       if (heading.node.hasAttribute('data-skip-to-id')) {
         dataId = heading.node.getAttribute('data-skip-to-id');
       } else {
@@ -1324,7 +1443,7 @@ function getLandmarks(config, landmarks) {
     let role = landmark.node.getAttribute('role');
     let tagName = landmark.node.tagName.toLowerCase();
     if ((typeof role === 'string') && (role === 'presentation')) continue;
-    if (isVisible$1(landmark.node)) {
+    if (isVisible(landmark.node)) {
       if (!role) role = tagName;
       // normalize tagNames
       switch (role) {
@@ -1535,6 +1654,10 @@ class SkiptoMenuButton {
      * @desc Identifies the operating system and updates labels for 
      *       shortcut key to use either the "alt" or the "option"
      *       label  
+     *
+     * @param {Object}  -  SkipTp configure object
+     *
+     * @return {Array}  - An array of two strings used for the button label
      */
     getBrowserSpecificShortcut (config) {
       const platform =  navigator.platform.toLowerCase();

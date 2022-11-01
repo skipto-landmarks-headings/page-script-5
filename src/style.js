@@ -5,6 +5,7 @@ import DebugLogging  from './debug.js';
 
 /* Constants */
 const debug = new DebugLogging('style', false);
+debug.flag = false;
 
 const styleTemplate = document.createElement('template');
 styleTemplate.innerHTML = `
@@ -224,21 +225,18 @@ function getTheme(colorThemes, config) {
 }
 
 function updateStyle(stylePlaceholder, value, defaultValue) {
-  debug.flag && debug.log(`[updateStyle]: ${stylePlaceholder} ${value} ${defaultValue}`);
   if (typeof value !== 'string' || value.length === 0) {
     value = defaultValue;
   }
   let cssContent = styleTemplate.innerHTML;
   let index1 = cssContent.indexOf(stylePlaceholder);
   let index2 = index1 + stylePlaceholder.length;
-  debug.flag && debug.log(`[updateStyle]: ${index1} ${index2}`);
   while (index1 >= 0 && index2 < cssContent.length) {
     cssContent = cssContent.substring(0, index1) + value + cssContent.substring(index2);
     index1 = cssContent.indexOf(stylePlaceholder, index2);
     index2 = index1 + stylePlaceholder.length;
   }
   styleTemplate.innerHTML = cssContent;
-  debug.flag && debug.log(`[updateStyle]: ${styleTemplate.innerHTML}`);
 }
 
 /*
@@ -268,7 +266,6 @@ function addCSSColors (colorThemes, config) {
 }
 
 export default function renderStyleElement (colorThemes, config, skipToId) {
-  debug.flag && debug.log(`[renderStyleElement]`);
   addCSSColors(colorThemes, config);
   const styleNode = styleTemplate.content.cloneNode(true);
   const headNode = document.getElementsByTagName('head')[0];

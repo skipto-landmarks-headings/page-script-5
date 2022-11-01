@@ -23,7 +23,7 @@ export {
 
 /* Constants */
 const debug = new DebugLogging('landmarksHeadings', false);
-debug.flag = true;
+debug.flag = false;
 
 const skipableElements = [
   'base',
@@ -66,40 +66,80 @@ const higherLevelElements = [
 
 let idIndex = 0;
 
+/*
+ *   @function getSkipToIdIndex
+ *
+ *   @desc
+ *
+ *   @returns  {Number} see @desc
+ */ 
 function getSkipToIdIndex () {
   return idIndex;
 }
 
+/*
+ *   @function incSkipToIdIndex
+ *
+ *   @desc
+ */ 
 function incSkipToIdIndex () {
   idIndex += 1;
 }
 
-// Tests if a tag name can be skipped
-function isSkipableElement(tagName, type) {
-    const elemSelector = ((tagName === 'input') && (typeof type === 'string')) ? 
+/*
+ *   @function isSkipableElement
+ *
+ *   @desc Returns true if the element is skipable, otherwise false
+ *
+ *   @param  {Object}  element  - DOM element node
+ *
+ *   @returns {Boolean}  see @desc
+ */ 
+function isSkipableElement(element) {
+    const tagName = element.tagName.toLowerCase();
+    const type    = element.hasAttribute('type') ? element.getAttribute('type') : '';
+    const elemSelector = (tagName === 'input') && type.length ? 
                             `${tagName}[type=${type}]` :
                             tagName;
     return skipableElements.includes(elemSelector);
 }
 
-// Tests if a tag name is a custom element
-function isCustomElement(tagName) {
-  return tagName.indexOf('-') >= 0;
+/*
+ *   @function isCustomElement
+ *
+ *   @desc  Reuturns true if the element is a custom element, otherwise
+ *          false
+ *
+ *   @param  {Object}  element  - DOM element node
+ *
+ *   @returns {Boolean}  see @desc
+ */ 
+function isCustomElement(element) {
+  return element.tagName.indexOf('-') >= 0;
 }
 
-// Tests if a node is a slot element
+/*
+ *   @function sSlotElement
+ *
+ *   @desc  Reuturns true if the element is a slot element, otherwise
+ *          false
+ *
+ *   @param  {Object}  element  - DOM element node
+ *
+ *   @returns {Boolean}  see @desc
+ */ 
 function isSlotElement(node) {
   return (node instanceof HTMLSlotElement);
 }
 
 /**
-* @function isTopLevel
+*   @function isTopLevel
 *
-* @desc Tests the node to see if it is in the content of any other
-*       elements with default landmark roles or is the descendant
-*       of an element with a defined landmark role
+*   @desc Tests the node to see if it is in the content of any other
+*         elements with default landmark roles or is the descendant
+*         of an element with a defined landmark role
 *
-* @param  {Object}  node        - Element node from a berowser DOM
+*   @param  {Object}  node        - Element node from a berowser DOM
 */
 
 function isTopLevel (node) {
@@ -120,15 +160,23 @@ function isTopLevel (node) {
   return true;
 }  
 
-// checks if an element node is a landmark
-function checkForLandmark (node) {
-  if (node.hasAttribute('role')) {
-    const role = node.getAttribute('role').toLowerCase();
+/*
+ *   @function checkForLandmark
+ *
+ *   @desc
+ *
+ *   @param  {Object}  element  - DOM element node
+ *
+ *   @returns {String}  see @desc
+ */ 
+function checkForLandmark (element) {
+  if (element.hasAttribute('role')) {
+    const role = element.getAttribute('role').toLowerCase();
     if (allowedLandmarkSelectors.indexOf(role) >= 0) {
       return role;
     }
   } else {
-    const tagName = node.tagName.toLowerCase();
+    const tagName = element.tagName.toLowerCase();
 
     switch (tagName) {
       case 'aside':
@@ -141,20 +189,20 @@ function checkForLandmark (node) {
         return 'navigation';
 
       case 'header':
-        if (isTopLevel(node)) {
+        if (isTopLevel(element)) {
           return 'banner';
         }
         break;
 
       case 'footer':
-        if (isTopLevel(node)) {
+        if (isTopLevel(element)) {
           return 'contentinfo';
         }
         break;
 
       case 'section':
         // Sections need an accessible name for be considered a "region" landmark
-        if (node.hasAttribute('aria-label') || node.hasAttribute('aria-labelledby')) {
+        if (element.hasAttribute('aria-label') || element.hasAttribute('aria-labelledby')) {
           return 'region';
         }
         break;
@@ -181,11 +229,10 @@ function queryDOMForSkipToId (targetId) {
     var targetNode = null;
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE) {
-        const tagName = node.tagName.toLowerCase();
         if (node.getAttribute('data-skip-to-id') === targetId) {
           return node;
         }
-        if (!isSkipableElement(tagName, node.getAttribute('type'))) {
+        if (!isSkipableElement(node)) {
           // check for slotted content
           if (isSlotElement(node)) {
               // if no slotted elements, check for default slotted content
@@ -202,7 +249,7 @@ function queryDOMForSkipToId (targetId) {
             }
           } else {
             // check for custom elements
-            if (isCustomElement(tagName)) {
+            if (isCustomElement(node)) {
               if (node.shadowRoot) {
                 targetNode = transverseDOMForSkipToId(node.shadowRoot);
                 if (targetNode) {
@@ -227,12 +274,12 @@ function queryDOMForSkipToId (targetId) {
 /**
  * @function findVisibleElement
  *
- * @desc Returns the first DOM node that matches a set of element tag names
+ * @desc Returns the first isible decsendant DOM node that matches a set of element tag names
  * 
  * @param {node}   startingNode  - dom node to start search for element
  * @param {Array}  tagNames      - Array of tag names
  * 
- * @returns (node} Returns first element found ot elem if none found 
+ * @returns (node} Returns first descendmt element found or startingNode if none found 
  */
 function findVisibleElement (startingNode, tagNames) {
 
@@ -244,7 +291,7 @@ function findVisibleElement (startingNode, tagNames) {
         if ((tagName === targetTagName) && isVisible(node)) {
           return node;
         }
-        if (!isSkipableElement(tagName, node.getAttribute('type'))) {
+        if (!isSkipableElement(node)) {
 
           // check for slotted content
           if (isSlotElement(node)) {
@@ -263,7 +310,7 @@ function findVisibleElement (startingNode, tagNames) {
             }
           } else {
             // check for custom elements
-            if (isCustomElement(tagName)) {
+            if (isCustomElement(node)) {
               if (node.shadowRoot) {
                 targetNode = transverseDOMForVisibleElement(node.shadowRoot, targetTagName);
                 if (targetNode) {
@@ -294,6 +341,15 @@ function findVisibleElement (startingNode, tagNames) {
   return targetNode;
 }
 
+/*
+ *   @function skipToElement
+ *
+ *   @desc
+ *
+ *   @param
+ *
+ *   @returns 
+ */ 
 function skipToElement(menuitem) {
 
   let focusNode = false;
@@ -335,6 +391,15 @@ function skipToElement(menuitem) {
   }
 }
 
+/*
+ *   @function getHeadingTargets
+ *
+ *   @desc
+ *
+ *   @param
+ *
+ *   @returns 
+ */ 
 function getHeadingTargets(targets) {
   let targetHeadings = [];
   ['h1','h2','h3','h4','h5','h6'].forEach( h => {
@@ -345,6 +410,30 @@ function getHeadingTargets(targets) {
   return targetHeadings;
 }
 
+/*
+ *   @function isMain
+ *
+ *   @desc
+ *
+ *   @param
+ *
+ *   @returns {Boolean}  see @desc
+ */ 
+function isMain (element) {
+  const tagName = element.tagName.toLowerCase();
+  const role = element.hasAttribute('role') ? element.getAttribute('role').toLowerCase() : '';
+  return (tagName === 'main') || (role === 'main');
+}
+
+/*
+ *   @function 
+ *
+ *   @desc
+ *
+ *   @param
+ *
+ *   @returns 
+ */ 
 function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
   let headingInfo = [];
   let landmarkInfo = [];
@@ -358,19 +447,18 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
         const tagName = node.tagName.toLowerCase();
         if (targetLandmarks.indexOf(checkForLandmark(node)) >= 0) {
           landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
-            debug.flag && debug.log(`[transverseDOM]: ${tagName}[role=${node.getAttribute('role')}][aria-labelledby=${node.getAttribute('aria-labelledby')}]`, 1);
-            debug.flag && debug.log(`[transverseDOM][accName]: ${getAccessibleName(doc, node)}]`);
         }
         if (targetHeadings.indexOf(tagName) >= 0) {
           if (!onlyInMain || inMain) {
-            headingInfo.push({ node: node, name: getAccessibleName(doc, node)});
+            headingInfo.push({ node: node, name: getAccessibleName(doc, node, true)});
           }
         }
-        if ((tagName === 'main') || 
-            (node.hasAttribute('role') && node.getAttribute('role').toLowerCase === 'role')) {
+
+        if (isMain(node)) {
           inMain = true;
         }
-        if (!isSkipableElement(tagName, node.getAttribute('type'))) {
+
+        if (!isSkipableElement(node)) {
           // check for slotted content
           if (isSlotElement(node)) {
               // if no slotted elements, check for default slotted content
@@ -387,14 +475,14 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
 
                 if (targetHeadings.indexOf(tagName) >= 0) {
                   if (!onlyInMain || inMain) {
-                    headingInfo.push({ node: assignedNode, name: getAccessibleName(doc, assignedNode)});
+                    headingInfo.push({ node: assignedNode, name: getAccessibleName(doc, assignedNode, true)});
                   }
                 }
               }
             }
           } else {
             // check for custom elements
-            if (isCustomElement(tagName)) {
+            if (isCustomElement(node)) {
               if (node.shadowRoot) {
                 transverseDOM(node.shadowRoot, node.shadowRoot, inMain);
               }
@@ -452,11 +540,8 @@ function getHeadings (config, headings) {
   let dataId, level;
   let headingElementsArr = [];
 
-  debug.flag && debug.log(`[getHeadings][headings]: ${headings.length}`);
-
   for (let i = 0, len = headings.length; i < len; i += 1) {
     let heading = headings[i];
-    debug.flag && debug.log(`[getHeadings][${i}]: ${heading.node.tagName}: ${heading.name}`);
     let role = heading.node.getAttribute('role');
     if ((typeof role === 'string') && (role === 'presentation')) continue;
     if (isVisible(heading.node) && isNotEmptyString(heading.node.innerHTML)) {

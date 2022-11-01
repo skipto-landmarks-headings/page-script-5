@@ -5,7 +5,7 @@ import DebugLogging  from './debug.js';
 
 /* Constants */
 const debug = new DebugLogging('accName', false);
-debug.flag = true;
+debug.flag = false;
 
 /* Exports */
 
@@ -14,9 +14,7 @@ import {
 } from './utils';
 
 import {
-  isHeadingElement,
-  nameFromAttribute,
-  getElementContents,
+  getNodeContents,
 } from './namefrom';
 
 export {
@@ -24,32 +22,29 @@ export {
 };
 
 /**
- * @fuction getAccessibleName
+ *   @fuction getAccessibleName
  *
- * @desc Returns the accessible name for an heading or landamrk 
+ *   @desc Returns the accessible name for an heading or landamrk 
  *
- * @paramn {Object}   dom      - Document of the current element
- * @param  {node}     element  - DOM element node for either a heading or
+ *   @paramn {Object}   dom      - Document of the current element
+ *   @param  {node}     element  - DOM element node for either a heading or
  *                               landmark
- * @param  {Boolean}  recFlag  - if traversing a aria-labelledbyby, do not restart
- *                                another recursion  
+ *   @param  {Boolean}  fromContent  - if true will compute name from content
  * 
- * @return {String} The accessible name for the landmark or heading element
+ *   @return {String} The accessible name for the landmark or heading element
  */
 
-function getAccessibleName (doc, element, recFlag=false) {
+function getAccessibleName (doc, element, fromContent=false) {
   let accName = '';
 
-  if (!recFlag) {
-    accName = nameFromAttributeIdRefs(doc, element, 'aria-labelledby');
+  accName = nameFromAttributeIdRefs(doc, element, 'aria-labelledby');
+
+  if (accName === '' && element.hasAttribute('aria-label')) {
+    accName =  element.getAttribute('aria-label').trim();
   }
-  if (accName === '') {
-    accName = nameFromAttribute(element, 'aria-label');
-  }
-  if ((accName === '') && 
-      (isHeadingElement(element)) || recFlag) {
-    accName =  getElementContents(element);
-    debug.flag && debug.log(`[getElementContents]: ${getElementContents(element)}`);
+
+  if (accName === '' && fromContent) {
+    accName =  getNodeContents(element);
   }
   return accName;
 }
@@ -67,15 +62,12 @@ function nameFromAttributeIdRefs (doc, element, attribute) {
   const arr = [];
 
   if (value.length) {
-    debug.flag && debug.log(`[nameFromAttributeIdRefs][value]: ${value}`);
     const idRefs = value.split(' ');
 
     for (let i = 0; i < idRefs.length; i++) {
       const refElement = doc.getElementById(idRefs[i]);
-      debug.flag && debug.log(`[nameFromAttributeIdRefs][refElement]: ${refElement}`);
       if (refElement) {
-        const accName = getAccessibleName(doc, refElement, true);
-        debug.flag && debug.log(`[nameFromAttributeIdRefs][accName]: ${accName}`);
+        const accName = getNodeContents(refElement);
         if (accName && accName.length) arr.push(accName);
       }
     }

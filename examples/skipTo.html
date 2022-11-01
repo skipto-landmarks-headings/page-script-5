@@ -52,15 +52,18 @@
             <h1>Hidden h1 for testing</h1>
         </header>
         <h1>Example Content</h1>
+        
         <structure-webcomponent>
             <h1 slot="title">Test Title</h1>
             <span slot="section-1-title">Section 1.1: Web Component</span>
             <span slot="section-2-title">Section 1.2: Web Component</span>
         </structure-webcomponent>
+        
         <structure-webcomponent></structure-webcomponent>
+
         <article>
             <header>
-                <h2>Pastrami</h2>
+                <h2>Pastrami <span hidden aria-hidden="false">Visible</span></h2>
             </header>
             <section>
                 Boudin pastrami cow ham leberkas doner ground round pork. Turducken swine bresaola, flank kielbasa ground round beef ribs chuck meatball shoulder tail leberkas biltong pastrami andouille. Drumstick jowl brisket ribeye ham jerky shank cow bacon. Ham swine chuck, ball tip frankfurter meatball short loin bacon andouille ribeye beef ribs shoulder tail spare ribs bresaola. Swine meatball leberkas bacon. Beef ribs short loin pork belly meatloaf pastrami bacon pig andouille ham jowl pork chop shoulder jerky ribeye. Meatball doner t-bone strip steak tail biltong ham hock, shank jowl.
@@ -76,8 +79,7 @@
         </article>
         <article>
             <header>
-                <div style="visibility: hidden"><h2>Hidden Turkey</h2></h2>
-                <h2>Turkey</h2>
+                <h2>Turkey <span style="display: none">(AAA Hidden)</span><span style="visibility: hidden">(BBB Hidden)<span aria-hidden="false">(CCC Show)</span></span><span hidden>(DDD Hidden)<span aria-hidden="false">(FFF Show)</span></span></h2>
             </header>
             <section>
                 Turkey tri-tip sirloin tail hamburger, pancetta prosciutto pork chop pork tongue. Salami drumstick bacon jerky, pork sausage ham prosciutto capicola pancetta beef ribs fatback. Bresaola andouille sirloin, fatback beef ribs shoulder leberkas tongue. Shankle shank turducken, flank jerky leberkas strip steak chuck pancetta tail venison pork belly meatball.
@@ -92,8 +94,8 @@
             </section>
         </article>
         <article>
-            <header>
-                <h2 style="display: none">Hidden Ribeye</h2>
+            <header style="display: none">
+                <h2 >Hidden Ribeye</h2>
                 <h2>Ribeye</h2>
             </header>
             <section>
@@ -125,7 +127,7 @@
 
 
     <main aria-labelledby="id2">
-        <h1 id="id2">Main using <code>main</code> element and hidden headings</h1>
+        <h1 id="id2" hidden>Main using <code>main</code> element and hidden headings</h1>
         <article>
             <header>
                 <h2 role="presentation">More Pastrami</h2>
