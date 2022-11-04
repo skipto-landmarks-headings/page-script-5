@@ -103,15 +103,42 @@ nav#id-skip-to.popup {
   left: 0;
 }
 
+nav#id-skip-to button .text {
+  padding: 6px 8px 6px 8px;
+  display: none;
+}
+
+nav#id-skip-to button img {
+  height: 24px;
+  padding: 2px 4px 2px 4px;
+  display: block;
+}
+
 nav#id-skip-to,
 nav#id-skip-to.popup.focus {
   position: absolute;
   top: 0;
-  left: $positionLeft;
+  left: 24px;
   font-family: $fontFamily;
   font-size: $fontSize;
   display: block;
-  borders: none;
+  border: none;
+}
+
+@media screen and (min-width: $mediaBreakPointpx) {
+  nav#id-skip-to,
+  nav#id-skip-to.popup.focus {
+    left: $positionLeft;
+  }
+}  
+
+@media screen and (min-width: $mediaBreakPointpx) {
+  nav#id-skip-to button img {
+    display: none;
+  }
+  nav#id-skip-to button .text {
+    display: inline-block;
+  }
 }
 
 nav#id-skip-to.fixed {
@@ -121,7 +148,7 @@ nav#id-skip-to.fixed {
 nav#id-skip-to button {
   position: relative;
   margin: 0;
-  padding: 6px 8px 6px 8px;
+  padding: 0;
   border-width: 0px 1px 1px 1px;
   border-style: solid;
   border-radius: 0px 0px 6px 6px;
@@ -274,17 +301,28 @@ nav#id-skip-to.focus {
 }
 
 nav#id-skip-to button:focus,
-.skip-to button:hover {
+nav#id-skip-to button:hover {
   background-color: $menuBackgroundColor;
   color: $menuTextColor;
   outline: none;
 }
 
-nav#id-skip-to button:focus {
-  padding: 6px 7px 5px 7px;
+nav#id-skip-to button:focus,
+nav#id-skip-to button:hover {
   border-width: 0px 2px 2px 2px;
   border-color: $focusBorderColor;
 }
+
+nav#id-skip-to button:focus .text,
+nav#id-skip-to button:hover .text {
+  padding: 6px 7px 5px 7px;
+}
+
+nav#id-skip-to button:focus img,
+nav#id-skip-to button:hover img {
+  padding: 2px 3px 4px 3px;
+}
+
 
 nav#id-skip-to [role="menuitem"]:focus {
   padding: 1px;
@@ -361,6 +399,7 @@ function addCSSColors (colorThemes, config) {
   updateStyle('$fontSize', config.fontSize, theme.fontSize);
 
   updateStyle('$positionLeft', config.positionLeft, theme.positionLeft);
+  updateStyle('$mediaBreakPoint', config.mediaBreakPoint, theme.mediaBreakPoint);
 
   updateStyle('$menuTextColor', config.menuTextColor, theme.menuTextColor);
   updateStyle('$menuBackgroundColor', config.menuBackgroundColor, theme.menuBackgroundColor);
@@ -779,12 +818,21 @@ function getAccessibleName (doc, element, fromContent=false) {
 }
 
 /*
-*   nameFromAttributeIdRefs: Get the value of attrName on element (a space-
-*   separated list of IDREFs), visit each referenced element in the order it
-*   appears in the list and obtain its accessible name (skipping recursive
-*   aria-labelledby or aria-describedby calculations), and return an object
-*   with name property set to a string that is a space-separated concatena-
-*   tion of those results if any, otherwise return null.
+*   @function nameFromAttributeIdRefs
+*
+*   @desc Get the value of attrName on element (a space-
+*         separated list of IDREFs), visit each referenced element in the order it
+*         appears in the list and obtain its accessible name (skipping recursive
+*         aria-labelledby or aria-describedby calculations), and return an object
+*         with name property set to a string that is a space-separated concatena-
+*         tion of those results if any, otherwise return empty string.
+*
+*   @param {Object}  doc       -  Browser document object
+*   @param {Object}  element   -  DOM element node
+*   @param {String}  attribute -  Attribute name (e.g. "aria-labelledby", "aria-describedby",
+*                                 or "aria-errormessage")
+*
+*   @returns {String} see @desc 
 */
 function nameFromAttributeIdRefs (doc, element, attribute) {
   const value = getAttributeValue(element, attribute);
@@ -859,7 +907,8 @@ let idIndex = 0;
 /*
  *   @function getSkipToIdIndex
  *
- *   @desc
+ *   @desc  Returns the current skipto index used for generating
+ *          id for target elements
  *
  *   @returns  {Number} see @desc
  */ 
@@ -870,7 +919,7 @@ function getSkipToIdIndex () {
 /*
  *   @function incSkipToIdIndex
  *
- *   @desc
+ *   @desc  Adds one to the skipto index
  */ 
 function incSkipToIdIndex () {
   idIndex += 1;
@@ -953,7 +1002,7 @@ function isTopLevel (node) {
 /*
  *   @function checkForLandmark
  *
- *   @desc
+ *   @desc  Tests if the element is an allowed 
  *
  *   @param  {Object}  element  - DOM element node
  *
@@ -1114,18 +1163,18 @@ function findVisibleElement (startingNode, tagNames) {
         }
       } // end if
     } // end for
-    return startingNode;
+    return false;
   } // end function
-  let targetNode = startingNode;
+  let targetNode = false;
 
   // Go through the tag names one at a time
   for (let i = 0; i < tagNames.length; i += 1) {
     targetNode = transverseDOMForVisibleElement(startingNode, tagNames[i]);
-    if (targetNode !== startingNode) {
+    if (targetNode) {
       break;
     }
   }
-  return targetNode;
+  return targetNode ? targetNode : startingNode;
 }
 
 /*
@@ -1571,7 +1620,8 @@ menuButtonTemplate.innerHTML = `
       aria-haspopup="true"
       aria-expanded="false"
       aria-controls="id-skip-to-menu">
-      Skip To Content (ALT+0)
+      <span class="text">Skip To Content (ALT+0)</span>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAABP5JREFUWAm9V11MXEUUnjN7KbuwKD/L8qOp2kpbWCSFpkZN2qIxjQYWaC2JD/4kxsTE1MQHeedBY6K+mPSpJsakhcSgFaQk+qCh1DZRQmioSypVa0q1IKC1bFlw753jN5e9txfobmkBJ1nm3DPnb87fHEhkWGWVBx9QYqFCkSxk4nuFYMpA7jkilkIsMHNCGnI8m9VPl8/3/e0hcMEVAosjTc+wsl5iomcFc75LuTYA4ug7IajDZ+Qfnxw5dsMR5xoQqm0qF/OqgwXXO4cbscOQCwb5npuI9Yxq+bYBJTUHwqaZHMSNN99USjNE4jQoxuD5KeBnBSm+eZ4BYglWsQkhCzKLLWB6DHC1wwEj4j6DaiZHei8ZGmklkx+CwFZOgqalT772+qG67vb2duUwrXUPVzfVKMv6GMbsQm4ETVO8D5mHqHxXNLSQUFcFC23MdSmz9k3Fus+tVeGt+IsjrUFWc2MwokyfS5lTZiQTYndKuY5H33LlYCplv+Xmyq0Ep8PRvI+nYl0TzjngeKiqoQP63lrEzT9sIK5hIFKLhh1I76HKxjal5t4Tc17s6mEtNlQVbZse7f3A5SJx0dWn+D5DsbwmhBvqCpcQQDDb+ChuKmTrauvfy61h4qAhz0x70JJ8PYpUm5aZFaBvRElN9KGiyga2f1UN46W1rcUe+g0BkdwSiWiH1f4TqmocAGKP1oYqGPEZfGDyfN+vG6J9mVDbgNKqaMRkHkQTCtjnTBa8960U8hRyZAxljT4g44IsN1uWyVn6SRJ0dEP4xOzh5rqJTOXsZnf4kcbHlcUn0DhKl0pb2xc8mkC8R5nk11lCdE6M9sa8El0DNFLXqVCJN+GJF3GFbV7CdYK1Z45RoTw8febLWS1ziQFeJeHqlq2CrZ2WEBUkuBBt+p5M9F5eJDgJKfwot3xcBnJoB7yAB3JxoRUPEwX26r6Q1gCHeD32+yOthfNi/mVc4m0ke44tk+jIzOjJN/4XA5xLhKuj+y3FvTBkE7ww5zMKwrYBoUj0VSAr/RR450qs6y+HYSN2tOJuJHpzygtPG7oRmUl1FAhaEAndtN51FBdVNp5A/PGU3uXCs5uKtfseoCq+R14sGsBUbiAmuuxsT6Ahl3tV+SR1YAIY8eLuDObZzf6CGT1MOIsFwcOL7QTtwm/PA87h8j2nuKgvPnv97HL8ar+DlkoMDR1NZqLPaED8z+mz8FBtJgGZzvQIVV7d/OAfP/aMp6PLaABmtxdMqbakY749nuOZlGt+tzncXtjGUBiWItNNCko9RildJlvHWd19CJDbK0NAnOsMJKiIpJFNcmLBGUiY6rz3DIZDTyAJC7y4O4F1Ev52rhsDz5L1qPNFQl0lPRwc+XTwCgqjDD3bkpKfnBrtO+0QredeHGnZycocQB/IQ+EnA5RT6uvv7+dAeHsRFO0BUj/kB3NLtsfmpsbG1lN5KNIYFUp9DuW2R0lS50Ssu9NuQBjNc/5N8BBKDq9WahFdRhccQBx/JhbX8MDNI6SLHcShSbdjggFtALEuwA9zJu2DYrfJ4fBSdl7W7t9/+GLGfYz0LGguzH2GPr03ndz1wEP5KZKB551x3TXAEV5UGW0h4lfwOO3HdbMd/Fp2/fLBu1/B7Z9Mx072emWtMMA5rK9vNy5MDW8zhbUVLsxDqebil5be4VvcETQ9ExL9g3/rf3lqh/9iV1cXZpuV6z8QFu9El3GwrAAAAABJRU5ErkJggg==" alt=""/>
     </button> 
     <div id="id-skip-to-menu" 
       role="menu"
@@ -1644,7 +1694,8 @@ class SkiptoMenuButton {
       const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(config);
 
       this.buttonNode = this.containerNode.querySelector('button');
-      this.buttonNode.textContent = buttonVisibleLabel;
+      this.buttonTextNode = this.buttonNode.querySelector('.text');
+      this.buttonTextNode.textContent = buttonVisibleLabel;
       this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
       this.buttonNode.addEventListener('keydown', this.handleButtonKeydown.bind(this));
       this.buttonNode.addEventListener('click', this.handleButtonClick.bind(this));
@@ -2329,6 +2380,7 @@ class SkiptoMenuButton {
       fontFamily: '',
       fontSize: '',
       positionLeft: '',
+      mediaBreakPoint: '540',
       menuTextColor: '',
       menuBackgroundColor: '',
       menuitemFocusTextColor: '',

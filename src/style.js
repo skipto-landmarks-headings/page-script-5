@@ -16,15 +16,42 @@ nav#id-skip-to.popup {
   left: 0;
 }
 
+nav#id-skip-to button .text {
+  padding: 6px 8px 6px 8px;
+  display: none;
+}
+
+nav#id-skip-to button img {
+  height: 24px;
+  padding: 2px 4px 2px 4px;
+  display: block;
+}
+
 nav#id-skip-to,
 nav#id-skip-to.popup.focus {
   position: absolute;
   top: 0;
-  left: $positionLeft;
+  left: 24px;
   font-family: $fontFamily;
   font-size: $fontSize;
   display: block;
-  borders: none;
+  border: none;
+}
+
+@media screen and (min-width: $mediaBreakPointpx) {
+  nav#id-skip-to,
+  nav#id-skip-to.popup.focus {
+    left: $positionLeft;
+  }
+}  
+
+@media screen and (min-width: $mediaBreakPointpx) {
+  nav#id-skip-to button img {
+    display: none;
+  }
+  nav#id-skip-to button .text {
+    display: inline-block;
+  }
 }
 
 nav#id-skip-to.fixed {
@@ -34,7 +61,7 @@ nav#id-skip-to.fixed {
 nav#id-skip-to button {
   position: relative;
   margin: 0;
-  padding: 6px 8px 6px 8px;
+  padding: 0;
   border-width: 0px 1px 1px 1px;
   border-style: solid;
   border-radius: 0px 0px 6px 6px;
@@ -187,17 +214,28 @@ nav#id-skip-to.focus {
 }
 
 nav#id-skip-to button:focus,
-.skip-to button:hover {
+nav#id-skip-to button:hover {
   background-color: $menuBackgroundColor;
   color: $menuTextColor;
   outline: none;
 }
 
-nav#id-skip-to button:focus {
-  padding: 6px 7px 5px 7px;
+nav#id-skip-to button:focus,
+nav#id-skip-to button:hover {
   border-width: 0px 2px 2px 2px;
   border-color: $focusBorderColor;
 }
+
+nav#id-skip-to button:focus .text,
+nav#id-skip-to button:hover .text {
+  padding: 6px 7px 5px 7px;
+}
+
+nav#id-skip-to button:focus img,
+nav#id-skip-to button:hover img {
+  padding: 2px 3px 4px 3px;
+}
+
 
 nav#id-skip-to [role="menuitem"]:focus {
   padding: 1px;
@@ -274,6 +312,7 @@ function addCSSColors (colorThemes, config) {
   updateStyle('$fontSize', config.fontSize, theme.fontSize);
 
   updateStyle('$positionLeft', config.positionLeft, theme.positionLeft);
+  updateStyle('$mediaBreakPoint', config.mediaBreakPoint, theme.mediaBreakPoint);
 
   updateStyle('$menuTextColor', config.menuTextColor, theme.menuTextColor);
   updateStyle('$menuBackgroundColor', config.menuBackgroundColor, theme.menuBackgroundColor);

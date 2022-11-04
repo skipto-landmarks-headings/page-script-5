@@ -50,12 +50,21 @@ function getAccessibleName (doc, element, fromContent=false) {
 }
 
 /*
-*   nameFromAttributeIdRefs: Get the value of attrName on element (a space-
-*   separated list of IDREFs), visit each referenced element in the order it
-*   appears in the list and obtain its accessible name (skipping recursive
-*   aria-labelledby or aria-describedby calculations), and return an object
-*   with name property set to a string that is a space-separated concatena-
-*   tion of those results if any, otherwise return null.
+*   @function nameFromAttributeIdRefs
+*
+*   @desc Get the value of attrName on element (a space-
+*         separated list of IDREFs), visit each referenced element in the order it
+*         appears in the list and obtain its accessible name (skipping recursive
+*         aria-labelledby or aria-describedby calculations), and return an object
+*         with name property set to a string that is a space-separated concatena-
+*         tion of those results if any, otherwise return empty string.
+*
+*   @param {Object}  doc       -  Browser document object
+*   @param {Object}  element   -  DOM element node
+*   @param {String}  attribute -  Attribute name (e.g. "aria-labelledby", "aria-describedby",
+*                                 or "aria-errormessage")
+*
+*   @returns {String} see @desc 
 */
 function nameFromAttributeIdRefs (doc, element, attribute) {
   const value = getAttributeValue(element, attribute);

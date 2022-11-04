@@ -75,6 +75,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       fontFamily: '',
       fontSize: '',
       positionLeft: '',
+      mediaBreakPoint: '540',
       menuTextColor: '',
       menuBackgroundColor: '',
       menuitemFocusTextColor: '',

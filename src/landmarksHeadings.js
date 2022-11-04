@@ -69,7 +69,8 @@ let idIndex = 0;
 /*
  *   @function getSkipToIdIndex
  *
- *   @desc
+ *   @desc  Returns the current skipto index used for generating
+ *          id for target elements
  *
  *   @returns  {Number} see @desc
  */ 
@@ -80,7 +81,7 @@ function getSkipToIdIndex () {
 /*
  *   @function incSkipToIdIndex
  *
- *   @desc
+ *   @desc  Adds one to the skipto index
  */ 
 function incSkipToIdIndex () {
   idIndex += 1;
@@ -163,7 +164,7 @@ function isTopLevel (node) {
 /*
  *   @function checkForLandmark
  *
- *   @desc
+ *   @desc  Tests if the element is an allowed 
  *
  *   @param  {Object}  element  - DOM element node
  *
@@ -327,18 +328,18 @@ function findVisibleElement (startingNode, tagNames) {
         }
       } // end if
     } // end for
-    return startingNode;
+    return false;
   } // end function
-  let targetNode = startingNode;
+  let targetNode = false;
 
   // Go through the tag names one at a time
   for (let i = 0; i < tagNames.length; i += 1) {
     targetNode = transverseDOMForVisibleElement(startingNode, tagNames[i]);
-    if (targetNode !== startingNode) {
+    if (targetNode) {
       break;
     }
   }
-  return targetNode;
+  return targetNode ? targetNode : startingNode;
 }
 
 /*
