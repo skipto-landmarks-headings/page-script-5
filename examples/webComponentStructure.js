@@ -3,8 +3,7 @@
 const template1 = document.createElement('template');
 template1.innerHTML = `
   <main aria-labelledby="id-main-title">
-    <div id="id-main-title"><slot name="main-title">Web Component</slot></div>
-    <slot name="title"><h1>Web Component</h1></slot>
+    <div id="id-main-title"><slot name="main-title">Default Web Component Title</slot></div>
     <p><a href="#">Test link</a></p>
     <section aria-labelledby="title-1">
       <h2 id="title-1"><slot name="section-1-title">Default Slot Content 1</slot></h2>
