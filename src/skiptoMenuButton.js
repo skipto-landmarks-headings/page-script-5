@@ -470,7 +470,7 @@ export default class SkiptoMenuButton {
     }
 
     /*
-     * @method openPopup
+     * @method getIndexFirstChars
      *
      * @desc
      *

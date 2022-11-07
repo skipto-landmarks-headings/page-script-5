@@ -36,7 +36,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       altShortcut: '0', // default shortcut key is the number zero
       optionShortcut: 'º', // default shortcut key character associated with option+0 on mac 
       attachElement: 'header',
-      displayOption: 'static', // options: static (default), popup
+      displayOption: 'static', // options: static (default), popup, fixed
       // container element, use containerClass for custom styling
       containerElement: 'div',
       containerRole: '',
@@ -74,7 +74,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       colorTheme: '',
       fontFamily: '',
       fontSize: '',
-      positionLeft: '',
+      positionLeft: '46%',
       mediaBreakPoint: '540',
       menuTextColor: '',
       menuBackgroundColor: '',
@@ -106,7 +106,6 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       'default': {
         fontFamily: 'inherit',
         fontSize: 'inherit',
-        positionLeft: '46%',
         menuTextColor: '#1a1a1a',
         menuBackgroundColor: '#dcdcdc',
         menuitemFocusTextColor: '#eeeeee',
@@ -116,6 +115,8 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
         buttonBackgroundColor: '#eeeeee',
       },
       'aria': {
+        hostnameSelector: 'w3.org',
+        pathnameSelector: 'ARIA/apg',
         fontFamily: 'sans-serif',
         fontSize: '10pt',
         positionLeft: '7%',
@@ -128,9 +129,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
         buttonBackgroundColor: '#ddd',
       },
       'illinois': {
-        fontFamily: 'inherit',
-        fontSize: 'inherit',
-        positionLeft: '46%',
+        hostnameSelector: 'illinois.edu',
         menuTextColor: '#00132c',
         menuBackgroundColor: '#cad9ef',
         menuitemFocusTextColor: '#eeeeee',
@@ -138,6 +137,36 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
         focusBorderColor: '#ff552e',
         buttonTextColor: '#444444',
         buttonBackgroundColor: '#dddede',
+      },
+      'uic': {
+        hostnameSelector: 'uic.edu',
+        menuTextColor: '#001e62',
+        menuBackgroundColor: '#f8f8f8',
+        menuitemFocusTextColor: '#ffffff',
+        menuitemFocusBackgroundColor: '#001e62',
+        focusBorderColor: '#d50032',
+        buttonTextColor: '#ffffff',
+        buttonBackgroundColor: '#001e62',
+      },
+      'uillinois': {
+        hostnameSelector: 'uillinois.edu',
+        menuTextColor: '#001e62',
+        menuBackgroundColor: '#e8e9ea',
+        menuitemFocusTextColor: '#f8f8f8',
+        menuitemFocusBackgroundColor: '#13294b',
+        focusBorderColor: '#dd3403',
+        buttonTextColor: '#e8e9ea',
+        buttonBackgroundColor: '#13294b',
+      },
+      'uis': {
+        hostnameSelector: 'uis.edu',
+        menuTextColor: '#036',
+        menuBackgroundColor: '#fff',
+        menuitemFocusTextColor: '#fff',
+        menuitemFocusBackgroundColor: '#036',
+        focusBorderColor: '#dd3444',
+        buttonTextColor: '#fff',
+        buttonBackgroundColor: '#036',
       }
     },
 

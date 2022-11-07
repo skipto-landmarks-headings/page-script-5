@@ -99,50 +99,34 @@ styleTemplate.innerHTML = `
 <style type="text/css">
 nav#id-skip-to.popup {
   position: absolute;
-  top: -30em;
-  left: 0;
+  top: -34px;
+  transition: top 0.35s ease;
 }
 
 nav#id-skip-to button .text {
   padding: 6px 8px 6px 8px;
-  display: none;
+  display: inline-block;
 }
 
 nav#id-skip-to button img {
   height: 24px;
   padding: 2px 4px 2px 4px;
-  display: block;
+  display: none;
+  background-color: #e8e9ea;
 }
 
 nav#id-skip-to,
-nav#id-skip-to.popup.focus {
+nav#id-skip-to.popup.focus,
+nav#id-skip-to.popup:hover {
   position: absolute;
   top: 0;
-  left: 24px;
+  left: $positionLeft;
   font-family: $fontFamily;
   font-size: $fontSize;
   display: block;
   border: none;
-}
-
-@media screen and (min-width: $mediaBreakPointpx) {
-  nav#id-skip-to,
-  nav#id-skip-to.popup.focus {
-    left: $positionLeft;
-  }
-}  
-
-@media screen and (min-width: $mediaBreakPointpx) {
-  nav#id-skip-to button img {
-    display: none;
-  }
-  nav#id-skip-to button .text {
-    display: inline-block;
-  }
-}
-
-nav#id-skip-to.fixed {
-  position: fixed;
+  margin-bottom: 4px;
+  transition: left 1s ease;
 }
 
 nav#id-skip-to button {
@@ -153,12 +137,39 @@ nav#id-skip-to button {
   border-style: solid;
   border-radius: 0px 0px 6px 6px;
   border-color: $buttonBackgroundColor;
-  color: $menuTextColor;
+  color: $buttonTextColor;
   background-color: $buttonBackgroundColor;
   z-index: 100000 !important;
   font-family: $fontFamily;
   font-size: $fontSize;
 }
+
+@media screen and (max-width: $mediaBreakPointpx) {
+  nav#id-skip-to,
+  nav#id-skip-to.popup.focus {
+    left: 24px;
+    transition: left 1s ease;
+  }
+}  
+
+@media screen and (max-width: $mediaBreakPointpx) {
+  nav#id-skip-to button img {
+    display: block;
+  }
+
+  nav#id-skip-to button {
+    border-color: #e8e9ea;
+  }
+
+  nav#id-skip-to button .text {
+    display: none;
+  }
+}
+
+nav#id-skip-to.fixed {
+  position: fixed;
+}
+
 
 nav#id-skip-to [role="menu"] {
   position: absolute;
@@ -343,18 +354,82 @@ nav#id-skip-to [role="menuitem"]:focus .label {
 `;
 
 /*
- *   @function 
+ *   @function getTheme
  *
- *   @desc  
+ *   @desc Returns
  *
- *   @param 
+ *   @param  {Object}  colorThemes  -  Javascript object with keyed color themes
+ *   @param  {String}  colorTheme   -  A string identifying a color theme  
  *
- *   @returns 
+ *   @returns {Object}  see @desc
  */
-function getTheme(colorThemes, config) {
-  if (typeof colorThemes[config.colorTheme] === 'object') {
-    return colorThemes[config.colorTheme];
+function getTheme(colorThemes, colorTheme) {
+  if (typeof colorThemes[colorTheme] === 'object') {
+    return colorThemes[colorTheme];
   }
+  // if no theme defined, use urlSelectors
+  let hostnameMatch = '';
+  let pathnameMatch = '';
+  let hostandpathnameMatch = '';
+
+  const locationURL = new URL(location.href);
+  const hostname = locationURL.hostname;
+  const pathname = location.pathname;
+
+  for (let item in colorThemes) {
+    const hostnameSelector = colorThemes[item].hostnameSelector;
+    const pathnameSelector = colorThemes[item].pathnameSelector;
+    let hostnameFlag = false; 
+    let pathnameFlag = false; 
+
+
+    if (hostnameSelector) {
+      if (hostname.indexOf(hostnameSelector) >= 0) {
+        if (!hostnameMatch || 
+            (colorThemes[hostnameMatch].hostnameSelector.length < hostnameSelector.length)) {
+          hostnameMatch = item;
+          hostnameFlag = true; 
+          pathnameMatch = '';
+        }
+        else {
+          // if the same hostname is used in another theme, set the hostnameFlas in case the pathname
+          // matches
+          if (colorThemes[hostnameMatch].hostnameSelector.length === hostnameSelector.length) {
+            hostnameFlag = true;
+          }
+        }
+      }
+    }
+
+    if (pathnameSelector) {
+      if (pathname.indexOf(pathnameSelector) >= 0) {
+        if (!pathnameMatch || 
+            (colorThemes[pathnameMatch].pathnameSelector.length < pathnameSelector.length)) {
+          pathnameMatch = item;
+          pathnameFlag = true; 
+        }
+      }
+    }
+
+    if (hostnameFlag && pathnameFlag) {
+      hostandpathnameMatch = item;
+    }
+  }
+
+  if (hostandpathnameMatch) {
+    return colorThemes[hostandpathnameMatch];      
+  }
+  else {
+    if (hostnameMatch) {
+      return colorThemes[hostnameMatch];      
+    } else {
+      if (pathnameMatch) {
+        return colorThemes[pathnameMatch];      
+      }
+    }
+  }
+
+  // if no other theme is found use default theme
   return colorThemes['default'];
 }
 
@@ -393,7 +468,13 @@ function updateStyle(stylePlaceholder, value, defaultValue) {
  *   @returns 
  */
 function addCSSColors (colorThemes, config) {
-  const theme = getTheme(colorThemes, config);
+  const theme = getTheme(colorThemes, config.colorTheme);
+
+  // Check for display option in theme
+  if ((typeof theme.displayOption === 'string') && 
+      ('fixed popup static'.indexOf(theme.displayOption.toLowerCase())>= 0)) {
+    config.displayOption = theme.displayOption;
+  }
 
   updateStyle('$fontFamily', config.fontFamily, theme.fontFamily);
   updateStyle('$fontSize', config.fontSize, theme.fontSize);
@@ -2064,7 +2145,7 @@ class SkiptoMenuButton {
     }
 
     /*
-     * @method openPopup
+     * @method getIndexFirstChars
      *
      * @desc
      *
@@ -2341,7 +2422,7 @@ class SkiptoMenuButton {
       altShortcut: '0', // default shortcut key is the number zero
       optionShortcut: 'º', // default shortcut key character associated with option+0 on mac 
       attachElement: 'header',
-      displayOption: 'static', // options: static (default), popup
+      displayOption: 'static', // options: static (default), popup, fixed
       // container element, use containerClass for custom styling
       containerElement: 'div',
       containerRole: '',
@@ -2379,7 +2460,7 @@ class SkiptoMenuButton {
       colorTheme: '',
       fontFamily: '',
       fontSize: '',
-      positionLeft: '',
+      positionLeft: '46%',
       mediaBreakPoint: '540',
       menuTextColor: '',
       menuBackgroundColor: '',
@@ -2411,7 +2492,6 @@ class SkiptoMenuButton {
       'default': {
         fontFamily: 'inherit',
         fontSize: 'inherit',
-        positionLeft: '46%',
         menuTextColor: '#1a1a1a',
         menuBackgroundColor: '#dcdcdc',
         menuitemFocusTextColor: '#eeeeee',
@@ -2421,6 +2501,8 @@ class SkiptoMenuButton {
         buttonBackgroundColor: '#eeeeee',
       },
       'aria': {
+        hostnameSelector: 'w3.org',
+        pathnameSelector: 'ARIA/apg',
         fontFamily: 'sans-serif',
         fontSize: '10pt',
         positionLeft: '7%',
@@ -2433,9 +2515,7 @@ class SkiptoMenuButton {
         buttonBackgroundColor: '#ddd',
       },
       'illinois': {
-        fontFamily: 'inherit',
-        fontSize: 'inherit',
-        positionLeft: '46%',
+        hostnameSelector: 'illinois.edu',
         menuTextColor: '#00132c',
         menuBackgroundColor: '#cad9ef',
         menuitemFocusTextColor: '#eeeeee',
@@ -2443,6 +2523,36 @@ class SkiptoMenuButton {
         focusBorderColor: '#ff552e',
         buttonTextColor: '#444444',
         buttonBackgroundColor: '#dddede',
+      },
+      'uic': {
+        hostnameSelector: 'uic.edu',
+        menuTextColor: '#001e62',
+        menuBackgroundColor: '#f8f8f8',
+        menuitemFocusTextColor: '#ffffff',
+        menuitemFocusBackgroundColor: '#001e62',
+        focusBorderColor: '#d50032',
+        buttonTextColor: '#ffffff',
+        buttonBackgroundColor: '#001e62',
+      },
+      'uillinois': {
+        hostnameSelector: 'uillinois.edu',
+        menuTextColor: '#001e62',
+        menuBackgroundColor: '#e8e9ea',
+        menuitemFocusTextColor: '#f8f8f8',
+        menuitemFocusBackgroundColor: '#13294b',
+        focusBorderColor: '#dd3403',
+        buttonTextColor: '#e8e9ea',
+        buttonBackgroundColor: '#13294b',
+      },
+      'uis': {
+        hostnameSelector: 'uis.edu',
+        menuTextColor: '#036',
+        menuBackgroundColor: '#fff',
+        menuitemFocusTextColor: '#fff',
+        menuitemFocusBackgroundColor: '#036',
+        focusBorderColor: '#dd3444',
+        buttonTextColor: '#fff',
+        buttonBackgroundColor: '#036',
       }
     },
 
