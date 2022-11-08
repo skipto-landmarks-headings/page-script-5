@@ -35,7 +35,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       // Customization of button and menu
       altShortcut: '0', // default shortcut key is the number zero
       optionShortcut: 'º', // default shortcut key character associated with option+0 on mac 
-      attachElement: 'header',
+      attachElement: 'body',
       displayOption: 'static', // options: static (default), popup, fixed
       // container element, use containerClass for custom styling
       containerElement: 'div',
@@ -72,8 +72,8 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
 
       // Custom CSS position and colors
       colorTheme: '',
-      fontFamily: '',
-      fontSize: '',
+      fontFamily: 'inherit',
+      fontSize: 'inherit',
       positionLeft: '46%',
       mediaBreakPoint: '540',
       menuTextColor: '',
@@ -83,6 +83,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       focusBorderColor: '',
       buttonTextColor: '',
       buttonBackgroundColor: '',
+      zIndex: '100000',
 
       // Deprecated configuration options, that are ignored during initialization
       // These are included for compatibility with older configuration objects

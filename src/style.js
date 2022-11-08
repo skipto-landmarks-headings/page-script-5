@@ -40,6 +40,7 @@ nav#id-skip-to.popup:hover {
   border: none;
   margin-bottom: 4px;
   transition: left 1s ease;
+  z-index: $zIndex !important;
 }
 
 nav#id-skip-to button {
@@ -55,15 +56,8 @@ nav#id-skip-to button {
   z-index: 100000 !important;
   font-family: $fontFamily;
   font-size: $fontSize;
+  z-index: $zIndex !important;
 }
-
-@media screen and (max-width: $mediaBreakPointpx) {
-  nav#id-skip-to,
-  nav#id-skip-to.popup.focus {
-    left: 24px;
-    transition: left 1s ease;
-  }
-}  
 
 @media screen and (max-width: $mediaBreakPointpx) {
   nav#id-skip-to button img {
@@ -95,8 +89,8 @@ nav#id-skip-to [role="menu"] {
   border-style: solid;
   border-color: $focusBorderColor;
   border-radius: 5px;
-  z-index: 100000 !important;
   overflow-x: hidden;
+  z-index: $zIndex !important;
 }
 
 nav#id-skip-to [role="group"] {
@@ -116,12 +110,12 @@ nav#id-skip-to [role="menuitem"] {
   border-style: solid;
   color: $menuTextColor;
   background-color: $menuBackgroundColor;
-  z-index: 100000 !important;
   display: grid;
   overflow-y: clip;
   grid-template-columns: repeat(6, 1.2rem) 1fr;
   grid-column-gap: 2px;
   font-size: 1em;
+  z-index: $zIndex !important;  
 }
 
 nav#id-skip-to [role="menuitem"] .level,
@@ -202,7 +196,7 @@ nav#id-skip-to [role="separator"] {
   border-bottom-color: $menuTextColor;
   background-color: $menuBackgroundColor;
   color: $menuTextColor;
-  z-index: 100000 !important;
+  z-index: $zIndex !important;
 }
 
 nav#id-skip-to [role="separator"] .mofn {
@@ -405,6 +399,9 @@ function addCSSColors (colorThemes, config) {
 
   updateStyle('$buttonTextColor', config.buttonTextColor, theme.buttonTextColor);
   updateStyle('$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor);
+
+  updateStyle('$zIndex', config.zIndex, theme.zIndex);
+
 }
 
 /*
