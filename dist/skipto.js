@@ -2424,7 +2424,7 @@ class SkiptoMenuButton {
 
       // Menu labels and messages
       menuLabel: 'Landmarks and Headings',
-      landmarkGroupLabel: 'Landmarks',
+      landmarkGroupLabel: 'Landmark Regions',
       headingGroupLabel: 'Headings',
       headingLevelLabel: 'Heading level',
       mainLabel: 'main',

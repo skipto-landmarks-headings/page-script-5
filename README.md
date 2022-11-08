@@ -5,7 +5,9 @@
 See the [Authors](#authors) section for more information.
 
 SkipTo is a replacement for your old classic "Skip To Main Content" link, (so please use it as such)!
-The SkipTo script creates a drop-down menu consisting of the links to important landmarks and headings on a given web page identified by the author. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.  
+The SkipTo creates a drop-down menu consisting of the links to important landmarks and headings on a given web page identified by the author. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.  
+
+** NOTE: ** SkipTo 5 is a total rewrite of [SkipTo 4](https://github.com/paypal/skipto) to support custom web compontents and solidify SkipTo 5 to promote the proper understanding and of headings and landmark regions for imoproving accessibility.  The SkipTo 5 code is a new code base to support Javascript Modules for improved development and maintenance of SkipTo feartures.
 
 ### Benefits
 
@@ -41,11 +43,10 @@ NOTE: Popup menu button option is available through configuration of SkipTo when
 1. The SkipTo menu button should be the first tabable element on the page, and by default the button is visible, but can be configured to "popup" when the button becomes receives focus.
 2. Once the keyboard focus is on the menu button, pressing the ENTER, SPACE, DOWN ARROW or UP ARROW keys will pull down the list of important landmarks and headings on the page.  The button is based on the ARIA Authoring Practice [design pattern for menu button](https://w3c.github.io/aria-practices/#menubutton).
 3. Use arrow keys to select your choice and press ENTER to move focus to the section of the page.
-4. If you decide to reach the menu again, simply press the built-in access key (0 by default). See the notes on [Access keys](#access-keys) for More information on how to use them.
 
 ## Shortcut key
 
-A shortcut key can be used to open the SKipTo menu from anywhere on the page.  Version 4.2 changes the shortcut key operation from using the HTML `accesskey` attribute to use a scripted method to improve consistency of the accesskey between broswers and support screen reader users.  Some screen readers do not support the use of accesskeys. For example, to use the "SkipTo" shortcut key, you would press either `alt + 0` (Windows/Unix/Linux) or `Option + 0` (macOS).  macOS does not have an `Alt` key, so the `Option` key is used as the modifier.  The access keys are the same for Firefox, Chrome and Safari on the same operating system.
+A shortcut key can be used to open the SKipTo menu from anywhere on the page.  Version 5 changes the shortcut key operation from using the HTML `accesskey` attribute to use a scripted method to improve consistency of the accesskey between broswers and support screen reader users.  Some screen readers do not support the use of accesskeys. For example, to use the "SkipTo" shortcut key, you would press either `alt + 0` (Windows/Unix/Linux) or `Option + 0` (macOS).  macOS does not have an `Alt` key, so the `Option` key is used as the modifier.  The access keys are the same for Firefox, Chrome and Safari on the same operating system.
 
 
 * `Alt+0` : Windows, Unix and Linux.
@@ -99,7 +100,7 @@ The following options are useful for identify where the menu will be in the DOM 
 | Property       | default     | Description |
 | :------------- | :---------- | :---------- |
 | `displayOption` | 'static' | Values of `static`, `fixed` or `popup` are defined.  The value `static` the button is always visible, the value `fixed` the button is always visible at the top of the page even when the page scrolls, and the value `popup` is used the button is initially not visible, but becomes visible when it receives focus. |
-| `attachElement` | 'header' | A CSS selector for identifying which element to attach the menu button container.  If the `header` element is not present, it will use the `body` element as the default.|
+| `attachElement` | 'body' | A CSS selector for identifying which element to attach the menu button container. |
 | `customClass` | none | CSS class added to the container `div` element. Can be used for customize styling of the button and menu with author supplied stylesheet. |
 | `altShortcut`    | '0'      | Shortcut character for Windows/Linux/Unix when the alt key is pressed to open the menu. | 
 | `optionShortcut` | 'º'      | Shortcut character for macOS when the option key is pressed to open the menu. |
@@ -120,7 +121,7 @@ The following options are useful for identify where the menu will be in the DOM 
 
 ### Identifying Landmarks and Headings for the menu
 
-The `landmarks` and 'headings' options are a space separted list of tag and landmark names to identify the important landmarks and headings on the page for the purpose of keyboard navigation.  The list of landmarks and headings should be **relatively short**, the more items the menu contains the more time the user will need to scan and navigate to the section they want to "skip to".
+The `landmarks` and 'headings' options are a space separted list of tag and landmark region names to identify the important landmark regions and headings on the page for the purpose of keyboard navigation.  The list of landmarks and headings should be **relatively short**, the more items the menu contains the more time the user will need to scan and navigate to the section they want to "skip to".  The values are considered tokens to maximize compatibility with version 4 CSS selectors for these properties.
 
 The options are of type `string`.
 
@@ -131,11 +132,21 @@ The options are of type `string`.
 
 ### Color Theme Options
 
-A color theme sets all the color options defined by the theme.  There is only one theme at this time.
+A color theme sets all the color options defined by the theme. 
 
 | Property       | Type   | Default | Description |
 | :------------- | :----- | :------ | :---------- |
-| `colorTheme` | string | `default`  | A predefined color scheme for skipTo, currently values 'default', 'illinois' and 'aria'|
+| `colorTheme` | string | `default`  | A predefined color scheme for skipTo|
+
+Current Color Theme Values:
+
+* 'aria' : Used in ARIA Authoring practices
+* 'illinois': Used by the University of Illinois at Champaign/Urbana
+* 'uic' : Used by the University of Illinois at Chicago
+* 'uillinois' : Used by the University of Illinois Administration
+* 'uis' : Used by the University of Illinois at Springfield
+
+* If you would like a them added for your organization, please file an [issue](./issues) with the desired colors
 
 ### Colors used for Button and Menu styling
 
@@ -179,7 +190,7 @@ The labels and messages can be localized for specific languages or updated to re
 | Property       | Default | Description |
 | :------------- | :------ |:---------- |
 | `menuLabel` | 'Landmarks and Headings' | Change the label for the menu. |
-| `landmarkGroupLabel` | 'Landmarks' | Menu group label for landmarks . |
+| `landmarkGroupLabel` | 'Landmark Regions' | Menu group label for landmarks . |
 | `headingGroupLabel` | 'Headings' | Menu group label for headings. |
 | `mofnGroupLabel` | '$m of $n' | Provides information on the number of items that are displayed and the total number of items in the document.  The information is added to the landmark and heading group labels. |
 | `headingLevelLabel` | 'Heading level' | Used for `aria-label` to improve labeling of heading menu items for screen reader users. |
@@ -193,7 +204,7 @@ The labels and messages can be localized for specific languages or updated to re
 | `msgNoLandmarksFound` | 'No landmarks to skip to'| Message for when no landmarks are found. |
 | `msgNoHeadingsFound` | 'No main headings to skip to'| Message for when no headings are found. |
 
-#### Deprecated Configuration Properties
+#### Deprecated Configuration Properties from Version 4
 
 The following properties were deprecated from previous versions of SkipTo and will be ignored if defined.
 
@@ -382,9 +393,9 @@ Happy skipping!
 ## Version History
 
 ### Version 5.1.0
-* Supports including landmarks and headings in custom web components
-* Makes the skipto container element a navigation landmark with an accessible name
-* Deprecates the `containerElement` and `containerRole` configuration options
+* Supports including landmark regions and headings in custom web components
+* Makes the skipto container element a navigation landmark region with an accessible name
+* Deprecates the `containerElement` and `containerRole` configuration options (e.g. uses "nav" element)
 * Reorganizes the code into modules for imporved development and readability
 * Switch from using `grunt` to `gulp` for building release files
 * Updated accessible name calculation
