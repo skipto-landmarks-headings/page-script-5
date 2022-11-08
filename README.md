@@ -7,7 +7,7 @@ See the [Authors](#authors) section for more information.
 SkipTo is a replacement for your old classic "Skip To Main Content" link, (so please use it as such)!
 The SkipTo creates a drop-down menu consisting of the links to important landmarks and headings on a given web page identified by the author. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.  
 
-NOTE:* SkipTo 5 is a total rewrite of [SkipTo 4](https://github.com/paypal/skipto) to support custom web compontents and solidify SkipTo 5 to promote the proper understanding and of headings and landmark regions for imoproving accessibility.  The SkipTo 5 code is a new code base to support Javascript Modules for improved development and maintenance of SkipTo feartures.
+**NOTE:** SkipTo 5 is a total rewrite of [SkipTo 4](https://github.com/paypal/skipto) to support custom web compontents and solidify SkipTo 5 to promote the proper understanding and of headings and landmark regions for imoproving accessibility.  The SkipTo 5 code is a new code base to support Javascript Modules for improved development and maintenance of SkipTo feartures.
 
 ### Benefits
 
