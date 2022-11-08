@@ -1,6 +1,4 @@
-Copyright (c) 2022 (ver 5.x), Jon Gunderson
-
-Copyright (c) 2021 (ver 4.x), University of Illinois and PayPal
+Copyright (c) 2022 (ver 5.x), Jon Gunderson, University of Illinois and PayPal
 
 All rights reserved.
 
