@@ -2,15 +2,27 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Basic styling| SkipTo Menu Example Page</title>
+    <title> Custom elements, classes and selectors | SkipTo Menu Example Page</title>
     <link href="skipTo.css" rel="stylesheet"/>
-    <script type="text/javascript" src="../downloads/js/skipto.js"></script>
+    <script type="text/javascript" src="../dist/skipto.js"></script>
     <script>
         var SkipToConfig =  {
             'settings': {
                 'skipTo': {
+                    containerElement: 'p',
+                    landmarks: 'main, [role="main"], [role="search"], nav, [role="navigation"]',
+                    headings: 'h1, h2',
+                    customClass: 'test',
+                    enableMofN: true,
                     enableActions: false,
-                    enableHeadingLevelShortcuts: false,
+                    positionLeft: '210px',
+                    menuTextColor: '#eee',
+                    menuBackgroundColor: 'rgb(72, 118, 71)',
+                    menuitemFocusTextColor: '#fff',
+                    menuitemFocusBackgroundColor: 'rgb(110, 57, 63)',
+                    focusBorderColor: 'rgb(255, 212, 0)',
+                    buttonTextColor: '#ddd',
+                    buttonBackgroundColor: 'rgb(72, 118, 71)',
                 }
             }
         };
@@ -19,7 +31,7 @@
 <body>
     <header role="banner">
         <hgroup>
-            <h1>SkipTo Menu Example: Basic Styling</h1>
+            <h1>SkipTo Menu Example: Custom elements, classes and selectors</h1>
         </hgroup>
     </header>
     <nav aria-labelledby="id-test-pages-label">
@@ -28,8 +40,8 @@
             <li><a href="skipTo.html">Default</a></li>
             <li><a href="skipTo-illinois.html">Default: Illinois styling</a></li>
             <li><a href="skipTo-aria.html">Default: ARIA styling</a></li>
-            <li><a href="skipTo-basic.html" aria-current="page">Basic: No Actions and no heading level shortcuts</a></li>
-            <li><a href="skipTo-custom.html">Custom elements, classes and selectors</a></li>
+            <li><a href="skipTo-basic.html">Basic: No Actions and no heading level shortcuts</a></li>
+            <li><a href="skipTo-custom.html" aria-current="page">Custom elements, classes and selectors</a></li>
             <li><a href="skipTo-no-landmarks.html">No landmarks or headings</a></li>
             <li><a href="skipTo-no-additional.html">Selected and all landmarks or headings are the same</a></li>
             <li><a href="skipTo-onfocus.html">Popup Menu Button</a></li>
@@ -190,4 +202,5 @@
         Copyright &copy; 2013
       </div>
     </footer>
+</body>
 </html>

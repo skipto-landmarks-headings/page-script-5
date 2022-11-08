@@ -1,7 +1,7 @@
 {
   "name": "skipto",
   "description": "This plugin provides a dynamically-generated drop-down menu that allows keyboard and screen reader users to quickly skip to the most important places on the webpage.",
-  "version": "5.0.1",
+  "version": "5.1.0",
   "keywords": [
     "accessibility",
     "Navigation",
@@ -23,25 +23,24 @@
     "node": ">=6"
   },
   "devDependencies": {
-    "grunt": "^1.0.4",
-    "grunt-contrib-clean": "~2.0.0",
-    "grunt-contrib-concat": "~1.0.1",
-    "grunt-contrib-cssmin": "^3.0.0",
-    "grunt-contrib-jshint": "~2.1.0",
-    "grunt-contrib-less": "~2.0.0",
-    "grunt-contrib-uglify": "~4.0.1",
-    "grunt-replace": "^2.0.2",
     "uglify-js": "~2.8.0"
   },
   "readmeFilename": "README.md",
   "gitHead": "641457dfeea57fbedfba5ba2a65ce0c33ac411b7",
   "main": "Gruntfile.js",
   "directories": {
-    "example": "example",
-    "test": "test"
+    "example": "example"
   },
   "scripts": {
     "test": "grunt test"
   },
-  "license": "BSD"
+  "license": "BSD",
+  "dependencies": {
+    "eslint": "^8.24.0",
+    "gulp": "^4.0.2",
+    "gulp-eslint": "^6.0.0",
+    "gulp-minify": "^3.1.0",
+    "rollup": "^2.79.1",
+    "stream": "^0.0.2"
+  }
 }

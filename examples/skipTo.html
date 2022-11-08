@@ -2,29 +2,22 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Fonts: SkipTo Menu Example Page</title>
-    <link href="skipTo.css" rel="stylesheet"/>
-    <script type="text/javascript" src="../downloads/js/skipto.js"></script>
-    <script>
-        var SkipToConfig =  {
-            'settings': {
-                'skipTo': {
-                    fontSize: '8pt',
-                    fontFamily: 'monospace'
-                }
-            }
-        };
-    </script></head>
+    <title>Defaults: SkipTo Menu Example Page</title>
+    <link href="./skipTo.css" rel="stylesheet"/>
+    <script src="../dist/skipto.js"></script>
+    <script src="./webComponentStructure.js"></script>
+</head>
 <body>
     <header role="banner">
         <hgroup>
-            <h1>SkipTo Menu Example: Fonts</h1>
+            <h1>SkipTo Menu Example: Defaults</h1>
         </hgroup>
+        <div>Test</div>
     </header>
     <nav aria-labelledby="id-test-pages-label">
         <h2 id="id-test-pages-label">SkipTo Test Pages</h2>
         <ul>
-            <li><a href="skipTo.html">Default</a></li>
+            <li><a href="skipTo.html" aria-current="page">Default</a></li>
             <li><a href="skipTo-illinois.html">Default: Illinois styling</a></li>
             <li><a href="skipTo-aria.html">Default: ARIA styling</a></li>
             <li><a href="skipTo-basic.html">Basic: No Actions and no heading level shortcuts</a></li>
@@ -33,9 +26,8 @@
             <li><a href="skipTo-no-additional.html">Selected and all landmarks or headings are the same</a></li>
             <li><a href="skipTo-onfocus.html">Popup Menu Button</a></li>
             <li><a href="skipTo-fixed.html">Fixed Menu Button</a></li>
-            <li><a href="skipTo-button-title.html">Test Deprecated Title Feature</a></li>
             <li><a href="skipTo-region-no-name.html">Regions with no accessible name</a></li>
-            <li><a href="skipTo-fonts.html" aria-current="page">Setting font size and family in configuration</a></li>
+            <li><a href="skipTo-button-title.html">Test Deprecated Title Feature</a></li>
         </ul>
     </nav>
     <div role="search">
@@ -47,6 +39,7 @@
         <label>Search<input type="text"/></label>
     </div>
     <nav aria-label="Quick Links">
+        <div hidden><a href="#link1">Hidden link 1</a></div>
         <ul>
             <li><a href="#link1">Quick link 1</a></li>
             <li><a href="#link2">Quick link 2</a></li>
@@ -56,10 +49,22 @@
         </ul>
     </nav>
     <section role="main">
+        <header hidden>
+            <h1>Hidden h1 for testing</h1>
+        </header>
         <h1>Example Content</h1>
+        
+        <structure-webcomponent>
+            <h1 slot="main-title">Test Title</h1>
+            <span slot="section-1-title">Section 1.1: Web Component</span>
+            <span slot="section-2-title">Section 1.2: Web Component</span>
+        </structure-webcomponent>
+        
+        <structure-webcomponent></structure-webcomponent>
+
         <article>
             <header>
-                <h2>Pastrami</h2>
+                <h2>Pastrami <span hidden aria-hidden="false">Visible</span></h2>
             </header>
             <section>
                 Boudin pastrami cow ham leberkas doner ground round pork. Turducken swine bresaola, flank kielbasa ground round beef ribs chuck meatball shoulder tail leberkas biltong pastrami andouille. Drumstick jowl brisket ribeye ham jerky shank cow bacon. Ham swine chuck, ball tip frankfurter meatball short loin bacon andouille ribeye beef ribs shoulder tail spare ribs bresaola. Swine meatball leberkas bacon. Beef ribs short loin pork belly meatloaf pastrami bacon pig andouille ham jowl pork chop shoulder jerky ribeye. Meatball doner t-bone strip steak tail biltong ham hock, shank jowl.
@@ -75,7 +80,7 @@
         </article>
         <article>
             <header>
-                <h2>Turkey</h2>
+                <h2>Turkey <span style="display: none">(AAA Hidden)</span><span style="visibility: hidden">(BBB Hidden)<span aria-hidden="false">(CCC Show)</span></span><span hidden>(DDD Hidden)<span aria-hidden="false">(FFF Show) <span hidden>(GGG Hidden)</span></span></span></h2>
             </header>
             <section>
                 Turkey tri-tip sirloin tail hamburger, pancetta prosciutto pork chop pork tongue. Salami drumstick bacon jerky, pork sausage ham prosciutto capicola pancetta beef ribs fatback. Bresaola andouille sirloin, fatback beef ribs shoulder leberkas tongue. Shankle shank turducken, flank jerky leberkas strip steak chuck pancetta tail venison pork belly meatball.
@@ -90,7 +95,8 @@
             </section>
         </article>
         <article>
-            <header>
+            <header style="display: none">
+                <h2 >Hidden Ribeye</h2>
                 <h2>Ribeye</h2>
             </header>
             <section>
@@ -100,6 +106,7 @@
         </article>
         <article>
             <header>
+                <h2 style="visibility: hidden">Hidden Beef Chuck</h2>
                 <h2>Beef Chuck</h2>
             </header>
             <section>
@@ -121,7 +128,7 @@
 
 
     <main aria-labelledby="id2">
-        <h1 id="id2">Main using <code>main</code> element and hidden headings</h1>
+        <h1 id="id2" hidden>Main using <code>main</code> element and hidden headings</h1>
         <article>
             <header>
                 <h2 role="presentation">More Pastrami</h2>
