@@ -201,8 +201,6 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       renderStyleElement(this.colorThemes, this.config, this.skipToId);
 
       new SkiptoMenuButton(attachElement, this.config);
-
-
     },
 
     /*
