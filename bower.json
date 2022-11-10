@@ -6,7 +6,7 @@
     "Jon Gunderson, DRES Accessible IT Group at the University of Illinois and PayPal Accessibility Team"
   ],
   "description": "This plugin provides a dynamically-generated drop-down menu that allows keyboard and screen reader users to skip to the most important places on the webpage.",
-  "main": "downloads/js/skipto.js",
+  "main": "dist/skipto.js",
   "keywords": [
     "accessibility",
     "Navigation",

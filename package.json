@@ -38,6 +38,7 @@
   "dependencies": {
     "eslint": "^8.24.0",
     "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
     "gulp-eslint": "^6.0.0",
     "gulp-minify": "^3.1.0",
     "rollup": "^2.79.1",

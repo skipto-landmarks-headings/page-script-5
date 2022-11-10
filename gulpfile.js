@@ -5,6 +5,8 @@ const {src, dest, task}  = require('gulp');
 const {parallel, series}   = require('gulp');
 const eslint       = require('gulp-eslint');
 const minify       = require("gulp-minify");
+const concat       = require("gulp-concat");
+
  
 gulp.task('linting', () => {
     return src(['src/*.js'])
@@ -33,7 +35,8 @@ gulp.task('build', () => {
 });
 
 
-// output to downloads directory is to support 
+// output to downloads directory is to support previous versions of
+// SkipTo that used downloads/js directory
 
  gulp.task('compress', () => {
     return src('./dist/skipto.js', { allowEmpty: true }) 
@@ -48,8 +51,33 @@ gulp.task('build', () => {
         .pipe(dest('./downloads/js'))        
 });
 
-const linting  = task('linting');
-const build    = task('build');
-const compress = task('compress');
+// Add copyright information to skipto
 
-exports.default = series(linting, build, compress);
+ gulp.task('copyright', () => {
+  return src([
+    'src/copyright.js',
+    'dist/skipto.js',
+  ])
+    .pipe(concat('skipto.js'))
+    .pipe(dest('./dist')) 
+    .pipe(dest('./downloads/js'));     
+});
+
+ gulp.task('copyrightMin', () => {
+  return src([
+    'src/copyright.js',
+    'dist/skipto.min.js',
+  ])
+    .pipe(concat('skipto.min.js'))
+    .pipe(dest('./dist')) 
+    .pipe(dest('./downloads/js'));     
+});
+
+
+const linting      = task('linting');
+const build        = task('build');
+const compress     = task('compress');
+const copyright    = task('copyright');
+const copyrightMin = task('copyrightMin');
+
+exports.default = series(linting, build, compress, copyright, copyrightMin);
