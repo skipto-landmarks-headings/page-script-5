@@ -345,9 +345,9 @@ function findVisibleElement (startingNode, tagNames) {
 /*
  *   @function skipToElement
  *
- *   @desc
+ *   @desc 
  *
- *   @param
+ *   @param 
  *
  *   @returns 
  */ 
@@ -418,7 +418,7 @@ function getHeadingTargets(targets) {
  *
  *   @param
  *
- *   @returns {Boolean}  see @desc
+ *   @returns see @desc
  */ 
 function isMain (element) {
   const tagName = element.tagName.toLowerCase();
@@ -427,7 +427,7 @@ function isMain (element) {
 }
 
 /*
- *   @function 
+ *   @function queryDOMForLandmarksAndHeadings
  *
  *   @desc
  *
@@ -500,7 +500,7 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
 
   // If no elements found when onlyInMain is set, try 
   // to find any headings
-  if (headingInfo.length === 0 && onlyInMain) {
+  if ((headingInfo.length === 0) && onlyInMain) {
     onlyInMain = false;
     transverseDOM(document.body, document);
   }
@@ -511,11 +511,12 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
 /*
  * @function getLandmarksAndHeadings
  *
- * @desc 
+ * @desc Returns two arrays of of DOM node elements with, one for landmark regions 
+ *       the other for headings
  *
- * @param {Object} config - 
+ * @param {Object} config  - Object with configuration information
  *
- * @return {Array} 
+ * @return see @desc
  */
 
 function getLandmarksAndHeadings (config) {
@@ -536,7 +537,16 @@ function getLandmarksAndHeadings (config) {
   return [getLandmarks(config, landmarks), getHeadings(config, headings)];
 }
 
-
+/*
+ * @function getHeadings
+ *
+ * @desc Returns an array of heading menu elements
+ *
+ * @param {Object} config  - Object with configuration information
+ * @param {Object} headings - Array of dome node elements that are headings
+ *
+ * @returns see @desc
+ */
 function getHeadings (config, headings) {
   let dataId, level;
   let headingElementsArr = [];

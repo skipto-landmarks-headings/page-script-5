@@ -1,13 +1,11 @@
 /* ========================================================================
-* Copyright (c) <2022> (ver 5.x) Jon Gunderson, University of Illinois and PayPal
+* Copyright (c) <2022> (ver 5.1) Jon Gunderson, University of Illinois and PayPal
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 * Neither the name of PayPal or any of its subsidiaries or affiliates, nor the name of the University of Illinois, nor the names of any other contributors contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-* 
-* Source Code: https://github.com/skipto-landmarks-headings/page-script-5
 * ======================================================================== */
 
 /*
@@ -1270,9 +1268,9 @@ function findVisibleElement (startingNode, tagNames) {
 /*
  *   @function skipToElement
  *
- *   @desc
+ *   @desc 
  *
- *   @param
+ *   @param 
  *
  *   @returns 
  */ 
@@ -1343,7 +1341,7 @@ function getHeadingTargets(targets) {
  *
  *   @param
  *
- *   @returns {Boolean}  see @desc
+ *   @returns see @desc
  */ 
 function isMain (element) {
   const tagName = element.tagName.toLowerCase();
@@ -1352,7 +1350,7 @@ function isMain (element) {
 }
 
 /*
- *   @function 
+ *   @function queryDOMForLandmarksAndHeadings
  *
  *   @desc
  *
@@ -1425,7 +1423,7 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
 
   // If no elements found when onlyInMain is set, try 
   // to find any headings
-  if (headingInfo.length === 0 && onlyInMain) {
+  if ((headingInfo.length === 0) && onlyInMain) {
     onlyInMain = false;
     transverseDOM(document.body, document);
   }
@@ -1436,11 +1434,12 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
 /*
  * @function getLandmarksAndHeadings
  *
- * @desc 
+ * @desc Returns two arrays of of DOM node elements with, one for landmark regions 
+ *       the other for headings
  *
- * @param {Object} config - 
+ * @param {Object} config  - Object with configuration information
  *
- * @return {Array} 
+ * @return see @desc
  */
 
 function getLandmarksAndHeadings (config) {
@@ -1461,7 +1460,16 @@ function getLandmarksAndHeadings (config) {
   return [getLandmarks(config, landmarks), getHeadings(config, headings)];
 }
 
-
+/*
+ * @function getHeadings
+ *
+ * @desc Returns an array of heading menu elements
+ *
+ * @param {Object} config  - Object with configuration information
+ * @param {Object} headings - Array of dome node elements that are headings
+ *
+ * @returns see @desc
+ */
 function getHeadings (config, headings) {
   let dataId, level;
   let headingElementsArr = [];

@@ -1,3 +1,4 @@
+
 <img src="./images/skipto-128.png" alt="SkipTo logo"/>
 
 # skipto@5.1 Page Script
@@ -357,7 +358,7 @@ gulp
 1. You should now have a directory called **`dist`** with the necessary files in it.
 1. See instructions above on which files you need to get the SkipTo script running on your web site.
 
-## Of course, we want feedback
+## Of course, we want feedback 
 
 Please do not hesitate to [raise issues and comment on Github](https://github.com/skipto-landmarks-headings/page-script-5/issues) if something doesn't work or you have ideas on how to improve the script.
 

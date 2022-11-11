@@ -1,4 +1,4 @@
-Copyright (c) 2022 (ver 5.x), Jon Gunderson, University of Illinois and PayPal
+Copyright (c) 2022 (ver 5.1), Jon Gunderson, University of Illinois and PayPal
 
 All rights reserved.
 
@@ -12,7 +12,7 @@ are permitted provided that the following conditions are met:
   list of conditions and the following disclaimer in the documentation and/or
   other materials provided with the distribution.
 
-* Neither the name of the PayPal, University of Illinois, Jon Gunderson or Matt King
+* Neither the name of the PayPal, University of Illinois, or Jon Gunderson 
   nor the names of its other contributors may be used to endorse or promote products 
   derived from this software without specific prior written permission.
 
