@@ -1066,7 +1066,9 @@ function isSlotElement(node) {
 *         elements with default landmark roles or is the descendant
 *         of an element with a defined landmark role
 *
-*   @param  {Object}  node        - Element node from a berowser DOM
+*   @param  {Object}  node  - Element node from a berowser DOM
+* 
+*   @reutrn {Boolean} Returns true if top level landmark, otherwise false
 */
 
 function isTopLevel (node) {
@@ -1090,7 +1092,8 @@ function isTopLevel (node) {
 /*
  *   @function checkForLandmark
  *
- *   @desc  Tests if the element is an allowed 
+ *   @desc  Re=trns the lamdnark name if a landmark, otherwise an
+ *          empty string
  *
  *   @param  {Object}  element  - DOM element node
  *
@@ -1142,7 +1145,7 @@ function checkForLandmark (element) {
 /**
  * @function queryDOMForSkipToId
  *
- * @desc Returns DOM node associated with the id, if not found returns null
+ * @desc Returns DOM node associated with the id, if id not found returns null
  *
  * @param {String}  targetId  - dom node element to attach button and menu
  * 
@@ -1203,7 +1206,7 @@ function queryDOMForSkipToId (targetId) {
  * @param {node}   startingNode  - dom node to start search for element
  * @param {Array}  tagNames      - Array of tag names
  * 
- * @returns (node} Returns first descendmt element found or startingNode if none found 
+ * @returns (node} Returns first descendmt element, if not found returns false
  */
 function findVisibleElement (startingNode, tagNames) {
 
@@ -1268,11 +1271,9 @@ function findVisibleElement (startingNode, tagNames) {
 /*
  *   @function skipToElement
  *
- *   @desc 
+ *   @desc Moves focus to the element identified by the memu item
  *
- *   @param 
- *
- *   @returns 
+ *   @param {Object}  menutim  -  DOM element in the menu identifying the target element.
  */ 
 function skipToElement(menuitem) {
 
@@ -1318,11 +1319,14 @@ function skipToElement(menuitem) {
 /*
  *   @function getHeadingTargets
  *
- *   @desc
+ *   @desc  Returns an array of heading tag names to include in menu
+ *          NOTE: It uses "includes" method to maximimze compatibility with
+ *          previous versions of SkipTo which used CSS selectors for 
+ *          identifying targets.
  *
- *   @param
+ *   @param {String}  targets  -  A space with the heading tags to inclucde
  *
- *   @returns 
+ *   @returns {Array}  Array of heading element tag names to include in menu
  */ 
 function getHeadingTargets(targets) {
   let targetHeadings = [];
@@ -1337,11 +1341,11 @@ function getHeadingTargets(targets) {
 /*
  *   @function isMain
  *
- *   @desc
+ *   @desc  Returns true if the element is a main landamrk
  *
- *   @param
+ *   @param  {Object}  element  -  DOM element node
  *
- *   @returns see @desc
+ *   @returns {Boolean}  see @desc
  */ 
 function isMain (element) {
   const tagName = element.tagName.toLowerCase();
@@ -1352,11 +1356,13 @@ function isMain (element) {
 /*
  *   @function queryDOMForLandmarksAndHeadings
  *
- *   @desc
+ *   @desc  Recursive function to return two arrays, one an array of the DOM element nodes for 
+ *          landmarks and the other an array of DOM element ndoes for headings  
  *
- *   @param
+ *   @param  {Array}  landamrkTargets  -  An array of strings representing landmark regions
+ *   @param  {Array}   headingTargets  -  An array of strings representing headings
  *
- *   @returns 
+ *   @returns {Array}  @see @desc
  */ 
 function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
   let headingInfo = [];
@@ -1435,7 +1441,8 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
  * @function getLandmarksAndHeadings
  *
  * @desc Returns two arrays of of DOM node elements with, one for landmark regions 
- *       the other for headings
+ *       the other for headings with additional information needed to create
+ *       menuitems
  *
  * @param {Object} config  - Object with configuration information
  *
@@ -1511,7 +1518,7 @@ function getHeadings (config, headings) {
  * @param {String} tagName - String with landamrk and/or tag names
  * @param {String} AccName - Accessible name for therlandmark, maybe an empty string
  *
- * @returns A localized string for a landmark name
+ * @returns {String}  A localized string for a landmark name
  */
 function getLocalizedLandmarkName (config, tagName, accName) {
   let n;
@@ -1556,10 +1563,13 @@ function getLocalizedLandmarkName (config, tagName, accName) {
  * @function getLandmarkTargets
  *
  * @desc Analyzes a configuration string for landamrk and tag names
+ *       NOTE: This function is included to maximize compatibility
+ *             with confiuguration strings that use CSS selectors
+ *             in previous versions of SkipTo
  *
  * @param {String} targets - String with landamrk and/or tag names
  *
- * @returns A normailized array of landmark names based on target configuration 
+ * @returns {Array}  A normailized array of landmark names based on target configuration 
  */
 function getLandmarkTargets (targets) {
   let targetLandmarks = [];
@@ -1596,13 +1606,15 @@ function getLandmarkTargets (targets) {
 /*
  * @function getLandmarks
  *
- * @desc Traverses the DOM, including web compnents, for ARIA a set of landmarks
+ * @desc Returns an array of objects with information to build the 
+ *       the landmarks menu, ordering in the array by the type of landmark
+ *       region 
  *
  * @param {Object} config     - Object with configuration information
  * @param {Array}  landmarks  - Array of objects containing the DOM node and 
  *                              accessible name for landmarks
  *
- * @returns Array of dom nodes that are identified as landmarks
+ * @returns {Array}  see @desc
  */
 function getLandmarks(config, landmarks) {
   let mainElements = [];
@@ -1716,7 +1728,9 @@ debug.flag = false;
  * @desc Constructor for creating a button to open a menu of headings and landmarks on 
  *       a web page
  *
- * @param {node}  attachNode  - dom node element to attach button and menu
+ * @param {Object}  attachNode  - DOM eleemnt node to attach button and menu container element
+ * 
+ * @returns {Object}  DOM element node that is the contatiner for the button and the menu
  */
 class SkiptoMenuButton {
 
@@ -1877,6 +1891,10 @@ class SkiptoMenuButton {
      * @method getFirstChar
      *
      * @desc Gets the first character in a menuitem to use as a shortcut key
+     * 
+     * @param  {Object}  menuitem  - DOM element node
+     *
+     * @returns {String} see @desc
      */
     getFirstChar(menuitem) {
       const label = menuitem.querySelector('.label');
@@ -1889,7 +1907,11 @@ class SkiptoMenuButton {
     /*
      * @method getHeadingLevelFromAttribute
      *
-     * @desc 
+     * @desc Returns the the heading level of the menu item
+     * 
+     * @param  {Object}  menuitem  - DOM element node
+     *
+     * @returns {String} see @desc
      */
     getHeadingLevelFromAttribute(menuitem) {
       if (menuitem.hasAttribute('data-level')) {
@@ -1901,7 +1923,7 @@ class SkiptoMenuButton {
     /*
      * @method updateKeyboardShortCuts
      *
-     * @desc 
+     * @desc Updates the keyboard short cuts for the curent menu items
      */
     updateKeyboardShortCuts () {
       let mi;
@@ -1918,7 +1940,8 @@ class SkiptoMenuButton {
     /*
      * @method updateMenuitems
      *
-     * @desc  
+     * @desc  Updates the menu information with the current manu items
+     *        used for menu navgation commands
      */
     updateMenuitems () {
       let menuitemNodes = this.menuNode.querySelectorAll('[role=menuitem');
@@ -1937,7 +1960,10 @@ class SkiptoMenuButton {
     /*
      * @method renderMenuitemToGroup
      *
-     * @desc 
+     * @desc Renders a menuitem using an information object about the menuitem
+     *
+     * @param  {Object}  groupNode  -  DOM element node for the menu group
+     * @param  {Object}  mi         - object with menuitem information
      */
     renderMenuitemToGroup (groupNode, mi) {
       let tagNode, tagNodeChild, labelNode, nestingNode;
@@ -2004,7 +2030,11 @@ class SkiptoMenuButton {
     /*
      * @method renderMenuitemsToGroup
      *
-     * @desc 
+     * @desc Renders either the landmark region or headings menu group
+     * 
+     * @param  {Object}  groupNode       -  DOM element node for the menu group
+     * @param  {Array}   menuitems       -  Array of objects with menu item information
+     * @param  {String}  msgNoItesmFound -  Message to render if there are no menu items
      */
     renderMenuitemsToGroup(groupNode, menuitems, msgNoItemsFound) {
       groupNode.innerHTML = '';
@@ -2056,9 +2086,9 @@ class SkiptoMenuButton {
     /*
      * @method setFocusToMenuitem
      *
-     * @desc 
+     * @desc Moves focus to menu item
      *
-     * @param {Object}  menuItem  - DOM node used as a menu item
+     * @param {Object}  menuItem  - DOM element node used as a menu item
      */
     setFocusToMenuitem(menuitem) {
       if (menuitem) {
@@ -2066,10 +2096,20 @@ class SkiptoMenuButton {
       }
     }
 
+    /*
+     * @method setFocusToFirstMenuitem
+     *
+     * @desc Moves focus to first menu item
+     */
     setFocusToFirstMenuitem() {
       this.setFocusToMenuitem(this.firstMenuitem);
     }
 
+    /*
+     * @method setFocusToLastMenuitem
+     *
+     * @desc Moves focus to last menu item
+     */
     setFocusToLastMenuitem() {
       this.setFocusToMenuitem(this.lastMenuitem);
     }
@@ -2077,7 +2117,9 @@ class SkiptoMenuButton {
     /*
      * @method setFocusToPreviousMenuitem
      *
-     * @desc 
+     * @desc Moves focus to previous menu item
+     *
+     * @param {Object}  menuItem  - DOM element node 
      */
     setFocusToPreviousMenuitem(menuitem) {
       let newMenuitem, index;
@@ -2094,7 +2136,9 @@ class SkiptoMenuButton {
     /*
      * @method setFocusToNextMenuitem
      *
-     * @desc 
+     * @desc Moves focus to next menu item
+     *
+     * @param {Object}  menuItem  - DOM element node 
      */
     setFocusToNextMenuitem(menuitem) {
       let newMenuitem, index;
@@ -2111,7 +2155,11 @@ class SkiptoMenuButton {
     /*
      * @method setFocusByFirstCharacter
      *
-     * @desc 
+     * @desc Moves focus to next menu item based on shortcut key
+     *
+     * @param {Object}  menuItem  - Starting DOM element node 
+     * @param {String}  char      - Shortcut key to identify the
+     *                              next menu item  
      */
     setFocusByFirstCharacter(menuitem, char) {
       let start, index;

@@ -22,7 +22,9 @@ debug.flag = false;
  * @desc Constructor for creating a button to open a menu of headings and landmarks on 
  *       a web page
  *
- * @param {node}  attachNode  - dom node element to attach button and menu
+ * @param {Object}  attachNode  - DOM eleemnt node to attach button and menu container element
+ * 
+ * @returns {Object}  DOM element node that is the contatiner for the button and the menu
  */
 export default class SkiptoMenuButton {
 
@@ -185,6 +187,10 @@ export default class SkiptoMenuButton {
      * @method getFirstChar
      *
      * @desc Gets the first character in a menuitem to use as a shortcut key
+     * 
+     * @param  {Object}  menuitem  - DOM element node
+     *
+     * @returns {String} see @desc
      */
     getFirstChar(menuitem) {
       const label = menuitem.querySelector('.label');
@@ -197,7 +203,11 @@ export default class SkiptoMenuButton {
     /*
      * @method getHeadingLevelFromAttribute
      *
-     * @desc 
+     * @desc Returns the the heading level of the menu item
+     * 
+     * @param  {Object}  menuitem  - DOM element node
+     *
+     * @returns {String} see @desc
      */
     getHeadingLevelFromAttribute(menuitem) {
       if (menuitem.hasAttribute('data-level')) {
@@ -209,7 +219,7 @@ export default class SkiptoMenuButton {
     /*
      * @method updateKeyboardShortCuts
      *
-     * @desc 
+     * @desc Updates the keyboard short cuts for the curent menu items
      */
     updateKeyboardShortCuts () {
       let mi;
@@ -226,7 +236,8 @@ export default class SkiptoMenuButton {
     /*
      * @method updateMenuitems
      *
-     * @desc  
+     * @desc  Updates the menu information with the current manu items
+     *        used for menu navgation commands
      */
     updateMenuitems () {
       let menuitemNodes = this.menuNode.querySelectorAll('[role=menuitem');
@@ -245,7 +256,10 @@ export default class SkiptoMenuButton {
     /*
      * @method renderMenuitemToGroup
      *
-     * @desc 
+     * @desc Renders a menuitem using an information object about the menuitem
+     *
+     * @param  {Object}  groupNode  -  DOM element node for the menu group
+     * @param  {Object}  mi         - object with menuitem information
      */
     renderMenuitemToGroup (groupNode, mi) {
       let tagNode, tagNodeChild, labelNode, nestingNode;
@@ -312,7 +326,11 @@ export default class SkiptoMenuButton {
     /*
      * @method renderMenuitemsToGroup
      *
-     * @desc 
+     * @desc Renders either the landmark region or headings menu group
+     * 
+     * @param  {Object}  groupNode       -  DOM element node for the menu group
+     * @param  {Array}   menuitems       -  Array of objects with menu item information
+     * @param  {String}  msgNoItesmFound -  Message to render if there are no menu items
      */
     renderMenuitemsToGroup(groupNode, menuitems, msgNoItemsFound) {
       groupNode.innerHTML = '';
@@ -364,9 +382,9 @@ export default class SkiptoMenuButton {
     /*
      * @method setFocusToMenuitem
      *
-     * @desc 
+     * @desc Moves focus to menu item
      *
-     * @param {Object}  menuItem  - DOM node used as a menu item
+     * @param {Object}  menuItem  - DOM element node used as a menu item
      */
     setFocusToMenuitem(menuitem) {
       if (menuitem) {
@@ -374,10 +392,20 @@ export default class SkiptoMenuButton {
       }
     }
 
+    /*
+     * @method setFocusToFirstMenuitem
+     *
+     * @desc Moves focus to first menu item
+     */
     setFocusToFirstMenuitem() {
       this.setFocusToMenuitem(this.firstMenuitem);
     }
 
+    /*
+     * @method setFocusToLastMenuitem
+     *
+     * @desc Moves focus to last menu item
+     */
     setFocusToLastMenuitem() {
       this.setFocusToMenuitem(this.lastMenuitem);
     }
@@ -385,7 +413,9 @@ export default class SkiptoMenuButton {
     /*
      * @method setFocusToPreviousMenuitem
      *
-     * @desc 
+     * @desc Moves focus to previous menu item
+     *
+     * @param {Object}  menuItem  - DOM element node 
      */
     setFocusToPreviousMenuitem(menuitem) {
       let newMenuitem, index;
@@ -402,7 +432,9 @@ export default class SkiptoMenuButton {
     /*
      * @method setFocusToNextMenuitem
      *
-     * @desc 
+     * @desc Moves focus to next menu item
+     *
+     * @param {Object}  menuItem  - DOM element node 
      */
     setFocusToNextMenuitem(menuitem) {
       let newMenuitem, index;
@@ -419,7 +451,11 @@ export default class SkiptoMenuButton {
     /*
      * @method setFocusByFirstCharacter
      *
-     * @desc 
+     * @desc Moves focus to next menu item based on shortcut key
+     *
+     * @param {Object}  menuItem  - Starting DOM element node 
+     * @param {String}  char      - Shortcut key to identify the
+     *                              next menu item  
      */
     setFocusByFirstCharacter(menuitem, char) {
       let start, index;
