@@ -93,7 +93,7 @@ Joomla 4.0 includes **skipto** as a default plugin
 
 ## Reporting Issues
 
-Please use [Github issues](https://github.com/skipto-landmarks-headings/page-script-5/issues) to report problems, support quetions or feature enahancement ideas.
+Please use [Github issues](https://github.com/skipto-landmarks-headings/page-script-5/issues) to report problems, ask support questions or offer feature enahancement ideas.
 
 ## Configure Options
 
