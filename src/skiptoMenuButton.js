@@ -497,7 +497,7 @@ export default class SkiptoMenuButton {
     /*
      * @method getIndexFirstChars
      *
-     * @desc
+     * @desc  
      *
      * @returns {Number} 
      */
@@ -513,7 +513,7 @@ export default class SkiptoMenuButton {
     /*
      * @method openPopup
      *
-     * @desc 
+     * @desc Opens the memu of landmark regions and headings
      */
     openPopup() {
       this.menuNode.setAttribute('aria-busy', 'true');
@@ -528,7 +528,7 @@ export default class SkiptoMenuButton {
     /*
      * @method closePopup
      *
-     * @desc 
+     * @desc Closes the memu of landmark regions and headings
      */
     closePopup() {
       if (this.isOpen()) {
@@ -540,7 +540,9 @@ export default class SkiptoMenuButton {
     /*
      * @method isOpen
      *
-     * @desc 
+     * @desc Returns true if menu is open, otherwise false
+     *
+     * @returns {Boolean}  see @desc
      */
     isOpen() {
       return this.buttonNode.getAttribute('aria-expanded') === 'true';
@@ -632,8 +634,6 @@ export default class SkiptoMenuButton {
         event.preventDefault();
       }
     }    
-
-
 
     handleMenuitemAction(tgt) {
       switch (tgt.getAttribute('data-id')) {

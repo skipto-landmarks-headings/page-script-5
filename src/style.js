@@ -368,11 +368,10 @@ function updateStyle(stylePlaceholder, value, defaultValue) {
  * @function addCSSColors
  *
  * @desc Updates the styling information in the attached
- *       stylesheet to use the configured colors  
+ *       stylesheet to use the configured or default colors  
  *
- *   @param 
- *
- *   @returns 
+ * @param  {Object}  colorThemes -  Object with theme information
+ * @param  {Object}  config      -  Configuration information object
  */
 function addCSSColors (colorThemes, config) {
   const theme = getTheme(colorThemes, config.colorTheme);
@@ -405,13 +404,13 @@ function addCSSColors (colorThemes, config) {
 }
 
 /*
- *   @function 
+ *   @function enderStyleElement
  *
- *   @desc  
+ *   @desc  Updates the style sheet template and then attaches it to the docuent
  *
- *   @param 
- *
- *   @returns 
+ * @param  {Object}  colorThemes -  Object with theme information
+ * @param  {Object}  config      -  Configuration information object
+ * @param  {String}  skipYToId   -  Id used for the skipto container element
  */
 export default function renderStyleElement (colorThemes, config, skipToId) {
   addCSSColors(colorThemes, config);

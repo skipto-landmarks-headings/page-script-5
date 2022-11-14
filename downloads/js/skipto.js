@@ -465,11 +465,10 @@ function updateStyle(stylePlaceholder, value, defaultValue) {
  * @function addCSSColors
  *
  * @desc Updates the styling information in the attached
- *       stylesheet to use the configured colors  
+ *       stylesheet to use the configured or default colors  
  *
- *   @param 
- *
- *   @returns 
+ * @param  {Object}  colorThemes -  Object with theme information
+ * @param  {Object}  config      -  Configuration information object
  */
 function addCSSColors (colorThemes, config) {
   const theme = getTheme(colorThemes, config.colorTheme);
@@ -502,13 +501,13 @@ function addCSSColors (colorThemes, config) {
 }
 
 /*
- *   @function 
+ *   @function enderStyleElement
  *
- *   @desc  
+ *   @desc  Updates the style sheet template and then attaches it to the docuent
  *
- *   @param 
- *
- *   @returns 
+ * @param  {Object}  colorThemes -  Object with theme information
+ * @param  {Object}  config      -  Configuration information object
+ * @param  {String}  skipYToId   -  Id used for the skipto container element
  */
 function renderStyleElement (colorThemes, config, skipToId) {
   addCSSColors(colorThemes, config);
@@ -2201,7 +2200,7 @@ class SkiptoMenuButton {
     /*
      * @method getIndexFirstChars
      *
-     * @desc
+     * @desc  
      *
      * @returns {Number} 
      */
@@ -2217,7 +2216,7 @@ class SkiptoMenuButton {
     /*
      * @method openPopup
      *
-     * @desc 
+     * @desc Opens the memu of landmark regions and headings
      */
     openPopup() {
       this.menuNode.setAttribute('aria-busy', 'true');
@@ -2232,7 +2231,7 @@ class SkiptoMenuButton {
     /*
      * @method closePopup
      *
-     * @desc 
+     * @desc Closes the memu of landmark regions and headings
      */
     closePopup() {
       if (this.isOpen()) {
@@ -2244,7 +2243,9 @@ class SkiptoMenuButton {
     /*
      * @method isOpen
      *
-     * @desc 
+     * @desc Returns true if menu is open, otherwise false
+     *
+     * @returns {Boolean}  see @desc
      */
     isOpen() {
       return this.buttonNode.getAttribute('aria-expanded') === 'true';
@@ -2334,8 +2335,6 @@ class SkiptoMenuButton {
         event.preventDefault();
       }
     }    
-
-
 
     handleMenuitemAction(tgt) {
       switch (tgt.getAttribute('data-id')) {

@@ -91,6 +91,10 @@ NOTE: CDN referenced files may not be available to computers behind firewall pro
 
 Joomla 4.0 includes **skipto** as a default plugin
 
+## Reporting Issues
+
+Please use [Github issues](https://github.com/skipto-landmarks-headings/page-script-5/issues) to report problems, support quetions or feature enahancement ideas.
+
 ## Configure Options
 
 All settings have a default value, a configuration object can be used to change the default values.
