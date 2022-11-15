@@ -8,7 +8,7 @@ See the [Authors](#authors) section for more information.
 SkipTo is a replacement for your old classic "Skip To Main Content" link, (so please use it as such)!
 The SkipTo creates a drop-down menu consisting of the links to important landmarks and headings on a given web page identified by the author. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.  
 
-**NOTE:** SkipTo 5 is a total rewrite of [SkipTo 4](https://github.com/paypal/skipto) to support custom web compontents and solidify SkipTo 5 to promote the proper understanding and of headings and landmark regions for imoproving accessibility.  The SkipTo 5 code is a new code base to support Javascript Modules for improved development and maintenance of SkipTo feartures.
+**NOTE:** SkipTo 5 is a total rewrite of [SkipTo 4](https://github.com/paypal/skipto) to support custom web components and solidify SkipTo 5 to promote the proper understanding and use of headings and landmark regions for improving accessibility.  The SkipTo 5 code is a new code base to support Javascript Modules for improved development and maintenance of SkipTo features.
 
 ### Benefits
 
@@ -48,7 +48,9 @@ NOTE: Popup menu button option is available through configuration of SkipTo when
 
 ## Shortcut key
 
-A shortcut key can be used to open the SKipTo menu from anywhere on the page.  Version 5 changes the shortcut key operation from using the HTML `accesskey` attribute to use a scripted method to improve consistency of the accesskey between broswers and support screen reader users.  Some screen readers do not support the use of accesskeys. For example, to use the "SkipTo" shortcut key, you would press either `alt + 0` (Windows/Unix/Linux) or `Option + 0` (macOS).  macOS does not have an `Alt` key, so the `Option` key is used as the modifier.  The access keys are the same for Firefox, Chrome and Safari on the same operating system.
+A shortcut key can be used to open the SKipTo menu from anywhere on the page.  Version 5 changes the shortcut key operation from using the HTML `accesskey` attribute to use a scripted method to improve consistency of the shortcut keys between browsers and to support screen reader users, since some screen readers do not support accesskeys. 
+
+To use the "SkipTo" shortcut key, you would press either `alt + 0` (Windows/Unix/Linux) or `Option + 0` (macOS).  macOS does not have an `Alt` key, so the `Option` key is used as the modifier.  The access keys are the same for Firefox, Chrome and Safari on the same operating system.
 
 
 * `Alt+0` : Windows, Unix and Linux.
@@ -123,7 +125,7 @@ The following options are useful for identify where the menu will be in the DOM 
 
 ### Identifying Landmarks and Headings for the menu
 
-The `landmarks` and 'headings' options are a space separted list of tag and landmark region names to identify the important landmark regions and headings on the page for the purpose of keyboard navigation.  The list of landmarks and headings should be **relatively short**, the more items the menu contains the more time the user will need to scan and navigate to the section they want to "skip to".  The values are considered tokens to maximize compatibility with version 4 CSS selectors for these properties.
+The `landmarks` and 'headings' options are a space separated list of tag and landmark region names to identify the important landmark regions and headings on the page for the purpose of keyboard navigation.  The list of landmarks and headings should be **relatively short**, the more items the menu contains the more time the user will need to scan and navigate to the section they want to "skip to".  The values are considered tokens to maximize compatibility with version 4 CSS selectors for these properties.
 
 The options are of type `string`.
 
@@ -240,7 +242,7 @@ var SkipToConfig =  {
 </script>
 ```
 
-NOTE: Configuration objects in [version 4.x](https://github.com/skipto-landmarks-headings/page-script-4#user-content-example-settings) are still supported for compatoibility with existing installations.  Version 5.0 is providing a less complex object for customizing SkipTo.
+NOTE: Configuration objects in [version 4.x](https://github.com/skipto-landmarks-headings/page-script-4#user-content-example-settings) are still supported for compatibility with existing installations.  Version 5.0 is providing a less complex object for customizing SkipTo.
 
 ### HTML, Classes and Ids for custom styling
 
@@ -398,7 +400,7 @@ Happy skipping!
 * Supports including landmark regions and headings in custom web components
 * Makes the skipto container element a navigation landmark region with an accessible name
 * Deprecates the `containerElement` and `containerRole` configuration options (e.g. uses "nav" element)
-* Reorganizes the code into modules for imporved development and readability
+* Reorganizes the code into modules for improved development and readability
 * Switch from using `grunt` to `gulp` for building release files
 * Updated accessible name calculation
 * Added transition effect for "popup" display option when button receives focus
