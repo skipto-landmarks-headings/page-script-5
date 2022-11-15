@@ -61,10 +61,10 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
 
       // Custom CSS position and colors
       colorTheme: '',
-      fontFamily: 'inherit',
-      fontSize: 'inherit',
-      positionLeft: '46%',
-      mediaBreakPoint: '540',
+      fontFamily: '',
+      fontSize: '',
+      positionLeft: '',
+      mediaBreakPoint: '',
       menuTextColor: '',
       menuBackgroundColor: '',
       menuitemFocusTextColor: '',
@@ -96,6 +96,8 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       'default': {
         fontFamily: 'inherit',
         fontSize: 'inherit',
+        positionLeft: '46%',
+        mediaBreakPoint: '540',
         menuTextColor: '#1a1a1a',
         menuBackgroundColor: '#dcdcdc',
         menuitemFocusTextColor: '#eeeeee',
@@ -120,6 +122,17 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       },
       'illinois': {
         hostnameSelector: 'illinois.edu',
+        menuTextColor: '#00132c',
+        menuBackgroundColor: '#cad9ef',
+        menuitemFocusTextColor: '#eeeeee',
+        menuitemFocusBackgroundColor: '#00132c',
+        focusBorderColor: '#ff552e',
+        buttonTextColor: '#444444',
+        buttonBackgroundColor: '#dddede',
+      },
+      'skipto': {
+        hostnameSelector: 'skipto-landmarks-headings.github.io',
+        fontSize: '14px',
         menuTextColor: '#00132c',
         menuBackgroundColor: '#cad9ef',
         menuitemFocusTextColor: '#eeeeee',

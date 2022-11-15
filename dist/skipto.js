@@ -441,7 +441,7 @@ function getTheme(colorThemes, colorTheme) {
 }
 
 /*
- *   @function 
+ *   @function updateStyle
  *
  *   @desc  
  *
@@ -449,10 +449,16 @@ function getTheme(colorThemes, colorTheme) {
  *
  *   @returns 
  */
-function updateStyle(stylePlaceholder, value, defaultValue) {
-  if (typeof value !== 'string' || value.length === 0) {
-    value = defaultValue;
+function updateStyle(stylePlaceholder, configValue, themeValue, defaultValue) {
+  let value = defaultValue;
+  if (typeof configValue === 'string' && configValue) {
+    value = configValue;
+  } else {
+    if (typeof themeValue === 'string' && themeValue) {
+      value = themeValue;
+    }
   }
+
   let cssContent = styleTemplate.innerHTML;
   let index1 = cssContent.indexOf(stylePlaceholder);
   let index2 = index1 + stylePlaceholder.length;
@@ -475,6 +481,7 @@ function updateStyle(stylePlaceholder, value, defaultValue) {
  */
 function addCSSColors (colorThemes, config) {
   const theme = getTheme(colorThemes, config.colorTheme);
+  const defaultTheme = getTheme(colorThemes, 'default');
 
   // Check for display option in theme
   if ((typeof theme.displayOption === 'string') && 
@@ -482,24 +489,24 @@ function addCSSColors (colorThemes, config) {
     config.displayOption = theme.displayOption;
   }
 
-  updateStyle('$fontFamily', config.fontFamily, theme.fontFamily);
-  updateStyle('$fontSize', config.fontSize, theme.fontSize);
+  updateStyle('$fontFamily', config.fontFamily, theme.fontFamily, defaultTheme.fontFamily);
+  updateStyle('$fontSize', config.fontSize, theme.fontSize, defaultTheme.fontSize);
 
-  updateStyle('$positionLeft', config.positionLeft, theme.positionLeft);
-  updateStyle('$mediaBreakPoint', config.mediaBreakPoint, theme.mediaBreakPoint);
+  updateStyle('$positionLeft', config.positionLeft, theme.positionLeft, defaultTheme.positionLeft);
+  updateStyle('$mediaBreakPoint', config.mediaBreakPoint, theme.mediaBreakPoint, defaultTheme.mediaBreakPoint);
 
-  updateStyle('$menuTextColor', config.menuTextColor, theme.menuTextColor);
-  updateStyle('$menuBackgroundColor', config.menuBackgroundColor, theme.menuBackgroundColor);
+  updateStyle('$menuTextColor', config.menuTextColor, theme.menuTextColor, defaultTheme.menuTextColor);
+  updateStyle('$menuBackgroundColor', config.menuBackgroundColor, theme.menuBackgroundColor, defaultTheme.menuBackgroundColor);
 
-  updateStyle('$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor);
-  updateStyle('$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor);
+  updateStyle('$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
+  updateStyle('$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
 
-  updateStyle('$focusBorderColor', config.focusBorderColor, theme.focusBorderColor);
+  updateStyle('$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
 
-  updateStyle('$buttonTextColor', config.buttonTextColor, theme.buttonTextColor);
-  updateStyle('$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor);
+  updateStyle('$buttonTextColor', config.buttonTextColor, theme.buttonTextColor, defaultTheme.buttonTextColor);
+  updateStyle('$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
 
-  updateStyle('$zIndex', config.zIndex, theme.zIndex);
+  updateStyle('$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
 
 }
 
@@ -2539,10 +2546,10 @@ class SkiptoMenuButton {
 
       // Custom CSS position and colors
       colorTheme: '',
-      fontFamily: 'inherit',
-      fontSize: 'inherit',
-      positionLeft: '46%',
-      mediaBreakPoint: '540',
+      fontFamily: '',
+      fontSize: '',
+      positionLeft: '',
+      mediaBreakPoint: '',
       menuTextColor: '',
       menuBackgroundColor: '',
       menuitemFocusTextColor: '',
@@ -2574,6 +2581,8 @@ class SkiptoMenuButton {
       'default': {
         fontFamily: 'inherit',
         fontSize: 'inherit',
+        positionLeft: '46%',
+        mediaBreakPoint: '540',
         menuTextColor: '#1a1a1a',
         menuBackgroundColor: '#dcdcdc',
         menuitemFocusTextColor: '#eeeeee',
@@ -2598,6 +2607,17 @@ class SkiptoMenuButton {
       },
       'illinois': {
         hostnameSelector: 'illinois.edu',
+        menuTextColor: '#00132c',
+        menuBackgroundColor: '#cad9ef',
+        menuitemFocusTextColor: '#eeeeee',
+        menuitemFocusBackgroundColor: '#00132c',
+        focusBorderColor: '#ff552e',
+        buttonTextColor: '#444444',
+        buttonBackgroundColor: '#dddede',
+      },
+      'skipto': {
+        hostnameSelector: 'skipto-landmarks-headings.github.io',
+        fontSize: '14px',
         menuTextColor: '#00132c',
         menuBackgroundColor: '#cad9ef',
         menuitemFocusTextColor: '#eeeeee',
