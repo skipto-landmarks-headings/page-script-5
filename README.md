@@ -58,11 +58,11 @@ To use the "SkipTo" shortcut key, you would press either `alt + 0` (Windows/Unix
 
 ## Adding to Website
 
-All you need are either [skipto.js](https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js) or [skipto.min.js](https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js) from the "[dist/](dist/)" directory of this repository. Please note that skipto.min.js is a minified (a lighter version) of the script.
+All you need are either skipto.js or skipto.min.js from the "[dist/](dist/)" directory of this repository. Please note that skipto.min.js is a minified (a lighter version) of the script.
 
 ### Local File on Your Web Server
 
-Copy the `skipto.js` or `skipto.min.js` to the file system of your web server and reference it from your web page or templates using a `script` tag, as follows:
+Copy the [skipto.js](https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js) or [skipto.min.js](https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js) to the file system of your web server and reference it from your web page or templates using a `script` tag, as follows:
 
 
 ```html
