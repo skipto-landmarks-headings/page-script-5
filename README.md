@@ -28,15 +28,13 @@ There are two main ways to use the menu button for SkipTo in a page.  In the def
 ### Visible Menu Button (default)
 * [DRES Accessible IT Group](https://accessibleit.disability.illinois.edu/)
 * [College of Applied Health Sciences](https://ahs.illinois.edu/)
-* [Illinois Webcon](https://webcon.illinois.edu/)
 
 ### Popup Menu Button
 * [W3C WAI Authoring Practices](https://w3.org/WAI/ARIA/apg)
 * [Admissions at the University of Illinois](https://admissions.illinois.edu/)
-* [Nightingale Design Research](https://nightingaledesignresearch.com)
 * [cPanel Web Hosting Service @ Illinois](http://cpanel.web.illinois.edu)
 * [Functional Accessibility Evaluator (FAE)](https://fae.disability.illinois.edu/)
-* [Study Abroad Program for College of Education](https://studyabroad.education.illinois.edu)
+* [College of Education](https://webcon.illinois.edu/) (Web components)
 
 NOTE: Popup menu button option is available through configuration of SkipTo when it is loaded.
 
@@ -537,5 +535,3 @@ Happy skipping!
 ## Copyright and license
 
 Copyright 2021, PayPal and University of Illinois under the [BSD license](LICENSE.md).
-
-<script src="https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js"\></script\>
