@@ -46,6 +46,11 @@ function getAccessibleName (doc, element, fromContent=false) {
   if (accName === '' && fromContent) {
     accName =  getNodeContents(element);
   }
+
+  if (accName === '' && element.title.trim() !== '') {
+    accName = element.title.trim();
+  }
+
   return accName;
 }
 

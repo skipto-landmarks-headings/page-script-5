@@ -1,5 +1,20 @@
 /* webComponentAriaRef.js */
 
+const templateLink = document.createElement('template');
+templateLink.innerHTML = `<slot name="link"><a href="#">Default Slot Link</a></slot>`;
+
+class LinkComponentStructure extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' }); // Creates a shadow DOM root node for the element
+
+    // Add DOM tree from template
+    this.shadowRoot.appendChild(templateLink.content.cloneNode(true));
+  }
+}
+
+customElements.define('link-webcomponent', LinkComponentStructure);
+
 const template1 = document.createElement('template');
 template1.innerHTML = `
   <main aria-labelledby="id-main-title">
@@ -31,6 +46,24 @@ template1.innerHTML = `
         <li><a href="#">Item B2</a></li>
         <li><a href="#">Item C2</a></li>
       </ul>
+      <slot name="nav">
+          <nav aria-label="Default Navigation 1">
+            <h2>Default Navigation 1</h2>
+            <ul>
+              <li><a href="#">Default link 11</a></li>
+              <li><a href="#">Default link 12</a></li>
+              <li><a href="#">Default link 13</a></li>
+            </ul>
+          </nav>     
+          <nav aria-labelledby="default-nav-2">
+            <h2 id="default-nav-2">Default Navigation 2</h2>
+            <ul>
+              <li><a href="#">Default link 21</a></li>
+              <li><a href="#">Default link 22</a></li>
+              <li><a href="#">Default link 23</a></li>
+            </ul>
+          </nav>     
+      </slot>
     </section>
   </main>
 `;

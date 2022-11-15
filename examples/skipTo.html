@@ -60,7 +60,28 @@
             <span slot="section-2-title">Section 1.2: Web Component</span>
         </structure-webcomponent>
         
-        <structure-webcomponent></structure-webcomponent>
+        <structure-webcomponent>
+          <nav slot="nav" aria-labelledby="nav-name-1">
+            <h2 id="nav-name-1">Author Navigation 1</h2>
+            <ul>
+              <li> <link-webcomponent></link-webcomponent></li>
+              <li><a href="#">Author link 11</a></li>
+              <li><a href="#">Author link 12</a></li>
+              <li><a href="#">Author link 13</a></li>
+            </ul>
+            <nav aria-label="Author Navigation 2">
+            <h2>Author Navigation 2</h2>
+              <link-webcomponent><a slot="link" href="#">Author link 21</a></link-webcomponent>
+              <link-webcomponent><a slot="link" href="#">Author link 22</a></link-webcomponent>
+              <link-webcomponent><a slot="link"href="#">Author link 23</a></link-webcomponent>
+          </nav>            
+        </structure-webcomponent>
+
+        <nav aria-label="Last Navigation">
+            <ul>
+                <li>Last Navigation Link</li>
+            </ul>
+        </nav>
 
         <article>
             <header>

@@ -248,7 +248,11 @@ function queryDOMForSkipToId (targetId) {
               if (assignedNode.nodeType === Node.ELEMENT_NODE) {
                 if (assignedNode.getAttribute('data-skip-to-id') === targetId) {
                   return assignedNode;
-                }                    
+                }
+                targetNode = transverseDOMForSkipToId(assignedNode);                    
+                if (targetNode) {
+                  return targetNode;
+                }
               }
             }
           } else {
@@ -306,10 +310,14 @@ function findVisibleElement (startingNode, tagNames) {
             for (let i = 0; i < assignedNodes.length; i += 1) {
               const assignedNode = assignedNodes[i];
               if (assignedNode.nodeType === Node.ELEMENT_NODE) {
-                if ((assignedNode.tagName.toLowerCase() === targetTagName) && 
-                    isVisible(assignedNode)) {
-                  return assignedNode;
-                }                    
+                if (isVisible(assignedNode)) {
+                  const tagName = assignedNode.tagName.toLowerCase();
+                  if (tagName === targetTagName) {
+                    return assignedNode;
+                  } else {
+                    transverseDOMForVisibleElement(assignedNode, targetTagName);                    
+                  }
+                }
               }
             }
           } else {
@@ -376,8 +384,14 @@ function skipToElement(menuitem) {
       focusNode = findVisibleElement(elem, navigationSelectors);
     }
     if (focusNode && isVisible(focusNode)) {
-      focusNode.focus();
-      focusNode.scrollIntoView({block: 'nearest'});
+      if (focusNode.tabIndex >= 0) {
+        focusNode.focus();
+      } else {
+        focusNode.tabIndex = 0;
+        focusNode.focus();
+        focusNode.tabIndex = -1;
+      }
+      focusNode.scrollIntoView({block: 'center'});
     }
     else {
       if (isLandmark) {
@@ -386,8 +400,13 @@ function skipToElement(menuitem) {
           elem = scrollNode;
         }
       }
-      elem.tabIndex = -1;
-      elem.focus();
+      if (elem.tabIndex >= 0) {
+        elem.focus();
+      } else {
+        elem.tabIndex = 0;
+        elem.focus();
+        elem.tabIndex = -1;
+      }
       elem.scrollIntoView({block: 'center'});
     }
   }
@@ -448,7 +467,7 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
   let targetHeadings  = getHeadingTargets(headingTargets.toLowerCase());
   let onlyInMain = headingTargets.includes('main');
 
-  function transverseDOM(startingNode, doc, inMain = false) {
+  function transverseDOM(startingNode, doc, parentDoc=null, inMain = false) {
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE) {
         const tagName = node.tagName.toLowerCase();
@@ -469,21 +488,30 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
           // check for slotted content
           if (isSlotElement(node)) {
               // if no slotted elements, check for default slotted content
-            const assignedNodes = node.assignedNodes().length ?
+            const slotContent   = node.assignedNodes().length > 0;
+            const assignedNodes = slotContent ?
                                   node.assignedNodes() :
                                   node.assignedNodes({ flatten: true });
+            const nameDoc = slotContent ?
+                            parentDoc :
+                            doc;
             for (let i = 0; i < assignedNodes.length; i += 1) {
               const assignedNode = assignedNodes[i];
               if (assignedNode.nodeType === Node.ELEMENT_NODE) {
                 const tagName = assignedNodes[i].tagName.toLowerCase();
-                if (targetLandmarks.indexOf(checkForLandmark(node)) >= 0) {
-                  landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
+                if (targetLandmarks.indexOf(checkForLandmark(assignedNode)) >= 0) {
+                  landmarkInfo.push({ node: assignedNode, name: getAccessibleName(nameDoc, assignedNode)});
                 }
 
                 if (targetHeadings.indexOf(tagName) >= 0) {
                   if (!onlyInMain || inMain) {
-                    headingInfo.push({ node: assignedNode, name: getAccessibleName(doc, assignedNode, true)});
+                    headingInfo.push({ node: assignedNode, name: getAccessibleName(nameDoc, assignedNode, true)});
                   }
+                }
+                if (slotContent) {
+                  transverseDOM(assignedNode, parentDoc, null, inMain);
+                } else {
+                  transverseDOM(assignedNode, doc, parentDoc, inMain);                  
                 }
               }
             }
@@ -491,10 +519,10 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
             // check for custom elements
             if (isCustomElement(node)) {
               if (node.shadowRoot) {
-                transverseDOM(node.shadowRoot, node.shadowRoot, inMain);
+                transverseDOM(node.shadowRoot, node.shadowRoot, doc, inMain);
               }
             } else {
-              transverseDOM(node, doc, inMain);
+              transverseDOM(node, doc, parentDoc, inMain);
             }
           }
         }
