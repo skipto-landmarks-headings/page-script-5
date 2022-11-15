@@ -238,8 +238,6 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
 
   // Initialize skipto menu button with onload event
   window.addEventListener('load', function() {
-    SkipTo.init(window.SkipToConfig ||
-                ((typeof window.Joomla === 'object' && typeof window.Joomla.getOptions === 'function') ? window.Joomla.getOptions('skipto-settings', {}) : {})
-                );
+    SkipTo.init(window.SkipToConfig);
   });
 })();

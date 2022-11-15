@@ -87,10 +87,6 @@ University of Illinois CDN service:
 
 NOTE: CDN referenced files may not be available to computers behind firewall protected networks.
 
-### What About Joomla?
-
-Joomla 4.0 includes **skipto** as a default plugin
-
 ## Reporting Issues
 
 Please use [Github issues](https://github.com/skipto-landmarks-headings/page-script-5/issues) to report problems, ask support questions or offer feature enahancement ideas.
@@ -381,19 +377,19 @@ Happy skipping!
 **Prem Nawaz Khan**
 [https://github.com/mpnkhan](https://github.com/mpnkhan) || [@mpnkhan](https://twitter.com/mpnkhan)
 
-**Brian Teeman**
-[https://github.com/brianteeman](https://github.com/brianteeman)
-
 ### Previous Contributors
-
-**Victor Tsaran**
-[https://github.com/vick08](https://github.com/vick08) || [@vick08](https://twitter.com/vick08)
 
 **Ron Feathers**
 [https://github.com/rfeathers](https://github.com/rfeathers) || [@ronfeathers](https://twitter.com/ronfeathers)
 
 **Marc Kocher**
 [https://github.com/mdkocher](https://github.com/mdkocher) || [@marckocher](https://twitter.com/marckocher)
+
+**Brian Teeman**
+[https://github.com/brianteeman](https://github.com/brianteeman)
+
+**Victor Tsaran**
+[https://github.com/vick08](https://github.com/vick08) || [@vick08](https://twitter.com/vick08)
 
 
 ## Version History
