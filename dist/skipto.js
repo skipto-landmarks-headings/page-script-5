@@ -1883,7 +1883,7 @@ class SkiptoMenuButton {
      *       shortcut key to use either the "alt" or the "option"
      *       label  
      *
-     * @param {Object}  -  SkipTp configure object
+     * @param {Object}  - SkipTp configure object
      *
      * @return {Array}  - An array of two strings used for the button label
      */
@@ -2270,6 +2270,11 @@ class SkiptoMenuButton {
       this.menuNode.style.maxHeight = h + 'px';
       this.renderMenu();
       this.menuNode.style.display = 'block';
+      const rect = this.menuNode.getBoundingClientRect();
+      const diff = window.innerWidth - rect.left - rect.width - 8;
+      if (diff < 0) {
+        this.menuNode.style.left = diff + 'px';
+      }
       this.menuNode.removeAttribute('aria-busy');
       this.buttonNode.setAttribute('aria-expanded', 'true');
     }
