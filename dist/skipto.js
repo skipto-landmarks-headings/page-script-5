@@ -2544,7 +2544,7 @@ class SkiptoMenuButton {
       landmarks: 'main search navigation complementary',
       headings: 'main h1 h2 h3',
 
-      // Custom CSS position and colors
+      // Place holders for configuration
       colorTheme: '',
       fontFamily: '',
       fontSize: '',
@@ -2557,25 +2557,7 @@ class SkiptoMenuButton {
       focusBorderColor: '',
       buttonTextColor: '',
       buttonBackgroundColor: '',
-      zIndex: '100000',
-
-      // Deprecated configuration options, that are ignored during initialization
-      // These are included for compatibility with older configuration objects
-      // They are included so an error is not thrown during initialization
-      buttonTitle: '',
-      buttonTitleWithAccesskey: '',
-      enableActions: false,
-      actionGroupLabel: '',
-      actionShowHeadingsHelp: '',
-      actionShowSelectedHeadingsLabel: '',
-      actionShowAllHeadingsLabel: '',
-      actionShowLandmarksHelp: '',
-      actionShowSelectedLandmarksLabel: '',
-      actionShowAllLandmarksLabel: '',
-      actionShowSelectedHeadingsAriaLabel: '',
-      actionShowAllHeadingsAriaLabel: '',
-      actionShowSelectedLandmarksAriaLabel: '',
-      actionShowAllLandmarksAriaLabel: '',
+      zIndex: '',
     },
     colorThemes: {
       'default': {
@@ -2590,6 +2572,7 @@ class SkiptoMenuButton {
         focusBorderColor: '#1a1a1a',
         buttonTextColor: '#1a1a1a',
         buttonBackgroundColor: '#eeeeee',
+        zIndex: '100000',
       },
       'aria': {
         hostnameSelector: 'w3.org',
