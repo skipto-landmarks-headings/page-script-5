@@ -407,7 +407,6 @@ Happy skipping!
 * `skipto.min.js.map` file is no longer generated for `skipto.min.js` for debugging, reference `skipto.js` instead for debugging needs
 
 ### Version 5.0.1
-* Supports headings and landmarks in custom web components.  This required changing heading and landmark identification from using simple CSS selectors to using comma separated string of headings and landmarks to include.  There is some level of compatibility with previous versions of SkipTo, please see configuration information. 
 * Unify shortcut key to be consistent between browsers and to support screen reader users using the shortcut by changing the shortcut to use Javascript rather than the HTML `accesskey` attribute.
 * Support a scrollable menu if the list of menu items does not fit in the current window size.
 * Removed tooltip and added the shortcut key information to the button label to simplify the identification of the shortcut key.
