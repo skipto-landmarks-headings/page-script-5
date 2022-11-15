@@ -347,7 +347,7 @@ nav#skip-to.MyCustomClass {
 
 ## Compiling CSS and JavaScript
 
-You may feel slightly adventurous and decide to change some colors or even enhance the script with your changes. Once you do this, here is how you compile the skipTo script for production.
+You may feel slightly adventurous and decide to change some colors by creating a built-in color theme or even enhance the script with your changes. Once you do this, here is how you compile the skipTo script for production.
 
 ```sh
 git clone https://github.com/skipto-landmarks-headings/page-script-5.git
