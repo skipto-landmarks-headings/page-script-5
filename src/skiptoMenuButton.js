@@ -521,8 +521,9 @@ export default class SkiptoMenuButton {
       this.menuNode.style.maxHeight = h + 'px';
       this.renderMenu();
       this.menuNode.style.display = 'block';
-      const rect = this.menuNode.getBoundingClientRect();
-      const diff = window.innerWidth - rect.left - rect.width - 8;
+      const buttonRect = this.buttonNode.getBoundingClientRect();
+      const menuRect = this.menuNode.getBoundingClientRect();
+      const diff = window.innerWidth - buttonRect.left - menuRect.width - 8;
       if (diff < 0) {
         this.menuNode.style.left = diff + 'px';
       }
