@@ -40,15 +40,13 @@ gulp.task('build', () => {
 
  gulp.task('compress', () => {
     return src('./dist/skipto.js', { allowEmpty: true }) 
-        .pipe(dest('./downloads/js'))        
         .pipe(minify({
           ext: {
             min: '.min.js' // Set the file extension for minified files to .min.js
           },
           noSource: true
         }))
-        .pipe(dest('./dist'))
-        .pipe(dest('./downloads/js'))        
+        .pipe(dest('./dist'))        
 });
 
 // Add copyright information to skipto
@@ -59,8 +57,7 @@ gulp.task('build', () => {
     'dist/skipto.js',
   ])
     .pipe(concat('skipto.js'))
-    .pipe(dest('./dist')) 
-    .pipe(dest('./downloads/js'));     
+    .pipe(dest('./dist')); 
 });
 
  gulp.task('copyrightMin', () => {
@@ -69,8 +66,7 @@ gulp.task('build', () => {
     'dist/skipto.min.js',
   ])
     .pipe(concat('skipto.min.js'))
-    .pipe(dest('./dist')) 
-    .pipe(dest('./downloads/js'));     
+    .pipe(dest('./dist'));     
 });
 
 

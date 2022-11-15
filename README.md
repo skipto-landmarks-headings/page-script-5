@@ -377,7 +377,7 @@ Happy skipping!
 **Prem Nawaz Khan**
 [https://github.com/mpnkhan](https://github.com/mpnkhan) || [@mpnkhan](https://twitter.com/mpnkhan)
 
-### Previous Contributors
+### Previous Contributors 
 
 **Ron Feathers**
 [https://github.com/rfeathers](https://github.com/rfeathers) || [@ronfeathers](https://twitter.com/ronfeathers)
