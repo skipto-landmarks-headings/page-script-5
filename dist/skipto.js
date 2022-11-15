@@ -1222,12 +1222,7 @@ function findVisibleElement (startingNode, tagNames) {
     var targetNode = null;
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE) {
-        const tagName = node.tagName.toLowerCase();
-        if ((tagName === targetTagName) && isVisible(node)) {
-          return node;
-        }
         if (!isSkipableElement(node)) {
-
           // check for slotted content
           if (isSlotElement(node)) {
               // if no slotted elements, check for default slotted content
@@ -1237,13 +1232,15 @@ function findVisibleElement (startingNode, tagNames) {
             for (let i = 0; i < assignedNodes.length; i += 1) {
               const assignedNode = assignedNodes[i];
               if (assignedNode.nodeType === Node.ELEMENT_NODE) {
-                if (isVisible(assignedNode)) {
-                  const tagName = assignedNode.tagName.toLowerCase();
-                  if (tagName === targetTagName) {
+                const tagName = assignedNode.tagName.toLowerCase();
+                if (tagName === targetTagName){
+                  if (isVisible(assignedNode)) {
                     return assignedNode;
-                  } else {
-                    transverseDOMForVisibleElement(assignedNode, targetTagName);                    
                   }
+                }
+                targetNode = transverseDOMForVisibleElement(assignedNode, targetTagName);  
+                if (targetNode) {
+                  return targetNode;
                 }
               }
             }
@@ -1257,6 +1254,12 @@ function findVisibleElement (startingNode, tagNames) {
                 }
               }
             } else {
+              const tagName = node.tagName.toLowerCase();
+              if (tagName === targetTagName){
+                if (isVisible(node)) {
+                  return node;
+                }
+              }
               targetNode = transverseDOMForVisibleElement(node, targetTagName);
               if (targetNode) {
                 return targetNode;
