@@ -34,7 +34,7 @@ There are two main ways to use the menu button for SkipTo in a page.  In the def
 * [Admissions at the University of Illinois](https://admissions.illinois.edu/)
 * [cPanel Web Hosting Service @ Illinois](http://cpanel.web.illinois.edu)
 * [Functional Accessibility Evaluator (FAE)](https://fae.disability.illinois.edu/)
-* [College of Education](https://webcon.illinois.edu/) (Web components)
+* [College of Education](https://education.illinois.edu/) (Web components)
 
 NOTE: Popup menu button option is available through configuration of SkipTo when it is loaded.
 
