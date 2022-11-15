@@ -538,4 +538,4 @@ Happy skipping!
 
 Copyright 2021, PayPal and University of Illinois under the [BSD license](LICENSE.md).
 
-<script src="dist/skipto.js"></script>
+<script src="https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js"></script>
