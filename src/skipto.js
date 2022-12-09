@@ -57,7 +57,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
 
       // Selectors for landmark and headings sections
       landmarks: 'main search navigation complementary',
-      headings: 'main h1 h2 h3',
+      headings: 'main h1 h2',
 
       // Place holders for configuration
       colorTheme: '',

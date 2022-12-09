@@ -525,7 +525,11 @@ export default class SkiptoMenuButton {
       const menuRect = this.menuNode.getBoundingClientRect();
       const diff = window.innerWidth - buttonRect.left - menuRect.width - 8;
       if (diff < 0) {
-        this.menuNode.style.left = diff + 'px';
+        if (buttonRect.left + diff < 0) {
+          this.menuNode.style.left = (8 - buttonRect.left) + 'px';
+        } else {
+          this.menuNode.style.left = diff + 'px';
+        }
       }
       this.menuNode.removeAttribute('aria-busy');
       this.buttonNode.setAttribute('aria-expanded', 'true');

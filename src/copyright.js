@@ -9,4 +9,5 @@
 *
 * Documenation: https://skipto-landmarks-headings.github.io/page-script-5
 * Code: https://github.com/skipto-landmarks-headings/page-script-5
+* Report Issues: https://github.com/skipto-landmarks-headings/page-script-5/issues
 * ======================================================================== */

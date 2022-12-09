@@ -9,6 +9,7 @@
 *
 * Documenation: https://skipto-landmarks-headings.github.io/page-script-5
 * Code: https://github.com/skipto-landmarks-headings/page-script-5
+* Report Issues: https://github.com/skipto-landmarks-headings/page-script-5/issues
 * ======================================================================== */
 
 /*
@@ -1630,7 +1631,7 @@ function getLandmarkTargets (targets) {
   }
   if (targets.includes('complementary') || 
       targets.includes('aside')) {
-    targetLandmarks.push('complemntary');
+    targetLandmarks.push('complementary');
   }
   if (targets.includes('banner') || 
       targets.includes('header')) {
@@ -2274,7 +2275,11 @@ class SkiptoMenuButton {
       const menuRect = this.menuNode.getBoundingClientRect();
       const diff = window.innerWidth - buttonRect.left - menuRect.width - 8;
       if (diff < 0) {
-        this.menuNode.style.left = diff + 'px';
+        if (buttonRect.left + diff < 0) {
+          this.menuNode.style.left = (8 - buttonRect.left) + 'px';
+        } else {
+          this.menuNode.style.left = diff + 'px';
+        }
       }
       this.menuNode.removeAttribute('aria-busy');
       this.buttonNode.setAttribute('aria-expanded', 'true');
@@ -2548,7 +2553,7 @@ class SkiptoMenuButton {
 
       // Selectors for landmark and headings sections
       landmarks: 'main search navigation complementary',
-      headings: 'main h1 h2 h3',
+      headings: 'main h1 h2',
 
       // Place holders for configuration
       colorTheme: '',

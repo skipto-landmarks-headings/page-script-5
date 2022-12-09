@@ -693,7 +693,7 @@ function getLandmarkTargets (targets) {
   }
   if (targets.includes('complementary') || 
       targets.includes('aside')) {
-    targetLandmarks.push('complemntary');
+    targetLandmarks.push('complementary');
   }
   if (targets.includes('banner') || 
       targets.includes('header')) {

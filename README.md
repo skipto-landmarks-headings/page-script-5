@@ -394,6 +394,9 @@ Happy skipping!
 
 ## Version History
 
+### Version 5.1.1
+* Fixed typo in complementary landmark selector
+
 ### Version 5.1.0
 * Supports including landmark regions and headings in custom web components
 * Makes the skipto container element a navigation landmark region with an accessible name
