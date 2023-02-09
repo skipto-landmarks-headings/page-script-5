@@ -1,7 +1,7 @@
 
 <img src="./images/skipto-128.png" alt="SkipTo logo"/>
 
-# skipto@5.1 Page Script
+# SkipTo Landmarks and Headings Page Script, Version 5.1
 
 See the [Authors](#authors) section for more information.
 
@@ -393,6 +393,9 @@ Happy skipping!
 
 
 ## Version History
+
+### Version 5.1.2
+* Fixed bug computing accessible name when CSS ::before or ::after is used
 
 ### Version 5.1.1
 * Fixed typo in complementary landmark selector

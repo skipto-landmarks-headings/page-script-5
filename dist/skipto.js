@@ -1,5 +1,5 @@
 /* ========================================================================
-* Copyright (c) <2022> (ver 5.1.1) Jon Gunderson, University of Illinois and PayPal
+* Copyright (c) <2023> (ver 5.1.2) Jon Gunderson, University of Illinois and PayPal
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
@@ -871,12 +871,17 @@ function couldHaveAltText (element) {
 *
 */
 function addCssGeneratedContent (element, contents) {
+
   let result = contents,
       prefix = getComputedStyle(element, ':before').content,
       suffix = getComputedStyle(element, ':after').content;
 
-  if (prefix !== 'none') result = prefix + result;
-  if (suffix !== 'none') result = result + suffix;
+  if (prefix !== 'none') {
+    result = prefix.replaceAll('"', '') + result;
+  }
+  if (suffix !== 'none') {
+    result = result + suffix.replaceAll('"', '');
+  }
 
   return result;
 }
