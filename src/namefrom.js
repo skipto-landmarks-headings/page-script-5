@@ -315,12 +315,17 @@ function couldHaveAltText (element) {
 *
 */
 function addCssGeneratedContent (element, contents) {
+
   let result = contents,
       prefix = getComputedStyle(element, ':before').content,
       suffix = getComputedStyle(element, ':after').content;
 
-  if (prefix !== 'none') result = prefix + result;
-  if (suffix !== 'none') result = result + suffix;
+  if (prefix !== 'none') {
+    result = prefix.replaceAll('"', '') + result;
+  }
+  if (suffix !== 'none') {
+    result = result + suffix.replaceAll('"', '');
+  }
 
   return result;
 }
