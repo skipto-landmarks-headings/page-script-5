@@ -1,14 +1,14 @@
 
 <img src="./images/skipto-128.png" alt="SkipTo logo"/>
 
-# SkipTo Landmarks and Headings Page Script, Version 5.1
+# SkipTo Landmarks and Headings Page Script, Version 5.1.3
 
 See the [Authors](#authors) section for more information.
 
 SkipTo is a replacement for your old classic "Skip To Main Content" link, (so please use it as such)!
 The SkipTo creates a drop-down menu consisting of the links to important landmarks and headings on a given web page identified by the author. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.  
 
-**NOTE:** SkipTo 5 is a total rewrite of [SkipTo 4](https://github.com/paypal/skipto) to support custom web components and solidify SkipTo 5 to promote the proper understanding and use of headings and landmark regions for improving accessibility.  The SkipTo 5 code uses Javascript Modules for improved development and maintenance of SkipTo features.
+**NOTE:** SkipTo 5 is a total rewrite of [SkipTo 4](https://github.com/paypal/skipto) to support custom web components and solidify SkipTo 5 in promoting the proper understanding and use of headings and landmark regions by making the visible to everyone, not just screen reader users.  The SkipTo 5 code uses Javascript Modules for improved development and maintenance of SkipTo features.
 
 ### Benefits
 
