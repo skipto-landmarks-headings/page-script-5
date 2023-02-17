@@ -101,6 +101,7 @@ The following options are useful for identify where the menu will be in the DOM 
 
 | Property       | default     | Description |
 | :------------- | :---------- | :---------- |
+| `containerElement` | 'nav'  | Container element for SkipTo button and menu. Can be set to 'div' element if you do not want a landmark created for SkipTo menu. |
 | `displayOption` | 'static' | Values of `static`, `fixed` or `popup` are defined.  The value `static` the button is always visible, the value `fixed` the button is always visible at the top of the page even when the page scrolls, and the value `popup` is used the button is initially not visible, but becomes visible when it receives focus. |
 | `attachElement` | 'body' | A CSS selector for identifying which element to attach the menu button container. |
 | `customClass` | none | CSS class added to the container `div` element. Can be used for customize styling of the button and menu with author supplied stylesheet. |
@@ -223,7 +224,6 @@ The following properties were deprecated from previous versions of SkipTo and wi
 * `actionShowAllLandmarksAriaLabel`
 * `buttonTitle` 
 * `buttonTitleAccesskey` 
-* `containerElement`
 * `containerRole`
 
 ## Example Settings
@@ -394,23 +394,27 @@ Happy skipping!
 
 ## Version History
 
+### Version 5.1.3
+* Minor edits to license to make version authorship clearer.
+* Restore `containerElement` configutation option to allow the author to use SkipTo without creating a navigation landmark.
+
 ### Version 5.1.2
-* Fixed bug computing accessible name when CSS ::before or ::after is used
+* Fixed bug computing accessible name when CSS ::before or ::after is used.
 
 ### Version 5.1.1
-* Fixed typo in complementary landmark selector
+* Fixed typo in complementary landmark selector.
 
 ### Version 5.1.0
-* Supports including landmark regions and headings in custom web components
-* Makes the skipto container element a navigation landmark region with an accessible name
-* Deprecates the `containerElement` and `containerRole` configuration options (e.g. uses "nav" element)
-* Reorganizes the code into modules for improved development and readability
-* Switch from using `grunt` to `gulp` for building release files
-* Updated accessible name calculation
-* Added transition effect for "popup" display option when button receives focus
+* Supports including landmark regions and headings in custom web components.
+* Makes the skipto container element a navigation landmark region with an accessible name.
+* Deprecates the `containerElement` and `containerRole` configuration options (e.g. uses "nav" element).
+* Reorganizes the code into modules for improved development and readability.
+* Switch from using `grunt` to `gulp` for building release files.
+* Updated accessible name calculation.
+* Added transition effect for "popup" display option when button receives focus.
 * Responsive: Button text changes to skipto icon when screen width is less than 540px
-* Use template element for creating `style` element
-* `skipto.min.js.map` file is no longer generated for `skipto.min.js` for debugging, reference `skipto.js` instead for debugging needs
+* Use template element for creating `style` element.
+* `skipto.min.js.map` file is no longer generated for `skipto.min.js` for debugging, reference `skipto.js` instead for debugging needs.
 
 ### Version 5.0.1
 * Unify shortcut key to be consistent between browsers and to support screen reader users using the shortcut by changing the shortcut to use Javascript rather than the HTML `accesskey` attribute.

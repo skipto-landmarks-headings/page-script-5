@@ -28,12 +28,15 @@ debug.flag = false;
  */
 export default class SkiptoMenuButton {
 
-    constructor (attachNode, config) {
+    constructor (attachNode, config, id) {
       this.config = config;
 
-      this.containerNode = document.createElement('nav');
-      this.containerNode.id = "id-skip-to";
-      this.containerNode.setAttribute('aria-label', config.buttonLabel);
+      this.containerNode = document.createElement(config.containerElement);
+      if (config.containerElement === 'nav') {
+        this.containerNode.setAttribute('aria-label', config.buttonLabel);
+      }
+
+      this.containerNode.id = id;
 
       if (isNotEmptyString(config.customClass)) {
         this.containerNode.classList.add(config.customClass);
