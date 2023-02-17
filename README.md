@@ -396,7 +396,7 @@ Happy skipping!
 
 ### Version 5.1.3
 * Minor edits to license to make version authorship clearer.
-* Restore `containerElement` configutation option to allow the author to use SkipTo without creating a navigation landmark.
+* Restore `containerElement` configuration option to allow the author to use SkipTo without creating a navigation landmark.
 
 ### Version 5.1.2
 * Fixed bug computing accessible name when CSS ::before or ::after is used.
