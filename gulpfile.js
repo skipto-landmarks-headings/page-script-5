@@ -29,7 +29,7 @@ gulp.task('build', () => {
     .then(bundle => {
       return bundle.write({
         file: './dist/skipto.js',
-        format: 'es',
+        format: 'iife',
       });
     });
 });
