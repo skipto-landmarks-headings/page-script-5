@@ -1,5 +1,6 @@
 /* ========================================================================
-* Copyright (c) <2022, 2023> (version 5.1) Jon Gunderson, University of Illinois and PayPal
+* Copyright (c) <2022-2023> Jon Gunderson
+* Copyright (c) <2014-2021> University of Illinois and PayPal
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
