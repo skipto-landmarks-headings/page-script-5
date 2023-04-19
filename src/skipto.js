@@ -5,8 +5,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
   'use strict';
 
   const SkipTo = {
-    skipToId: 'id-skip-to-js-50',
-    skipToMenuId: 'id-skip-to-menu-50',
+    skipToId: 'id-skip-to',
     domNode: null,
     buttonNode: null,
     menuNode: null,
@@ -27,7 +26,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       attachElement: 'body',
       displayOption: 'static', // options: static (default), popup, fixed
       // container element, use containerClass for custom styling
-      containerElement: 'div',
+      containerElement: 'nav',
       containerRole: '',
       customClass: '',
 
@@ -186,7 +185,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       // Add skipto style sheet to document
       renderStyleElement(this.colorThemes, this.config, this.skipToId);
 
-      new SkiptoMenuButton(attachElement, this.config);
+      new SkiptoMenuButton(attachElement, this.config, this.skipToId);
     },
 
     /*

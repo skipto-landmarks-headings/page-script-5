@@ -1,4 +1,6 @@
-Copyright (c) 2022 (ver 5.1.2), Jon Gunderson, University of Illinois and PayPal
+Copyright (c) (Version 5.x) 2022, 2023 Jon Gunderson; Licensed BSD
+
+Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
 
 All rights reserved.
 

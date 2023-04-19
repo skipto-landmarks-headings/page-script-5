@@ -10,27 +10,27 @@ debug.flag = false;
 const styleTemplate = document.createElement('template');
 styleTemplate.innerHTML = `
 <style type="text/css">
-nav#id-skip-to.popup {
+$skipToId.popup {
   position: absolute;
   top: -34px;
   transition: top 0.35s ease;
 }
 
-nav#id-skip-to button .text {
+$skipToId button .text {
   padding: 6px 8px 6px 8px;
   display: inline-block;
 }
 
-nav#id-skip-to button img {
+$skipToId button img {
   height: 24px;
   padding: 2px 4px 2px 4px;
   display: none;
   background-color: #e8e9ea;
 }
 
-nav#id-skip-to,
-nav#id-skip-to.popup.focus,
-nav#id-skip-to.popup:hover {
+$skipToId,
+$skipToId.popup.focus,
+$skipToId.popup:hover {
   position: absolute;
   top: 0;
   left: $positionLeft;
@@ -43,7 +43,7 @@ nav#id-skip-to.popup:hover {
   z-index: $zIndex !important;
 }
 
-nav#id-skip-to button {
+$skipToId button {
   position: relative;
   margin: 0;
   padding: 0;
@@ -60,25 +60,25 @@ nav#id-skip-to button {
 }
 
 @media screen and (max-width: $mediaBreakPointpx) {
-  nav#id-skip-to button img {
+  $skipToId button img {
     display: block;
   }
 
-  nav#id-skip-to button {
+  $skipToId button {
     border-color: #e8e9ea;
   }
 
-  nav#id-skip-to button .text {
+  $skipToId button .text {
     display: none;
   }
 }
 
-nav#id-skip-to.fixed {
+$skipToId.fixed {
   position: fixed;
 }
 
 
-nav#id-skip-to [role="menu"] {
+$skipToId [role="menu"] {
   position: absolute;
   min-width: 17em;
   display: none;
@@ -93,17 +93,17 @@ nav#id-skip-to [role="menu"] {
   z-index: $zIndex !important;
 }
 
-nav#id-skip-to [role="group"] {
+$skipToId [role="group"] {
   display: grid;
   grid-auto-rows: min-content;
   grid-row-gap: 1px;
 }
 
-nav#id-skip-to [role="separator"]:first-child {
+$skipToId [role="separator"]:first-child {
   border-radius: 5px 5px 0 0;
 }
 
-nav#id-skip-to [role="menuitem"] {
+$skipToId [role="menuitem"] {
   padding: 3px;
   width: auto;
   border-width: 0px;
@@ -118,8 +118,8 @@ nav#id-skip-to [role="menuitem"] {
   z-index: $zIndex !important;  
 }
 
-nav#id-skip-to [role="menuitem"] .level,
-nav#id-skip-to [role="menuitem"] .label {
+$skipToId [role="menuitem"] .level,
+$skipToId [role="menuitem"] .label {
   font-size: 100%;
   font-weight: normal;
   color: $menuTextColor;
@@ -129,12 +129,12 @@ nav#id-skip-to [role="menuitem"] .label {
   display: inline-block;
 }
 
-nav#id-skip-to [role="menuitem"] .level {
+$skipToId [role="menuitem"] .level {
   text-align: right;
   padding-right: 4px;
 }
 
-nav#id-skip-to [role="menuitem"] .label {
+$skipToId [role="menuitem"] .label {
   text-align: left;
   margin: 0;
   padding: 0;
@@ -143,49 +143,49 @@ nav#id-skip-to [role="menuitem"] .label {
   text-overflow: ellipsis;
 }
 
-nav#id-skip-to [role="menuitem"] .level:first-letter,
-nav#id-skip-to [role="menuitem"] .label:first-letter {
+$skipToId [role="menuitem"] .level:first-letter,
+$skipToId [role="menuitem"] .label:first-letter {
   text-decoration: underline;
   text-transform: uppercase;
 }
 
 
-nav#id-skip-to [role="menuitem"].skip-to-h1 .level { grid-column: 1; }
-nav#id-skip-to [role="menuitem"].skip-to-h2 .level { grid-column: 2; }
-nav#id-skip-to [role="menuitem"].skip-to-h3 .level { grid-column: 3; }
-nav#id-skip-to [role="menuitem"].skip-to-h4 .level { grid-column: 4; }
-nav#id-skip-to [role="menuitem"].skip-to-h5 .level { grid-column: 5; }
-nav#id-skip-to [role="menuitem"].skip-to-h6 .level { grid-column: 8;}
+$skipToId [role="menuitem"].skip-to-h1 .level { grid-column: 1; }
+$skipToId [role="menuitem"].skip-to-h2 .level { grid-column: 2; }
+$skipToId [role="menuitem"].skip-to-h3 .level { grid-column: 3; }
+$skipToId [role="menuitem"].skip-to-h4 .level { grid-column: 4; }
+$skipToId [role="menuitem"].skip-to-h5 .level { grid-column: 5; }
+$skipToId [role="menuitem"].skip-to-h6 .level { grid-column: 8;}
 
-nav#id-skip-to [role="menuitem"].skip-to-h1 .label { grid-column: 2 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-h2 .label { grid-column: 3 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-h3 .label { grid-column: 4 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-h4 .label { grid-column: 5 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-h5 .label { grid-column: 6 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-h6 .label { grid-column: 7 / 8;}
+$skipToId [role="menuitem"].skip-to-h1 .label { grid-column: 2 / 8; }
+$skipToId [role="menuitem"].skip-to-h2 .label { grid-column: 3 / 8; }
+$skipToId [role="menuitem"].skip-to-h3 .label { grid-column: 4 / 8; }
+$skipToId [role="menuitem"].skip-to-h4 .label { grid-column: 5 / 8; }
+$skipToId [role="menuitem"].skip-to-h5 .label { grid-column: 6 / 8; }
+$skipToId [role="menuitem"].skip-to-h6 .label { grid-column: 7 / 8;}
 
-nav#id-skip-to [role="menuitem"].skip-to-h1.no-level .label { grid-column: 1 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-h2.no-level .label { grid-column: 2 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-h3.no-level .label { grid-column: 3 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-h4.no-level .label { grid-column: 4 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-h5.no-level .label { grid-column: 5 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-h6.no-level .label { grid-column: 6 / 8; }
+$skipToId [role="menuitem"].skip-to-h1.no-level .label { grid-column: 1 / 8; }
+$skipToId [role="menuitem"].skip-to-h2.no-level .label { grid-column: 2 / 8; }
+$skipToId [role="menuitem"].skip-to-h3.no-level .label { grid-column: 3 / 8; }
+$skipToId [role="menuitem"].skip-to-h4.no-level .label { grid-column: 4 / 8; }
+$skipToId [role="menuitem"].skip-to-h5.no-level .label { grid-column: 5 / 8; }
+$skipToId [role="menuitem"].skip-to-h6.no-level .label { grid-column: 6 / 8; }
 
-nav#id-skip-to [role="menuitem"].skip-to-nesting-level-1 .nesting { grid-column: 1; }
-nav#id-skip-to [role="menuitem"].skip-to-nesting-level-2 .nesting { grid-column: 2; }
-nav#id-skip-to [role="menuitem"].skip-to-nesting-level-3 .nesting { grid-column: 3; }
+$skipToId [role="menuitem"].skip-to-nesting-level-1 .nesting { grid-column: 1; }
+$skipToId [role="menuitem"].skip-to-nesting-level-2 .nesting { grid-column: 2; }
+$skipToId [role="menuitem"].skip-to-nesting-level-3 .nesting { grid-column: 3; }
 
-nav#id-skip-to [role="menuitem"].skip-to-nesting-level-0 .label { grid-column: 1 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-nesting-level-1 .label { grid-column: 2 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-nesting-level-2 .label { grid-column: 3 / 8; }
-nav#id-skip-to [role="menuitem"].skip-to-nesting-level-3 .label { grid-column: 4 / 8; }
+$skipToId [role="menuitem"].skip-to-nesting-level-0 .label { grid-column: 1 / 8; }
+$skipToId [role="menuitem"].skip-to-nesting-level-1 .label { grid-column: 2 / 8; }
+$skipToId [role="menuitem"].skip-to-nesting-level-2 .label { grid-column: 3 / 8; }
+$skipToId [role="menuitem"].skip-to-nesting-level-3 .label { grid-column: 4 / 8; }
 
-nav#id-skip-to [role="menuitem"].no-items .label,
-nav#id-skip-to [role="menuitem"].action .label {
+$skipToId [role="menuitem"].no-items .label,
+$skipToId [role="menuitem"].action .label {
   grid-column: 1 / 8;
 }
 
-nav#id-skip-to [role="separator"] {
+$skipToId [role="separator"] {
   margin: 1px 0px 1px 0px;
   padding: 3px;
   display: block;
@@ -199,50 +199,50 @@ nav#id-skip-to [role="separator"] {
   z-index: $zIndex !important;
 }
 
-nav#id-skip-to [role="separator"] .mofn {
+$skipToId [role="separator"] .mofn {
   font-weight: normal;
   font-size: 85%;
 }
 
-nav#id-skip-to [role="separator"]:first-child {
+$skipToId [role="separator"]:first-child {
   border-radius: 5px 5px 0 0;
 }
 
-nav#id-skip-to [role="menuitem"].last {
+$skipToId [role="menuitem"].last {
   border-radius: 0 0 5px 5px;
 }
 
 /* focus styling */
 
-nav#id-skip-to.focus {
+$skipToId.focus {
   display: block;
 }
 
-nav#id-skip-to button:focus,
-nav#id-skip-to button:hover {
+$skipToId button:focus,
+$skipToId button:hover {
   background-color: $menuBackgroundColor;
   color: $menuTextColor;
   outline: none;
 }
 
-nav#id-skip-to button:focus,
-nav#id-skip-to button:hover {
+$skipToId button:focus,
+$skipToId button:hover {
   border-width: 0px 2px 2px 2px;
   border-color: $focusBorderColor;
 }
 
-nav#id-skip-to button:focus .text,
-nav#id-skip-to button:hover .text {
+$skipToId button:focus .text,
+$skipToId button:hover .text {
   padding: 6px 7px 5px 7px;
 }
 
-nav#id-skip-to button:focus img,
-nav#id-skip-to button:hover img {
+$skipToId button:focus img,
+$skipToId button:hover img {
   padding: 2px 3px 4px 3px;
 }
 
 
-nav#id-skip-to [role="menuitem"]:focus {
+$skipToId [role="menuitem"]:focus {
   padding: 1px;
   border-width: 2px;
   border-style: solid;
@@ -252,8 +252,8 @@ nav#id-skip-to [role="menuitem"]:focus {
   outline: none;
 }
 
-nav#id-skip-to [role="menuitem"]:focus .level,
-nav#id-skip-to [role="menuitem"]:focus .label {
+$skipToId [role="menuitem"]:focus .level,
+$skipToId [role="menuitem"]:focus .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }
@@ -413,16 +413,16 @@ function addCSSColors (colorThemes, config) {
 /*
  *   @function enderStyleElement
  *
- *   @desc  Updates the style sheet template and then attaches it to the docuent
+ *   @desc  Updates the style sheet template and then attaches it to the document
  *
- * @param  {Object}  colorThemes -  Object with theme information
- * @param  {Object}  config      -  Configuration information object
- * @param  {String}  skipYToId   -  Id used for the skipto container element
+ * @param  {Object}  colorThemes     -  Object with theme information
+ * @param  {Object}  config          -  Configuration information object
+ * @param  {String}  skipYToStyleId  -  Id used for the skipto container element
  */
 export default function renderStyleElement (colorThemes, config, skipToId) {
+  styleTemplate.innerHTML = styleTemplate.innerHTML.replaceAll('$skipToId', '#' + skipToId);
   addCSSColors(colorThemes, config);
   const styleNode = styleTemplate.content.cloneNode(true);
   const headNode = document.getElementsByTagName('head')[0];
   headNode.appendChild(styleNode);
-  styleNode.id = skipToId;
 }
