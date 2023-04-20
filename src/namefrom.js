@@ -308,6 +308,7 @@ function couldHaveAltText (element) {
 *               computed string values, the result cannot and will not be 
 *               equal to 'none'.
 *
+*
 *   @param {Object}  element   - DOM node element
 *   @param {String}  contents  - Text content for DOM node
 *
@@ -320,11 +321,12 @@ function addCssGeneratedContent (element, contents) {
       prefix = getComputedStyle(element, ':before').content,
       suffix = getComputedStyle(element, ':after').content;
 
-  if (prefix !== 'none') {
-    result = prefix.replaceAll('"', '') + result;
+  if ((prefix[0] === '"') && !prefix.toLowerCase().includes('moz-')) {
+    result = prefix.substring(1, (prefix.length-1)) + result;
   }
-  if (suffix !== 'none') {
-    result = result + suffix.replaceAll('"', '');
+
+  if ((suffix[0] === '"') && !suffix.toLowerCase().includes('moz-')) {
+    result = result + suffix.substring(1, (suffix.length-1)) ;
   }
 
   return result;

@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.1.3
+ * Version: 5.1.4
  * Copyright (c) 2022, 2023 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -881,11 +881,12 @@ $skipToId [role="menuitem"]:focus .label {
         prefix = getComputedStyle(element, ':before').content,
         suffix = getComputedStyle(element, ':after').content;
 
-    if (prefix !== 'none') {
-      result = prefix.replaceAll('"', '') + result;
+   if ((prefix[0] === '"') && !prefix.toLowerCase().includes('moz-')) {
+      result = prefix.substring(1, (prefix.length-1)) + result;
     }
-    if (suffix !== 'none') {
-      result = result + suffix.replaceAll('"', '');
+
+   if ((suffix[0] === '"') && !suffix.toLowerCase().includes('moz-')) {
+      result = result + suffix.substring(1, (suffix.length-1)) ;
     }
 
     return result;

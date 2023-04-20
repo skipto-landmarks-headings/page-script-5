@@ -394,6 +394,9 @@ Happy skipping!
 
 ## Version History
 
+### Version 5.1.4
+* Fixed bug in accessible name calculation for images included in heading contents for Firefox browser
+
 ### Version 5.1.3
 * Minor edits to license to make version authorship clearer.
 * Restore `containerElement` configuration option to allow the author to use SkipTo without creating a navigation landmark.
