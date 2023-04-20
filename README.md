@@ -1,7 +1,7 @@
 
 <img src="./images/skipto-128.png" alt="SkipTo logo"/>
 
-# SkipTo Landmarks and Headings Page Script, Version 5.1.3
+# SkipTo Landmarks and Headings Page Script, Version 5.1
 
 See the [Authors](#authors) section for more information.
 
