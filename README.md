@@ -394,6 +394,9 @@ Happy skipping!
 
 ## Version History
 
+### Version 5.1.5
+* Fixed bug in detecting if SkipTo is already load, sends warning to console if loaded more than once
+
 ### Version 5.1.4
 * Fixed bug in accessible name calculation for images included in heading contents for Firefox browser
 

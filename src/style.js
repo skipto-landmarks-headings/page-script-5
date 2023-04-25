@@ -9,7 +9,7 @@ debug.flag = false;
 
 const styleTemplate = document.createElement('template');
 styleTemplate.innerHTML = `
-<style type="text/css">
+<style type="text/css" id="id-skip-to-css">
 $skipToId.popup {
   position: absolute;
   top: -34px;
@@ -423,6 +423,7 @@ export default function renderStyleElement (colorThemes, config, skipToId) {
   styleTemplate.innerHTML = styleTemplate.innerHTML.replaceAll('$skipToId', '#' + skipToId);
   addCSSColors(colorThemes, config);
   const styleNode = styleTemplate.content.cloneNode(true);
+  styleNode.id = `${skipToId}-style`;
   const headNode = document.getElementsByTagName('head')[0];
   headNode.appendChild(styleNode);
 }

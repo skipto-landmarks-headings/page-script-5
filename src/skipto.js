@@ -168,9 +168,12 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
       let node;
 
       // Check if skipto is already loaded
-      if (document.querySelector('style#' + this.skipToId)) {
+      if (document.skipToHasBeenLoaded) {
+        console.warn('SkipTo.js is already loaded!');
         return;
       }
+
+      document.skipToHasBeenLoaded = true;
 
       let attachElement = document.body;
       if (config) {

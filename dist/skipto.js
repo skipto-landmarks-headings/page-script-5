@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.1.4
+ * Version: 5.1.5
  * Copyright (c) 2022, 2023 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -115,7 +115,7 @@
 
   const styleTemplate = document.createElement('template');
   styleTemplate.innerHTML = `
-<style type="text/css">
+<style type="text/css" id="id-skip-to-css">
 $skipToId.popup {
   position: absolute;
   top: -34px;
@@ -529,6 +529,7 @@ $skipToId [role="menuitem"]:focus .label {
     styleTemplate.innerHTML = styleTemplate.innerHTML.replaceAll('$skipToId', '#' + skipToId);
     addCSSColors(colorThemes, config);
     const styleNode = styleTemplate.content.cloneNode(true);
+    styleNode.id = `${skipToId}-style`;
     const headNode = document.getElementsByTagName('head')[0];
     headNode.appendChild(styleNode);
   }
@@ -869,6 +870,7 @@ $skipToId [role="menuitem"]:focus .label {
   *               computed string values, the result cannot and will not be 
   *               equal to 'none'.
   *
+  *
   *   @param {Object}  element   - DOM node element
   *   @param {String}  contents  - Text content for DOM node
   *
@@ -881,11 +883,11 @@ $skipToId [role="menuitem"]:focus .label {
         prefix = getComputedStyle(element, ':before').content,
         suffix = getComputedStyle(element, ':after').content;
 
-   if ((prefix[0] === '"') && !prefix.toLowerCase().includes('moz-')) {
+    if ((prefix[0] === '"') && !prefix.toLowerCase().includes('moz-')) {
       result = prefix.substring(1, (prefix.length-1)) + result;
     }
 
-   if ((suffix[0] === '"') && !suffix.toLowerCase().includes('moz-')) {
+    if ((suffix[0] === '"') && !suffix.toLowerCase().includes('moz-')) {
       result = result + suffix.substring(1, (suffix.length-1)) ;
     }
 
@@ -2678,9 +2680,12 @@ $skipToId [role="menuitem"]:focus .label {
         let node;
 
         // Check if skipto is already loaded
-        if (document.querySelector('style#' + this.skipToId)) {
+        if (document.skipToHasBeenLoaded) {
+          console.warn('SkipTo.js is already loaded!');
           return;
         }
+
+        document.skipToHasBeenLoaded = true;
 
         let attachElement = document.body;
         if (config) {
