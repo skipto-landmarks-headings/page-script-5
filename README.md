@@ -247,7 +247,7 @@ NOTE: Configuration objects in [version 4.x](https://github.com/skipto-landmarks
 The source code in this section is for developers to understand the HTML, classes and ids used in the SkipTo menu button and menu for use in custom styling.
 
 ```html
-<div class="skip-to">
+<div class="id-skip-to">
   <!--
   //
   // Menu Button
@@ -357,10 +357,10 @@ nav#id-skip-to.MyCustomClass {
 
 ## Compiling CSS and JavaScript
 
-You may feel slightly adventurous and decide to change some colors by creating a built-in color theme or even enhance the script with your changes. Once you do this, here is how you compile the skipTo script for production.
+The [SkipTo.js code](https://github.com/skipto-landmarks-headings/page-script-5) is open-source. You may feel slightly adventurous and decide to change some colors by creating a built-in color theme or even enhance the script with your changes. Once you do this, here is how you compile the skipTo script for production.
 
 ```sh
-git clone https://github.com/skipto-landmarks-headings/page-script-5.git
+git clone [https://github.com/skipto-landmarks-headings/page-script-5.git](https://github.com/skipto-landmarks-headings/page-script-5)
 cd page-script-5
 sudo npm install grunt-cli -g
 npm install
