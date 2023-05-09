@@ -328,6 +328,18 @@ The source code in this section is for developers to understand the HTML, classe
 
 
 ```
+## Warning Messages
+
+The following warning messages maybe be rendered to the console:
+
+| Message                          | Action                          |
+| :------------------------------- | :------------------------------ |
+| Skipto is already loaded         | Additional SkipTo's are ignored |
+| No headings found in main        | Will search for any headings on the page |
+| No headings found on page        | SkipTo menu reports no headings on the page |
+| No landmarks found on page       | SkipTo menu reports no landmarks on the page |
+| Error in heading configuration   | Sets configuration to look for any `h1` of `h2` headings  |
+| Error in landmark configuration  | Sets configuration to look for `main search` and `navigation` landmarks|
 
 ### Notes
 
@@ -336,7 +348,7 @@ The source code in this section is for developers to understand the HTML, classe
 * When the custom class is specified (see the customClass parameter), the user can override the style:
 
 ```css
-nav#skip-to.MyCustomClass {
+nav#id-skip-to.MyCustomClass {
   background:  red;
   left: 50px;
   top: 50px;
@@ -395,6 +407,9 @@ Happy skipping!
 ## Version History
 
 ### Version 5.1.6
+* Fixed bug in looking for headings outside the main landmark, if no headings were found in the main landmark.  NOTE: In the default configuration, SkipTo on looks for headings in the main landmark, but if none are found will look for any headings on the page.
+
+### Version 5.1.5
 * Fixed bug in detecting if SkipTo is already load, sends warning to console if loaded more than once
 
 ### Version 5.1.4
