@@ -407,7 +407,7 @@ Happy skipping!
 ## Version History
 
 ### Version 5.1.6
-* Fixed bug in looking for headings outside the main landmark, if no headings were found in the main landmark.  NOTE: In the default configuration, SkipTo on looks for headings in the main landmark, but if none are found will look for any headings on the page.
+* Fixed bug in looking for headings outside the main landmark, if no headings were found in the main landmark and added additional console warning messages.  NOTE: In the default configuration, SkipTo.js looks for headings only in the main landmark, but if none are found it will look for any headings on the page.
 
 ### Version 5.1.5
 * Fixed bug in detecting if SkipTo is already load, sends warning to console if loaded more than once
