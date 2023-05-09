@@ -340,7 +340,7 @@ The following warning messages maybe be rendered to the console:
 | No landmarks found on page       | SkipTo menu reports no landmarks on the page |
 | Error in heading configuration   | Sets configuration to look for any `h1` of `h2` headings  |
 | Error in landmark configuration  | Sets configuration to look for `main search` and `navigation` landmarks|
-| Unsuported or deprecated configuration option | Ignored and/or default setting is used |
+| Unsuported or deprecated configuration option "abc" | "abc" option is ignored and/or default setting is used |
 
 ### Notes
 
