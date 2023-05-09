@@ -394,7 +394,7 @@ Happy skipping!
 
 ## Version History
 
-### Version 5.1.5
+### Version 5.1.6
 * Fixed bug in detecting if SkipTo is already load, sends warning to console if loaded more than once
 
 ### Version 5.1.4
