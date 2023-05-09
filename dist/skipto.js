@@ -2699,7 +2699,7 @@ $skipToId [role="menuitem"]:focus .label {
 
         // Check if skipto is already loaded
         if (document.skipToHasBeenLoaded) {
-          console.warn('SkipTo.js is already loaded!');
+          console.warn('[skipTo.js] Skipto is already loaded!');
           return;
         }
 
