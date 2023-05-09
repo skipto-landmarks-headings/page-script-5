@@ -566,4 +566,5 @@ Happy skipping!
 
 ## Copyright and license
 
-Copyright 2022, Jon Gunderson, University of Illinois and PayPal under the [BSD license](LICENSE.md).
+Copyright 2022, 2023 Jon Gunderson under the [BSD license](LICENSE.md).
+Copyright 2021 University of Illinois and PayPal under the [BSD license](LICENSE.md).
