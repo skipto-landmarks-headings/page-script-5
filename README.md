@@ -335,7 +335,7 @@ The following warning messages maybe be rendered to the console:
 | Message                          | Action                          |
 | :------------------------------- | :------------------------------ |
 | Skipto is already loaded         | Additional SkipTo's are ignored |
-| No headings found in main        | Searches for configured headings on the entire page |
+| No headings found in main        | Searches for headings anywhere on the page |
 | No headings found on page        | SkipTo menu reports no headings on the page |
 | No landmarks found on page       | SkipTo menu reports no landmarks on the page |
 | Error in heading configuration   | Sets configuration to look for any `h1` of `h2` headings  |
