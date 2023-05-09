@@ -30,6 +30,7 @@ export default class SkiptoMenuButton {
 
     constructor (attachNode, config, id) {
       this.config = config;
+      this.skiptoId = id;
 
       this.containerNode = document.createElement(config.containerElement);
       if (config.containerElement === 'nav') {
@@ -370,7 +371,8 @@ export default class SkiptoMenuButton {
       }
 
       // Create landmarks group
-      const [landmarkElements, headingElements] = getLandmarksAndHeadings(this.config);
+      const [landmarkElements, headingElements] = getLandmarksAndHeadings(this.config, this.skiptoId);
+
       this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, this.config.msgNoLandmarksFound);
       this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, this.config.msgNoHeadingsFound);
 

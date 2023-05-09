@@ -458,12 +458,13 @@ function isMain (element) {
  *   @desc  Recursive function to return two arrays, one an array of the DOM element nodes for 
  *          landmarks and the other an array of DOM element ndoes for headings  
  *
- *   @param  {Array}  landamrkTargets  -  An array of strings representing landmark regions
+ *   @param  {Array}   landamrkTargets  -  An array of strings representing landmark regions
  *   @param  {Array}   headingTargets  -  An array of strings representing headings
+ *   @param  {String}  skiptoId        -  An array of strings representing headings
  *
  *   @returns {Array}  @see @desc
  */ 
-function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
+function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skiptoId) {
   let headingInfo = [];
   let landmarkInfo = [];
   let targetLandmarks = getLandmarkTargets(landmarkTargets.toLowerCase());
@@ -474,7 +475,8 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE) {
         const tagName = node.tagName.toLowerCase();
-        if (targetLandmarks.indexOf(checkForLandmark(node)) >= 0) {
+        if ((targetLandmarks.indexOf(checkForLandmark(node)) >= 0) &&
+            (node.id !== skiptoId)) {
           landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
         }
         if (targetHeadings.indexOf(tagName) >= 0) {
@@ -539,8 +541,20 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
   // to find any headings
   if ((headingInfo.length === 0) && onlyInMain) {
     onlyInMain = false;
+    landmarkInfo = [];
     transverseDOM(document.body, document);
+    if (headingInfo.length === 0) {
+       console.warn(`[skipTo.js]: no headings found on page`);
+    }
+    else {
+      console.warn(`[skipTo.js]: no headings found in main landmark, but ${headingInfo.length} found in page.`);
+    }
   }
+
+  if (landmarkInfo.length === 0) {
+     console.warn(`[skipTo.js]: no landmarks found on page`);
+  }
+
 
   return [landmarkInfo, headingInfo];
 }
@@ -557,20 +571,22 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets) {
  * @return see @desc
  */
 
-function getLandmarksAndHeadings (config) {
+function getLandmarksAndHeadings (config, skiptoId) {
 
   let landmarkTargets = config.landmarks;
   if (typeof landmarkTargets !== 'string') {
+    console.warn(`[skipto.js]: Error in landmark configuration`);
     landmarkTargets = 'main search navigation';
   }
 
   let headingTargets = config.headings;
   // If targets undefined, use default settings
   if (typeof headingTargets !== 'string') {
+    console.warn(`[skipto.js]: Error in heading configuration`);
     headingTargets = 'h1 h2';
   }
 
-  const [landmarks, headings] = queryDOMForLandmarksAndHeadings(landmarkTargets, headingTargets);
+  const [landmarks, headings] = queryDOMForLandmarksAndHeadings(landmarkTargets, headingTargets, skiptoId);
 
   return [getLandmarks(config, landmarks), getHeadings(config, headings)];
 }

@@ -195,7 +195,6 @@ The labels and messages can be localized for specific languages or updated to re
 | `menuLabel` | 'Landmarks and Headings' | Change the label for the menu. |
 | `landmarkGroupLabel` | 'Landmark Regions' | Menu group label for landmarks . |
 | `headingGroupLabel` | 'Headings' | Menu group label for headings. |
-| `mofnGroupLabel` | '$m of $n' | Provides information on the number of items that are displayed and the total number of items in the document.  The information is added to the landmark and heading group labels. |
 | `headingLevelLabel` | 'Heading level' | Used for `aria-label` to improve labeling of heading menu items for screen reader users. |
 | `mainLabel` | 'main' | The label in the menu for `main` landmarks |
 | `searchLabel` | 'search' | The label in the menu for `search` landmarks |
@@ -225,6 +224,7 @@ The following properties were deprecated from previous versions of SkipTo and wi
 * `buttonTitle` 
 * `buttonTitleAccesskey` 
 * `containerRole`
+* `mofnGroupLabel`
 
 ## Example Settings
 
@@ -247,7 +247,7 @@ NOTE: Configuration objects in [version 4.x](https://github.com/skipto-landmarks
 The source code in this section is for developers to understand the HTML, classes and ids used in the SkipTo menu button and menu for use in custom styling.
 
 ```html
-<div class="skip-to">
+<div class="id-skip-to">
   <!--
   //
   // Menu Button
@@ -328,6 +328,19 @@ The source code in this section is for developers to understand the HTML, classe
 
 
 ```
+## Warning Messages
+
+The following warning messages maybe be rendered to the console:
+
+| Message                          | Action                          |
+| :------------------------------- | :------------------------------ |
+| Skipto is already loaded         | Additional SkipTo's are ignored |
+| No headings found in main        | Searches for headings anywhere on the page |
+| No headings found on page        | SkipTo menu reports no headings on the page |
+| No landmarks found on page       | SkipTo menu reports no landmarks on the page |
+| Error in heading configuration   | Sets configuration to look for any `h1` of `h2` headings  |
+| Error in landmark configuration  | Sets configuration to look for `main search` and `navigation` landmarks|
+| Unsuported or deprecated configuration option "abc" | "abc" option is ignored and/or default setting is used |
 
 ### Notes
 
@@ -336,7 +349,7 @@ The source code in this section is for developers to understand the HTML, classe
 * When the custom class is specified (see the customClass parameter), the user can override the style:
 
 ```css
-nav#skip-to.MyCustomClass {
+nav#id-skip-to.MyCustomClass {
   background:  red;
   left: 50px;
   top: 50px;
@@ -345,7 +358,7 @@ nav#skip-to.MyCustomClass {
 
 ## Compiling CSS and JavaScript
 
-You may feel slightly adventurous and decide to change some colors by creating a built-in color theme or even enhance the script with your changes. Once you do this, here is how you compile the skipTo script for production.
+The [SkipTo.js code](https://github.com/skipto-landmarks-headings/page-script-5) is open-source. You may feel slightly adventurous and decide to change some colors by creating a built-in color theme or even enhance the script with your changes. Once you do this, here is how you compile the skipTo script for production.
 
 ```sh
 git clone https://github.com/skipto-landmarks-headings/page-script-5.git
@@ -393,6 +406,9 @@ Happy skipping!
 
 
 ## Version History
+
+### Version 5.1.6
+* Fixed bug in looking for headings outside the main landmark, if no headings were found in the main landmark and added additional console warning messages.  NOTE: In the default configuration, SkipTo.js looks for headings only in the main landmark, but if none are found it will look for any headings on the page.
 
 ### Version 5.1.5
 * Fixed bug in detecting if SkipTo is already load, sends warning to console if loaded more than once
