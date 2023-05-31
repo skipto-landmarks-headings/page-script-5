@@ -1,7 +1,7 @@
 
 <img src="./images/skipto-128.png" alt="SkipTo logo"/>
 
-# SkipTo Landmarks and Headings Page Script, Version 5.1
+# SkipTo Landmarks and Headings Page Script, Version 5.2
 
 See the [Authors](#authors) section for more information.
 
@@ -228,7 +228,22 @@ The following properties were deprecated from previous versions of SkipTo and wi
 
 ## Example Settings
 
-You can custiomize SkipTo to the features of your website by using a configuration object. The following is a sample configuration:
+There are 2 ways for the author to configure SkipTo.js: using the `data-skipto` attribute or a global window variable.
+
+### Settings Using Data Attribute
+
+You can customize SkipTo to the features of your website by using a `data-skipto` attribute on the `script` element. The following is a sample configuration:
+
+```html
+<script
+  data-skipto="landmarks: main search navigation; headings: main h1 h2 h3; colorTheme: illinois"
+  src="https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js">
+  </script>
+```
+
+### Settings Using Global Object
+
+You can customize SkipTo to the features of your website by using a global object variable. The following is a sample configuration:
 
 ```html
 <script>
@@ -406,6 +421,9 @@ Happy skipping!
 
 
 ## Version History
+
+### Version 5.2.0
+* Added `data-scripto` attribute support for author configuring skipto features
 
 ### Version 5.1.6
 * Fixed bug in looking for headings outside the main landmark, if no headings were found in the main landmark and added additional console warning messages.  NOTE: In the default configuration, SkipTo.js looks for headings only in the main landmark, but if none are found it will look for any headings on the page.

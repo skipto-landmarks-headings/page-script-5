@@ -28,6 +28,7 @@ template1.innerHTML = `
         Nunc scelerisque, eros sed feugiat sodales, mauris justo vulputate lorem,
         fringilla iaculis turpis arcu sit amet sapien. Vivamus facilisis orci leo.
       </slot>
+      <h3>Some other Items 1</h3>
       <ul>
         <li><a href="#">Item A1</a></li>
         <li><a href="#">Item B1</a></li>
@@ -41,6 +42,7 @@ template1.innerHTML = `
         Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
         Proin quis venenatis lacus, ac tincidunt nibh. Morbi eget ante ac ipsum tempor dictum.
       </p>
+      <h3>Some other Items 2</h3>
       <ul>
         <li><a href="#">Item A2</a></li>
         <li><a href="#">Item B2</a></li>
