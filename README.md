@@ -58,15 +58,6 @@ To use the "SkipTo" shortcut key, you would press either `alt + 0` (Windows/Unix
 
 All you need are either skipto.js or skipto.min.js from the "[dist/](dist/)" directory of this repository. Please note that skipto.min.js is a minified (a lighter version) of the script.
 
-### Local File on Your Web Server
-
-Copy the [skipto.js](https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js) or [skipto.min.js](https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js) to the file system of your web server and reference it from your web page or templates using a `script` tag, as follows:
-
-
-```html
-<script src="https://[path to Javascript files]/skipto.min.js"></script>
-```
-
 ### CDN Service
 
 The easiest way is to include a reference to `skipto.min.js`  on your HTML page or template is through the CDN service, as follows:
@@ -78,6 +69,15 @@ github.com CDN service:
 ```
 
 NOTE: CDN referenced files may not be available to computers behind firewall protected networks.
+
+### Local File on Your Web Server
+
+Copy the [skipto.js](https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js) or [skipto.min.js](https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js) to the file system of your web server and reference it from your web page or templates using a `script` tag, as follows:
+
+
+```html
+<script src="https://[path to Javascript files]/skipto.min.js"></script>
+```
 
 ## Reporting Issues
 
