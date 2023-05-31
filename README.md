@@ -263,9 +263,9 @@ or
 ```html
 <script>
 window.SkipToConfig =  {};
-window.SkipToConfig.landmarks:  'main search navigation';
-window.SkipToConfig.headings:   'main h1 h2 h3';
-window.SkipToConfig.colorTheme: 'illinois';
+window.SkipToConfig.landmarks  = 'main search navigation';
+window.SkipToConfig.headings   = 'main h1 h2 h3';
+window.SkipToConfig.colorTheme = 'illinois';
 </script>
 ```
 
