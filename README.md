@@ -429,7 +429,7 @@ Happy skipping!
 ## Version History
 
 ### Version 5.2.0
-* Added `data-scripto` attribute support for author configuring skipto features
+* Added `data-scripto` attribute support for the author to configure `skipto.js` features.
 
 ### Version 5.1.6
 * Fixed bug in looking for headings outside the main landmark, if no headings were found in the main landmark and added additional console warning messages.  NOTE: In the default configuration, SkipTo.js looks for headings only in the main landmark, but if none are found it will look for any headings on the page.
