@@ -258,6 +258,16 @@ var SkipToConfig =  {
 };
 </script>
 ```
+or
+
+```html
+<script>
+window.SkipToConfig =  {};
+window.SkipToConfig.landmarks:  'main search navigation';
+window.SkipToConfig.headings:   'main h1 h2 h3';
+window.SkipToConfig.colorTheme: 'illinois';
+</script>
+```
 
 NOTE: Configuration objects in [version 4.x](https://github.com/skipto-landmarks-headings/page-script-4#user-content-example-settings) are still supported for compatibility with existing installations.  Version 5.0 is providing a less complex object for customizing SkipTo.
 
