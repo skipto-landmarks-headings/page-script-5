@@ -235,7 +235,7 @@ debug.flag = true;
           ) {
           config[name] = authorConfig[name];
         } else {
-          console.warn('[SkipTo]: Unsupported or deprecated configuration option in global configuration object"' + name + '".');
+          console.warn('[SkipTo]: Unsupported or deprecated configuration option in global configuration object: ' + name);
         }
       }
 
@@ -283,7 +283,7 @@ debug.flag = true;
           ) {
           config[name] = dataConfig[name];
         } else {
-          console.warn('[SkipTo]: Unsupported or deprecated configuration option in data-skipto attribute"' + name + '".');
+          console.warn('[SkipTo]: Unsupported or deprecated configuration option in data-skipto attribute: ' + name);
         }
       }
       return config;
