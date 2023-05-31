@@ -77,14 +77,6 @@ github.com CDN service:
 <script src="https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js"></script>
 ```
 
-or
-
-University of Illinois CDN service:
-
-```html
-<script src="https://cdn.disability.illinois.edu/skipto.min.js"></script>
-```
-
 NOTE: CDN referenced files may not be available to computers behind firewall protected networks.
 
 ## Reporting Issues
