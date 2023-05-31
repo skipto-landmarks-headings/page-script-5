@@ -1,7 +1,7 @@
 
 <img src="./images/skipto-128.png" alt="SkipTo logo"/>
 
-# SkipTo Landmarks and Headings Page Script, Version 5.1
+# SkipTo Landmarks and Headings Page Script, Version 5.2
 
 See the [Authors](#authors) section for more information.
 
@@ -58,15 +58,6 @@ To use the "SkipTo" shortcut key, you would press either `alt + 0` (Windows/Unix
 
 All you need are either skipto.js or skipto.min.js from the "[dist/](dist/)" directory of this repository. Please note that skipto.min.js is a minified (a lighter version) of the script.
 
-### Local File on Your Web Server
-
-Copy the [skipto.js](https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js) or [skipto.min.js](https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js) to the file system of your web server and reference it from your web page or templates using a `script` tag, as follows:
-
-
-```html
-<script src="https://[path to Javascript files]/skipto.min.js"></script>
-```
-
 ### CDN Service
 
 The easiest way is to include a reference to `skipto.min.js`  on your HTML page or template is through the CDN service, as follows:
@@ -77,15 +68,16 @@ github.com CDN service:
 <script src="https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js"></script>
 ```
 
-or
+NOTE: CDN referenced files may not be available to computers behind firewall protected networks.
 
-University of Illinois CDN service:
+### Local File on Your Web Server
+
+Copy the [skipto.js](https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js) or [skipto.min.js](https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js) to the file system of your web server and reference it from your web page or templates using a `script` tag, as follows:
+
 
 ```html
-<script src="https://cdn.disability.illinois.edu/skipto.min.js"></script>
+<script src="https://[path to Javascript files]/skipto.min.js"></script>
 ```
-
-NOTE: CDN referenced files may not be available to computers behind firewall protected networks.
 
 ## Reporting Issues
 
@@ -228,7 +220,26 @@ The following properties were deprecated from previous versions of SkipTo and wi
 
 ## Example Settings
 
-You can custiomize SkipTo to the features of your website by using a configuration object. The following is a sample configuration:
+There are two ways for an author to configure SkipTo.js:
+
+1. `data-skipto` attribute
+1. Global variable
+
+### Settings Using Data Attribute
+
+You can customize SkipTo to the features of your website by using a `data-skipto` attribute on the `script` element. Each property/value setting is separated by a semi-colon (`;`), and each property name and value is separated by a colon (`:`).
+The following is a sample configuration:
+
+```html
+<script
+  data-skipto="landmarks: main search navigation; headings: main h1 h2 h3; colorTheme: illinois"
+  src="https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js">
+</script>
+```
+
+### Settings Using Global Object
+
+You can customize SkipTo to the features of your website by using a global object variable. The following is a sample configuration:
 
 ```html
 <script>
@@ -237,6 +248,16 @@ var SkipToConfig =  {
   headings: 'main h1 h2 h3',
   colorTheme: 'illinois'
 };
+</script>
+```
+or
+
+```html
+<script>
+window.SkipToConfig =  {};
+window.SkipToConfig.landmarks  = 'main search navigation';
+window.SkipToConfig.headings   = 'main h1 h2 h3';
+window.SkipToConfig.colorTheme = 'illinois';
 </script>
 ```
 
@@ -406,6 +427,9 @@ Happy skipping!
 
 
 ## Version History
+
+### Version 5.2.0
+* Added `data-scripto` attribute support for the author to configure `skipto.js` features.
 
 ### Version 5.1.6
 * Fixed bug in looking for headings outside the main landmark, if no headings were found in the main landmark and added additional console warning messages.  NOTE: In the default configuration, SkipTo.js looks for headings only in the main landmark, but if none are found it will look for any headings on the page.
