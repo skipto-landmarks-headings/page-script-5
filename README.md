@@ -242,7 +242,7 @@ The following is a sample configuration:
 <script
   data-skipto="landmarks: main search navigation; headings: main h1 h2 h3; colorTheme: illinois"
   src="https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js">
-  </script>
+</script>
 ```
 
 ### Settings Using Global Object
