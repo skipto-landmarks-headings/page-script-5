@@ -228,7 +228,10 @@ The following properties were deprecated from previous versions of SkipTo and wi
 
 ## Example Settings
 
-There are 2 ways for the author to configure SkipTo.js: using the `data-skipto` attribute or a global window variable.
+There are two ways for an author to configure SkipTo.js:
+
+1. `data-skipto` attribute
+1. Global variable
 
 ### Settings Using Data Attribute
 
