@@ -110,8 +110,8 @@
   /* style.js */
 
   /* Constants */
-  const debug$5 = new DebugLogging('style', false);
-  debug$5.flag = false;
+  const debug$6 = new DebugLogging('style', false);
+  debug$6.flag = false;
 
   const styleTemplate = document.createElement('template');
   styleTemplate.innerHTML = `
@@ -537,8 +537,8 @@ $skipToId [role="menuitem"]:focus .label {
   /* utils.js */
 
   /* Constants */
-  const debug$4 = new DebugLogging('Utils', false);
-  debug$4.flag = false;
+  const debug$5 = new DebugLogging('Utils', false);
+  debug$5.flag = false;
 
 
   /*
@@ -627,8 +627,8 @@ $skipToId [role="menuitem"]:focus .label {
 
   /* constants */
 
-  const debug$3 = new DebugLogging('nameFrom', false);
-  debug$3.flag = false;
+  const debug$4 = new DebugLogging('nameFrom', false);
+  debug$4.flag = false;
 
   //
   // LOW-LEVEL HELPER FUNCTIONS (NOT EXPORTED)
@@ -897,8 +897,8 @@ $skipToId [role="menuitem"]:focus .label {
   /* accName.js */
 
   /* Constants */
-  const debug$2 = new DebugLogging('accName', false);
-  debug$2.flag = false;
+  const debug$3 = new DebugLogging('accName', false);
+  debug$3.flag = false;
 
   /**
    *   @fuction getAccessibleName
@@ -976,8 +976,8 @@ $skipToId [role="menuitem"]:focus .label {
   /* landmarksHeadings.js */
 
   /* Constants */
-  const debug$1 = new DebugLogging('landmarksHeadings', false);
-  debug$1.flag = false;
+  const debug$2 = new DebugLogging('landmarksHeadings', false);
+  debug$2.flag = false;
 
   const skipableElements = [
     'base',
@@ -1794,8 +1794,8 @@ $skipToId [role="menuitem"]:focus .label {
   /* skiptoMenuButton.js */
 
   /* Constants */
-  const debug = new DebugLogging('SkipToButton', false);
-  debug.flag = false;
+  const debug$1 = new DebugLogging('SkipToButton', false);
+  debug$1.flag = false;
 
   /**
    * @class SkiptoMenuButton
@@ -2532,6 +2532,10 @@ $skipToId [role="menuitem"]:focus .label {
       }
   }
 
+  /* constants */
+  const debug = new DebugLogging('skipto', false);
+  debug.flag = true;
+
   (function() {
 
     const SkipTo = {
@@ -2750,6 +2754,7 @@ $skipToId [role="menuitem"]:focus .label {
         }
 
         for (const name in appConfigSettings) {
+          debug.log(`[setupConfig][name]: ${name}=${appConfigSettings[name]}`);
           //overwrite values of our local config, based on the external config
           if ((typeof this.config[name] !== 'undefined') &&
              ((typeof appConfigSettings[name] === 'string') &&
@@ -2758,7 +2763,7 @@ $skipToId [role="menuitem"]:focus .label {
             ) {
             this.config[name] = appConfigSettings[name];
           } else {
-            console.warn('[SkipTo]: Unsuported or deprecated configuration option "' + name + '".');
+            console.warn('[SkipTo]: Unsupported or deprecated configuration option "' + name + '".');
           }
         }
       }

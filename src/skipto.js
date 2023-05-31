@@ -1,6 +1,12 @@
 import renderStyleElement from './style.js';
 import SkiptoMenuButton from './skiptoMenuButton.js';
 
+import DebugLogging  from './debug.js';
+
+/* constants */
+const debug = new DebugLogging('skipto', false);
+debug.flag = false;
+
 (function() {
   'use strict';
 
@@ -228,7 +234,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
           ) {
           this.config[name] = appConfigSettings[name];
         } else {
-          console.warn('[SkipTo]: Unsuported or deprecated configuration option "' + name + '".');
+          console.warn('[SkipTo]: Unsupported or deprecated configuration option "' + name + '".');
         }
       }
     }
