@@ -228,6 +228,7 @@ There are two ways for an author to configure SkipTo.js:
 ### Settings Using Data Attribute
 
 You can customize SkipTo to the features of your website by using a `data-skipto` attribute on the `script` element. Each property/value setting is separated by a semi-colon (`;`), and each property name and value is separated by a colon (`:`).
+
 The following is a sample configuration:
 
 ```html
@@ -239,7 +240,9 @@ The following is a sample configuration:
 
 ### Settings Using Global Object
 
-You can customize SkipTo to the features of your website by using a global object variable. The following is a sample configuration:
+You can customize SkipTo to the features of your website by using a global object variable.
+
+The following is a sample configuration:
 
 ```html
 <script>
