@@ -198,26 +198,6 @@ The labels and messages can be localized for specific languages or updated to re
 | `msgNoLandmarksFound` | 'No landmarks to skip to'| Message for when no landmarks are found. |
 | `msgNoHeadingsFound` | 'No main headings to skip to'| Message for when no headings are found. |
 
-#### Deprecated Configuration Properties from Version 4
-
-The following properties were deprecated from previous versions of SkipTo and will be ignored if defined.
-
-* `actionGroupLabel` 
-* `actionShowHeadingsHelp` 
-* `actionShowSelectedHeadingsLabel` 
-* `actionShowAllHeadingsLabel` 
-* `actionShowLandmarksHelp` 
-* `actionShowSelectedLandmarksLabel` 
-* `actionShowAllLandmarksLabel` 
-* `actionShowSelectedHeadingsAriaLabel` 
-* `actionShowAllHeadingsAriaLabel` 
-* `actionShowSelectedLandmarksAriaLabel` 
-* `actionShowAllLandmarksAriaLabel`
-* `buttonTitle` 
-* `buttonTitleAccesskey` 
-* `containerRole`
-* `mofnGroupLabel`
-
 ## Example Settings
 
 There are two ways for an author to configure SkipTo.js:
@@ -271,7 +251,7 @@ NOTE: Configuration objects in [version 4.x](https://github.com/skipto-landmarks
 The source code in this section is for developers to understand the HTML, classes and ids used in the SkipTo menu button and menu for use in custom styling.
 
 ```html
-<div class="id-skip-to">
+<div class="id-skip-to" class="MyCustomClass">
   <!--
   //
   // Menu Button
@@ -350,8 +330,36 @@ The source code in this section is for developers to understand the HTML, classe
   </div>
 </div>
 
+Example CSS selector:
 
+```css
+nav#id-skip-to.MyCustomClass {
+  background:  red;
+  left: 50px;
+  top: 50px;
+}
 ```
+
+#### Deprecated Configuration Properties from Version 4
+
+The following properties were deprecated from previous versions of SkipTo and will be ignored if defined.
+
+* `actionGroupLabel`
+* `actionShowHeadingsHelp`
+* `actionShowSelectedHeadingsLabel`
+* `actionShowAllHeadingsLabel`
+* `actionShowLandmarksHelp`
+* `actionShowSelectedLandmarksLabel`
+* `actionShowAllLandmarksLabel`
+* `actionShowSelectedHeadingsAriaLabel`
+* `actionShowAllHeadingsAriaLabel`
+* `actionShowSelectedLandmarksAriaLabel`
+* `actionShowAllLandmarksAriaLabel`
+* `buttonTitle`
+* `buttonTitleAccesskey`
+* `containerRole`
+* `mofnGroupLabel`
+
 ## Warning Messages
 
 The following warning messages maybe be rendered to the console:
@@ -366,19 +374,6 @@ The following warning messages maybe be rendered to the console:
 | Error in landmark configuration  | Sets configuration to look for `main search` and `navigation` landmarks|
 | Unsuported or deprecated configuration option "abc" | "abc" option is ignored and/or default setting is used |
 
-### Notes
-
-* Parameters are optional.
-* SkipTo will be attached to the `header`element as the first child by default.  If the `header`element is not present, it will be attached as the first child of the `body` element on the page.  The attachment can be changed using the "attachElement" parameter.
-* When the custom class is specified (see the customClass parameter), the user can override the style:
-
-```css
-nav#id-skip-to.MyCustomClass {
-  background:  red;
-  left: 50px;
-  top: 50px;
-}
-```
 
 ## Compiling CSS and JavaScript
 
