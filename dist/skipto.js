@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.2.0
+ * Version: 5.2.1
  * Copyright (c) 2022, 2023 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -229,10 +229,11 @@ $skipToId [role="menuitem"] .label {
   font-size: 100%;
   font-weight: normal;
   color: $menuTextColor;
-  display: inline-block;
   background-color: $menuBackgroundColor;
+  display: inline-block;
   line-height: inherit;
   display: inline-block;
+  white-space: nowrap;
 }
 
 $skipToId [role="menuitem"] .level {
@@ -244,7 +245,6 @@ $skipToId [role="menuitem"] .label {
   text-align: left;
   margin: 0;
   padding: 0;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }

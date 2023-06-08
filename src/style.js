@@ -123,10 +123,11 @@ $skipToId [role="menuitem"] .label {
   font-size: 100%;
   font-weight: normal;
   color: $menuTextColor;
-  display: inline-block;
   background-color: $menuBackgroundColor;
+  display: inline-block;
   line-height: inherit;
   display: inline-block;
+  white-space: nowrap;
 }
 
 $skipToId [role="menuitem"] .level {
@@ -138,7 +139,6 @@ $skipToId [role="menuitem"] .label {
   text-align: left;
   margin: 0;
   padding: 0;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }

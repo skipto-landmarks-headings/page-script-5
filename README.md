@@ -426,6 +426,9 @@ Happy skipping!
 
 ## Version History
 
+### Version 5.2.1
+* Fixed bug when some font families were causing text to wrap for heading levels in the menu
+
 ### Version 5.2.0
 * Added `data-scripto` attribute support for the author to configure `skipto.js` features.
 
