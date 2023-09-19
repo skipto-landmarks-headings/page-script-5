@@ -56,7 +56,7 @@ To use the "SkipTo" shortcut key, you would press either `alt + 0` (Windows/Unix
 
 ## Adding to Website
 
-All you need are either skipto.js or skipto.min.js from the "[dist/](dist/)" directory of this repository. Please note that skipto.min.js is a minified (a lighter version) of the script.
+All you need are either skipto.js or skipto.min.js from the "[dist/](https://github.com/skipto-landmarks-headings/page-script-5/tree/main/dist)" directory of this repository. Please note that skipto.min.js is a minified (a lighter version) of the script.
 
 ### CDN Service
 
