@@ -21,11 +21,9 @@ $skipToId button .text {
   display: inline-block;
 }
 
-$skipToId button img {
-  height: 24px;
-  padding: 2px 4px 2px 4px;
+$skipToId button .short {
+  padding: 6px 8px 6px 8px;
   display: none;
-  background-color: #e8e9ea;
 }
 
 $skipToId,
@@ -60,8 +58,8 @@ $skipToId button {
 }
 
 @media screen and (max-width: $mediaBreakPointpx) {
-  $skipToId button img {
-    display: block;
+  $skipToId button .short {
+    display: inline-block;
   }
 
   $skipToId button {
@@ -223,24 +221,17 @@ $skipToId button:hover {
   background-color: $menuBackgroundColor;
   color: $menuTextColor;
   outline: none;
-}
-
-$skipToId button:focus,
-$skipToId button:hover {
   border-width: 0px 2px 2px 2px;
   border-color: $focusBorderColor;
 }
 
+
 $skipToId button:focus .text,
-$skipToId button:hover .text {
+$skipToId button:hover .text,
+$skipToId button:focus short,
+$skipToId button:hover short {
   padding: 6px 7px 5px 7px;
 }
-
-$skipToId button:focus img,
-$skipToId button:hover img {
-  padding: 2px 3px 4px 3px;
-}
-
 
 $skipToId [role="menuitem"]:focus {
   padding: 1px;

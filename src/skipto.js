@@ -38,6 +38,7 @@ debug.flag = true;
 
       // Button labels and messages
       buttonLabel: 'Skip To Content',
+      shortButtonLabel: 'Skip',
       altLabel: 'Alt',
       optionLabel: 'Option',
       buttonShortcut: ' ($modifier+$key)',
@@ -158,6 +159,17 @@ debug.flag = true;
         focusBorderColor: '#dd3444',
         buttonTextColor: '#fff',
         buttonBackgroundColor: '#036',
+      },
+      'openweba11y': {
+        hostnameSelector: 'openweba11y.com',
+        buttonTextColor: '#13294B',
+        buttonBackgroundColor: '#dddddd',
+        focusBorderColor: '#C5050C',
+        menuTextColor: '#13294B',
+        menuBackgroundColor: '#dddddd',
+        menuitemFocusTextColor: '#dddddd',
+        menuitemFocusBackgroundColor: '#13294B',
+        fontSize: '90%'
       }
     },
 

@@ -1,7 +1,7 @@
 
 <img src="./images/skipto-128.png" alt="SkipTo logo"/>
 
-# SkipTo Landmarks and Headings Page Script, Version 5.2
+# SkipTo Landmarks and Headings Page Script, Version 5.3
 
 See the [Authors](#authors) section for more information.
 
@@ -140,6 +140,7 @@ Current Color Theme Values:
 * 'uic' : Used by the University of Illinois at Chicago
 * 'uillinois' : Used by the University of Illinois Administration
 * 'uis' : Used by the University of Illinois at Springfield
+* 'openweba11y' : Used by Open Web Accessibility Services
 
 * If you would like a them added for your organization, please file an [issue](./issues) with the desired colors
 
@@ -170,6 +171,7 @@ The labels and messages can be localized for specific languages or updated to re
 | Property         | Default  | Description |
 | :--------------- | :------- |:----------- |
 | `buttonLabel`    | 'Skip to Content' | Change the label for the button. |
+| `shortButtonLabel` | 'Skip' | Change the label for the button in small screen sizes. |
 | `altLabel`       | 'Alt'    | Label for modifier key for Windows and Unix/Linux operating systems |
 | `optionLabel`    | 'Opt'    | Label for modifier key for macOS operating systems |
 | `altShortcut`    | '0'      | Shortcut character used in combination with the alt key for opening the menu | 
@@ -425,6 +427,9 @@ Happy skipping!
 
 
 ## Version History
+
+### Version 5.3.0
+* In small screen mode use text instead of an image for the button label
 
 ### Version 5.2.1
 * Fixed bug when some font families were causing text to wrap for heading levels in the menu
