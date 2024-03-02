@@ -2404,9 +2404,9 @@ $skipToId [role="menuitem"]:focus .label {
           !event.shiftKey &&
           !event.metaKey;
 
-        if (
-          (optionPressed && this.config.optionShortcut === key) ||
-          (altPressed && this.config.altShortcut === key)
+        if ((optionPressed && this.config.optionShortcut === key) ||
+          (altPressed    && this.config.altShortcut    === key) ||
+          (optionPressed && (48 === event.keyCode))
         ) {
           this.openPopup();
           this.setFocusToFirstMenuitem();
