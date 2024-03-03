@@ -1,6 +1,6 @@
 /* ========================================================================
- * Version: 5.2.1
- * Copyright (c) 2022, 2023 Jon Gunderson; Licensed BSD
+ * Version: 5.3.0
+ * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
