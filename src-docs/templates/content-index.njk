@@ -11,10 +11,10 @@
       <div class="row gx-4 justify-content-center">
         <div class="col-lg-10">
           {% block content %}
-            <div style="margin: 1em;">
+            <div class="image">
                <img src="images/example_screen_shot.png"
                     alt="Example Screen Shot"
-                    style="width: 80%; border: gray 1px solid " />
+                    style="width: 80%" />
             </div>
 
             <h1 id="skipto-landmarks-and-headings-page-script-version-53">SkipTo Version {{version}}</h1>
@@ -67,7 +67,7 @@
             <h2 id="shortcut-key">Shortcut key</h2>
 
             <p>A shortcut key can be used to open the SkipTo menu from anywhere on the page.  Version 5 changes the shortcut key operation from using the HTML <code class="language-plaintext highlighter-rouge">accesskey</code> attribute to use a scripted method to improve consistency of the shortcut keys between browsers and to support screen reader users, since some screen readers do not support accesskeys.</p>
-            <p>To use the “SkipTo” shortcut key, you would press either <kbd>alt + 0</kbd> (Windows/Unix/Linux) or <kbd>Option + 0</kbd> (macOS).  macOS does not have an <kbd>Alt</kbd> key, so the <kbd>Option</kbd> key is used as the modifier.  The access keys are the same for Firefox, Chrome and Safari on the same operating system.</p>
+            <p>To use the “SkipTo” shortcut key, you would press either <kbd>alt + 0</kbd> (Windows/Unix/Linux) or <kbd>Option + 0</kbd> (macOS).  Apple keyboards do not have an <kbd>Alt</kbd> key, so the <kbd>Option</kbd> key is used as the modifier for the shortcut.  The shortcut key is the same for Firefox, Chrome and Safari on the same operating system.</p>
             <ul>
                <li><kbd>Alt+0</kbd> : Windows, Unix and Linux.</li>
                <li><kbd>Option+0</kbd> : macOS.</li>

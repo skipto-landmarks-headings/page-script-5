@@ -35,26 +35,31 @@ function outputTemplate(fname, data) {
   })
 }
 
-const files = [
+const pages = [
   { template: './src-docs/templates/content-index.njk',
     title: 'Home',
+    link: 'Home',
     filename: 'index.html'
   },
   { template: './src-docs/templates/content-using.njk',
-    title: 'Using Skipto.js on a Web Page',
+    title: 'Using SkipTo on a Web Page',
+    link: 'Using',
     filename: 'using.html'
-  },
-  { template: './src-docs/templates/content-about.njk',
-    title: 'About',
-    filename: 'about.html'
   },
   { template: './src-docs/templates/content-config.njk',
     title: 'Configuration Options',
+    link: 'Configuration',
     filename: 'config.html'
   },
   { template: './src-docs/templates/content-examples.njk',
     title: 'Example Configurations',
+    link: 'Examples',
     filename: 'examples.html'
+  },
+  { template: './src-docs/templates/content-about.njk',
+    title: 'About',
+    link: 'About',
+    filename: 'about.html'
   }
   ];
 
@@ -124,6 +129,7 @@ examples.forEach( f => {
     title: f.title,
     description: f.description,
     config: f.config,
+    pages: pages,
     examples: examples
   }));
 })
@@ -135,15 +141,17 @@ tests.forEach( f => {
     title: f.title,
     description: f.description,
     config: f.config,
+    pages: pages,
     tests: tests
   }));
 })
 
-files.forEach( f => {
-  console.log(`[file]: ${f.filename}`);
-  outputFile(f.filename, nunjucks.render(f.template,{
+pages.forEach( p => {
+  console.log(`[page]: ${p.filename}`);
+  outputFile(p.filename, nunjucks.render(p.template,{
     version: version,
-    title: f.title,
+    title: p.title,
+    pages: pages,
     examples: examples,
     tests: tests
   }));
