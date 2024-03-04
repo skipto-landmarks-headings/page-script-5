@@ -6,6 +6,8 @@ const {parallel, series}   = require('gulp');
 const eslint       = require('gulp-eslint');
 const minify       = require("gulp-minify");
 const concat       = require("gulp-concat");
+const sass         = require('gulp-sass')(require('sass'));
+
 
  
 gulp.task('linting', () => {
@@ -69,11 +71,26 @@ gulp.task('build', () => {
     .pipe(dest('./dist'));     
 });
 
+gulp.task('documentation', function (cb) {
+  exec('node ./gen-documentation.js', function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    cb(err);  });
+})
+
+gulp.task('style', function () {
+  return gulp.src('./src-docs/templates/*.scss')
+  .pipe(sass().on('error', sass.logError))
+  .pipe(gulp.dest('./docs/css'));
+});
+
 
 const linting      = task('linting');
 const build        = task('build');
 const compress     = task('compress');
 const copyright    = task('copyright');
 const copyrightMin = task('copyrightMin');
+const documentation = task('documentation');
+const style         = task('style');
 
-exports.default = series(linting, build, compress, copyright, copyrightMin);
+exports.default = series(linting, build, compress, copyright, copyrightMin, documentation, style);

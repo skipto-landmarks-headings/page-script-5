@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {% include "./head.njk" %}
+  </head>
+  <body>
+    {% include "./header.njk" %}
+
+    <!-- Main section-->
+    <div id="main-section" class="container px-4">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">{{title | safe}}</li>
+        </ol>
+      </nav>
+      <main class="row gx-4 justify-content-center">
+        <div class="col-lg-10">
+          {% block title %}
+          <h1>{{title}}</h1>
+          {% endblock %}
+          <div id="config">
+
+            <p>All settings have a default value, a <code>data-skipto</code> attribute or configuration object can be used to change the default values and to localize the menu text to a specific language.</p>
+
+            <h2 id="options-for-adding-the-button-element">Options for adding the <code class="language-plaintext highlighter-rouge">button</code> element</h2>
+            <p>The following options are useful for identify where the menu will be in the DOM structure of the page and which elements will be used as the container for the menu button.  The options are of type <code class="language-plaintext highlighter-rouge">string</code>.</p>
+            <table class="table table-striped">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Property</th>
+                     <th style="text-align: left">default</th>
+                     <th style="text-align: left">Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">containerElement</code></td>
+                     <td style="text-align: left">‘nav’</td>
+                     <td style="text-align: left">Container element for SkipTo button and menu. Can be set to ‘div’ element if you do not want a landmark created for SkipTo menu.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">displayOption</code></td>
+                     <td style="text-align: left">‘static’</td>
+                     <td style="text-align: left">Values of <code class="language-plaintext highlighter-rouge">static</code>, <code class="language-plaintext highlighter-rouge">fixed</code> or <code class="language-plaintext highlighter-rouge">popup</code> are defined.  The value <code class="language-plaintext highlighter-rouge">static</code> the button is always visible, the value <code class="language-plaintext highlighter-rouge">fixed</code> the button is always visible at the top of the page even when the page scrolls, and the value <code class="language-plaintext highlighter-rouge">popup</code> is used the button is initially not visible, but becomes visible when it receives focus.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">attachElement</code></td>
+                     <td style="text-align: left">‘body’</td>
+                     <td style="text-align: left">A CSS selector for identifying which element to attach the menu button container.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">customClass</code></td>
+                     <td style="text-align: left">none</td>
+                     <td style="text-align: left">CSS class added to the container <code class="language-plaintext highlighter-rouge">div</code> element. Can be used for customize styling of the button and menu with author supplied stylesheet.</td>
+                  </tr>
+               </tbody>
+            </table>
+
+            <h2 id="button-positioning">Button Positioning</h2>
+
+            <table class="table table-striped">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Property</th>
+                     <th style="text-align: left">Type</th>
+                     <th style="text-align: left">Default</th>
+                     <th style="text-align: left">Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">positionLeft</code></td>
+                     <td style="text-align: left">length</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">46%</code></td>
+                     <td style="text-align: left">The position of the “Skip To Content” button from left margin.</td>
+                  </tr>
+               </tbody>
+            </table>
+
+            <h2 id="button-font-family-and-font-size">Button Font Family and Font Size</h2>
+
+            <table class="table table-striped">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Property</th>
+                     <th style="text-align: left">Type</th>
+                     <th style="text-align: left">Default</th>
+                     <th style="text-align: left">Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">fontSize</code></td>
+                     <td style="text-align: left">CSS font size</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">inherit</code></td>
+                     <td style="text-align: left">Set the CSS <code class="language-plaintext highlighter-rouge">font-size</code> using the configuration object.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">fontFamily</code></td>
+                     <td style="text-align: left">CSS font string</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">inherit</code></td>
+                     <td style="text-align: left">Set the CSS <code class="language-plaintext highlighter-rouge">font-family</code> using the configuration object.</td>
+                  </tr>
+               </tbody>
+            </table>
+
+            <h2 id="identifying-landmarks-and-headings-for-the-menu">Identifying Landmarks and Headings for the menu</h2>
+
+            <p>The <code class="language-plaintext highlighter-rouge">landmarks</code> and ‘headings’ options are a space separated list of tag and landmark region names to identify the important landmark regions and headings on the page for the purpose of keyboard navigation.  The list of landmarks and headings should be <strong>relatively short</strong>, the more items the menu contains the more time the user will need to scan and navigate to the section they want to “skip to”.  The values are considered tokens to maximize compatibility with version 4 CSS selectors for these properties.</p>
+            <p>The options are of type <code class="language-plaintext highlighter-rouge">string</code>.</p>
+            <table class="table table-striped">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Property</th>
+                     <th style="text-align: left">Default</th>
+                     <th style="text-align: left">Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">landmarks</code></td>
+                     <td style="text-align: left">‘main search navigation complementary’</td>
+                     <td style="text-align: left">A space separated list of landmark names. Allowed values include: <code class="language-plaintext highlighter-rouge">banner</code>, <code class="language-plaintext highlighter-rouge">complementary</code>, <code class="language-plaintext highlighter-rouge">contentinfo</code>, <code class="language-plaintext highlighter-rouge">main</code>, <code class="language-plaintext highlighter-rouge">navigation</code>, <code class="language-plaintext highlighter-rouge">region</code> and <code class="language-plaintext highlighter-rouge">search</code></td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">headings</code></td>
+                     <td style="text-align: left">‘main h1 h2’</td>
+                     <td style="text-align: left">A space separated list of heading tags, “main” is included only headings contained in the main.  Allowed values include: <code class="language-plaintext highlighter-rouge">h1</code>, <code class="language-plaintext highlighter-rouge">h2</code>, <code class="language-plaintext highlighter-rouge">h3</code>, <code class="language-plaintext highlighter-rouge">h4</code>, <code class="language-plaintext highlighter-rouge">h5</code>, <code class="language-plaintext highlighter-rouge">h6</code> and <code class="language-plaintext highlighter-rouge">main</code></td>
+                  </tr>
+               </tbody>
+            </table>
+
+            <h2 id="color-theme-options">Color Theme Options</h2>
+
+            <p>A color theme sets all the color options defined by the theme.</p>
+            <table class="table table-striped">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Property</th>
+                     <th style="text-align: left">Type</th>
+                     <th style="text-align: left">Default</th>
+                     <th style="text-align: left">Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">colorTheme</code></td>
+                     <td style="text-align: left">string</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">default</code></td>
+                     <td style="text-align: left">A predefined color scheme for skipTo</td>
+                  </tr>
+               </tbody>
+            </table>
+            <p>Current Color Theme Values:</p>
+            <ul>
+               <li>‘aria’ : Used in ARIA Authoring practices</li>
+               <li>‘illinois’: Used by the University of Illinois at Champaign/Urbana</li>
+               <li>‘uic’ : Used by the University of Illinois at Chicago</li>
+               <li>‘uillinois’ : Used by the University of Illinois Administration</li>
+               <li>‘uis’ : Used by the University of Illinois at Springfield</li>
+               <li>
+                  <p>‘openweba11y’ : Used by Open Web Accessibility Services</p>
+               </li>
+               <li>If you would like a them added for your organization, please file an <a href="./issues">issue</a> with the desired colors</li>
+            </ul>
+
+            <h2 id="colors-used-for-button-and-menu-styling">Colors used for Button and Menu styling</h2>
+
+            <p>Color values must use <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value">CSS color values</a>, for example <code class="language-plaintext highlighter-rouge">#8AF</code>, <code class="language-plaintext highlighter-rouge">rgb(40, 50, 90)</code>, <code class="language-plaintext highlighter-rouge">#a0bf32</code>, <code class="language-plaintext highlighter-rouge">blue</code>.</p>
+            <table class="table table-striped">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Property</th>
+                     <th style="text-align: left">Type</th>
+                     <th style="text-align: left">Default</th>
+                     <th style="text-align: left">Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">buttonTextColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">#1a1a1a</code></td>
+                     <td style="text-align: left">Color of text for “Skip To Content” button.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">buttonBackgroundColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">#eeeeee</code></td>
+                     <td style="text-align: left">Background color of text for “Skip To Content” button.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">focusBorderColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">#1a1a1a</code></td>
+                     <td style="text-align: left">Border color for items with keyboard focus.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">menuTextColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">#1a1a1a</code></td>
+                     <td style="text-align: left">Menu text color</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">menuBackgroundColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">#dcdcdc</code></td>
+                     <td style="text-align: left">Menu background color.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">menuitemFocusTextColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">#eeeeee</code></td>
+                     <td style="text-align: left">Menuitem text color when a menuitem has focus.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">menuitemFocusBackgroundColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">#1a1a1a</code></td>
+                     <td style="text-align: left">Menuitem text background when a menuitem has focus.</td>
+                  </tr>
+               </tbody>
+            </table>
+            <p>NOTE: Make sure colors meet the color contrast requirements of WCAG 2.1 for text</p>
+
+            <h2 id="internationalization-i18n">Internationalization (I18N)</h2>
+
+            <p>The text labels and messages can be updated through configuration to local language requirements.</p>
+            <h3 id="button-labeling">Button Labeling</h3>
+            <p>The labels and messages can be localized for specific languages or updated to reflect custom selectors.</p>
+            <table class="table table-striped">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Property</th>
+                     <th style="text-align: left">Default</th>
+                     <th style="text-align: left">Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">buttonLabel</code></td>
+                     <td style="text-align: left">‘Skip to Content’</td>
+                     <td style="text-align: left">Change the text label of the menu button.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">shortButtonLabel</code></td>
+                     <td style="text-align: left">‘Skip’</td>
+                     <td style="text-align: left">Change the text label of the menu button in small screen sizes.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">altLabel</code></td>
+                     <td style="text-align: left">‘Alt’</td>
+                     <td style="text-align: left">Label for modifier key for Windows and Unix/Linux operating systems</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">optionLabel</code></td>
+                     <td style="text-align: left">‘Opt’</td>
+                     <td style="text-align: left">Label for modifier key for macOS operating systems</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">altButtonAriaLabel</code></td>
+                     <td style="text-align: left">‘Skip To Content, shortcut Alt plus 0’</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">aria-label</code> template for button when the OS uses <code class="language-plaintext highlighter-rouge">alt</code> key</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">optionButtonAriaLabel</code></td>
+                     <td style="text-align: left">‘Skip To Content, shortcut Option plus 0’</td>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">aria-label</code> template for button when the OS uses <code class="language-plaintext highlighter-rouge">option</code> key (e.g, macOS)</td>
+                  </tr>
+               </tbody>
+            </table>
+            <h3 id="menu-group-and-menuitem-labeling">Menu, Group and Menuitem Labeling</h3>
+            <p>The labels and messages can be localized for specific languages or updated to reflect custom selectors.</p>
+            <table class="table table-striped">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Property</th>
+                     <th style="text-align: left">Default</th>
+                     <th style="text-align: left">Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">menuLabel</code></td>
+                     <td style="text-align: left">‘Landmarks and Headings’</td>
+                     <td style="text-align: left">Change the label for the menu.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">landmarkGroupLabel</code></td>
+                     <td style="text-align: left">‘Landmark Regions’</td>
+                     <td style="text-align: left">Menu group label for landmarks .</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">headingGroupLabel</code></td>
+                     <td style="text-align: left">‘Headings’</td>
+                     <td style="text-align: left">Menu group label for headings.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">headingLevelLabel</code></td>
+                     <td style="text-align: left">‘Heading level’</td>
+                     <td style="text-align: left">Used for <code class="language-plaintext highlighter-rouge">aria-label</code> to improve labeling of heading menu items for screen reader users.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">mainLabel</code></td>
+                     <td style="text-align: left">‘main’</td>
+                     <td style="text-align: left">The label in the menu for <code class="language-plaintext highlighter-rouge">main</code> landmarks</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">searchLabel</code></td>
+                     <td style="text-align: left">‘search’</td>
+                     <td style="text-align: left">The label in the menu for <code class="language-plaintext highlighter-rouge">search</code> landmarks</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">navLabel</code></td>
+                     <td style="text-align: left">‘navigation’</td>
+                     <td style="text-align: left">The label in the menu for <code class="language-plaintext highlighter-rouge">navigation</code> landmarks</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">asideLabel</code></td>
+                     <td style="text-align: left">‘aside’</td>
+                     <td style="text-align: left">The label in the menu for <code class="language-plaintext highlighter-rouge">complementary</code> landmarks</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">footerLabel</code></td>
+                     <td style="text-align: left">‘footer’</td>
+                     <td style="text-align: left">The label in the menu for <code class="language-plaintext highlighter-rouge">contentinfo</code> landmarks</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">headerLabel</code></td>
+                     <td style="text-align: left">‘header’</td>
+                     <td style="text-align: left">The label in the menu for <code class="language-plaintext highlighter-rouge">banner</code> landmarks</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">formLabel</code></td>
+                     <td style="text-align: left">‘form’</td>
+                     <td style="text-align: left">The label in the menu for <code class="language-plaintext highlighter-rouge">form</code> landmarks</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">msgNoLandmarksFound</code></td>
+                     <td style="text-align: left">‘No landmarks to skip to’</td>
+                     <td style="text-align: left">Message for when no landmarks are found.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code class="language-plaintext highlighter-rouge">msgNoHeadingsFound</code></td>
+                     <td style="text-align: left">‘No main headings to skip to’</td>
+                     <td style="text-align: left">Message for when no headings are found.</td>
+                  </tr>
+               </tbody>
+            </table>
+            <h2 id="example-settings">Example Settings</h2>
+            <p>There are two ways for an author to configure SkipTo.js:</p>
+            <ol>
+               <li><code class="language-plaintext highlighter-rouge">data-skipto</code> attribute</li>
+               <li>Global variable</li>
+            </ol>
+            <h3 id="settings-using-data-attribute">Settings Using Data Attribute</h3>
+            <p>You can customize SkipTo to the features of your website by using a <code class="language-plaintext highlighter-rouge">data-skipto</code> attribute on the <code class="language-plaintext highlighter-rouge">script</code> element. Each property/value setting is separated by a semi-colon (<code class="language-plaintext highlighter-rouge">;</code>), and each property name and value is separated by a colon (<code class="language-plaintext highlighter-rouge">:</code>).</p>
+            <p>The following is a sample configuration:</p>
+            <div class="language-html highlighter-rouge">
+               <div class="highlight">
+<pre class="highlight"><code><span class="nt">&lt;script
+  </span><span class="na">data-skipto=</span><span class="s">"landmarks: main search navigation; headings: main h1 h2 h3; colorTheme: illinois"</span>
+  <span class="na">src=</span><span class="s">"https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+               </div>
+            </div>
+            <h3 id="settings-using-global-object">Settings Using Global Object</h3>
+            <p>You can customize SkipTo to the features of your website by using a global object variable.</p>
+            <p>The following is a sample configuration:</p>
+            <div class="language-html highlighter-rouge">
+               <div class="highlight">
+<pre class="highlight"><code><span class="nt">&lt;script&gt;</span>
+  <span class="kd">var</span> <span class="nx">SkipToConfig</span> <span class="o">=</span>  <span class="p">{</span>
+    <span class="na">landmarks</span><span class="p">:</span> <span class="dl">'</span><span class="s1">main search navigation</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">headings</span><span class="p">:</span> <span class="dl">'</span><span class="s1">main h1 h2 h3</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">colorTheme</span><span class="p">:</span> <span class="dl">'</span><span class="s1">illinois</span><span class="dl">'</span>
+  <span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+</div>
+<p>or</p>
+<div class="language-html highlighter-rouge">
+<div class="highlight">
+   <pre class="highlight"><code><span class="nt">&lt;script&gt;</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">SkipToConfig</span> <span class="o">=</span>  <span class="p">{};</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">SkipToConfig</span><span class="p">.</span><span class="nx">landmarks</span>  <span class="o">=</span> <span class="dl">'</span><span class="s1">main search navigation</span><span class="dl">'</span><span class="p">;</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">SkipToConfig</span><span class="p">.</span><span class="nx">headings</span>   <span class="o">=</span> <span class="dl">'</span><span class="s1">main h1 h2 h3</span><span class="dl">'</span><span class="p">;</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">SkipToConfig</span><span class="p">.</span><span class="nx">colorTheme</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">illinois</span><span class="dl">'</span><span class="p">;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+               </div>
+            </div>
+            <p>NOTE: Configuration objects in <a href="https://github.com/skipto-landmarks-headings/page-script-4#user-content-example-settings">version 4.x</a> are still supported for compatibility with existing installations.  Version 5.0 is providing a less complex object for customizing SkipTo.</p>
+            <h3 id="html-classes-and-ids-for-custom-styling">HTML, Classes and Ids for custom styling</h3>
+            <p>The source code in this section is for developers to understand the HTML, classes and ids used in the SkipTo menu button and menu for use in custom styling.</p>
+            <div class="language-html highlighter-rouge">
+               <div class="highlight">
+      <pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"id-skip-to"</span> <span class="na">class=</span><span class="s">"MyCustomClass"</span><span class="nt">&gt;</span>
+  <span class="c">&lt;!--
+  //
+  // Menu Button
+  //
+  --&gt;</span>
+  <span class="nt">&lt;button</span>
+    <span class="na">aria-haspopup=</span><span class="s">"true"</span>
+    <span class="na">aria-expanded=</span><span class="s">"true"</span>
+    <span class="na">aria-label=</span><span class="s">"Skip to content, shortcut Alt plus 0"</span><span class="nt">&gt;</span>
+    Skip To Content (Alt+0)
+  <span class="nt">&lt;/button&gt;</span>
+  <span class="c">&lt;!--
+  //
+  // ARIA enabled menu
+  //
+  --&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">role=</span><span class="s">"menu"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!--
+    //
+    // Landmark group label and menu items
+    //
+    --&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"id-skip-to-group-landmarks-label"</span>
+      <span class="na">role=</span><span class="s">"separator"</span><span class="nt">&gt;</span>
+      Important Landmarks
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">role=</span><span class="s">"group"</span>
+      <span class="na">aria-labelledby=</span><span class="s">"id-skip-to-group-landmarks-label"</span> <span class="na">id=</span><span class="s">"id-skip-to-group-landmarks"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">role=</span><span class="s">"menuitem"</span>
+        <span class="na">class=</span><span class="s">"landmark skip-to-main skipto-nesting-level-0"</span>
+        <span class="na">data-id=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"label"</span><span class="nt">&gt;</span>Main<span class="nt">&lt;/span&gt;</span>
+      <span class="nt">&lt;/div&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">role=</span><span class="s">"menuitem"</span>
+        <span class="na">class=</span><span class="s">"landmark skip-to-nav skipto-nesting-level-0"</span>
+        <span class="na">data-id=</span><span class="s">"2"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"label"</span><span class="nt">&gt;</span>Navigation: SkipTo test pages<span class="nt">&lt;/span&gt;</span>
+      <span class="nt">&lt;/div&gt;</span>
+      <span class="c">&lt;!--
+      ... more menu items ...
+      --&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="c">&lt;!-- End Landmarks Group --&gt;</span>
+
+    <span class="c">&lt;!--
+    //
+    // Heading group label and menu items
+    //
+    --&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"id-skip-to-group-headings-label"</span>
+      <span class="na">role=</span><span class="s">"separator"</span><span class="nt">&gt;</span>
+      Important Headings
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">role=</span><span class="s">"group"</span>
+      <span class="na">aria-labelledby=</span><span class="s">"id-skip-to-group-headings-label"</span>
+      <span class="na">id=</span><span class="s">"id-skip-to-group-headings"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">role=</span><span class="s">"menuitem"</span>
+        <span class="na">class=</span><span class="s">"heading skip-to-h1"</span>
+        <span class="na">data-id=</span><span class="s">"9"</span>
+        <span class="na">data-level=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"level"</span><span class="nt">&gt;&lt;span&gt;</span>1<span class="nt">&lt;/span&gt;</span>)<span class="nt">&lt;/span&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"label"</span><span class="nt">&gt;</span>Example Content<span class="nt">&lt;/span&gt;</span>
+      <span class="nt">&lt;/div&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">role=</span><span class="s">"menuitem"</span>
+        <span class="na">class=</span><span class="s">"heading skip-to-h2"</span>
+        <span class="na">data-id=</span><span class="s">"10"</span>
+        <span class="na">data-level=</span><span class="s">"2"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"level"</span><span class="nt">&gt;&lt;span&gt;</span>2<span class="nt">&lt;/span&gt;</span>)<span class="nt">&lt;/span&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"label"</span><span class="nt">&gt;</span>Pastrami<span class="nt">&lt;/span&gt;</span>
+      <span class="nt">&lt;/div&gt;</span>
+      <span class="c">&lt;!--
+      ... more menu items ...
+      --&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="c">&lt;!-- End Headings Group --&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+Example CSS selector:
+
+nav#id-skip-to.MyCustomClass {
+  background:  red;
+  left: 50px;
+  top: 50px;
+}
+</code></pre>
+               </div>
+            </div>
+
+            {% include "./warnings.html" %}
+
+          </div>
+        </div>
+      </main>
+    {% include "./footer.njk" %}
+    {% include "./scripts.njk" %}
+
+  </body>
+</html>

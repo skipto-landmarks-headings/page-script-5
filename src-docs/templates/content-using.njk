@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {% include "./head.njk" %}
+  </head>
+  <body>
+    {% include "./header.njk" %}
+
+    <div id="main-section" class="container px-4">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">{{title | safe}}</li>
+        </ol>
+      </nav>
+
+      <!-- Main section-->
+      <main class="container px-4">
+        <div class="row gx-4 justify-content-center">
+          <div class="col-lg-10">
+            {% block title %}
+            <h1>{{title}}</h1>
+            {% endblock %}
+
+            {% block content %}
+
+              <p>All you need are either skipto.js or skipto.min.js from the “<a href="https://github.com/skipto-landmarks-headings/page-script-5/tree/main/dist">dist/</a>” directory of this repository. Please note that skipto.min.js is a minified (a lighter version) of the script.</p>
+
+              <h3 id="cdn-service">CDN Service</h3>
+
+              <p>The easiest way is to include a reference to <code class="language-plaintext highlighter-rouge">skipto.min.js</code>  on your HTML page or template is through the CDN service, as follows:</p>
+              <p>github.com CDN service:</p>
+              <div class="language-html highlighter-rouge">
+                 <div class="highlight">
+                    <pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+              </code></pre>
+                 </div>
+              </div>
+              <p>NOTE: CDN referenced files may not be available to computers behind firewall protected networks.</p>
+
+              <h3 id="local-file-on-your-web-server">Local File on Your Web Server</h3>
+
+              <p>Copy the <a href="https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js">skipto.js</a> or <a href="https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js">skipto.min.js</a> to the file system of your web server and reference it from your web page or templates using a <code class="language-plaintext highlighter-rouge">script</code> tag, as follows:</p>
+              <div class="language-html highlighter-rouge">
+                 <div class="highlight">
+                    <pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://[path to Javascript files]/skipto.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+              </code></pre>
+                 </div>
+              </div>
+
+              <h2 id="reporting-issues">Reporting Issues</h2>
+
+              <p>Please use <a href="https://github.com/skipto-landmarks-headings/page-script-5/issues">Github issues</a> to report problems, ask support questions or offer feature enhancement ideas.</p>
+
+              {% include "./warnings.html" %}
+
+            {% endblock %}
+          </div>
+        </div>
+      </main>
+    </div>
+    {% include "./footer.njk" %}
+    {% include "./scripts.njk" %}
+
+  </body>
+</html>

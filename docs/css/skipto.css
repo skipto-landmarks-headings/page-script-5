@@ -1,0 +1,120 @@
+/* Define standard variables and values for website */
+.brand {
+  display: block;
+  font-family: "Fjalla One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #ffffff;
+  background: #C5050C;
+  padding: 0.25em;
+}
+
+blockquote {
+  margin: 1em 15%;
+  text-align: center;
+}
+
+.text-blue {
+  color: #005797;
+}
+
+nav ol.breadcrumb {
+  padding-left: 0;
+}
+
+footer {
+  margin-top: 40px;
+}
+
+a[href]:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb a,
+.navbar-nav .nav-link,
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  color: #005797;
+  outline-color: #005797;
+}
+
+.breadcrumb a[aria-current],
+.navbar-nav .nav-link[aria-current],
+.navbar-nav .nav-link:hover[aria-current],
+.navbar-nav .nav-link:focus {
+  color: #000000;
+}
+
+.tab-pane {
+  margin-top: 1em;
+}
+
+div.language-html {
+  font-family: monospace courier;
+  padding: 0.5em;
+  color: rgb(36, 41, 46);
+  display: flex;
+}
+
+div.language-html pre > code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+div.language-html .highlight {
+  margin-bottom: 16px;
+}
+
+div.language-html .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+div.language-html .highlight pre,
+div.language-html pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+div.language-html pre code,
+div.language-html pre tt {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+div.language-html pre .nt {
+  color: #22863a;
+}
+
+div.language-html pre .kd,
+div.language-html pre .nx {
+  color: rgb(149, 56, 0);
+}
+
+div.language-html pre .na {
+  color: #005cc5;
+}
+
+div.language-html pre .c1 {
+  color: #005cc5;
+}
+
+div.language-html pre .k {
+  color: #d73a49;
+}
