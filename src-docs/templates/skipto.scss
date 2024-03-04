@@ -11,9 +11,14 @@ $linkCurrent: #000000;
   font-family: "Fjalla One", sans-serif;
   font-weight: 400;
   font-style: normal;
+  margin: 0.25em;
+}
+
+.brand .skipto {
+  display: inline-block;
+  padding: 0.25em;
   color: $iconWhite;
   background: $iconRed;
-  padding: 0.25em;
 }
 
 blockquote {

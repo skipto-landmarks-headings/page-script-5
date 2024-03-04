@@ -17,8 +17,8 @@
                     style="width: 80%; border: gray 1px solid " />
             </div>
 
-            <h1 id="skipto-landmarks-and-headings-page-script-version-53">SkipTo Landmarks and Headings Page Script, Version 5.3</h1>
-            <p>See the <a href="#authors">Authors</a> section for more information.</p>
+            <h1 id="skipto-landmarks-and-headings-page-script-version-53">SkipTo Version {{version}}</h1>
+
             <p>SkipTo is a replacement for your old classic “Skip To Main Content” link, (so please use it as such)!
                The SkipTo creates a drop-down menu consisting of the links to important landmarks and headings on a given web page identified by the author. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.
             </p>
@@ -34,7 +34,7 @@
                <li>Authors can configure SkipTo to identify the most important regions, ideally about 7-12 items to make it easier for people to read the list and choose an option.  Remember the more items, the longer it will take for the user to identify which item they want to choose.</li>
             </ul>
 
-            <h2 id="websites-using-skipto">Websites using <code>SkipTo.js</code></h2>
+            <h2 id="websites-using-skipto">Websites using SkipTo</h2>
 
             <p>There are two main ways to use the menu button for SkipTo in a page.  In the default configuration the menu button is always visible making it useful to everyone to easily find and navigate to the important content regions identified by the author.  This is similar to how curb cuts help more than just people using wheelchairs.  It is also easier for people using voice recognition to activate the button using the “click skip to content” command and use similar voice commands to activate SkipTo menu items.  The “popup” option is the more traditional approach to fulfilling the “<a href="https://www.w3.org/TR/WCAG/#bypass-blocks">bypass bocks</a>” requirement of the <a href="https://www.w3.org/TR/WCAG/">Web Content Accessibility Guidelines</a>, but this option makes the feature less visible to people who might benefit.</p>
 
@@ -59,9 +59,9 @@
             <h2 id="how-it-works">How it works</h2>
 
             <ol>
-               <li>The SkipTo menu button should be the first tabable element on the page, and by default the button is visible, but can be configured to “popup” when the button becomes receives focus.</li>
+               <li>The SkipTo menu button should be the first tabable element (e.g. <kbd>Tab</kbd> key)on the page, and by default the button is visible, but can be configured to “popup” when the button becomes receives focus.</li>
                <li>Once focus is on the menu button, pressing the <kbd>Enter</kbd>, <kbd>Space</kbd>, <kbd>Down Arrow</kbd> or <kbd>Up Arrow</kbd> keys will pull down the list of important landmarks and headings on the page.  The button is based on the ARIA Authoring Practice <a href="https://w3c.github.io/aria-practices/#menubutton">design pattern for menu button</a>.</li>
-               <li>Use arrow keys to select your choice and press ENTER to move focus to the section of the page.</li>
+               <li>Use arrow keys to select your choice and press <kbd>Enter</kbd> to move focus to the section of the page.</li>
             </ol>
 
             <h2 id="shortcut-key">Shortcut key</h2>

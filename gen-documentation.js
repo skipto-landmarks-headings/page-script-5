@@ -6,6 +6,8 @@ const fs = require('fs');
 const path = require('path');
 const nunjucks  = require('nunjucks');
 
+const version = "5.3";
+
 /* Constants */
 
 const outputDirectory = './docs/';
@@ -118,6 +120,7 @@ const tests = [
 examples.forEach( f => {
   console.log(`[example]: ${f.filename}`);
   outputFile(f.filename, nunjucks.render(f.template, {
+    version: version,
     title: f.title,
     description: f.description,
     config: f.config,
@@ -128,6 +131,7 @@ examples.forEach( f => {
 tests.forEach( f => {
   console.log(`[test]: ${f.filename}`);
   outputFile(f.filename, nunjucks.render(f.template, {
+    version: version,
     title: f.title,
     description: f.description,
     config: f.config,
@@ -137,10 +141,11 @@ tests.forEach( f => {
 
 files.forEach( f => {
   console.log(`[file]: ${f.filename}`);
-  outputFile(f.filename, nunjucks.render(f.template,
-    {title: f.title,
-     examples: examples,
-     tests: tests
+  outputFile(f.filename, nunjucks.render(f.template,{
+    version: version,
+    title: f.title,
+    examples: examples,
+    tests: tests
   }));
 })
 
