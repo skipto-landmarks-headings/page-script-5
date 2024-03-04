@@ -30,7 +30,7 @@ gulp.task('build', () => {
     })
     .then(bundle => {
       return bundle.write({
-        file: './dist/skipto.js',
+        file: './docs/dist/skipto.js',
         format: 'iife',
       });
     });
@@ -41,14 +41,14 @@ gulp.task('build', () => {
 // SkipTo that used downloads/js directory
 
  gulp.task('compress', () => {
-    return src('./dist/skipto.js', { allowEmpty: true }) 
+    return src('./docs/dist/skipto.js', { allowEmpty: true })
         .pipe(minify({
           ext: {
             min: '.min.js' // Set the file extension for minified files to .min.js
           },
           noSource: true
         }))
-        .pipe(dest('./dist'))        
+        .pipe(dest('./docs/dist'))
 });
 
 // Add copyright information to skipto
@@ -56,19 +56,19 @@ gulp.task('build', () => {
  gulp.task('copyright', () => {
   return src([
     'src/copyright.js',
-    'dist/skipto.js',
+    'docs/dist/skipto.js',
   ])
     .pipe(concat('skipto.js'))
-    .pipe(dest('./dist')); 
+    .pipe(dest('docs/dist'));
 });
 
  gulp.task('copyrightMin', () => {
   return src([
     'src/copyright.js',
-    'dist/skipto.min.js',
+    'docs/dist/skipto.min.js',
   ])
     .pipe(concat('skipto.min.js'))
-    .pipe(dest('./dist'));     
+    .pipe(dest('docs/dist'));
 });
 
 gulp.task('documentation', function (cb) {
