@@ -66,7 +66,7 @@ const pages = [
 
 const examples = [
   { template: './src-docs/templates/example/content-example.njk',
-    title: 'Default Configuration',
+    title: 'Default Menu Button',
     filename: 'example-default.html',
     description: 'SkipTo button is visible on load',
     config: ``
@@ -76,6 +76,12 @@ const examples = [
     filename: 'example-popup.html',
     description: 'The SkipTo menu button appears when it gets focus',
     config: `displayOption: popup`
+  },
+  { template: './src-docs/templates/example/content-example.njk',
+    title: 'Fixed Menu Button',
+    filename: 'example-fixed.html',
+    description: 'The SkipTo menu button is always visible at the top of the window',
+    config: `displayOption: fixed`
   },
   { template: './src-docs/templates/example/content-example.njk',
     title: 'Headings (h1-h6)',
