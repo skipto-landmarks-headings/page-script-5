@@ -106,6 +106,12 @@ const examples = [
     filename: 'example-fonts.html',
     description: 'The fonts for skipto are set to 8pt and monospace.',
     config: `fontSize: 8pt; fontFamily: monospace`
+  },
+  { template: './src-docs/templates/example/content-example.njk',
+    title: 'Colors',
+    filename: 'example-colors.html',
+    description: 'Setting the colors for skipto menu.',
+    config: `menuTextColor: #003366; menuBackgroundColor: #ffffff';menuitemFocusTextColor: #ffffff;menuitemFocusBackgroundColor: #003366;focusBorderColor: #dd3444;buttonTextColor: #ffffff;buttonBackgroundColor: #003366; fontSize: 90%`
   }
   ];
 

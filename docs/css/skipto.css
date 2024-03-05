@@ -69,15 +69,18 @@ div.language-html pre > code {
   white-space: pre;
   background: transparent;
   border: 0;
+  overflow-y: scroll;
 }
 
 div.language-html .highlight {
   margin-bottom: 16px;
+  overflow-y: scroll;
 }
 
 div.language-html .highlight pre {
   margin-bottom: 0;
   word-break: normal;
+  overflow-y: scroll;
 }
 
 div.language-html .highlight pre,
@@ -88,6 +91,7 @@ div.language-html pre {
   line-height: 1.45;
   background-color: #f6f8fa;
   border-radius: 3px;
+  overflow-y: scroll;
 }
 
 div.language-html pre code,
