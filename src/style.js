@@ -16,17 +16,17 @@ $skipToId.popup {
   transition: top 0.35s ease;
 }
 
-$skipToId button .text {
+$skipToId button .skipto-text {
   padding: 6px 8px 6px 8px;
   display: inline-block;
 }
 
-$skipToId button .small {
+$skipToId button .skipto-small {
   padding: 6px 8px 6px 8px;
   display: none;
 }
 
-$skipToId button .medium {
+$skipToId button .skipto-medium {
   padding: 6px 8px 6px 8px;
   display: none;
 }
@@ -63,23 +63,23 @@ $skipToId button {
 }
 
 @media screen and (max-width: $smallBreakPointpx) {
-  $skipToId button .small {
+  $skipToId button .skipto-small {
     display: inline-block;
   }
 
-  $skipToId button .text,
-  $skipToId button .medium {
+  $skipToId button .skipto-text,
+  $skipToId button .skipto-medium {
     display: none;
   }
 }
 
 @media screen and (min-width: $smallBreakPointpx) and (max-width: $mediumBreakPointpx) {
-  $skipToId button .medium {
+  $skipToId button .skipto-medium {
     display: inline-block;
   }
 
-  $skipToId button .text,
-  $skipToId button .small {
+  $skipToId button .skipto-text,
+  $skipToId button .skipto-small {
     display: none;
   }
 }
@@ -239,12 +239,12 @@ $skipToId button:hover {
 }
 
 
-$skipToId button:focus .text,
-$skipToId button:hover .text,
-$skipToId button:focus small,
-$skipToId button:hover small,
-$skipToId button:focus medium,
-$skipToId button:hover medium {
+$skipToId button:focus .skipto-text,
+$skipToId button:hover .skipto-text,
+$skipToId button:focus .skipto-small,
+$skipToId button:hover .skipto-small,
+$skipToId button:focus .skipto-medium,
+$skipToId button:hover .skipto-medium {
   padding: 6px 7px 5px 7px;
 }
 

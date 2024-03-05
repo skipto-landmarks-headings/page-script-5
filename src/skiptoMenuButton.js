@@ -72,17 +72,17 @@ export default class SkiptoMenuButton {
       this.containerNode.appendChild(this.buttonNode);
 
       this.buttonTextNode = document.createElement('span');
-      this.buttonTextNode.classList.add('text');
+      this.buttonTextNode.classList.add('skipto-text');
       this.buttonTextNode.textContent = buttonVisibleLabel;
       this.buttonNode.appendChild(this.buttonTextNode);
 
       const smallButtonNode = document.createElement('span');
-      smallButtonNode.classList.add('small');
+      smallButtonNode.classList.add('skipto-small');
       smallButtonNode.textContent = config.smallButtonLabel;
       this.buttonNode.appendChild(smallButtonNode);
 
       const mediumButtonNode = document.createElement('span');
-      mediumButtonNode.classList.add('medium');
+      mediumButtonNode.classList.add('skipto-medium');
       mediumButtonNode.textContent = config.buttonLabel;
       this.buttonNode.appendChild(mediumButtonNode);
 
