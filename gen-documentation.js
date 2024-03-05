@@ -37,7 +37,7 @@ function outputTemplate(fname, data) {
 
 const pages = [
   { template: './src-docs/templates/content-index.njk',
-    title: 'Home',
+    title: 'SkipTo for Bypass Blocks',
     link: 'Home',
     filename: 'index.html'
   },
