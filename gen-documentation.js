@@ -84,7 +84,19 @@ const examples = [
     config: `displayOption: fixed`
   },
   { template: './src-docs/templates/example/content-example.njk',
-    title: 'Headings (h1-h6)',
+    title: 'Landmarks',
+    filename: 'example-landmarks.html',
+    description: 'The SkipTo menu shows all H1, h2, H3, H4, H5, H6 heading levels.',
+    config: `landmarks: main navigation complementary`
+  },
+  { template: './src-docs/templates/example/content-example.njk',
+    title: 'Only Headings in Main Landmark Region (h1-h3)',
+    filename: 'example-main-headings.html',
+    description: 'The SkipTo menu shows all H1, h2, H3, H4, H5, H6 heading levels.',
+    config: `headings: main h1 h2 h3`
+  },
+  { template: './src-docs/templates/example/content-example.njk',
+    title: 'All Headings on Page (h1-h6)',
     filename: 'example-headings.html',
     description: 'The SkipTo menu shows all H1, h2, H3, H4, H5, H6 heading levels.',
     config: `headings: h1 h2 h3 h4 h5 h6`
