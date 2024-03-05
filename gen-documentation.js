@@ -111,7 +111,7 @@ const examples = [
     title: 'Colors',
     filename: 'example-colors.html',
     description: 'Setting the colors for skipto menu.',
-    config: `menuTextColor: #003366; menuBackgroundColor: #ffffff';menuitemFocusTextColor: #ffffff;menuitemFocusBackgroundColor: #003366;focusBorderColor: #dd3444;buttonTextColor: #ffffff;buttonBackgroundColor: #003366; fontSize: 90%`
+    config: `menuTextColor: #003366; menuBackgroundColor: #ffffff;menuitemFocusTextColor: #ffffff;menuitemFocusBackgroundColor: #003366;focusBorderColor: #dd3444;buttonTextColor: #ffffff;buttonBackgroundColor: #003366; fontSize: 90%`
   }
   ];
 
