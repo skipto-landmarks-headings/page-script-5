@@ -38,7 +38,7 @@ debug.flag = true;
 
       // Button labels and messages
       buttonLabel: 'Skip To Content',
-      shortButtonLabel: 'Skip',
+      smallButtonLabel: 'SkipTo',
       altLabel: 'Alt',
       optionLabel: 'Option',
       buttonShortcut: ' ($modifier+$key)',
@@ -70,7 +70,8 @@ debug.flag = true;
       fontFamily: '',
       fontSize: '',
       positionLeft: '',
-      mediaBreakPoint: '',
+      smallBreakPoint: '',
+      mediumBreakPoint: '',
       menuTextColor: '',
       menuBackgroundColor: '',
       menuitemFocusTextColor: '',
@@ -85,7 +86,8 @@ debug.flag = true;
         fontFamily: 'inherit',
         fontSize: 'inherit',
         positionLeft: '46%',
-        mediaBreakPoint: '540',
+        smallBreakPoint: '576',
+        mediumBreakPoint: '992',
         menuTextColor: '#1a1a1a',
         menuBackgroundColor: '#dcdcdc',
         menuitemFocusTextColor: '#eeeeee',

@@ -128,7 +128,12 @@ $skipToId button .text {
   display: inline-block;
 }
 
-$skipToId button .short {
+$skipToId button .small {
+  padding: 6px 8px 6px 8px;
+  display: none;
+}
+
+$skipToId button .medium {
   padding: 6px 8px 6px 8px;
   display: none;
 }
@@ -164,16 +169,24 @@ $skipToId button {
   z-index: $zIndex !important;
 }
 
-@media screen and (max-width: $mediaBreakPointpx) {
-  $skipToId button .short {
+@media screen and (max-width: $smallBreakPointpx) {
+  $skipToId button .small {
     display: inline-block;
   }
 
-  $skipToId button {
-    border-color: #e8e9ea;
+  $skipToId button .text,
+  $skipToId button .medium {
+    display: none;
+  }
+}
+
+@media screen and (min-width: $smallBreakPointpx) and (max-width: $mediumBreakPointpx) {
+  $skipToId button .medium {
+    display: inline-block;
   }
 
-  $skipToId button .text {
+  $skipToId button .text,
+  $skipToId button .small {
     display: none;
   }
 }
@@ -335,8 +348,10 @@ $skipToId button:hover {
 
 $skipToId button:focus .text,
 $skipToId button:hover .text,
-$skipToId button:focus short,
-$skipToId button:hover short {
+$skipToId button:focus small,
+$skipToId button:hover small,
+$skipToId button:focus medium,
+$skipToId button:hover medium {
   padding: 6px 7px 5px 7px;
 }
 
@@ -491,7 +506,8 @@ $skipToId [role="menuitem"]:focus .label {
     updateStyle('$fontSize', config.fontSize, theme.fontSize, defaultTheme.fontSize);
 
     updateStyle('$positionLeft', config.positionLeft, theme.positionLeft, defaultTheme.positionLeft);
-    updateStyle('$mediaBreakPoint', config.mediaBreakPoint, theme.mediaBreakPoint, defaultTheme.mediaBreakPoint);
+    updateStyle('$smallBreakPoint', config.smallBreakPoint, theme.smallBreakPoint, defaultTheme.smallBreakPoint);
+    updateStyle('$mediumBreakPoint', config.mediumBreakPoint, theme.mediumBreakPoint, defaultTheme.mediumBreakPoint);
 
     updateStyle('$menuTextColor', config.menuTextColor, theme.menuTextColor, defaultTheme.menuTextColor);
     updateStyle('$menuBackgroundColor', config.menuBackgroundColor, theme.menuBackgroundColor, defaultTheme.menuBackgroundColor);
@@ -1847,10 +1863,15 @@ $skipToId [role="menuitem"]:focus .label {
         this.buttonTextNode.textContent = buttonVisibleLabel;
         this.buttonNode.appendChild(this.buttonTextNode);
 
-        const shortButtonNode = document.createElement('span');
-        shortButtonNode.classList.add('short');
-        shortButtonNode.textContent = config.shortButtonLabel;
-        this.buttonNode.appendChild(shortButtonNode);
+        const smallButtonNode = document.createElement('span');
+        smallButtonNode.classList.add('small');
+        smallButtonNode.textContent = config.smallButtonLabel;
+        this.buttonNode.appendChild(smallButtonNode);
+
+        const mediumButtonNode = document.createElement('span');
+        mediumButtonNode.classList.add('medium');
+        mediumButtonNode.textContent = config.buttonLabel;
+        this.buttonNode.appendChild(mediumButtonNode);
 
         // Create menu container
 
@@ -2558,7 +2579,7 @@ $skipToId [role="menuitem"]:focus .label {
 
         // Button labels and messages
         buttonLabel: 'Skip To Content',
-        shortButtonLabel: 'Skip',
+        smallButtonLabel: 'SkipTo',
         altLabel: 'Alt',
         optionLabel: 'Option',
         buttonShortcut: ' ($modifier+$key)',
@@ -2590,7 +2611,8 @@ $skipToId [role="menuitem"]:focus .label {
         fontFamily: '',
         fontSize: '',
         positionLeft: '',
-        mediaBreakPoint: '',
+        smallBreakPoint: '',
+        mediumBreakPoint: '',
         menuTextColor: '',
         menuBackgroundColor: '',
         menuitemFocusTextColor: '',
@@ -2605,7 +2627,8 @@ $skipToId [role="menuitem"]:focus .label {
           fontFamily: 'inherit',
           fontSize: 'inherit',
           positionLeft: '46%',
-          mediaBreakPoint: '540',
+          smallBreakPoint: '576',
+          mediumBreakPoint: '992',
           menuTextColor: '#1a1a1a',
           menuBackgroundColor: '#dcdcdc',
           menuitemFocusTextColor: '#eeeeee',

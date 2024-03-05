@@ -76,10 +76,15 @@ export default class SkiptoMenuButton {
       this.buttonTextNode.textContent = buttonVisibleLabel;
       this.buttonNode.appendChild(this.buttonTextNode);
 
-      const shortButtonNode = document.createElement('span');
-      shortButtonNode.classList.add('short');
-      shortButtonNode.textContent = config.shortButtonLabel;
-      this.buttonNode.appendChild(shortButtonNode);
+      const smallButtonNode = document.createElement('span');
+      smallButtonNode.classList.add('small');
+      smallButtonNode.textContent = config.smallButtonLabel;
+      this.buttonNode.appendChild(smallButtonNode);
+
+      const mediumButtonNode = document.createElement('span');
+      mediumButtonNode.classList.add('medium');
+      mediumButtonNode.textContent = config.buttonLabel;
+      this.buttonNode.appendChild(mediumButtonNode);
 
       // Create menu container
 

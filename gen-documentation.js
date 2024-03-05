@@ -104,7 +104,7 @@ const examples = [
   { template: './src-docs/templates/example/content-example.njk',
     title: 'Fonts',
     filename: 'example-fonts.html',
-    description: 'The fonts for skipto are set to 8pt and monospace.',
+    description: 'The fonts for SkipTo menu are set to 8pt and monospace.',
     config: `fontSize: 8pt; fontFamily: monospace`
   },
   { template: './src-docs/templates/example/content-example.njk',
@@ -112,6 +112,12 @@ const examples = [
     filename: 'example-colors.html',
     description: 'Setting the colors for skipto menu.',
     config: `menuTextColor: #003366; menuBackgroundColor: #ffffff;menuitemFocusTextColor: #ffffff;menuitemFocusBackgroundColor: #003366;focusBorderColor: #dd3444;buttonTextColor: #ffffff;buttonBackgroundColor: #003366; fontSize: 90%`
+  },
+  { template: './src-docs/templates/example/content-example.njk',
+    title: 'Position',
+    filename: 'example-position.html',
+    description: 'Setting the position of the SkipTo menu button from the left side of the window.',
+    config: `positionLeft: 25%`
   }
   ];
 
