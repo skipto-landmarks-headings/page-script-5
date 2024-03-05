@@ -63,23 +63,23 @@ $skipToId button {
 }
 
 @media screen and (max-width: $smallBreakPointpx) {
-  $skipToId button .skipto-small {
+  $skipToId:not(.popup) button .skipto-small {
     display: inline-block;
   }
 
-  $skipToId button .skipto-text,
-  $skipToId button .skipto-medium {
+  $skipToId:not(.popup) button .skipto-text,
+  $skipToId:not(.popup) button .skipto-medium {
     display: none;
   }
 }
 
 @media screen and (min-width: $smallBreakPointpx) and (max-width: $mediumBreakPointpx) {
-  $skipToId button .skipto-medium {
+  $skipToId:not(.popup) button .skipto-medium {
     display: inline-block;
   }
 
-  $skipToId button .skipto-text,
-  $skipToId button .skipto-small {
+  $skipToId:not(.popup) button .skipto-text,
+  $skipToId:not(.popup) button .skipto-small {
     display: none;
   }
 }
