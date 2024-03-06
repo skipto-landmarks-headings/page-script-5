@@ -27,8 +27,8 @@
                   style="width: 100%; padding: 2px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;">
             </div>
 
-            <div id="id-test-pages" class="h2">Test Pages</div>
             <nav aria-labelledby="id-test-pages">
+              <div id="id-test-pages" class="h2">Test Pages</div>
               <ul>
               {% for t in tests %}
                 <li><a href="{{t.filename}}">{{t.title | safe}}</a></li>
