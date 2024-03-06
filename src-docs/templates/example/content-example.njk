@@ -22,11 +22,13 @@
           <div class="col col-lg-2 bg-light border rounded">
             <div role="search">
                 <label for="id-search-input">Search</label>
-                <input id="id-search-input" type="text" size="14"\/>
+                <input id="id-search-input"
+                  type="text"
+                  style="width: 100%; padding: 2px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;">
             </div>
 
-            <h2 id="id-examples">Examples</h2>
             <nav aria-labelledby="id-examples">
+              <h2 id="id-examples">Examples</h2>
               <ul>
               {% for e in examples %}
                 <li><a href="{{e.filename}}">{{e.title | safe}}</a></li>
@@ -38,7 +40,7 @@
 
           <main class="col col-lg-8">
             {% block title %}
-            <h1>Example: {{title}}</h1>
+            <h1>{{title}}</h1>
             {% endblock %}
 
             <section class="border border-2 rounded"
@@ -50,10 +52,8 @@
 
               {% if config %}
               <h2>Configuration Parameters</h2>
-              <div class="language-html highlighter-rouge" width="auto">
-                <div class="highlight">
-<pre class="highlight">{{config}}</pre>
-                </div>
+              <div class="params bg-light" width="auto">
+                <code>{{config}}</code>
               </div>
               {% endif %}
             </section>
@@ -123,11 +123,11 @@
             aria-label="More Resources">
             <h2>More Resources</h2>
             <ul>
-              <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 1</a></li>
+              <li><a href="#">More resources 1</a></li>
+              <li><a href="#">More resources 2</a></li>
+              <li><a href="#">More resources 3</a></li>
+              <li><a href="#">More resources 4</a></li>
+              <li><a href="#">More resources 5</a></li>
             </ul>
           </section>
        </div>

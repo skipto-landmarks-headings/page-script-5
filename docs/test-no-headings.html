@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>No headings | SkipTo.js for WCAG 4.2.1 Bypass Blocks</title>
+    <title>Test Page: No headings | SkipTo.js for WCAG 4.2.1 Bypass Blocks</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -67,7 +67,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
-          <li class="breadcrumb-item active">No headings</li>
+          <li class="breadcrumb-item active">Test Page: No headings</li>
         </ol>
       </nav>
 
@@ -75,10 +75,12 @@
       <div class="container">
         <div class="row">
 
-          <div class="col col-lg-2">
+          <div class="col col-lg-2 bg-light border rounded">
             <div role="search">
                 <label for="id-search-input">Search</label>
-                <input id="id-search-input" type="text" size="14"\/>
+                <input id="id-search-input"
+                  type="text"
+                  style="width: 100%; padding: 2px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;">
             </div>
 
             <div id="id-test-pages" class="h2">Test Pages</div>
@@ -99,10 +101,16 @@
             <div class="h1">Test Page: No headings</div>
             
 
-            <section aria-labelledby="id-description">
-              <div class="h2">Description</div>
-              No headings on page
+            <section class="border border-2 rounded"
+              style="padding: 0.5em"
+              aria-labelledby="id-description">
+
+              <div id="id-description" class="h2" style="margin-top: 0">Description</div>
+              <p>No headings on page</p>
+
+              
             </section>
+
 
             <section>
               <div class="h2">Example Content</div>
@@ -145,7 +153,7 @@
           </main>
 
 
-          <aside class="col col-lg-2" aria-labelledby="id-resources">
+          <aside class="col col-lg-2 bg-light border rounded" aria-labelledby="id-resources">
             <div class="h2">Resources</div>
             <ul>
               <li><a href="#">Resource 1</a></li>
@@ -163,16 +171,16 @@
           <div class="col col-lg-2">
           </div>
 
-          <section class="col col-lg-8"
+          <section class="col col-lg-8 bg-light border rounded"
             role="complementary"
             aria-label="More Resources">
             <div class="h2">More Resources</div>
             <ul>
               <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 1</a></li>
+              <li><a href="%">More resources 2</a></li>
+              <li><a href="%">More resources 3</a></li>
+              <li><a href="%">More resources 4</a></li>
+              <li><a href="%">More resources 5</a></li>
             </ul>
           </section>
        </div>

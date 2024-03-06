@@ -19,10 +19,12 @@
       <div class="container">
         <div class="row">
 
-          <div class="col col-lg-2">
+          <div class="col col-lg-2 bg-light border rounded">
             <div>
                 <label for="id-search-input">Search</label>
-                <input id="id-search-input" type="text" size="14"\/>
+                <input id="id-search-input"
+                  type="text"
+                  style="width: 100%; padding: 2px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;">
             </div>
 
             <h2 id="id-test-pages">Test Pages</h2>
@@ -38,13 +40,24 @@
 
           <main role="none" class="col col-lg">
             {% block title %}
-            <h1>Test Page: {{title}}</h1>
+            <h1>{{title}}</h1>
             {% endblock %}
 
-            <section>
-              <h2 id="id-description">Description</h2>
-              {{description}}
+            <section class="border border-2 rounded"
+              style="padding: 0.5em"
+              aria-labelledby="id-description">
+
+              <h2 id="id-description" style="margin-top: 0">Description</h2>
+              <p>{{description}}</p>
+
+              {% if config %}
+              <h2>Configuration Parameters</h2>
+              <div class="params  bg-light" width="auto">
+                <code>{{config}}</code>
+              </div>
+              {% endif %}
             </section>
+
 
             <section>
               <h2>Example Content</h2>
@@ -87,7 +100,7 @@
           </main>
 
 
-          <aside role="none" class="col col-lg-2" aria-labelledby="id-resources">
+          <aside role="none" class="col col-lg-2 bg-light border rounded" aria-labelledby="id-resources">
             <h2 id="id-resources">Resources</h2>
             <ul>
               <li><a href="#">Resource 1</a></li>
@@ -105,14 +118,14 @@
           <div class="col col-lg-2">
           </div>
 
-          <section class="col col-lg-8">
+          <section class="col col-lg-8 bg-light border rounded">
             <h2>More Resources</h2>
             <ul>
               <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 1</a></li>
+              <li><a href="%">More resources 2</a></li>
+              <li><a href="%">More resources 3</a></li>
+              <li><a href="%">More resources 4</a></li>
+              <li><a href="%">More resources 5</a></li>
             </ul>
           </section>
        </div>

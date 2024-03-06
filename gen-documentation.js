@@ -156,7 +156,7 @@ examples.forEach( f => {
   console.log(`[example]: ${f.filename}`);
   outputFile(f.filename, nunjucks.render(f.template, {
     version: version,
-    title: f.title,
+    title: 'Example: ' + f.title,
     description: f.description,
     config: f.config,
     pages: pages,
@@ -168,7 +168,7 @@ tests.forEach( f => {
   console.log(`[test]: ${f.filename}`);
   outputFile(f.filename, nunjucks.render(f.template, {
     version: version,
-    title: f.title,
+    title: 'Test Page: ' + f.title,
     description: f.description,
     config: f.config,
     pages: pages,

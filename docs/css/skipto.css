@@ -108,7 +108,7 @@ div.language-html pre tt {
 }
 
 div.language-html pre .nt {
-  color: #22863a;
+  color: darkgreen;
 }
 
 div.language-html pre .kd,
@@ -165,4 +165,21 @@ div.container .h4 {
   margin: 0;
   margin-top: 0.5em;
   font-size: 1.1rem;
+}
+
+div.params {
+  margin: 0.5em 0;
+  padding: 0.5em;
+}
+
+.bg-light a {
+  color: darkblue;
+}
+
+.bg-light code {
+  color: darkred;
+}
+
+.bg-light span.nt {
+  color: darkgreen;
 }
