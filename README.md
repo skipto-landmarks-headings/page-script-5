@@ -24,7 +24,7 @@ See [Using Skipto](https://skipto-landmarks-headings.github.io/page-script-5/usi
 
 ## Version History
 
-[CGANGELOG.md](CHANGELOG.md)
+[CHANGELOG.md](CHANGELOG.md)
 
 ## Copyright and license
 
