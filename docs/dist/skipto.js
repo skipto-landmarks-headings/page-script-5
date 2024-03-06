@@ -178,6 +178,16 @@ $skipToId button {
   $skipToId:not(.popup) button .skipto-medium {
     display: none;
   }
+
+  $skipToId:not(.popup).focus button .skipto-text {
+    display: inline-block;
+  }
+
+  $skipToId:not(.popup).focus button .skipto-small,
+  $skipToId:not(.popup).focus button .skipto-medium {
+    display: none;
+  }
+
 }
 
 @media screen and (min-width: $smallBreakPointpx) and (max-width: $mediumBreakPointpx) {
@@ -189,6 +199,16 @@ $skipToId button {
   $skipToId:not(.popup) button .skipto-small {
     display: none;
   }
+
+  $skipToId:not(.popup).focus button .skipto-text {
+    display: inline-block;
+  }
+
+  $skipToId:not(.popup).focus button .skipto-small,
+  $skipToId:not(.popup).focus button .skipto-medium {
+    display: none;
+  }
+
 }
 
 $skipToId.fixed {
