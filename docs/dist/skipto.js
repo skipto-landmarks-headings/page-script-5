@@ -171,20 +171,24 @@ $skipToId button {
 
 @media screen and (max-width: $smallBreakPointpx) {
   $skipToId:not(.popup) button .skipto-small {
+    transition: top 0.35s ease;
     display: inline-block;
   }
 
   $skipToId:not(.popup) button .skipto-text,
   $skipToId:not(.popup) button .skipto-medium {
+    transition: top 0.35s ease;
     display: none;
   }
 
   $skipToId:not(.popup).focus button .skipto-text {
+    transition: top 0.35s ease;
     display: inline-block;
   }
 
   $skipToId:not(.popup).focus button .skipto-small,
   $skipToId:not(.popup).focus button .skipto-medium {
+    transition: top 0.35s ease;
     display: none;
   }
 
@@ -192,20 +196,24 @@ $skipToId button {
 
 @media screen and (min-width: $smallBreakPointpx) and (max-width: $mediumBreakPointpx) {
   $skipToId:not(.popup) button .skipto-medium {
+    transition: top 0.35s ease;
     display: inline-block;
   }
 
   $skipToId:not(.popup) button .skipto-text,
   $skipToId:not(.popup) button .skipto-small {
+    transition: top 0.35s ease;
     display: none;
   }
 
   $skipToId:not(.popup).focus button .skipto-text {
+    transition: top 0.35s ease;
     display: inline-block;
   }
 
   $skipToId:not(.popup).focus button .skipto-small,
   $skipToId:not(.popup).focus button .skipto-medium {
+    transition: top 0.35s ease;
     display: none;
   }
 
