@@ -1,5 +1,5 @@
 
-<img src="./images/skipto-128.png" alt="SkipTo logo"/>
+<img src="./docs/images/example_screen_shot.png" alt="Screen shot of open skip to menu"/>
 
 # SkipTo Page Script, Version 5.3
 
