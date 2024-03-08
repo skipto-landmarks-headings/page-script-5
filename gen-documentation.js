@@ -86,13 +86,13 @@ const examples = [
   { template: './src-docs/templates/example/content-example.njk',
     title: 'Landmarks',
     filename: 'example-landmarks.html',
-    description: 'The SkipTo menu shows all H1, h2, H3, H4, H5, H6 heading levels.',
+    description: 'The SkipTo menu shows only main, navigation and complementary landmarks.',
     config: `landmarks: main navigation complementary`
   },
   { template: './src-docs/templates/example/content-example.njk',
     title: 'Only Headings in Main Landmark Region (h1-h3)',
     filename: 'example-main-headings.html',
-    description: 'The SkipTo menu shows all H1, h2, H3, H4, H5, H6 heading levels.',
+    description: 'The SkipTo menu shows only H1, h2 and H3 heading levels within the main landmark region.',
     config: `headings: main h1 h2 h3`
   },
   { template: './src-docs/templates/example/content-example.njk',
