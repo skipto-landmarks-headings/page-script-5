@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>SkipTo for Bypass Blocks | SkipTo.js for WCAG 4.2.1 Bypass Blocks</title>
+    <title>SkipTo.js for Bypass Blocks | SkipTo.js for WCAG 4.2.1 Bypass Blocks</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -26,7 +26,7 @@
              id="mainNav">
             <div class="container px-4">
                 <span class="brand">
-                  <span class="skipto">SkipTo 5.3</span>
+                  <span class="skipto">SkipTo.js 5.3</span>
                 </span>
 
                 <button class="navbar-toggler"
@@ -89,12 +89,12 @@
                     style="width: 80%" />
             </div>
 
-            <h1>SkipTo for Bypass Blocks</h1>
+            <h1>SkipTo.js for Bypass Blocks</h1>
 
-            <p>SkipTo is a replacement for your old classic “Skip To Main Content” link for implementing the <a href="https://www.w3.org/TR/WCAG/#bypass-blocks">WCAG 4.2.1 Bypass Blocks</a> requirement.
-               The SkipTo creates a drop-down menu consisting of the links to important landmarks and headings on a given web page. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.
+            <p>SkipTo.js is a replacement for your old classic “Skip To Main Content” link for implementing the <a href="https://www.w3.org/TR/WCAG/#bypass-blocks">WCAG 4.2.1 Bypass Blocks</a> requirement.
+               The SkipTo.js creates a drop-down menu consisting of the links to important landmarks and headings on a given web page. Once installed and configured, the menu makes it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.
             </p>
-            <p><strong>NOTE:</strong> <a href="https://github.com/skipto-landmarks-headings/page-script-5">SkipTo 5 Page Script</a> is a total rewrite of <a href="https://github.com/paypal/skipto">SkipTo 4</a> to support custom web components and solidify SkipTo 5 in promoting the proper understanding and use of headings and landmark regions by making them visible to everyone, not just screen reader users.  The SkipTo 5 code uses Javascript Modules for improved development and maintenance of SkipTo features.</p>
+            <p><strong>NOTE:</strong> <a href="https://github.com/skipto-landmarks-headings/page-script-5">SkipTo.js 5 Page Script</a> is a total rewrite of <a href="https://github.com/paypal/skipto">SkipTo.js 4</a> to support custom web components and solidify SkipTo.js 5 in promoting the proper understanding and use of headings and landmark regions by making them visible to everyone, not just screen reader users.  The SkipTo.js 5 code uses Javascript Modules for improved development and maintenance of SkipTo.js features.</p>
 
             <h2 id="benefits">Benefits</h2>
             <ul>
@@ -103,12 +103,12 @@
                <li>Keyboard only users can more efficiently navigate to content on a page.</li>
                <li>Speech recognition users can use the menu to more efficiently navigate to content on a page.</li>
                <li>When the “Skip To Content” menu button is visible when the page is loaded everyone can use it to identify and navigate to important regions on a page.</li>
-               <li>Authors can configure SkipTo to identify the most important regions, ideally about 7-12 items to make it easier for people to read the list and choose an option.  Remember the more items, the longer it will take for the user to identify which item they want to choose.</li>
+               <li>Authors can configure SkipTo.js to identify the most important regions, ideally about 7-12 items to make it easier for people to read the list and choose an option.  Remember the more items, the longer it will take for the user to identify which item they want to choose.</li>
             </ul>
 
-            <h2 id="websites-using-skipto">Websites using SkipTo</h2>
+            <h2 id="websites-using-skipto">Websites using SkipTo.js</h2>
 
-            <p>There are two main ways to use the menu button for SkipTo in a page.  In the default configuration the menu button is always visible making it useful to everyone to easily find and navigate to the important content regions identified by the author.  This is similar to how curb cuts help more than just people using wheelchairs.  It is also easier for people using voice recognition to activate the button using the “click skip to content” command and use similar voice commands to activate SkipTo menu items.  The “popup” option is the more traditional approach to fulfilling the “<a href="https://www.w3.org/TR/WCAG/#bypass-blocks">bypass bocks</a>” requirement of the <a href="https://www.w3.org/TR/WCAG/">Web Content Accessibility Guidelines</a>, but this option makes the feature less visible to people who might benefit.</p>
+            <p>There are two main ways to use the menu button for SkipTo.js in a page.  In the default configuration the menu button is always visible making it useful to everyone to easily find and navigate to the important content regions identified by the author.  This is similar to how curb cuts help more than just people using wheelchairs.  It is also easier for people using voice recognition to activate the button using the “click skip to content” command and use similar voice commands to activate SkipTo.js menu items.  The “popup” option is the more traditional approach to fulfilling the “<a href="https://www.w3.org/TR/WCAG/#bypass-blocks">bypass bocks</a>” requirement of the <a href="https://www.w3.org/TR/WCAG/">Web Content Accessibility Guidelines</a>, but this option makes the feature less visible to people who might benefit.</p>
 
             <h3 id="visible-menu-button-default">Visible Menu Button (default)</h3>
 
@@ -126,20 +126,20 @@
                <li><a href="http://cpanel.web.illinois.edu">cPanel Web Hosting Service @ Illinois</a></li>
                <li><a href="https://education.illinois.edu/">College of Education</a> (Web components)</li>
             </ul>
-            <p>NOTE: Popup menu button option is available through configuration of SkipTo when it is loaded.</p>
+            <p>NOTE: Popup menu button option is available through configuration of SkipTo.js when it is loaded.</p>
 
             <h2 id="how-it-works">How it works</h2>
 
             <ol>
-               <li>The SkipTo menu button should be the first tabable element (e.g. <kbd>Tab</kbd> key)on the page, and by default the button is visible, but can be configured to “popup” when the button becomes receives focus.</li>
+               <li>The SkipTo.js menu button should be the first tabable element (e.g. <kbd>Tab</kbd> key)on the page, and by default the button is visible, but can be configured to “popup” when the button becomes receives focus.</li>
                <li>Once focus is on the menu button, pressing the <kbd>Enter</kbd>, <kbd>Space</kbd>, <kbd>Down Arrow</kbd> or <kbd>Up Arrow</kbd> keys will pull down the list of important landmarks and headings on the page.  The button is based on the ARIA Authoring Practice <a href="https://w3c.github.io/aria-practices/#menubutton">design pattern for menu button</a>.</li>
                <li>Use arrow keys to select your choice and press <kbd>Enter</kbd> to move focus to the section of the page.</li>
             </ol>
 
             <h2 id="shortcut-key">Shortcut key</h2>
 
-            <p>A shortcut key can be used to open the SkipTo menu from anywhere on the page.  Version 5 changes the shortcut key operation from using the HTML <code class="language-plaintext highlighter-rouge">accesskey</code> attribute to use a scripted method to improve consistency of the shortcut keys between browsers and to support screen reader users, since some screen readers do not support accesskeys.</p>
-            <p>To use the “SkipTo” shortcut key, you would press either <kbd>alt + 0</kbd> (Windows/Unix/Linux) or <kbd>Option + 0</kbd> (macOS).  Apple keyboards do not have an <kbd>Alt</kbd> key, so the <kbd>Option</kbd> key is used as the modifier for the shortcut.  The shortcut key is the same for Firefox, Chrome and Safari on the same operating system.</p>
+            <p>A shortcut key can be used to open the SkipTo.js menu from anywhere on the page.  Version 5 changes the shortcut key operation from using the HTML <code class="language-plaintext highlighter-rouge">accesskey</code> attribute to use a scripted method to improve consistency of the shortcut keys between browsers and to support screen reader users, since some screen readers do not support accesskeys.</p>
+            <p>To use the “SkipTo.js” shortcut key, you would press either <kbd>alt + 0</kbd> (Windows/Unix/Linux) or <kbd>Option + 0</kbd> (macOS).  Apple keyboards do not have an <kbd>Alt</kbd> key, so the <kbd>Option</kbd> key is used as the modifier for the shortcut.  The shortcut key is the same for Firefox, Chrome and Safari on the same operating system.</p>
             <ul>
                <li><kbd>Alt+0</kbd> : Windows, Unix and Linux.</li>
                <li><kbd>Option+0</kbd> : macOS.</li>
@@ -159,13 +159,13 @@
             <!-- Footer-->
         <footer class="py-5 bg-light">
 
-            <div class="fst-italic text-center" style="margin-bottom: 1em">The <code>skipto.js</code> script is the modern way to implement the <a href="https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html">WCAG 2.4.1 Bypass Blocks</a> requirement.</div>
+            <div class="fst-italic text-center" style="margin-bottom: 1em">The <code>SkipTo.js</code> script is the modern way to implement the <a href="https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html">WCAG 2.4.1 Bypass Blocks</a> requirement.</div>
 
-            <div class="container px-4 text-center">SkipTo Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD, All rights reserved</div>
+            <div class="container px-4 text-center">SkipTo.js Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD, All rights reserved</div>
 
-            <div class="container px-4 text-center">SkipTo Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD, All rights reserved.</div>
+            <div class="container px-4 text-center">SkipTo.js Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD, All rights reserved.</div>
 
-            <div class="container px-4 text-center">BSD License allows for the SkipTo code to be freely used (e.g. no cost) and copied as long as the copyright notice is included.</div>
+            <div class="container px-4 text-center">BSD License allows for the SkipTo.js code to be freely used (e.g. no cost), copied or modified as long as the copyright notice is included.</div>
 
             <div class="container px-4 text-center">Website conformance to <a href="https://www.w3.org/TR/WCAG21/">WCAG 2.1</a> requirements supported using <a href="https://ainspector.disability.illinois.edu">AInspector browser addon</a>.</div>
 

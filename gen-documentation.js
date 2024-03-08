@@ -37,12 +37,12 @@ function outputTemplate(fname, data) {
 
 const pages = [
   { template: './src-docs/templates/content-index.njk',
-    title: 'SkipTo for Bypass Blocks',
+    title: 'SkipTo.js for Bypass Blocks',
     link: 'Home',
     filename: 'index.html'
   },
   { template: './src-docs/templates/content-using.njk',
-    title: 'Using SkipTo on a Web Page',
+    title: 'Using on a Web Page',
     link: 'Using',
     filename: 'using.html'
   },
