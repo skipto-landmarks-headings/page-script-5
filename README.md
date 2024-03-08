@@ -1,6 +1,3 @@
-
-<img src="./docs/images/example_screen_shot.png" alt="Screen shot of open skip to menu"/>
-
 # SkipTo Page Script, Version 5.3
 
 See the [documentation](https://skipto-landmarks-headings.github.io/page-script-5/) for more information on SkipTo.
