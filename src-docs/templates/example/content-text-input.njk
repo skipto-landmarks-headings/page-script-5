@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {% include "../head.njk" %}
+    <style>
+      label,
+      input[type=text],
+      textarea {
+        display: block;
+      }
+      label {
+        font-weight: bold;
+      }
+      fieldset label {
+        display: inline-block;
+        font-weight: normal;
+      }
+      legend {
+        font-size: 100%;
+        font-weight: bold;
+
+      }
+      .control {
+        margin: 0.125em;
+        padding: 0.125em;
+      }
+    </style>
+  </head>
+  <body>
+    {% include "./header-example.njk" %}
+
+    <div class="container px-4">
+      <nav aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+          <li class="breadcrumb-item active">{{title | safe}}</li>
+        </ol>
+      </nav>
+
+    <!-- Layout of Main Content -->
+      <div class="container">
+        <div class="row">
+
+          <div class="col col-lg-2 bg-light border rounded">
+            <div role="search">
+                <label for="id-search-input">Search</label>
+                <input id="id-search-input"
+                  type="text"
+                  style="width: 100%; padding: 2px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;">
+            </div>
+
+            <nav aria-labelledby="id-test-pages">
+              <h2 id="id-test-pages">Test Pages</h2>
+              <ul>
+              {% for t in tests %}
+                <li><a href="{{t.filename}}">{{t.title | safe}}</a></li>
+              {% endfor %}
+              </ul>
+            </nav>
+          </div>
+
+
+          <main class="col col-lg-8">
+            {% block title %}
+            <h1>{{title}}</h1>
+            {% endblock %}
+
+            <section class="border border-2 rounded"
+              style="padding: 0.5em"
+              aria-labelledby="id-description">
+
+              <h2 id="id-description" style="margin-top: 0">Description</h2>
+              <p>{{description}}</p>
+
+              {% if config %}
+              <h2>Configuration Parameters</h2>
+              <div class="params bg-light" width="auto">
+                <code>{{config}}</code>
+              </div>
+              {% endif %}
+            </section>
+
+            <section>
+              <h2>Text Input Controls</h2>
+              <p>The shortcut key will be disabled when focus is on a text input.</p>
+
+              <form>
+                <div class="control">
+                  <label for="id-name">Name</label>
+                  <input id="id-name" type="text" size="25">
+                </div>
+
+                <div class="control">
+                  <label for="id-range">Number</label>
+                  0<input id="id-range" type="range">10
+                </div>
+
+                <fieldset>
+                  <legend>Items</legend>
+                  <div class="control">
+                    <input id="id-radio-a" type="radio" name="rg"/>
+                    <label for="id-radio-a">Item A</label>
+                  </div>
+                  <div class="control">
+                    <input id="id-radio-b" type="radio" name="rg"/>
+                    <label for="id-radio-b">Item B</label>
+                  </div>
+                  <div class="control">
+                    <input id="id-radio-c" type="radio" name="rg"/>
+                    <label for="id-radio-c">Item C</label>
+                  </div>
+                  <div class="control">
+                    <input id="id-radio-d" type="radio" name="rg"/>
+                    <label for="id-radio-d">Item D</label>
+                  </div>
+                </fieldset>
+
+                <div class="control">
+                  <label for="id-optons">Options</label>
+                  <select id="id-options">
+                    <option>Option A</option>
+                    <option>Option B</option>
+                    <option>Option C</option>
+                    <option>Option D</option>
+                  </select>
+                </div>
+
+                <div class="control">
+                  <label for="id-coment">Comment</label>
+                  <textarea id="id-comment" rows="4" cols="20">enter comment here</textarea>
+                </div>
+
+                <div class="control">
+                  <button>Button 1</button>
+                  <input type="button" value="Button 2"/>
+                <div class="control">
+
+                <div class="control">
+                  <input type="submit"/>
+                  <input type="reset"/>
+                </div>
+              </form>
+
+
+
+              <h2>Example Content</h2>
+
+              <article>
+                <h3>Pastrami</h3>
+                <section>
+                    Boudin pastrami cow ham leberkas doner ground round pork. Turducken swine bresaola, flank kielbasa ground round beef ribs chuck meatball shoulder tail leberkas biltong pastrami andouille. Drumstick jowl brisket ribeye ham jerky shank cow bacon. Ham swine chuck, ball tip frankfurter meatball short loin bacon andouille ribeye beef ribs shoulder tail spare ribs bresaola. Swine meatball leberkas bacon. Beef ribs short loin pork belly meatloaf pastrami bacon pig andouille ham jowl pork chop shoulder jerky ribeye. Meatball doner t-bone strip steak tail biltong ham hock, shank jowl.
+                    <a href="#">Link 1</a>
+                </section>
+
+                <h4>More Pastrami</h4>
+                <section>
+                    Boudin pastrami cow ham leberkas doner ground round pork. Turducken swine bresaola, flank kielbasa ground round beef ribs chuck meatball shoulder tail leberkas biltong pastrami andouille. Drumstick jowl brisket ribeye ham jerky shank cow bacon. Ham swine chuck, ball tip frankfurter meatball short loin bacon andouille ribeye beef ribs shoulder tail spare ribs bresaola. Swine meatball leberkas bacon. Beef ribs short loin pork belly meatloaf pastrami bacon pig andouille ham jowl pork chop shoulder jerky ribeye. Meatball doner t-bone strip steak tail biltong ham hock, shank jowl.
+                    <a href="#">Link 2</a>
+                </section>
+              </article>
+
+              <article>
+                <h3>Turkey</h3>
+                <section>
+                    Turkey tri-tip sirloin tail hamburger, pancetta prosciutto pork chop pork tongue. Salami drumstick bacon jerky, pork sausage ham prosciutto capicola pancetta beef ribs fatback. Bresaola andouille sirloin, fatback beef ribs shoulder leberkas tongue. Shankle shank turducken, flank jerky leberkas strip steak chuck pancetta tail venison pork belly meatball.
+                    <a href="#">Link 3</a>
+                </section>
+                <h4>More Turkey</h4>
+                <section>
+                        Turkey tri-tip sirloin tail hamburger, pancetta prosciutto pork chop pork tongue. Salami drumstick bacon jerky, pork sausage ham prosciutto capicola pancetta beef ribs fatback. Bresaola andouille sirloin, fatback beef ribs shoulder leberkas tongue. Shankle shank turducken, flank jerky leberkas strip steak chuck pancetta tail venison pork belly meatball.
+                        <a href="#">Link 4</a>
+                </section>
+              </article>
+
+              <article>
+                <h3>Ribeye</h3>
+                <section>
+                  Ribeye turkey beef ribs, ground round pork chop cow venison capicola shank pastrami. Salami pork ball tip tongue chicken tenderloin sausage short loin. Prosciutto jerky chuck sausage. Tri-tip shankle short ribs cow pastrami, sirloin drumstick pig ball tip shank meatball ground round hamburger.
+                  <a href="#">Link 5</a>
+                </section>
+              </article>
+            </section>
+          </main>
+
+
+          <aside class="col col-lg-2 bg-light border rounded"
+                 aria-labelledby="id-resources">
+            <h2 id="id-resources">Resources</h2>
+            <ul>
+              <li><a href="#">Resource 1</a></li>
+              <li><a href="#">Resource 2</a></li>
+              <li><a href="#">Resource 3</a></li>
+              <li><a href="#">Resource 4</a></li>
+              <li><a href="#">Resource 5</a></li>
+              <li><a href="#">Resource 6</a></li>
+            </ul>
+          </aside>
+
+        </div>
+
+        <div class="row">
+          <div class="col col-lg-2">
+          </div>
+
+          <section class="col col-lg-8 bg-light border rounded"
+            role="complementary"
+            aria-label="More Resources">
+            <h2>More Resources</h2>
+            <ul>
+              <li><a href="#">More resources 1</a></li>
+              <li><a href="#">More resources 2</a></li>
+              <li><a href="#">More resources 3</a></li>
+              <li><a href="#">More resources 4</a></li>
+              <li><a href="#">More resources 5</a></li>
+            </ul>
+          </section>
+       </div>
+      </div>
+
+
+    </div>
+    {% include "../footer.njk" %}
+    {% include "./scripts.njk" %}
+
+    <!-- SkipTo.js -->
+    <script data-skipto="colorTheme: openweba11y;{{config}}"
+            src="./dist/skipto.min.js">
+    </script>
+
+
+
+  </body>
+</html>

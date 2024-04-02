@@ -1,5 +1,8 @@
 # Version history for Skipto.js
 
+## Version 5.3.1
+* Disable shortcut when focus is in input or textarea element
+
 ## Version 5.3.0
 * In small screen mode use text instead of an image for the button label
 * Deprecated configuration of shortcut key due to internationalization issues

@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.3.0
+ * Version: 5.3.1
  * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -2437,31 +2437,54 @@ $skipToId [role="menuitem"]:focus .label {
       }
 
       handleDocumentKeydown (event) {
-        let key = event.key,
-          flag = false;
 
-        let altPressed =
-          this.usesAltKey &&
-          event.altKey &&
-          !event.ctrlKey &&
-          !event.shiftKey &&
-          !event.metaKey;
+        const enabledTypes = [
+          'button',
+          'checkbox',
+          'color',
+          'file',
+          'image',
+          'radio',
+          'range',
+          'reset',
+          'submit'
+        ];
 
-        let optionPressed =
-          this.usesOptionKey &&
-          event.altKey &&
-          !event.ctrlKey &&
-          !event.shiftKey &&
-          !event.metaKey;
+        let flag = false;
 
-        if ((optionPressed && this.config.optionShortcut === key) ||
-          (altPressed    && this.config.altShortcut    === key) ||
-          (optionPressed && (48 === event.keyCode))
-        ) {
-          this.openPopup();
-          this.setFocusToFirstMenuitem();
-          flag = true;
+        const target = event.target;
+        const tagName = target.tagName ? target.tagName.toLowerCase() : '';
+        const type = tagName === 'input' ? target.type.toLowerCase() : '';
+
+        if ((tagName !== 'textarea') &&
+            ((tagName !== 'input') ||
+             ((tagName === 'input') && enabledTypes.includes(type))
+            )) {
+
+          const altPressed =
+            this.usesAltKey &&
+            event.altKey &&
+            !event.ctrlKey &&
+            !event.shiftKey &&
+            !event.metaKey;
+
+          const optionPressed =
+            this.usesOptionKey &&
+            event.altKey &&
+            !event.ctrlKey &&
+            !event.shiftKey &&
+            !event.metaKey;
+
+          if ((optionPressed && this.config.optionShortcut === event.key) ||
+            (altPressed    && this.config.altShortcut    === event.key) ||
+            (optionPressed && (48 === event.keyCode))
+          ) {
+            this.openPopup();
+            this.setFocusToFirstMenuitem();
+            flag = true;
+          }
         }
+
         if (flag) {
           event.stopPropagation();
           event.preventDefault();

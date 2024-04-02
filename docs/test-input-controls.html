@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Test Page: No landmarks | SkipTo.js for WCAG 4.2.1 Bypass Blocks</title>
+    <title>Test Page: Input controls | SkipTo.js for WCAG 4.2.1 Bypass Blocks</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -17,13 +17,36 @@
 
 
 
+    <style>
+      label,
+      input[type=text],
+      textarea {
+        display: block;
+      }
+      label {
+        font-weight: bold;
+      }
+      fieldset label {
+        display: inline-block;
+        font-weight: normal;
+      }
+      legend {
+        font-size: 100%;
+        font-weight: bold;
+
+      }
+      .control {
+        margin: 0.125em;
+        padding: 0.125em;
+      }
+    </style>
   </head>
   <body>
             <!-- Navigation-->
-        <nav role="none" class="navbar navbar-expand-lg navbar-light bg-light" id="mainNav">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" id="mainNav" aria-label="Main">
             <div class="container px-4">
                 <span class="brand">
-                  <span class="skipto">SkipTo 5.3 Test Page</span>
+                  <span class="skipto">SkipTo 5.3 Example</span>
                 </span>
 
                 <button class="navbar-toggler"
@@ -39,10 +62,6 @@
                   <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                           <a class="nav-link" href="index.html">Home</a>
-                        </li>
-
-                        <li class="nav-item">
-                          <a class="nav-link" href="add.html">Adding</a>
                         </li>
 
                         <li class="nav-item">
@@ -67,11 +86,11 @@
 
 
     <div class="container px-4">
-      <nav role="none" aria-label="Breadcrumb">
+      <nav aria-label="Breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
-          <li class="breadcrumb-item active">Test Page: No landmarks</li>
+          <li class="breadcrumb-item active">Test Page: Input controls</li>
         </ol>
       </nav>
 
@@ -80,14 +99,14 @@
         <div class="row">
 
           <div class="col col-lg-2 bg-light border rounded">
-            <div>
+            <div role="search">
                 <label for="id-search-input">Search</label>
                 <input id="id-search-input"
                   type="text"
                   style="width: 100%; padding: 2px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;">
             </div>
 
-            <nav role="none" aria-labelledby="id-test-pages">
+            <nav aria-labelledby="id-test-pages">
               <h2 id="id-test-pages">Test Pages</h2>
               <ul>
               
@@ -102,9 +121,9 @@
           </div>
 
 
-          <main role="none" class="col col-lg">
+          <main class="col col-lg-8">
             
-            <h1>Test Page: No landmarks</h1>
+            <h1>Test Page: Input controls</h1>
             
 
             <section class="border border-2 rounded"
@@ -112,13 +131,74 @@
               aria-labelledby="id-description">
 
               <h2 id="id-description" style="margin-top: 0">Description</h2>
-              <p>No landmarks on page</p>
+              <p>Shortcut keys is disabled when focus is a text input.</p>
 
               
             </section>
 
-
             <section>
+              <h2>Text Input Controls</h2>
+              <p>The shortcut key will be disabled when focus is on a text input.</p>
+
+              <form>
+                <div class="control">
+                  <label for="id-name">Name</label>
+                  <input id="id-name" type="text" size="25">
+                </div>
+
+                <div class="control">
+                  <label for="id-range">Number</label>
+                  0<input id="id-range" type="range">10
+                </div>
+
+                <fieldset>
+                  <legend>Items</legend>
+                  <div class="control">
+                    <input id="id-radio-a" type="radio" name="rg"/>
+                    <label for="id-radio-a">Item A</label>
+                  </div>
+                  <div class="control">
+                    <input id="id-radio-b" type="radio" name="rg"/>
+                    <label for="id-radio-b">Item B</label>
+                  </div>
+                  <div class="control">
+                    <input id="id-radio-c" type="radio" name="rg"/>
+                    <label for="id-radio-c">Item C</label>
+                  </div>
+                  <div class="control">
+                    <input id="id-radio-d" type="radio" name="rg"/>
+                    <label for="id-radio-d">Item D</label>
+                  </div>
+                </fieldset>
+
+                <div class="control">
+                  <label for="id-optons">Options</label>
+                  <select id="id-options">
+                    <option>Option A</option>
+                    <option>Option B</option>
+                    <option>Option C</option>
+                    <option>Option D</option>
+                  </select>
+                </div>
+
+                <div class="control">
+                  <label for="id-coment">Comment</label>
+                  <textarea id="id-comment" rows="4" cols="20">enter comment here</textarea>
+                </div>
+
+                <div class="control">
+                  <button>Button 1</button>
+                  <input type="button" value="Button 2"/>
+                <div class="control">
+
+                <div class="control">
+                  <input type="submit"/>
+                  <input type="reset"/>
+                </div>
+              </form>
+
+
+
               <h2>Example Content</h2>
 
               <article>
@@ -159,7 +239,8 @@
           </main>
 
 
-          <aside role="none" class="col col-lg-2 bg-light border rounded" aria-labelledby="id-resources">
+          <aside class="col col-lg-2 bg-light border rounded"
+                 aria-labelledby="id-resources">
             <h2 id="id-resources">Resources</h2>
             <ul>
               <li><a href="#">Resource 1</a></li>
@@ -177,14 +258,16 @@
           <div class="col col-lg-2">
           </div>
 
-          <section class="col col-lg-8 bg-light border rounded">
+          <section class="col col-lg-8 bg-light border rounded"
+            role="complementary"
+            aria-label="More Resources">
             <h2>More Resources</h2>
             <ul>
-              <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 2</a></li>
-              <li><a href="%">More resources 3</a></li>
-              <li><a href="%">More resources 4</a></li>
-              <li><a href="%">More resources 5</a></li>
+              <li><a href="#">More resources 1</a></li>
+              <li><a href="#">More resources 2</a></li>
+              <li><a href="#">More resources 3</a></li>
+              <li><a href="#">More resources 4</a></li>
+              <li><a href="#">More resources 5</a></li>
             </ul>
           </section>
        </div>
