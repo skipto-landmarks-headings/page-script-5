@@ -2438,7 +2438,7 @@ $skipToId [role="menuitem"]:focus .label {
 
       handleDocumentKeydown (event) {
 
-        const enabledTypes = [
+        const enabledInputTypes = [
           'button',
           'checkbox',
           'color',
@@ -2456,7 +2456,7 @@ $skipToId [role="menuitem"]:focus .label {
 
         if ((tagName !== 'textarea') &&
             ((tagName !== 'input') ||
-             ((tagName === 'input') && enabledTypes.includes(type))
+             ((tagName === 'input') && enabledInputTypes.includes(type))
             )) {
 
           const altPressed =

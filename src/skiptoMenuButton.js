@@ -625,7 +625,7 @@ export default class SkiptoMenuButton {
 
     handleDocumentKeydown (event) {
 
-      const enabledTypes = [
+      const enabledInputTypes = [
         'button',
         'checkbox',
         'color',
@@ -643,7 +643,7 @@ export default class SkiptoMenuButton {
 
       if ((tagName !== 'textarea') &&
           ((tagName !== 'input') ||
-           ((tagName === 'input') && enabledTypes.includes(type))
+           ((tagName === 'input') && enabledInputTypes.includes(type))
           )) {
 
         const altPressed =
