@@ -2450,8 +2450,6 @@ $skipToId [role="menuitem"]:focus .label {
           'submit'
         ];
 
-        let flag = false;
-
         const target = event.target;
         const tagName = target.tagName ? target.tagName.toLowerCase() : '';
         const type = tagName === 'input' ? target.type.toLowerCase() : '';
@@ -2476,18 +2474,14 @@ $skipToId [role="menuitem"]:focus .label {
             !event.metaKey;
 
           if ((optionPressed && this.config.optionShortcut === event.key) ||
-            (altPressed    && this.config.altShortcut    === event.key) ||
-            (optionPressed && (48 === event.keyCode))
+              (altPressed    && this.config.altShortcut    === event.key) ||
+              ((optionPressed || altPressed) && (48 === event.keyCode))
           ) {
             this.openPopup();
             this.setFocusToFirstMenuitem();
-            flag = true;
+            event.stopPropagation();
+            event.preventDefault();
           }
-        }
-
-        if (flag) {
-          event.stopPropagation();
-          event.preventDefault();
         }
       }    
 

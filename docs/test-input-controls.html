@@ -26,6 +26,14 @@
       label {
         font-weight: bold;
       }
+      fieldset {
+        margin-top: 0.25em;
+        margin-bottom: 0.25em;
+        padding: 0.25em;
+        border: 1px solid #444;
+        border-radius: 6px;
+        width: 25em;
+      }
       fieldset label {
         display: inline-block;
         font-weight: normal;
@@ -34,6 +42,12 @@
         font-size: 100%;
         font-weight: bold;
 
+      }
+      output {
+        maring: 0.125em;
+        padding: 0.125em;
+        width: 3em;
+        border: 1px solid #444;
       }
       .control {
         margin: 0.125em;
@@ -138,19 +152,25 @@
 
             <section>
               <h2>Text Input Controls</h2>
-              <p>The shortcut key will be disabled when focus is on a text input.</p>
+              <p>The shortcut key is disabled when focus is on a text input control.</p>
 
               <form>
-                <div class="control">
+                <div class="control" id="id-form">
                   <label for="id-name">Name</label>
                   <input id="id-name" type="text" size="25">
                 </div>
 
+
                 <div class="control">
                   <label for="id-range">Number</label>
-                  0<input id="id-range" type="range">10
+                  <input id="id-range" type="range" value="50">
+                  <output id="id-output" form="id-form" for="id-range"></output>
                 </div>
 
+                <div class="control">
+                  <input id="id-checkbox" type="checkbox" name="rg"/>
+                  <label for="id-checkbox" style="display: inline-block">Enable items</label>
+                </div>
                 <fieldset>
                   <legend>Items</legend>
                   <div class="control">
@@ -303,6 +323,18 @@
     <!-- SkipTo.js -->
     <script data-skipto="colorTheme: openweba11y;"
             src="./dist/skipto.min.js">
+    </script>
+
+    <script>
+      function updateOutput() {
+        const outputElem = document.querySelector('#id-output');
+        const rangeElem = document.querySelector('#id-range');
+        outputElem.textContent = rangeElem.value;
+      }
+      const rangeElem = document.querySelector('#id-range');
+      rangeElem.addEventListener('change', updateOutput);
+      updateOutput();
+
     </script>
 
 
