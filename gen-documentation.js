@@ -145,6 +145,12 @@ const tests = [
     filename: 'test-no-headings.html',
     description: 'No headings on page',
     config: ``
+  },
+  { template: './src-docs/templates/example/content-text-input.njk',
+    title: 'Input controls',
+    filename: 'test-input-controls.html',
+    description: 'Shortcut keys is disabled when focus is a text input.',
+    config: ``
   }
   ]
 
