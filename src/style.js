@@ -281,13 +281,15 @@ $skipToId [role="menuitem"]:focus {
   border-width: 2px;
   border-style: solid;
   border-color: $focusBorderColor;
-  background-color: $menuitemFocusBackgroundColor;
-  color: $menuitemFocusTextColor;
   outline: none;
 }
 
+$skipToId [role="menuitem"]:focus,
+$skipToId [role="menuitem"]:hover,
 $skipToId [role="menuitem"]:focus .level,
-$skipToId [role="menuitem"]:focus .label {
+$skipToId [role="menuitem"]:focus .label,
+$skipToId [role="menuitem"]:hover .level,
+$skipToId [role="menuitem"]:hover .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }
