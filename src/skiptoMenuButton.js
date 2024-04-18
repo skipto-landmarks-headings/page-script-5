@@ -288,7 +288,6 @@ export default class SkiptoMenuButton {
       // add event handlers
       menuitemNode.addEventListener('keydown', this.handleMenuitemKeydown.bind(this));
       menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
-      menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
 
       groupNode.appendChild(menuitemNode);
 
@@ -760,11 +759,6 @@ export default class SkiptoMenuButton {
       this.handleMenuitemAction(event.currentTarget);
       event.stopPropagation();
       event.preventDefault();
-    }
-
-    handleMenuitemPointerenter(event) {
-      let tgt = event.currentTarget;
-      tgt.focus();
     }
 
     handleBackgroundPointerdown(event) {

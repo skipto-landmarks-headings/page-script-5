@@ -1,5 +1,8 @@
 # Version history for Skipto.js
 
+## Version 5.3.2
+* Removed `pointerenter` event handler, it was causing problems in chrome when the menu opened and the mouse was in the menu
+
 ## Version 5.3.1
 * Disable shortcut when focus is in text input element (e.g. textarea or input)
 
