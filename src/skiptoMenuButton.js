@@ -660,7 +660,7 @@ export default class SkiptoMenuButton {
           !event.metaKey;
 
         if ((optionPressed && this.config.optionShortcut === event.key) ||
-            (altPressed    && this.config.altShortcut    === event.key) ||
+            (altPressed && this.config.altShortcut === event.key) ||
             ((optionPressed || altPressed) && (48 === event.keyCode))
         ) {
           this.openPopup();
