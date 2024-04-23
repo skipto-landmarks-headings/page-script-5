@@ -132,6 +132,8 @@ export default class SkiptoMenuButton {
 
       attachNode.insertBefore(this.containerNode, attachNode.firstElementChild);
 
+      this.focusMenuitem = null;
+
       return this.containerNode;
 
     }
@@ -289,6 +291,7 @@ export default class SkiptoMenuButton {
       menuitemNode.addEventListener('keydown', this.handleMenuitemKeydown.bind(this));
       menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
       menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
+      menuitemNode.addEventListener('pointerleave', this.handleMenuitemPointerleave.bind(this));
       groupNode.appendChild(menuitemNode);
 
       // add heading level and label
@@ -400,6 +403,7 @@ export default class SkiptoMenuButton {
         this.removeHoverClass();
         menuitem.classList.add('hover');
         menuitem.focus();
+        this.focusMenuitem = menuitem;
       }
     }
 
@@ -579,7 +583,7 @@ export default class SkiptoMenuButton {
         node.classList.remove('hover');
       });
     }
-    
+
     // Menu event handlers
     
     handleFocusin() {
@@ -778,6 +782,11 @@ export default class SkiptoMenuButton {
       let tgt = event.currentTarget;
       this.removeHoverClass();
       tgt.classList.add('hover');
+    }
+
+    handleMenuitemPointerleave(event) {
+      let tgt = event.currentTarget;
+      tgt.classList.remove('hover');
     }
 
     handleBackgroundPointerdown(event) {
