@@ -284,12 +284,9 @@ $skipToId [role="menuitem"]:focus {
   outline: none;
 }
 
-$skipToId [role="menuitem"]:focus,
-$skipToId [role="menuitem"]:hover,
-$skipToId [role="menuitem"]:focus .level,
-$skipToId [role="menuitem"]:focus .label,
-$skipToId [role="menuitem"]:hover .level,
-$skipToId [role="menuitem"]:hover .label {
+$skipToId [role="menuitem"].hover,
+$skipToId [role="menuitem"].hover .level,
+$skipToId [role="menuitem"].hover .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }

@@ -245,8 +245,8 @@ export default class SkiptoMenuButton {
     /*
      * @method updateMenuitems
      *
-     * @desc  Updates the menu information with the current manu items
-     *        used for menu navgation commands
+     * @desc  Updates the menu information with the current menu items
+     *        used for menu navigation commands
      */
     updateMenuitems () {
       let menuitemNodes = this.menuNode.querySelectorAll('[role=menuitem');
@@ -288,7 +288,7 @@ export default class SkiptoMenuButton {
       // add event handlers
       menuitemNode.addEventListener('keydown', this.handleMenuitemKeydown.bind(this));
       menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
-
+      menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
       groupNode.appendChild(menuitemNode);
 
       // add heading level and label
@@ -397,6 +397,8 @@ export default class SkiptoMenuButton {
      */
     setFocusToMenuitem(menuitem) {
       if (menuitem) {
+        this.removeHoverClass();
+        menuitem.classList.add('hover');
         menuitem.focus();
       }
     }
@@ -565,6 +567,17 @@ export default class SkiptoMenuButton {
      */
     isOpen() {
       return this.buttonNode.getAttribute('aria-expanded') === 'true';
+    }
+
+    /*
+     * @method removeHoverClass
+     *
+     * @desc Removes hover class for menuitems
+     */
+    removeHoverClass() {
+      this.menuitemNodes.forEach( node => {
+        node.classList.remove('hover');
+      });
     }
     
     // Menu event handlers
@@ -759,6 +772,12 @@ export default class SkiptoMenuButton {
       this.handleMenuitemAction(event.currentTarget);
       event.stopPropagation();
       event.preventDefault();
+    }
+
+    handleMenuitemPointerenter(event) {
+      let tgt = event.currentTarget;
+      this.removeHoverClass();
+      tgt.classList.add('hover');
     }
 
     handleBackgroundPointerdown(event) {
