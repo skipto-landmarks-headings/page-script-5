@@ -1840,8 +1840,14 @@ $skipToId [role="menuitem"].hover .label {
    *   @param {String}. id : id of the element to highlight
    */
   function highlightElement(id) {
+    const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
+    const isReduced = !mediaQuery || mediaQuery.matches;
     const node = queryDOMForSkipToId(id);
-    console.log(`[${node}]: ${node.getAttribute('data-skip-to-id')}`);
+    console.log(`[${node}]: ${node.getAttribute('data-skip-to-id')} isReduced: ${isReduced}`);
+
+    if (!isReduced) {
+      console.log('Highlight content');
+    }
 
   }
 
