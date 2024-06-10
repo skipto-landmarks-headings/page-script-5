@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.3.2
+ * Version: 5.4
  * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -111,8 +111,8 @@
   /* style.js */
 
   /* Constants */
-  const debug$6 = new DebugLogging('style', false);
-  debug$6.flag = false;
+  const debug$7 = new DebugLogging('style', false);
+  debug$7.flag = false;
 
   const styleTemplate = document.createElement('template');
   styleTemplate.innerHTML = `
@@ -572,8 +572,8 @@ $skipToId [role="menuitem"].hover .label {
   /* utils.js */
 
   /* Constants */
-  const debug$5 = new DebugLogging('Utils', false);
-  debug$5.flag = false;
+  const debug$6 = new DebugLogging('Utils', false);
+  debug$6.flag = false;
 
 
   /*
@@ -662,8 +662,8 @@ $skipToId [role="menuitem"].hover .label {
 
   /* constants */
 
-  const debug$4 = new DebugLogging('nameFrom', false);
-  debug$4.flag = false;
+  const debug$5 = new DebugLogging('nameFrom', false);
+  debug$5.flag = false;
 
   //
   // LOW-LEVEL HELPER FUNCTIONS (NOT EXPORTED)
@@ -932,8 +932,8 @@ $skipToId [role="menuitem"].hover .label {
   /* accName.js */
 
   /* Constants */
-  const debug$3 = new DebugLogging('accName', false);
-  debug$3.flag = false;
+  const debug$4 = new DebugLogging('accName', false);
+  debug$4.flag = false;
 
   /**
    *   @fuction getAccessibleName
@@ -1011,8 +1011,8 @@ $skipToId [role="menuitem"].hover .label {
   /* landmarksHeadings.js */
 
   /* Constants */
-  const debug$2 = new DebugLogging('landmarksHeadings', false);
-  debug$2.flag = false;
+  const debug$3 = new DebugLogging('landmarksHeadings', false);
+  debug$3.flag = false;
 
   const skipableElements = [
     'base',
@@ -1826,6 +1826,36 @@ $skipToId [role="menuitem"].hover .label {
     return [].concat(mainElements, searchElements, navElements, asideElements, regionElements, footerElements, otherElements);
   }
 
+  /* highlight.js */
+
+  /* Constants */
+  const debug$2 = new DebugLogging('highlight', false);
+  debug$2.flag = false;
+
+  /*
+   *   @function highlightElement
+   *
+   *   @desc  Highlights the element with the id on a page
+   *
+   *   @param {String}. id : id of the element to highlight
+   */
+  function highlightElement(id) {
+    const node = queryDOMForSkipToId(id);
+    console.log(`[${node}]: ${node.getAttribute('data-skip-to-id')}`);
+
+  }
+
+  /*
+   *   @function removeHighlight
+   *
+   *   @desc  Removes all highlights from the page
+   *
+   *   @param {String}. id : id of the element to highlight
+   */
+  function removeHighlight() {
+    console.log(`[removeHighlight]`);
+  }
+
   /* skiptoMenuButton.js */
 
   /* Constants */
@@ -2218,6 +2248,7 @@ $skipToId [role="menuitem"].hover .label {
           menuitem.classList.add('hover');
           menuitem.focus();
           this.focusMenuitem = menuitem;
+          highlightElement(menuitem.getAttribute('data-id'));
         }
       }
 
@@ -2373,6 +2404,7 @@ $skipToId [role="menuitem"].hover .label {
         if (this.isOpen()) {
           this.buttonNode.setAttribute('aria-expanded', 'false');
           this.menuNode.style.display = 'none';
+          removeHighlight();
         }
       }
 

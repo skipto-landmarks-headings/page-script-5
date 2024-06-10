@@ -1,5 +1,8 @@
 # Version history for Skipto.js
 
+## Version 5.4.0
+* Added feature to scroll the page to the target when the corresponding  menu item receives focus.
+
 ## Version 5.3.2
 * Removing pointer event fixed a undesirable behavior of focus not being on the first item if the mouse pointer happened to be in the menu when it opened in chrome
 * Also minor update to hover styling in the menu to remove border

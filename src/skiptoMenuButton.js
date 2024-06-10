@@ -12,6 +12,11 @@ import {
   skipToElement
 } from './landmarksHeadings.js';
 
+import {
+  highlightElement,
+  removeHighlight
+} from './highlightElement.js';
+
 /* Constants */
 const debug = new DebugLogging('SkipToButton', false);
 debug.flag = false;
@@ -404,6 +409,7 @@ export default class SkiptoMenuButton {
         menuitem.classList.add('hover');
         menuitem.focus();
         this.focusMenuitem = menuitem;
+        highlightElement(menuitem.getAttribute('data-id'));
       }
     }
 
@@ -559,6 +565,7 @@ export default class SkiptoMenuButton {
       if (this.isOpen()) {
         this.buttonNode.setAttribute('aria-expanded', 'false');
         this.menuNode.style.display = 'none';
+        removeHighlight();
       }
     }
 
