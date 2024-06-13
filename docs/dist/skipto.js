@@ -118,7 +118,6 @@
   styleTemplate.innerHTML = `
 <style type="text/css" id="id-skip-to-css">
 $skipToId.popup {
-  position: absolute;
   top: -34px;
   transition: top 0.35s ease;
 }
@@ -397,6 +396,14 @@ $skipToId [role="menuitem"].hover .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }
+
+$skipToId-highlight {
+  position: absolute;
+  border-radius: 3px;
+  border: solid $focusBorderColor 2px;
+  z-index: 10000;
+}
+
 </style>
 `;
 
@@ -1837,30 +1844,38 @@ $skipToId [role="menuitem"].hover .label {
   const minWidth = 68;
   const minHeight = 27;
   const offset = 5;
-  const radius = 3;
+
+  const adjustYOffset = 30;
+  const adjustXOffset = 50;
 
   /*
    *   @function highlightElement
    *
    *   @desc  Highlights the element with the id on a page
    *
-   *   @param {String}. id : id of the element to highlight
+   *   @param {Object} config : configuration options
+   *   @param {String} id     : id of the element to highlight
    */
-  function highlightElement(id) {
+  function highlightElement(config, id) {
     const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
     const isReduced = !mediaQuery || mediaQuery.matches;
     const node = queryDOMForSkipToId(id);
-    console.log(`[${node}]: ${node.getAttribute('data-skip-to-id')} isReduced: ${isReduced}`);
 
-    if (!isReduced) {
+    if (config.highlightEnabled) {
       if (lastHighlightElement) {
         lastHighlightElement.remove();
       }
       lastHighlightElement = addOverlayElement(node);
-      console.log(`Highlight content: ${lastHighlightElement}`);
-      node.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+      const rect = node.getBoundingClientRect();
+      if (rect.top > (window.pageYOffset + window.innerHeight - adjustYOffset) ||
+          rect.top < (window.pageYOffset + adjustYOffset) ||
+          rect.left > (window.pageXOffset + window.innerWidth - adjustXOffset) ||
+          rect.left < (window.pageXOffset + adjustXOffset)) {
+        if (!isReduced && config.highlightScrollEnabled) {
+          node.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        }
+      }
     }
-
   }
 
   /*
@@ -1871,7 +1886,6 @@ $skipToId [role="menuitem"].hover .label {
    *   @param {String}. id : id of the element to highlight
    */
   function removeHighlight() {
-    console.log(`[removeHighlight]`);
     if (lastHighlightElement) {
       lastHighlightElement.remove();
     }}
@@ -1890,17 +1904,31 @@ $skipToId [role="menuitem"].hover .label {
 
     const rect = element.getBoundingClientRect();
     const overlayElem = document.createElement('div');
+    overlayElem.id = 'id-skip-to-highlight';
 
-    overlayElem.style.setProperty('position', 'absolute');
-    overlayElem.style.setProperty('border-radius', radius + 'px');
-    overlayElem.style.setProperty('border', 'solid red 2px');
-    overlayElem.style.setProperty('z-index', '10000');
+    if (rect.left > offset) {
+      overlayElem.style.left   = Math.round(rect.left - offset + window.scrollX) + 'px';
+      overlayElem.style.width  = Math.max(rect.width  + offset * 2, minWidth)  + 'px';
+    }
+    else {
+      overlayElem.style.left   = Math.round(rect.left + window.scrollX) + 'px';
+      overlayElem.style.width  = Math.max(rect.width, minWidth)  + 'px';
+    }
 
-    overlayElem.style.left   = Math.round(rect.left - offset + window.scrollX) + 'px';
-    overlayElem.style.top    = Math.round(rect.top  - offset + window.scrollY) + 'px';
+    if (rect.top > offset) {
+      overlayElem.style.top    = Math.round(rect.top  - offset + window.scrollY) + 'px';
+      overlayElem.style.height = Math.max(rect.height + offset * 2, minHeight) + 'px';
+    }
+    else {
+      overlayElem.style.top    = Math.round(rect.top + window.scrollY) + 'px';
+      overlayElem.style.height = Math.max(rect.height, minHeight) + 'px';
+    }
 
-    overlayElem.style.width  = Math.max(rect.width  + offset * 2, minWidth)  + 'px';
-    overlayElem.style.height = Math.max(rect.height + offset * 2, minHeight) + 'px';
+    console.log(`left: ${overlayElem.style.left}`);
+    console.log(`top: ${overlayElem.style.top}`);
+
+    console.log(`width: ${overlayElem.style.width}`);
+    console.log(`height: ${overlayElem.style.height}`);
 
     document.body.appendChild(overlayElem);
 
@@ -2297,9 +2325,9 @@ $skipToId [role="menuitem"].hover .label {
         if (menuitem) {
           this.removeHoverClass();
           menuitem.classList.add('hover');
-          menuitem.focus();
+          menuitem.focus(/*{preventScroll:true}*/);
           this.focusMenuitem = menuitem;
-          highlightElement(menuitem.getAttribute('data-id'));
+          highlightElement(this.config, menuitem.getAttribute('data-id'));
         }
       }
 
@@ -2754,6 +2782,10 @@ $skipToId [role="menuitem"].hover .label {
         // Selectors for landmark and headings sections
         landmarks: 'main search navigation complementary',
         headings: 'main h1 h2',
+
+        // Highlight options
+        highlightEnabled: true,
+        highlightScrollEnabled: true,
 
         // Place holders for configuration
         colorTheme: '',

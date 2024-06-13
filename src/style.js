@@ -11,7 +11,6 @@ const styleTemplate = document.createElement('template');
 styleTemplate.innerHTML = `
 <style type="text/css" id="id-skip-to-css">
 $skipToId.popup {
-  position: absolute;
   top: -34px;
   transition: top 0.35s ease;
 }
@@ -290,6 +289,14 @@ $skipToId [role="menuitem"].hover .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }
+
+$skipToId-highlight {
+  position: absolute;
+  border-radius: 3px;
+  border: solid $focusBorderColor 2px;
+  z-index: 10000;
+}
+
 </style>
 `;
 

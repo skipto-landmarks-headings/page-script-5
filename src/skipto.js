@@ -65,6 +65,10 @@ debug.flag = true;
       landmarks: 'main search navigation complementary',
       headings: 'main h1 h2',
 
+      // Highlight options
+      highlightEnabled: true,
+      highlightScrollEnabled: true,
+
       // Place holders for configuration
       colorTheme: '',
       fontFamily: '',

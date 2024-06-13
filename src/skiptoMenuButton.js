@@ -407,9 +407,9 @@ export default class SkiptoMenuButton {
       if (menuitem) {
         this.removeHoverClass();
         menuitem.classList.add('hover');
-        menuitem.focus();
+        menuitem.focus(/*{preventScroll:true}*/);
         this.focusMenuitem = menuitem;
-        highlightElement(menuitem.getAttribute('data-id'));
+        highlightElement(this.config, menuitem.getAttribute('data-id'));
       }
     }
 
