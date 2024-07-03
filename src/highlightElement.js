@@ -37,9 +37,12 @@ const adjustXOffset = 50;
 function highlightElement(config, id) {
   const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
   const isReduced = !mediaQuery || mediaQuery.matches;
+  const highlightEnabled = (typeof config.highlightTarget === 'string') ?
+                        config.highlightTarget.trim().toLowerCase() === 'enabled' :
+                        false;
   const node = queryDOMForSkipToId(id);
 
-  if (config.highlightEnabled) {
+  if (highlightEnabled) {
     if (lastHighlightElement) {
       lastHighlightElement.remove();
     }
@@ -49,7 +52,7 @@ function highlightElement(config, id) {
         rect.top < (window.pageYOffset + adjustYOffset) ||
         rect.left > (window.pageXOffset + window.innerWidth - adjustXOffset) ||
         rect.left < (window.pageXOffset + adjustXOffset)) {
-      if (!isReduced && config.highlightScrollEnabled) {
+      if (!isReduced) {
         node.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
       }
     }

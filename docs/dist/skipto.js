@@ -140,7 +140,7 @@ $skipToId button .skipto-medium {
 $skipToId,
 $skipToId.popup.focus,
 $skipToId.popup:hover {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: $positionLeft;
   font-family: $fontFamily;
@@ -153,7 +153,7 @@ $skipToId.popup:hover {
 }
 
 $skipToId button {
-  position: relative;
+  position: sticky;
   margin: 0;
   padding: 0;
   border-width: 0px 1px 1px 1px;
@@ -218,8 +218,8 @@ $skipToId button {
 
 }
 
-$skipToId.fixed {
-  position: fixed;
+$skipToId.static {
+  position: absolute !important;
 }
 
 
@@ -1859,9 +1859,12 @@ $skipToId-highlight {
   function highlightElement(config, id) {
     const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
     const isReduced = !mediaQuery || mediaQuery.matches;
+    const highlightEnabled = (typeof config.highlightTarget === 'string') ?
+                          config.highlightTarget.trim().toLowerCase() === 'enabled' :
+                          false;
     const node = queryDOMForSkipToId(id);
 
-    if (config.highlightEnabled) {
+    if (highlightEnabled) {
       if (lastHighlightElement) {
         lastHighlightElement.remove();
       }
@@ -1871,7 +1874,7 @@ $skipToId-highlight {
           rect.top < (window.pageYOffset + adjustYOffset) ||
           rect.left > (window.pageXOffset + window.innerWidth - adjustXOffset) ||
           rect.left < (window.pageXOffset + adjustXOffset)) {
-        if (!isReduced && config.highlightScrollEnabled) {
+        if (!isReduced) {
           node.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
         }
       }
@@ -1973,8 +1976,8 @@ $skipToId-highlight {
           displayOption = displayOption.trim().toLowerCase();
           if (displayOption.length) {
             switch (config.displayOption) {
-              case 'fixed':
-                this.containerNode.classList.add('fixed');
+              case 'static':
+                this.containerNode.classList.add('static');
                 break;
               case 'onfocus':  // Legacy option
               case 'popup':
@@ -2748,7 +2751,7 @@ $skipToId-highlight {
         altShortcut: '0', // default shortcut key is the number zero
         optionShortcut: 'º', // default shortcut key character associated with option+0 on mac 
         attachElement: 'body',
-        displayOption: 'static', // options: static (default), popup, fixed
+        displayOption: 'fixed', // options: static, popup, fixed (default)
         // container element, use containerClass for custom styling
         containerElement: 'nav',
         containerRole: '',
@@ -2784,8 +2787,7 @@ $skipToId-highlight {
         headings: 'main h1 h2',
 
         // Highlight options
-        highlightEnabled: true,
-        highlightScrollEnabled: true,
+        highlightTarget: 'enabled', // options: 'enabled' (default) and 'disabled'
 
         // Place holders for configuration
         colorTheme: '',

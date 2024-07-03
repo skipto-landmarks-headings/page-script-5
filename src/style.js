@@ -33,7 +33,7 @@ $skipToId button .skipto-medium {
 $skipToId,
 $skipToId.popup.focus,
 $skipToId.popup:hover {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: $positionLeft;
   font-family: $fontFamily;
@@ -46,7 +46,7 @@ $skipToId.popup:hover {
 }
 
 $skipToId button {
-  position: relative;
+  position: sticky;
   margin: 0;
   padding: 0;
   border-width: 0px 1px 1px 1px;
@@ -111,8 +111,8 @@ $skipToId button {
 
 }
 
-$skipToId.fixed {
-  position: fixed;
+$skipToId.static {
+  position: absolute !important;
 }
 
 

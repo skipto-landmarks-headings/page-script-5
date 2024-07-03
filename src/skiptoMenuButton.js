@@ -53,8 +53,8 @@ export default class SkiptoMenuButton {
         displayOption = displayOption.trim().toLowerCase();
         if (displayOption.length) {
           switch (config.displayOption) {
-            case 'fixed':
-              this.containerNode.classList.add('fixed');
+            case 'static':
+              this.containerNode.classList.add('static');
               break;
             case 'onfocus':  // Legacy option
             case 'popup':
