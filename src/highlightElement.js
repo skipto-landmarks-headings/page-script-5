@@ -47,7 +47,8 @@ function isElementInViewport(element) {
 /*
  *   @function highlightElement
  *
- *   @desc  Highlights the element with the id on a page
+ *   @desc  Highlights the element with the id on a page when highlighting
+ *          is enabled (NOTE: Highlight is enabled by default)
  *
  *   @param {Object} config : SkipTo.js configuration options
  *   @param {String} id     : id of the element to highlight
