@@ -1845,15 +1845,33 @@ $skipToId-highlight {
   const minHeight = 27;
   const offset = 5;
 
-  const adjustYOffset = 30;
-  const adjustXOffset = 50;
+  /*
+   *   @function isElementInViewport
+   *
+   *   @desc  Returns true if element is already visible in view port,
+  *           otheriwse false
+   *
+   *   @param {Object} element : DOM node of element to highlight
+   *
+   *   @returns see @desc
+   */
+
+  function isElementInViewport(element) {
+    var rect = element.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  }
 
   /*
    *   @function highlightElement
    *
    *   @desc  Highlights the element with the id on a page
    *
-   *   @param {Object} config : configuration options
+   *   @param {Object} config : SkipTo.js configuration options
    *   @param {String} id     : id of the element to highlight
    */
   function highlightElement(config, id) {
@@ -1862,21 +1880,16 @@ $skipToId-highlight {
     const highlightEnabled = (typeof config.highlightTarget === 'string') ?
                           config.highlightTarget.trim().toLowerCase() === 'enabled' :
                           false;
-    const node = queryDOMForSkipToId(id);
+    const element = queryDOMForSkipToId(id);
 
-    if (highlightEnabled) {
+    if (element && highlightEnabled) {
       if (lastHighlightElement) {
         lastHighlightElement.remove();
       }
-      lastHighlightElement = addOverlayElement(node);
-      const rect = node.getBoundingClientRect();
-      if (rect.top > (window.pageYOffset + window.innerHeight - adjustYOffset) ||
-          rect.top < (window.pageYOffset + adjustYOffset) ||
-          rect.left > (window.pageXOffset + window.innerWidth - adjustXOffset) ||
-          rect.left < (window.pageXOffset + adjustXOffset)) {
-        if (!isReduced) {
-          node.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-        }
+
+      if (!isElementInViewport(element)  && !isReduced) {
+        lastHighlightElement = addOverlayElement(element);
+        element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
       }
     }
   }
@@ -1884,9 +1897,7 @@ $skipToId-highlight {
   /*
    *   @function removeHighlight
    *
-   *   @desc  Removes all highlights from the page
-   *
-   *   @param {String}. id : id of the element to highlight
+   *   @desc  Removes  highlight element from the page
    */
   function removeHighlight() {
     if (lastHighlightElement) {
@@ -1898,9 +1909,9 @@ $skipToId-highlight {
    *
    *  @desc  Create an overlay element and set its position on the page.
    *
-   *  @param  {Object}  element          -  DOM element node to highlight
+   *  @param  {Object}  element  -  DOM element node to highlight
    *
-   *  @returns {Object} DOM node element used for the Overlay
+   *  @returns {Object} DOM node element used for the overlay highlight
    */
 
   function addOverlayElement (element) {
@@ -1926,12 +1937,6 @@ $skipToId-highlight {
       overlayElem.style.top    = Math.round(rect.top + window.scrollY) + 'px';
       overlayElem.style.height = Math.max(rect.height, minHeight) + 'px';
     }
-
-    console.log(`left: ${overlayElem.style.left}`);
-    console.log(`top: ${overlayElem.style.top}`);
-
-    console.log(`width: ${overlayElem.style.width}`);
-    console.log(`height: ${overlayElem.style.height}`);
 
     document.body.appendChild(overlayElem);
 
