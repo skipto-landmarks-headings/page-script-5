@@ -1,7 +1,9 @@
 # Version history for Skipto.js
 
 ## Version 5.4.0
-* Added feature to scroll the page to the target when the corresponding  menu item receives focus.
+* Added feature to scroll the page to the target when the corresponding  menu item receives focus or is overed.
+* Default 'displayOption' is changed from 'static' to 'fixed'.
+* New option 'highlightTarget' add with the default value of 'enabled'.
 
 ## Version 5.3.2
 * Removing pointer event fixed a undesirable behavior of focus not being on the first item if the mouse pointer happened to be in the menu when it opened in chrome

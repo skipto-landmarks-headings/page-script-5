@@ -2708,6 +2708,8 @@ $skipToId-highlight {
         let tgt = event.currentTarget;
         this.removeHoverClass();
         tgt.classList.add('hover');
+        highlightElement(this.config, tgt.getAttribute('data-id'));
+
       }
 
       handleMenuitemPointerleave(event) {
