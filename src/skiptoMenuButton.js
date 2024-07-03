@@ -12,6 +12,11 @@ import {
   skipToElement
 } from './landmarksHeadings.js';
 
+import {
+  highlightElement,
+  removeHighlight
+} from './highlightElement.js';
+
 /* Constants */
 const debug = new DebugLogging('SkipToButton', false);
 debug.flag = false;
@@ -48,8 +53,8 @@ export default class SkiptoMenuButton {
         displayOption = displayOption.trim().toLowerCase();
         if (displayOption.length) {
           switch (config.displayOption) {
-            case 'fixed':
-              this.containerNode.classList.add('fixed');
+            case 'static':
+              this.containerNode.classList.add('static');
               break;
             case 'onfocus':  // Legacy option
             case 'popup':
@@ -402,8 +407,9 @@ export default class SkiptoMenuButton {
       if (menuitem) {
         this.removeHoverClass();
         menuitem.classList.add('hover');
-        menuitem.focus();
+        menuitem.focus(/*{preventScroll:true}*/);
         this.focusMenuitem = menuitem;
+        highlightElement(this.config, menuitem.getAttribute('data-id'));
       }
     }
 
@@ -559,6 +565,7 @@ export default class SkiptoMenuButton {
       if (this.isOpen()) {
         this.buttonNode.setAttribute('aria-expanded', 'false');
         this.menuNode.style.display = 'none';
+        removeHighlight();
       }
     }
 
@@ -782,6 +789,8 @@ export default class SkiptoMenuButton {
       let tgt = event.currentTarget;
       this.removeHoverClass();
       tgt.classList.add('hover');
+      highlightElement(this.config, tgt.getAttribute('data-id'));
+
     }
 
     handleMenuitemPointerleave(event) {

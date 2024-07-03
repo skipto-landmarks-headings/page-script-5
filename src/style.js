@@ -11,7 +11,6 @@ const styleTemplate = document.createElement('template');
 styleTemplate.innerHTML = `
 <style type="text/css" id="id-skip-to-css">
 $skipToId.popup {
-  position: absolute;
   top: -34px;
   transition: top 0.35s ease;
 }
@@ -34,7 +33,7 @@ $skipToId button .skipto-medium {
 $skipToId,
 $skipToId.popup.focus,
 $skipToId.popup:hover {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: $positionLeft;
   font-family: $fontFamily;
@@ -47,7 +46,7 @@ $skipToId.popup:hover {
 }
 
 $skipToId button {
-  position: relative;
+  position: sticky;
   margin: 0;
   padding: 0;
   border-width: 0px 1px 1px 1px;
@@ -112,8 +111,8 @@ $skipToId button {
 
 }
 
-$skipToId.fixed {
-  position: fixed;
+$skipToId.static {
+  position: absolute !important;
 }
 
 
@@ -290,6 +289,14 @@ $skipToId [role="menuitem"].hover .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }
+
+$skipToId-highlight {
+  position: absolute;
+  border-radius: 3px;
+  border: solid $focusBorderColor 2px;
+  z-index: 10000;
+}
+
 </style>
 `;
 

@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.3.2
+ * Version: 5.4
  * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -111,14 +111,13 @@
   /* style.js */
 
   /* Constants */
-  const debug$6 = new DebugLogging('style', false);
-  debug$6.flag = false;
+  const debug$7 = new DebugLogging('style', false);
+  debug$7.flag = false;
 
   const styleTemplate = document.createElement('template');
   styleTemplate.innerHTML = `
 <style type="text/css" id="id-skip-to-css">
 $skipToId.popup {
-  position: absolute;
   top: -34px;
   transition: top 0.35s ease;
 }
@@ -141,7 +140,7 @@ $skipToId button .skipto-medium {
 $skipToId,
 $skipToId.popup.focus,
 $skipToId.popup:hover {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: $positionLeft;
   font-family: $fontFamily;
@@ -154,7 +153,7 @@ $skipToId.popup:hover {
 }
 
 $skipToId button {
-  position: relative;
+  position: sticky;
   margin: 0;
   padding: 0;
   border-width: 0px 1px 1px 1px;
@@ -219,8 +218,8 @@ $skipToId button {
 
 }
 
-$skipToId.fixed {
-  position: fixed;
+$skipToId.static {
+  position: absolute !important;
 }
 
 
@@ -397,6 +396,14 @@ $skipToId [role="menuitem"].hover .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }
+
+$skipToId-highlight {
+  position: absolute;
+  border-radius: 3px;
+  border: solid $focusBorderColor 2px;
+  z-index: 10000;
+}
+
 </style>
 `;
 
@@ -572,8 +579,8 @@ $skipToId [role="menuitem"].hover .label {
   /* utils.js */
 
   /* Constants */
-  const debug$5 = new DebugLogging('Utils', false);
-  debug$5.flag = false;
+  const debug$6 = new DebugLogging('Utils', false);
+  debug$6.flag = false;
 
 
   /*
@@ -662,8 +669,8 @@ $skipToId [role="menuitem"].hover .label {
 
   /* constants */
 
-  const debug$4 = new DebugLogging('nameFrom', false);
-  debug$4.flag = false;
+  const debug$5 = new DebugLogging('nameFrom', false);
+  debug$5.flag = false;
 
   //
   // LOW-LEVEL HELPER FUNCTIONS (NOT EXPORTED)
@@ -932,8 +939,8 @@ $skipToId [role="menuitem"].hover .label {
   /* accName.js */
 
   /* Constants */
-  const debug$3 = new DebugLogging('accName', false);
-  debug$3.flag = false;
+  const debug$4 = new DebugLogging('accName', false);
+  debug$4.flag = false;
 
   /**
    *   @fuction getAccessibleName
@@ -1011,8 +1018,8 @@ $skipToId [role="menuitem"].hover .label {
   /* landmarksHeadings.js */
 
   /* Constants */
-  const debug$2 = new DebugLogging('landmarksHeadings', false);
-  debug$2.flag = false;
+  const debug$3 = new DebugLogging('landmarksHeadings', false);
+  debug$3.flag = false;
 
   const skipableElements = [
     'base',
@@ -1826,6 +1833,117 @@ $skipToId [role="menuitem"].hover .label {
     return [].concat(mainElements, searchElements, navElements, asideElements, regionElements, footerElements, otherElements);
   }
 
+  /* highlight.js */
+
+  let lastHighlightElement = false;
+
+  /* Constants */
+  const debug$2 = new DebugLogging('highlight', false);
+  debug$2.flag = false;
+
+  const minWidth = 68;
+  const minHeight = 27;
+  const offset = 5;
+
+  /*
+   *   @function isElementInViewport
+   *
+   *   @desc  Returns true if element is already visible in view port,
+  *           otheriwse false
+   *
+   *   @param {Object} element : DOM node of element to highlight
+   *
+   *   @returns see @desc
+   */
+
+  function isElementInViewport(element) {
+    var rect = element.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  }
+
+  /*
+   *   @function highlightElement
+   *
+   *   @desc  Highlights the element with the id on a page when highlighting
+   *          is enabled (NOTE: Highlight is enabled by default)
+   *
+   *   @param {Object} config : SkipTo.js configuration options
+   *   @param {String} id     : id of the element to highlight
+   */
+  function highlightElement(config, id) {
+    const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
+    const isReduced = !mediaQuery || mediaQuery.matches;
+    const highlightEnabled = (typeof config.highlightTarget === 'string') ?
+                          config.highlightTarget.trim().toLowerCase() === 'enabled' :
+                          false;
+    const element = queryDOMForSkipToId(id);
+
+    if (element && highlightEnabled) {
+      if (lastHighlightElement) {
+        lastHighlightElement.remove();
+      }
+
+      if (!isElementInViewport(element)  && !isReduced) {
+        lastHighlightElement = addOverlayElement(element);
+        element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      }
+    }
+  }
+
+  /*
+   *   @function removeHighlight
+   *
+   *   @desc  Removes  highlight element from the page
+   */
+  function removeHighlight() {
+    if (lastHighlightElement) {
+      lastHighlightElement.remove();
+    }}
+
+  /*
+   *  @function  addOverlayElement
+   *
+   *  @desc  Create an overlay element and set its position on the page.
+   *
+   *  @param  {Object}  element  -  DOM element node to highlight
+   *
+   *  @returns {Object} DOM node element used for the overlay highlight
+   */
+
+  function addOverlayElement (element) {
+
+    const rect = element.getBoundingClientRect();
+    const overlayElem = document.createElement('div');
+    overlayElem.id = 'id-skip-to-highlight';
+
+    if (rect.left > offset) {
+      overlayElem.style.left   = Math.round(rect.left - offset + window.scrollX) + 'px';
+      overlayElem.style.width  = Math.max(rect.width  + offset * 2, minWidth)  + 'px';
+    }
+    else {
+      overlayElem.style.left   = Math.round(rect.left + window.scrollX) + 'px';
+      overlayElem.style.width  = Math.max(rect.width, minWidth)  + 'px';
+    }
+
+    if (rect.top > offset) {
+      overlayElem.style.top    = Math.round(rect.top  - offset + window.scrollY) + 'px';
+      overlayElem.style.height = Math.max(rect.height + offset * 2, minHeight) + 'px';
+    }
+    else {
+      overlayElem.style.top    = Math.round(rect.top + window.scrollY) + 'px';
+      overlayElem.style.height = Math.max(rect.height, minHeight) + 'px';
+    }
+
+    document.body.appendChild(overlayElem);
+
+    return overlayElem;
+  }
+
   /* skiptoMenuButton.js */
 
   /* Constants */
@@ -1864,8 +1982,8 @@ $skipToId [role="menuitem"].hover .label {
           displayOption = displayOption.trim().toLowerCase();
           if (displayOption.length) {
             switch (config.displayOption) {
-              case 'fixed':
-                this.containerNode.classList.add('fixed');
+              case 'static':
+                this.containerNode.classList.add('static');
                 break;
               case 'onfocus':  // Legacy option
               case 'popup':
@@ -2216,8 +2334,9 @@ $skipToId [role="menuitem"].hover .label {
         if (menuitem) {
           this.removeHoverClass();
           menuitem.classList.add('hover');
-          menuitem.focus();
+          menuitem.focus(/*{preventScroll:true}*/);
           this.focusMenuitem = menuitem;
+          highlightElement(this.config, menuitem.getAttribute('data-id'));
         }
       }
 
@@ -2373,6 +2492,7 @@ $skipToId [role="menuitem"].hover .label {
         if (this.isOpen()) {
           this.buttonNode.setAttribute('aria-expanded', 'false');
           this.menuNode.style.display = 'none';
+          removeHighlight();
         }
       }
 
@@ -2594,6 +2714,8 @@ $skipToId [role="menuitem"].hover .label {
         let tgt = event.currentTarget;
         this.removeHoverClass();
         tgt.classList.add('hover');
+        highlightElement(this.config, tgt.getAttribute('data-id'));
+
       }
 
       handleMenuitemPointerleave(event) {
@@ -2637,7 +2759,7 @@ $skipToId [role="menuitem"].hover .label {
         altShortcut: '0', // default shortcut key is the number zero
         optionShortcut: 'º', // default shortcut key character associated with option+0 on mac 
         attachElement: 'body',
-        displayOption: 'static', // options: static (default), popup, fixed
+        displayOption: 'fixed', // options: static, popup, fixed (default)
         // container element, use containerClass for custom styling
         containerElement: 'nav',
         containerRole: '',
@@ -2671,6 +2793,9 @@ $skipToId [role="menuitem"].hover .label {
         // Selectors for landmark and headings sections
         landmarks: 'main search navigation complementary',
         headings: 'main h1 h2',
+
+        // Highlight options
+        highlightTarget: 'enabled', // options: 'enabled' (default) and 'disabled'
 
         // Place holders for configuration
         colorTheme: '',

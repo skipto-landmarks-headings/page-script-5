@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const nunjucks  = require('nunjucks');
 
-const version = "5.3";
+const version = "5.4";
 
 /* Constants */
 
@@ -68,7 +68,7 @@ const examples = [
   { template: './src-docs/templates/example/content-example.njk',
     title: 'Default Menu Button',
     filename: 'example-default.html',
-    description: '"Skip To Content" button is visible on load',
+    description: 'The "Skip To Content" menu button is always visible at the top of the window',
     config: ``
   },
   { template: './src-docs/templates/example/content-example.njk',
@@ -78,10 +78,10 @@ const examples = [
     config: `displayOption: popup`
   },
   { template: './src-docs/templates/example/content-example.njk',
-    title: 'Fixed Menu Button',
-    filename: 'example-fixed.html',
-    description: 'The "Skip To Content" menu button is always visible at the top of the window',
-    config: `displayOption: fixed`
+    title: 'Static Menu Button with no Highlight',
+    filename: 'example-static.html',
+    description: '"Skip To Content" button is visible on load',
+    config: `displayOption: static; highlightTarget: disabled`
   },
   { template: './src-docs/templates/example/content-example.njk',
     title: 'Landmarks',

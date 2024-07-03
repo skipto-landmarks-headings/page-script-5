@@ -1,0 +1,306 @@
+Searching 67 files for "5.3.2"
+
+~/Sites/page-script-5/bower.json:
+    1  {
+    2    "name": "skipto",
+    3:   "version": "5.3.2",
+    4    "homepage": "https://github.com/skipto-landmarks-headings/page-script-5",
+    5    "authors": [
+
+~/Sites/page-script-5/CHANGELOG.md:
+    1  # Version history for Skipto.js
+    2  
+    3: ## Version 5.3.2
+    4  * Removing pointer event fixed a undesirable behavior of focus not being on the first item if the mouse pointer happened to be in the menu when it opened in chrome
+    5  * Also minor update to hover styling in the menu to remove border
+
+~/Sites/page-script-5/LICENSE.md:
+    1: Copyright (c) (Version 5.3.2) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
+    2  
+    3  Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
+
+~/Sites/page-script-5/docs/about.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  177  
+  178              <!-- Bootstrap core JS-->
+  179:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  180  
+  181          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/config.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  657  
+  658              <!-- Bootstrap core JS-->
+  659:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  660  
+  661          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/example-aria.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  230  
+  231              <!-- Bootstrap core JS-->
+  232:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  233  
+  234          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/example-colors.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  230  
+  231              <!-- Bootstrap core JS-->
+  232:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  233  
+  234          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/example-default.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  225  
+  226              <!-- Bootstrap core JS-->
+  227:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  228  
+  229          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/example-fixed.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  230  
+  231              <!-- Bootstrap core JS-->
+  232:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  233  
+  234          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/example-fonts.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  230  
+  231              <!-- Bootstrap core JS-->
+  232:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  233  
+  234          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/example-headings.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  230  
+  231              <!-- Bootstrap core JS-->
+  232:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  233  
+  234          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/example-illinois.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  230  
+  231              <!-- Bootstrap core JS-->
+  232:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  233  
+  234          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/example-landmarks.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  230  
+  231              <!-- Bootstrap core JS-->
+  232:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  233  
+  234          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/example-main-headings.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  230  
+  231              <!-- Bootstrap core JS-->
+  232:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  233  
+  234          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/example-popup.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  230  
+  231              <!-- Bootstrap core JS-->
+  232:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  233  
+  234          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/example-position.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  230  
+  231              <!-- Bootstrap core JS-->
+  232:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  233  
+  234          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/examples.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  215  
+  216              <!-- Bootstrap core JS-->
+  217:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  218  
+  219          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/index.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  178  
+  179              <!-- Bootstrap core JS-->
+  180:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  181  
+  182          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/test-input-controls.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  314  
+  315              <!-- Bootstrap core JS-->
+  316:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  317  
+  318          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/test-no-headings.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  209  
+  210              <!-- Bootstrap core JS-->
+  211:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  212  
+  213          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/test-no-landmarks.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  211  
+  212              <!-- Bootstrap core JS-->
+  213:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  214  
+  215          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/using.html:
+   12      <link href="./css/skipto.css" rel="stylesheet" />
+   13  
+   14:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   15  
+   16      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+   ..
+  199  
+  200              <!-- Bootstrap core JS-->
+  201:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  202  
+  203          <!-- Core theme JS-->
+
+~/Sites/page-script-5/docs/dist/skipto.js:
+    1  /* ========================================================================
+    2:  * Version: 5.3.2
+    3   * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
+    4   * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
+
+~/Sites/page-script-5/docs/dist/skipto.min.js:
+    1  /* ========================================================================
+    2:  * Version: 5.3.2
+    3   * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
+    4   * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
+
+~/Sites/page-script-5/src/copyright.js:
+    1  /* ========================================================================
+    2:  * Version: 5.3.2
+    3   * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
+    4   * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
+
+~/Sites/page-script-5/src-docs/templates/head.njk:
+    9      <link href="./css/skipto.css" rel="stylesheet" />
+   10  
+   11:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   12  
+   13      <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+
+~/Sites/page-script-5/src-docs/templates/scripts.njk:
+    1          <!-- Bootstrap core JS-->
+    2:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    3  
+    4          <!-- Core theme JS-->
+
+~/Sites/page-script-5/src-docs/templates/example/scripts.njk:
+    1          <!-- Bootstrap core JS-->
+    2:         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    3  
+    4          <!-- Core theme JS-->
+
+47 matches across 28 files
