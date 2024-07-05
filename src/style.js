@@ -294,7 +294,7 @@ $skipToId-highlight {
   position: absolute;
   border-radius: 3px;
   border: solid $focusBorderColor 2px;
-  z-index: 500000;
+  z-index: 10000;
 }
 
 </style>

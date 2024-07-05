@@ -13,8 +13,6 @@ export {
   removeHighlight
 };
 
-let lastHighlightElement = false;
-
 /* Constants */
 const debug = new DebugLogging('highlight', false);
 debug.flag = false;
@@ -22,6 +20,12 @@ debug.flag = false;
 const minWidth = 68;
 const minHeight = 27;
 const offset = 5;
+
+const overlayElement = document.createElement('div');
+overlayElement.id = 'id-skip-to-highlight';
+document.body.appendChild(overlayElement);
+overlayElement.style.display = 'none';
+
 
 /*
  *   @function isElementInViewport
@@ -61,13 +65,11 @@ function highlightElement(config, id) {
                         false;
   const element = queryDOMForSkipToId(id);
 
-  if (element && highlightEnabled) {
-    if (lastHighlightElement) {
-      lastHighlightElement.remove();
-    }
+  console.log(`[A]: ${element.getAttribute('data-skip-to-id')} (${highlightEnabled}) (${isElementInViewport(element)})`);
 
+  if (element && highlightEnabled) {
+    updateOverlayElement(overlayElement, element);
     if (!isElementInViewport(element)  && !isReduced) {
-      lastHighlightElement = addOverlayElement(element);
       element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
     }
   }
@@ -76,28 +78,26 @@ function highlightElement(config, id) {
 /*
  *   @function removeHighlight
  *
- *   @desc  Removes  highlight element from the page
+ *   @desc  Hides the highlight element on the page
  */
 function removeHighlight() {
-  if (lastHighlightElement) {
-    lastHighlightElement.remove();
-  }}
+  console.log(`[removeHighlight]`);
+  overlayElement.style.display = 'none';
+}
 
 /*
- *  @function  addOverlayElement
+ *  @function  updateOverlayElement
  *
  *  @desc  Create an overlay element and set its position on the page.
  *
+ *  @param  {Object}  overlay  -  DOM element for overlay
  *  @param  {Object}  element  -  DOM element node to highlight
  *
- *  @returns {Object} DOM node element used for the overlay highlight
  */
 
-function addOverlayElement (element) {
+function updateOverlayElement (overlayElem, element) {
 
   const rect = element.getBoundingClientRect();
-  const overlayElem = document.createElement('div');
-  overlayElem.id = 'id-skip-to-highlight';
 
   if (rect.left > offset) {
     overlayElem.style.left   = Math.round(rect.left - offset + window.scrollX) + 'px';
@@ -117,8 +117,8 @@ function addOverlayElement (element) {
     overlayElem.style.height = Math.max(rect.height, minHeight) + 'px';
   }
 
-  document.body.appendChild(overlayElem);
+  console.log(`[Rect]: ${overlayElem.style.left} ${overlayElem.style.width} ${overlayElem.style.height} display: "${overlayElem.style.display}"`);
 
-  return overlayElem;
+  overlayElem.style.display = 'block';
 }
 
