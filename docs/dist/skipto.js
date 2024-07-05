@@ -401,7 +401,7 @@ $skipToId-highlight {
   position: absolute;
   border-radius: 3px;
   border: solid $focusBorderColor 2px;
-  z-index: 10000;
+  z-index: 500000;
 }
 
 </style>
@@ -2759,7 +2759,7 @@ $skipToId-highlight {
         altShortcut: '0', // default shortcut key is the number zero
         optionShortcut: 'º', // default shortcut key character associated with option+0 on mac 
         attachElement: 'body',
-        displayOption: 'fixed', // options: static, popup, fixed (default)
+        displayOption: 'static', // options: static, popup, fixed (default)
         // container element, use containerClass for custom styling
         containerElement: 'nav',
         containerRole: '',
@@ -2795,7 +2795,7 @@ $skipToId-highlight {
         headings: 'main h1 h2',
 
         // Highlight options
-        highlightTarget: 'enabled', // options: 'enabled' (default) and 'disabled'
+        highlightTarget: 'disabled', // options: 'enabled' (default) and 'disabled'
 
         // Place holders for configuration
         colorTheme: '',
