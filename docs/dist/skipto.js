@@ -118,7 +118,7 @@
   styleTemplate.innerHTML = `
 <style type="text/css" id="id-skip-to-css">
 $skipToId.popup {
-  top: -34px;
+  top: -30px;
   transition: top 0.35s ease;
 }
 
@@ -150,6 +150,8 @@ $skipToId.popup:hover {
   margin-bottom: 4px;
   transition: left 1s ease;
   z-index: $zIndex !important;
+  user-select: none;
+  touch-action: none;
 }
 
 $skipToId button {
@@ -166,6 +168,7 @@ $skipToId button {
   font-family: $fontFamily;
   font-size: $fontSize;
   z-index: $zIndex !important;
+  touch-action: none;
 }
 
 @media screen and (max-width: $smallBreakPointpx) {
@@ -236,6 +239,7 @@ $skipToId [role="menu"] {
   border-radius: 5px;
   overflow-x: hidden;
   z-index: $zIndex !important;
+  touch-action: none;
 }
 
 $skipToId [role="group"] {
@@ -401,7 +405,7 @@ $skipToId-highlight {
   position: absolute;
   border-radius: 3px;
   border: solid $focusBorderColor 2px;
-  z-index: 500000;
+  z-index: 10000;
 }
 
 </style>
@@ -1835,8 +1839,6 @@ $skipToId-highlight {
 
   /* highlight.js */
 
-  let lastHighlightElement = false;
-
   /* Constants */
   const debug$2 = new DebugLogging('highlight', false);
   debug$2.flag = false;
@@ -1844,6 +1846,12 @@ $skipToId-highlight {
   const minWidth = 68;
   const minHeight = 27;
   const offset = 5;
+
+  const overlayElement = document.createElement('div');
+  overlayElement.id = 'id-skip-to-highlight';
+  document.body.appendChild(overlayElement);
+  overlayElement.style.display = 'none';
+
 
   /*
    *   @function isElementInViewport
@@ -1872,24 +1880,16 @@ $skipToId-highlight {
    *   @desc  Highlights the element with the id on a page when highlighting
    *          is enabled (NOTE: Highlight is enabled by default)
    *
-   *   @param {Object} config : SkipTo.js configuration options
    *   @param {String} id     : id of the element to highlight
    */
-  function highlightElement(config, id) {
+  function highlightElement(id) {
     const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
     const isReduced = !mediaQuery || mediaQuery.matches;
-    const highlightEnabled = (typeof config.highlightTarget === 'string') ?
-                          config.highlightTarget.trim().toLowerCase() === 'enabled' :
-                          false;
     const element = queryDOMForSkipToId(id);
 
-    if (element && highlightEnabled) {
-      if (lastHighlightElement) {
-        lastHighlightElement.remove();
-      }
-
+    if (element) {
+      updateOverlayElement(overlayElement, element);
       if (!isElementInViewport(element)  && !isReduced) {
-        lastHighlightElement = addOverlayElement(element);
         element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
       }
     }
@@ -1898,28 +1898,25 @@ $skipToId-highlight {
   /*
    *   @function removeHighlight
    *
-   *   @desc  Removes  highlight element from the page
+   *   @desc  Hides the highlight element on the page
    */
   function removeHighlight() {
-    if (lastHighlightElement) {
-      lastHighlightElement.remove();
-    }}
+    overlayElement.style.display = 'none';
+  }
 
   /*
-   *  @function  addOverlayElement
+   *  @function  updateOverlayElement
    *
    *  @desc  Create an overlay element and set its position on the page.
    *
+   *  @param  {Object}  overlay  -  DOM element for overlay
    *  @param  {Object}  element  -  DOM element node to highlight
    *
-   *  @returns {Object} DOM node element used for the overlay highlight
    */
 
-  function addOverlayElement (element) {
+  function updateOverlayElement (overlayElem, element) {
 
     const rect = element.getBoundingClientRect();
-    const overlayElem = document.createElement('div');
-    overlayElem.id = 'id-skip-to-highlight';
 
     if (rect.left > offset) {
       overlayElem.style.left   = Math.round(rect.left - offset + window.scrollX) + 'px';
@@ -1939,9 +1936,7 @@ $skipToId-highlight {
       overlayElem.style.height = Math.max(rect.height, minHeight) + 'px';
     }
 
-    document.body.appendChild(overlayElem);
-
-    return overlayElem;
+    overlayElem.style.display = 'block';
   }
 
   /* skiptoMenuButton.js */
@@ -2019,6 +2014,7 @@ $skipToId-highlight {
         this.buttonNode.appendChild(mediumButtonNode);
 
         // Create menu container
+        this.menuitemNodes = [];
 
         this.menuNode   = document.createElement('div');
         this.menuNode.id = 'id-skip-to-menu';
@@ -2053,7 +2049,7 @@ $skipToId-highlight {
 
         this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
         this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
-        window.addEventListener('pointerdown', this.handleBackgroundPointerdown.bind(this), true);
+        this.containerNode.addEventListener('pointerdown', this.handleBackgroundPointerdown.bind(this), true);
 
         if (this.usesAltKey || this.usesOptionKey) {
           document.addEventListener(
@@ -2063,6 +2059,11 @@ $skipToId-highlight {
         }
 
         attachNode.insertBefore(this.containerNode, attachNode.firstElementChild);
+
+        this.highlightEnabled = (typeof config.highlightTarget === 'string') ?
+                                 config.highlightTarget.trim().toLowerCase() === 'enabled' :
+                                 false;
+
 
         this.focusMenuitem = null;
 
@@ -2224,6 +2225,7 @@ $skipToId-highlight {
         menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
         menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
         menuitemNode.addEventListener('pointerleave', this.handleMenuitemPointerleave.bind(this));
+        menuitemNode.addEventListener('pointerover', this.handleMenuitemPointerover.bind(this));
         groupNode.appendChild(menuitemNode);
 
         // add heading level and label
@@ -2332,11 +2334,13 @@ $skipToId-highlight {
        */
       setFocusToMenuitem(menuitem) {
         if (menuitem) {
-          this.removeHoverClass();
+          this.removeHoverClass(menuitem);
           menuitem.classList.add('hover');
           menuitem.focus(/*{preventScroll:true}*/);
           this.focusMenuitem = menuitem;
-          highlightElement(this.config, menuitem.getAttribute('data-id'));
+          if (this.highlightEnabled) {
+            highlightElement(menuitem.getAttribute('data-id'));
+          }
         }
       }
 
@@ -2512,10 +2516,57 @@ $skipToId-highlight {
        *
        * @desc Removes hover class for menuitems
        */
-      removeHoverClass() {
+      removeHoverClass(target=null) {
         this.menuitemNodes.forEach( node => {
-          node.classList.remove('hover');
+          if (node !== target) {
+            node.classList.remove('hover');
+          }
         });
+      }
+
+      /*
+       * @method getMenuitem
+       *
+       * @desc Returns menuitem dom node if pointer is over it
+       *
+       * @param {Number}   x: client x coordinator of pointer
+       * @param {Number}   y: client y coordinator of pointer
+       *
+       * @return {object}  see @desc
+       */
+      getMenuitem(x, y) {
+        for (let i = 0; i < this.menuitemNodes.length; i += 1) {
+          const node = this.menuitemNodes[i];
+          const rect = node.getBoundingClientRect();
+
+          if ((rect.left <= x) &&
+              (rect.right >= x) &&
+              (rect.top <= y) &&
+              (rect.bottom >= y)) {
+                return node;
+              }
+        }
+        return false;
+      }
+
+      /*
+       * @method isOverButton
+       *
+       * @desc Returns true if pointer over button
+       *
+       * @param {Number}   x: client x coordinator of pointer
+       * @param {Number}   y: client y coordinator of pointer
+       *
+       * @return {object}  see @desc
+       */
+      isOverButton(x, y) {
+        const node = this.buttonNode;
+        const rect = node.getBoundingClientRect();
+
+        return (rect.left <= x) &&
+               (rect.right >= x) &&
+               (rect.top <= y) &&
+               (rect.bottom >= y);
       }
 
       // Menu event handlers
@@ -2705,32 +2756,110 @@ $skipToId-highlight {
       }
 
       handleMenuitemClick(event) {
+        debug$1.log(`[click]`);
         this.handleMenuitemAction(event.currentTarget);
         event.stopPropagation();
         event.preventDefault();
       }
 
       handleMenuitemPointerenter(event) {
+        debug$1.flag && debug$1.log(`[enter]`);
         let tgt = event.currentTarget;
-        this.removeHoverClass();
         tgt.classList.add('hover');
-        highlightElement(this.config, tgt.getAttribute('data-id'));
+        if (this.highlightEnabled) {
+          highlightElement(tgt.getAttribute('data-id'));
+        }
+        event.stopPropagation();
+        event.preventDefault();
+      }
 
+     handleMenuitemPointerover(event) {
+        debug$1.flag && debug$1.log(`[over]`);
+        let tgt = event.currentTarget;
+        if (this.highlightEnabled) {
+          highlightElement(tgt.getAttribute('data-id'));
+        }
+        event.stopPropagation();
+        event.preventDefault();
       }
 
       handleMenuitemPointerleave(event) {
+        debug$1.flag && debug$1.log(`[leave]`);
         let tgt = event.currentTarget;
         tgt.classList.remove('hover');
+        event.stopPropagation();
+        event.preventDefault();
       }
 
       handleBackgroundPointerdown(event) {
-        if (!this.containerNode.contains(event.target)) {
+        debug$1.flag && debug$1.log(`[down]: target: ${event.target.tagName}`);
+        this.containerNode.setPointerCapture(event.pointerId);
+        this.containerNode.addEventListener('pointermove', this.handleBackgroundPointermove.bind(this));
+        this.containerNode.addEventListener('pointerup', this.handleBackgroundPointerup.bind(this));
+
+        const mi = this.getMenuitem(event.clientX, event.clientY);
+
+        if (this.containerNode.contains(event.target)) {
           if (this.isOpen()) {
-            this.closePopup();
-            this.buttonNode.focus();
+            if (!mi) {
+              debug$1.flag && debug$1.log(`[down][close]`);
+              this.closePopup();
+              this.buttonNode.focus();            
+            }
           }
+          else {
+            debug$1.flag && debug$1.log(`[down][open]`);
+            this.openPopup();          
+            this.setFocusToFirstMenuitem();
+          }
+          event.stopPropagation();
+          event.preventDefault();
         }
       }
+
+      handleBackgroundPointermove(event) {
+        const mi = this.getMenuitem(event.clientX, event.clientY);
+        if (mi) {
+          this.removeHoverClass(mi);
+          mi.classList.add('hover');
+          if (this.highlightEnabled) {
+            highlightElement(mi.getAttribute('data-id'));
+          }
+        }
+
+        event.stopPropagation();
+        event.preventDefault();
+      }
+
+      handleBackgroundPointerup(event) {
+
+        this.containerNode.releasePointerCapture(event.pointerId);
+        this.containerNode.removeEventListener('pointermove', this.handleBackgroundPointermove);
+        this.containerNode.removeEventListener('pointerup', this.handleBackgroundPointerup);
+
+        const mi = this.getMenuitem(event.clientX, event.clientY);
+        const omb = this.isOverButton(event.clientX, event.clientY);
+        debug$1.flag && debug$1.log(`[up] isOverButton: ${omb} id: ${event.pointerId}`);
+
+        if (mi) {
+          this.handleMenuitemAction(mi);          
+        }
+        else {
+          if (!omb) {
+            debug$1.flag && debug$1.log(`[up] not over button `);
+            if (this.isOpen()) {
+              debug$1.flag && debug$1.log(`[up] close `);
+              this.closePopup();
+              this.buttonNode.focus();
+            }        
+          }
+        }
+
+        event.stopPropagation();
+        event.preventDefault();
+      }
+
+
   }
 
   /* constants */
@@ -2759,7 +2888,7 @@ $skipToId-highlight {
         altShortcut: '0', // default shortcut key is the number zero
         optionShortcut: 'º', // default shortcut key character associated with option+0 on mac 
         attachElement: 'body',
-        displayOption: 'static', // options: static, popup, fixed (default)
+        displayOption: 'fixed', // options: static, popup, fixed (default)
         // container element, use containerClass for custom styling
         containerElement: 'nav',
         containerRole: '',
@@ -2795,7 +2924,7 @@ $skipToId-highlight {
         headings: 'main h1 h2',
 
         // Highlight options
-        highlightTarget: 'disabled', // options: 'enabled' (default) and 'disabled'
+        highlightTarget: 'enabled', // options: 'enabled' (default) and 'disabled'
 
         // Place holders for configuration
         colorTheme: '',

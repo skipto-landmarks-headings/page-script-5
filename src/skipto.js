@@ -30,7 +30,7 @@ debug.flag = true;
       altShortcut: '0', // default shortcut key is the number zero
       optionShortcut: 'º', // default shortcut key character associated with option+0 on mac 
       attachElement: 'body',
-      displayOption: 'static', // options: static, popup, fixed (default)
+      displayOption: 'fixed', // options: static, popup, fixed (default)
       // container element, use containerClass for custom styling
       containerElement: 'nav',
       containerRole: '',
@@ -66,7 +66,7 @@ debug.flag = true;
       headings: 'main h1 h2',
 
       // Highlight options
-      highlightTarget: 'disabled', // options: 'enabled' (default) and 'disabled'
+      highlightTarget: 'enabled', // options: 'enabled' (default) and 'disabled'
 
       // Place holders for configuration
       colorTheme: '',
