@@ -54,20 +54,14 @@ function isElementInViewport(element) {
  *   @desc  Highlights the element with the id on a page when highlighting
  *          is enabled (NOTE: Highlight is enabled by default)
  *
- *   @param {Object} config : SkipTo.js configuration options
  *   @param {String} id     : id of the element to highlight
  */
-function highlightElement(config, id) {
+function highlightElement(id) {
   const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
   const isReduced = !mediaQuery || mediaQuery.matches;
-  const highlightEnabled = (typeof config.highlightTarget === 'string') ?
-                        config.highlightTarget.trim().toLowerCase() === 'enabled' :
-                        false;
   const element = queryDOMForSkipToId(id);
 
-  console.log(`[A]: ${element.getAttribute('data-skip-to-id')} (${highlightEnabled}) (${isElementInViewport(element)})`);
-
-  if (element && highlightEnabled) {
+  if (element) {
     updateOverlayElement(overlayElement, element);
     if (!isElementInViewport(element)  && !isReduced) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
@@ -81,7 +75,6 @@ function highlightElement(config, id) {
  *   @desc  Hides the highlight element on the page
  */
 function removeHighlight() {
-  console.log(`[removeHighlight]`);
   overlayElement.style.display = 'none';
 }
 
@@ -116,8 +109,6 @@ function updateOverlayElement (overlayElem, element) {
     overlayElem.style.top    = Math.round(rect.top + window.scrollY) + 'px';
     overlayElem.style.height = Math.max(rect.height, minHeight) + 'px';
   }
-
-  console.log(`[Rect]: ${overlayElem.style.left} ${overlayElem.style.width} ${overlayElem.style.height} display: "${overlayElem.style.display}"`);
 
   overlayElem.style.display = 'block';
 }

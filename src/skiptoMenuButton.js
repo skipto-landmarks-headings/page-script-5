@@ -19,7 +19,7 @@ import {
 
 /* Constants */
 const debug = new DebugLogging('SkipToButton', false);
-debug.flag = false;
+debug.flag = true;
 
 /**
  * @class SkiptoMenuButton
@@ -92,6 +92,7 @@ export default class SkiptoMenuButton {
       this.buttonNode.appendChild(mediumButtonNode);
 
       // Create menu container
+      this.menuitemNodes = [];
 
       this.menuNode   = document.createElement('div');
       this.menuNode.id = 'id-skip-to-menu';
@@ -126,7 +127,7 @@ export default class SkiptoMenuButton {
 
       this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
       this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
-      window.addEventListener('pointerdown', this.handleBackgroundPointerdown.bind(this), true);
+      this.containerNode.addEventListener('pointerdown', this.handleBackgroundPointerdown.bind(this), true);
 
       if (this.usesAltKey || this.usesOptionKey) {
         document.addEventListener(
@@ -136,6 +137,11 @@ export default class SkiptoMenuButton {
       }
 
       attachNode.insertBefore(this.containerNode, attachNode.firstElementChild);
+
+      this.highlightEnabled = (typeof config.highlightTarget === 'string') ?
+                               config.highlightTarget.trim().toLowerCase() === 'enabled' :
+                               false;
+
 
       this.focusMenuitem = null;
 
@@ -297,6 +303,7 @@ export default class SkiptoMenuButton {
       menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
       menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
       menuitemNode.addEventListener('pointerleave', this.handleMenuitemPointerleave.bind(this));
+      menuitemNode.addEventListener('pointerover', this.handleMenuitemPointerover.bind(this));
       groupNode.appendChild(menuitemNode);
 
       // add heading level and label
@@ -405,11 +412,13 @@ export default class SkiptoMenuButton {
      */
     setFocusToMenuitem(menuitem) {
       if (menuitem) {
-        this.removeHoverClass();
+        this.removeHoverClass(menuitem);
         menuitem.classList.add('hover');
         menuitem.focus(/*{preventScroll:true}*/);
         this.focusMenuitem = menuitem;
-        highlightElement(this.config, menuitem.getAttribute('data-id'));
+        if (this.highlightEnabled) {
+          highlightElement(menuitem.getAttribute('data-id'));
+        }
       }
     }
 
@@ -585,10 +594,57 @@ export default class SkiptoMenuButton {
      *
      * @desc Removes hover class for menuitems
      */
-    removeHoverClass() {
+    removeHoverClass(target=null) {
       this.menuitemNodes.forEach( node => {
-        node.classList.remove('hover');
+        if (node !== target) {
+          node.classList.remove('hover');
+        }
       });
+    }
+
+    /*
+     * @method getMenuitem
+     *
+     * @desc Returns menuitem dom node if pointer is over it
+     *
+     * @param {Number}   x: client x coordinator of pointer
+     * @param {Number}   y: client y coordinator of pointer
+     *
+     * @return {object}  see @desc
+     */
+    getMenuitem(x, y) {
+      for (let i = 0; i < this.menuitemNodes.length; i += 1) {
+        const node = this.menuitemNodes[i];
+        const rect = node.getBoundingClientRect();
+
+        if ((rect.left <= x) &&
+            (rect.right >= x) &&
+            (rect.top <= y) &&
+            (rect.bottom >= y)) {
+              return node;
+            }
+      }
+      return false;
+    }
+
+    /*
+     * @method isOverButton
+     *
+     * @desc Returns true if pointer over button
+     *
+     * @param {Number}   x: client x coordinator of pointer
+     * @param {Number}   y: client y coordinator of pointer
+     *
+     * @return {object}  see @desc
+     */
+    isOverButton(x, y) {
+      const node = this.buttonNode;
+      const rect = node.getBoundingClientRect();
+
+      return (rect.left <= x) &&
+             (rect.right >= x) &&
+             (rect.top <= y) &&
+             (rect.bottom >= y);
     }
 
     // Menu event handlers
@@ -780,30 +836,108 @@ export default class SkiptoMenuButton {
     }
 
     handleMenuitemClick(event) {
+      debug.log(`[click]`);
       this.handleMenuitemAction(event.currentTarget);
       event.stopPropagation();
       event.preventDefault();
     }
 
     handleMenuitemPointerenter(event) {
+      debug.flag && debug.log(`[enter]`);
       let tgt = event.currentTarget;
-      this.removeHoverClass();
       tgt.classList.add('hover');
-      highlightElement(this.config, tgt.getAttribute('data-id'));
+      if (this.highlightEnabled) {
+        highlightElement(tgt.getAttribute('data-id'));
+      }
+      event.stopPropagation();
+      event.preventDefault();
+    }
 
+   handleMenuitemPointerover(event) {
+      debug.flag && debug.log(`[over]`);
+      let tgt = event.currentTarget;
+      if (this.highlightEnabled) {
+        highlightElement(tgt.getAttribute('data-id'));
+      }
+      event.stopPropagation();
+      event.preventDefault();
     }
 
     handleMenuitemPointerleave(event) {
+      debug.flag && debug.log(`[leave]`);
       let tgt = event.currentTarget;
       tgt.classList.remove('hover');
+      event.stopPropagation();
+      event.preventDefault();
     }
 
     handleBackgroundPointerdown(event) {
-      if (!this.containerNode.contains(event.target)) {
+      debug.flag && debug.log(`[down]: target: ${event.target.tagName}`);
+      this.containerNode.setPointerCapture(event.pointerId);
+      this.containerNode.addEventListener('pointermove', this.handleBackgroundPointermove.bind(this));
+      this.containerNode.addEventListener('pointerup', this.handleBackgroundPointerup.bind(this));
+
+      const mi = this.getMenuitem(event.clientX, event.clientY);
+
+      if (this.containerNode.contains(event.target)) {
         if (this.isOpen()) {
-          this.closePopup();
-          this.buttonNode.focus();
+          if (!mi) {
+            debug.flag && debug.log(`[down][close]`);
+            this.closePopup();
+            this.buttonNode.focus();            
+          }
         }
+        else {
+          debug.flag && debug.log(`[down][open]`);
+          this.openPopup();          
+          this.setFocusToFirstMenuitem();
+        }
+        event.stopPropagation();
+        event.preventDefault();
       }
     }
+
+    handleBackgroundPointermove(event) {
+      const mi = this.getMenuitem(event.clientX, event.clientY);
+      if (mi) {
+        this.removeHoverClass(mi);
+        mi.classList.add('hover');
+        if (this.highlightEnabled) {
+          highlightElement(mi.getAttribute('data-id'));
+        }
+      }
+
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    handleBackgroundPointerup(event) {
+
+      this.containerNode.releasePointerCapture(event.pointerId);
+      this.containerNode.removeEventListener('pointermove', this.handleBackgroundPointermove);
+      this.containerNode.removeEventListener('pointerup', this.handleBackgroundPointerup);
+
+      const mi = this.getMenuitem(event.clientX, event.clientY);
+      const omb = this.isOverButton(event.clientX, event.clientY);
+      debug.flag && debug.log(`[up] isOverButton: ${omb} id: ${event.pointerId}`);
+
+      if (mi) {
+        this.handleMenuitemAction(mi);          
+      }
+      else {
+        if (!omb) {
+          debug.flag && debug.log(`[up] not over button `);
+          if (this.isOpen()) {
+            debug.flag && debug.log(`[up] close `);
+            this.closePopup();
+            this.buttonNode.focus();
+          }        
+        }
+      }
+
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+
 }

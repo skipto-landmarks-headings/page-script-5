@@ -11,7 +11,7 @@ const styleTemplate = document.createElement('template');
 styleTemplate.innerHTML = `
 <style type="text/css" id="id-skip-to-css">
 $skipToId.popup {
-  top: -34px;
+  top: -30px;
   transition: top 0.35s ease;
 }
 
@@ -43,6 +43,8 @@ $skipToId.popup:hover {
   margin-bottom: 4px;
   transition: left 1s ease;
   z-index: $zIndex !important;
+  user-select: none;
+  touch-action: none;
 }
 
 $skipToId button {
@@ -59,6 +61,7 @@ $skipToId button {
   font-family: $fontFamily;
   font-size: $fontSize;
   z-index: $zIndex !important;
+  touch-action: none;
 }
 
 @media screen and (max-width: $smallBreakPointpx) {
@@ -129,6 +132,7 @@ $skipToId [role="menu"] {
   border-radius: 5px;
   overflow-x: hidden;
   z-index: $zIndex !important;
+  touch-action: none;
 }
 
 $skipToId [role="group"] {
