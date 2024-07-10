@@ -99,6 +99,7 @@ debug.flag = true;
         buttonTextColor: '#1a1a1a',
         buttonBackgroundColor: '#eeeeee',
         zIndex: '100000',
+        zIndexHighlight: '999910',
       },
       'aria': {
         hostnameSelector: 'w3.org',
