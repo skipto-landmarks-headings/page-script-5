@@ -1891,8 +1891,10 @@ $skipToId-highlight {
   function isElementStartInViewport(element) {
     var rect = element.getBoundingClientRect();
     return (
-        rect.top <= (( window.innerHeight) || 
+        rect.top >= window.screenY &&
+        rect.top <= ((window.screenY + window.innerHeight) || 
                      (window.screenY + document.documentElement.clientHeight)) &&
+        rect.left >= window.screenX &&
         rect.left <= ((window.screenX + window.innerWidth) || 
                      (window.screenX + document.documentElement.clientWidth))
     );
