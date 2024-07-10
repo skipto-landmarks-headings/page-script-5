@@ -31,7 +31,7 @@ overlayElement.style.display = 'none';
  *   @function isElementInViewport
  *
  *   @desc  Returns true if element is already visible in view port,
-*           otheriwse false
+ *          otheriwse false
  *
  *   @param {Object} element : DOM node of element to highlight
  *
@@ -41,11 +41,53 @@ overlayElement.style.display = 'none';
 function isElementInViewport(element) {
   var rect = element.getBoundingClientRect();
   return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      rect.top >= window.screenY &&
+      rect.left >= window.screenX &&
+      rect.bottom <= ((window.screenY + window.innerHeight) || 
+                      (window.screenY + document.documentElement.clientHeight)) &&
+      rect.right <= ((window.screenX + window.innerWidth) || 
+                     (window.screenX + document.documentElement.clientWidth))
   );
+}
+
+/*
+ *   @function isElementStartInViewport
+ *
+ *   @desc  Returns true if start of the element is already visible in view port,
+ *          otheriwse false
+ *
+ *   @param {Object} element : DOM node of element to highlight
+ *
+ *   @returns see @desc
+ */
+
+function isElementStartInViewport(element) {
+  var rect = element.getBoundingClientRect();
+  return (
+      rect.top >= window.screenY &&
+      rect.top <= ((window.screenY + window.innerHeight) || 
+                   (window.screenY + document.documentElement.clientHeight)) &&
+      rect.left >= window.screenX &&
+      rect.left <= ((window.screenX + window.innerWidth) || 
+                   (window.screenX + document.documentElement.clientWidth))
+  );
+}
+
+
+/*
+ *   @function isElementHeightLarge
+ *
+ *   @desc  Returns true if element client height is larger than clientHeight,
+ *          otheriwse false
+ *
+ *   @param {Object} element : DOM node of element to highlight
+ *
+ *   @returns see @desc
+ */
+
+function isElementInHeightLarge(element) {
+  var rect = element.getBoundingClientRect();
+  return (1.2 * rect.height) > (window.innerHeight || document.documentElement.clientHeight);
 }
 
 /*
@@ -63,8 +105,15 @@ function highlightElement(id) {
 
   if (element) {
     updateOverlayElement(overlayElement, element);
-    if (!isElementInViewport(element)  && !isReduced) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+    if (isElementInHeightLarge(element)) {
+      if (!isElementStartInViewport(element)  && !isReduced) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+      }
+    }
+    else {
+      if (!isElementInViewport(element)  && !isReduced) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      }
     }
   }
 }

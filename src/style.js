@@ -298,7 +298,7 @@ $skipToId-highlight {
   position: absolute;
   border-radius: 3px;
   border: solid $focusBorderColor 2px;
-  z-index: 10000;
+  z-index: $zIndexHighlight;
 }
 
 </style>
@@ -452,6 +452,7 @@ function addCSSColors (colorThemes, config) {
   updateStyle('$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
 
   updateStyle('$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
+  updateStyle('$zIndexHighlight', config.zIndexHighlight, theme.zIndexHighlight, defaultTheme.zIndexHighlight);
 
 }
 

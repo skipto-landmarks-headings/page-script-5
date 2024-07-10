@@ -405,7 +405,7 @@ $skipToId-highlight {
   position: absolute;
   border-radius: 3px;
   border: solid $focusBorderColor 2px;
-  z-index: 10000;
+  z-index: $zIndexHighlight;
 }
 
 </style>
@@ -559,6 +559,7 @@ $skipToId-highlight {
     updateStyle('$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
 
     updateStyle('$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
+    updateStyle('$zIndexHighlight', config.zIndexHighlight, theme.zIndexHighlight, defaultTheme.zIndexHighlight);
 
   }
 
@@ -1857,7 +1858,7 @@ $skipToId-highlight {
    *   @function isElementInViewport
    *
    *   @desc  Returns true if element is already visible in view port,
-  *           otheriwse false
+   *          otheriwse false
    *
    *   @param {Object} element : DOM node of element to highlight
    *
@@ -1867,11 +1868,53 @@ $skipToId-highlight {
   function isElementInViewport(element) {
     var rect = element.getBoundingClientRect();
     return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        rect.top >= window.screenY &&
+        rect.left >= window.screenX &&
+        rect.bottom <= ((window.screenY + window.innerHeight) || 
+                        (window.screenY + document.documentElement.clientHeight)) &&
+        rect.right <= ((window.screenX + window.innerWidth) || 
+                       (window.screenX + document.documentElement.clientWidth))
     );
+  }
+
+  /*
+   *   @function isElementStartInViewport
+   *
+   *   @desc  Returns true if start of the element is already visible in view port,
+   *          otheriwse false
+   *
+   *   @param {Object} element : DOM node of element to highlight
+   *
+   *   @returns see @desc
+   */
+
+  function isElementStartInViewport(element) {
+    var rect = element.getBoundingClientRect();
+    return (
+        rect.top >= window.screenY &&
+        rect.top <= ((window.screenY + window.innerHeight) || 
+                     (window.screenY + document.documentElement.clientHeight)) &&
+        rect.left >= window.screenX &&
+        rect.left <= ((window.screenX + window.innerWidth) || 
+                     (window.screenX + document.documentElement.clientWidth))
+    );
+  }
+
+
+  /*
+   *   @function isElementHeightLarge
+   *
+   *   @desc  Returns true if element client height is larger than clientHeight,
+   *          otheriwse false
+   *
+   *   @param {Object} element : DOM node of element to highlight
+   *
+   *   @returns see @desc
+   */
+
+  function isElementInHeightLarge(element) {
+    var rect = element.getBoundingClientRect();
+    return (1.2 * rect.height) > (window.innerHeight || document.documentElement.clientHeight);
   }
 
   /*
@@ -1889,8 +1932,15 @@ $skipToId-highlight {
 
     if (element) {
       updateOverlayElement(overlayElement, element);
-      if (!isElementInViewport(element)  && !isReduced) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      if (isElementInHeightLarge(element)) {
+        if (!isElementStartInViewport(element)  && !isReduced) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        }
+      }
+      else {
+        if (!isElementInViewport(element)  && !isReduced) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+        }
       }
     }
   }
@@ -2336,7 +2386,7 @@ $skipToId-highlight {
         if (menuitem) {
           this.removeHoverClass(menuitem);
           menuitem.classList.add('hover');
-          menuitem.focus(/*{preventScroll:true}*/);
+          menuitem.focus();
           this.focusMenuitem = menuitem;
           if (this.highlightEnabled) {
             highlightElement(menuitem.getAttribute('data-id'));
@@ -2957,6 +3007,7 @@ $skipToId-highlight {
           buttonTextColor: '#1a1a1a',
           buttonBackgroundColor: '#eeeeee',
           zIndex: '100000',
+          zIndexHighlight: '999910',
         },
         'aria': {
           hostnameSelector: 'w3.org',
