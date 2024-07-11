@@ -19,7 +19,7 @@ import {
 
 /* Constants */
 const debug = new DebugLogging('SkipToButton', false);
-debug.flag = true;
+debug.flag = false;
 
 /**
  * @class SkiptoMenuButton

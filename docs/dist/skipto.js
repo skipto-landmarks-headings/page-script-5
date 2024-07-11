@@ -1993,7 +1993,7 @@ $skipToId-highlight {
 
   /* Constants */
   const debug$1 = new DebugLogging('SkipToButton', false);
-  debug$1.flag = true;
+  debug$1.flag = false;
 
   /**
    * @class SkiptoMenuButton
