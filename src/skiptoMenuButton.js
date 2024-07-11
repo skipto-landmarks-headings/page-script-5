@@ -19,7 +19,7 @@ import {
 
 /* Constants */
 const debug = new DebugLogging('SkipToButton', false);
-debug.flag = false;
+debug.flag = true;
 
 /**
  * @class SkiptoMenuButton
@@ -127,7 +127,7 @@ export default class SkiptoMenuButton {
 
       this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
       this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
-      this.containerNode.addEventListener('pointerdown', this.handleBackgroundPointerdown.bind(this), true);
+      this.containerNode.addEventListener('pointerdown', this.handleContinerPointerdown.bind(this), true);
 
       if (this.usesAltKey || this.usesOptionKey) {
         document.addEventListener(
@@ -546,6 +546,7 @@ export default class SkiptoMenuButton {
      * @desc Opens the memu of landmark regions and headings
      */
     openPopup() {
+      debug.flag && debug.log(`[openPopup]`);
       this.menuNode.setAttribute('aria-busy', 'true');
       const h = (80 * window.innerHeight) / 100;
       this.menuNode.style.maxHeight = h + 'px';
@@ -571,6 +572,7 @@ export default class SkiptoMenuButton {
      * @desc Closes the memu of landmark regions and headings
      */
     closePopup() {
+      debug.flag && debug.log(`[closePopup]`);
       if (this.isOpen()) {
         this.buttonNode.setAttribute('aria-expanded', 'false');
         this.menuNode.style.display = 'none';
@@ -647,6 +649,26 @@ export default class SkiptoMenuButton {
              (rect.bottom >= y);
     }
 
+    /*
+     * @method isOverMenu
+     *
+     * @desc Returns true if pointer over the menu
+     *
+     * @param {Number}   x: client x coordinator of pointer
+     * @param {Number}   y: client y coordinator of pointer
+     *
+     * @return {object}  see @desc
+     */
+    isOverMenu(x, y) {
+      const node = this.menuNode;
+      const rect = node.getBoundingClientRect();
+
+      return (rect.left <= x) &&
+             (rect.right >= x) &&
+             (rect.top <= y) &&
+             (rect.bottom >= y);
+    }    
+
     // Menu event handlers
     
     handleFocusin() {
@@ -691,6 +713,7 @@ export default class SkiptoMenuButton {
     }
 
     handleButtonClick(event) {
+      debug.flag && debug.log(`[handleButtonClick]`);
       if (this.isOpen()) {
         this.closePopup();
         this.buttonNode.focus();
@@ -871,33 +894,39 @@ export default class SkiptoMenuButton {
       event.preventDefault();
     }
 
-    handleBackgroundPointerdown(event) {
-      debug.flag && debug.log(`[down]: target: ${event.target.tagName}`);
-      this.containerNode.setPointerCapture(event.pointerId);
-      this.containerNode.addEventListener('pointermove', this.handleBackgroundPointermove.bind(this));
-      this.containerNode.addEventListener('pointerup', this.handleBackgroundPointerup.bind(this));
+    handleContinerPointerdown(event) {
+      debug.flag && debug.log(`[down]: target: ${event.pointerId}`);
 
-      const mi = this.getMenuitem(event.clientX, event.clientY);
-
-      if (this.containerNode.contains(event.target)) {
-        if (this.isOpen()) {
-          if (!mi) {
-            debug.flag && debug.log(`[down][close]`);
-            this.closePopup();
-            this.buttonNode.focus();            
-          }
-        }
-        else {
-          debug.flag && debug.log(`[down][open]`);
-          this.openPopup();          
-          this.setFocusToFirstMenuitem();
-        }
-        event.stopPropagation();
-        event.preventDefault();
+      if (this.isOverButton(event.clientX, event.clientY)) {
+        this.containerNode.releasePointerCapture(event.pointerId);
       }
+      else {
+        this.containerNode.setPointerCapture(event.pointerId);
+        this.containerNode.addEventListener('pointermove', this.handleContinerPointermove.bind(this));
+        this.containerNode.addEventListener('pointerup', this.handleContinerPointerup.bind(this));
+
+        if (this.containerNode.contains(event.target)) {
+          if (this.isOpen()) {
+            if (!this.isOverMenu(event.clientX, event.clientY)) {
+              debug.flag && debug.log(`[down][close]`);
+              this.closePopup();
+              this.buttonNode.focus();            
+            }
+          }
+          else {
+            debug.flag && debug.log(`[down][open]`);
+            this.openPopup();          
+            this.setFocusToFirstMenuitem();
+          }
+
+        }
+      }
+
+      event.stopPropagation();
+      event.preventDefault();
     }
 
-    handleBackgroundPointermove(event) {
+    handleContinerPointermove(event) {
       const mi = this.getMenuitem(event.clientX, event.clientY);
       if (mi) {
         this.removeHoverClass(mi);
@@ -911,15 +940,15 @@ export default class SkiptoMenuButton {
       event.preventDefault();
     }
 
-    handleBackgroundPointerup(event) {
+    handleContinerPointerup(event) {
 
       this.containerNode.releasePointerCapture(event.pointerId);
-      this.containerNode.removeEventListener('pointermove', this.handleBackgroundPointermove);
-      this.containerNode.removeEventListener('pointerup', this.handleBackgroundPointerup);
+      this.containerNode.removeEventListener('pointermove', this.handleContinerPointermove);
+      this.containerNode.removeEventListener('pointerup', this.handleContinerPointerup);
 
       const mi = this.getMenuitem(event.clientX, event.clientY);
       const omb = this.isOverButton(event.clientX, event.clientY);
-      debug.flag && debug.log(`[up] isOverButton: ${omb} id: ${event.pointerId}`);
+      debug.flag && debug.log(`[up] isOverButton: ${omb} getMenuitem: ${mi} id: ${event.pointerId}`);
 
       if (mi) {
         this.handleMenuitemAction(mi);          
