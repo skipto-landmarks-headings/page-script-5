@@ -2100,6 +2100,7 @@ $skipToId-highlight {
         this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
         this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
         this.containerNode.addEventListener('pointerdown', this.handleContinerPointerdown.bind(this), true);
+        document.documentElement.addEventListener('pointerdown', this.handleBodyPointerdown.bind(this), true);
 
         if (this.usesAltKey || this.usesOptionKey) {
           document.addEventListener(
@@ -2938,6 +2939,14 @@ $skipToId-highlight {
         event.preventDefault();
       }
 
+      handleBodyPointerdown(event) {
+        debug$1.flag && debug$1.log(`[handleBodyPointerdown]: target: ${event.pointerId}`);
+
+        if (!this.isOverButton(event.clientX, event.clientY) &&
+            !this.isOverMenu(event.clientX, event.clientY)) {
+          this.closePopup();
+        }
+      }
 
   }
 

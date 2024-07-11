@@ -128,6 +128,7 @@ export default class SkiptoMenuButton {
       this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
       this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
       this.containerNode.addEventListener('pointerdown', this.handleContinerPointerdown.bind(this), true);
+      document.documentElement.addEventListener('pointerdown', this.handleBodyPointerdown.bind(this), true);
 
       if (this.usesAltKey || this.usesOptionKey) {
         document.addEventListener(
@@ -968,5 +969,13 @@ export default class SkiptoMenuButton {
       event.preventDefault();
     }
 
+    handleBodyPointerdown(event) {
+      debug.flag && debug.log(`[handleBodyPointerdown]: target: ${event.pointerId}`);
+
+      if (!this.isOverButton(event.clientX, event.clientY) &&
+          !this.isOverMenu(event.clientX, event.clientY)) {
+        this.closePopup();
+      }
+    }
 
 }
