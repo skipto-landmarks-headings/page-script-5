@@ -3126,7 +3126,7 @@ $skipToId-highlight {
         'walmart': {
           hostnameSelector: 'walmart.com',
           buttonTextColor: '#ffffff',
-          buttonBackgroundColor: '#0071dc',
+          buttonBackgroundColor: '#00419a',
           focusBorderColor: '#ffc220',
           menuTextColor: '#ffffff',
           menuBackgroundColor: '#0071dc',
