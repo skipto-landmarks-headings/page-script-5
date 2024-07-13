@@ -3071,6 +3071,17 @@ $skipToId-highlight {
           buttonTextColor: '#444444',
           buttonBackgroundColor: '#dddede',
         },
+        'openweba11y': {
+          hostnameSelector: 'openweba11y.com',
+          buttonTextColor: '#13294B',
+          buttonBackgroundColor: '#dddddd',
+          focusBorderColor: '#C5050C',
+          menuTextColor: '#13294B',
+          menuBackgroundColor: '#dddddd',
+          menuitemFocusTextColor: '#dddddd',
+          menuitemFocusBackgroundColor: '#13294B',
+          fontSize: '90%'
+        },
         'skipto': {
           hostnameSelector: 'skipto-landmarks-headings.github.io',
           fontSize: '14px',
@@ -3112,16 +3123,15 @@ $skipToId-highlight {
           buttonTextColor: '#fff',
           buttonBackgroundColor: '#036',
         },
-        'openweba11y': {
-          hostnameSelector: 'openweba11y.com',
-          buttonTextColor: '#13294B',
-          buttonBackgroundColor: '#dddddd',
-          focusBorderColor: '#C5050C',
-          menuTextColor: '#13294B',
-          menuBackgroundColor: '#dddddd',
-          menuitemFocusTextColor: '#dddddd',
-          menuitemFocusBackgroundColor: '#13294B',
-          fontSize: '90%'
+        'walmart': {
+          hostnameSelector: 'walmart.com',
+          buttonTextColor: '#ffffff',
+          buttonBackgroundColor: '#0071dc',
+          focusBorderColor: '#ffc220',
+          menuTextColor: '#ffffff',
+          menuBackgroundColor: '#0071dc',
+          menuitemFocusTextColor: '#00419a',
+          menuitemFocusBackgroundColor: '#ffffff'
         }
       },
 

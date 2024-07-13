@@ -114,6 +114,12 @@ const examples = [
     config: `colorTheme: aria`
   },
   { template: './src-docs/templates/example/content-example.njk',
+    title: 'Walmart Theme',
+    filename: 'example-walmart.html',
+    description: 'The color theme of the button and the menu uses the "walmart" theme.',
+    config: `colorTheme: walmart`
+  },
+  { template: './src-docs/templates/example/content-example.njk',
     title: 'Fonts',
     filename: 'example-fonts.html',
     description: 'The fonts for button and menu are set to 8pt and monospace.',
