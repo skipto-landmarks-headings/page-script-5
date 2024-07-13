@@ -148,6 +148,16 @@
                <li><kbd>Option+0</kbd> : macOS.</li>
             </ul>
 
+            <h2 id="bookmarklet">Bookmarklet</h2>
+
+            <p>The SkipTo.js bookmarklet allows you to use SkipTo.js on any web page.  The bookmarklet is a link that contains JavaScript that loads SkipTo.js.  When the bookmarklet link is activated the "Skip to Content" menu will appear on the web page.  The most common way of installing a bookmarklet is to drag and drop the bookmarklet link into your browser's bookmarks or favorites toolbar. The shortcut for toggling the display of the bookmarks toolbar in Chrome, Firefox and Safari is <kbd>Shift</kbd> + <kbd>Ctrl/Cmd</kbd> + <kbd>B</kbd>. </p>
+
+            <p>Bookmarklet Link: <a href="javascript:(() => {if(!document.getElementById('#id-skip-to')){ const%20script=document.createElement('script');script.id='id-skip-to-bookmarklet';script.type='text/javascript';script.src='https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js';document.head.appendChild(script);}})()">
+                SkipTo.js
+              </a>
+            </>
+
+
                         <h2 id="of-course-we-want-feedback">Feedback and Reporting Issues</h2>
 
             <p>We welcome your feedback!  Please do not hesitate to <a href="https://github.com/skipto-landmarks-headings/page-script-5/issues">raise issues and comment on Github</a> if something doesn’t work or you have ideas on how to improve the script.</p>

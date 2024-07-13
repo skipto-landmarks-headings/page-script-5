@@ -3255,10 +3255,17 @@ $skipToId-highlight {
       }
     };
 
-    // Initialize skipto menu button with onload event
-    window.addEventListener('load', function() {
+    // Check for SkipTo.js bookmarklet script, if it is initialize it immediately
+    if (document.getElementById(`#id-skip-to-bookmarklet`)) {
       SkipTo.init(window.SkipToConfig);
-    });
+    }
+    else {
+      // Initialize skipto menu button with onload event
+      window.addEventListener('load', function() {
+        SkipTo.init(window.SkipToConfig);
+      });
+    }
+
   })();
 
 })();
