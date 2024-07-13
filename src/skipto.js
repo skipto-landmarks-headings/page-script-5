@@ -310,7 +310,7 @@ debug.flag = true;
   };
 
   // Check for SkipTo.js bookmarklet script, if it is initialize it immediately
-  if (document.getElementById(`#id-skip-to-bookmarklet`)) {
+  if (document.getElementById(`id-skip-to-bookmarklet`)) {
     SkipTo.init(window.SkipToConfig);
   }
   else {
