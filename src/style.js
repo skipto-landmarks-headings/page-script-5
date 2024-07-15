@@ -1,6 +1,7 @@
 /* style.js */
 
 /* Imports */
+import {colorThemes} from './colorThemes.js';
 import DebugLogging  from './debug.js';
 
 /* Constants */
@@ -87,6 +88,9 @@ $skipToId button {
     display: none;
   }
 
+  $skipToId.popup {
+    top: -26px;
+  }
 }
 
 @media screen and (min-width: $smallBreakPointpx) and (max-width: $mediumBreakPointpx) {
@@ -110,6 +114,10 @@ $skipToId button {
   $skipToId:not(.popup).focus button .skipto-medium {
     transition: top 0.35s ease;
     display: none;
+  }
+
+  $skipToId.popup {
+    top: -28px;
   }
 
 }
@@ -309,12 +317,11 @@ $skipToId-highlight {
  *
  *   @desc Returns
  *
- *   @param  {Object}  colorThemes  -  Javascript object with keyed color themes
  *   @param  {String}  colorTheme   -  A string identifying a color theme  
  *
  *   @returns {Object}  see @desc
  */
-function getTheme(colorThemes, colorTheme) {
+function getTheme(colorTheme) {
   if (typeof colorThemes[colorTheme] === 'object') {
     return colorThemes[colorTheme];
   }
@@ -333,6 +340,7 @@ function getTheme(colorThemes, colorTheme) {
     let hostnameFlag = false; 
     let pathnameFlag = false; 
 
+    debug.log(`${hostname} ${hostnameSelector} ${hostname.indexOf(hostnameSelector)}`);
 
     if (hostnameSelector) {
       if (hostname.indexOf(hostnameSelector) >= 0) {
@@ -420,12 +428,11 @@ function updateStyle(stylePlaceholder, configValue, themeValue, defaultValue) {
  * @desc Updates the styling information in the attached
  *       stylesheet to use the configured or default colors  
  *
- * @param  {Object}  colorThemes -  Object with theme information
  * @param  {Object}  config      -  Configuration information object
  */
-function addCSSColors (colorThemes, config) {
-  const theme = getTheme(colorThemes, config.colorTheme);
-  const defaultTheme = getTheme(colorThemes, 'default');
+function addCSSColors (config) {
+  const theme = getTheme(config.colorTheme);
+  const defaultTheme = getTheme('default');
 
   // Check for display option in theme
   if ((typeof theme.displayOption === 'string') && 
@@ -461,13 +468,12 @@ function addCSSColors (colorThemes, config) {
  *
  *   @desc  Updates the style sheet template and then attaches it to the document
  *
- * @param  {Object}  colorThemes     -  Object with theme information
  * @param  {Object}  config          -  Configuration information object
  * @param  {String}  skipYToStyleId  -  Id used for the skipto container element
  */
-export default function renderStyleElement (colorThemes, config, skipToId) {
+export default function renderStyleElement (config, skipToId) {
   styleTemplate.innerHTML = styleTemplate.innerHTML.replaceAll('$skipToId', '#' + skipToId);
-  addCSSColors(colorThemes, config);
+  addCSSColors(config);
   const styleNode = styleTemplate.content.cloneNode(true);
   styleNode.id = `${skipToId}-style`;
   const headNode = document.getElementsByTagName('head')[0];
