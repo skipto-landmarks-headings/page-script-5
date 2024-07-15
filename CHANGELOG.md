@@ -4,7 +4,7 @@
 * Added feature to scroll the page to the target when the corresponding  menu item receives focus or is overed.
 * Default 'displayOption' is changed from 'static' to 'fixed'.
 * New option 'highlightTarget' add with the default value of 'enabled'.
-* The four bottom pixels of the button show in the "popup" configuration so that a pointer can expose the entire SkipTo button
+* The four to eight bottom pixels (responsive to screen width) of the button show in the "popup" configuration so that a pointer can expose the entire SkipTo button on hover
 
 ## Version 5.3.2
 * Removing pointer event fixed a undesirable behavior of focus not being on the first item if the mouse pointer happened to be in the menu when it opened in chrome
