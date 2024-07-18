@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {% include "./head.njk" %}
+  </head>
+  <body>
+    {% include "./header.njk" %}
+
+    <!-- Main section-->
+    <div id="main-section" class="container px-4">
+      <nav aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">{{title | safe}}</li>
+        </ol>
+      </nav>
+      <main class="row gx-4 justify-content-center">
+        <div class="col-lg-10">
+          {% block title %}
+          <h1>{{title}}</h1>
+          {% endblock %}
+          <div id="bookmaklets">
+
+          <p>The SkipTo.js bookmarklet allows you to use SkipTo.js on any web page.  The bookmarklet is a link that contains JavaScript that loads SkipTo.js.  When the bookmarklet link is activated the "Skip to Content" menu will appear on the web page.  The most common way of installing a bookmarklet is to drag and drop the bookmarklet link into your browser's bookmarks or favorites toolbar. The shortcut for toggling the display of the bookmarks toolbar in Chrome, Firefox and Safari is <kbd>Shift</kbd> + <kbd>Ctrl/Cmd</kbd> + <kbd>B</kbd>. </p>
+
+            <p>Bookmarklet Link: <a href="javascript:(() => {if(!document.getElementById('id-skip-to')){const%20script=document.createElement('script');script.id='id-skip-to-bookmarklet';script.type='text/javascript';script.src='https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js';document.head.appendChild(script);}})()">
+                SkipTo.js
+              </a>
+            </p>
+
+            <p>Bookmarklet Link (popup): <a href="javascript:(() => {if(!document.getElementById('id-skip-to')){const%20script=document.createElement('script');script.id='id-skip-to-bookmarklet';script.setAttribute('data-skipto','displayOption:popup');script.type='text/javascript';script.src='https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js';document.head.appendChild(script);}})()">
+                SkipTo.js PopUp
+              </a>
+            </p>
+
+            {% include "./feedback.njk" %}
+
+          </div>
+        </div>
+      </main>
+    {% include "./footer.njk" %}
+    {% include "./scripts.njk" %}
+
+  </body>
+</html>

@@ -46,6 +46,11 @@ const pages = [
     link: 'Using',
     filename: 'using.html'
   },
+  { template: './src-docs/templates/content-bookmarklets.njk',
+    title: 'SkipTo.js Bookmarklets',
+    link: 'Bookmarklets',
+    filename: 'bookmarklets.html'
+  },
   { template: './src-docs/templates/content-config.njk',
     title: 'Configuration Options',
     link: 'Configuration',

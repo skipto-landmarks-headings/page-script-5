@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>About | SkipTo.js for WCAG 4.2.1 Bypass Blocks</title>
+    <title>SkipTo.js Bookmarklets | SkipTo.js for WCAG 4.2.1 Bypass Blocks</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -89,69 +89,27 @@
       <nav aria-label="Breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">About</li>
+          <li class="breadcrumb-item active">SkipTo.js Bookmarklets</li>
         </ol>
       </nav>
       <main class="row gx-4 justify-content-center">
         <div class="col-lg-10">
           
-          <h1>About</h1>
+          <h1>SkipTo.js Bookmarklets</h1>
           
+          <div id="bookmaklets">
 
-          <div id="about">
+          <p>The SkipTo.js bookmarklet allows you to use SkipTo.js on any web page.  The bookmarklet is a link that contains JavaScript that loads SkipTo.js.  When the bookmarklet link is activated the "Skip to Content" menu will appear on the web page.  The most common way of installing a bookmarklet is to drag and drop the bookmarklet link into your browser's bookmarks or favorites toolbar. The shortcut for toggling the display of the bookmarks toolbar in Chrome, Firefox and Safari is <kbd>Shift</kbd> + <kbd>Ctrl/Cmd</kbd> + <kbd>B</kbd>. </p>
 
-            <h2 id="authors">Authors</h2>
+            <p>Bookmarklet Link: <a href="javascript:(() => {if(!document.getElementById('id-skip-to')){const%20script=document.createElement('script');script.id='id-skip-to-bookmarklet';script.type='text/javascript';script.src='https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js';document.head.appendChild(script);}})()">
+                SkipTo.js
+              </a>
+            </p>
 
-            <h3 id="current-contributors">Current Contributors</h3>
-
-            <p><strong>Jon Gunderson</strong>
-            <a href="https://github.com/jongund">https://github.com/jongund</a></p>
-
-            <p style="font-style: italic">Note:A special thank you to Matt King and the members of the <a href="https://www.w3.org/WAI/ARIA/task-forces/practices/">ARIA Authoring Practices Task Force</a> for their feedback on the features of <code>SkipTo.js</code>.</p>
-
-            <h3 id="previous-contributors">Previous Contributors</h3>
-
-            <p><strong>Nicholas Hoyt</strong>
-            <a href="https://github.com/nhoyt">https://github.com/nhoyt</a></p>
-
-            <p><strong>Prem Nawaz Khan</strong>
-            <a href="https://github.com/mpnkhan">https://github.com/mpnkhan</a> || <a href="https://twitter.com/mpnkhan">@mpnkhan</a></p>
-
-            <p><strong>Ron Feathers</strong>
-            <a href="https://github.com/rfeathers">https://github.com/rfeathers</a> || <a href="https://twitter.com/ronfeathers">@ronfeathers</a></p>
-
-            <p><strong>Marc Kocher</strong>
-            <a href="https://github.com/mdkocher">https://github.com/mdkocher</a> || <a href="https://twitter.com/marckocher">@marckocher</a></p>
-
-            <p><strong>Brian Teeman</strong>
-            <a href="https://github.com/brianteeman">https://github.com/brianteeman</a></p>
-
-            <p><strong>Victor Tsaran</strong>
-            <a href="https://github.com/vick08">https://github.com/vick08</a> || <a href="https://twitter.com/vick08">@vick08</a></p>
-
-            <h2 id="compiling-css-and-javascript">Compiling CSS and JavaScript</h2>
-
-            <p>The <a href="https://github.com/skipto-landmarks-headings/page-script-5">SkipTo.js code</a> is open-source. You may feel slightly adventurous and decide to change some colors by creating a built-in color theme or even enhance the script with your changes. Once you do this, here is how you compile the skipTo script for production.</p>
-
-            <div class="language-html highlighter-rouge">
-              <div class="highlight">
-                <pre class="highlight">
-<code>git clone https://github.com/skipto-landmarks-headings/page-script-5.git
-<span class="nb">cd </span>page-script-5
-<span class="nb">sudo </span>npm <span class="nb">install </span>grunt-cli <span class="nt">-g</span>
-npm <span class="nb">install</span>
-gulp
-</code>
-</pre></div></div>
-
-            <ol>
-              <li>You should now have a directory called <strong><code class="language-plaintext highlighter-rouge">docs/dist</code></strong> with the necessary files in it.</li>
-              <li>See <a href="using.html">Using Skipto</a> and the <a href-"config.html":>Configuration</a> pages to get the SkipTo.js script running on your web site.</li>
-            </ol>
-
-            <h2>Version Information</h2>
-
-            <p>The <a href="https://github.com/skipto-landmarks-headings/page-script-5/blob/main/CHANGELOG.md"><code>CHANGELOG.md</code></a> file in the GitHub repository contains version history information.</p>
+            <p>Bookmarklet Link (popup): <a href="javascript:(() => {if(!document.getElementById('id-skip-to')){const%20script=document.createElement('script');script.id='id-skip-to-bookmarklet';script.setAttribute('data-skipto','displayOption:popup');script.type='text/javascript';script.src='https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js';document.head.appendChild(script);}})()">
+                SkipTo.js PopUp
+              </a>
+            </p>
 
                         <h2 id="of-course-we-want-feedback">Feedback and Reporting Issues</h2>
 
@@ -163,7 +121,6 @@ gulp
           </div>
         </div>
       </main>
-    </nav>
             <!-- Footer-->
         <footer class="py-5 bg-light">
 
