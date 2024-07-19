@@ -20,11 +20,15 @@ debug.flag = false;
 const minWidth = 68;
 const minHeight = 27;
 const offset = 5;
+const borderWidth = 2;
 
 const overlayElement = document.createElement('div');
 overlayElement.id = 'id-skip-to-highlight';
 document.body.appendChild(overlayElement);
 overlayElement.style.display = 'none';
+
+const overlayElementChild = document.createElement('div');
+overlayElement.appendChild(overlayElementChild);
 
 
 /*
@@ -132,32 +136,41 @@ function removeHighlight() {
  *
  *  @desc  Create an overlay element and set its position on the page.
  *
- *  @param  {Object}  overlay  -  DOM element for overlay
- *  @param  {Object}  element  -  DOM element node to highlight
+ *  @param  {Object}  overlayElem      -  DOM element for overlay
+ *  @param  {Object}  element          -  DOM element node to highlight
  *
  */
 
 function updateOverlayElement (overlayElem, element) {
 
+  const childElem = overlayElem.firstElementChild;
+
   const rect = element.getBoundingClientRect();
 
-  if (rect.left > offset) {
-    overlayElem.style.left   = Math.round(rect.left - offset + window.scrollX) + 'px';
-    overlayElem.style.width  = Math.max(rect.width  + offset * 2, minWidth)  + 'px';
-  }
-  else {
-    overlayElem.style.left   = Math.round(rect.left + window.scrollX) + 'px';
-    overlayElem.style.width  = Math.max(rect.width, minWidth)  + 'px';
-  }
+  const left   = rect.left > offset ?
+                  Math.round(rect.left - offset + window.scrollX) :
+                  Math.round(rect.left + window.scrollX);
 
-  if (rect.top > offset) {
-    overlayElem.style.top    = Math.round(rect.top  - offset + window.scrollY) + 'px';
-    overlayElem.style.height = Math.max(rect.height + offset * 2, minHeight) + 'px';
-  }
-  else {
-    overlayElem.style.top    = Math.round(rect.top + window.scrollY) + 'px';
-    overlayElem.style.height = Math.max(rect.height, minHeight) + 'px';
-  }
+  const width  = rect.left > offset ?
+                  Math.max(rect.width  + offset * 2, minWidth) :
+                  Math.max(rect.width, minWidth);
+
+  const top    = rect.top > offset ?
+                  Math.round(rect.top  - offset + window.scrollY) :
+                  Math.round(rect.top + window.scrollY);
+
+  const height = rect.top > offset ?
+                  Math.max(rect.height + offset * 2, minHeight) :
+                  Math.max(rect.height, minHeight);
+
+  overlayElem.style.left   = left   + 'px';
+  overlayElem.style.width  = width  + 'px';
+  overlayElem.style.top    = top    + 'px';
+  overlayElem.style.height = height + 'px';
+
+  childElem.style.width  = (width  - borderWidth) + 'px';
+  childElem.style.height = (height - borderWidth) + 'px';
+
 
   overlayElem.style.display = 'block';
 }

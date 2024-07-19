@@ -83,6 +83,7 @@ debug.flag = true;
       buttonTextColor: '',
       buttonBackgroundColor: '',
       zIndex: '',
+      zHighlight: ''
     },
 
     /*

@@ -1,5 +1,8 @@
 # Version history for Skipto.js
 
+## Version 5.4.1
+* Improved highlighting to provide more contrast for the highlight border
+
 ## Version 5.4.0
 * Added feature to scroll the page to the target when the corresponding  menu item receives focus or is overed.
 * Default 'displayOption' is changed from 'static' to 'fixed'.
