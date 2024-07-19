@@ -19,7 +19,7 @@ debug.flag = false;
 
 const minWidth = 68;
 const minHeight = 27;
-const offset = 5;
+const offset = 6;
 const borderWidth = 2;
 
 const overlayElement = document.createElement('div');
