@@ -310,10 +310,10 @@ $skipToId-highlight {
 
 $skipToId-highlight div {
   position: relative;
-  top: -3px;
-  left: -3px;
+  top: -2px;
+  left: -2px;
   border-radius: 3px;
-  border: 2px dashed $focusBorderColor;
+  border: 2px solid $focusBorderColor;
   z-index: $zHighlight;
 }
 

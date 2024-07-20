@@ -168,8 +168,8 @@ function updateOverlayElement (overlayElem, element) {
   overlayElem.style.top    = top    + 'px';
   overlayElem.style.height = height + 'px';
 
-  childElem.style.width  = (width  - borderWidth) + 'px';
-  childElem.style.height = (height - borderWidth) + 'px';
+  childElem.style.width  = (width  - 2 * borderWidth) + 'px';
+  childElem.style.height = (height - 2 * borderWidth) + 'px';
 
 
   overlayElem.style.display = 'block';
