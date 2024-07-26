@@ -42,9 +42,9 @@ const pages = [
     filename: 'index.html'
   },
   { template: './src-docs/templates/content-using.njk',
-    title: 'Using on a Web Page',
-    link: 'Using',
-    filename: 'using.html'
+    title: 'Adding SkipTo.js to a Web Page',
+    link: 'Page Script',
+    filename: 'page.html'
   },
   { template: './src-docs/templates/content-bookmarklets.njk',
     title: 'SkipTo.js Bookmarklets',

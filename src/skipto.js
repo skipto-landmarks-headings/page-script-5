@@ -122,7 +122,7 @@ debug.flag = true;
       // Add skipto style sheet to document
       renderStyleElement(this.config, this.skipToId);
 
-      new SkiptoMenuButton(attachElement, this.config, this.skipToId);
+      this.buttonSkipTo = new SkiptoMenuButton(attachElement, this.config, this.skipToId);
     },
 
     /*
@@ -218,6 +218,8 @@ debug.flag = true;
   // Check for SkipTo.js bookmarklet script, if it is initialize it immediately
   if (document.getElementById(`id-skip-to-bookmarklet`)) {
     SkipTo.init(window.SkipToConfig);
+    SkipTo.buttonSkipTo.openPopup();
+    SkipTo.buttonSkipTo.setFocusToFirstMenuitem();
   }
   else {
     // Initialize skipto menu button with onload event
