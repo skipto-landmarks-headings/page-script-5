@@ -5,7 +5,7 @@ const pathname = domainURL.pathname.toString();
 
 const domainHREF = pathname.lastIndexOf('/') >= 0 ?
                    domainURL.protocol + '//' + domainURL.hostname + pathname.substring(0,pathname.lastIndexOf('/')) :
-                   domainURL.protocol + '//' + domainURL.hostname);
+                   domainURL.protocol + '//' + domainURL.hostname;
 
 console.log(`[domainHREF]: ${domainHREF}`);
 
