@@ -305,8 +305,16 @@ $skipToId [role="menuitem"].hover .label {
 $skipToId-highlight {
   position: absolute;
   border-radius: 3px;
-  border: solid $focusBorderColor 2px;
-  z-index: $zIndexHighlight;
+  border: 4px solid $buttonBackgroundColor;
+}
+
+$skipToId-highlight div {
+  position: relative;
+  top: -2px;
+  left: -2px;
+  border-radius: 3px;
+  border: 2px solid $focusBorderColor;
+  z-index: $zHighlight;
 }
 
 </style>
@@ -459,7 +467,8 @@ function addCSSColors (config) {
   updateStyle('$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
 
   updateStyle('$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
-  updateStyle('$zIndexHighlight', config.zIndexHighlight, theme.zIndexHighlight, defaultTheme.zIndexHighlight);
+
+  updateStyle('$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
 
 }
 

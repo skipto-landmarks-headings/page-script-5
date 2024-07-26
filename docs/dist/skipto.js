@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.4
+ * Version: 5.4.1
  * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -34,8 +34,8 @@
       focusBorderColor: '#1a1a1a',
       buttonTextColor: '#1a1a1a',
       buttonBackgroundColor: '#eeeeee',
-      zIndex: '100000',
-      zIndexHighlight: '999910',
+      zIndex: '10000',
+      zHighlight: '9000'
     },
     'aria': {
       hostnameSelector: 'w3.org',
@@ -518,8 +518,16 @@ $skipToId [role="menuitem"].hover .label {
 $skipToId-highlight {
   position: absolute;
   border-radius: 3px;
-  border: solid $focusBorderColor 2px;
-  z-index: $zIndexHighlight;
+  border: 4px solid $buttonBackgroundColor;
+}
+
+$skipToId-highlight div {
+  position: relative;
+  top: -2px;
+  left: -2px;
+  border-radius: 3px;
+  border: 2px solid $focusBorderColor;
+  z-index: $zHighlight;
 }
 
 </style>
@@ -672,7 +680,8 @@ $skipToId-highlight {
     updateStyle('$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
 
     updateStyle('$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
-    updateStyle('$zIndexHighlight', config.zIndexHighlight, theme.zIndexHighlight, defaultTheme.zIndexHighlight);
+
+    updateStyle('$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
 
   }
 
@@ -1958,12 +1967,16 @@ $skipToId-highlight {
 
   const minWidth = 68;
   const minHeight = 27;
-  const offset = 5;
+  const offset = 6;
+  const borderWidth = 2;
 
   const overlayElement = document.createElement('div');
   overlayElement.id = 'id-skip-to-highlight';
   document.body.appendChild(overlayElement);
   overlayElement.style.display = 'none';
+
+  const overlayElementChild = document.createElement('div');
+  overlayElement.appendChild(overlayElementChild);
 
 
   /*
@@ -2071,32 +2084,41 @@ $skipToId-highlight {
    *
    *  @desc  Create an overlay element and set its position on the page.
    *
-   *  @param  {Object}  overlay  -  DOM element for overlay
-   *  @param  {Object}  element  -  DOM element node to highlight
+   *  @param  {Object}  overlayElem      -  DOM element for overlay
+   *  @param  {Object}  element          -  DOM element node to highlight
    *
    */
 
   function updateOverlayElement (overlayElem, element) {
 
+    const childElem = overlayElem.firstElementChild;
+
     const rect = element.getBoundingClientRect();
 
-    if (rect.left > offset) {
-      overlayElem.style.left   = Math.round(rect.left - offset + window.scrollX) + 'px';
-      overlayElem.style.width  = Math.max(rect.width  + offset * 2, minWidth)  + 'px';
-    }
-    else {
-      overlayElem.style.left   = Math.round(rect.left + window.scrollX) + 'px';
-      overlayElem.style.width  = Math.max(rect.width, minWidth)  + 'px';
-    }
+    const left   = rect.left > offset ?
+                    Math.round(rect.left - offset + window.scrollX) :
+                    Math.round(rect.left + window.scrollX);
 
-    if (rect.top > offset) {
-      overlayElem.style.top    = Math.round(rect.top  - offset + window.scrollY) + 'px';
-      overlayElem.style.height = Math.max(rect.height + offset * 2, minHeight) + 'px';
-    }
-    else {
-      overlayElem.style.top    = Math.round(rect.top + window.scrollY) + 'px';
-      overlayElem.style.height = Math.max(rect.height, minHeight) + 'px';
-    }
+    const width  = rect.left > offset ?
+                    Math.max(rect.width  + offset * 2, minWidth) :
+                    Math.max(rect.width, minWidth);
+
+    const top    = rect.top > offset ?
+                    Math.round(rect.top  - offset + window.scrollY) :
+                    Math.round(rect.top + window.scrollY);
+
+    const height = rect.top > offset ?
+                    Math.max(rect.height + offset * 2, minHeight) :
+                    Math.max(rect.height, minHeight);
+
+    overlayElem.style.left   = left   + 'px';
+    overlayElem.style.width  = width  + 'px';
+    overlayElem.style.top    = top    + 'px';
+    overlayElem.style.height = height + 'px';
+
+    childElem.style.width  = (width  - 2 * borderWidth) + 'px';
+    childElem.style.height = (height - 2 * borderWidth) + 'px';
+
 
     overlayElem.style.display = 'block';
   }
@@ -3139,6 +3161,7 @@ $skipToId-highlight {
         buttonTextColor: '',
         buttonBackgroundColor: '',
         zIndex: '',
+        zHighlight: ''
       },
 
       /*

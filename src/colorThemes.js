@@ -14,8 +14,8 @@ export const colorThemes = {
     focusBorderColor: '#1a1a1a',
     buttonTextColor: '#1a1a1a',
     buttonBackgroundColor: '#eeeeee',
-    zIndex: '100000',
-    zIndexHighlight: '999910',
+    zIndex: '10000',
+    zHighlight: '9000'
   },
   'aria': {
     hostnameSelector: 'w3.org',
