@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {% include "./head.njk" %}
+  </head>
+  <body>
+    {% include "./header.njk" %}
+
+    <!-- Main section-->
+    <div id="main-section" class="container px-4">
+      <nav aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">{{title | safe}}</li>
+        </ol>
+      </nav>
+      <main class="row gx-4 justify-content-center">
+        <div class="col-lg-10">
+          {% block title %}
+          <h1 id="id-title">{{title}}</h1>
+          {% endblock %}
+          <div id="examples">
+
+           <table class="table table-striped" aria-labelledby="id-title">
+            <thead>
+              <th>Example</th>
+              <th>Description</th>
+            </thead>
+            <tbody>
+            {% for ct in  colorThemes %}
+              <tr>
+                <td>{{ct}}</td>
+                <td>{{colorThemes[ct.menuTextColor}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+           </table>
+
+            {% include "./feedback.njk" %}
+
+          </div>
+        </div>
+      </main>
+
+    </div>
+    {% include "./footer.njk" %}
+    {% include "./scripts.njk" %}
+
+  </body>
+</html>

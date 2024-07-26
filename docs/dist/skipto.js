@@ -2249,11 +2249,9 @@ $skipToId-highlight div {
                                  config.highlightTarget.trim().toLowerCase() === 'enabled' :
                                  false;
 
-
         this.focusMenuitem = null;
 
-        return this.containerNode;
-
+        return this;
       }
         
       /*
@@ -2650,7 +2648,7 @@ $skipToId-highlight div {
       /*
        * @method openPopup
        *
-       * @desc Opens the memu of landmark regions and headings
+       * @desc Opens the menu of landmark regions and headings
        */
       openPopup() {
         debug$1.flag && debug$1.log(`[openPopup]`);
@@ -3203,7 +3201,7 @@ $skipToId-highlight div {
         // Add skipto style sheet to document
         renderStyleElement(this.config, this.skipToId);
 
-        new SkiptoMenuButton(attachElement, this.config, this.skipToId);
+        this.buttonSkipTo = new SkiptoMenuButton(attachElement, this.config, this.skipToId);
       },
 
       /*
@@ -3299,6 +3297,8 @@ $skipToId-highlight div {
     // Check for SkipTo.js bookmarklet script, if it is initialize it immediately
     if (document.getElementById(`id-skip-to-bookmarklet`)) {
       SkipTo.init(window.SkipToConfig);
+      SkipTo.buttonSkipTo.openPopup();
+      SkipTo.buttonSkipTo.setFocusToFirstMenuitem();
     }
     else {
       // Initialize skipto menu button with onload event
