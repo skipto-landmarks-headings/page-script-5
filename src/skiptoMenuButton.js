@@ -143,11 +143,9 @@ export default class SkiptoMenuButton {
                                config.highlightTarget.trim().toLowerCase() === 'enabled' :
                                false;
 
-
       this.focusMenuitem = null;
 
-      return this.containerNode;
-
+      return this;
     }
       
     /*
@@ -544,7 +542,7 @@ export default class SkiptoMenuButton {
     /*
      * @method openPopup
      *
-     * @desc Opens the memu of landmark regions and headings
+     * @desc Opens the menu of landmark regions and headings
      */
     openPopup() {
       debug.flag && debug.log(`[openPopup]`);
