@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "SkipTo.js",
+  "version": "0.9",
+
+  "description": "Adds SkipTo.js script to a web page",
+
+  "homepage_url": "https://skipto-landmarks-headings.github.io/page-script-5/",
+
+  "permissions": [
+    "<all_urls>",
+    "storage",
+    "tabs"
+  ],
+
+  "icons": {
+    "128": "images/skipto-icon-128.png",
+     "64": "images/skipto-icon-64.png",
+     "48": "images/skipto-icon-48.png",
+     "32": "images/skipto-icon-32.png",
+     "16": "images/skipto-icon-16.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["skipto.min.js"]
+    }
+  ]
+}

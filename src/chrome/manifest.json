@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "SkipTo.js",
+  "version": "0.9",
+  "description": "Adding skipto.js on every web page",
+  "icons": {
+    "16": "images/skipto-icon-16.png",
+    "32": "images/skipto-icon-32.png",
+    "48": "images/skipto-icon-48.png",
+    "64": "images/skipto-icon-64.png",
+    "128": "images/skipto-icon-128.png"
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/skipto.min.js"],
+      "matches": [
+        "https://*/*"
+      ]
+    }
+  ]
+}

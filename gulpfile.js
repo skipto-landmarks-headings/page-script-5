@@ -68,7 +68,10 @@ gulp.task('build', () => {
     'docs/dist/skipto.min.js',
   ])
     .pipe(concat('skipto.min.js'))
-    .pipe(dest('docs/dist'));
+    .pipe(dest('docs/dist'))
+    .pipe(dest('src/chrome'))
+    .pipe(dest('src/firefox'))
+    .pipe(dest('src/opera'));
 });
 
 gulp.task('documentation', function (cb) {
@@ -84,6 +87,14 @@ gulp.task('style', function () {
   .pipe(gulp.dest('./docs/css'));
 });
 
+gulp.task('icons', () => {
+  return src([
+    'src/icons/images/*.png',
+  ])
+    .pipe(dest('src/chrome/images'))
+    .pipe(dest('src/firefox/images'))
+    .pipe(dest('src/opera/images'));
+});
 
 const linting      = task('linting');
 const build        = task('build');
@@ -91,6 +102,7 @@ const compress     = task('compress');
 const copyright    = task('copyright');
 const copyrightMin = task('copyrightMin');
 const documentation = task('documentation');
-const style         = task('style');
+const style        = task('style');
+const icons        = task('icons');
 
-exports.default = series(linting, build, compress, copyright, copyrightMin, documentation, style);
+exports.default = series(linting, build, compress, copyright, copyrightMin, documentation, style, icons);

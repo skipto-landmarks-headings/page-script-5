@@ -178,6 +178,7 @@ $skipToId [role="menuitem"] .label {
   line-height: inherit;
   display: inline-block;
   white-space: nowrap;
+  border: none;
 }
 
 $skipToId [role="menuitem"] .level {

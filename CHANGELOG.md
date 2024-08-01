@@ -1,5 +1,9 @@
 # Version history for Skipto.js
 
+## Version 5.5
+* Changed default colors for skipto button and menu
+* Added web browser addons and extension support
+
 ## Version 5.4.1
 * Improved highlighting to provide more contrast for the highlight border
 

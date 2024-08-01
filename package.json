@@ -1,7 +1,7 @@
 {
   "name": "skipto",
   "description": "This plugin provides a dynamically-generated drop-down menu that allows keyboard and screen reader users to quickly skip to the most important places on the webpage.",
-  "version": "5.4.1",
+  "version": "5.5.0",
   "keywords": [
     "accessibility",
     "Navigation",
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "gulp-sass": "^5.1.0",
+    "gulp-zip": "^6.0.0",
     "sass": "^1.71.1"
   },
   "readmeFilename": "README.md",
@@ -41,6 +42,7 @@
     "gulp": "^5.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-eslint": "^6.0.0",
+    "gulp-install": "^1.1.0",
     "gulp-minify": "^3.0.0",
     "nunjucks": "^3.2.4",
     "rollup": "^2.79.1",
