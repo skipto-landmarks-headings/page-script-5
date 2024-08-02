@@ -13,18 +13,22 @@
     "tabs"
   ],
 
+  "browser_action": {
+    "default_title": "SkipTo.js"
+  },
+
   "icons": {
-    "128": "images/skipto-icon-128.png",
-     "64": "images/skipto-icon-64.png",
-     "48": "images/skipto-icon-48.png",
-     "32": "images/skipto-icon-32.png",
-     "16": "images/skipto-icon-16.png"
+    "128": "./images/skipto-icon-128.png",
+     "64": "./images/skipto-icon-64.png",
+     "48": "./images/skipto-icon-48.png",
+     "32": "./images/skipto-icon-32.png",
+     "16": "./images/skipto-icon-16.png"
   },
 
   "content_scripts": [
     {
       "matches": ["https://*/*"],
-      "js": ["skipto.min.js"]
+      "js": ["scripts/skipto.min.js"]
     }
   ]
 }

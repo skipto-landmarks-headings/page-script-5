@@ -1385,6 +1385,12 @@ $skipToId-highlight div {
                     return targetNode;
                   }
                 }
+                else {
+                  targetNode = transverseDOMForSkipToId(node);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
               } else {
                 targetNode = transverseDOMForSkipToId(node);
                 if (targetNode) {
@@ -1403,12 +1409,12 @@ $skipToId-highlight div {
   /**
    * @function findVisibleElement
    *
-   * @desc Returns the first isible decsendant DOM node that matches a set of element tag names
+   * @desc Returns the first visible descendant DOM node that matches a set of element tag names
    * 
    * @param {node}   startingNode  - dom node to start search for element
    * @param {Array}  tagNames      - Array of tag names
    * 
-   * @returns (node} Returns first descendmt element, if not found returns false
+   * @returns (node} Returns first descendant element, if not found returns false
    */
   function findVisibleElement (startingNode, tagNames) {
 
@@ -1443,6 +1449,12 @@ $skipToId-highlight div {
               if (isCustomElement(node)) {
                 if (node.shadowRoot) {
                   targetNode = transverseDOMForVisibleElement(node.shadowRoot, targetTagName);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+                else {
+                  targetNode = transverseDOMForVisibleElement(node, targetTagName);
                   if (targetNode) {
                     return targetNode;
                   }
@@ -1646,6 +1658,9 @@ $skipToId-highlight div {
               if (isCustomElement(node)) {
                 if (node.shadowRoot) {
                   transverseDOM(node.shadowRoot, node.shadowRoot, doc, inMain);
+                }
+                else {
+                  transverseDOM(node, doc, parentDoc, inMain);
                 }
               } else {
                 transverseDOM(node, doc, parentDoc, inMain);
