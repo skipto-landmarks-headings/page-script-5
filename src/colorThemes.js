@@ -2,18 +2,19 @@
 
 export const colorThemes = {
   'default': {
+
     fontFamily: 'inherit',
     fontSize: 'inherit',
     positionLeft: '46%',
     smallBreakPoint: '576',
     mediumBreakPoint: '992',
-    menuTextColor: '#1a1a1a',
-    menuBackgroundColor: '#dcdcdc',
-    menuitemFocusTextColor: '#eeeeee',
-    menuitemFocusBackgroundColor: '#1a1a1a',
-    focusBorderColor: '#1a1a1a',
-    buttonTextColor: '#1a1a1a',
-    buttonBackgroundColor: '#eeeeee',
+    buttonTextColor: '#13294B',
+    buttonBackgroundColor: '#dddddd',
+    focusBorderColor: '#C5050C',
+    menuTextColor: '#13294B',
+    menuBackgroundColor: '#dddddd',
+    menuitemFocusTextColor: '#dddddd',
+    menuitemFocusBackgroundColor: '#13294B',
     zIndex: '10000',
     zHighlight: '9000'
   },

@@ -178,6 +178,7 @@ $skipToId [role="menuitem"] .label {
   line-height: inherit;
   display: inline-block;
   white-space: nowrap;
+  border: none;
 }
 
 $skipToId [role="menuitem"] .level {
@@ -473,18 +474,18 @@ function addCSSColors (config) {
 }
 
 /*
- *   @function enderStyleElement
+ *   @function renderStyleElement
  *
  *   @desc  Updates the style sheet template and then attaches it to the document
  *
+ * @param {Object}  attachNode  - DOM element node to attach button and menu container element
  * @param  {Object}  config          -  Configuration information object
  * @param  {String}  skipYToStyleId  -  Id used for the skipto container element
  */
-export default function renderStyleElement (config, skipToId) {
+export default function renderStyleElement (attachNode, config, skipToId) {
   styleTemplate.innerHTML = styleTemplate.innerHTML.replaceAll('$skipToId', '#' + skipToId);
   addCSSColors(config);
   const styleNode = styleTemplate.content.cloneNode(true);
   styleNode.id = `${skipToId}-style`;
-  const headNode = document.getElementsByTagName('head')[0];
-  headNode.appendChild(styleNode);
+  attachNode.appendChild(styleNode);
 }

@@ -59,7 +59,10 @@ gulp.task('build', () => {
     'docs/dist/skipto.js',
   ])
     .pipe(concat('skipto.js'))
-    .pipe(dest('docs/dist'));
+    .pipe(dest('docs/dist'))
+    .pipe(dest('src/chrome/scripts'))
+    .pipe(dest('src/firefox/scripts'))
+    .pipe(dest('src/opera/scripts'));
 });
 
  gulp.task('copyrightMin', () => {
@@ -68,7 +71,10 @@ gulp.task('build', () => {
     'docs/dist/skipto.min.js',
   ])
     .pipe(concat('skipto.min.js'))
-    .pipe(dest('docs/dist'));
+    .pipe(dest('docs/dist'))
+    .pipe(dest('src/chrome/scripts'))
+    .pipe(dest('src/firefox/scripts'))
+    .pipe(dest('src/opera/scripts'));
 });
 
 gulp.task('documentation', function (cb) {
@@ -84,13 +90,12 @@ gulp.task('style', function () {
   .pipe(gulp.dest('./docs/css'));
 });
 
-
 const linting      = task('linting');
 const build        = task('build');
 const compress     = task('compress');
 const copyright    = task('copyright');
 const copyrightMin = task('copyrightMin');
 const documentation = task('documentation');
-const style         = task('style');
+const style        = task('style');
 
 exports.default = series(linting, build, compress, copyright, copyrightMin, documentation, style);
