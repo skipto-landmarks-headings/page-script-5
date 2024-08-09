@@ -61,6 +61,12 @@
                     
                       
                         <li class="nav-item">
+                          <a class="nav-link" href="browsers.html">Web Browsers</a>
+                        </li>
+                      
+                    
+                      
+                        <li class="nav-item">
                           <a class="nav-link" href="config.html">Configuration</a>
                         </li>
                       
@@ -139,17 +145,14 @@
                      </td>
                   </tr>
                   <tr>
-                     <td style="text-align: left"><code>attachElement</code></td>
-                     <td style="text-align: left">‘body’</td>
-                     <td style="text-align: left">A CSS selector for identifying which element to attach the menu button container.</td>
-                  </tr>
-                  <tr>
                      <td style="text-align: left"><code>customClass</code></td>
                      <td style="text-align: left">none</td>
                      <td style="text-align: left">CSS class added to the container <code>div</code> element. Can be used for customize styling of the button and menu with author supplied stylesheet.</td>
                   </tr>
                </tbody>
             </table>
+
+            <p><strong>NOTE: </strong> The <code>attachElement</code> property is no longer supported due to scroll to content feature and the menu being in a fixed position at the top of the page.</p>
 
             <h2 id="button-positioning">Button Positioning</h2>
 
@@ -682,7 +685,7 @@ nav#id-skip-to.MyCustomClass {
 
         <!-- SkipTo.js -->
         <script data-skipto="colorTheme: openweba11y; positionLeft: 35%"
-                src="./dist/skipto.min.js">
+                src="./dist/skipto.js">
         </script>
 
 

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Adding SkipTo.js to a Web Page | SkipTo.js for WCAG 4.2.1 Bypass Blocks</title>
+    <title>SkipTo.js Web Browser Extensions | SkipTo.js for WCAG 4.2.1 Bypass Blocks</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -90,108 +90,35 @@
 
 
 
+    <!-- Main section-->
     <div id="main-section" class="container px-4">
       <nav aria-label="Breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Adding SkipTo.js to a Web Page</li>
+          <li class="breadcrumb-item active">SkipTo.js Web Browser Extensions</li>
         </ol>
       </nav>
+      <main class="row gx-4 justify-content-center">
+        <div class="col-lg-10">
+          
+          <h1>SkipTo.js Web Browser Extensions</h1>
+          
+          <div id="browsers">
 
-      <!-- Main section-->
-      <main class="container px-4">
-        <div class="row gx-4 justify-content-center">
-          <div class="col-lg-10">
-            
-            <h1>Adding SkipTo.js to a Web Page</h1>
-            
+            <p>The SkipTo.js browser add-ons and extensions automatically load SkipTo.js on to any web page. </p>
 
-            
+          </div>
 
-              <p>All you need are either <code>skipto.js</code> or <code>skipto.min.js</code> from the “<a href="https://github.com/skipto-landmarks-headings/page-script-5/tree/main/docs/dist">/dist/</a>” directory of this repository. The <code>skipto.min.js</code> script is a minified (a lighter version) of <code>skipto.js</code> script.</p>
-
-              <p>
-                <string>Note:</string>
-                   There is <em>no cost</em> associated with using SkipTo.js, it is a free service to help make the web more accessible and usable to everyone, including people with disabilities.
-              </p>
-
-              <h2 id="cdn-service">CDN Service</h2>
-
-              <p>The easiest way is to include a reference to <code class="language-plaintext highlighter-rouge">skipto.min.js</code>  on your HTML page or template is through the CDN service, as follows:</p>
-              <p>github.com CDN service:</p>
-              <div class="language-html highlighter-rouge">
-                 <div class="highlight">
-                    <pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-              </code></pre>
-                 </div>
-              </div>
-              <p>NOTE: CDN referenced files may not be available to computers behind firewall protected networks.</p>
-
-              <h2 id="local-file-on-your-web-server">Local File on Your Web Server</h2>
-
-              <p>Copy the <a href="https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js">skipto.js</a> or <a href="https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js">skipto.min.js</a> to the file system of your web server and reference it from your web page or templates using a <code class="language-plaintext highlighter-rouge">script</code> tag, as follows:</p>
-              <div class="language-html highlighter-rouge">
-                 <div class="highlight">
-                    <pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://[path to Javascript files]/skipto.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-              </code></pre>
-                 </div>
-              </div>
-
-                          <h2 id="warning-messages">Warning Messages</h2>
-            <p>The following warning messages may be rendered to the console:</p>
-            <table class="table table-striped" aria-labelledby="warning-messages">
-               <thead>
-                  <tr>
-                     <th style="text-align: left">Message</th>
-                     <th style="text-align: left">Action</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td style="text-align: left">Skipto is already loaded</td>
-                     <td style="text-align: left">Additional SkipTo’s are ignored</td>
-                  </tr>
-                  <tr>
-                     <td style="text-align: left">No headings found in main</td>
-                     <td style="text-align: left">Searches for headings anywhere on the page</td>
-                  </tr>
-                  <tr>
-                     <td style="text-align: left">No headings found on page</td>
-                     <td style="text-align: left">SkipTo menu reports no headings on the page</td>
-                  </tr>
-                  <tr>
-                     <td style="text-align: left">No landmarks found on page</td>
-                     <td style="text-align: left">SkipTo menu reports no landmarks on the page</td>
-                  </tr>
-                  <tr>
-                     <td style="text-align: left">Error in heading configuration</td>
-                     <td style="text-align: left">Sets configuration to look for any <code class="language-plaintext highlighter-rouge">h1</code> of <code class="language-plaintext highlighter-rouge">h2</code> headings</td>
-                  </tr>
-                  <tr>
-                     <td style="text-align: left">Error in landmark configuration</td>
-                     <td style="text-align: left">Sets configuration to look for <code class="language-plaintext highlighter-rouge">main search</code> and <code class="language-plaintext highlighter-rouge">navigation</code> landmarks</td>
-                  </tr>
-                  <tr>
-                     <td style="text-align: left">Unsuported or deprecated configuration option “abc”</td>
-                     <td style="text-align: left">“abc” option is ignored and/or default setting is used</td>
-                  </tr>
-               </tbody>
-            </table>
-
-
-                          <h2 id="of-course-we-want-feedback">Feedback and Reporting Issues</h2>
+                        <h2 id="of-course-we-want-feedback">Feedback and Reporting Issues</h2>
 
             <p>We welcome your feedback!  Please do not hesitate to <a href="https://github.com/skipto-landmarks-headings/page-script-5/issues">raise issues and comment on Github</a> if something doesn’t work or you have ideas on how to improve the script.</p>
 
             <p>Happy skipping!</p>
 
 
-
-            
           </div>
         </div>
       </main>
-    </div>
             <!-- Footer-->
         <footer class="py-5 bg-light">
 

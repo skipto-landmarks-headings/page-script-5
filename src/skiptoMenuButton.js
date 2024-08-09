@@ -27,7 +27,7 @@ debug.flag = false;
  * @desc Constructor for creating a button to open a menu of headings and landmarks on 
  *       a web page
  *
- * @param {Object}  attachNode  - DOM eleemnt node to attach button and menu container element
+ * @param {Object}  attachNode  - DOM element node to attach button and menu container element
  * 
  * @returns {Object}  DOM element node that is the contatiner for the button and the menu
  */
@@ -137,7 +137,7 @@ export default class SkiptoMenuButton {
         );
       }
 
-      attachNode.insertBefore(this.containerNode, attachNode.firstElementChild);
+      attachNode.appendChild(this.containerNode);
 
       this.highlightEnabled = (typeof config.highlightTarget === 'string') ?
                                config.highlightTarget.trim().toLowerCase() === 'enabled' :

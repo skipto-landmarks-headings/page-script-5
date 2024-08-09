@@ -12,7 +12,7 @@
   },
   "content_scripts": [
     {
-      "js": ["./scripts/skipto.min.js"],
+      "js": ["./scripts/skipto.js"],
       "matches": [
         "https://*/*"
       ]

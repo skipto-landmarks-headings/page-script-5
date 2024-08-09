@@ -2,14 +2,15 @@
 
 ## Version 5.5
 * Changed default colors for skipto button and menu
-* Added web browser addons and extension support
+* Added web browser add-ons and extension support
 * Fixed bug in traversing DOM with custom elements
+* Deprecated 'attachElement' property due to new highlight behavior, menu is always visible
 
 ## Version 5.4.1
 * Improved highlighting to provide more contrast for the highlight border
 
 ## Version 5.4.0
-* Added feature to scroll the page to the target when the corresponding  menu item receives focus or is overed.
+* Added feature to scroll the page to the target when the corresponding  menu item receives focus or is hovered.
 * Default 'displayOption' is changed from 'static' to 'fixed'.
 * New option 'highlightTarget' add with the default value of 'enabled'.
 * The four to eight bottom pixels (responsive to screen width) of the button show in the "popup" configuration so that a pointer can expose the entire SkipTo button on hover
