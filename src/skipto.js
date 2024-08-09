@@ -15,6 +15,7 @@ class SkipToContent extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.skipToId = 'id-skip-to';
+    this.version = "5.5.0";
     this.buttonSkipTo = null;
 
     // Default configuration values
@@ -198,6 +199,7 @@ class SkipToContent extends HTMLElement {
     if (!skipToContentElem) {
       customElements.define("skip-to-content", SkipToContent);
       skipToContentElem = document.createElement('skip-to-content');
+      skipToContentElem.setAttribute('data-version', skipToContentElem.version);
       // always attach SkipToContent element to body
       if (document.body) {
         document.body.insertBefore(skipToContentElem, document.body.firstElementChild);

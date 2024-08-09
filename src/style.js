@@ -139,6 +139,7 @@ $skipToId [role="menu"] {
   border-color: $focusBorderColor;
   border-radius: 5px;
   overflow-x: hidden;
+  overflow-y: scroll;
   z-index: $zIndex !important;
   touch-action: none;
 }
@@ -206,7 +207,7 @@ $skipToId [role="menuitem"].skip-to-h2 .level { grid-column: 2; }
 $skipToId [role="menuitem"].skip-to-h3 .level { grid-column: 3; }
 $skipToId [role="menuitem"].skip-to-h4 .level { grid-column: 4; }
 $skipToId [role="menuitem"].skip-to-h5 .level { grid-column: 5; }
-$skipToId [role="menuitem"].skip-to-h6 .level { grid-column: 8;}
+$skipToId [role="menuitem"].skip-to-h6 .level { grid-column: 6;}
 
 $skipToId [role="menuitem"].skip-to-h1 .label { grid-column: 2 / 8; }
 $skipToId [role="menuitem"].skip-to-h2 .label { grid-column: 3 / 8; }

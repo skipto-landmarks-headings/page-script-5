@@ -353,6 +353,7 @@ $skipToId [role="menu"] {
   border-color: $focusBorderColor;
   border-radius: 5px;
   overflow-x: hidden;
+  overflow-y: scroll;
   z-index: $zIndex !important;
   touch-action: none;
 }
@@ -420,7 +421,7 @@ $skipToId [role="menuitem"].skip-to-h2 .level { grid-column: 2; }
 $skipToId [role="menuitem"].skip-to-h3 .level { grid-column: 3; }
 $skipToId [role="menuitem"].skip-to-h4 .level { grid-column: 4; }
 $skipToId [role="menuitem"].skip-to-h5 .level { grid-column: 5; }
-$skipToId [role="menuitem"].skip-to-h6 .level { grid-column: 8;}
+$skipToId [role="menuitem"].skip-to-h6 .level { grid-column: 6;}
 
 $skipToId [role="menuitem"].skip-to-h1 .label { grid-column: 2 / 8; }
 $skipToId [role="menuitem"].skip-to-h2 .label { grid-column: 3 / 8; }
@@ -3111,6 +3112,7 @@ $skipToId-highlight div {
       super();
       this.attachShadow({ mode: 'open' });
       this.skipToId = 'id-skip-to';
+      this.version = "5.5.0";
       this.buttonSkipTo = null;
 
       // Default configuration values
@@ -3294,6 +3296,7 @@ $skipToId-highlight div {
       if (!skipToContentElem) {
         customElements.define("skip-to-content", SkipToContent);
         skipToContentElem = document.createElement('skip-to-content');
+        skipToContentElem.setAttribute('data-version', skipToContentElem.version);
         // always attach SkipToContent element to body
         if (document.body) {
           document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
