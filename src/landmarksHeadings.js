@@ -481,7 +481,7 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
   let landmarkInfo = [];
   let targetLandmarks = getLandmarkTargets(landmarkTargets.toLowerCase());
   let targetHeadings  = getHeadingTargets(headingTargets.toLowerCase());
-  let onlyInMain = headingTargets.includes('main');
+  let onlyInMain = headingTargets.includes('main') || headingTargets.includes('main-only');
 
   function transverseDOM(startingNode, doc, parentDoc=null, inMain = false) {
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
@@ -598,7 +598,7 @@ function getLandmarksAndHeadings (config, skiptoId) {
   // If targets undefined, use default settings
   if (typeof headingTargets !== 'string') {
     console.warn(`[skipto.js]: Error in heading configuration`);
-    headingTargets = 'h1 h2';
+    headingTargets = 'main-only h1 h2';
   }
 
   const [landmarks, headings] = queryDOMForLandmarksAndHeadings(landmarkTargets, headingTargets, skiptoId);

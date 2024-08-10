@@ -10,7 +10,7 @@ debug.flag = false;
 
 const styleTemplate = document.createElement('template');
 styleTemplate.innerHTML = `
-<style type="text/css" id="id-skip-to-css">
+<style type="text/css">
 $skipToId.popup {
   top: -30px;
   transition: top 0.35s ease;
@@ -303,7 +303,12 @@ $skipToId [role="menuitem"].hover .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }
+</style>
+`;
 
+const highlightTemplate = document.createElement('template');
+highlightTemplate.innerHTML = `
+<style type="text/css">
 $skipToId-highlight {
   position: absolute;
   border-radius: 3px;
@@ -318,7 +323,6 @@ $skipToId-highlight div {
   border: 2px solid $focusBorderColor;
   z-index: $zHighlight;
 }
-
 </style>
 `;
 
@@ -411,7 +415,7 @@ function getTheme(colorTheme) {
  *
  *   @returns 
  */
-function updateStyle(stylePlaceholder, configValue, themeValue, defaultValue) {
+function updateStyle(template, stylePlaceholder, configValue, themeValue, defaultValue) {
   let value = defaultValue;
   if (typeof configValue === 'string' && configValue) {
     value = configValue;
@@ -421,7 +425,7 @@ function updateStyle(stylePlaceholder, configValue, themeValue, defaultValue) {
     }
   }
 
-  let cssContent = styleTemplate.innerHTML;
+  let cssContent = template.innerHTML;
   let index1 = cssContent.indexOf(stylePlaceholder);
   let index2 = index1 + stylePlaceholder.length;
   while (index1 >= 0 && index2 < cssContent.length) {
@@ -429,7 +433,7 @@ function updateStyle(stylePlaceholder, configValue, themeValue, defaultValue) {
     index1 = cssContent.indexOf(stylePlaceholder, index2);
     index2 = index1 + stylePlaceholder.length;
   }
-  styleTemplate.innerHTML = cssContent;
+  template.innerHTML = cssContent;
 }
 
 /*
@@ -450,27 +454,30 @@ function addCSSColors (config) {
     config.displayOption = theme.displayOption;
   }
 
-  updateStyle('$fontFamily', config.fontFamily, theme.fontFamily, defaultTheme.fontFamily);
-  updateStyle('$fontSize', config.fontSize, theme.fontSize, defaultTheme.fontSize);
+  updateStyle(styleTemplate, '$fontFamily', config.fontFamily, theme.fontFamily, defaultTheme.fontFamily);
+  updateStyle(styleTemplate, '$fontSize', config.fontSize, theme.fontSize, defaultTheme.fontSize);
 
-  updateStyle('$positionLeft', config.positionLeft, theme.positionLeft, defaultTheme.positionLeft);
-  updateStyle('$smallBreakPoint', config.smallBreakPoint, theme.smallBreakPoint, defaultTheme.smallBreakPoint);
-  updateStyle('$mediumBreakPoint', config.mediumBreakPoint, theme.mediumBreakPoint, defaultTheme.mediumBreakPoint);
+  updateStyle(styleTemplate, '$positionLeft', config.positionLeft, theme.positionLeft, defaultTheme.positionLeft);
+  updateStyle(styleTemplate, '$smallBreakPoint', config.smallBreakPoint, theme.smallBreakPoint, defaultTheme.smallBreakPoint);
+  updateStyle(styleTemplate, '$mediumBreakPoint', config.mediumBreakPoint, theme.mediumBreakPoint, defaultTheme.mediumBreakPoint);
 
-  updateStyle('$menuTextColor', config.menuTextColor, theme.menuTextColor, defaultTheme.menuTextColor);
-  updateStyle('$menuBackgroundColor', config.menuBackgroundColor, theme.menuBackgroundColor, defaultTheme.menuBackgroundColor);
+  updateStyle(styleTemplate, '$menuTextColor', config.menuTextColor, theme.menuTextColor, defaultTheme.menuTextColor);
+  updateStyle(styleTemplate, '$menuBackgroundColor', config.menuBackgroundColor, theme.menuBackgroundColor, defaultTheme.menuBackgroundColor);
 
-  updateStyle('$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
-  updateStyle('$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
+  updateStyle(styleTemplate, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
+  updateStyle(styleTemplate, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
 
-  updateStyle('$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
+  updateStyle(styleTemplate, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
 
-  updateStyle('$buttonTextColor', config.buttonTextColor, theme.buttonTextColor, defaultTheme.buttonTextColor);
-  updateStyle('$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
+  updateStyle(styleTemplate, '$buttonTextColor', config.buttonTextColor, theme.buttonTextColor, defaultTheme.buttonTextColor);
+  updateStyle(styleTemplate, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
 
-  updateStyle('$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
+  updateStyle(styleTemplate, '$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
 
-  updateStyle('$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
+  updateStyle(styleTemplate, '$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
+
+  updateStyle(highlightTemplate, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
+  updateStyle(highlightTemplate, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
 
 }
 
@@ -479,14 +486,22 @@ function addCSSColors (config) {
  *
  *   @desc  Updates the style sheet template and then attaches it to the document
  *
- * @param {Object}  attachNode  - DOM element node to attach button and menu container element
+ * @param {Object}  attachNode      - DOM element node to attach button and menu container element
  * @param  {Object}  config          -  Configuration information object
  * @param  {String}  skipYToStyleId  -  Id used for the skipto container element
  */
 export default function renderStyleElement (attachNode, config, skipToId) {
   styleTemplate.innerHTML = styleTemplate.innerHTML.replaceAll('$skipToId', '#' + skipToId);
+  highlightTemplate.innerHTML = highlightTemplate.innerHTML.replaceAll('$skipToId', '#' + skipToId);
   addCSSColors(config);
+
   const styleNode = styleTemplate.content.cloneNode(true);
   styleNode.id = `${skipToId}-style`;
   attachNode.appendChild(styleNode);
+
+  const highlightNode = highlightTemplate.content.cloneNode(true);
+  highlightNode.id = `${skipToId}-highlight`;
+  const headNode = document.querySelector('head');
+  headNode.appendChild(highlightNode);
+
 }

@@ -59,7 +59,7 @@ class SkipToContent extends HTMLElement {
 
       // Selectors for landmark and headings sections
       landmarks: 'main search navigation complementary',
-      headings: 'main h1 h2',
+      headings: 'main-only h1 h2',
 
       // Highlight options
       highlightTarget: 'enabled', // options: 'enabled' (default) and 'disabled'

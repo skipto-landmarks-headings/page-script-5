@@ -6,6 +6,7 @@
 * Added web browser add-ons and extension support
 * Fixed bug in traversing DOM with custom elements
 * Deprecated 'attachElement' property due to new highlight behavior, menu is always visible
+* Updated "main" value for headings to "main-only", "main" will still work for backward compatibility
 
 ## Version 5.4.1
 * Improved highlighting to provide more contrast for the highlight border

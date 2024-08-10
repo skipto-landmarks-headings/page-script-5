@@ -134,7 +134,7 @@
                   <tr>
                      <td style="text-align: left"><code>landmarks</code></td>
                      <td style="text-align: left">‘main search navigation complementary’</td>
-                     <td style="text-align: left">A space separated list of landmark names. Allowed values include:
+                     <td style="text-align: left">A space separated list of landmark names. <br/>Allowed values include:
                         <ul>
                            <li><code>banner</code></li>
                            <li><code>complementary</code></li>
@@ -148,8 +148,8 @@
                   </tr>
                   <tr>
                      <td style="text-align: left"><code>headings</code></td>
-                     <td style="text-align: left">‘main h1 h2’</td>
-                     <td style="text-align: left">A space separated list of heading tags, when the “main” value is included only headings contained in the main landmark region will be included.  Allowed values include:
+                     <td style="text-align: left">‘main-only h1 h2’</td>
+                     <td style="text-align: left">A space separated list of heading tags, when the “main-only” value is included only headings contained in the main landmark region will be included.  <br/>Allowed values include:
                         <ul>
                            <li><code>h1</code></li>
                            <li><code>h2</code></li>
@@ -157,7 +157,8 @@
                            <li><code>h4</code></li>
                            <li><code>h5</code></li>
                            <li><code>h6</code></li>
-                           <li><code>main</code></li>
+                           <li><code>main-only</code></li>
+                           <li><code>main</code> <em>(deprecated)</em></li>
                         </ul>
                      </td>
                   </tr>
@@ -393,8 +394,8 @@
             <div class="language-html highlighter-rouge">
                <div class="highlight">
 <pre class="highlight"><code><span class="nt">&lt;script
-  </span><span class="na">data-skipto=</span><span class="s">"landmarks: main search navigation; headings: main h1 h2 h3; colorTheme: illinois"</span>
-  <span class="na">src=</span><span class="s">"https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.js"</span><span class="nt">&gt;</span>
+  </span><span class="na">data-skipto=</span><span class="s">"landmarks: main search navigation; headings: main-only h1 h2 h3; colorTheme: illinois"</span>
+  <span class="na">src=</span><span class="s">"https://skipto-landmarks-headings.github.io/page-script-5/dist/skipto.min.js"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/script&gt;</span>
 </code></pre>
                </div>
@@ -407,7 +408,7 @@
 <pre class="highlight"><code><span class="nt">&lt;script&gt;</span>
   <span class="kd">var</span> <span class="nx">SkipToConfig</span> <span class="o">=</span>  <span class="p">{</span>
     <span class="na">landmarks</span><span class="p">:</span> <span class="dl">'</span><span class="s1">main search navigation</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">headings</span><span class="p">:</span> <span class="dl">'</span><span class="s1">main h1 h2 h3</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">headings</span><span class="p">:</span> <span class="dl">'</span><span class="s1">main-only h1 h2 h3</span><span class="dl">'</span><span class="p">,</span>
     <span class="na">colorTheme</span><span class="p">:</span> <span class="dl">'</span><span class="s1">illinois</span><span class="dl">'</span>
   <span class="p">};</span>
 <span class="nt">&lt;/script&gt;</span>
@@ -420,7 +421,7 @@
    <pre class="highlight"><code><span class="nt">&lt;script&gt;</span>
   <span class="nb">window</span><span class="p">.</span><span class="nx">SkipToConfig</span> <span class="o">=</span>  <span class="p">{};</span>
   <span class="nb">window</span><span class="p">.</span><span class="nx">SkipToConfig</span><span class="p">.</span><span class="nx">landmarks</span>  <span class="o">=</span> <span class="dl">'</span><span class="s1">main search navigation</span><span class="dl">'</span><span class="p">;</span>
-  <span class="nb">window</span><span class="p">.</span><span class="nx">SkipToConfig</span><span class="p">.</span><span class="nx">headings</span>   <span class="o">=</span> <span class="dl">'</span><span class="s1">main h1 h2 h3</span><span class="dl">'</span><span class="p">;</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">SkipToConfig</span><span class="p">.</span><span class="nx">headings</span>   <span class="o">=</span> <span class="dl">'</span><span class="s1">main-only h1 h2 h3</span><span class="dl">'</span><span class="p">;</span>
   <span class="nb">window</span><span class="p">.</span><span class="nx">SkipToConfig</span><span class="p">.</span><span class="nx">colorTheme</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">illinois</span><span class="dl">'</span><span class="p">;</span>
 <span class="nt">&lt;/script&gt;</span>
 </code></pre>
