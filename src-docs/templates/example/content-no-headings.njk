@@ -136,8 +136,11 @@
 
     </div>
     {% include "../footer.njk" %}
-    {% include "../scripts.njk" %}
+    {% include "./scripts-example.njk" %}
 
-
+    <!-- SkipTo.js -->
+    <script data-skipto="{{config}}"
+            src="./dist/skipto.js">
+    </script>
   </body>
 </html>

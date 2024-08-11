@@ -90,6 +90,7 @@ export default class SkiptoMenuButton {
       let displayOption = config.displayOption;
       if (typeof displayOption === 'string') {
         displayOption = displayOption.trim().toLowerCase();
+        debug.log(`[displayOption]: ${displayOption}`);
         if (displayOption.length) {
           switch (config.displayOption) {
             case 'static':

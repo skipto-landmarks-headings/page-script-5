@@ -26,7 +26,7 @@ class SkipToContent extends HTMLElement {
       // Customization of button and menu
       altShortcut: '0', // default shortcut key is the number zero
       optionShortcut: 'º', // default shortcut key character associated with option+0 on mac
-      displayOption: 'fixed', // options: static, popup, fixed (default)
+      displayOption: '', // options: static, popup, fixed (default)
       // container element, use containerClass for custom styling
       containerElement: 'nav',
       containerRole: '',
