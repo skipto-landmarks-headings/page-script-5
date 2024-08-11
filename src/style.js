@@ -446,8 +446,6 @@ function addCSSColors (config) {
   const theme = getTheme(config.colorTheme);
   const defaultTheme = getTheme('default');
 
-  debug.log(`[config.displayOption][A]: ${config.displayOption}`);
-
   // Check for display option in theme
   if ((typeof config.displayOption === 'string') &&
       ('fixed popup static'.indexOf(config.displayOption.toLowerCase()) < 0)) {
@@ -460,8 +458,6 @@ function addCSSColors (config) {
       config.displayOption = defaultTheme.displayOption;
     }
   }
-
-  debug.log(`[config.displayOption][B]: ${config.displayOption}`);
 
   updateStyle(styleTemplate, '$fontFamily', config.fontFamily, theme.fontFamily, defaultTheme.fontFamily);
   updateStyle(styleTemplate, '$fontSize', config.fontSize, theme.fontSize, defaultTheme.fontSize);

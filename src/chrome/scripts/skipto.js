@@ -662,8 +662,6 @@ $skipToId-highlight div {
     const theme = getTheme(config.colorTheme);
     const defaultTheme = getTheme('default');
 
-    debug$7.log(`[config.displayOption][A]: ${config.displayOption}`);
-
     // Check for display option in theme
     if ((typeof config.displayOption === 'string') &&
         ('fixed popup static'.indexOf(config.displayOption.toLowerCase()) < 0)) {
@@ -676,8 +674,6 @@ $skipToId-highlight div {
         config.displayOption = defaultTheme.displayOption;
       }
     }
-
-    debug$7.log(`[config.displayOption][B]: ${config.displayOption}`);
 
     updateStyle(styleTemplate, '$fontFamily', config.fontFamily, theme.fontFamily, defaultTheme.fontFamily);
     updateStyle(styleTemplate, '$fontSize', config.fontSize, theme.fontSize, defaultTheme.fontSize);
@@ -2242,7 +2238,6 @@ $skipToId-highlight div {
         let displayOption = config.displayOption;
         if (typeof displayOption === 'string') {
           displayOption = displayOption.trim().toLowerCase();
-          debug$1.log(`[displayOption]: ${displayOption}`);
           if (displayOption.length) {
             switch (config.displayOption) {
               case 'static':
