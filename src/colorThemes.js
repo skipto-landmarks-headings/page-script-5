@@ -55,6 +55,7 @@ export const colorThemes = {
   },
   'skipto': {
     hostnameSelector: 'skipto-landmarks-headings.github.io',
+    positionLeft: '25%',
     fontSize: '14px',
     menuTextColor: '#00132c',
     menuBackgroundColor: '#cad9ef',

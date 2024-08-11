@@ -20,10 +20,13 @@
   </head>
   <body>
             <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light" id="mainNav" aria-label="Main">
+        <nav class="navbar
+             navbar-expand-lg navbar-light bg-light"
+             aria-label="Primary"
+             id="mainNav">
             <div class="container px-4">
                 <span class="brand">
-                  <span class="skipto">SkipTo 5.5 Example</span>
+                  <span class="skipto">SkipTo.js 5.5</span>
                 </span>
 
                 <button class="navbar-toggler"
@@ -37,25 +40,50 @@
                 </button>
                 <div class="collapse navbar-collapse" id="mainNavbar">
                   <ul class="navbar-nav ms-auto">
+                    
+                      
                         <li class="nav-item">
                           <a class="nav-link" href="index.html">Home</a>
                         </li>
-
+                      
+                    
+                      
+                        <li class="nav-item">
+                          <a class="nav-link" href="page.html">Page Script</a>
+                        </li>
+                      
+                    
+                      
+                        <li class="nav-item">
+                          <a class="nav-link" href="bookmarklets.html">Bookmarklets</a>
+                        </li>
+                      
+                    
+                      
+                        <li class="nav-item">
+                          <a class="nav-link" href="browsers.html">Web Browsers</a>
+                        </li>
+                      
+                    
+                      
                         <li class="nav-item">
                           <a class="nav-link" href="config.html">Configuration</a>
                         </li>
-
+                      
+                    
+                      
                         <li class="nav-item">
                           <a class="nav-link" href="examples.html">Examples</a>
                         </li>
-
+                      
+                    
+                      
                         <li class="nav-item">
-                            <a class="nav-link" href="about.html">About</a>
+                          <a class="nav-link" href="about.html">About</a>
                         </li>
-
-
-                    </ul>
-
+                      
+                    
+                  </ul>
                 </div>
             </div>
         </nav>
@@ -292,12 +320,13 @@
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
 
+        <!-- Bookmarklets-->
+        <script src="js/createBookmarklets.js"></script>
 
-
-    <!-- SkipTo.js -->
-    <script data-skipto="colorTheme: openweba11y;fontSize: 8pt; fontFamily: monospace"
-            src="./dist/skipto.min.js">
-    </script>
+        <!-- SkipTo.js -->
+        <script data-skipto="colorTheme: openweba11y; positionLeft: 15%"
+                src="./dist/skipto.js">
+        </script>
 
 
 

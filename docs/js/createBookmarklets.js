@@ -11,7 +11,7 @@ function createSkiptoBookmarklet (a) {
   const params = a.getAttribute('data-params');
 
   if (params) {
-    a.href = `javascript:(() => {if(!document.getElementById('id-skip-to')){const%20script=document.createElement('script');script.id='id-skip-to-bookmarklet';script.type='text/javascript';script.setAttribute('${params}');script.src='${domainHREF}/dist/skipto.min.js';document.head.appendChild(script);}})()`;
+    a.href = `javascript:(() => {if(!document.getElementById('id-skip-to')){const%20script=document.createElement('script');script.id='id-skip-to-bookmarklet';script.type='text/javascript';script.setAttribute('data-skipto', '${params}');script.src='${domainHREF}/dist/skipto.min.js';document.head.appendChild(script);}})()`;
   }
   else {
     a.href = `javascript:(() => {if(!document.getElementById('id-skip-to')){const%20script=document.createElement('script');script.id='id-skip-to-bookmarklet';script.type='text/javascript';script.src='${domainHREF}/dist/skipto.min.js';document.head.appendChild(script);}})()`;

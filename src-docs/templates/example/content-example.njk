@@ -4,7 +4,7 @@
     {% include "../head.njk" %}
   </head>
   <body>
-    {% include "./header-example.njk" %}
+    {% include "../header.njk" %}
 
     <div class="container px-4">
       <nav aria-label="Breadcrumb">
@@ -192,14 +192,7 @@
 
     </div>
     {% include "../footer.njk" %}
-    {% include "./scripts.njk" %}
-
-    <!-- SkipTo.js -->
-    <script data-skipto="colorTheme: openweba11y;{{config}}"
-            src="./dist/skipto.min.js">
-    </script>
-
-
+    {% include "../scripts.njk" %}
 
   </body>
 </html>

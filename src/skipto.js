@@ -5,7 +5,7 @@ import DebugLogging  from './debug.js';
 
 /* constants */
 const debug = new DebugLogging('skipto', false);
-debug.flag = true;
+debug.flag = false;
 
 
 class SkipToContent extends HTMLElement {
@@ -220,7 +220,6 @@ class SkipToContent extends HTMLElement {
     const skipToContent = getSkipToContentElement();
     // check for older version of SkipTo.js
     if (skipToContent) {
-      debug.flag && debug.log(`[bookmarklet][skipToContent]: ${skipToContent}`);
       skipToContent.init(skipToContent.shadowRoot);
       skipToContent.buttonSkipTo.openPopup();
       skipToContent.buttonSkipTo.setFocusToFirstMenuitem();

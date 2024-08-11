@@ -354,8 +354,6 @@ function getTheme(colorTheme) {
     let hostnameFlag = false; 
     let pathnameFlag = false; 
 
-    debug.log(`${hostname} ${hostnameSelector} ${hostname.indexOf(hostnameSelector)}`);
-
     if (hostnameSelector) {
       if (hostname.indexOf(hostnameSelector) >= 0) {
         if (!hostnameMatch || 

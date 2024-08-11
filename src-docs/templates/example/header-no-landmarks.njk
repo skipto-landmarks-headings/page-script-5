@@ -1,8 +1,12 @@
         <!-- Navigation-->
-        <nav role="none" class="navbar navbar-expand-lg navbar-light bg-light" id="mainNav">
+        <nav class="navbar
+             role="none"
+             navbar-expand-lg navbar-light bg-light"
+             aria-label="Primary"
+             id="mainNav">
             <div class="container px-4">
                 <span class="brand">
-                  <span class="skipto">SkipTo {{version}} Test Page</span>
+                  <span class="skipto">SkipTo.js {{version}}</span>
                 </span>
 
                 <button class="navbar-toggler"
@@ -16,30 +20,14 @@
                 </button>
                 <div class="collapse navbar-collapse" id="mainNavbar">
                   <ul class="navbar-nav ms-auto">
+                    {% for p in pages %}
+                      {% if p.link %}
                         <li class="nav-item">
-                          <a class="nav-link" href="index.html">Home</a>
+                          <a class="nav-link" href="{{p.filename}}">{{p.link}}</a>
                         </li>
-
-                        <li class="nav-item">
-                          <a class="nav-link" href="add.html">Adding</a>
-                        </li>
-
-                        <li class="nav-item">
-                          <a class="nav-link" href="config.html">Configuration</a>
-                        </li>
-
-                        <li class="nav-item">
-                          <a class="nav-link" href="examples.html">Examples</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="about.html">About</a>
-                        </li>
-
-
-                    </ul>
-
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
                 </div>
             </div>
         </nav>
-

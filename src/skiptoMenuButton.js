@@ -21,6 +21,42 @@ import {
 const debug = new DebugLogging('SkipToButton', false);
 debug.flag = false;
 
+const menuButtonTemplate = document.createElement('template');
+menuButtonTemplate.innerHTML = `
+  <button aria-label="Skip To Content"
+          aria-haspopup="menu"
+          aria-expanded="false"
+           aria-contro="id-skip-to-menu">
+    <span class="skipto-text">Skip</span>
+    <span class="skipto-small">Skip to Content</span>
+    <span class="skipto-medium">Skip to Content (Alt+0)</span>
+  </button>
+
+  <div id="id-skip-to-menu"
+       role="menu"
+       aria-label="skip to content">
+
+    <div id="id-skip-to-menu-landmark-group-label"
+         role="separator">
+       Landmark Regions
+    </div>
+    <div id="id-skip-to-menu-landmark-group"
+         role="group"
+         aria-labelledby="id-skip-to-menu-landmark-group-label">
+    </div>
+
+    <div id="id-skip-to-menu-heading-group-label"
+         role="separator">
+       Headings
+    </div>
+    <div id="id-skip-to-menu-heading-group"
+         role="group"
+         aria-labelledby="id-skip-to-menu-landmark-group-label">
+    </div>
+
+  </div>
+`;
+
 /**
  * @class SkiptoMenuButton
  *
@@ -37,13 +73,16 @@ export default class SkiptoMenuButton {
       this.config = config;
       this.skiptoId = id;
 
-      this.containerNode = document.createElement(config.containerElement);
-      if (config.containerElement === 'nav') {
-        this.containerNode.setAttribute('aria-label', config.buttonLabel);
-      }
+      // check for 'nav' element, if not use 'div' element
+      const ce = config.containerElement.toLowerCase().trim() === 'nav' ? 'nav' : 'div';
+
+      this.containerNode = document.createElement(ce);
+      attachNode.appendChild(this.containerNode);
 
       this.containerNode.id = id;
-
+      if (ce === 'nav') {
+        this.containerNode.setAttribute('aria-label', config.buttonLabel);
+      }
       if (isNotEmptyString(config.customClass)) {
         this.containerNode.classList.add(config.customClass);
       }
@@ -66,64 +105,40 @@ export default class SkiptoMenuButton {
         }
       }
 
+      const menuButtonClone = menuButtonTemplate.content.cloneNode(true);
+      this.containerNode.appendChild(menuButtonClone);
+
       // Create button
 
       const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(config);
 
-      this.buttonNode = document.createElement('button');
+      this.buttonNode = this.containerNode.querySelector('button');
       this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
       this.buttonNode.addEventListener('keydown', this.handleButtonKeydown.bind(this));
       this.buttonNode.addEventListener('click', this.handleButtonClick.bind(this));
-      this.containerNode.appendChild(this.buttonNode);
 
-      this.buttonTextNode = document.createElement('span');
-      this.buttonTextNode.classList.add('skipto-text');
+      this.buttonTextNode = this.buttonNode.querySelector('.skipto-text');
       this.buttonTextNode.textContent = buttonVisibleLabel;
-      this.buttonNode.appendChild(this.buttonTextNode);
 
-      const smallButtonNode = document.createElement('span');
-      smallButtonNode.classList.add('skipto-small');
+      const smallButtonNode = this.buttonNode.querySelector('.skipto-small');
       smallButtonNode.textContent = config.smallButtonLabel;
-      this.buttonNode.appendChild(smallButtonNode);
 
-      const mediumButtonNode = document.createElement('span');
-      mediumButtonNode.classList.add('skipto-medium');
+      const mediumButtonNode = this.buttonNode.querySelector('.skipto-medium');
       mediumButtonNode.textContent = config.buttonLabel;
-      this.buttonNode.appendChild(mediumButtonNode);
 
       // Create menu container
       this.menuitemNodes = [];
 
-      this.menuNode   = document.createElement('div');
-      this.menuNode.id = 'id-skip-to-menu';
-      this.menuNode.setAttribute('role', 'menu');
+      this.menuNode   = this.containerNode.querySelector('[role="menu"]');
       this.menuNode.setAttribute('aria-label', config.menuLabel);
-      this.menuNode.setAttribute('aria-busy', 'true');
-      this.containerNode.appendChild(this.menuNode);
 
-      const landmarkGroupLabelNode = document.createElement('div');
-      landmarkGroupLabelNode.id = 'id-skip-to-menu-landmark-group-label';
-      landmarkGroupLabelNode.setAttribute('role', 'separator');
-      landmarkGroupLabelNode.textContent = this.config.landmarkGroupLabel;
-      this.menuNode.appendChild(landmarkGroupLabelNode);
+      this.landmarkGroupLabelNode = this.containerNode.querySelector('#id-skip-to-menu-landmark-group-label');
+      this.landmarkGroupLabelNode.textContent = this.config.landmarkGroupLabel;
+      this.landmarkGroupNode = this.containerNode.querySelector('#id-skip-to-menu-landmark-group');
 
-      this.landmarkGroupNode = document.createElement('div');
-      this.landmarkGroupNode.setAttribute('role', 'group');
-      this.landmarkGroupNode.setAttribute('aria-labelledby', landmarkGroupLabelNode.id);
-      this.landmarkGroupNode.id = '#id-skip-to-menu-landmark-group';
-      this.menuNode.appendChild(this.landmarkGroupNode);
-
-      const headingGroupLabelNode = document.createElement('div');
-      headingGroupLabelNode.id = 'id-skip-to-menu-heading-group-label';
-      headingGroupLabelNode.setAttribute('role', 'separator');
-      headingGroupLabelNode.textContent = this.config.headingGroupLabel;
-      this.menuNode.appendChild(headingGroupLabelNode);
-
-      this.headingGroupNode = document.createElement('div');
-      this.headingGroupNode.setAttribute('role', 'group');
-      this.headingGroupNode.setAttribute('aria-labelledby', headingGroupLabelNode.id);
-      this.headingGroupNode.id = '#id-skip-to-menu-heading-group';
-      this.menuNode.appendChild(this.headingGroupNode);
+      this.headingGroupLabelNode = this.containerNode.querySelector('#id-skip-to-menu-heading-group-label');
+      this.headingGroupLabelNode.textContent = this.config.headingGroupLabel;
+      this.headingGroupNode = this.containerNode.querySelector('#id-skip-to-menu-heading-group');
 
       this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
       this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -858,7 +873,6 @@ export default class SkiptoMenuButton {
     }
 
     handleMenuitemClick(event) {
-      debug.log(`[click]`);
       this.handleMenuitemAction(event.currentTarget);
       event.stopPropagation();
       event.preventDefault();
