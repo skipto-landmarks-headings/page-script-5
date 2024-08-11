@@ -154,7 +154,7 @@ const tests = [
     title: 'No landmarks',
     filename: 'test-no-landmarks.html',
     description: 'No landmarks on page',
-    config: ``
+    config: `containerElement: div`
   },
   { template: './src-docs/templates/example/content-no-headings.njk',
     title: 'No headings',
