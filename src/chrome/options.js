@@ -16,16 +16,36 @@ function notLastError () {
 }
 
 function initForm () {
-  const headingsInput  = document.getElementById('id-headings');
-  console.log(`[headingsInput]: ${headingsInput}`);
-  const landmarksInput = document.getElementById('id-landmarks');
-  console.log(`[landmarksInput]: ${landmarksInput}`);
+  const landmarksNavInput = document.getElementById('landmarks-nav');
+  const landmarksSearchInput = document.getElementById('landmarks-search');
+  const landmarksComplementaryInput = document.getElementById('landmarks-complementary');
+  const landmarksContentinfoInput = document.getElementById('landmarks-contentinfo');
+  const landmarksBannerInput = document.getElementById('landmarks-banner');
+
+  const headings2Input = document.getElementById('headings-2');
+  const headings3Input = document.getElementById('headings-3');
+  const headings4Input = document.getElementById('headings-4');
+  const headings5Input = document.getElementById('headings-5');
+  const headings6Input = document.getElementById('headings-6');
+  const headingsMainOnlyInput = document.getElementById('headings-main-only');
+
   getOptions().then( (options) => {
-    headingsInput.value  = options.headings;
-    landmarksInput.value = options.landmarks;
+    landmarksNavInput.checked = options.landmarks.includes('nav');
+    landmarksSearchInput.checked = options.landmarks.includes('search');
+    landmarksComplementaryInput.checked = options.landmarks.includes('complementary');
+    landmarksContentinfoInput.checked = options.landmarks.includes('contentinfo');
+    landmarksBannerInput.checked = options.landmarks.includes('banner');
+
+    headings2Input.checked = options.headings.includes('h2');
+    headings3Input.checked = options.headings.includes('h3');
+    headings4Input.checked = options.headings.includes('h4');
+    headings5Input.checked = options.headings.includes('h5');
+    headings6Input.checked = options.headings.includes('h6');
+
+    headingsMainOnlyInput.checked = options.headings.includes('main-only');
+
   });
 }
-
 
 async function sendOptionsToTabs (options) {
   console.log("---------");
@@ -45,9 +65,67 @@ async function sendOptionsToTabs (options) {
 }
 
 function saveForm () {
-  const options = {};
-  options.headings  = document.getElementById('id-headings').value;
-  options.landmarks = document.getElementById('id-landmarks').value;
+  const options = {
+    landmarks: 'main',
+    headings: 'h1'
+  }
+
+  const landmarksNavInput = document.getElementById('landmarks-nav');
+  const landmarksSearchInput = document.getElementById('landmarks-search');
+  const landmarksComplementaryInput = document.getElementById('landmarks-complementary');
+  const landmarksContentinfoInput = document.getElementById('landmarks-contentinfo');
+  const landmarksBannerInput = document.getElementById('landmarks-banner');
+
+  const headings2Input = document.getElementById('headings-2');
+  const headings3Input = document.getElementById('headings-3');
+  const headings4Input = document.getElementById('headings-4');
+  const headings5Input = document.getElementById('headings-5');
+  const headings6Input = document.getElementById('headings-6');
+  const headingsMainOnlyInput = document.getElementById('headings-main-only');
+
+  if (landmarksNavInput.checked) {
+    options.landmarks += ' nav';
+  }
+
+  if (landmarksSearchInput.checked) {
+    options.landmarks += ' search';
+  }
+
+  if (landmarksComplementaryInput.checked) {
+    options.landmarks += ' complementary';
+  }
+
+  if (landmarksContentinfoInput.checked) {
+    options.landmarks += ' contentinfo';
+  }
+
+  if (landmarksBannerInput.checked) {
+    options.landmarks += ' banner';
+  }
+
+  if (headingsMainOnlyInput.checked) {
+    options.headings = "main-only h1";
+  }
+
+  if (headings2Input.checked) {
+    options.headings += " h2";
+  }
+
+  if (headings3Input.checked) {
+    options.headings += " h2 h3";
+  }
+
+  if (headings4Input.checked) {
+    options.headings += " h2 h3 h4";
+  }
+
+  if (headings5Input.checked) {
+    options.headings += " h2 h3 h4 h5";
+  }
+
+  if (headings6Input.checked) {
+    options.headings += " h2 h3 h4 h5 h6";
+  }
 
   saveOptions(options).then(sendOptionsToTabs(options));
 }

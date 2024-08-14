@@ -1,11 +1,146 @@
-label,
-button {
+/* options.css */
+
+body {
+  margin: 1em;
+  padding: 4px;
+}
+
+h2 {
+  font-size: 2.25 rem;
+  font-weight: normal;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.checkbox {
+  margin-left: 12px;
+}
+
+fieldset {
+  margin: 0;
+  margin-top: 1em;
+  border: none;
+}
+
+legend {
+  font-size: 110%;
+  font-weight: bold;
+}
+
+label  {
+  display:  block;
+  margin: 0.25em;
+}
+
+label[for] {
+  margin-left: 0.5em;
+  margin-bottom: none;
+}
+
+input[type="text"] {
+  margin:  0;
+  padding: 0;
+  margin-left:  0.5em;
+}
+
+.desc {
+  margin:  0;
+  padding: 0;
+  margin-left:  0.5em;
+  margin-bottom: 1em;
+  font-style: italic;
+}
+
+.desc code {
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  font-style: normal !important;
+  font-weight:  bold;
+}
+
+
+.note {
+  margin:  0;
+  padding: 0;
+  font-style: italic;
+}
+
+.note span {
+  font-weight: bold;
+}
+
+p.note {
+  margin:  0.5em;
+  margin-left:  0.75em;
+  padding: 0;
+}
+
+button[type=reset] {
+  margin-top:  2em;
+}
+
+select {
   display: block;
 }
 
-.text,
-button {
-  margin-bottom: 1em;
+table.shortcuts  {
+  margin: 0;
+  padding: 0;
+  margin-top: 1em;
+  margin-left: 5px;
 }
+
+table.shortcuts th {
+  text-align:  left;
+  font-size: 110%;
+  font-weight: bold;
+  background-color: #eee;
+}
+
+table.shortcuts thead th:nth-child(1),
+table.shortcuts tbody td:nth-child(1) {
+  min-width: 7em;
+  text-align: left;
+  position: relative;
+}
+
+table.shortcuts td input,
+table.shortcuts td label {
+  padding:  0;
+  margin: 0;
+}
+
+.feedback {
+  color: black;
+  border: 2px solid red;
+  background:  white;
+  padding: 2px;
+  border-radius:  4px;
+}
+
+.feedback img {
+  height: 12px !important;
+}
+
+.feedback.shortcut {
+  display:  none;
+  position: absolute;
+  left:  1em;
+  top: 1em;
+  width:  18em;
+  z-index: 10;
+}
+
+.feedback.shortcut.show {
+  display:  block;
+}
+
+.feedback.prefix {
+  display:  inline-block;
+  visibility:  hidden;
+}
+
+.feedback.prefix.show {
+  visibility:  visible;
+}
+
 
 

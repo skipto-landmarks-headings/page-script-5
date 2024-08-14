@@ -1,23 +1,101 @@
 <!DOCTYPE html>
+
 <html>
   <head>
-    <title>SkipTo.js Options</title>
-    <link rel="stylesheet" href="options.css">
+    <title>SkipTo.js for Configuration Options</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="options.css"/>
+    <link rel="stylesheet" href="optionsTablist.css"/>
   </head>
+
   <body>
+    <header>
+      <img src="images/skipto-icon-48.png" alt="skip to logo"/>
+      <span class="title">SkipTo.js for Bypass Blocks</span>
+    </header>
+    <main>
+      <h1>Configuration Options</h1>
+      <form>
 
-    <div class="text">
-      <label for="id-headings">Headers</label>
-      <input id="id-headings" type="text"/>
-    </div>
+        <div>
 
-    <div class="text">
-      <label for="id-landmarks">Landmarks</label>
-      <input id="id-landmarks" type="text"/>
-    </div>
+          <fieldset>
+            <legend id="landmarks-legend">
+              Landmark Regions
+             </legend>
 
-    <button id="id-save">Save</button>
+            <label>
+              <input type="checkbox" value="nav" id="landmarks-nav"/>
+              <span id="landmarks-nav-label">Navigation</span>
+            </label>
 
+            <label>
+              <input type="checkbox" value="search" id="landmarks-search"/>
+              <span id="landmarks-search-label">Search</span>
+            </label>
+
+            <label>
+              <input type="checkbox" value="search" id="landmarks-complementary"/>
+              <span id="landmarks-search-complementary">Complementary</span>
+            </label>
+
+            <label>
+              <input type="checkbox" value="search" id="landmarks-contentinfo"/>
+              <span id="landmarks-search-contentinfo">Contentinfo</span>
+            </label>
+
+            <label>
+              <input type="checkbox" value="search" id="landmarks-banner"/>
+              <span id="landmarks-search-banner">Banner</span>
+            </label>
+
+          </fieldset>
+
+          <fieldset>
+            <legend id="headings-legend">
+              Headings
+             </legend>
+
+            <label>
+              <input type="radio" name="headings" value="h1 h2" id="headings-2"/>
+              <span id="headings-2-label">h1, h2</span>
+            </label>
+
+            <label>
+              <input type="radio" name="headings" value="h1 h2 h3" id="headings-3"/>
+              <span id="headings-3-label">h1, h2, h3</span>
+            </label>
+
+            <label>
+              <input type="radio" name="headings" value="h1 h2 h3 h4" id="headings-4"/>
+              <span id="headings-4-label">h1, h2, h3, h4</span>
+            </label>
+
+            <label>
+              <input type="radio" name="headings" value="h1 h2 h3 h4 h5" id="headings-5"/>
+              <span id="headings-5-label">h1, h2, h3, h4, h5</span>
+            </label>
+
+            <label>
+              <input type="radio" name="headings" value="h1 h2 h3 h4 h5 h6" id="headings-6"/>
+              <span id="headings-6-label">h1, h2, h3, h4, h5, h6</span>
+            </label>
+
+            <label style="margin-top: 2em">
+              <input type="checkbox" value="main-only" id="headings-main-only"/>
+              <span id="headings-main-only-label">Only show headings in main landmark region</span>
+            </label>
+
+          </fieldset>
+
+        </div>
+
+        <button id="id-save">Save</button>
+        <button id="id-reset-defaults" type="reset">Reset Defaults</button>
+
+      </form>
+    </main>
     <script type="module" src="options.js"></script>
+    <script type="module" src="optionsTablist.js"></script>
   </body>
 </html>
