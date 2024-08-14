@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "SkipTo.js",
-  "version": "0.9",
-  "description": "Adding skipto.js on every web page",
+  "version": "1.0",
+  "description": "Adding SkipTo.js on every web page",
   "icons": {
     "16": "./images/skipto-icon-16.png",
     "32": "./images/skipto-icon-32.png",
@@ -10,12 +10,22 @@
     "64": "./images/skipto-icon-64.png",
     "128": "./images/skipto-icon-128.png"
   },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
   "content_scripts": [
     {
-      "js": ["./scripts/skipto.js"],
-      "matches": [
-        "https://*/*"
-      ]
+      "js": [
+        "content.js"
+      ],
+      "matches": ["<all_urls>"]
     }
   ]
 }

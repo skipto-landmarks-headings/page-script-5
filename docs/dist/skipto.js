@@ -221,8 +221,8 @@
   /* style.js */
 
   /* Constants */
-  const debug$7 = new DebugLogging('style', false);
-  debug$7.flag = false;
+  const debug$8 = new DebugLogging('style', false);
+  debug$8.flag = false;
 
   const styleTemplate = document.createElement('template');
   styleTemplate.innerHTML = `
@@ -730,8 +730,8 @@ $skipToId-highlight div {
   /* utils.js */
 
   /* Constants */
-  const debug$6 = new DebugLogging('Utils', false);
-  debug$6.flag = false;
+  const debug$7 = new DebugLogging('Utils', false);
+  debug$7.flag = false;
 
 
   /*
@@ -820,8 +820,8 @@ $skipToId-highlight div {
 
   /* constants */
 
-  const debug$5 = new DebugLogging('nameFrom', false);
-  debug$5.flag = false;
+  const debug$6 = new DebugLogging('nameFrom', false);
+  debug$6.flag = false;
 
   //
   // LOW-LEVEL HELPER FUNCTIONS (NOT EXPORTED)
@@ -1090,8 +1090,8 @@ $skipToId-highlight div {
   /* accName.js */
 
   /* Constants */
-  const debug$4 = new DebugLogging('accName', false);
-  debug$4.flag = false;
+  const debug$5 = new DebugLogging('accName', false);
+  debug$5.flag = false;
 
   /**
    *   @fuction getAccessibleName
@@ -1169,8 +1169,8 @@ $skipToId-highlight div {
   /* landmarksHeadings.js */
 
   /* Constants */
-  const debug$3 = new DebugLogging('landmarksHeadings', false);
-  debug$3.flag = false;
+  const debug$4 = new DebugLogging('landmarksHeadings', false);
+  debug$4.flag = false;
 
   const skipableElements = [
     'base',
@@ -2002,8 +2002,8 @@ $skipToId-highlight div {
   /* highlight.js */
 
   /* Constants */
-  const debug$2 = new DebugLogging('highlight', false);
-  debug$2.flag = false;
+  const debug$3 = new DebugLogging('highlight', false);
+  debug$3.flag = false;
 
   const minWidth = 68;
   const minHeight = 27;
@@ -2166,8 +2166,8 @@ $skipToId-highlight div {
   /* skiptoMenuButton.js */
 
   /* Constants */
-  const debug$1 = new DebugLogging('SkipToButton', false);
-  debug$1.flag = false;
+  const debug$2 = new DebugLogging('SkipToButton', false);
+  debug$2.flag = false;
 
   const menuButtonTemplate = document.createElement('template');
   menuButtonTemplate.innerHTML = `
@@ -2306,7 +2306,7 @@ $skipToId-highlight div {
 
         this.focusMenuitem = null;
 
-        return this;
+        return this.buttonNode;
       }
         
       /*
@@ -2706,7 +2706,7 @@ $skipToId-highlight div {
        * @desc Opens the menu of landmark regions and headings
        */
       openPopup() {
-        debug$1.flag && debug$1.log(`[openPopup]`);
+        debug$2.flag && debug$2.log(`[openPopup]`);
         this.menuNode.setAttribute('aria-busy', 'true');
         const h = (80 * window.innerHeight) / 100;
         this.menuNode.style.maxHeight = h + 'px';
@@ -2732,7 +2732,7 @@ $skipToId-highlight div {
        * @desc Closes the memu of landmark regions and headings
        */
       closePopup() {
-        debug$1.flag && debug$1.log(`[closePopup]`);
+        debug$2.flag && debug$2.log(`[closePopup]`);
         if (this.isOpen()) {
           this.buttonNode.setAttribute('aria-expanded', 'false');
           this.menuNode.style.display = 'none';
@@ -2871,7 +2871,7 @@ $skipToId-highlight div {
       }
 
       handleButtonClick(event) {
-        debug$1.flag && debug$1.log(`[handleButtonClick]`);
+        debug$2.flag && debug$2.log(`[handleButtonClick]`);
         if (this.isOpen()) {
           this.closePopup();
           this.buttonNode.focus();
@@ -3023,7 +3023,7 @@ $skipToId-highlight div {
       }
 
       handleMenuitemPointerenter(event) {
-        debug$1.flag && debug$1.log(`[enter]`);
+        debug$2.flag && debug$2.log(`[enter]`);
         let tgt = event.currentTarget;
         tgt.classList.add('hover');
         if (this.highlightEnabled) {
@@ -3034,7 +3034,7 @@ $skipToId-highlight div {
       }
 
      handleMenuitemPointerover(event) {
-        debug$1.flag && debug$1.log(`[over]`);
+        debug$2.flag && debug$2.log(`[over]`);
         let tgt = event.currentTarget;
         if (this.highlightEnabled) {
           highlightElement(tgt.getAttribute('data-id'));
@@ -3044,7 +3044,7 @@ $skipToId-highlight div {
       }
 
       handleMenuitemPointerleave(event) {
-        debug$1.flag && debug$1.log(`[leave]`);
+        debug$2.flag && debug$2.log(`[leave]`);
         let tgt = event.currentTarget;
         tgt.classList.remove('hover');
         event.stopPropagation();
@@ -3052,7 +3052,7 @@ $skipToId-highlight div {
       }
 
       handleContinerPointerdown(event) {
-        debug$1.flag && debug$1.log(`[down]: target: ${event.pointerId}`);
+        debug$2.flag && debug$2.log(`[down]: target: ${event.pointerId}`);
 
         if (this.isOverButton(event.clientX, event.clientY)) {
           this.containerNode.releasePointerCapture(event.pointerId);
@@ -3065,13 +3065,13 @@ $skipToId-highlight div {
           if (this.containerNode.contains(event.target)) {
             if (this.isOpen()) {
               if (!this.isOverMenu(event.clientX, event.clientY)) {
-                debug$1.flag && debug$1.log(`[down][close]`);
+                debug$2.flag && debug$2.log(`[down][close]`);
                 this.closePopup();
                 this.buttonNode.focus();            
               }
             }
             else {
-              debug$1.flag && debug$1.log(`[down][open]`);
+              debug$2.flag && debug$2.log(`[down][open]`);
               this.openPopup();          
               this.setFocusToFirstMenuitem();
             }
@@ -3105,16 +3105,16 @@ $skipToId-highlight div {
 
         const mi = this.getMenuitem(event.clientX, event.clientY);
         const omb = this.isOverButton(event.clientX, event.clientY);
-        debug$1.flag && debug$1.log(`[up] isOverButton: ${omb} getMenuitem: ${mi} id: ${event.pointerId}`);
+        debug$2.flag && debug$2.log(`[up] isOverButton: ${omb} getMenuitem: ${mi} id: ${event.pointerId}`);
 
         if (mi) {
           this.handleMenuitemAction(mi);          
         }
         else {
           if (!omb) {
-            debug$1.flag && debug$1.log(`[up] not over button `);
+            debug$2.flag && debug$2.log(`[up] not over button `);
             if (this.isOpen()) {
-              debug$1.flag && debug$1.log(`[up] close `);
+              debug$2.flag && debug$2.log(`[up] close `);
               this.closePopup();
               this.buttonNode.focus();
             }        
@@ -3126,7 +3126,7 @@ $skipToId-highlight div {
       }
 
       handleBodyPointerdown(event) {
-        debug$1.flag && debug$1.log(`[handleBodyPointerdown]: target: ${event.pointerId}`);
+        debug$2.flag && debug$2.log(`[handleBodyPointerdown]: target: ${event.pointerId}`);
 
         if (!this.isOverButton(event.clientX, event.clientY) &&
             !this.isOverMenu(event.clientX, event.clientY)) {
@@ -3136,9 +3136,11 @@ $skipToId-highlight div {
 
   }
 
+  /* skiptoContent.js */
+
   /* constants */
-  const debug = new DebugLogging('skipto', false);
-  debug.flag = false;
+  const debug$1 = new DebugLogging('skiptoContent', false);
+  debug$1.flag = false;
 
 
   class SkipToContent extends HTMLElement {
@@ -3214,6 +3216,16 @@ $skipToId-highlight div {
         zIndex: '',
         zHighlight: ''
       };
+    }
+
+    static get observedAttributes() {
+      return ["data-skipto"];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+      debug$1.log(`\n[name]: ${name}`);
+      debug$1.log(`[oldValue]: ${oldValue}`);
+      debug$1.log(`[newValue]: ${newValue}`);
     }
 
     /*
@@ -3324,25 +3336,68 @@ $skipToId-highlight div {
     }
   }
 
+  /* skipto.js */
+
+  /* constants */
+  const debug = new DebugLogging('skipto', false);
+  debug.flag = false;
+
   (function() {
 
+    /*
+    *  @function removeLegacySkipToJS
+    *
+    *  @desc removes legacy versions of SkipTo.js
+    */
+
+    function removeLegacySkipToJS(skipToContentElem = null) {
+      const node = document.getElementById('id-skip-to');
+      debug.flag && debug.log(`[removeLegacySkipToJS]: ${node}`);
+      if (node) {
+        // remove legacy SkipTo.js
+        node.remove();
+        const cssNode = document.getElementById('id-skip-to-css');
+        if (cssNode) {
+          cssNode.remove();
+        }
+        console.warn('[skipTo.js] legacy version removed, using SkipTo.js extension');
+      }
+      const nodes = document.querySelectorAll('skip-to-content');
+      if (nodes && nodes.length > 1) {
+        debug.fag && debug.log(`[removeLegacySkipToJS]: Removing duplicate copy of SkipTo.js`);
+        for (let i = 0; i <nodes.length; i += 1) {
+          const stcNode = nodes[i];
+          if (stcNode !== skipToContentElem) {
+            stcNode.remove();
+            console.warn('[skipTo.js] duplicate version removed');
+          }
+        }
+      }
+    }
+
+    /*
+    *. @function getSkipToContentElement
+    *
+    * @desc  Creates and add a skip-to-content element in the page
+    *
+    * @returns  Returns dom node of new element or false if the page
+    *           has a legacy SkipTo.js
+    */
     function getSkipToContentElement() {
+
+      if (document.getElementById('id-skip-to')) {
+        removeLegacySkipToJS();
+      }
+
       let skipToContentElem = document.querySelector(`skip-to-content`);
 
       if (!skipToContentElem) {
-        customElements.define("skip-to-content", SkipToContent);
+        window.customElements.define("skip-to-content", SkipToContent);
         skipToContentElem = document.createElement('skip-to-content');
-        skipToContentElem.setAttribute('data-version', skipToContentElem.version);
+        skipToContentElem.setAttribute('version', skipToContentElem.version);
         // always attach SkipToContent element to body
         if (document.body) {
           document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
-        }
-      }
-      else {
-        // Check if skipto is already loaded with a older version
-        if (typeof document.skipToHasBeenLoaded !== undefined) {
-          console.warn('[skipTo.js] Skipto is already loaded with a older version!');
-          return false;
         }
       }
       return skipToContentElem;
@@ -3350,24 +3405,41 @@ $skipToId-highlight div {
 
     // Check for SkipTo.js bookmarklet script, if it is initialize it immediately
     if (document.getElementById(`id-skip-to-bookmarklet`)) {
-      const skipToContent = getSkipToContentElement();
+      debug.flag && debug.log(`[bookmarklet]`);
+      const skipToContentElem = getSkipToContentElement();
       // check for older version of SkipTo.js
-      if (skipToContent) {
-        skipToContent.init(skipToContent.shadowRoot);
-        skipToContent.buttonSkipTo.openPopup();
-        skipToContent.buttonSkipTo.setFocusToFirstMenuitem();
+      if (skipToContentElem) {
+        skipToContentElem.init(skipToContentElem.shadowRoot);
+        skipToContentElem.buttonSkipTo.openPopup();
+        skipToContentElem.buttonSkipTo.setFocusToFirstMenuitem();
       }
     }
     else {
-      // Initialize skipto menu button with onload event
-      window.addEventListener('load', function() {
-        const skipToContent = getSkipToContentElement();
+      if (document.getElementById(`id-skip-to-extension`)) {
+        debug.flag && debug.log(`[extension]`);
+        const skipToContentElem = getSkipToContentElement();
         // check for older version of SkipTo.js
-        if (skipToContent) {
-          debug.flag && debug.log(`[onload][skipToContent]: ${skipToContent}`);
-          skipToContent.init(skipToContent.shadowRoot, window.SkipToConfig);
+        if (skipToContentElem) {
+          skipToContentElem.init(skipToContentElem.shadowRoot);
+          skipToContentElem.setAttribute('data-skipto', 'displayOption: popup; main-only h1 h2 h3');
+          window.addEventListener('load', function() {
+            debug.flag && debug.log(`[focus]`);
+            removeLegacySkipToJS(skipToContentElem);
+            skipToContentElem.buttonSkipTo.focus();
+          });
         }
-      });
+      }
+      else {
+        // Initialize SkipTo.js menu button with onload event
+        window.addEventListener('load', function() {
+          debug.flag && debug.log(`[load]`);
+          const skipToContentElem = getSkipToContentElement();
+          if (skipToContentElem) {
+            debug.flag && debug.log(`[onload][skipToContent]: ${skipToContentElem}`);
+            skipToContentElem.init(skipToContentElem.shadowRoot, window.SkipToConfig);
+          }
+        });
+      }
     }
   })();
 

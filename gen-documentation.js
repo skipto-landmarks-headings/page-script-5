@@ -85,7 +85,7 @@ const examples = [
     title: 'Popup Menu Button',
     filename: 'example-popup.html',
     description: 'The "Skip To Content" menu button appears when it gets focus',
-    config: `displayOption: popup`
+    config: `displayOption: popup; positionLeft: 46%`
   },
   { template: './src-docs/templates/example/content-example.njk',
     title: 'Static Menu Button with no Highlight',

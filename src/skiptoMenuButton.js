@@ -160,7 +160,7 @@ export default class SkiptoMenuButton {
 
       this.focusMenuitem = null;
 
-      return this;
+      return this.buttonNode;
     }
       
     /*

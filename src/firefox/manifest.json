@@ -28,7 +28,7 @@
   "content_scripts": [
     {
       "matches": ["https://*/*"],
-      "js": ["scripts/skipto.js"]
+      "js": ["content.js"]
     }
   ]
 }

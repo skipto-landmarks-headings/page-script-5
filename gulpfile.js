@@ -59,10 +59,7 @@ gulp.task('build', () => {
     'docs/dist/skipto.js',
   ])
     .pipe(concat('skipto.js'))
-    .pipe(dest('docs/dist'))
-    .pipe(dest('src/chrome/scripts'))
-    .pipe(dest('src/firefox/scripts'))
-    .pipe(dest('src/opera/scripts'));
+    .pipe(dest('docs/dist'));
 });
 
  gulp.task('copyrightMin', () => {

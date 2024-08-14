@@ -1,0 +1,11 @@
+label,
+button {
+  display: block;
+}
+
+.text,
+button {
+  margin-bottom: 1em;
+}
+
+
