@@ -1,6 +1,10 @@
 /* options.js */
 
-import { getOptions, saveOptions } from './storage.js';
+import {
+  getOptions,
+  saveOptions,
+  optionsToParams
+} from './storage.js';
 
 // Generic error handler
 function notLastError () {
@@ -17,7 +21,7 @@ function initForm () {
   const landmarksInput = document.getElementById('id-landmarks');
   console.log(`[landmarksInput]: ${landmarksInput}`);
   getOptions().then( (options) => {
-    headingsInput.value  = options.headers;
+    headingsInput.value  = options.headings;
     landmarksInput.value = options.landmarks;
   });
 }
@@ -29,7 +33,7 @@ async function sendOptionsToTabs (options) {
   for (const tab of tabs) {
     // Note: sensitive tab properties such as tab.title or tab.url can only be accessed for
     // URLs in the host_permissions section of manifest.json
-      chrome.tabs.sendMessage(tab.id, {skiptoConfig: options})
+      chrome.tabs.sendMessage(tab.id, {skiptoParams: optionsToParams(options)})
       .then((response) => {
           console.info("Options received response from tab with title '%s' and url %s",
               response.title, response.url)
@@ -42,7 +46,7 @@ async function sendOptionsToTabs (options) {
 
 function saveForm () {
   const options = {};
-  options.headers   = document.getElementById('id-headings').value;
+  options.headings  = document.getElementById('id-headings').value;
   options.landmarks = document.getElementById('id-landmarks').value;
 
   saveOptions(options).then(sendOptionsToTabs(options));

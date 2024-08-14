@@ -1,7 +1,7 @@
 /* storage.js */
 
 const defaultOptions = {
-  headers: 'main-only h1 h2 h3',
+  headings: 'main-only h1 h2 h3',
   landmarks: 'main nav complementary'
 };
 
@@ -88,4 +88,22 @@ function notLastError () {
     console.log(chrome.runtime.lastError.message);
     return false;
   }
+}
+
+/*
+** @function optionsToParams
+**
+** @desc  Converts options in to a param sting compatible with
+**        data-params attribute for SkipTo.js
+**
+** @param  {Object} options : Object with name values for params
+**
+** @returns. {String} see @desc
+*/
+export function optionsToParams(options) {
+  let str = '';
+  for(const item in options) {
+    str += item + ':' + options[item] + ';';
+  }
+  return str;
 }

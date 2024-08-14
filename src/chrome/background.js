@@ -1,8 +1,9 @@
 /* background.js */
 
-import { getOptions } from './storage.js';
+import { getOptions, optionsToParams } from './storage.js';
 
 let myOptions = {};
+
 
 chrome.runtime.onInstalled.addListener(() => {
   function consoleOptions (options) {
@@ -17,14 +18,15 @@ chrome.runtime.onInstalled.addListener(() => {
 
 });
 
+
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     console.log(sender.tab ?
                 "from a content script:" + sender.tab.url :
                 "from the extension");
-    if (request.skiptoMessage === "get-config")
+    if (request.skiptoMessage === "get-options")
       console.log(`Received hello from content`);
-      sendResponse({myOptions});
+      sendResponse(optionsToParams(myOptions));
   }
 );
 

@@ -3223,9 +3223,9 @@ $skipToId-highlight div {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-      debug$1.log(`\n[name]: ${name}`);
-      debug$1.log(`[oldValue]: ${oldValue}`);
-      debug$1.log(`[newValue]: ${newValue}`);
+      if (name === 'data-skipto') {
+        this.config = this.setupConfigFromDataAttribute(this.config, newValue);
+      }
     }
 
     /*
@@ -3241,7 +3241,14 @@ $skipToId-highlight div {
       if (globalConfig) {
         this.config = this.setupConfigFromGlobal(this.config, globalConfig);
       }
-      this.config = this.setupConfigFromDataAttribute(this.config);
+
+      // Check for data-skipto attribute values for configuration
+      const configElem = document.querySelector('[data-skipto]');
+      if (configElem) {
+        const params = configElem.getAttribute('data-skipto');
+        this.config = this.setupConfigFromDataAttribute(this.config, params);
+      }
+
       // Add skipto style sheet to document
       renderStyleElement(attachElement, this.config, this.skipToId);
       this.buttonSkipTo = new SkiptoMenuButton(attachElement, this.config, this.skipToId);
@@ -3291,33 +3298,29 @@ $skipToId-highlight div {
     /*
      * @method setupConfigFromDataAttribute
      *
-     * @desc Get configuration information from author configuration to change
+     * @desc Update configuration information from author configuration to change
      *       default settings
      *
-     * @param  {object}  config - Javascript object with default configuration information
+     * @param  {Object}  config - Object with SkipTo.js configuration information
+     * @param  {String}  params - String with configuration information
      */
-    setupConfigFromDataAttribute(config) {
+    setupConfigFromDataAttribute(config, params) {
       let dataConfig = {};
 
-      // Check for data-skipto attribute values for configuration
-      const configElem = document.querySelector('[data-skipto]');
-      if (configElem) {
-        const dataSkiptoValue = configElem.getAttribute('data-skipto');
-        if (dataSkiptoValue) {
-          const values = dataSkiptoValue.split(';');
-          values.forEach( v => {
-            let [prop, value] = v.split(':');
-            if (prop) {
-              prop = prop.trim();
-            }
-            if (value) {
-              value = value.trim();
-            }
-            if (prop && value) {
-              dataConfig[prop] = value;
-            }
-          });
-        }
+      if (params) {
+        const values = params.split(';');
+        values.forEach( v => {
+          let [prop, value] = v.split(':');
+          if (prop) {
+            prop = prop.trim();
+          }
+          if (value) {
+            value = value.trim();
+          }
+          if (prop && value) {
+            dataConfig[prop] = value;
+          }
+        });
       }
 
       for (const name in dataConfig) {
@@ -3421,7 +3424,6 @@ $skipToId-highlight div {
         // check for older version of SkipTo.js
         if (skipToContentElem) {
           skipToContentElem.init(skipToContentElem.shadowRoot);
-          skipToContentElem.setAttribute('data-skipto', 'displayOption: popup; main-only h1 h2 h3');
           window.addEventListener('load', function() {
             debug.flag && debug.log(`[focus]`);
             removeLegacySkipToJS(skipToContentElem);

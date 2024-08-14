@@ -86,7 +86,6 @@ debug.flag = false;
       // check for older version of SkipTo.js
       if (skipToContentElem) {
         skipToContentElem.init(skipToContentElem.shadowRoot);
-        skipToContentElem.setAttribute('data-skipto', 'displayOption: popup; main-only h1 h2 h3');
         window.addEventListener('load', function() {
           debug.flag && debug.log(`[focus]`);
           removeLegacySkipToJS(skipToContentElem);
