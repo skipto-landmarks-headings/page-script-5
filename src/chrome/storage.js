@@ -2,7 +2,7 @@
 
 const defaultOptions = {
   headings: 'main-only h1 h2 h3',
-  landmarks: 'main nav complementary'
+  landmarks: 'main search nav complementary'
 };
 
 function hasAllProperties (refObj, srcObj) {
@@ -58,6 +58,17 @@ export function getOptions () {
 export function saveOptions (options) {
   return new Promise (function (resolve, reject) {
     chrome.storage.sync.set(options, function () {
+      if (notLastError()) { resolve() }
+    });
+  });
+}
+
+/*
+** resetDefaultOptions
+*/
+export function resetDefaultOptions () {
+  return new Promise (function (resolve, reject) {
+    chrome.storage.sync.set(defaultOptions, function () {
       if (notLastError()) { resolve() }
     });
   });

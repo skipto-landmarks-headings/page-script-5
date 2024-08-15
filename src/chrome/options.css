@@ -5,6 +5,22 @@ body {
   padding: 4px;
 }
 
+header {
+  padding-bottom: 0.5em;
+  border-bottom: #aaa solid 1px;
+}
+
+header img {
+  height: 40px;
+}
+
+h1,
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 1.5rem 0 0.75rem;
+}
+
 h2 {
   font-size: 2.25 rem;
   font-weight: normal;
@@ -81,32 +97,6 @@ select {
   display: block;
 }
 
-table.shortcuts  {
-  margin: 0;
-  padding: 0;
-  margin-top: 1em;
-  margin-left: 5px;
-}
-
-table.shortcuts th {
-  text-align:  left;
-  font-size: 110%;
-  font-weight: bold;
-  background-color: #eee;
-}
-
-table.shortcuts thead th:nth-child(1),
-table.shortcuts tbody td:nth-child(1) {
-  min-width: 7em;
-  text-align: left;
-  position: relative;
-}
-
-table.shortcuts td input,
-table.shortcuts td label {
-  padding:  0;
-  margin: 0;
-}
 
 .feedback {
   color: black;

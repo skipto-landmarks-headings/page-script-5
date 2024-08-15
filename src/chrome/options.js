@@ -3,7 +3,8 @@
 import {
   getOptions,
   saveOptions,
-  optionsToParams
+  optionsToParams,
+  resetDefaultOptions
 } from './storage.js';
 
 // Generic error handler
@@ -48,7 +49,6 @@ function initForm () {
 }
 
 async function sendOptionsToTabs (options) {
-  console.log("---------");
   const tabs = await chrome.tabs.query({});
   for (const tab of tabs) {
     // Note: sensitive tab properties such as tab.title or tab.url can only be accessed for
@@ -65,70 +65,72 @@ async function sendOptionsToTabs (options) {
 }
 
 function saveForm () {
-  const options = {
-    landmarks: 'main',
-    headings: 'h1'
-  }
 
-  const landmarksNavInput = document.getElementById('landmarks-nav');
-  const landmarksSearchInput = document.getElementById('landmarks-search');
-  const landmarksComplementaryInput = document.getElementById('landmarks-complementary');
-  const landmarksContentinfoInput = document.getElementById('landmarks-contentinfo');
-  const landmarksBannerInput = document.getElementById('landmarks-banner');
+  getOptions().then( (options) => {
 
-  const headings2Input = document.getElementById('headings-2');
-  const headings3Input = document.getElementById('headings-3');
-  const headings4Input = document.getElementById('headings-4');
-  const headings5Input = document.getElementById('headings-5');
-  const headings6Input = document.getElementById('headings-6');
-  const headingsMainOnlyInput = document.getElementById('headings-main-only');
+    const landmarksNavInput = document.getElementById('landmarks-nav');
+    const landmarksSearchInput = document.getElementById('landmarks-search');
+    const landmarksComplementaryInput = document.getElementById('landmarks-complementary');
+    const landmarksContentinfoInput = document.getElementById('landmarks-contentinfo');
+    const landmarksBannerInput = document.getElementById('landmarks-banner');
 
-  if (landmarksNavInput.checked) {
-    options.landmarks += ' nav';
-  }
+    const headings2Input = document.getElementById('headings-2');
+    const headings3Input = document.getElementById('headings-3');
+    const headings4Input = document.getElementById('headings-4');
+    const headings5Input = document.getElementById('headings-5');
+    const headings6Input = document.getElementById('headings-6');
+    const headingsMainOnlyInput = document.getElementById('headings-main-only');
 
-  if (landmarksSearchInput.checked) {
-    options.landmarks += ' search';
-  }
+    options.landmarks = 'main';
 
-  if (landmarksComplementaryInput.checked) {
-    options.landmarks += ' complementary';
-  }
+    if (landmarksNavInput.checked) {
+      options.landmarks += ' nav';
+    }
 
-  if (landmarksContentinfoInput.checked) {
-    options.landmarks += ' contentinfo';
-  }
+    if (landmarksSearchInput.checked) {
+      options.landmarks += ' search';
+    }
 
-  if (landmarksBannerInput.checked) {
-    options.landmarks += ' banner';
-  }
+    if (landmarksComplementaryInput.checked) {
+      options.landmarks += ' complementary';
+    }
 
-  if (headingsMainOnlyInput.checked) {
-    options.headings = "main-only h1";
-  }
+    if (landmarksContentinfoInput.checked) {
+      options.landmarks += ' contentinfo';
+    }
 
-  if (headings2Input.checked) {
-    options.headings += " h2";
-  }
+    if (landmarksBannerInput.checked) {
+      options.landmarks += ' banner';
+    }
 
-  if (headings3Input.checked) {
-    options.headings += " h2 h3";
-  }
+    options.headings = headingsMainOnlyInput.checked ? "main-only h1" : "h1";
 
-  if (headings4Input.checked) {
-    options.headings += " h2 h3 h4";
-  }
+    if (headings2Input.checked) {
+      options.headings += " h2";
+    }
 
-  if (headings5Input.checked) {
-    options.headings += " h2 h3 h4 h5";
-  }
+    if (headings3Input.checked) {
+      options.headings += " h2 h3";
+    }
 
-  if (headings6Input.checked) {
-    options.headings += " h2 h3 h4 h5 h6";
-  }
+    if (headings4Input.checked) {
+      options.headings += " h2 h3 h4";
+    }
 
-  saveOptions(options).then(sendOptionsToTabs(options));
+    if (headings5Input.checked) {
+      options.headings += " h2 h3 h4 h5";
+    }
+
+    if (headings6Input.checked) {
+      options.headings += " h2 h3 h4 h5 h6";
+    }
+
+    saveOptions(options).then(sendOptionsToTabs(options));
+  });
 }
 
 document.addEventListener('DOMContentLoaded', initForm);
 document.getElementById('id-save').addEventListener('click', saveForm);
+document.getElementById('id-reset-defaults').addEventListener('click', () => {
+  resetDefaultOptions().then(initForm);
+});
