@@ -2,11 +2,11 @@
 
 ## Version 5.5
 * Implemented custom element (e.g. skip-to-content) to contain button and menu
-* Changed default colors for skipto button and menu
+* Updated default colors for skipto button and menu
 * Added web browser add-ons and extension support
 * Fixed bug in traversing DOM with custom elements
 * Deprecated 'attachElement' property due to new highlight behavior, menu is always visible
-* Updated "main" value for headings to "main-only", "main" will still work for backward compatibility
+* Updated "main" value for headings to "main-only", "main" will still work for backward compatibility to clarify the function
 
 ## Version 5.4.1
 * Improved highlighting to provide more contrast for the highlight border
