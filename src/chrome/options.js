@@ -1,5 +1,7 @@
 /* options.js */
 
+const debug = false;
+
 import {
   getOptions,
   saveOptions,
@@ -11,7 +13,7 @@ import {
 function notLastError () {
   if (!chrome.runtime.lastError) { return true; }
   else {
-    console.log(chrome.runtime.lastError.message);
+    debug && console.log(chrome.runtime.lastError.message);
     return false;
   }
 }
@@ -55,11 +57,11 @@ async function sendOptionsToTabs (options) {
     // URLs in the host_permissions section of manifest.json
       chrome.tabs.sendMessage(tab.id, {skiptoParams: optionsToParams(options)})
       .then((response) => {
-          console.info("Options received response from tab with title '%s' and url %s",
+          debug && console.info("Options received response from tab with title '%s' and url %s",
               response.title, response.url)
       })
       .catch((error) => {
-              console.warn("Options could not send message to tab %d", tab.id, error)
+              debug && console.warn("Options could not send message to tab %d", tab.id, error)
           })
   }
 }

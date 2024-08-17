@@ -4,13 +4,14 @@ import { getOptions, optionsToParams } from './storage.js';
 
 let myOptions = {};
 
+const debug = false;
 
 chrome.runtime.onInstalled.addListener(() => {
   function consoleOptions (options) {
     myOptions = options;
 
     for (let item in options) {
-      console.log(`[${item}][${options[item]}]`);
+      debug && console.log(`[${item}][${options[item]}]`);
     }
   }
 
@@ -21,11 +22,11 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    console.log(sender.tab ?
+    debug && console.log(sender.tab ?
                 "from a content script:" + sender.tab.url :
                 "from the extension");
     if (request.skiptoMessage === "get-options")
-      console.log(`Received hello from content`);
+      debug && console.log(`Received hello from content`);
       sendResponse(optionsToParams(myOptions));
   }
 );
