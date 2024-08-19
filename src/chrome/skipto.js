@@ -35,8 +35,8 @@
       menuBackgroundColor: '#dddddd',
       menuitemFocusTextColor: '#dddddd',
       menuitemFocusBackgroundColor: '#13294B',
-      zIndex: '10000',
-      zHighlight: '9000',
+      zIndex: '100000',
+      zHighlight: '99999',
       displayOption: 'fixed'
     },
     'aria': {

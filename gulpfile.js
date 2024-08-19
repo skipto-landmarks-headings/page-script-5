@@ -59,6 +59,7 @@ gulp.task('build', () => {
     'docs/dist/skipto.js',
   ])
     .pipe(concat('skipto.js'))
+    .pipe(dest('src/chrome'))
     .pipe(dest('docs/dist'));
 });
 
@@ -68,10 +69,7 @@ gulp.task('build', () => {
     'docs/dist/skipto.min.js',
   ])
     .pipe(concat('skipto.min.js'))
-    .pipe(dest('docs/dist'))
-    .pipe(dest('src/chrome/scripts'))
-    .pipe(dest('src/firefox/scripts'))
-    .pipe(dest('src/opera/scripts'));
+    .pipe(dest('docs/dist'));
 });
 
 gulp.task('documentation', function (cb) {
