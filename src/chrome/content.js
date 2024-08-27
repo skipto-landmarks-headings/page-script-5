@@ -2,6 +2,7 @@
 
 const debug = true;
 
+// Add SkipTo.js script to page
 const scriptNode = document.createElement('script');
 scriptNode.type = 'text/javascript';
 scriptNode.id = 'id-skip-to-extension';
@@ -12,14 +13,14 @@ document.body.appendChild(scriptNode);
 // Get options from SkipTo.js Extension
 window.addEventListener('load', function() {
   (async () => {
-    debug && console.log('Sending hello to background');
-    const options = await chrome.runtime.sendMessage({skiptoMessage: "get-options"});
+    debug && console.log('[load]: Sending hello to background');
+    const params = await chrome.runtime.sendMessage({skiptoMessage: "get-options"});
     // do something with response here, not outside the function
-    debug && console.log(`[options]: ${options}`);
+    debug && console.log(`[load][params]: ${params}`);
     const skipToContentElem = document.querySelector('skip-to-content');
-    debug && console.log(`[skipToContentElem]: ${skipToContentElem}`);
+    debug && console.log(`[load][skipToContentElem]: ${skipToContentElem}`);
     if (skipToContentElem) {
-      skipToContentElem.setAttribute('data-skipto', options);
+      skipToContentElem.setAttribute('data-skipto', params);
     }
   })();
 });
@@ -28,10 +29,8 @@ window.addEventListener('load', function() {
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.skiptoParams !== undefined) {
-      debug && console.log(`Received skiptoParams`);
-      debug && console.log(request.skiptoParams);
+      debug && console.log(`[onMessage][params]: ${request.skiptoParams}`);
       const skipToContentElem = document.querySelector('skip-to-content');
-      debug && console.log(`[skipToContentElem]: ${skipToContentElem}`);
       if (skipToContentElem) {
         skipToContentElem.setAttribute('data-skipto', request.skiptoParams);
       }

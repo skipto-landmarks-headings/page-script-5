@@ -6,96 +6,54 @@
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="options.css"/>
     <link rel="stylesheet" href="optionsTablist.css"/>
+
+    <script type="module" src="optionsMenu.js"></script>
+    <script type="module" src="optionsColor.js"></script>
+    <script type="module" src="optionsTablist.js"></script>
+
   </head>
 
   <body>
     <header>
       <img src="images/skipto-icon-48.png" alt="skip to logo"/>
-      <span class="title">SkipTo.js for Bypass Blocks</span>
+      <span id="banner-title">Skip To Content for WCAG 4.2.1 Bypass Blocks</span>
     </header>
     <main>
-      <h1>Configuration Options</h1>
-      <form>
+      <h1 id="h1-title">Configuration Options</h1>
 
-        <div>
-
-          <fieldset>
-            <legend id="landmarks-legend">
-              Landmark Regions
-             </legend>
-
-            <label>
-              <input type="checkbox" value="nav" id="landmarks-nav"/>
-              <span id="landmarks-nav-label">Navigation</span>
-            </label>
-
-            <label>
-              <input type="checkbox" value="search" id="landmarks-search"/>
-              <span id="landmarks-search-label">Search</span>
-            </label>
-
-            <label>
-              <input type="checkbox" value="search" id="landmarks-complementary"/>
-              <span id="landmarks-search-complementary">Complementary</span>
-            </label>
-
-            <label>
-              <input type="checkbox" value="search" id="landmarks-contentinfo"/>
-              <span id="landmarks-search-contentinfo">Contentinfo</span>
-            </label>
-
-            <label>
-              <input type="checkbox" value="search" id="landmarks-banner"/>
-              <span id="landmarks-search-banner">Banner</span>
-            </label>
-
-          </fieldset>
-
-          <fieldset>
-            <legend id="headings-legend">
-              Headings
-             </legend>
-
-            <label>
-              <input type="radio" name="headings" value="h1 h2" id="headings-2"/>
-              <span id="headings-2-label">h1, h2</span>
-            </label>
-
-            <label>
-              <input type="radio" name="headings" value="h1 h2 h3" id="headings-3"/>
-              <span id="headings-3-label">h1, h2, h3</span>
-            </label>
-
-            <label>
-              <input type="radio" name="headings" value="h1 h2 h3 h4" id="headings-4"/>
-              <span id="headings-4-label">h1, h2, h3, h4</span>
-            </label>
-
-            <label>
-              <input type="radio" name="headings" value="h1 h2 h3 h4 h5" id="headings-5"/>
-              <span id="headings-5-label">h1, h2, h3, h4, h5</span>
-            </label>
-
-            <label>
-              <input type="radio" name="headings" value="h1 h2 h3 h4 h5 h6" id="headings-6"/>
-              <span id="headings-6-label">h1, h2, h3, h4, h5, h6</span>
-            </label>
-
-            <label style="margin-top: 2em">
-              <input type="checkbox" value="main-only" id="headings-main-only"/>
-              <span id="headings-main-only-label">Only show headings in main landmark region</span>
-            </label>
-
-          </fieldset>
-
+      <div class="tablist" role="tablist">
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-menu"
+             aria-controls="tabpanel-options-menu">
+          Menu Content
         </div>
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-colors"
+             aria-controls="tabpanel-options-colors">
+          Colors
+        </div>
+      </div>
 
-        <button id="id-save">Save</button>
-        <button id="id-reset-defaults" type="reset">Reset Defaults</button>
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-menu"
+           aria-labelledby="tablist-tab-menu">
 
-      </form>
+        <options-menu></options-menu>
+
+      </div>
+
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-colors"
+           aria-labelledby="tablist-tab-colors">
+
+           <options-color></options-color>
+
+      </div>
+
     </main>
-    <script type="module" src="options.js"></script>
-    <script type="module" src="optionsTablist.js"></script>
   </body>
 </html>

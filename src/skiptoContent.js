@@ -17,7 +17,7 @@ export default class SkipToContent extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.skipToId = 'id-skip-to';
-    this.version = "5.5.0";
+    this.version = "5.5.1";
     this.buttonSkipTo = null;
 
     // Default configuration values
@@ -101,10 +101,10 @@ export default class SkipToContent extends HTMLElement {
    * @desc Initializes the skipto button and menu with default and user
    *       defined options
    *
-   * @param  {object} config - Reference to configuration object
-   *                           can be undefined
+   * @param  {object} globalConfig - Reference to configuration object
+   *                                 can be undefined
    */
-  init(attachElement, globalConfig=null) {
+  init(globalConfig=null) {
     if (globalConfig) {
       this.config = this.setupConfigFromGlobal(this.config, globalConfig);
     }
@@ -117,8 +117,8 @@ export default class SkipToContent extends HTMLElement {
     }
 
     // Add skipto style sheet to document
-    renderStyleElement(attachElement, this.config, this.skipToId);
-    this.buttonSkipTo = new SkiptoMenuButton(attachElement, this.config, this.skipToId);
+    renderStyleElement(this.shadowRoot, this.config, this.skipToId);
+    this.buttonSkipTo = new SkiptoMenuButton(this.shadowRoot, this.config, this.skipToId);
   }
 
  /*
@@ -202,6 +202,9 @@ export default class SkipToContent extends HTMLElement {
         console.warn('[SkipTo]: Unsupported or deprecated configuration option in data-skipto attribute: ' + name);
       }
     }
+
+    renderStyleElement(this.shadowRoot, this.config, this.skipToId);
+
     return config;
   }
 }

@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.5.0
+ * Version: 5.5.1
  * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -28,13 +28,13 @@
       positionLeft: '46%',
       smallBreakPoint: '576',
       mediumBreakPoint: '992',
-      buttonTextColor: '#13294B',
+      buttonTextColor: '#13294b',
       buttonBackgroundColor: '#dddddd',
-      focusBorderColor: '#C5050C',
-      menuTextColor: '#13294B',
+      focusBorderColor: '#c5050c',
+      menuTextColor: '#13294b',
       menuBackgroundColor: '#dddddd',
       menuitemFocusTextColor: '#dddddd',
-      menuitemFocusBackgroundColor: '#13294B',
+      menuitemFocusBackgroundColor: '#13294b',
       zIndex: '100000',
       zHighlight: '99999',
       displayOption: 'fixed'
@@ -226,7 +226,7 @@
 
   const styleTemplate = document.createElement('template');
   styleTemplate.innerHTML = `
-<style type="text/css">
+<style type="text/css" id="id-skip-to-style">
 $skipToId.popup {
   top: -30px;
   transition: top 0.35s ease;
@@ -524,7 +524,7 @@ $skipToId [role="menuitem"].hover .label {
 
   const highlightTemplate = document.createElement('template');
   highlightTemplate.innerHTML = `
-<style type="text/css">
+<style type="text/css" id="id-skip-to-highlight">
 $skipToId-highlight {
   position: absolute;
   border-radius: 3px;
@@ -716,14 +716,23 @@ $skipToId-highlight div {
     highlightTemplate.innerHTML = highlightTemplate.innerHTML.replaceAll('$skipToId', '#' + skipToId);
     addCSSColors(config);
 
-    const styleNode = styleTemplate.content.cloneNode(true);
-    styleNode.id = `${skipToId}-style`;
+    let styleNode = attachNode.querySelector('#id-skip-to-style');
+    if (styleNode) {
+      styleNode.remove();
+    }
+
+    styleNode = styleTemplate.content.cloneNode(true);
     attachNode.appendChild(styleNode);
 
     const highlightNode = highlightTemplate.content.cloneNode(true);
-    highlightNode.id = `${skipToId}-highlight`;
     const headNode = document.querySelector('head');
-    headNode.appendChild(highlightNode);
+    if (headNode) {
+      styleNode = headNode.querySelector('#id-skip-to-highlight');
+      if (styleNode) {
+        styleNode.remove();
+      }
+      headNode.appendChild(highlightNode);
+    }
 
   }
 
@@ -1185,7 +1194,8 @@ $skipToId-highlight div {
     'style',
     'template',
     'shadow',
-    'title'
+    'title',
+    'skip-to-content'
   ];
 
   const allowedLandmarkSelectors = [
@@ -2213,7 +2223,7 @@ $skipToId-highlight div {
    *
    * @param {Object}  attachNode  - DOM element node to attach button and menu container element
    * 
-   * @returns {Object}  DOM element node that is the contatiner for the button and the menu
+   * @returns {Object}  DOM element node that is the container for the button and the menu
    */
   class SkiptoMenuButton {
 
@@ -3150,7 +3160,7 @@ $skipToId-highlight div {
       super();
       this.attachShadow({ mode: 'open' });
       this.skipToId = 'id-skip-to';
-      this.version = "5.5.0";
+      this.version = "5.5.1";
       this.buttonSkipTo = null;
 
       // Default configuration values
@@ -3234,10 +3244,10 @@ $skipToId-highlight div {
      * @desc Initializes the skipto button and menu with default and user
      *       defined options
      *
-     * @param  {object} config - Reference to configuration object
-     *                           can be undefined
+     * @param  {object} globalConfig - Reference to configuration object
+     *                                 can be undefined
      */
-    init(attachElement, globalConfig=null) {
+    init(globalConfig=null) {
       if (globalConfig) {
         this.config = this.setupConfigFromGlobal(this.config, globalConfig);
       }
@@ -3250,8 +3260,8 @@ $skipToId-highlight div {
       }
 
       // Add skipto style sheet to document
-      renderStyleElement(attachElement, this.config, this.skipToId);
-      this.buttonSkipTo = new SkiptoMenuButton(attachElement, this.config, this.skipToId);
+      renderStyleElement(this.shadowRoot, this.config, this.skipToId);
+      this.buttonSkipTo = new SkiptoMenuButton(this.shadowRoot, this.config, this.skipToId);
     }
 
    /*
@@ -3335,6 +3345,9 @@ $skipToId-highlight div {
           console.warn('[SkipTo]: Unsupported or deprecated configuration option in data-skipto attribute: ' + name);
         }
       }
+
+      renderStyleElement(this.shadowRoot, this.config, this.skipToId);
+
       return config;
     }
   }
@@ -3412,7 +3425,7 @@ $skipToId-highlight div {
       const skipToContentElem = getSkipToContentElement();
       // check for older version of SkipTo.js
       if (skipToContentElem) {
-        skipToContentElem.init(skipToContentElem.shadowRoot);
+        skipToContentElem.init();
         skipToContentElem.buttonSkipTo.openPopup();
         skipToContentElem.buttonSkipTo.setFocusToFirstMenuitem();
       }
@@ -3423,7 +3436,7 @@ $skipToId-highlight div {
         const skipToContentElem = getSkipToContentElement();
         // check for older version of SkipTo.js
         if (skipToContentElem) {
-          skipToContentElem.init(skipToContentElem.shadowRoot);
+          skipToContentElem.init();
           window.addEventListener('load', function() {
             debug.flag && debug.log(`[focus]`);
             removeLegacySkipToJS(skipToContentElem);
@@ -3438,7 +3451,7 @@ $skipToId-highlight div {
           const skipToContentElem = getSkipToContentElement();
           if (skipToContentElem) {
             debug.flag && debug.log(`[onload][skipToContent]: ${skipToContentElem}`);
-            skipToContentElem.init(skipToContentElem.shadowRoot, window.SkipToConfig);
+            skipToContentElem.init(window.SkipToConfig);
           }
         });
       }

@@ -65,7 +65,7 @@ menuButtonTemplate.innerHTML = `
  *
  * @param {Object}  attachNode  - DOM element node to attach button and menu container element
  * 
- * @returns {Object}  DOM element node that is the contatiner for the button and the menu
+ * @returns {Object}  DOM element node that is the container for the button and the menu
  */
 export default class SkiptoMenuButton {
 

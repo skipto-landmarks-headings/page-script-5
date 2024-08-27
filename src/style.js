@@ -10,7 +10,7 @@ debug.flag = false;
 
 const styleTemplate = document.createElement('template');
 styleTemplate.innerHTML = `
-<style type="text/css">
+<style type="text/css" id="id-skip-to-style">
 $skipToId.popup {
   top: -30px;
   transition: top 0.35s ease;
@@ -308,7 +308,7 @@ $skipToId [role="menuitem"].hover .label {
 
 const highlightTemplate = document.createElement('template');
 highlightTemplate.innerHTML = `
-<style type="text/css">
+<style type="text/css" id="id-skip-to-highlight">
 $skipToId-highlight {
   position: absolute;
   border-radius: 3px;
@@ -500,13 +500,22 @@ export default function renderStyleElement (attachNode, config, skipToId) {
   highlightTemplate.innerHTML = highlightTemplate.innerHTML.replaceAll('$skipToId', '#' + skipToId);
   addCSSColors(config);
 
-  const styleNode = styleTemplate.content.cloneNode(true);
-  styleNode.id = `${skipToId}-style`;
+  let styleNode = attachNode.querySelector('#id-skip-to-style');
+  if (styleNode) {
+    styleNode.remove();
+  }
+
+  styleNode = styleTemplate.content.cloneNode(true);
   attachNode.appendChild(styleNode);
 
   const highlightNode = highlightTemplate.content.cloneNode(true);
-  highlightNode.id = `${skipToId}-highlight`;
   const headNode = document.querySelector('head');
-  headNode.appendChild(highlightNode);
+  if (headNode) {
+    styleNode = headNode.querySelector('#id-skip-to-highlight');
+    if (styleNode) {
+      styleNode.remove();
+    }
+    headNode.appendChild(highlightNode);
+  }
 
 }

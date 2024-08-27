@@ -1,0 +1,114 @@
+{
+  "extension_name" : {
+    "message": "Skip To Content for WCAG 2.4.1 ByPass Blocks",
+    "description": "Extension name"
+  },
+  "extension_description" : {
+    "message": "Skip To Content provides keyboard navigation to landmark regions and headings to meet WCAG 2.4.1 Bypass Blocks requirement.",
+    "description": "Extension description"
+  },
+  "options_banner_title" : {
+    "message" : "Skip To Content Configuration Options",
+    "description" : "Title of options page"
+  },
+  "options_h1_title": {
+    "message" : "Configuration Options",
+    "description" : "Title of options page"
+  },
+  "options_button_save" : {
+    "message" : "Save",
+    "description" : "Label for save button"
+  },
+  "options_button_menu_content_reset" : {
+    "message" : "Reset Menu Content Defaults",
+    "description" : "Label for reset menu content default button"
+  },
+  "options_button_color_reset" : {
+    "message" : "Reset Color Defaults",
+    "description" : "Label for reset color default button"
+  },
+  "options_menu_tab": {
+    "message" : "Menu Options",
+    "description" : "Label for menu options tab"
+  },
+  "options_heading_legend": {
+    "message" : "Headings",
+    "description" : "Label for headings radio group"
+  },
+  "options_heading_h2": {
+    "message" : "h1, h2 ",
+    "description" : "Include h1 and h2 headings from page in menu"
+  },
+  "options_heading_h3": {
+    "message" : "h1, h2, h3",
+    "description" : "Include h1, h2 and h3 headings from page in menu"
+  },
+  "options_heading_h4": {
+    "message" : "h1, h2, h3, h4",
+    "description" : "Include h1, h2, h3 and h4 headings from page in menu"
+  },
+  "options_heading_h5": {
+    "message" : "h1, h2, h3, h4, h5",
+    "description" : "Include h1, h2, h3, h4 and h5 headings from page in menu"
+  },
+  "options_heading_h6": {
+    "message" : "h1, h2, h3, h4, h5, h6",
+    "description" : "Include h1, h2, h3, h4, h5 and h6 headings from page in menu"
+  },
+  "options_heading_main_only": {
+    "message" : "Only show headings in main landmark region",
+    "description" : "Only include headings in the main landmark region from page in menu"
+  },
+  "options_landmark_legend": {
+    "message" : "Landmark Regions",
+    "description" : "Label for landmarks checkbox group"
+  },
+  "options_landmark_banner": {
+    "message" : "Banner",
+    "description" : "Label for banner landmark checkbox"
+  },
+  "options_landmark_complementary": {
+    "message" : "Complementary",
+    "description" : "Label for complementary landmark checkbox"
+  },
+  "options_landmark_contentinfo": {
+    "message" : "Contentinfo",
+    "description" : "Label for contentinfo landmark checkbox"
+  },
+  "options_landmark_navigation": {
+    "message" : "Navigation",
+    "description" : "Label for navigation landmark checkbox"
+  },
+  "options_landmark_search": {
+    "message" : "Search",
+    "description" : "Label for search landmark checkbox"
+  },
+  "options_button_text_color": {
+    "message" : "'Skip To Content' button text color",
+    "description" : "Label button text color"
+  },
+  "options_button_background_color": {
+    "message" : "'Skip To Content' button background color",
+    "description" : "Label button background color"
+  },
+  "options_focus_border_color": {
+    "message" : "'Skip To Content' button focus border color",
+    "description" : "Label button focus border color"
+  },
+  "options_menu_text_color": {
+    "message" : "'Menu text color",
+    "description" : "Menu text color"
+  },
+  "options_menu_background_color": {
+    "message" : "'Menu background color",
+    "description" : "Menu background color"
+  },
+  "options_menuitem_focus_text_color": {
+    "message" : "'Menu item focus text color",
+    "description" : "Menu item focus text color"
+  },
+  "options_menuitem_focus_background_color": {
+    "message" : "'Menu item focus background color",
+    "description" : "Menu item focus background color"
+  }
+}

@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Skip To Content for WCAG 2.4.1 ByPass Blocks",
+  "name": "__MSG_extension_name__",
   "version": "1.0",
-  "description": "Skip To Content provides keyboard navigation to landmark regions and headings to meet WCAG 2.4.1 Bypass Blocks requirement.",
+  "description": "__MSG_extension_description__",
+  "default_locale": "en",
   "icons": {
     "16": "./images/skipto-icon-16.png",
     "32": "./images/skipto-icon-32.png",

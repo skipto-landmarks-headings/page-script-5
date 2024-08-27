@@ -12,14 +12,16 @@ header {
 
 header img {
   height: 40px;
+  padding-right: 0.5em;
 }
 
 h1,
-.title {
+#banner-title {
   font-size: 30px;
   font-weight: bold;
   margin: 1.5rem 0 0.75rem;
 }
+
 
 h2 {
   font-size: 2.25 rem;
@@ -38,24 +40,29 @@ fieldset {
 }
 
 legend {
-  font-size: 110%;
+  font-size: 1.3em;
   font-weight: bold;
 }
 
-label  {
+label {
   display:  block;
   margin: 0.25em;
 }
 
-label[for] {
-  margin-left: 0.5em;
-  margin-bottom: none;
+label span {
+  font-size: 1.2em;
+  position: relative;
+  top: -0.1rem;
 }
 
 input[type="text"] {
   margin:  0;
   padding: 0;
   margin-left:  0.5em;
+}
+
+button {
+  font-size: 1.3em;
 }
 
 .desc {
@@ -132,5 +139,15 @@ select {
   visibility:  visible;
 }
 
+/* focus styling */
+
+label.focus {
+  outline: ButtonText 2px solid;
+}
+
+input[type=checkbox]:focus,
+input[type=radio]:focus {
+  outline: none;
+}
 
 

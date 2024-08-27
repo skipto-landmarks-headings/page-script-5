@@ -74,7 +74,7 @@ debug.flag = false;
     const skipToContentElem = getSkipToContentElement();
     // check for older version of SkipTo.js
     if (skipToContentElem) {
-      skipToContentElem.init(skipToContentElem.shadowRoot);
+      skipToContentElem.init();
       skipToContentElem.buttonSkipTo.openPopup();
       skipToContentElem.buttonSkipTo.setFocusToFirstMenuitem();
     }
@@ -85,7 +85,7 @@ debug.flag = false;
       const skipToContentElem = getSkipToContentElement();
       // check for older version of SkipTo.js
       if (skipToContentElem) {
-        skipToContentElem.init(skipToContentElem.shadowRoot);
+        skipToContentElem.init();
         window.addEventListener('load', function() {
           debug.flag && debug.log(`[focus]`);
           removeLegacySkipToJS(skipToContentElem);
@@ -100,7 +100,7 @@ debug.flag = false;
         const skipToContentElem = getSkipToContentElement();
         if (skipToContentElem) {
           debug.flag && debug.log(`[onload][skipToContent]: ${skipToContentElem}`);
-          skipToContentElem.init(skipToContentElem.shadowRoot, window.SkipToConfig);
+          skipToContentElem.init(window.SkipToConfig);
         }
       });
     }

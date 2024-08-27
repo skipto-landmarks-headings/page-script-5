@@ -1,9 +1,21 @@
 /* storage.js */
 
-const defaultOptions = {
+const defaultMenuOptions = {
   headings: 'main-only h1 h2 h3',
-  landmarks: 'main search nav complementary'
+  landmarks: 'main search nav complementary',
 };
+
+const defaultColorOptions = {
+  buttonTextColor: '#13294b',
+  buttonBackgroundColor: '#dddddd',
+  focusBorderColor: '#c5050c',
+  menuTextColor: '#13294b',
+  menuBackgroundColor: '#dddddd',
+  menuitemFocusTextColor: '#dddddd',
+  menuitemFocusBackgroundColor: '#13294b'
+};
+
+const defaultOptions = Object.assign({}, defaultMenuOptions, defaultColorOptions);
 
 function hasAllProperties (refObj, srcObj) {
   for (const key of Object.keys(refObj)) {
@@ -69,6 +81,28 @@ export function saveOptions (options) {
 export function resetDefaultOptions () {
   return new Promise (function (resolve, reject) {
     chrome.storage.sync.set(defaultOptions, function () {
+      if (notLastError()) { resolve() }
+    });
+  });
+}
+
+/*
+** resetDefaultMenuOptions
+*/
+export function resetDefaultMenuOptions () {
+  return new Promise (function (resolve, reject) {
+    chrome.storage.sync.set(defaultMenuOptions, function () {
+      if (notLastError()) { resolve() }
+    });
+  });
+}
+
+/*
+** resetDefaultColorOptions
+*/
+export function resetDefaultColorOptions () {
+  return new Promise (function (resolve, reject) {
+    chrome.storage.sync.set(defaultColorOptions, function () {
       if (notLastError()) { resolve() }
     });
   });

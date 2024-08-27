@@ -1,33 +1,33 @@
 /* background.js */
 
-import { getOptions, optionsToParams } from './storage.js';
+import {
+  getOptions,
+  optionsToParams
+} from './storage.js';
 
-let myOptions = {};
+const debug = true;
 
-const debug = false;
-
+let myParams = '';
+/*
+*. Initialize myParams
+*/
 chrome.runtime.onInstalled.addListener(() => {
-  function consoleOptions (options) {
-    myOptions = options;
-
-    for (let item in options) {
-      debug && console.log(`[${item}][${options[item]}]`);
-    }
-  }
-
-  getOptions().then(consoleOptions);
+  getOptions().then(getOptions().then( (options) => {
+    myParams = optionsToParams(options);
+    debug && console.log(`[onInstalled][myParams]: ${myParams}`);
+  }));
 
 });
 
-
+/*
+*  Send myParams to content script when it asks for it
+*/
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    debug && console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
-    if (request.skiptoMessage === "get-options")
-      debug && console.log(`Received hello from content`);
-      sendResponse(optionsToParams(myOptions));
+    if (request.skiptoMessage === "get-options") {
+      debug && console.log(`[onMessage][myParams]: ${myParams}`);
+      sendResponse(myParams);
+    }
   }
 );
 
