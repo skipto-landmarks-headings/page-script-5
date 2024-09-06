@@ -59,9 +59,28 @@ const cssOptionsColorViwerTemplate = document.createElement('template');
 cssOptionsColorViwerTemplate.innerHTML = `
 <style>
 
+.color-viewer {
+  margin-top: 1em;
+  border: 2px #555 solid;
+  border-radius: 5px;
+  padding: 0;
+  width: 40em;
+}
+
+h2 {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: #fff;
+  background: #000;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+}
+
 .color-viewer table {
   font-family: sans-serif;
   font-size: 1.2em;
+  padding: 0.5em;
 }
 
 .color-viewer table tbody {
