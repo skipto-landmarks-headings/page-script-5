@@ -1,12 +1,19 @@
 Title
-Skip To Content for WCAG 2.4.1 ByPass Blocks
+SkipTo.js for Chrome
 
 Summary
-Skip To Content extension provides keyboard navigation to landmark regions and headings to meet WCAG 2.4.1 Bypass Blocks requirement. 
+Skip To Content extension provides keyboard navigation to landmark regions and headings to support WCAG 2.4.1 Bypass Blocks requirement.
 
 Description
-Skip To Content extension fills a void in browsers to provide the navigation features to meet WCAG 2.4.1 Bypass Blocks requirement. The extension creates a drop-down menu of the landmark regions and headings on the current web page. Selecting an option in the menu moves keyboard focus to the landmark region or heading and scrolls the content into view.  The menu also provides a convenient table of contents of what is on the page for ALL users.  An example of a digital curb cut benefiting everyone in the information age.
+SkipTo.js extension fills a void in browsers to provide the navigation features to meet WCAG 2.4.1 Bypass Blocks requirement. The extension creates a drop-down menu of the landmark regions and headings on the current web page. Selecting an option in the menu moves keyboard focus to the landmark region or heading and scrolls the content into view.  The menu also provides a convenient table of contents of what is on the page for ALL users.  An example of a digital curb cut benefiting everyone in the information age.
 
-There is a keyboard shortcut ALT+0 on Windows and Linux and Option+0 on macOS to open the menu when it closed.
+Keyboard Shortcuts
 
-The options page for the extension allows the user to customize the landmark regions and headings shown in the menu.
+* ALT+0:  Windows and Linux
+* Option+0:  macOS
+
+Options Page
+
+* Customize the landmark regions and headings shown in the menu.
+* Customize colors used to style the button and menu
+* Internationalization of button and menu labels

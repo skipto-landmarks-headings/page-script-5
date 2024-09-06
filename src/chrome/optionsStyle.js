@@ -1,4 +1,4 @@
-/* optionsColor.js */
+/* optionsStyle.js */
 
 const debug = false;
 
@@ -6,7 +6,7 @@ import {
   getOptions,
   saveOptions,
   optionsToParams,
-  resetDefaultColorOptions
+  resetDefaultStyleOptions
 } from './storage.js';
 
 // Generic error handler
@@ -20,16 +20,18 @@ function notLastError () {
 
 // Constants
 
-const optionsColorTemplate = document.createElement('template');
-optionsColorTemplate.innerHTML = `
+const optionsStyleTemplate = document.createElement('template');
+optionsStyleTemplate.innerHTML = `
   <form>
 
-    <div class="text">
+    <h2>Color Options</h2>
+
+    <div class="color">
+      <input id="button-text-color"
+        type="color"/>
       <label id="button-text-color-label"
              for="button-text-color">
       </label>
-      <input id="button-text-color"
-        type="color"/>
     </div>
 
     <div class="color">
@@ -64,21 +66,7 @@ optionsColorTemplate.innerHTML = `
       </label>
     </div>
 
-    <div class="color">
-      <input id="menuitem-focus-text-color"
-        type="color"/>
-      <label id="menuitem-focus-text-color-label"
-             for="menuitem-focus-text-color">
-      </label>
-    </div>
-
-    <div class="color">
-      <input id="menuitem-focus-background-color"
-        type="color"/>
-      <label id="menuitem-focus-background-color-label"
-             for="menuitem-focus-background-color">
-      </label>
-    </div>
+    <options-style-viewer></options-style-viewer>
 
     <button id="button-reset" type="reset">Reset Defaults</button>
 
@@ -86,23 +74,23 @@ optionsColorTemplate.innerHTML = `
 `;
 
 
-class OptionsColor extends HTMLElement {
+class OptionsStyle extends HTMLElement {
 
   constructor() {
 
     // Helper function
     function getNode (id) {
-      return optionsColor.shadowRoot.querySelector(`#${id}`);
+      return optionsStyle.shadowRoot.querySelector(`#${id}`);
     }
 
     super();
 
     this.attachShadow({ mode: 'open' });
     // const used for help function
-    const optionsColor = this;
+    const optionsStyle = this;
 
-    const optionsColorClone = optionsColorTemplate.content.cloneNode(true);
-    this.shadowRoot.appendChild(optionsColorClone);
+    const optionsStyleClone = optionsStyleTemplate.content.cloneNode(true);
+    this.shadowRoot.appendChild(optionsStyleClone);
 
     // Add stylesheet
     const linkNode = document.createElement('link');
@@ -113,15 +101,13 @@ class OptionsColor extends HTMLElement {
     // Update labels with i18n information
 
     const i18nLabels = [
-      { id: 'button-reset', label: 'options_button_color_reset'},
+      { id: 'button-reset', label: 'options_button_style_reset'},
 
       { id: 'button-text-color-label',         label: 'options_button_text_color'},
       { id: 'button-background-color-label',   label: 'options_button_background_color'},
       { id: 'focus-border-color-label',        label: 'options_focus_border_color'},
       { id: 'menu-text-color-label',           label: 'options_menu_text_color'},
       { id: 'menu-background-color-label',     label: 'options_menu_background_color'},
-      { id: 'menuitem-focus-text-color-label', label: 'options_menuitem_focus_text_color'},
-      { id: 'menuitem-focus-background-color-label', label: 'options_menuitem_focus_background_color'}
 
     ];
 
@@ -144,21 +130,21 @@ class OptionsColor extends HTMLElement {
     form.focusBorderColorInput        = getNode('focus-border-color');
     form.menuTextColorInput           = getNode('menu-text-color');
     form.menuBackgroundColorInput     = getNode('menu-background-color');
-    form.menuitemFocusTextColorInput       = getNode('menuitem-focus-text-color');
-    form.menuitemFocusBackgroundColorInput = getNode('menuitem-focus-background-color');
 
     this.form = form;
+
+    this.optionsStyleViewerNode = this.shadowRoot.querySelector('options-style-viewer');
 
     this.updateOptions();
 
     getNode('button-reset').addEventListener('click', () => {
-      resetDefaultColorOptions().then(this.updateOptions.bind(this));
+      resetDefaultStyleOptions().then(this.updateOptions.bind(this));
     });
 
-    optionsColor.shadowRoot.querySelectorAll('input[type=color]').forEach( input => {
+    optionsStyle.shadowRoot.querySelectorAll('input[type=color]').forEach( input => {
       input.addEventListener('focus', this.onFocus);
       input.addEventListener('blur', this.onBlur);
-      input.addEventListener('change', optionsColor.onChange.bind(optionsColor));
+      input.addEventListener('input', optionsStyle.onChange.bind(optionsStyle));
     });
   }
 
@@ -172,10 +158,10 @@ class OptionsColor extends HTMLElement {
       form.focusBorderColorInput.value        = options.focusBorderColor;
       form.menuTextColorInput.value           = options.menuTextColor;
       form.menuBackgroundColorInput.value     = options.menuBackgroundColor;
-      form.menuitemFocusTextColorInput.value       = options.menuitemFocusTextColor;
-      form.menuitemFocusBackgroundColorInput.value = options.menuitemFocusBackgroundColor;
 
       this.syncOptionsWithSkipToScript (options);
+
+      this.updateStyleViewer(options);
     });
   }
 
@@ -194,11 +180,17 @@ class OptionsColor extends HTMLElement {
               })
       }
     }
-
     sendOptionsToTabs(options);
+
+    this.syncMyParamsInBackground(options);
   }
 
-  saveColorOptions () {
+  syncMyParamsInBackground (options) {
+      debug && console.log(`[syncMyParamsInBackground][params]: ${optionsToParams(options)}`);
+      chrome.runtime.sendMessage({type: 'updateMyParams'});
+  }
+
+  saveStyleOptions () {
 
     const form = this.form;
 
@@ -208,12 +200,25 @@ class OptionsColor extends HTMLElement {
       options.buttonBackgroundColor   = form.buttonBackgroundColorInput.value;
       options.focusBorderColor        = form.focusBorderColorInput.value;
       options.menuTextColor           = form.menuTextColorInput.value;
-      options.menuTextColor           = form.menuBackgroundColorInput.value;
-      options.menuitemFocusTextColor       = form.menuitemFocusTextColorInput.value;
-      options.menuitemFcousBackgroundColor = form.menuitemFocusBackgroundColorInput.value;
+      options.menuBackgroundColor     = form.menuBackgroundColorInput.value;
+      options.menuitemFocusTextColor       = form.menuBackgroundColorInput.value;
+      options.menuitemFocusBackgroundColor = form.menuTextColorInput.value;
+
+      this.updateColorViewer(options);
 
       saveOptions(options).then(this.syncOptionsWithSkipToScript(options));
     });
+  }
+
+  updateStyleViewer(options) {
+
+    this.optionsStyleViewerNode.setAttribute('data-button-text-color', options.buttonTextColor);
+    this.optionsStyleViewerNode.setAttribute('data-button-background-color', options.buttonBackgroundColor);
+    this.optionsStyleViewerNode.setAttribute('data-focus-border-color', options.focusBorderColor);
+    this.optionsStyleViewerNode.setAttribute('data-menu-text-color', options.menuTextColor);
+    this.optionsStyleViewerNode.setAttribute('data-menu-background-color', options.menuBackgroundColor);
+    this.optionsStyleViewerNode.setAttribute('data-menuitem-focus-text-color', options.menuitemFocusTextColor);
+    this.optionsStyleViewerNode.setAttribute('data-menuitem-focus-background-color', options.menuitemFocusBackgroundColor);
   }
 
   // Event handlers
@@ -229,11 +234,11 @@ class OptionsColor extends HTMLElement {
     event.currentTarget.parentNode.classList.remove('focus');
   }
 
-  onChange () {
-    debug && console.log(`[saveOptions]`);
-    this.saveColorOptions();
+  onChange (event) {
+    debug && console.log(`[onChange]: ${event.target.value}`);
+    this.saveStyleOptions();
   }
 
 }
 
-window.customElements.define("options-color", OptionsColor);
+window.customElements.define("options-style", OptionsStyle);

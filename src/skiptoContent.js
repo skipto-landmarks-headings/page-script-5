@@ -113,7 +113,7 @@ export default class SkipToContent extends HTMLElement {
     const configElem = document.querySelector('[data-skipto]');
     if (configElem) {
       const params = configElem.getAttribute('data-skipto');
-      this.config = this.setupConfigFromDataAttribute(this.config, params);
+      this.config  = this.setupConfigFromDataAttribute(this.config, params);
     }
 
     // Add skipto style sheet to document

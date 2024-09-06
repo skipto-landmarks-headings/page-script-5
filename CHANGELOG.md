@@ -1,5 +1,8 @@
 # Version history for Skipto.js
 
+## Version 5.5.1
+* Updated data-skip-to attribute changes to also update the stylesheet
+
 ## Version 5.5
 * Implemented custom element (e.g. skip-to-content) to contain button and menu
 * Updated default colors for skipto button and menu

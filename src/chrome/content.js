@@ -1,6 +1,6 @@
 /* content.js */
 
-const debug = true;
+const debug = false;
 
 // Add SkipTo.js script to page
 const scriptNode = document.createElement('script');
@@ -12,17 +12,16 @@ document.body.appendChild(scriptNode);
 
 // Get options from SkipTo.js Extension
 window.addEventListener('load', function() {
-  (async () => {
-    debug && console.log('[load]: Sending hello to background');
-    const params = await chrome.runtime.sendMessage({skiptoMessage: "get-options"});
-    // do something with response here, not outside the function
+  debug && console.log('[load]: Sending hello to background');
+
+  chrome.runtime.sendMessage({skiptoMessage: "get-options"}, (params) => {
     debug && console.log(`[load][params]: ${params}`);
     const skipToContentElem = document.querySelector('skip-to-content');
     debug && console.log(`[load][skipToContentElem]: ${skipToContentElem}`);
     if (skipToContentElem) {
       skipToContentElem.setAttribute('data-skipto', params);
     }
-  })();
+  })
 });
 
 // Update configuration from user changes in options page
@@ -37,3 +36,4 @@ chrome.runtime.onMessage.addListener(
     }
   }
 );
+

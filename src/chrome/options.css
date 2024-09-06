@@ -23,12 +23,6 @@ h1,
 }
 
 
-h2 {
-  font-size: 2.25 rem;
-  font-weight: normal;
-  margin: 1.5rem 0 0.75rem;
-}
-
 .checkbox {
   margin-left: 12px;
 }
@@ -47,6 +41,17 @@ legend {
 label {
   display:  block;
   margin: 0.25em;
+}
+
+.color {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  padding-top: 0.125em;
+  padding-bottom: 0.125em;
+}
+
+.color label {
+  display: inline-block;
 }
 
 label span {

@@ -224,9 +224,8 @@
   const debug$8 = new DebugLogging('style', false);
   debug$8.flag = false;
 
-  const styleTemplate = document.createElement('template');
-  styleTemplate.innerHTML = `
-<style type="text/css" id="id-skip-to-style">
+  const cssMenuTemplate = document.createElement('template');
+  cssMenuTemplate.textContent = `
 $skipToId.popup {
   top: -30px;
   transition: top 0.35s ease;
@@ -519,12 +518,10 @@ $skipToId [role="menuitem"].hover .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }
-</style>
 `;
 
-  const highlightTemplate = document.createElement('template');
-  highlightTemplate.innerHTML = `
-<style type="text/css" id="id-skip-to-highlight">
+  const cssHighlightTemplate = document.createElement('template');
+  cssHighlightTemplate.textContent = `
 $skipToId-highlight {
   position: absolute;
   border-radius: 3px;
@@ -539,7 +536,6 @@ $skipToId-highlight div {
   border: 2px solid $focusBorderColor;
   z-index: $zHighlight;
 }
-</style>
 `;
 
   /*
@@ -629,7 +625,7 @@ $skipToId-highlight div {
    *
    *   @returns 
    */
-  function updateStyle(template, stylePlaceholder, configValue, themeValue, defaultValue) {
+  function updateStyle(cssContent, stylePlaceholder, configValue, themeValue, defaultValue) {
     let value = defaultValue;
     if (typeof configValue === 'string' && configValue) {
       value = configValue;
@@ -639,7 +635,6 @@ $skipToId-highlight div {
       }
     }
 
-    let cssContent = template.innerHTML;
     let index1 = cssContent.indexOf(stylePlaceholder);
     let index2 = index1 + stylePlaceholder.length;
     while (index1 >= 0 && index2 < cssContent.length) {
@@ -647,18 +642,22 @@ $skipToId-highlight div {
       index1 = cssContent.indexOf(stylePlaceholder, index2);
       index2 = index1 + stylePlaceholder.length;
     }
-    template.innerHTML = cssContent;
+    return cssContent;
   }
 
   /*
    * @function addCSSColors
    *
-   * @desc Updates the styling information in the attached
-   *       stylesheet to use the configured or default colors  
+   * @desc Updates the styling for the menu and highlight information
+   *       and returns the updated strings
    *
-   * @param  {Object}  config      -  Configuration information object
+   * @param  {String}  cssMenu       -  CSS template for the button and menu
+   * @param  {String}  cssHighlight  -  CSS template for the highlighting
+   * @param  {Object}  config        -  SkipTo.js configuration information object
+   *
+   * @returns. see @desc
    */
-  function addCSSColors (config) {
+  function addCSSColors (cssMenu, cssHighlight, config) {
     const theme = getTheme(config.colorTheme);
     const defaultTheme = getTheme('default');
 
@@ -675,30 +674,32 @@ $skipToId-highlight div {
       }
     }
 
-    updateStyle(styleTemplate, '$fontFamily', config.fontFamily, theme.fontFamily, defaultTheme.fontFamily);
-    updateStyle(styleTemplate, '$fontSize', config.fontSize, theme.fontSize, defaultTheme.fontSize);
+    cssMenu = updateStyle(cssMenu, '$fontFamily', config.fontFamily, theme.fontFamily, defaultTheme.fontFamily);
+    cssMenu = updateStyle(cssMenu, '$fontSize', config.fontSize, theme.fontSize, defaultTheme.fontSize);
 
-    updateStyle(styleTemplate, '$positionLeft', config.positionLeft, theme.positionLeft, defaultTheme.positionLeft);
-    updateStyle(styleTemplate, '$smallBreakPoint', config.smallBreakPoint, theme.smallBreakPoint, defaultTheme.smallBreakPoint);
-    updateStyle(styleTemplate, '$mediumBreakPoint', config.mediumBreakPoint, theme.mediumBreakPoint, defaultTheme.mediumBreakPoint);
+    cssMenu = updateStyle(cssMenu, '$positionLeft', config.positionLeft, theme.positionLeft, defaultTheme.positionLeft);
+    cssMenu = updateStyle(cssMenu, '$smallBreakPoint', config.smallBreakPoint, theme.smallBreakPoint, defaultTheme.smallBreakPoint);
+    cssMenu = updateStyle(cssMenu, '$mediumBreakPoint', config.mediumBreakPoint, theme.mediumBreakPoint, defaultTheme.mediumBreakPoint);
 
-    updateStyle(styleTemplate, '$menuTextColor', config.menuTextColor, theme.menuTextColor, defaultTheme.menuTextColor);
-    updateStyle(styleTemplate, '$menuBackgroundColor', config.menuBackgroundColor, theme.menuBackgroundColor, defaultTheme.menuBackgroundColor);
+    cssMenu = updateStyle(cssMenu, '$menuTextColor', config.menuTextColor, theme.menuTextColor, defaultTheme.menuTextColor);
+    cssMenu = updateStyle(cssMenu, '$menuBackgroundColor', config.menuBackgroundColor, theme.menuBackgroundColor, defaultTheme.menuBackgroundColor);
 
-    updateStyle(styleTemplate, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
-    updateStyle(styleTemplate, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
+    cssMenu = updateStyle(cssMenu, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
+    cssMenu = updateStyle(cssMenu, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
 
-    updateStyle(styleTemplate, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
+    cssMenu = updateStyle(cssMenu, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
 
-    updateStyle(styleTemplate, '$buttonTextColor', config.buttonTextColor, theme.buttonTextColor, defaultTheme.buttonTextColor);
-    updateStyle(styleTemplate, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
+    cssMenu = updateStyle(cssMenu, '$buttonTextColor', config.buttonTextColor, theme.buttonTextColor, defaultTheme.buttonTextColor);
+    cssMenu = updateStyle(cssMenu, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
 
-    updateStyle(styleTemplate, '$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
+    cssMenu = updateStyle(cssMenu, '$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
 
-    updateStyle(styleTemplate, '$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
+    cssMenu = updateStyle(cssMenu, '$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
 
-    updateStyle(highlightTemplate, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
-    updateStyle(highlightTemplate, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
+    cssHighlight = updateStyle(cssHighlight, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
+    cssHighlight = updateStyle(cssHighlight, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
+
+    return [cssMenu, cssHighlight];
 
   }
 
@@ -712,26 +713,32 @@ $skipToId-highlight div {
    * @param  {String}  skipYToStyleId  -  Id used for the skipto container element
    */
   function renderStyleElement (attachNode, config, skipToId) {
-    styleTemplate.innerHTML = styleTemplate.innerHTML.replaceAll('$skipToId', '#' + skipToId);
-    highlightTemplate.innerHTML = highlightTemplate.innerHTML.replaceAll('$skipToId', '#' + skipToId);
-    addCSSColors(config);
+    let cssMenu = cssMenuTemplate.textContent.slice(0);
+    cssMenu = cssMenu.replaceAll('$skipToId', '#' + skipToId);
+
+    let cssHighlight = cssHighlightTemplate.textContent.slice(0);
+    cssHighlight = cssHighlight.replaceAll('$skipToId', '#' + skipToId);
+
+    [cssMenu, cssHighlight] = addCSSColors(cssMenu, cssHighlight, config);
+
 
     let styleNode = attachNode.querySelector('#id-skip-to-style');
-    if (styleNode) {
-      styleNode.remove();
+    if (!styleNode) {
+      styleNode = document.createElement('style');
+      attachNode.appendChild(styleNode);
+      styleNode.setAttribute('id', 'id-skip-to-style');
     }
+    styleNode.textContent = cssMenu;
 
-    styleNode = styleTemplate.content.cloneNode(true);
-    attachNode.appendChild(styleNode);
-
-    const highlightNode = highlightTemplate.content.cloneNode(true);
     const headNode = document.querySelector('head');
     if (headNode) {
-      styleNode = headNode.querySelector('#id-skip-to-highlight');
-      if (styleNode) {
-        styleNode.remove();
+      let highlightStyleNode = headNode.querySelector('#id-skip-to-highlight');
+      if (!highlightStyleNode) {
+        highlightStyleNode = document.createElement('style');
+        headNode.appendChild(highlightStyleNode);
+        highlightStyleNode.setAttribute('id', 'id-skip-to-highlight');
       }
-      headNode.appendChild(highlightNode);
+      highlightStyleNode.textContent = cssHighlight;
     }
 
   }
@@ -3256,7 +3263,7 @@ $skipToId-highlight div {
       const configElem = document.querySelector('[data-skipto]');
       if (configElem) {
         const params = configElem.getAttribute('data-skipto');
-        this.config = this.setupConfigFromDataAttribute(this.config, params);
+        this.config  = this.setupConfigFromDataAttribute(this.config, params);
       }
 
       // Add skipto style sheet to document
@@ -3363,7 +3370,7 @@ $skipToId-highlight div {
     /*
     *  @function removeLegacySkipToJS
     *
-    *  @desc removes legacy versions of SkipTo.js
+    *  @desc Removes legacy and duplicate versions of SkipTo.js
     */
 
     function removeLegacySkipToJS(skipToContentElem = null) {

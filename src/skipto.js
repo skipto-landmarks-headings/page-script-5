@@ -12,7 +12,7 @@ debug.flag = false;
   /*
   *  @function removeLegacySkipToJS
   *
-  *  @desc removes legacy versions of SkipTo.js
+  *  @desc Removes legacy and duplicate versions of SkipTo.js
   */
 
   function removeLegacySkipToJS(skipToContentElem = null) {

@@ -5,7 +5,7 @@ const defaultMenuOptions = {
   landmarks: 'main search nav complementary',
 };
 
-const defaultColorOptions = {
+const defaultStyleOptions = {
   buttonTextColor: '#13294b',
   buttonBackgroundColor: '#dddddd',
   focusBorderColor: '#c5050c',
@@ -15,7 +15,7 @@ const defaultColorOptions = {
   menuitemFocusBackgroundColor: '#13294b'
 };
 
-const defaultOptions = Object.assign({}, defaultMenuOptions, defaultColorOptions);
+const defaultOptions = Object.assign({}, defaultMenuOptions, defaultStyleOptions);
 
 function hasAllProperties (refObj, srcObj) {
   for (const key of Object.keys(refObj)) {
@@ -98,11 +98,11 @@ export function resetDefaultMenuOptions () {
 }
 
 /*
-** resetDefaultColorOptions
+** resetDefaultStyleOptions
 */
-export function resetDefaultColorOptions () {
+export function resetDefaultStyleOptions () {
   return new Promise (function (resolve, reject) {
-    chrome.storage.sync.set(defaultColorOptions, function () {
+    chrome.storage.sync.set(defaultStyleOptions, function () {
       if (notLastError()) { resolve() }
     });
   });

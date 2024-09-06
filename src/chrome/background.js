@@ -5,33 +5,36 @@ import {
   optionsToParams
 } from './storage.js';
 
-const debug = true;
+const debug = false;
 
 let myParams = '';
 /*
 *. Initialize myParams
 */
-chrome.runtime.onInstalled.addListener(() => {
-  getOptions().then(getOptions().then( (options) => {
-    myParams = optionsToParams(options);
-    debug && console.log(`[onInstalled][myParams]: ${myParams}`);
-  }));
-
+getOptions().then( (options) => {
+  myParams = optionsToParams(options);
+  debug && console.log(`[onInstalled][myParams]: ${myParams}`);
 });
 
+
 /*
-*  Send myParams to content script when it asks for it
+*  Send myParams to content script when page is initially loaded
 */
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if (request.skiptoMessage === "get-options") {
-      debug && console.log(`[onMessage][myParams]: ${myParams}`);
-      sendResponse(myParams);
-    }
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  debug && console.log(`[onMessage][type]: ${request.type}`);
+
+  if (request.skiptoMessage === "get-options") {
+    debug && console.log(`[onMessage][myParams]: ${myParams}`);
+    sendResponse(myParams);
   }
-);
 
+  if (request.type === 'updateMyParams') {
+    getOptions().then( (options) => {
+      myParams = optionsToParams(options);
+      debug && console.log(`[onMessage][myParams]: ${myParams}`);
+    });
+  }
 
-
+});
 
 
