@@ -2,7 +2,7 @@
 
 // Constants
 
-const debug = true;
+const debug = false;
 
 const optionsColorViwerTemplate = document.createElement('template');
 optionsColorViwerTemplate.innerHTML = `
@@ -64,7 +64,7 @@ cssOptionsColorViwerTemplate.innerHTML = `
   border: 2px #555 solid;
   border-radius: 5px;
   padding: 0;
-  width: 40em;
+  width: 45em;
 }
 
 h2 {
@@ -249,6 +249,8 @@ class OptionsStyleViewer extends HTMLElement {
 
   static get observedAttributes() {
     return [
+      "data-font-family",
+      "data-font-size",
       "data-button-text-color",
       "data-button-background-color",
       "data-focus-border-color",
@@ -279,6 +281,17 @@ class OptionsStyleViewer extends HTMLElement {
       const isFocus      = name.includes('-focus-');
       const isBackground = name.includes('-background-');
       const isBorder     = name.includes('-border-');
+      const isFontFamily = name.includes('-font-family');
+      const isFontSize   = name.includes('-font-size');
+
+      if (isFontFamily || isFontSize) {
+        const nodes = this.shadowRoot.querySelectorAll('button, .menuitem, .separator');
+        nodes.forEach( (n) => {
+          isFontFamily ?
+            n.style.fontFamily = newValue :
+            n.style.fontSize = newValue;
+        });
+      }
 
       if (isButton) {
         const button = this.shadowRoot.querySelector('button');

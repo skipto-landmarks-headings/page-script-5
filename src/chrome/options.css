@@ -41,7 +41,14 @@ legend {
 label {
   display:  block;
   margin: 0.25em;
+  font-size: 12pt;
 }
+
+.font label {
+  margin-top: 0.5em;
+  font-weight: bold;
+}
+
 
 .color {
   margin-top: 0.25em;

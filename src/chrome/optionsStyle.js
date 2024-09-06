@@ -24,6 +24,28 @@ const optionsStyleTemplate = document.createElement('template');
 optionsStyleTemplate.innerHTML = `
   <form>
 
+    <h2>Font Options</h2>
+
+    <div class="font">
+      <label for="select-font-family">Font Family</label>
+      <select id="select-font-family">
+        <option value="sans-serif">Sans-serif</option>
+        <option value="serif">Serif</option>
+        <option value="monospace">Monospace</option>
+      </select>
+    </div>
+
+    <div class="font">
+      <label for="select-font-size">Font Size</label>
+      <select id="select-font-size">
+        <option value="10pt">10pt</option>
+        <option value="12pt">12pt</option>
+        <option value="14pt">14pt</option>
+        <option value="16pt">16pt</option>
+      </select>
+    </div>
+
+
     <h2>Color Options</h2>
 
     <div class="color">
@@ -125,6 +147,8 @@ class OptionsStyle extends HTMLElement {
 
     const form = {};
 
+    form.selectFontFamily             = getNode('select-font-family');
+    form.selectFontSize               = getNode('select-font-size');
     form.buttonTextColorInput         = getNode('button-text-color');
     form.buttonBackgroundColorInput   = getNode('button-background-color');
     form.focusBorderColorInput        = getNode('focus-border-color');
@@ -146,12 +170,34 @@ class OptionsStyle extends HTMLElement {
       input.addEventListener('blur', this.onBlur);
       input.addEventListener('input', optionsStyle.onChange.bind(optionsStyle));
     });
+
+    getNode('select-font-family').addEventListener('change', this.onChangeFontFamily.bind(this));
+
+    getNode('select-font-size').addEventListener('change', this.onChangeFontSize.bind(this));
+
   }
 
   updateOptions () {
     const form = this.form;
+    let optionNodes, optionNode;
 
     getOptions().then( (options) => {
+
+      optionNodes = form.selectFontFamily.querySelectorAll('option');
+      for (let i = 0; i < optionNodes.length; i += 1) {
+        optionNode = optionNodes[i];
+        if (optionNode.value === options.fontFamily) {
+            optionNode.setAttribute('selected', '');
+        }
+      }
+
+      optionNodes = form.selectFontSize.querySelectorAll('option');
+      for (let i = 0; i < optionNodes.length; i += 1) {
+        optionNode = optionNodes[i];
+        if (optionNode.value === options.fontSize) {
+          optionNode.setAttribute('selected', '');
+        }
+      }
 
       form.buttonTextColorInput.value         = options.buttonTextColor;
       form.buttonBackgroundColorInput.value   = options.buttonBackgroundColor;
@@ -196,6 +242,9 @@ class OptionsStyle extends HTMLElement {
 
     getOptions().then( (options) => {
 
+      options.fontFamily = form.selectFontFamily.value;
+      options.fontSize   = form.selectFontSize.value;
+
       options.buttonTextColor         = form.buttonTextColorInput.value;
       options.buttonBackgroundColor   = form.buttonBackgroundColorInput.value;
       options.focusBorderColor        = form.focusBorderColorInput.value;
@@ -204,13 +253,16 @@ class OptionsStyle extends HTMLElement {
       options.menuitemFocusTextColor       = form.menuBackgroundColorInput.value;
       options.menuitemFocusBackgroundColor = form.menuTextColorInput.value;
 
-      this.updateColorViewer(options);
+      this.updateStyleViewer(options);
 
       saveOptions(options).then(this.syncOptionsWithSkipToScript(options));
     });
   }
 
   updateStyleViewer(options) {
+
+    this.optionsStyleViewerNode.setAttribute('data-font-family', options.fontFamily);
+    this.optionsStyleViewerNode.setAttribute('data-font-size', options.fontSize);
 
     this.optionsStyleViewerNode.setAttribute('data-button-text-color', options.buttonTextColor);
     this.optionsStyleViewerNode.setAttribute('data-button-background-color', options.buttonBackgroundColor);
@@ -238,6 +290,17 @@ class OptionsStyle extends HTMLElement {
     debug && console.log(`[onChange]: ${event.target.value}`);
     this.saveStyleOptions();
   }
+
+  onChangeFontFamily (event) {
+    debug && console.log(`[onChangeFontFamily]: ${event.target.value}`);
+    this.saveStyleOptions();
+  }
+
+  onChangeFontSize (event) {
+    debug && console.log(`[onChangeFontSize]: ${event.target.value}`);
+    this.saveStyleOptions();
+  }
+
 
 }
 

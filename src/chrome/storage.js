@@ -6,6 +6,8 @@ const defaultMenuOptions = {
 };
 
 const defaultStyleOptions = {
+  fontFamily: 'sans-serif',
+  fontSize: '12pt',
   buttonTextColor: '#13294b',
   buttonBackgroundColor: '#dddddd',
   focusBorderColor: '#c5050c',
