@@ -44,7 +44,13 @@ label {
   font-size: 12pt;
 }
 
+.font,
+.color {
+  margin-left: 1em;
+}
+
 .font label {
+  margin-left: 0;
   margin-top: 0.5em;
   font-weight: bold;
 }

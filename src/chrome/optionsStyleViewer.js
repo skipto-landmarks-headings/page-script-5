@@ -60,7 +60,7 @@ cssOptionsColorViwerTemplate.innerHTML = `
 <style>
 
 .color-viewer {
-  margin-top: 1em;
+  margin-top: 2em;
   border: 2px #555 solid;
   border-radius: 5px;
   padding: 0;
