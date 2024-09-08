@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>SkipTo.js for Firefox</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="options.css"/>
+    <link rel="stylesheet" href="optionsTablist.css"/>
+
+    <script type="module" src="optionsMenu.js"></script>
+    <script type="module" src="optionsStyle.js"></script>
+    <script type="module" src="optionsStyleViewer.js"></script>
+    <script type="module" src="optionsTablist.js"></script>
+
+  </head>
+
+  <body>
+    <header>
+      <img src="images/skipto-icon-48.png" alt="skip to logo"/>
+      <span id="banner-title">SkipTo.js for Firefox</span>
+    </header>
+    <main>
+      <h1 id="h1-title">Configuration Options</h1>
+
+      <div class="tablist" role="tablist">
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-menu"
+             aria-controls="tabpanel-options-menu">
+          Menu Content
+        </div>
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-style"
+             aria-controls="tabpanel-options-style">
+          Style
+        </div>
+      </div>
+
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-menu"
+           aria-labelledby="tablist-tab-menu">
+
+        <options-menu></options-menu>
+
+      </div>
+
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-style"
+           aria-labelledby="tablist-tab-style">
+
+           <options-style></options-style>
+
+      </div>
+
+    </main>
+  </body>
+</html>
