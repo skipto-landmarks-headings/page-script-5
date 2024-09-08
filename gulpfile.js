@@ -60,6 +60,8 @@ gulp.task('build', () => {
   ])
     .pipe(concat('skipto.js'))
     .pipe(dest('src/chrome'))
+    .pipe(dest('src/opera'))
+    .pipe(dest('src/firefox'))
     .pipe(dest('docs/dist'));
 });
 
