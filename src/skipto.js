@@ -72,7 +72,6 @@ debug.flag = false;
   if (document.getElementById(`id-skip-to-bookmarklet`)) {
     debug.flag && debug.log(`[bookmarklet]`);
     const skipToContentElem = getSkipToContentElement();
-    // check for older version of SkipTo.js
     if (skipToContentElem) {
       skipToContentElem.init();
       skipToContentElem.buttonSkipTo.openPopup();
@@ -83,7 +82,6 @@ debug.flag = false;
     if (document.getElementById(`id-skip-to-extension`)) {
       debug.flag && debug.log(`[extension]`);
       const skipToContentElem = getSkipToContentElement();
-      // check for older version of SkipTo.js
       if (skipToContentElem) {
         skipToContentElem.init();
         window.addEventListener('load', function() {

@@ -625,7 +625,7 @@ function getHeadings (config, headings) {
     let heading = headings[i];
     let role = heading.node.getAttribute('role');
     if ((typeof role === 'string') && (role === 'presentation')) continue;
-    if (isVisible(heading.node) && isNotEmptyString(heading.node.innerHTML)) {
+    if (isVisible(heading.node) && isNotEmptyString(heading.node.textContent)) {
       if (heading.node.hasAttribute('data-skip-to-id')) {
         dataId = heading.node.getAttribute('data-skip-to-id');
       } else {

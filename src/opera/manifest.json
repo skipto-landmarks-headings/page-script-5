@@ -1,29 +1,35 @@
 {
   "manifest_version": 3,
-  "name": "SkipTo.js",
-  "version": "0.9",
-
-  "description": "Adds SkipTo.js script to a web page",
-
+  "name": "__MSG_extension_name__",
+  "version": "1.0",
+  "description": "__MSG_extension_description__",
   "homepage_url": "https://skipto-landmarks-headings.github.io/page-script-5/",
-
-  "permissions": [
-    "storage",
-    "tabs"
-  ],
-
+  "default_locale": "en",
   "icons": {
-    "128": "images/skipto-icon-128.png",
-     "64": "images/skipto-icon-64.png",
-     "48": "images/skipto-icon-48.png",
-     "32": "images/skipto-icon-32.png",
-     "16": "images/skipto-icon-16.png"
+    "16": "./images/skipto-icon-16.png",
+    "32": "./images/skipto-icon-32.png",
+    "48": "./images/skipto-icon-48.png",
+    "64": "./images/skipto-icon-64.png",
+    "128": "./images/skipto-icon-128.png"
   },
-
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "storage"
+  ],
+  "web_accessible_resources": [{
+    "resources": ["skipto.js"],
+    "matches": ["<all_urls>"]
+  }],
   "content_scripts": [
     {
-      "matches": ["https://*/*"],
-      "js": ["skipto.min.js"]
+      "js": [
+        "content.js"
+      ],
+      "matches": ["<all_urls>"]
     }
   ]
 }

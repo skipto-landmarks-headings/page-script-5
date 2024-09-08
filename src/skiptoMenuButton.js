@@ -370,7 +370,11 @@ export default class SkiptoMenuButton {
      * @param  {String}  msgNoItesmFound -  Message to render if there are no menu items
      */
     renderMenuitemsToGroup(groupNode, menuitems, msgNoItemsFound) {
-      groupNode.innerHTML = '';
+      // remove all child nodes
+      while (groupNode.firstChild) {
+        groupNode.removeChild(groupNode.firstChild);
+      }
+
       this.lastNestingLevel = 0;
 
       if (menuitems.length === 0) {

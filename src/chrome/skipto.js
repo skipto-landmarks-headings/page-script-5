@@ -1785,7 +1785,7 @@ $skipToId-highlight div {
       let heading = headings[i];
       let role = heading.node.getAttribute('role');
       if ((typeof role === 'string') && (role === 'presentation')) continue;
-      if (isVisible(heading.node) && isNotEmptyString(heading.node.innerHTML)) {
+      if (isVisible(heading.node) && isNotEmptyString(heading.node.textContent)) {
         if (heading.node.hasAttribute('data-skip-to-id')) {
           dataId = heading.node.getAttribute('data-skip-to-id');
         } else {
@@ -2533,7 +2533,11 @@ $skipToId-highlight div {
        * @param  {String}  msgNoItesmFound -  Message to render if there are no menu items
        */
       renderMenuitemsToGroup(groupNode, menuitems, msgNoItemsFound) {
-        groupNode.innerHTML = '';
+        // remove all child nodes
+        while (groupNode.firstChild) {
+          groupNode.removeChild(groupNode.firstChild);
+        }
+
         this.lastNestingLevel = 0;
 
         if (menuitems.length === 0) {
