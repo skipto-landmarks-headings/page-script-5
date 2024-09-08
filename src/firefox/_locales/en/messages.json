@@ -8,7 +8,7 @@
     "description": "Extension description"
   },
   "options_h1_title": {
-    "message" : "Options",
+    "message" : "Preferences",
     "description" : "Title of options page"
   },
   "options_tab_menu": {
