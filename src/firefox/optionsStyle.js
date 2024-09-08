@@ -12,7 +12,7 @@ const i18n = typeof browser === 'object' ?
             browser.i18n :
             chrome.i18n;
 
-const tabs = typeof browser === 'object' ?
+const browserTabs = typeof browser === 'object' ?
             browser.tabs :
             chrome.tabs;
 
@@ -38,10 +38,13 @@ const optionsStyleTemplate = document.createElement('template');
 optionsStyleTemplate.innerHTML = `
   <form>
 
-    <h2>Font Options</h2>
+    <h2 id="h2-font-options">Font Options</h2>
 
     <div class="font">
-      <label for="select-font-family">Font Family</label>
+      <label id="select-font-family-label"
+            for="select-font-family">
+         Font Family
+      </label>
       <select id="select-font-family">
         <option value="sans-serif">Sans-serif</option>
         <option value="serif">Serif</option>
@@ -50,7 +53,8 @@ optionsStyleTemplate.innerHTML = `
     </div>
 
     <div class="font">
-      <label for="select-font-size">Font Size</label>
+      <label id="select-font-size-label"
+          for="select-font-size">Font Size</label>
       <select id="select-font-size">
         <option value="10pt">10pt</option>
         <option value="12pt">12pt</option>
@@ -60,7 +64,7 @@ optionsStyleTemplate.innerHTML = `
     </div>
 
 
-    <h2>Color Options</h2>
+    <h2 id="h2-color-options">Color Options</h2>
 
     <div class="color">
       <input id="button-text-color"
@@ -139,12 +143,17 @@ class OptionsStyle extends HTMLElement {
     const i18nLabels = [
       { id: 'button-reset', label: 'options_button_style_reset'},
 
+      { id: 'h2-font-options', label: 'options_font_options'},
+      { id: 'h2-color-options', label: 'options_color_options'},
+
+      { id: 'select-font-family-label', label: 'options_font_family'},
+      { id: 'select-font-size-label',   label: 'options_font_size'},
+
       { id: 'button-text-color-label',         label: 'options_button_text_color'},
       { id: 'button-background-color-label',   label: 'options_button_background_color'},
       { id: 'focus-border-color-label',        label: 'options_focus_border_color'},
       { id: 'menu-text-color-label',           label: 'options_menu_text_color'},
       { id: 'menu-background-color-label',     label: 'options_menu_background_color'},
-
     ];
 
     i18nLabels.forEach( item => {
@@ -228,9 +237,9 @@ class OptionsStyle extends HTMLElement {
   syncOptionsWithSkipToScript (options) {
     async function sendOptionsToTabs (options) {
       debug && console.log(`[syncOptoinsWithSkipToScript]: ${options}`);
-      const tabs = await tabs.query({});
+      const tabs = await browserTabs.query({});
       for (const tab of tabs) {
-          tabs.sendMessage(tab.id, {skiptoParams: optionsToParams(options)})
+          browserTabs.sendMessage(tab.id, {skiptoParams: optionsToParams(options)})
           .then((response) => {
               debug && console.info("Options received response from tab with title '%s' and url %s",
                   response.title, response.url)

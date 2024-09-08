@@ -12,7 +12,7 @@ const i18n = typeof browser === 'object' ?
             browser.i18n :
             chrome.i18n;
 
-const tabs = typeof browser === 'object' ?
+const browserTabs = typeof browser === 'object' ?
             browser.tabs :
             chrome.tabs;
 
@@ -241,9 +241,9 @@ class OptionsMenu extends HTMLElement {
   syncOptionsWithSkipToScript (options) {
     async function sendOptionsToTabs (options) {
       debug && console.log(`[syncOptoinsWithSkipToScript][params]: ${optionsToParams(options)}`);
-      const tabs = await tabs.query({});
+      const tabs = await browserTabs.query({});
       for (const tab of tabs) {
-          tabs.sendMessage(tab.id, {skiptoParams: optionsToParams(options)})
+          browserTabs.sendMessage(tab.id, {skiptoParams: optionsToParams(options)})
           .then((response) => {
               debug && console.info("Options received response from tab with title '%s' and url %s",
                   response.title, response.url)
