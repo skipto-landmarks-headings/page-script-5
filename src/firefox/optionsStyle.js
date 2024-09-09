@@ -4,11 +4,11 @@ const debug = false;
 
 // Define browser specific APIs for Opera, Firefox and Chrome
 
-const runtime = typeof browser === 'object' ?
+const browserRuntime = typeof browser === 'object' ?
               browser.runtime :
               chrome.runtime;
 
-const i18n = typeof browser === 'object' ?
+const browserI18n = typeof browser === 'object' ?
             browser.i18n :
             chrome.i18n;
 
@@ -25,9 +25,9 @@ import {
 
 // Generic error handler
 function notLastError () {
-  if (!runtime.lastError) { return true; }
+  if (!browserRuntime.lastError) { return true; }
   else {
-    debug && console.log(runtime.lastError.message);
+    debug && console.log(browserRuntime.lastError.message);
     return false;
   }
 }
@@ -158,7 +158,7 @@ class OptionsStyle extends HTMLElement {
 
     i18nLabels.forEach( item => {
       const node = getNode(item.id);
-      const label = i18n.getMessage(item.label);
+      const label = browserI18n.getMessage(item.label);
       if (node && label) {
         node.textContent = label + (debug ? ' (i18n)' : '');
       }
@@ -256,7 +256,7 @@ class OptionsStyle extends HTMLElement {
 
   syncMyParamsInBackground (options) {
       debug && console.log(`[syncMyParamsInBackground][params]: ${optionsToParams(options)}`);
-      runtime.sendMessage({type: 'updateMyParams'});
+      browserRuntime.sendMessage({type: 'updateMyParams'});
   }
 
   saveStyleOptions () {

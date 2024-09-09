@@ -1,5 +1,10 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "skipto-for-firefox@openweba11y.com"
+    }
+  },
   "name": "__MSG_extension_name__",
   "version": "1.0",
   "description": "__MSG_extension_description__",
@@ -20,10 +25,7 @@
   "permissions": [
     "storage"
   ],
-  "web_accessible_resources": [{
-    "resources": ["skipto.js"],
-    "matches": ["<all_urls>"]
-  }],
+  "web_accessible_resources": ["skipto.js"],
   "content_scripts": [
     {
       "js": [

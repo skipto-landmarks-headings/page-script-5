@@ -4,7 +4,7 @@ const debug = false;
 
 // Define browser specific APIs for Opera, Firefox and Chrome
 
-const i18n = typeof browser === 'object' ?
+const browserI18n = typeof browser === 'object' ?
             browser.i18n :
             chrome.i18n;
 
@@ -19,7 +19,7 @@ const i18nLabels = [
 window.addEventListener("load", (event) => {
   i18nLabels.forEach( item => {
     const node = document.getElementById(item.id);
-    const label = i18n.getMessage(item.label);
+    const label = browserI18n.getMessage(item.label);
     if (node && label) {
       node.textContent = label + (debug ? ' (i18n)' : '');
     }
