@@ -105,20 +105,24 @@ export default class SkipToContent extends HTMLElement {
    *                                 can be undefined
    */
   init(globalConfig=null) {
-    if (globalConfig) {
-      this.config = this.setupConfigFromGlobal(this.config, globalConfig);
-    }
+    console.log(`[init][start]: ${this.shadowRoot.firstElementChild === null}`);
+    if (this.shadowRoot.firstElementChild === null) {
+      if (globalConfig) {
+        this.config = this.setupConfigFromGlobal(this.config, globalConfig);
+      }
 
-    // Check for data-skipto attribute values for configuration
-    const configElem = document.querySelector('[data-skipto]');
-    if (configElem) {
-      const params = configElem.getAttribute('data-skipto');
-      this.config  = this.setupConfigFromDataAttribute(this.config, params);
-    }
+      // Check for data-skipto attribute values for configuration
+      const configElem = document.querySelector('[data-skipto]');
+      if (configElem) {
+        const params = configElem.getAttribute('data-skipto');
+        this.config  = this.setupConfigFromDataAttribute(this.config, params);
+      }
 
-    // Add skipto style sheet to document
-    renderStyleElement(this.shadowRoot, this.config, this.skipToId);
-    this.buttonSkipTo = new SkiptoMenuButton(this.shadowRoot, this.config, this.skipToId);
+      // Add skipto style sheet to document
+      renderStyleElement(this.shadowRoot, this.config, this.skipToId);
+      this.buttonSkipTo = new SkiptoMenuButton(this.shadowRoot, this.config, this.skipToId);
+    }
+    console.log(`[init][end]`);
   }
 
  /*
