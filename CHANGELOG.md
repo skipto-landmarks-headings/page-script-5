@@ -1,5 +1,8 @@
 # Version history for Skipto.js
 
+## Version 5.5.2
+* Update button menu not to use a html template for wider website support for extensions
+
 ## Version 5.5.1
 * Updated data-skipto attribute changes to also update the stylesheet
 * Version 1.0 of extensions for Opera, Chrome and Firefox

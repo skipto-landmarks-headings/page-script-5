@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.5.1
+ * Version: 5.5.2
  * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -2186,42 +2186,6 @@ $skipToId-highlight div {
   const debug$2 = new DebugLogging('SkipToButton', false);
   debug$2.flag = false;
 
-  const menuButtonTemplate = document.createElement('template');
-  menuButtonTemplate.innerHTML = `
-  <button aria-label="Skip To Content"
-          aria-haspopup="menu"
-          aria-expanded="false"
-          aria-controls="id-skip-to-menu">
-    <span class="skipto-text">Skip</span>
-    <span class="skipto-small">Skip to Content</span>
-    <span class="skipto-medium">Skip to Content (Alt+0)</span>
-  </button>
-
-  <div id="id-skip-to-menu"
-       role="menu"
-       aria-label="skip to content">
-
-    <div id="id-skip-to-menu-landmark-group-label"
-         role="separator">
-       Landmark Regions
-    </div>
-    <div id="id-skip-to-menu-landmark-group"
-         role="group"
-         aria-labelledby="id-skip-to-menu-landmark-group-label">
-    </div>
-
-    <div id="id-skip-to-menu-heading-group-label"
-         role="separator">
-       Headings
-    </div>
-    <div id="id-skip-to-menu-heading-group"
-         role="group"
-         aria-labelledby="id-skip-to-menu-landmark-group-label">
-    </div>
-
-  </div>
-`;
-
   /**
    * @class SkiptoMenuButton
    *
@@ -2268,40 +2232,66 @@ $skipToId-highlight div {
           }
         }
 
-        const menuButtonClone = menuButtonTemplate.content.cloneNode(true);
-        this.containerNode.appendChild(menuButtonClone);
-
         // Create button
 
         const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(config);
 
-        this.buttonNode = this.containerNode.querySelector('button');
+        this.buttonNode = document.createElement('button');
+        this.buttonNode.setAttribute('aria-haspopup', 'menu');
+        this.buttonNode.setAttribute('aria-expanded', 'false');
         this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
+        this.buttonNode.setAttribute('aria-controls', 'id-skip-to-menu');
         this.buttonNode.addEventListener('keydown', this.handleButtonKeydown.bind(this));
         this.buttonNode.addEventListener('click', this.handleButtonClick.bind(this));
+        this.containerNode.appendChild(this.buttonNode);
 
-        this.buttonTextNode = this.buttonNode.querySelector('.skipto-text');
-        this.buttonTextNode.textContent = buttonVisibleLabel;
+        const textButtonNode = document.createElement('span');
+        this.buttonNode.appendChild(textButtonNode);
+        textButtonNode.classList.add('skipto-text');
+        textButtonNode.textContent = buttonVisibleLabel;
 
-        const smallButtonNode = this.buttonNode.querySelector('.skipto-small');
+        const smallButtonNode = document.createElement('span');
+        this.buttonNode.appendChild(smallButtonNode);
+        smallButtonNode.classList.add('skipto-small');
         smallButtonNode.textContent = config.smallButtonLabel;
 
-        const mediumButtonNode = this.buttonNode.querySelector('.skipto-medium');
+        const mediumButtonNode = document.createElement('span');
+        this.buttonNode.appendChild(mediumButtonNode);
+        mediumButtonNode.classList.add('skipto-medium');
         mediumButtonNode.textContent = config.buttonLabel;
 
         // Create menu container
         this.menuitemNodes = [];
 
-        this.menuNode   = this.containerNode.querySelector('[role="menu"]');
+        this.menuNode   = document.createElement('div');
+        this.menuNode.setAttribute('id', 'id-skip-to-menu');
+        this.menuNode.setAttribute('role', 'menu');
         this.menuNode.setAttribute('aria-label', config.menuLabel);
+        this.containerNode.appendChild(this.menuNode);
 
-        this.landmarkGroupLabelNode = this.containerNode.querySelector('#id-skip-to-menu-landmark-group-label');
+        this.landmarkGroupLabelNode = document.createElement('div');
+        this.landmarkGroupLabelNode.setAttribute('id', 'id-skip-to-menu-landmark-group-label');
+        this.landmarkGroupLabelNode.setAttribute('role', 'separator');
         this.landmarkGroupLabelNode.textContent = this.config.landmarkGroupLabel;
-        this.landmarkGroupNode = this.containerNode.querySelector('#id-skip-to-menu-landmark-group');
+        this.menuNode.appendChild(this.landmarkGroupLabelNode);
 
-        this.headingGroupLabelNode = this.containerNode.querySelector('#id-skip-to-menu-heading-group-label');
+        this.landmarkGroupNode = document.createElement('div');
+        this.landmarkGroupNode.setAttribute('id', 'id-skip-to-menu-landmark-group');
+        this.landmarkGroupNode.setAttribute('role', 'group');
+        this.landmarkGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-landmark-group-label');
+        this.menuNode.appendChild(this.landmarkGroupNode);
+
+        this.headingGroupLabelNode = document.createElement('div');
+        this.headingGroupLabelNode.setAttribute('id', 'id-skip-to-menu-heading-group-label');
+        this.headingGroupLabelNode.setAttribute('role', 'separator');
         this.headingGroupLabelNode.textContent = this.config.headingGroupLabel;
-        this.headingGroupNode = this.containerNode.querySelector('#id-skip-to-menu-heading-group');
+        this.menuNode.appendChild(this.headingGroupLabelNode);
+
+        this.headingGroupNode = document.createElement('div');
+        this.headingGroupNode.setAttribute('id', 'id-skip-to-menu-heading-group');
+        this.headingGroupNode.setAttribute('role', 'group');
+        this.headingGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-heading-group-label');
+        this.menuNode.appendChild(this.headingGroupNode);
 
         this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
         this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -3171,7 +3161,7 @@ $skipToId-highlight div {
       super();
       this.attachShadow({ mode: 'open' });
       this.skipToId = 'id-skip-to';
-      this.version = "5.5.1";
+      this.version = "5.5.2";
       this.buttonSkipTo = null;
 
       // Default configuration values

@@ -17,7 +17,7 @@ export default class SkipToContent extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.skipToId = 'id-skip-to';
-    this.version = "5.5.1";
+    this.version = "5.5.2";
     this.buttonSkipTo = null;
 
     // Default configuration values
