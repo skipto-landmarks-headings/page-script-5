@@ -1,7 +1,7 @@
 /* storage.js */
 
 const defaultMenuOptions = {
-  headings: 'main-only h1 h2 h3',
+  headings: 'main-only h1 h2',
   landmarks: 'main search nav complementary',
 };
 
