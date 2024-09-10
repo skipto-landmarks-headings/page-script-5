@@ -3163,6 +3163,7 @@ $skipToId-highlight div {
       this.skipToId = 'id-skip-to';
       this.version = "5.5.2";
       this.buttonSkipTo = null;
+      this.initialized = false;
 
       // Default configuration values
       this.config = {
@@ -3249,8 +3250,8 @@ $skipToId-highlight div {
      *                                 can be undefined
      */
     init(globalConfig=null) {
-      console.log(`[init][start]: ${this.shadowRoot.firstElementChild === null}`);
-      if (this.shadowRoot.firstElementChild === null) {
+      if (!this.initialized) {
+        this.initialized = true;
         if (globalConfig) {
           this.config = this.setupConfigFromGlobal(this.config, globalConfig);
         }
@@ -3266,7 +3267,6 @@ $skipToId-highlight div {
         renderStyleElement(this.shadowRoot, this.config, this.skipToId);
         this.buttonSkipTo = new SkiptoMenuButton(this.shadowRoot, this.config, this.skipToId);
       }
-      console.log(`[init][end]`);
     }
 
    /*
