@@ -13,7 +13,8 @@ const i18nLabels = [
   { id: 'banner-title',      label: 'extension_name'},
   { id: 'h1-title',          label: 'options_h1_title'},
   { id: 'tablist-tab-menu',  label: 'options_tab_menu'},
-  { id: 'tablist-tab-style', label: 'options_tab_style'}
+  { id: 'tablist-tab-style', label: 'options_tab_style'},
+  { id: 'tablist-tab-i18n',  label: 'options_tab_i18n'}
 ];
 
 window.addEventListener("load", (event) => {

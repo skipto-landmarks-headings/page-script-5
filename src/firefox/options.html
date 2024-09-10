@@ -11,6 +11,7 @@
     <script type="module" src="optionsMenu.js"></script>
     <script type="module" src="optionsStyle.js"></script>
     <script type="module" src="optionsStyleViewer.js"></script>
+    <script type="module" src="optionsI18n.js"></script>
     <script type="module" src="optionsTablist.js"></script>
 
   </head>
@@ -36,6 +37,12 @@
              aria-controls="tabpanel-options-style">
           Style
         </div>
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-i18n"
+             aria-controls="tabpanel-options-i18n">
+          Internationalization
+        </div>
       </div>
 
       <div class="tabpanel"
@@ -53,6 +60,15 @@
            aria-labelledby="tablist-tab-style">
 
            <options-style></options-style>
+
+      </div>
+
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-i18n"
+           aria-labelledby="tablist-tab-i18n">
+
+        <options-i18n></options-i18n>
 
       </div>
 

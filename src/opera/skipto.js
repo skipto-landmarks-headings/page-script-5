@@ -2317,6 +2317,15 @@ $skipToId-highlight div {
       }
 
       /*
+       * @method focusButton
+       *
+       * @desc Sets keyboard focus on the menu button
+       */
+      focusButton() {
+        this.buttonNode.focus();
+      }
+
+      /*
        * @method getBrowserSpecificShortcut
        *
        * @desc Identifies the operating system and updates labels for 
@@ -3443,7 +3452,7 @@ $skipToId-highlight div {
           window.addEventListener('load', function() {
             debug.flag && debug.log(`[focus]`);
             removeLegacySkipToJS(skipToContentElem);
-            skipToContentElem.buttonSkipTo.focus();
+            skipToContentElem.buttonSkipTo.focusButton();
           });
         }
       }

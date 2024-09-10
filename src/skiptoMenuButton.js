@@ -154,6 +154,15 @@ export default class SkiptoMenuButton {
     }
 
     /*
+     * @method focusButton
+     *
+     * @desc Sets keyboard focus on the menu button
+     */
+    focusButton() {
+      this.buttonNode.focus();
+    }
+
+    /*
      * @method getBrowserSpecificShortcut
      *
      * @desc Identifies the operating system and updates labels for 

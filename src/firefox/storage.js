@@ -28,7 +28,34 @@ const defaultStyleOptions = {
   menuitemFocusBackgroundColor: '#13294b'
 };
 
-const defaultOptions = Object.assign({}, defaultMenuOptions, defaultStyleOptions);
+const i18nOptions = {
+      // Button labels and messages
+      buttonLabel: 'Skip To Content',
+      smallButtonLabel: 'SkipTo',
+      altLabel: 'Alt',
+      optionLabel: 'Option',
+      buttonShortcut: ' ($modifier+$key)',
+      altButtonAriaLabel: 'Skip To Content, shortcut Alt plus $key',
+      optionButtonAriaLabel: 'Skip To Content, shortcut Option plus $key',
+
+      // Menu labels and messages
+      menuLabel: 'Landmarks and Headings',
+      landmarkGroupLabel: 'Landmark Regions',
+      headingGroupLabel: 'Headings',
+      headingLevelLabel: 'Heading level',
+      mainLabel: 'main',
+      searchLabel: 'search',
+      navLabel: 'navigation',
+      regionLabel: 'region',
+      asideLabel: 'complementary',
+      footerLabel: 'contentinfo',
+      headerLabel: 'banner',
+      formLabel: 'form',
+      msgNoLandmarksFound: 'No landmarks found',
+      msgNoHeadingsFound: 'No headings found'
+  };
+
+const defaultOptions = Object.assign({}, defaultMenuOptions, defaultStyleOptions, i18nOptions);
 
 function hasAllProperties (refObj, srcObj) {
   for (const key of Object.keys(refObj)) {

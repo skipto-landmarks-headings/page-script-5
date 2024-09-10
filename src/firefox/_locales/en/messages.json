@@ -13,11 +13,15 @@
   },
   "options_tab_menu": {
     "message" : "Menu",
-    "description" : "Title of options page"
+    "description" : "Title of options tab"
   },
   "options_tab_style": {
     "message" : "Style",
-    "description" : "Title of options page"
+    "description" : "Title of options tab"
+  },
+  "options_tab_i18n": {
+    "message" : "Internationalization",
+    "description" : "Title of internationalization tab"
   },
   "options_button_save" : {
     "message" : "Save",
@@ -30,6 +34,10 @@
   "options_button_style_reset" : {
     "message" : "Reset Style Defaults",
     "description" : "Label for reset styling to default button"
+  },
+  "options_button_i18n_reset" : {
+    "message" : "Reset Language Defaults",
+    "description" : "Label for resetting labels to english to button"
   },
   "options_menu_tab": {
     "message" : "Menu Options",
@@ -142,6 +150,23 @@
   "options_highlight_label": {
     "message" : "Disable highlighting content when navigating menu options",
     "description" : "Checkbox label for disabling highlight"
+  },
+  "options_legend_button_labels": {
+    "message" : "Button Labels",
+    "description" : "Legend for i18n for button related labels"
+  },
+  "options_legend_menu_labels": {
+    "message" : "Menu Labels",
+    "description" : "Legend for i18n for menu related labels"
+  },
+  "options_button_label": {
+    "message" : "Button Label",
+    "description" : "Label for skip to content button"
+  },
+  "options_menu_label": {
+    "message" : "Menu Label",
+    "description" : "Label for menu of landmarks and headings"
   }
+
 
 }

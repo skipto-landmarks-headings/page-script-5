@@ -87,7 +87,7 @@ debug.flag = false;
         window.addEventListener('load', function() {
           debug.flag && debug.log(`[focus]`);
           removeLegacySkipToJS(skipToContentElem);
-          skipToContentElem.buttonSkipTo.focus();
+          skipToContentElem.buttonSkipTo.focusButton();
         });
       }
     }
