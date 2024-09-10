@@ -2307,15 +2307,15 @@ $skipToId-highlight div {
 
         attachNode.appendChild(this.containerNode);
 
-        this.highlightEnabled = (typeof config.highlightTarget === 'string') ?
-                                 config.highlightTarget.trim().toLowerCase() === 'enabled' :
-                                 false;
-
         this.focusMenuitem = null;
-
-        return this.buttonNode;
       }
-        
+
+      get highlightEnabled () {
+        return (typeof this.config.highlightTarget === 'string') ?
+                  this.config.highlightTarget.trim().toLowerCase() === 'enabled' :
+                  false;
+      }
+
       /*
        * @method getBrowserSpecificShortcut
        *

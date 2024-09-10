@@ -41,6 +41,18 @@ optionsMenuTemplate.innerHTML = `
     <div>
 
       <fieldset>
+        <legend id="highlight-legend">
+          Highlight Content
+         </legend>
+
+        <label for="highlight">
+          <input type="checkbox" id="highlight-disabled"/>
+          <span id="highlight-label">Disable highlighting content when navigating menu options</span>
+        </label>
+
+      </fieldset>
+
+      <fieldset>
         <legend id="landmarks-legend">
           Landmark Regions
          </legend>
@@ -152,6 +164,9 @@ class OptionsMenu extends HTMLElement {
     const i18nLabels = [
       { id: 'button-reset', label: 'options_button_menu_content_reset'},
 
+      { id: 'highlight-legend', label: 'options_highlight_legend'},
+      { id: 'highlight-label',  label: 'options_highlight_label'},
+
       { id: 'headings-legend', label: 'options_heading_legend'},
 
       { id: 'headings-1-label', label: 'options_heading_h1'},
@@ -184,6 +199,8 @@ class OptionsMenu extends HTMLElement {
     });
 
     const form = {};
+
+    form.highlightDisabled  = getNode('highlight-disabled');
 
     form.landmarksNavigationInput    = getNode('landmarks-navigation');
     form.landmarksSearchInput        = getNode('landmarks-search');
@@ -219,6 +236,9 @@ class OptionsMenu extends HTMLElement {
     const form = this.form;
 
     getOptions().then( (options) => {
+
+      form.highlightDisabled.checked = options.highlightTarget !== 'enabled';
+
       form.landmarksNavigationInput.checked = options.landmarks.includes('nav');
       form.landmarksSearchInput.checked = options.landmarks.includes('search');
       form.landmarksComplementaryInput.checked = options.landmarks.includes('complementary');
@@ -268,6 +288,10 @@ class OptionsMenu extends HTMLElement {
     const form = this.form;
 
     getOptions().then( (options) => {
+
+      options.highlightTarget = form.highlightDisabled.checked ?
+                              'disabled' :
+                              'enabled';
 
       options.landmarks = 'main';
 

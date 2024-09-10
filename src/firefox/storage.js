@@ -1,5 +1,7 @@
 /* storage.js */
 
+const debug = false;
+
 const runtime = typeof browser === 'object' ?
               browser.runtime :
               chrome.runtime;
@@ -11,6 +13,7 @@ const storage = typeof browser === 'object' ?
 const defaultMenuOptions = {
   headings: 'main-only h1 h2',
   landmarks: 'main search nav complementary',
+  highlightTarget: 'enabled'
 };
 
 const defaultStyleOptions = {
@@ -161,5 +164,6 @@ export function optionsToParams(options) {
   for(const item in options) {
     str += item + ':' + options[item] + ';';
   }
+  debug && console.log(`[optionsToParams]: ${str}`);
   return str;
 }

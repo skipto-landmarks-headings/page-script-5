@@ -108,31 +108,40 @@
     "description" : "Label for font size"
   },
   "options_button_text_color": {
-    "message" : "'Skip To Content' button text color",
+    "message" : "Skip To Content' button text color",
     "description" : "Label button text color"
   },
   "options_button_background_color": {
-    "message" : "'Skip To Content' button background color",
+    "message" : "Skip To Content' button background color",
     "description" : "Label button background color"
   },
   "options_focus_border_color": {
-    "message" : "'Skip To Content' button focus border color",
+    "message" : "Skip To Content' button focus border color",
     "description" : "Label button focus border color"
   },
   "options_menu_text_color": {
-    "message" : "'Menu text color",
+    "message" : "Menu text color",
     "description" : "Menu text color"
   },
   "options_menu_background_color": {
-    "message" : "'Menu background color",
+    "message" : "Menu background color",
     "description" : "Menu background color"
   },
   "options_menuitem_focus_text_color": {
-    "message" : "'Menu item focus text color",
+    "message" : "Menu item focus text color",
     "description" : "Menu item focus text color"
   },
   "options_menuitem_focus_background_color": {
-    "message" : "'Menu item focus background color",
+    "message" : "Menu item focus background color",
     "description" : "Menu item focus background color"
+  },
+  "options_highlight_legend": {
+    "message" : "Highlight Content",
+    "description" : "Fieldset label for highlight content"
+  },
+  "options_highlight_label": {
+    "message" : "Disable highlighting content when navigating menu options",
+    "description" : "Checkbox label for disabling highlight"
   }
+
 }

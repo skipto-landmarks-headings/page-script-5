@@ -1,6 +1,6 @@
 /* content.js */
 
-const debug = false;
+const debug = true;
 
 // Define browser specific APIs for Opera, Firefox and Chrome
 
