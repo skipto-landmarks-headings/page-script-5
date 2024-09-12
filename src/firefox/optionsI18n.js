@@ -51,6 +51,16 @@ optionsI18nTemplate.innerHTML = `
           length="15"/>
       </div>
 
+      <div class="text">
+        <label id="input-small-button-label-label"
+               for="small-button-label">
+                Button Small Label
+        </label>
+        <input id="input-small-button-label"
+          type="text"
+          length="15"/>
+      </div>
+
     </fieldset>
 
 
@@ -63,6 +73,31 @@ optionsI18nTemplate.innerHTML = `
                 Menu Label
         </label>
         <input id="input-menu-label"
+          type="text"
+          length="15"/>
+      </div>
+
+    </fieldset>
+
+    <fieldset>
+      <legend id="legend-landmark-names">Landmark Region Names</legend>
+
+      <div class="text">
+        <label id="input-main-region-name-label"
+               for="input-main-region-name">
+                Menu Label
+        </label>
+        <input id="input-main-region-name"
+          type="text"
+          length="15"/>
+      </div>
+
+      <div class="text">
+        <label id="input-main-region-name-label"
+               for="input-main-region-name">
+                Menu Label
+        </label>
+        <input id="input-main-region-name"
           type="text"
           length="15"/>
       </div>
@@ -104,11 +139,15 @@ class OptionsI18n extends HTMLElement {
     const i18nLabels = [
       { id: 'button-reset', label: 'options_button_i18n_reset'},
 
-      { id: 'legend-button-labels',     label: 'options_legend_button_labels'},
-      { id: 'input-button-label-label', label: 'options_button_label'},
+      { id: 'legend-button-labels',           label: 'options_legend_button_labels'},
+      { id: 'input-button-label-label',       label: 'options_button_label'},
+      { id: 'input-small-button-label-label', label: 'options_small_button_label'},
 
       { id: 'legend-menu-labels',       label: 'options_legend_menu_labels'},
-      { id: 'input-menu-label-label',   label: 'options_menu_label'}
+      { id: 'input-menu-label-label',   label: 'options_menu_label'},
+
+      { id: 'legend-landmark-labels',       label: 'options_legend_landmark_labels'},
+      { id: 'input-main-region-name',       label: 'options_main_region_name'}
 
     ];
 
@@ -127,7 +166,11 @@ class OptionsI18n extends HTMLElement {
     const form = {};
 
     form.buttonLabelInput            = getNode('input-button-label');
+    form.smallButtonLabelInput       = getNode('input-small-button-label');
+
     form.menuLabelInput              = getNode('input-menu-label');
+
+    form.mainRegionNameInput         = getNode('input-main-region-name');
 
     this.form = form;
 
@@ -152,7 +195,10 @@ class OptionsI18n extends HTMLElement {
     getOptions().then( (options) => {
 
       form.buttonLabelInput.value           = options.buttonLabel;
+      form.smallButtonLabelInput.value      = options.smallButtonLabel;
       form.menuLabelInput.value             = options.menuLabel;
+
+      form.mainRegionNameInput.value        = options.mainLabel;
 
       this.syncOptionsWithSkipToScript (options);
     });
@@ -189,10 +235,12 @@ class OptionsI18n extends HTMLElement {
 
     getOptions().then( (options) => {
 
-      options.buttonLabel = form.buttonLabelInput.value;
-      options.menuLabel   = form.menuLabelInput.value;
+      options.buttonLabel      = form.buttonLabelInput.value;
+      options.smallButtonLabel = form.smallButtonLabelInput.value;
 
-      this.updateStyleViewer(options);
+      options.menuLabel        = form.menuLabelInput.value;
+
+      options.mainLabel        = form.mainRegionNameInput.value;
 
       saveOptions(options).then(this.syncOptionsWithSkipToScript(options));
     });

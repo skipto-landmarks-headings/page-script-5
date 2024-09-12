@@ -82,20 +82,20 @@ export default class SkiptoMenuButton {
       this.buttonNode.addEventListener('click', this.handleButtonClick.bind(this));
       this.containerNode.appendChild(this.buttonNode);
 
-      const textButtonNode = document.createElement('span');
-      this.buttonNode.appendChild(textButtonNode);
-      textButtonNode.classList.add('skipto-text');
-      textButtonNode.textContent = buttonVisibleLabel;
+      this.textButtonNode = document.createElement('span');
+      this.buttonNode.appendChild(this.textButtonNode);
+      this.textButtonNode.classList.add('skipto-text');
+      this.textButtonNode.textContent = buttonVisibleLabel;
 
-      const smallButtonNode = document.createElement('span');
-      this.buttonNode.appendChild(smallButtonNode);
-      smallButtonNode.classList.add('skipto-small');
-      smallButtonNode.textContent = config.smallButtonLabel;
+      this.smallButtonNode = document.createElement('span');
+      this.buttonNode.appendChild(this.smallButtonNode);
+      this.smallButtonNode.classList.add('skipto-small');
+      this.smallButtonNode.textContent = config.smallButtonLabel;
 
-      const mediumButtonNode = document.createElement('span');
-      this.buttonNode.appendChild(mediumButtonNode);
-      mediumButtonNode.classList.add('skipto-medium');
-      mediumButtonNode.textContent = config.buttonLabel;
+      this.mediumButtonNode = document.createElement('span');
+      this.buttonNode.appendChild(this.mediumButtonNode);
+      this.mediumButtonNode.classList.add('skipto-medium');
+      this.mediumButtonNode.textContent = config.buttonLabel;
 
       // Create menu container
       this.menuitemNodes = [];
@@ -162,6 +162,30 @@ export default class SkiptoMenuButton {
       this.buttonNode.focus();
     }
 
+
+    /*
+     * @method updateLabels
+     *
+     * @desc Updates labels, important for configuration changes in browser
+     *       add-ons and extensions
+     */
+    updateLabels(config) {
+      if (this.containerNode.hasAttribute('aria-label')) {
+        this.containerNode.setAttribute('aria-label', config.buttonLabel);
+      }
+
+      const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(config);
+      this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
+
+      this.textButtonNode.textContent = buttonVisibleLabel;
+      this.smallButtonNode.textContent = config.smallButtonLabel;
+      this.mediumButtonNode.textContent = config.buttonLabel;
+
+      this.menuNode.setAttribute('aria-label', config.menuLabel);
+      this.landmarkGroupLabelNode.textContent = this.config.landmarkGroupLabel;
+      this.headingGroupLabelNode.textContent = this.config.headingGroupLabel;
+    }
+
     /*
      * @method getBrowserSpecificShortcut
      *
@@ -203,7 +227,9 @@ export default class SkiptoMenuButton {
             config.altLabel
           );
           label = label + buttonShortcut;
-          ariaLabel = config.altButtonAriaLabel.replace('$key', config.altShortcut);
+          ariaLabel = config.buttonAriaLabel.replace('$key', config.altShortcut);
+          ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
+          ariaLabel = ariaLabel.replace('$modifierLabel', config.altLabel);
         }
 
         if (this.usesOptionKey) {
@@ -212,7 +238,9 @@ export default class SkiptoMenuButton {
             config.optionLabel
           );
           label = label + buttonShortcut;
-          ariaLabel = config.optionButtonAriaLabel.replace('$key', config.altShortcut);
+          ariaLabel = config.buttonAriaLabel.replace('$key', config.altShortcut);
+          ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
+          ariaLabel = ariaLabel.replace('$modifierLabel', config.optionLabel);
         }
       }
       return [label, ariaLabel];

@@ -159,14 +159,53 @@
     "message" : "Menu Labels",
     "description" : "Legend for i18n for menu related labels"
   },
+  "options_legend_landmark_labels": {
+    "message" : "Landmark Region Names",
+    "description" : "Legend for i18n for landmark name related labels"
+  },
   "options_button_label": {
     "message" : "Button Label",
     "description" : "Label for skip to content button"
   },
-  "options_menu_label": {
-    "message" : "Menu Label",
-    "description" : "Label for menu of landmarks and headings"
+  "options_small_button_label": {
+    "message" : "Small Button Label",
+    "description" : "Label for skip to content button when screen is narrow"
+  },
+  "options_main_region_name": {
+    "message" : "Menu region name",
+    "description" : "Label for main region name"
+  },
+  "options_search_region_name": {
+    "message" : "Main region name",
+    "description" : "Label for search region name"
+  },
+  "options_navigation_region_name": {
+    "message" : "Navigation region name",
+    "description" : "Label for navigation region name"
+  },
+  "options_complementary_region_name": {
+    "message" : "Complementary region name",
+    "description" : "Label for complementary region name"
+  },
+  "options_contentinfo_region_name": {
+    "message" : "Content Information region name",
+    "description" : "Label for content information region name"
+  },
+  "options_banner_region_name": {
+    "message" : "Banner region name",
+    "description" : "Label for banner region name"
+  },
+  "options_form_region_name": {
+    "message" : "Form region name",
+    "description" : "Label for form region name"
+  },
+  "options_msg_no_landmarks": {
+    "message" : "No landmarks found",
+    "description" : "No landmarks found message"
+  },
+  "options_msg_no_headings": {
+    "message" : "No headings found",
+    "description" : "No headings found message"
   }
-
 
 }

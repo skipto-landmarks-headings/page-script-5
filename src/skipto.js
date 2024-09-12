@@ -5,7 +5,7 @@ import DebugLogging  from './debug.js';
 
 /* constants */
 const debug = new DebugLogging('skipto', false);
-debug.flag = false;
+debug.flag = true;
 
 (function() {
 
@@ -18,7 +18,7 @@ debug.flag = false;
   function removeLegacySkipToJS(skipToContentElem = null) {
     const node = document.getElementById('id-skip-to');
     debug.flag && debug.log(`[removeLegacySkipToJS]: ${node}`);
-    if (node) {
+    if (node !== null) {
       // remove legacy SkipTo.js
       node.remove();
       const cssNode = document.getElementById('id-skip-to-css');
@@ -29,7 +29,7 @@ debug.flag = false;
     }
     const nodes = document.querySelectorAll('skip-to-content');
     if (nodes && nodes.length > 1) {
-      debug.fag && debug.log(`[removeLegacySkipToJS]: Removing duplicate copy of SkipTo.js`);
+      debug.flag && debug.log(`[removeLegacySkipToJS][${nodes.length}]: Removing duplicate copy of SkipTo.js`);
       for (let i = 0; i <nodes.length; i += 1) {
         const stcNode = nodes[i];
         if (stcNode !== skipToContentElem) {
@@ -85,7 +85,7 @@ debug.flag = false;
       if (skipToContentElem) {
         skipToContentElem.init();
         window.addEventListener('load', function() {
-          debug.flag && debug.log(`[focus]`);
+          debug.flag && debug.log(`[focus]: ${skipToContentElem}`);
           removeLegacySkipToJS(skipToContentElem);
           skipToContentElem.buttonSkipTo.focusButton();
         });

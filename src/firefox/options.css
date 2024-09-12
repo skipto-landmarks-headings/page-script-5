@@ -3,6 +3,8 @@
 body {
   margin: 1em;
   padding: 4px;
+  font-family: Helvetica, Arial, Sans-Serif;
+  font-size: 11pt;
 }
 
 header {
@@ -24,7 +26,7 @@ h1,
 
 
 h2 {
-  font-size: 14 pt;
+  font-size: 1.3em;
   font-weight: bold;
 }
 

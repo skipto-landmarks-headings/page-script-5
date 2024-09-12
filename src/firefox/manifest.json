@@ -21,8 +21,10 @@
     "scripts": ["background.js"],
     "type": "module"
   },
-  "options_page": "options.html",
-  "permissions": [
+  "options_ui": {
+    "page": "options.html"
+  },
+    "permissions": [
     "storage"
   ],
   "web_accessible_resources": ["skipto.js"],

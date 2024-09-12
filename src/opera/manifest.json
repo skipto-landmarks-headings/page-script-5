@@ -16,7 +16,9 @@
     "service_worker": "background.js",
     "type": "module"
   },
-  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html"
+  },
   "permissions": [
     "storage"
   ],

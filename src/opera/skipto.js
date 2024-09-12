@@ -2245,20 +2245,20 @@ $skipToId-highlight div {
         this.buttonNode.addEventListener('click', this.handleButtonClick.bind(this));
         this.containerNode.appendChild(this.buttonNode);
 
-        const textButtonNode = document.createElement('span');
-        this.buttonNode.appendChild(textButtonNode);
-        textButtonNode.classList.add('skipto-text');
-        textButtonNode.textContent = buttonVisibleLabel;
+        this.textButtonNode = document.createElement('span');
+        this.buttonNode.appendChild(this.textButtonNode);
+        this.textButtonNode.classList.add('skipto-text');
+        this.textButtonNode.textContent = buttonVisibleLabel;
 
-        const smallButtonNode = document.createElement('span');
-        this.buttonNode.appendChild(smallButtonNode);
-        smallButtonNode.classList.add('skipto-small');
-        smallButtonNode.textContent = config.smallButtonLabel;
+        this.smallButtonNode = document.createElement('span');
+        this.buttonNode.appendChild(this.smallButtonNode);
+        this.smallButtonNode.classList.add('skipto-small');
+        this.smallButtonNode.textContent = config.smallButtonLabel;
 
-        const mediumButtonNode = document.createElement('span');
-        this.buttonNode.appendChild(mediumButtonNode);
-        mediumButtonNode.classList.add('skipto-medium');
-        mediumButtonNode.textContent = config.buttonLabel;
+        this.mediumButtonNode = document.createElement('span');
+        this.buttonNode.appendChild(this.mediumButtonNode);
+        this.mediumButtonNode.classList.add('skipto-medium');
+        this.mediumButtonNode.textContent = config.buttonLabel;
 
         // Create menu container
         this.menuitemNodes = [];
@@ -2325,6 +2325,30 @@ $skipToId-highlight div {
         this.buttonNode.focus();
       }
 
+
+      /*
+       * @method updateLabels
+       *
+       * @desc Updates labels, important for configuration changes in browser
+       *       add-ons and extensions
+       */
+      updateLabels(config) {
+        if (this.containerNode.hasAttribute('aria-label')) {
+          this.containerNode.setAttribute('aria-label', config.buttonLabel);
+        }
+
+        const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(config);
+        this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
+
+        this.textButtonNode.textContent = buttonVisibleLabel;
+        this.smallButtonNode.textContent = config.smallButtonLabel;
+        this.mediumButtonNode.textContent = config.buttonLabel;
+
+        this.menuNode.setAttribute('aria-label', config.menuLabel);
+        this.landmarkGroupLabelNode.textContent = this.config.landmarkGroupLabel;
+        this.headingGroupLabelNode.textContent = this.config.headingGroupLabel;
+      }
+
       /*
        * @method getBrowserSpecificShortcut
        *
@@ -2366,7 +2390,9 @@ $skipToId-highlight div {
               config.altLabel
             );
             label = label + buttonShortcut;
-            ariaLabel = config.altButtonAriaLabel.replace('$key', config.altShortcut);
+            ariaLabel = config.buttonAriaLabel.replace('$key', config.altShortcut);
+            ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
+            ariaLabel = ariaLabel.replace('$modifierLabel', config.altLabel);
           }
 
           if (this.usesOptionKey) {
@@ -2375,7 +2401,9 @@ $skipToId-highlight div {
               config.optionLabel
             );
             label = label + buttonShortcut;
-            ariaLabel = config.optionButtonAriaLabel.replace('$key', config.altShortcut);
+            ariaLabel = config.buttonAriaLabel.replace('$key', config.altShortcut);
+            ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
+            ariaLabel = ariaLabel.replace('$modifierLabel', config.optionLabel);
           }
         }
         return [label, ariaLabel];
@@ -3171,7 +3199,7 @@ $skipToId-highlight div {
       this.attachShadow({ mode: 'open' });
       this.skipToId = 'id-skip-to';
       this.version = "5.5.2";
-      this.buttonSkipTo = null;
+      this.buttonSkipTo = false;
       this.initialized = false;
 
       // Default configuration values
@@ -3194,8 +3222,7 @@ $skipToId-highlight div {
         altLabel: 'Alt',
         optionLabel: 'Option',
         buttonShortcut: ' ($modifier+$key)',
-        altButtonAriaLabel: 'Skip To Content, shortcut Alt plus $key',
-        optionButtonAriaLabel: 'Skip To Content, shortcut Option plus $key',
+        buttonAriaLabel: '$buttonLabel, shortcut $modifierLabel plus $key',
 
         // Menu labels and messages
         menuLabel: 'Landmarks and Headings',
@@ -3360,8 +3387,10 @@ $skipToId-highlight div {
         }
       }
 
-      renderStyleElement(this.shadowRoot, this.config, this.skipToId);
-
+      renderStyleElement(this.shadowRoot, config, this.skipToId);
+      if (this.buttonSkipTo) {
+        this.buttonSkipTo.updateLabels(config);
+      }
       return config;
     }
   }
@@ -3370,7 +3399,7 @@ $skipToId-highlight div {
 
   /* constants */
   const debug = new DebugLogging('skipto', false);
-  debug.flag = false;
+  debug.flag = true;
 
   (function() {
 
@@ -3383,7 +3412,7 @@ $skipToId-highlight div {
     function removeLegacySkipToJS(skipToContentElem = null) {
       const node = document.getElementById('id-skip-to');
       debug.flag && debug.log(`[removeLegacySkipToJS]: ${node}`);
-      if (node) {
+      if (node !== null) {
         // remove legacy SkipTo.js
         node.remove();
         const cssNode = document.getElementById('id-skip-to-css');
@@ -3394,7 +3423,7 @@ $skipToId-highlight div {
       }
       const nodes = document.querySelectorAll('skip-to-content');
       if (nodes && nodes.length > 1) {
-        debug.fag && debug.log(`[removeLegacySkipToJS]: Removing duplicate copy of SkipTo.js`);
+        debug.flag && debug.log(`[removeLegacySkipToJS][${nodes.length}]: Removing duplicate copy of SkipTo.js`);
         for (let i = 0; i <nodes.length; i += 1) {
           const stcNode = nodes[i];
           if (stcNode !== skipToContentElem) {
@@ -3450,7 +3479,7 @@ $skipToId-highlight div {
         if (skipToContentElem) {
           skipToContentElem.init();
           window.addEventListener('load', function() {
-            debug.flag && debug.log(`[focus]`);
+            debug.flag && debug.log(`[focus]: ${skipToContentElem}`);
             removeLegacySkipToJS(skipToContentElem);
             skipToContentElem.buttonSkipTo.focusButton();
           });

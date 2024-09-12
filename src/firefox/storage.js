@@ -189,8 +189,8 @@ function notLastError () {
 export function optionsToParams(options) {
   let str = '';
   for(const item in options) {
+    debug && console.log(`[optionsToParams][${item}]: ${options[item]}`);
     str += item + ':' + options[item] + ';';
   }
-  debug && console.log(`[optionsToParams]: ${str}`);
   return str;
 }
