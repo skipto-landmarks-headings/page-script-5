@@ -171,10 +171,6 @@
     "message" : "Menu Labels",
     "description" : "Legend for i18n for menu related labels"
   },
-  "options_legend_menu_labels": {
-    "message" : "Menu Labels",
-    "description" : "Legend for i18n for menu related labels"
-  },
   "options_menu_label": {
     "message" : "Menu Label",
     "description" : "Label for i18n for menu of  landmarks and headings"
