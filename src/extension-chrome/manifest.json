@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "SkipTo.js for Chrome",
-  "version": "1.0.1",
-  "description": "SkipTo.js for Chrome provides keyboard navigation to landmark regions and headings to meet WCAG 2.4.1 Bypass Blocks requirement.",
+  "version": "1.0.2",
+  "description": "__MSG_extension_description__",
   "homepage_url": "https://skipto-landmarks-headings.github.io/page-script-5/",
   "default_locale": "en",
   "icons": {
