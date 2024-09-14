@@ -15,8 +15,8 @@ export const colorThemes = {
     menuBackgroundColor: '#dddddd',
     menuitemFocusTextColor: '#dddddd',
     menuitemFocusBackgroundColor: '#13294b',
-    zIndex: '100000',
-    zHighlight: '99999',
+    zIndex: '2000000',
+    zHighlight: '1999900',
     displayOption: 'fixed'
   },
   'aria': {
