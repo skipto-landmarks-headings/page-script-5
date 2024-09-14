@@ -71,6 +71,7 @@ h2 {
   margin: 0;
   padding: 0;
   text-align: center;
+  font-size: 16pt;
   color: #fff;
   background: #000;
   padding-top: 0.25em;
@@ -79,7 +80,7 @@ h2 {
 
 .color-viewer table {
   font-family: sans-serif;
-  font-size: 1.2em;
+  font-size: 12pt
   padding: 0.5em;
 }
 

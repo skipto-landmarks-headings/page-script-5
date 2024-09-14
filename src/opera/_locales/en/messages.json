@@ -1,19 +1,27 @@
 {
   "extension_name" : {
-    "message": "SkipTo.js for Opera",
+    "message": "SkipTo.js for Firefox",
     "description": "Extension name"
   },
   "extension_description" : {
-    "message": "SkipTo.js for Opera provides keyboard navigation to landmark regions and headings to meet WCAG 2.4.1 Bypass Blocks requirement.",
+    "message": "SkipTo.js for Firefox provides keyboard navigation to landmark regions and headings to meet WCAG 2.4.1 Bypass Blocks requirement.",
     "description": "Extension description"
   },
-  "options_banner_title" : {
-    "message" : "SkipTo.js for Chrome",
+  "options_h1_title": {
+    "message" : "Preferences",
     "description" : "Title of options page"
   },
-  "options_h1_title": {
-    "message" : "Options",
-    "description" : "Title of options page"
+  "options_tab_menu": {
+    "message" : "Menu",
+    "description" : "Title of options tab"
+  },
+  "options_tab_style": {
+    "message" : "Style",
+    "description" : "Title of options tab"
+  },
+  "options_tab_i18n": {
+    "message" : "Internationalization",
+    "description" : "Title of internationalization tab"
   },
   "options_button_save" : {
     "message" : "Save",
@@ -26,6 +34,10 @@
   "options_button_style_reset" : {
     "message" : "Reset Style Defaults",
     "description" : "Label for reset styling to default button"
+  },
+  "options_button_i18n_reset" : {
+    "message" : "Reset Language Defaults",
+    "description" : "Label for resetting labels to english to button"
   },
   "options_menu_tab": {
     "message" : "Menu Options",
@@ -87,32 +99,145 @@
     "message" : "Search",
     "description" : "Label for search landmark checkbox"
   },
+  "options_font_options": {
+    "message" : "Font Options",
+    "description" : "h2 for font options"
+  },
+  "options_color_options": {
+    "message" : "Color Options",
+    "description" : "h2 for color options"
+  },
+  "options_font_family": {
+    "message" : "Font Family",
+    "description" : "Label for font family"
+  },
+  "options_font_size": {
+    "message" : "Font Size",
+    "description" : "Label for font size"
+  },
   "options_button_text_color": {
-    "message" : "'Skip To Content' button text color",
+    "message" : "Skip To Content' button text color",
     "description" : "Label button text color"
   },
   "options_button_background_color": {
-    "message" : "'Skip To Content' button background color",
+    "message" : "Skip To Content' button background color",
     "description" : "Label button background color"
   },
   "options_focus_border_color": {
-    "message" : "'Skip To Content' button focus border color",
+    "message" : "Skip To Content' button focus border color",
     "description" : "Label button focus border color"
   },
   "options_menu_text_color": {
-    "message" : "'Menu text color",
+    "message" : "Menu text color",
     "description" : "Menu text color"
   },
   "options_menu_background_color": {
-    "message" : "'Menu background color",
+    "message" : "Menu background color",
     "description" : "Menu background color"
   },
   "options_menuitem_focus_text_color": {
-    "message" : "'Menu item focus text color",
+    "message" : "Menu item focus text color",
     "description" : "Menu item focus text color"
   },
   "options_menuitem_focus_background_color": {
-    "message" : "'Menu item focus background color",
+    "message" : "Menu item focus background color",
     "description" : "Menu item focus background color"
+  },
+  "options_highlight_legend": {
+    "message" : "Highlight Content",
+    "description" : "Fieldset label for highlight content"
+  },
+  "options_highlight_label": {
+    "message" : "Disable highlighting content when navigating menu options",
+    "description" : "Checkbox label for disabling highlight"
+  },
+  "options_legend_button_labels": {
+    "message" : "Button Labels",
+    "description" : "Legend for i18n for button related labels"
+  },
+  "options_shortcut_name_label": {
+    "message" : "Shortcut name",
+    "description" : "Label for i18n for shortcut name"
+  },
+  "options_alt_name_label": {
+    "message" : "ALT key name",
+    "description" : "Label for i18n for ALT key name"
+  },
+  "options_option_name_label": {
+    "message" : "OPTION key name",
+    "description" : "Label for i18n for OPTION key name"
+  },
+  "options_legend_menu_labels": {
+    "message" : "Menu Labels",
+    "description" : "Legend for i18n for menu related labels"
+  },
+  "options_legend_menu_labels": {
+    "message" : "Menu Labels",
+    "description" : "Legend for i18n for menu related labels"
+  },
+  "options_menu_label": {
+    "message" : "Menu Label",
+    "description" : "Label for i18n for menu of  landmarks and headings"
+  },
+  "options_landmark_group_label": {
+    "message" : "Landmark Group Label",
+    "description" : "Legend for i18n for landmark group label"
+  },
+  "options_heading_group_label": {
+    "message" : "Heading Group Label",
+    "description" : "Legend for i18n for heading group label"
+  },
+  "options_heading_level_label": {
+    "message" : "Heading Level Label",
+    "description" : "Legend for i18n for heading level label"
+  },
+  "options_legend_landmark_labels": {
+    "message" : "Landmark Region Names",
+    "description" : "Legend for i18n for landmark name related labels"
+  },
+  "options_button_label": {
+    "message" : "Button Label",
+    "description" : "Label for skip to content button"
+  },
+  "options_small_button_label": {
+    "message" : "Small Button Label",
+    "description" : "Label for skip to content button when screen is narrow"
+  },
+  "options_main_region_name": {
+    "message" : "Main region name",
+    "description" : "Label for main region name"
+  },
+  "options_search_region_name": {
+    "message" : "Search region name",
+    "description" : "Label for search region name"
+  },
+  "options_navigation_region_name": {
+    "message" : "Navigation region name",
+    "description" : "Label for navigation region name"
+  },
+  "options_complementary_region_name": {
+    "message" : "Complementary region name",
+    "description" : "Label for complementary region name"
+  },
+  "options_contentinfo_region_name": {
+    "message" : "Content Information region name",
+    "description" : "Label for content information region name"
+  },
+  "options_banner_region_name": {
+    "message" : "Banner region name",
+    "description" : "Label for banner region name"
+  },
+  "options_form_region_name": {
+    "message" : "Form region name",
+    "description" : "Label for form region name"
+  },
+  "options_msg_no_landmarks": {
+    "message" : "No landmarks found",
+    "description" : "No landmarks found message"
+  },
+  "options_msg_no_headings": {
+    "message" : "No headings found",
+    "description" : "No headings found message"
   }
+
 }

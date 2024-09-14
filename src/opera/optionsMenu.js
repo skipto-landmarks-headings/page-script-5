@@ -2,6 +2,21 @@
 
 const debug = false;
 
+// Define browser specific APIs for Opera, Firefox and Chrome
+
+const browserRuntime = typeof browser === 'object' ?
+              browser.runtime :
+              chrome.runtime;
+
+const browserI18n = typeof browser === 'object' ?
+            browser.i18n :
+            chrome.i18n;
+
+const browserTabs = typeof browser === 'object' ?
+            browser.tabs :
+            chrome.tabs;
+
+
 import {
   getOptions,
   saveOptions,
@@ -11,9 +26,9 @@ import {
 
 // Generic error handler
 function notLastError () {
-  if (!chrome.runtime.lastError) { return true; }
+  if (!browserRuntime.lastError) { return true; }
   else {
-    debug && console.log(chrome.runtime.lastError.message);
+    debug && console.log(browserRuntime.lastError.message);
     return false;
   }
 }
@@ -26,31 +41,43 @@ optionsMenuTemplate.innerHTML = `
     <div>
 
       <fieldset>
+        <legend id="highlight-legend">
+          Highlight Content
+         </legend>
+
+        <label class="inline" for="highlight">
+          <input type="checkbox" id="highlight-disabled"/>
+          <span id="highlight-label">Disable highlighting content when navigating menu options</span>
+        </label>
+
+      </fieldset>
+
+      <fieldset>
         <legend id="landmarks-legend">
           Landmark Regions
          </legend>
 
-        <label for="landmarks-navigation">
+        <label class="inline" for="landmarks-navigation">
           <input type="checkbox" value="navigation" id="landmarks-navigation"/>
           <span id="landmarks-navigation-label">Navigation</span>
         </label>
 
-        <label for="landmarks-search">
+        <label class="inline" for="landmarks-search">
           <input type="checkbox" value="search" id="landmarks-search"/>
           <span id="landmarks-search-label">Search</span>
         </label>
 
-        <label for="landmarks-complementary">
+        <label class="inline" for="landmarks-complementary">
           <input type="checkbox" value="complementary" id="landmarks-complementary"/>
           <span id="landmarks-complementary-label">Complementary</span>
         </label>
 
-        <label for="landmarks-contentinfo">
+        <label class="inline" for="landmarks-contentinfo">
           <input type="checkbox" value="contentinfo" id="landmarks-contentinfo"/>
           <span id="landmarks-contentinfo-label">Contentinfo</span>
         </label>
 
-        <label for="landmarks-banner">
+        <label class="inline" for="landmarks-banner">
           <input type="checkbox" value="banner" id="landmarks-banner"/>
           <span id="landmarks-banner-label">Banner</span>
         </label>
@@ -62,37 +89,37 @@ optionsMenuTemplate.innerHTML = `
           Headings
          </legend>
 
-        <label for="headings-1">
+        <label class="inline" for="headings-1">
           <input type="radio" name="headings" value="h1" id="headings-1"/>
           <span id="headings-1-label">h1</span>
         </label>
 
-        <label for="headings-2">
+        <label class="inline" for="headings-2">
           <input type="radio" name="headings" value="h1 h2" id="headings-2"/>
           <span id="headings-2-label">h1, h2</span>
         </label>
 
-        <label for="headings-3">
+        <label class="inline" for="headings-3">
           <input type="radio" name="headings" value="h1 h2 h3" id="headings-3"/>
           <span id="headings-3-label">h1, h2, h3</span>
         </label>
 
-        <label for="headings-4">
+        <label class="inline" for="headings-4">
           <input type="radio" name="headings" value="h1 h2 h3 h4" id="headings-4"/>
           <span id="headings-4-label">h1, h2, h3, h4</span>
         </label>
 
-        <label for="headings-5">
+        <label class="inline" for="headings-5">
           <input type="radio" name="headings" value="h1 h2 h3 h4 h5" id="headings-5"/>
           <span id="headings-5-label">h1, h2, h3, h4, h5</span>
         </label>
 
-        <label for="headings-6">
+        <label class="inline" for="headings-6">
           <input type="radio" name="headings" value="h1 h2 h3 h4 h5 h6" id="headings-6"/>
           <span id="headings-6-label">h1, h2, h3, h4, h5, h6</span>
         </label>
 
-        <label style="margin-top: 2em"  for="headings-main-only">
+        <label class="inline" style="margin-top: 2em"  for="headings-main-only">
           <input type="checkbox" value="main-only" id="headings-main-only"/>
           <span id="headings-main-only-label">Only show headings in main landmark region</span>
         </label>
@@ -137,6 +164,9 @@ class OptionsMenu extends HTMLElement {
     const i18nLabels = [
       { id: 'button-reset', label: 'options_button_menu_content_reset'},
 
+      { id: 'highlight-legend', label: 'options_highlight_legend'},
+      { id: 'highlight-label',  label: 'options_highlight_label'},
+
       { id: 'headings-legend', label: 'options_heading_legend'},
 
       { id: 'headings-1-label', label: 'options_heading_h1'},
@@ -158,7 +188,7 @@ class OptionsMenu extends HTMLElement {
 
     i18nLabels.forEach( item => {
       const node = getNode(item.id);
-      const label = chrome.i18n.getMessage(item.label);
+      const label = browserI18n.getMessage(item.label);
       if (node && label) {
         node.textContent = label + (debug ? ' (i18n)' : '');
       }
@@ -169,6 +199,8 @@ class OptionsMenu extends HTMLElement {
     });
 
     const form = {};
+
+    form.highlightDisabled  = getNode('highlight-disabled');
 
     form.landmarksNavigationInput    = getNode('landmarks-navigation');
     form.landmarksSearchInput        = getNode('landmarks-search');
@@ -204,6 +236,9 @@ class OptionsMenu extends HTMLElement {
     const form = this.form;
 
     getOptions().then( (options) => {
+
+      form.highlightDisabled.checked = options.highlightTarget !== 'enabled';
+
       form.landmarksNavigationInput.checked = options.landmarks.includes('nav');
       form.landmarksSearchInput.checked = options.landmarks.includes('search');
       form.landmarksComplementaryInput.checked = options.landmarks.includes('complementary');
@@ -226,9 +261,9 @@ class OptionsMenu extends HTMLElement {
   syncOptionsWithSkipToScript (options) {
     async function sendOptionsToTabs (options) {
       debug && console.log(`[syncOptoinsWithSkipToScript][params]: ${optionsToParams(options)}`);
-      const tabs = await chrome.tabs.query({});
+      const tabs = await browserTabs.query({});
       for (const tab of tabs) {
-          chrome.tabs.sendMessage(tab.id, {skiptoParams: optionsToParams(options)})
+          browserTabs.sendMessage(tab.id, {skiptoParams: optionsToParams(options)})
           .then((response) => {
               debug && console.info("Options received response from tab with title '%s' and url %s",
                   response.title, response.url)
@@ -245,7 +280,7 @@ class OptionsMenu extends HTMLElement {
 
   syncMyParamsInBackground (options) {
       debug && console.log(`[syncMyParamsInBackground][params]: ${optionsToParams(options)}`);
-      chrome.runtime.sendMessage({type: 'updateMyParams'});
+      browserRuntime.sendMessage({type: 'updateMyParams'});
   }
 
   saveMenuContentOptions () {
@@ -253,6 +288,10 @@ class OptionsMenu extends HTMLElement {
     const form = this.form;
 
     getOptions().then( (options) => {
+
+      options.highlightTarget = form.highlightDisabled.checked ?
+                              'disabled' :
+                              'enabled';
 
       options.landmarks = 'main';
 

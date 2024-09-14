@@ -1,8 +1,19 @@
 /* storage.js */
 
+const debug = false;
+
+const browserRuntime = typeof browser === 'object' ?
+              browser.runtime :
+              chrome.runtime;
+
+const browserStorage = typeof browser === 'object' ?
+    browser.storage.local :
+    chrome.storage.sync;
+
 const defaultMenuOptions = {
   headings: 'main-only h1 h2',
   landmarks: 'main search nav complementary',
+  highlightTarget: 'enabled'
 };
 
 const defaultStyleOptions = {
@@ -17,7 +28,34 @@ const defaultStyleOptions = {
   menuitemFocusBackgroundColor: '#13294b'
 };
 
-const defaultOptions = Object.assign({}, defaultMenuOptions, defaultStyleOptions);
+const i18nOptions = {
+      // Button labels and messages
+      buttonLabel: 'Skip To Content',
+      smallButtonLabel: 'SkipTo',
+      altLabel: 'Alt',
+      optionLabel: 'Option',
+      shortcutLabel: 'shortcut',
+
+      // Menu labels and messages
+      menuLabel: 'Landmarks and Headings',
+      landmarkGroupLabel: 'Landmark Regions',
+      headingGroupLabel: 'Headings',
+      headingLevelLabel: 'Heading level',
+
+      // Landmark names
+      mainLabel: 'main',
+      searchLabel: 'search',
+      navLabel: 'navigation',
+      regionLabel: 'region',
+      asideLabel: 'complementary',
+      footerLabel: 'contentinfo',
+      headerLabel: 'banner',
+      formLabel: 'form',
+      msgNoLandmarksFound: 'No landmarks found',
+      msgNoHeadingsFound: 'No headings found'
+  };
+
+const defaultOptions = Object.assign({}, defaultMenuOptions, defaultStyleOptions, i18nOptions);
 
 function hasAllProperties (refObj, srcObj) {
   for (const key of Object.keys(refObj)) {
@@ -46,12 +84,13 @@ function addDefaultValues (options) {
   return copy;
 }
 
+
 /*
 **  getOptions
 */
 export function getOptions () {
   return new Promise (function (resolve, reject) {
-    chrome.storage.sync.get(function (options) {
+    browserStorage.get(function (options) {
       if (notLastError()) {
         if (isComplete(options)) {
           resolve(options);
@@ -71,7 +110,7 @@ export function getOptions () {
 */
 export function saveOptions (options) {
   return new Promise (function (resolve, reject) {
-    chrome.storage.sync.set(options, function () {
+    browserStorage.set(options, function () {
       if (notLastError()) { resolve() }
     });
   });
@@ -82,7 +121,7 @@ export function saveOptions (options) {
 */
 export function resetDefaultOptions () {
   return new Promise (function (resolve, reject) {
-    chrome.storage.sync.set(defaultOptions, function () {
+    browsersStorage.set(defaultOptions, function () {
       if (notLastError()) { resolve() }
     });
   });
@@ -93,7 +132,7 @@ export function resetDefaultOptions () {
 */
 export function resetDefaultMenuOptions () {
   return new Promise (function (resolve, reject) {
-    chrome.storage.sync.set(defaultMenuOptions, function () {
+    browserStorage.set(defaultMenuOptions, function () {
       if (notLastError()) { resolve() }
     });
   });
@@ -104,7 +143,7 @@ export function resetDefaultMenuOptions () {
 */
 export function resetDefaultStyleOptions () {
   return new Promise (function (resolve, reject) {
-    chrome.storage.sync.set(defaultStyleOptions, function () {
+    browserStorage.set(defaultStyleOptions, function () {
       if (notLastError()) { resolve() }
     });
   });
@@ -125,14 +164,14 @@ export function logOptions (context, objName, obj) {
 **  clearStorage: Used for testing
 */
 export function clearStorage () {
-  chrome.storage.sync.clear();
+  browserStorage.clear();
 }
 
 // Generic error handler
 function notLastError () {
-  if (!chrome.runtime.lastError) { return true; }
+  if (!browserRuntime.lastError) { return true; }
   else {
-    console.log(chrome.runtime.lastError.message);
+    console.log(browserRuntime.lastError.message);
     return false;
   }
 }
@@ -150,6 +189,7 @@ function notLastError () {
 export function optionsToParams(options) {
   let str = '';
   for(const item in options) {
+    debug && console.log(`[optionsToParams][${item}]: ${options[item]}`);
     str += item + ':' + options[item] + ';';
   }
   return str;

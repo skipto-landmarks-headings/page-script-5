@@ -1,20 +1,26 @@
 /* content.js */
 
-const debug = false;
+const debug = true;
+
+// Define browser specific APIs for Opera, Firefox and Chrome
+
+const browserRuntime = typeof browser === 'object' ?
+              browser.runtime :
+              chrome.runtime;
 
 // Add SkipTo.js script to page
 const scriptNode = document.createElement('script');
 scriptNode.type = 'text/javascript';
 scriptNode.id = 'id-skip-to-extension';
 scriptNode.setAttribute('data-skipto', 'displayOption: popup');
-scriptNode.src = chrome.runtime.getURL('skipto.js');
+scriptNode.src = browserRuntime.getURL('skipto.js');
 document.body.appendChild(scriptNode);
 
 // Get options from SkipTo.js Extension
 window.addEventListener('load', function() {
   debug && console.log('[load]: Sending hello to background');
 
-  chrome.runtime.sendMessage({skiptoMessage: "get-options"}, (params) => {
+  browserRuntime.sendMessage({skiptoMessage: "get-options"}, (params) => {
     debug && console.log(`[load][params]: ${params}`);
     const skipToContentElem = document.querySelector('skip-to-content');
     debug && console.log(`[load][skipToContentElem]: ${skipToContentElem}`);
@@ -25,7 +31,7 @@ window.addEventListener('load', function() {
 });
 
 // Update configuration from user changes in options page
-chrome.runtime.onMessage.addListener(
+browserRuntime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.skiptoParams !== undefined) {
       debug && console.log(`[onMessage][params]: ${request.skiptoParams}`);

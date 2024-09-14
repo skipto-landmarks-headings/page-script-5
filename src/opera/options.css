@@ -3,6 +3,8 @@
 body {
   margin: 1em;
   padding: 4px;
+  font-family: Helvetica, Arial, Sans-Serif;
+  font-size: 11pt;
 }
 
 header {
@@ -17,7 +19,7 @@ header img {
 
 h1,
 #banner-title {
-  font-size: 30px;
+  font-size: 24pt;
   font-weight: bold;
   margin: 1.5rem 0 0.75rem;
 }
@@ -29,13 +31,21 @@ h1,
 
 fieldset {
   margin: 0;
-  margin-top: 1em;
+  margin-top: 0.5em;
   border: none;
 }
 
+h2.legend,
 legend {
-  font-size: 1.3em;
+  margin: 0;
+  padding: 0;
+  margin-top: 0.5em;
+  font-size: 14pt;
   font-weight: bold;
+}
+
+h2#h2-font-options {
+  margin-top: 1.5em;
 }
 
 label {
@@ -44,17 +54,50 @@ label {
   font-size: 12pt;
 }
 
-.font,
-.color {
-  margin-left: 1em;
+select {
+  font-size: 12pt;
+  width: 10em;
+  margin-bottom: 1em;
 }
 
-.font label {
-  margin-left: 0;
-  margin-top: 0.5em;
+label.inline span {
+  display: inline-block;
+  position: relative;
+  top: 2px;
+}
+
+.text,
+.font {
+  margin-bottom: 0.5em;
+  margin-left: 1em;
+  padding: 0.25em;
+}
+
+.text {
+  width: 15em;
+  padding-bottom: 0.75em;
+}
+
+.text input {
+  font-size: 12pt;
+}
+
+.color {
+  width: 27em;
+  padding: 0.5em;
+  padding-top: 0.75em;
+  padding-bottom: 0.75em;
+}
+
+.text label {
   font-weight: bold;
 }
 
+.font label {
+  display: inline-block;
+  font-weight: bold;
+  margin-left: 0;
+}
 
 .color {
   margin-top: 0.25em;
@@ -159,7 +202,7 @@ select {
 
 /* focus styling */
 
-label.focus {
+.focus {
   outline: ButtonText 2px solid;
 }
 

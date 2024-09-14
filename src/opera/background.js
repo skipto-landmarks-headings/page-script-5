@@ -7,6 +7,12 @@ import {
 
 const debug = false;
 
+// Define browser specific APIs for Opera, Firefox and Chrome
+
+const runtime = typeof browser === 'object' ?
+              browser.runtime :
+              chrome.runtime;
+
 let myParams = '';
 /*
 *. Initialize myParams
@@ -20,7 +26,7 @@ getOptions().then( (options) => {
 /*
 *  Send myParams to content script when page is initially loaded
 */
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+runtime.onMessage.addListener((request, sender, sendResponse) => {
   debug && console.log(`[onMessage][type]: ${request.type}`);
 
   if (request.skiptoMessage === "get-options") {

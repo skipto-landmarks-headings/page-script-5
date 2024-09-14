@@ -59,13 +59,11 @@ gulp.task('build', () => {
     'docs/dist/skipto.js',
   ])
     .pipe(concat('skipto.js'))
-    .pipe(dest('src/chrome'))
-    .pipe(dest('src/opera'))
-    .pipe(dest('src/firefox'))
+    .pipe(dest('src/extension-common'))
     .pipe(dest('docs/dist'));
 });
 
- gulp.task('copyrightMin', () => {
+gulp.task('copyrightMin', () => {
   return src([
     'src/copyright.js',
     'docs/dist/skipto.min.js',
@@ -73,6 +71,39 @@ gulp.task('build', () => {
     .pipe(concat('skipto.min.js'))
     .pipe(dest('docs/dist'));
 });
+
+// Update extension common code
+
+ gulp.task('extensionsCode', () => {
+  return src([
+    'src/extension-common/*.js',
+    'src/extension-common/*.css',
+    'src/extension-common/*.html',
+    'src/extension-common/_locales/en/*.json',
+  ])
+    .pipe(dest('src/chrome'))
+    .pipe(dest('src/opera'))
+    .pipe(dest('src/firefox'));
+});
+
+gulp.task('extensionsLocales', () => {
+  return src([
+    'src/extension-common/_locales/en/*.json',
+  ])
+    .pipe(dest('src/chrome/_locales/en'))
+    .pipe(dest('src/opera/_locales/en'))
+    .pipe(dest('src/firefox/_locales/en'));
+});
+
+gulp.task('extensionsImages', () => {
+  return src([
+    'src/extension-common/images',
+  ])
+    .pipe(dest('src/chrome/images'))
+    .pipe(dest('src/opera/images'))
+    .pipe(dest('src/firefox/images'));
+});
+
 
 gulp.task('documentation', function (cb) {
   exec('node ./gen-documentation.js', function (err, stdout, stderr) {
@@ -87,12 +118,23 @@ gulp.task('style', function () {
   .pipe(gulp.dest('./docs/css'));
 });
 
-const linting      = task('linting');
-const build        = task('build');
-const compress     = task('compress');
-const copyright    = task('copyright');
-const copyrightMin = task('copyrightMin');
-const documentation = task('documentation');
-const style        = task('style');
+const linting           = task('linting');
+const build             = task('build');
+const compress          = task('compress');
+const extensionsCode    = task('extensionsCode');
+const extensionsLocales = task('extensionsLocales');
+const extensionsImages  = task('extensionsImages');
+const copyright         = task('copyright');
+const copyrightMin      = task('copyrightMin');
+const documentation     = task('documentation');
+const style             = task('style');
 
-exports.default = series(linting, build, compress, copyright, copyrightMin, documentation, style);
+exports.default = series(
+  linting,
+  build,
+  compress,
+  copyright,
+  parallel(extensionsCode, extensionsLocales, extensionsImages),
+  copyrightMin,
+  documentation,
+  style);
