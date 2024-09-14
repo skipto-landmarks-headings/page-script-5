@@ -77,7 +77,6 @@ gulp.task('copyrightMin', () => {
     'src/extension-common/*.js',
     'src/extension-common/*.css',
     'src/extension-common/*.html',
-    'src/extension-common/_locales/en/*.json',
   ])
     .pipe(dest('src/chrome'))
     .pipe(dest('src/opera'))
