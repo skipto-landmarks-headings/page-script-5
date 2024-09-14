@@ -78,27 +78,27 @@ gulp.task('copyrightMin', () => {
     'src/extension-common/*.css',
     'src/extension-common/*.html',
   ])
-    .pipe(dest('src/chrome'))
-    .pipe(dest('src/opera'))
-    .pipe(dest('src/firefox'));
+    .pipe(dest('src/extension-chrome'))
+    .pipe(dest('src/extension-opera'))
+    .pipe(dest('src/extension-firefox'));
 });
 
 gulp.task('extensionsLocales', () => {
   return src([
     'src/extension-common/_locales/en/*.json',
   ])
-    .pipe(dest('src/chrome/_locales/en'))
-    .pipe(dest('src/opera/_locales/en'))
-    .pipe(dest('src/firefox/_locales/en'));
+    .pipe(dest('src/extension-chrome/_locales/en'))
+    .pipe(dest('src/extension-opera/_locales/en'))
+    .pipe(dest('src/extension-firefox/_locales/en'));
 });
 
 gulp.task('extensionsImages', () => {
   return src([
     'src/extension-common/images',
   ])
-    .pipe(dest('src/chrome/images'))
-    .pipe(dest('src/opera/images'))
-    .pipe(dest('src/firefox/images'));
+    .pipe(dest('src/extension-chrome/images'))
+    .pipe(dest('src/extension-opera/images'))
+    .pipe(dest('src/extension-firefox/images'));
 });
 
 

@@ -2,6 +2,9 @@
 
 ## Version 5.6.0
 * Updated button label configuration to simplify options in SkipTo.js browser extensions
+* To support i18n a label for "shortcut" is added to configuration options
+* aria-label for button is now computed using buttonLabel, altLabel, optionLabel and shortcutLabel
+* Extensions version 1.1
 
 ## Version 5.5.2
 * Update button menu not to use a html template for wider website support for extensions

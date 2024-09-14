@@ -346,7 +346,7 @@
 
             <p>The text labels and messages can be updated through configuration to local language requirements.</p>
             <h3 id="button-labeling">Button Labeling</h3>
-            <p>The labels and messages can be localized for specific languages or updated to reflect custom selectors.</p>
+            <p>The labels and messages can be localized for specific languages or reflect user preferences.</p>
             <table class="table table-striped" aria-labelledby="button-labeling">
                <thead>
                   <tr>
@@ -377,19 +377,17 @@
                      <td style="text-align: left">Label for modifier key for macOS operating systems</td>
                   </tr>
                   <tr>
-                     <td style="text-align: left"><code>altButtonAriaLabel</code></td>
-                     <td style="text-align: left">‘Skip To Content, shortcut Alt plus 0’</td>
-                     <td style="text-align: left"><code>aria-label</code> template for button when the OS uses <code>alt</code> key</td>
-                  </tr>
-                  <tr>
-                     <td style="text-align: left"><code>optionButtonAriaLabel</code></td>
-                     <td style="text-align: left">‘Skip To Content, shortcut Option plus 0’</td>
-                     <td style="text-align: left"><code>aria-label</code> template for button when the OS uses <code>option</code> key (e.g, macOS)</td>
+                     <td style="text-align: left"><code>shortcutLabel</code></td>
+                     <td style="text-align: left">‘shortcut’</td>
+                     <td style="text-align: left">Label for shortcut label used in defining <code>aria-label</code> for button.</td>
                   </tr>
                </tbody>
             </table>
+
+            <p>NOTE: <code>altButtonLabel</code> and <code>optionButtonLabel</code> are deprecated as configuration options.  The values are computed from <code>buttonLabel</code>, <code>altLabel</code>, <code>optionLabel</code> and <code>shortcutLabel</code> and . </p>
+
             <h3 id="menu-group-and-menuitem-labeling">Menu, Group and Menuitem Labeling</h3>
-            <p>The labels and messages can be localized for specific languages or updated to reflect custom selectors.</p>
+            <p>The labels and messages can be localized for specific languages or reflect user preferences.</p>
             <table class="table table-striped" aria-labelledby="menu-group-and-menuitem-labeling">
                <thead>
                   <tr>
@@ -419,6 +417,21 @@
                      <td style="text-align: left">‘Heading level’</td>
                      <td style="text-align: left">Used for <code>aria-label</code> to improve labeling of heading menu items for screen reader users.</td>
                   </tr>
+               </tbody>
+            </table>
+
+            <h3 id="menu-landmark-names">Landmark Region Names</h3>
+            <p>The names of landmark region names can be localized for specific languages or reflect user preferences.</p>
+
+            <table class="table table-striped" aria-labelledby="menu-landmark-names">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Property</th>
+                     <th style="text-align: left">Default</th>
+                     <th style="text-align: left">Description</th>
+                  </tr>
+               </thead>
+               <tbody>
                   <tr>
                      <td style="text-align: left"><code>mainLabel</code></td>
                      <td style="text-align: left">‘main’</td>
