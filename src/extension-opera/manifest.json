@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "__MSG_extension_name__",
+  "name": "SkipTo.js for Opera",
   "version": "1.0.1",
-  "description": "__MSG_extension_description__",
+  "description": "SkipTo.js for Opera provides keyboard navigation to landmark regions and headings to meet WCAG 2.4.1 Bypass Blocks requirement.",
   "homepage_url": "https://skipto-landmarks-headings.github.io/page-script-5/",
   "default_locale": "en",
   "icons": {
