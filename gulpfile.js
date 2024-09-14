@@ -7,8 +7,6 @@ const eslint       = require('gulp-eslint');
 const minify       = require("gulp-minify");
 const concat       = require("gulp-concat");
 const sass         = require('gulp-sass')(require('sass'));
-
-
  
 gulp.task('linting', () => {
     return src(['src/*.js'])
