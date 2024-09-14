@@ -3402,7 +3402,7 @@ $skipToId-highlight div {
 
   /* constants */
   const debug = new DebugLogging('skipto', false);
-  debug.flag = true;
+  debug.flag = false;
 
   (function() {
 

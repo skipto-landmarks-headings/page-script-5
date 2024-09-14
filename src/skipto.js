@@ -5,7 +5,7 @@ import DebugLogging  from './debug.js';
 
 /* constants */
 const debug = new DebugLogging('skipto', false);
-debug.flag = true;
+debug.flag = false;
 
 (function() {
 
