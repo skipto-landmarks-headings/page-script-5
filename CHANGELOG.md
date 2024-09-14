@@ -1,5 +1,8 @@
 # Version history for Skipto.js
 
+## Version 5.6.0
+* Updated button label configuration to simplify options in SkipTo.js browser extensions
+
 ## Version 5.5.2
 * Update button menu not to use a html template for wider website support for extensions
 

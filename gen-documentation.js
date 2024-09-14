@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const nunjucks  = require('nunjucks');
 
-const version = "5.5";
+const version = "5.6";
 
 /* Constants */
 
@@ -51,13 +51,12 @@ const pages = [
     link: 'Bookmarklets',
     filename: 'bookmarklets.html'
   },
-/*
   { template: './src-docs/templates/content-browsers.njk',
     title: 'SkipTo.js Web Browser Extensions',
     link: 'Web Browsers',
     filename: 'browsers.html'
   },
-*/  { template: './src-docs/templates/content-config.njk',
+  { template: './src-docs/templates/content-config.njk',
     title: 'Configuration Options',
     link: 'Configuration',
     filename: 'config.html'

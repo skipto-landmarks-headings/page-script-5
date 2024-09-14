@@ -230,6 +230,7 @@ export default class SkiptoMenuButton {
           ariaLabel = config.buttonAriaLabel.replace('$key', config.altShortcut);
           ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
           ariaLabel = ariaLabel.replace('$modifierLabel', config.altLabel);
+          ariaLabel = ariaLabel.replace('$shortcutLabel', config.shortcutLabel);
         }
 
         if (this.usesOptionKey) {
@@ -241,6 +242,7 @@ export default class SkiptoMenuButton {
           ariaLabel = config.buttonAriaLabel.replace('$key', config.altShortcut);
           ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
           ariaLabel = ariaLabel.replace('$modifierLabel', config.optionLabel);
+          ariaLabel = ariaLabel.replace('$shortcutLabel', config.shortcutLabel);
         }
       }
       return [label, ariaLabel];

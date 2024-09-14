@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.5.2
+ * Version: 5.6.0
  * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -2393,6 +2393,7 @@ $skipToId-highlight div {
             ariaLabel = config.buttonAriaLabel.replace('$key', config.altShortcut);
             ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
             ariaLabel = ariaLabel.replace('$modifierLabel', config.altLabel);
+            ariaLabel = ariaLabel.replace('$shortcutLabel', config.shortcutLabel);
           }
 
           if (this.usesOptionKey) {
@@ -2404,6 +2405,7 @@ $skipToId-highlight div {
             ariaLabel = config.buttonAriaLabel.replace('$key', config.altShortcut);
             ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
             ariaLabel = ariaLabel.replace('$modifierLabel', config.optionLabel);
+            ariaLabel = ariaLabel.replace('$shortcutLabel', config.shortcutLabel);
           }
         }
         return [label, ariaLabel];
@@ -3198,7 +3200,7 @@ $skipToId-highlight div {
       super();
       this.attachShadow({ mode: 'open' });
       this.skipToId = 'id-skip-to';
-      this.version = "5.5.2";
+      this.version = "5.6.0";
       this.buttonSkipTo = false;
       this.initialized = false;
 
@@ -3221,8 +3223,9 @@ $skipToId-highlight div {
         smallButtonLabel: 'SkipTo',
         altLabel: 'Alt',
         optionLabel: 'Option',
+        shortcutLabel: 'shortcut',
         buttonShortcut: ' ($modifier+$key)',
-        buttonAriaLabel: '$buttonLabel, shortcut $modifierLabel plus $key',
+        buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
         // Menu labels and messages
         menuLabel: 'Landmarks and Headings',

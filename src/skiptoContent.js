@@ -17,7 +17,7 @@ export default class SkipToContent extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.skipToId = 'id-skip-to';
-    this.version = "5.5.2";
+    this.version = "5.6.0";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -40,8 +40,9 @@ export default class SkipToContent extends HTMLElement {
       smallButtonLabel: 'SkipTo',
       altLabel: 'Alt',
       optionLabel: 'Option',
+      shortcutLabel: 'shortcut',
       buttonShortcut: ' ($modifier+$key)',
-      buttonAriaLabel: '$buttonLabel, shortcut $modifierLabel plus $key',
+      buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
       // Menu labels and messages
       menuLabel: 'Landmarks and Headings',

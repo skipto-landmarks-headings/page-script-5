@@ -37,80 +37,85 @@ function notLastError () {
 const optionsStyleTemplate = document.createElement('template');
 optionsStyleTemplate.innerHTML = `
   <form>
+    <div>
 
-    <h2 id="h2-font-options">Font Options</h2>
+      <fieldset>
+        <legend id="h2-font-options">Font Options</legend>
 
-    <div class="font">
-      <label id="select-font-family-label"
-            for="select-font-family">
-         Font Family
-      </label>
-      <select id="select-font-family">
-        <option value="sans-serif">Sans-serif</option>
-        <option value="serif">Serif</option>
-        <option value="monospace">Monospace</option>
-      </select>
-    </div>
+        <div class="font">
+          <label id="select-font-family-label"
+                for="select-font-family">
+             Font Family
+          </label>
+          <select id="select-font-family">
+            <option value="sans-serif">Sans-serif</option>
+            <option value="serif">Serif</option>
+            <option value="monospace">Monospace</option>
+          </select>
+        </div>
 
-    <div class="font">
-      <label id="select-font-size-label"
-          for="select-font-size">Font Size</label>
-      <select id="select-font-size">
-        <option value="10pt">10pt</option>
-        <option value="12pt">12pt</option>
-        <option value="14pt">14pt</option>
-        <option value="16pt">16pt</option>
-      </select>
-    </div>
+        <div class="font">
+          <label id="select-font-size-label"
+              for="select-font-size">Font Size</label>
+          <select id="select-font-size">
+            <option value="10pt">10pt</option>
+            <option value="12pt">12pt</option>
+            <option value="14pt">14pt</option>
+            <option value="16pt">16pt</option>
+          </select>
+        </div>
+      </fieldset>
 
+      <fieldset>
+        <legend id="h2-color-options">Color Options</legend>
 
-    <h2 id="h2-color-options">Color Options</h2>
+        <div class="color">
+          <input id="button-text-color"
+            type="color"/>
+          <label id="button-text-color-label"
+                 for="button-text-color">
+          </label>
+        </div>
 
-    <div class="color">
-      <input id="button-text-color"
-        type="color"/>
-      <label id="button-text-color-label"
-             for="button-text-color">
-      </label>
-    </div>
+        <div class="color">
+          <input id="button-background-color"
+            type="color"/>
+          <label id="button-background-color-label"
+                 for="button-background-color">
+          </label>
+        </div>
 
-    <div class="color">
-      <input id="button-background-color"
-        type="color"/>
-      <label id="button-background-color-label"
-             for="button-background-color">
-      </label>
-    </div>
+        <div class="color">
+          <input id="focus-border-color"
+            type="color"/>
+          <label id="focus-border-color-label"
+                 for="focus-border-color">
+          </label>
+        </div>
 
-    <div class="color">
-      <input id="focus-border-color"
-        type="color"/>
-      <label id="focus-border-color-label"
-             for="focus-border-color">
-      </label>
-    </div>
+        <div class="color">
+          <input id="menu-text-color"
+            type="color"/>
+          <label id="menu-text-color-label"
+                 for="menu-text-color">
+          </label>
+        </div>
 
-    <div class="color">
-      <input id="menu-text-color"
-        type="color"/>
-      <label id="menu-text-color-label"
-             for="menu-text-color">
-      </label>
-    </div>
+        <div class="color">
+          <input id="menu-background-color"
+            type="color"/>
+          <label id="menu-background-color-label"
+                 for="menu-background-color">
+          </label>
+        </div>
+      </fieldset>
 
-    <div class="color">
-      <input id="menu-background-color"
-        type="color"/>
-      <label id="menu-background-color-label"
-             for="menu-background-color">
-      </label>
-    </div>
+     <options-style-viewer></options-style-viewer>
 
-    <options-style-viewer></options-style-viewer>
+     <button id="button-reset" type="reset">Reset Defaults</button>
 
-    <button id="button-reset" type="reset">Reset Defaults</button>
-
-  </form>
+   </div>
+</form>
 `;
 
 
@@ -188,7 +193,7 @@ class OptionsStyle extends HTMLElement {
       resetDefaultStyleOptions().then(this.updateOptions.bind(this));
     });
 
-    optionsStyle.shadowRoot.querySelectorAll('input[type=color]').forEach( input => {
+    optionsStyle.shadowRoot.querySelectorAll('input[type=color], select').forEach( input => {
       input.addEventListener('focus', this.onFocus);
       input.addEventListener('blur', this.onBlur);
       input.addEventListener('input', optionsStyle.onChange.bind(optionsStyle));

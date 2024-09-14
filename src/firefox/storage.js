@@ -34,15 +34,15 @@ const i18nOptions = {
       smallButtonLabel: 'SkipTo',
       altLabel: 'Alt',
       optionLabel: 'Option',
-      buttonShortcut: ' ($modifier+$key)',
-      altButtonAriaLabel: 'Skip To Content, shortcut Alt plus $key',
-      optionButtonAriaLabel: 'Skip To Content, shortcut Option plus $key',
+      shortcutLabel: 'shortcut',
 
       // Menu labels and messages
       menuLabel: 'Landmarks and Headings',
       landmarkGroupLabel: 'Landmark Regions',
       headingGroupLabel: 'Headings',
       headingLevelLabel: 'Heading level',
+
+      // Landmark names
       mainLabel: 'main',
       searchLabel: 'search',
       navLabel: 'navigation',

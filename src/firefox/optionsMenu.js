@@ -45,7 +45,7 @@ optionsMenuTemplate.innerHTML = `
           Highlight Content
          </legend>
 
-        <label for="highlight">
+        <label class="inline" for="highlight">
           <input type="checkbox" id="highlight-disabled"/>
           <span id="highlight-label">Disable highlighting content when navigating menu options</span>
         </label>
@@ -57,27 +57,27 @@ optionsMenuTemplate.innerHTML = `
           Landmark Regions
          </legend>
 
-        <label for="landmarks-navigation">
+        <label class="inline" for="landmarks-navigation">
           <input type="checkbox" value="navigation" id="landmarks-navigation"/>
           <span id="landmarks-navigation-label">Navigation</span>
         </label>
 
-        <label for="landmarks-search">
+        <label class="inline" for="landmarks-search">
           <input type="checkbox" value="search" id="landmarks-search"/>
           <span id="landmarks-search-label">Search</span>
         </label>
 
-        <label for="landmarks-complementary">
+        <label class="inline" for="landmarks-complementary">
           <input type="checkbox" value="complementary" id="landmarks-complementary"/>
           <span id="landmarks-complementary-label">Complementary</span>
         </label>
 
-        <label for="landmarks-contentinfo">
+        <label class="inline" for="landmarks-contentinfo">
           <input type="checkbox" value="contentinfo" id="landmarks-contentinfo"/>
           <span id="landmarks-contentinfo-label">Contentinfo</span>
         </label>
 
-        <label for="landmarks-banner">
+        <label class="inline" for="landmarks-banner">
           <input type="checkbox" value="banner" id="landmarks-banner"/>
           <span id="landmarks-banner-label">Banner</span>
         </label>
@@ -89,37 +89,37 @@ optionsMenuTemplate.innerHTML = `
           Headings
          </legend>
 
-        <label for="headings-1">
+        <label class="inline" for="headings-1">
           <input type="radio" name="headings" value="h1" id="headings-1"/>
           <span id="headings-1-label">h1</span>
         </label>
 
-        <label for="headings-2">
+        <label class="inline" for="headings-2">
           <input type="radio" name="headings" value="h1 h2" id="headings-2"/>
           <span id="headings-2-label">h1, h2</span>
         </label>
 
-        <label for="headings-3">
+        <label class="inline" for="headings-3">
           <input type="radio" name="headings" value="h1 h2 h3" id="headings-3"/>
           <span id="headings-3-label">h1, h2, h3</span>
         </label>
 
-        <label for="headings-4">
+        <label class="inline" for="headings-4">
           <input type="radio" name="headings" value="h1 h2 h3 h4" id="headings-4"/>
           <span id="headings-4-label">h1, h2, h3, h4</span>
         </label>
 
-        <label for="headings-5">
+        <label class="inline" for="headings-5">
           <input type="radio" name="headings" value="h1 h2 h3 h4 h5" id="headings-5"/>
           <span id="headings-5-label">h1, h2, h3, h4, h5</span>
         </label>
 
-        <label for="headings-6">
+        <label class="inline" for="headings-6">
           <input type="radio" name="headings" value="h1 h2 h3 h4 h5 h6" id="headings-6"/>
           <span id="headings-6-label">h1, h2, h3, h4, h5, h6</span>
         </label>
 
-        <label style="margin-top: 2em"  for="headings-main-only">
+        <label class="inline" style="margin-top: 2em"  for="headings-main-only">
           <input type="checkbox" value="main-only" id="headings-main-only"/>
           <span id="headings-main-only-label">Only show headings in main landmark region</span>
         </label>

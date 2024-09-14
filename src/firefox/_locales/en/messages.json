@@ -155,9 +155,41 @@
     "message" : "Button Labels",
     "description" : "Legend for i18n for button related labels"
   },
+  "options_shortcut_name_label": {
+    "message" : "Shortcut name",
+    "description" : "Label for i18n for shortcut name"
+  },
+  "options_alt_name_label": {
+    "message" : "ALT key name",
+    "description" : "Label for i18n for ALT key name"
+  },
+  "options_option_name_label": {
+    "message" : "OPTION key name",
+    "description" : "Label for i18n for OPTION key name"
+  },
   "options_legend_menu_labels": {
     "message" : "Menu Labels",
     "description" : "Legend for i18n for menu related labels"
+  },
+  "options_legend_menu_labels": {
+    "message" : "Menu Labels",
+    "description" : "Legend for i18n for menu related labels"
+  },
+  "options_menu_label": {
+    "message" : "Menu Label",
+    "description" : "Label for i18n for menu of  landmarks and headings"
+  },
+  "options_landmark_group_label": {
+    "message" : "Landmark Group Label",
+    "description" : "Legend for i18n for landmark group label"
+  },
+  "options_heading_group_label": {
+    "message" : "Heading Group Label",
+    "description" : "Legend for i18n for heading group label"
+  },
+  "options_heading_level_label": {
+    "message" : "Heading Level Label",
+    "description" : "Legend for i18n for heading level label"
   },
   "options_legend_landmark_labels": {
     "message" : "Landmark Region Names",
@@ -172,11 +204,11 @@
     "description" : "Label for skip to content button when screen is narrow"
   },
   "options_main_region_name": {
-    "message" : "Menu region name",
+    "message" : "Main region name",
     "description" : "Label for main region name"
   },
   "options_search_region_name": {
-    "message" : "Main region name",
+    "message" : "Search region name",
     "description" : "Label for search region name"
   },
   "options_navigation_region_name": {
