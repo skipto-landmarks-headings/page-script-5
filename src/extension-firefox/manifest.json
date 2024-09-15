@@ -5,7 +5,7 @@
       "id": "skipto-for-firefox@openweba11y.com"
     }
   },
-  "name": "SkipTo.js for Firefox",
+  "name": "__MSG_extension_name_firefox__",
   "version": "1.0.1",
   "description": "__MSG_extension_description__",
   "homepage_url": "https://skipto-landmarks-headings.github.io/page-script-5/",

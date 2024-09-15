@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "SkipTo.js for Opera",
+  "name": "__MSG_extension_name_opera__",
   "version": "1.0.2",
   "description": "__MSG_extension_description__",
   "homepage_url": "https://skipto-landmarks-headings.github.io/page-script-5/",
