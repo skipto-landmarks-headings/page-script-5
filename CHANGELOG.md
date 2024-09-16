@@ -5,6 +5,7 @@
 * To support i18n a label for "shortcut" is added to configuration options
 * aria-label for button is now computed using buttonLabel, altLabel, optionLabel and shortcutLabel
 * Extensions version 1.01 to include configuration of i18n options for the SkipTo.js button and menu.
+* Removed the four to eight bottom pixels (responsive to screen width) of the button show in the "popup" configuration so that a pointer can expose the entire SkipTo button on hover.  The feature disrupted the visual rendering and people I talked to wanted it to be an add-in rather than default.
 
 ## Version 5.5.2
 * Update button menu not to use a html template for wider website support for extensions

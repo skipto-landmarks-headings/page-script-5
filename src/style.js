@@ -11,7 +11,7 @@ debug.flag = false;
 const cssMenuTemplate = document.createElement('template');
 cssMenuTemplate.textContent = `
 $skipToId.popup {
-  top: -30px;
+  top: -36px;
   transition: top 0.35s ease;
 }
 
@@ -86,10 +86,6 @@ $skipToId button {
     transition: top 0.35s ease;
     display: none;
   }
-
-  $skipToId.popup {
-    top: -26px;
-  }
 }
 
 @media screen and (min-width: $smallBreakPointpx) and (max-width: $mediumBreakPointpx) {
@@ -114,11 +110,6 @@ $skipToId button {
     transition: top 0.35s ease;
     display: none;
   }
-
-  $skipToId.popup {
-    top: -28px;
-  }
-
 }
 
 $skipToId.static {
