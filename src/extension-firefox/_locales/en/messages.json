@@ -1,8 +1,4 @@
 {
-  "extension_version" : {
-    "message": "1.0.3",
-    "description": "Extension version"
-  },
   "extension_name_chrome" : {
     "message": "SkipTo.js for Chrome",
     "description": "Extension name for Chrome browser"
