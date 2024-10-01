@@ -9,9 +9,18 @@ const debug = false;
 
 // Define browser specific APIs for Opera, Firefox and Chrome
 
-const runtime = typeof browser === 'object' ?
+const browserRuntime = typeof browser === 'object' ?
               browser.runtime :
               chrome.runtime;
+
+const browserAction = typeof browser === 'object' ?
+              browser.action :
+              chrome.action;
+
+const browserScripting = typeof browser === 'object' ?
+              browser.scripting :
+              chrome.scripting;
+
 
 let myParams = '';
 /*
@@ -26,7 +35,7 @@ getOptions().then( (options) => {
 /*
 *  Send myParams to content script when page is initially loaded
 */
-runtime.onMessage.addListener((request, sender, sendResponse) => {
+browserRuntime.onMessage.addListener((request, sender, sendResponse) => {
   debug && console.log(`[onMessage][type]: ${request.type}`);
 
   if (request.skiptoMessage === "get-options") {
@@ -41,6 +50,15 @@ runtime.onMessage.addListener((request, sender, sendResponse) => {
     });
   }
 
+});
+
+
+browserAction.onClicked.addListener((tab) => {
+  debug && console.log(`[action][onclick]: ${tab.id}`);
+  browserScripting.executeScript({
+    target: {tabId: tab.id},
+    files: ['toggle.js']
+  });
 });
 
 

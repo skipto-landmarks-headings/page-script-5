@@ -1,5 +1,9 @@
 # Version history for Skipto.js
 
+## Version 5.6.1
+* Added focus and setfocus features to skip-to-content element
+* Added popup-border displayOption to make the bottom border of the button visible when it does not have focus
+
 ## Version 5.6.0
 * Updated button label configuration to simplify options in SkipTo.js browser extensions
 * To support i18n a label for "shortcut" is added to configuration options

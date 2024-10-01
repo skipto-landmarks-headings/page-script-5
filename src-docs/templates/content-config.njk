@@ -42,10 +42,11 @@
                   <tr>
                      <td style="text-align: left"><code>displayOption</code></td>
                      <td style="text-align: left">‘fixed’</td>
-                     <td style="text-align: left">The allowed values include <code>static</code>, <code >fixed</code> or <code>popup</code>:
+                     <td style="text-align: left">The allowed values include <code >fixed</code>, <code>popup</code>, <code>popup-border</code> or <code>static</code>:
                         <ul>
-                           <li><code>fixed</code>: The button is always visible at the top of the page even when the page scrolls.</li>
+                           <li><code>fixed</code>: The button is always visible at the top of the page even when the page scrolls, making the SkipTo.js features available to all users to benefit from.</li>
                            <li><code>popup</code>: The button is initially not visible, but becomes visible when it receives focus.</li>
+                           <li><code>popup-border</code>: Is similar to the "popup" option except the bottom border of button is always visible.  The entire button becomes visible when it receives focus (e.g same a "popup" option) and when the pointer is moved over the exposed border.  <br/>NOTE: This option makes the button and menu discoverable by pointer users, making the SkipTo.js features available to all users to benefit from.</li>
                            <li><code>static</code>: The button is always visible at the top of the page.</li>
                         </ul>
                      </td>

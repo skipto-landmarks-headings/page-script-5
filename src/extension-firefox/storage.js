@@ -17,6 +17,7 @@ const defaultMenuOptions = {
 };
 
 const defaultStyleOptions = {
+  displayOption: 'popup',
   fontFamily: 'sans-serif',
   fontSize: '12pt',
   buttonTextColor: '#13294b',
