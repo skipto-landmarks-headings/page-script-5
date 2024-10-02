@@ -234,33 +234,11 @@ export default class SkipToContent extends HTMLElement {
     renderStyleElement(this.shadowRoot, config, this.skipToId);
     if (this.buttonSkipTo) {
       this.buttonSkipTo.updateLabels(config);
+      this.buttonSkipTo.setDisplayOption(config['displayOption']);
     }
-
-    this.setDisplayOption(config['displayOption'], this.skipToId);
 
     return config;
   }
 
-  /*
-   * @method setDisplayOption
-   *
-   * @desc Set display option for button visibility wehn it does not
-   *       have focus
-   *
-   * @param  {String}  value - String with configuration information
-   * @param  {String}  id    - Id of container element
-   */
-  setDisplayOption(value, id) {
 
-    console.log(`[setDisplayOption]: ${value} ${id}`);
-    const elem = this.shadowRoot.getElementById(id);
-    console.log(`[setDisplayOption][elem]: ${elem}`);
-    if (elem) {
-      elem.classList.remove('popup-border');
-      elem.classList.remove('fixed');
-      elem.classList.remove('popup');
-      elem.classList.remove('static');
-      elem.classList.add(value);
-    }
-  }
 }

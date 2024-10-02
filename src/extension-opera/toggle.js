@@ -1,12 +1,14 @@
 /* toggle.js */
 
-
 (function () {
-  console.log(`[toggle][onclick]`);
+
+  const debug = false;
+
+  debug && console.log(`[toggle.js][onclick]`);
 
   let skipToContentElem = document.querySelector('skip-to-content');
 
-  console.log(`[toggle]: ${skipToContentElem} ${skipToContentElem.checked}`);
+  debug && console.log(`[toggle.js]: ${skipToContentElem} ${skipToContentElem.checked}`);
 
   if (skipToContentElem) {
     const focus = skipToContentElem.getAttribute('focus');

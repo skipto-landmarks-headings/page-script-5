@@ -15,7 +15,7 @@ $skipToId.popup {
   transition: top 0.35s ease;
 }
 
-$skipToId.popup-border {
+$skipToId.popup.show-border {
   top: -28px;
   transition: top 0.35s ease;
 }
@@ -37,9 +37,7 @@ $skipToId button .skipto-medium {
 
 $skipToId,
 $skipToId.popup.focus,
-$skipToId.popup:hover,
-$skipToId.popup-border.focus,
-$skipToId.popup-border:hover {
+$skipToId.popup:hover {
   position: fixed;
   top: 0;
   left: $positionLeft;

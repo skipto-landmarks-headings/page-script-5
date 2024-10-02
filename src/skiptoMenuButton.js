@@ -52,26 +52,7 @@ export default class SkiptoMenuButton {
         this.containerNode.classList.add(this.config.customClass);
       }
 
-      let displayOption = this.config.displayOption;
-      if (typeof displayOption === 'string') {
-        displayOption = displayOption.trim().toLowerCase();
-        if (displayOption.length) {
-          switch (this.config.displayOption) {
-            case 'static':
-              this.containerNode.classList.add('static');
-              break;
-            case 'onfocus':  // Legacy option
-            case 'popup':
-              this.containerNode.classList.add('popup');
-              break;
-            case 'popup-border':
-              this.containerNode.classList.add('popup-border');
-              break;
-            default:
-              break;
-          }
-        }
-      }
+      this.setDisplayOption(this.config.displayOption);
 
       // Create button
 
@@ -723,6 +704,44 @@ export default class SkiptoMenuButton {
              (rect.bottom >= y);
     }    
 
+    /*
+     * @method setDisplayOption
+     *
+     * @desc Set display option for button visibility wehn it does not
+     *       have focus
+     *
+     * @param  {String}  value - String with configuration information
+     */
+    setDisplayOption(value) {
+
+      if (typeof value === 'string') {
+        value = value.trim().toLowerCase();
+        if (value.length && this.containerNode) {
+
+          this.containerNode.classList.remove('static');
+          this.containerNode.classList.remove('popup');
+          this.containerNode.classList.remove('show-border');
+
+          switch (value) {
+            case 'static':
+              this.containerNode.classList.add('static');
+              break;
+            case 'onfocus':  // Legacy option
+            case 'popup':
+              this.containerNode.classList.add('popup');
+              break;
+            case 'popup-border':
+              this.containerNode.classList.add('popup');
+              this.containerNode.classList.add('show-border');
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    }
+
+
     // Menu event handlers
     
     handleFocusin() {
@@ -1037,5 +1056,6 @@ export default class SkiptoMenuButton {
         this.closePopup();
       }
     }
+
 
 }
