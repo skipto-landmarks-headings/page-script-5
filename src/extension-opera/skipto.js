@@ -3240,6 +3240,8 @@ $skipToId-highlight div {
         // Feature switches
         enableHeadingLevelShortcuts: true,
 
+        focusOption: 'none',  // used by extensions only
+
         // Customization of button and menu
         altShortcut: '0', // default shortcut key is the number zero
         optionShortcut: 'º', // default shortcut key character associated with option+0 on mac
@@ -3541,19 +3543,18 @@ $skipToId-highlight div {
         if (skipToContentElem) {
           skipToContentElem.init();
           window.addEventListener('load', function() {
-            debug.flag && debug.log(`[focus]: ${skipToContentElem}`);
+            debug.flag && debug.log(`[onload][extension][elem]: ${skipToContentElem}`);
             removeLegacySkipToJS(skipToContentElem);
-            skipToContentElem.buttonSkipTo.focusButton();
           });
         }
       }
       else {
         // Initialize SkipTo.js menu button with onload event
         window.addEventListener('load', function() {
-          debug.flag && debug.log(`[load]`);
+          debug.flag && debug.log(`[onload][script]`);
           const skipToContentElem = getSkipToContentElement();
           if (skipToContentElem) {
-            debug.flag && debug.log(`[onload][skipToContent]: ${skipToContentElem}`);
+            debug.flag && debug.log(`[onload][script][elem]: ${skipToContentElem}`);
             skipToContentElem.init(window.SkipToConfig);
           }
         });

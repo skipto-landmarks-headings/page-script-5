@@ -26,6 +26,8 @@ export default class SkipToContent extends HTMLElement {
       // Feature switches
       enableHeadingLevelShortcuts: true,
 
+      focusOption: 'none',  // used by extensions only
+
       // Customization of button and menu
       altShortcut: '0', // default shortcut key is the number zero
       optionShortcut: 'º', // default shortcut key character associated with option+0 on mac

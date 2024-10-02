@@ -95,7 +95,9 @@ optionsI18nTemplate.innerHTML = `
 
 
     <fieldset>
-      <legend id="legend-menu-labels">Menu Labels</legend>
+      <legend id="legend-menu-labels">
+        Menu Labels
+      </legend>
 
       <div class="text">
         <label id="input-menu-label"
@@ -269,7 +271,7 @@ class OptionsI18n extends HTMLElement {
       { id: 'input-shortcut-name-label',      label: 'options_shortcut_name_label'},
 
       { id: 'legend-menu-labels',           label: 'options_legend_menu_labels'},
-      { id: 'input-menu-label-label',       label: 'options_menu_label'},
+      { id: 'input-menu-label',             label: 'options_menu_label'},
       { id: 'input-landmark-group-label',   label: 'options_landmark_group_label'},
       { id: 'input-heading-group-label',    label: 'options_heading_group_label'},
       { id: 'input-heading-level-label',    label: 'options_heading_level_label'},

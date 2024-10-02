@@ -19,13 +19,17 @@
     "message" : "Preferences",
     "description" : "Title of options page"
   },
+  "options_tab_button": {
+    "message" : "Button",
+    "description" : "Title of button tab"
+  },
   "options_tab_menu": {
     "message" : "Menu",
-    "description" : "Title of options tab"
+    "description" : "Title of menu tab"
   },
   "options_tab_style": {
     "message" : "Style",
-    "description" : "Title of options tab"
+    "description" : "Title of style tab"
   },
   "options_tab_i18n": {
     "message" : "Internationalization",
@@ -242,6 +246,34 @@
   "options_msg_no_headings": {
     "message" : "No headings found",
     "description" : "No headings found message"
+  },
+  "options_button_button_content_reset" : {
+    "message" : "Reset Button Defaults",
+    "description" : "Label for reset button defaults button"
+  },
+  "options_button_border_legend": {
+    "message" : "Button Visibility",
+    "description" : "Button visibility options legend"
+  },
+  "options_button_border_label": {
+    "message" : "Bottom border of button always visible",
+    "description" : "Checkbox label"
+  },
+  "options_button_focus_legend": {
+    "message" : "Button Focus",
+    "description" : "Button visibility options legend"
+  },
+  "options_button_focus_none_label": {
+    "message" : "None",
+    "description" : "Radio button label"
+  },
+  "options_button_focus_button_label": {
+    "message" : "Button",
+    "description" : "Radio button label"
+  },
+  "options_button_focus_menu_label": {
+    "message" : "Menu",
+    "description" : "Radio button label"
   }
 
 }

@@ -85,19 +85,18 @@ debug.flag = false;
       if (skipToContentElem) {
         skipToContentElem.init();
         window.addEventListener('load', function() {
-          debug.flag && debug.log(`[focus]: ${skipToContentElem}`);
+          debug.flag && debug.log(`[onload][extension][elem]: ${skipToContentElem}`);
           removeLegacySkipToJS(skipToContentElem);
-          skipToContentElem.buttonSkipTo.focusButton();
         });
       }
     }
     else {
       // Initialize SkipTo.js menu button with onload event
       window.addEventListener('load', function() {
-        debug.flag && debug.log(`[load]`);
+        debug.flag && debug.log(`[onload][script]`);
         const skipToContentElem = getSkipToContentElement();
         if (skipToContentElem) {
-          debug.flag && debug.log(`[onload][skipToContent]: ${skipToContentElem}`);
+          debug.flag && debug.log(`[onload][script][elem]: ${skipToContentElem}`);
           skipToContentElem.init(window.SkipToConfig);
         }
       });
