@@ -14,7 +14,7 @@ const browserRuntime = typeof browser === 'object' ?
               chrome.runtime;
 
 const browserAction = typeof browser === 'object' ?
-              browser.action :
+              browser.browserAction :
               chrome.action;
 
 const browserScripting = typeof browser === 'object' ?
