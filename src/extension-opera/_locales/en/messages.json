@@ -268,7 +268,7 @@
     "description" : "Checkbox label"
   },
   "options_button_border_desc": {
-    "message" : "By making the bottom border always visible the pointer can be used to expose the button when is typically hidden when using the popup setting.",
+    "message" : "Making the bottom border visible at the top of the page allows user to use the pointer to easily expose the button.",
     "description" : "Button visibility description"
   },
   "options_button_focus_legend": {

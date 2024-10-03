@@ -46,11 +46,13 @@ optionsButtonTemplate.innerHTML = `
          </legend>
 
         <label class="inline" for="button-border">
-          <input type="checkbox" id="button-border"/>
+          <input id="button-border"
+             type="checkbox"
+             aria-describedby="button-border-desc"/>
           <span id="button-border-label">Bottom border of button always visible</span>
         </label>
 
-         <p id="button-border-desc">By making the bottom border always visible
+         <p id="button-border-desc" class="desc">By making the bottom border always visible
            the pointer can be used to expose the button when is mostly hidden.</p>
 
       </fieldset>
@@ -61,21 +63,31 @@ optionsButtonTemplate.innerHTML = `
          </legend>
 
         <label class="inline" for="button-focus-none">
-          <input type="radio" name="focus" value="none" id="button-focus-none"/>
+          <input id="button-focus-none"
+            type="radio"
+            name="focus"
+            value="none" />
           <span id="button-focus-none-label">None</span>
         </label>
 
         <label class="inline" for="button-focus-button">
-          <input type="radio" name="focus" value="button" id="button-focus-button"/>
+          <input id="button-focus-button"
+             type="radio"
+             name="focus"
+             value="button"
+            aria-describedby="button-focus-desc" />
           <span id="button-focus-button-label">Button</span>
         </label>
 
         <label class="inline" for="button-focus-menu">
-          <input type="radio" name="focus" value="menu" id="button-focus-menu"/>
+          <input id="button-focus-menu"
+            type="radio"
+            name="focus"
+            value="menu"/>
           <span id="button-focus-menu-label">Menu</span>
         </label>
 
-         <p id="button-focus-desc">When a new page loads some users may not want the button visible since it obscures some content and others
+         <p id="button-focus-desc" class="desc">When a new page loads some users may not want the button visible since it obscures some content and others
          may want the menu to be open to more efficiently navigate to page content.</p>
 
       </fieldset>
