@@ -1,8 +1,4 @@
 {
-  "extension_version" : {
-    "message": "1.0.3",
-    "description": "Extension version"
-  },
   "extension_name_chrome" : {
     "message": "SkipTo.js for Chrome",
     "description": "Extension name for Chrome browser"
@@ -23,13 +19,17 @@
     "message" : "Preferences",
     "description" : "Title of options page"
   },
+  "options_tab_button": {
+    "message" : "Button",
+    "description" : "Title of button tab"
+  },
   "options_tab_menu": {
     "message" : "Menu",
-    "description" : "Title of options tab"
+    "description" : "Title of menu tab"
   },
   "options_tab_style": {
     "message" : "Style",
-    "description" : "Title of options tab"
+    "description" : "Title of style tab"
   },
   "options_tab_i18n": {
     "message" : "Internationalization",
@@ -110,6 +110,14 @@
   "options_landmark_search": {
     "message" : "Search",
     "description" : "Label for search landmark checkbox"
+  },
+  "options_landmark_region": {
+    "message" : "Region",
+    "description" : "Label for region landmark checkbox"
+  },
+  "options_landmark_doc_order": {
+    "message" : "Show landmarks in document order",
+    "description" : "Label for showing landmarks in document order checkbox"
   },
   "options_font_options": {
     "message" : "Font Options",
@@ -246,6 +254,42 @@
   "options_msg_no_headings": {
     "message" : "No headings found",
     "description" : "No headings found message"
+  },
+  "options_button_button_content_reset" : {
+    "message" : "Reset Button Defaults",
+    "description" : "Label for reset button defaults button"
+  },
+  "options_button_border_legend": {
+    "message" : "Button Visibility",
+    "description" : "Button visibility options legend"
+  },
+  "options_button_border_label": {
+    "message" : "Bottom border of button always visible",
+    "description" : "Checkbox label"
+  },
+  "options_button_border_desc": {
+    "message" : "Making the bottom border visible at the top of the page allows user to use the pointer to easily expose the button.",
+    "description" : "Button visibility description"
+  },
+  "options_button_focus_legend": {
+    "message" : "Button Focus",
+    "description" : "Button focus options legend"
+  },
+  "options_button_focus_none_label": {
+    "message" : "None",
+    "description" : "Radio button label"
+  },
+  "options_button_focus_button_label": {
+    "message" : "Button",
+    "description" : "Radio button label"
+  },
+  "options_button_focus_menu_label": {
+    "message" : "Menu",
+    "description" : "Radio button label"
+  },
+  "options_button_focus_desc": {
+    "message" : "When a new page loads some users may not want the button visible since it obscures some content or may be distracting visually.  Others may want the menu to be open when the page loads to eliminate the extra keystrokes needed to open the menu.",
+    "description" : "Description of focus options. "
   }
 
 }

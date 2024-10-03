@@ -88,6 +88,12 @@ const examples = [
     config: `displayOption: popup; positionLeft: 46%`
   },
   { template: './src-docs/templates/example/content-example.njk',
+    title: 'Popup with Border',
+    filename: 'example-popup-border.html',
+    description: 'The "Skip To Content" menu button appears when it gets focus, bottom border is always visible.',
+    config: `displayOption: popup-border; positionLeft: 46%`
+  },
+  { template: './src-docs/templates/example/content-example.njk',
     title: 'Static Menu Button with no Highlight',
     filename: 'example-static.html',
     description: '"Skip To Content" button is visible on load',

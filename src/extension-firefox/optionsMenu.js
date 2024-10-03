@@ -82,6 +82,17 @@ optionsMenuTemplate.innerHTML = `
           <span id="landmarks-banner-label">Banner</span>
         </label>
 
+        <label class="inline" for="landmarks-region">
+          <input type="checkbox" value="region" id="landmarks-region"/>
+          <span id="landmarks-region-label">Named region</span>
+        </label>
+
+        <label class="inline" style="margin-top: 2em"  for="landmarks-doc-order">
+          <input type="checkbox" value="doc-order" id="landmarks-doc-order"/>
+          <span id="landmarks-doc-order-label">Show landmarks in document order</span>
+        </label>
+
+
       </fieldset>
 
       <fieldset>
@@ -183,7 +194,10 @@ class OptionsMenu extends HTMLElement {
       { id: 'landmarks-complementary-label', label: 'options_landmark_complementary'},
       { id: 'landmarks-contentinfo-label',   label: 'options_landmark_contentinfo'},
       { id: 'landmarks-navigation-label',    label: 'options_landmark_navigation'},
-      { id: 'landmarks-search-label',        label: 'options_landmark_search'}
+      { id: 'landmarks-search-label',        label: 'options_landmark_search'},
+      { id: 'landmarks-region-label',        label: 'options_landmark_region'},
+      { id: 'landmarks-doc-order',           label: 'options_landmark_doc_order'}
+
     ];
 
     i18nLabels.forEach( item => {
@@ -207,6 +221,9 @@ class OptionsMenu extends HTMLElement {
     form.landmarksComplementaryInput = getNode('landmarks-complementary');
     form.landmarksContentinfoInput   = getNode('landmarks-contentinfo');
     form.landmarksBannerInput        = getNode('landmarks-banner');
+    form.landmarksRegionInput        = getNode('landmarks-region');
+
+    form.landmarksDocOrderInput      = getNode('landmarks-doc-order');
 
     form.headings1Input = getNode('headings-1');
     form.headings2Input = getNode('headings-2');
@@ -239,11 +256,14 @@ class OptionsMenu extends HTMLElement {
 
       form.highlightDisabled.checked = options.highlightTarget !== 'enabled';
 
-      form.landmarksNavigationInput.checked = options.landmarks.includes('nav');
-      form.landmarksSearchInput.checked = options.landmarks.includes('search');
+      form.landmarksNavigationInput.checked    = options.landmarks.includes('nav');
+      form.landmarksSearchInput.checked        = options.landmarks.includes('search');
       form.landmarksComplementaryInput.checked = options.landmarks.includes('complementary');
-      form.landmarksContentinfoInput.checked = options.landmarks.includes('contentinfo');
-      form.landmarksBannerInput.checked = options.landmarks.includes('banner');
+      form.landmarksContentinfoInput.checked   = options.landmarks.includes('contentinfo');
+      form.landmarksBannerInput.checked        = options.landmarks.includes('banner');
+      form.landmarksRegionInput.checked        = options.landmarks.includes('region');
+
+      form.landmarksDocOrderInput.checked      = options.landmarks.includes('doc-order');
 
       form.headings1Input.checked = options.headings.includes('h1');
       form.headings2Input.checked = options.headings.includes('h2');
@@ -313,6 +333,14 @@ class OptionsMenu extends HTMLElement {
 
       if (form.landmarksBannerInput.checked) {
         options.landmarks += ' banner';
+      }
+
+      if (form.landmarksRegionInput.checked) {
+        options.landmarks += ' region';
+      }
+
+      if (form.landmarksDocOrderInput.checked) {
+        options.landmarks += ' doc-order';
       }
 
       options.headings = form.headingsMainOnlyInput.checked ? "main-only" : "";

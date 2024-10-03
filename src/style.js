@@ -15,6 +15,11 @@ $skipToId.popup {
   transition: top 0.35s ease;
 }
 
+$skipToId.popup.show-border {
+  top: -28px;
+  transition: top 0.35s ease;
+}
+
 $skipToId button .skipto-text {
   padding: 6px 8px 6px 8px;
   display: inline-block;
@@ -438,10 +443,10 @@ function addCSSColors (cssMenu, cssHighlight, config) {
 
   // Check for display option in theme
   if ((typeof config.displayOption === 'string') &&
-      ('fixed popup static'.indexOf(config.displayOption.toLowerCase()) < 0)) {
+      (['popup-border', 'fixed', 'popup', 'static'].includes(config.displayOption.toLowerCase()) < 0)) {
 
     if ((typeof theme.displayOption === 'string') &&
-        ('fixed popup static'.indexOf(theme.displayOption.toLowerCase())>= 0)) {
+        (['popup-border', 'fixed', 'popup', 'static'].includes(theme.displayOption.toLowerCase())>= 0)) {
       config.displayOption = theme.displayOption;
     }
     else {

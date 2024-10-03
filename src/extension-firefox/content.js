@@ -26,6 +26,7 @@ window.addEventListener('load', function() {
     debug && console.log(`[load][skipToContentElem]: ${skipToContentElem}`);
     if (skipToContentElem) {
       skipToContentElem.setAttribute('data-skipto', params);
+      skipToContentElem.setAttribute('setfocus', getFocusOption(params));
     }
   })
 });
@@ -43,3 +44,14 @@ browserRuntime.onMessage.addListener(
   }
 );
 
+function getFocusOption(params) {
+
+  let focusOption = 'none';
+
+  const parts = params.split('focusOption:');
+  if (parts.length === 2) {
+    focusOption = parts[1].substring(0, parts[1].indexOf(';')).trim();
+  }
+  debug && console.log(`[getFocusOption]: ${focusOption}`);
+  return focusOption;
+}

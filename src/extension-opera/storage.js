@@ -10,6 +10,11 @@ const browserStorage = typeof browser === 'object' ?
     browser.storage.local :
     chrome.storage.sync;
 
+const defaultButtonOptions = {
+  displayOption: 'popup',
+  focusOption: 'button'
+};
+
 const defaultMenuOptions = {
   headings: 'main-only h1 h2',
   landmarks: 'main search nav complementary',
@@ -55,7 +60,7 @@ const i18nOptions = {
       msgNoHeadingsFound: 'No headings found'
   };
 
-const defaultOptions = Object.assign({}, defaultMenuOptions, defaultStyleOptions, i18nOptions);
+const defaultOptions = Object.assign({}, defaultButtonOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions);
 
 function hasAllProperties (refObj, srcObj) {
   for (const key of Object.keys(refObj)) {
@@ -126,6 +131,18 @@ export function resetDefaultOptions () {
     });
   });
 }
+
+/*
+** resetDefaultButtonOptions
+*/
+export function resetDefaultButtonOptions () {
+  return new Promise (function (resolve, reject) {
+    browserStorage.set(defaultButtonOptions, function () {
+      if (notLastError()) { resolve() }
+    });
+  });
+}
+
 
 /*
 ** resetDefaultMenuOptions

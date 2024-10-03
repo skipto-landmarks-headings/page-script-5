@@ -17,7 +17,7 @@ export default class SkipToContent extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.skipToId = 'id-skip-to';
-    this.version = "5.6.0";
+    this.version = "5.6.1";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -25,6 +25,8 @@ export default class SkipToContent extends HTMLElement {
     this.config = {
       // Feature switches
       enableHeadingLevelShortcuts: true,
+
+      focusOption: 'none',  // used by extensions only
 
       // Customization of button and menu
       altShortcut: '0', // default shortcut key is the number zero
@@ -87,12 +89,34 @@ export default class SkipToContent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["data-skipto"];
+    return [
+      "data-skipto",
+      "setfocus"
+      ];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'data-skipto') {
       this.config = this.setupConfigFromDataAttribute(this.config, newValue);
+    }
+
+    if (name === 'setfocus') {
+        switch(newValue) {
+          case 'button':
+            this.buttonSkipTo.closePopup();
+            this.buttonSkipTo.buttonNode.focus();
+            break;
+
+          case 'menu':
+            this.buttonSkipTo.openPopup();
+            this.buttonSkipTo.setFocusToFirstMenuitem();
+            break;
+
+          case 'none':
+            this.buttonSkipTo.closePopup();
+            document.body.focus();
+            break;
+        }
     }
   }
 
@@ -105,7 +129,7 @@ export default class SkipToContent extends HTMLElement {
    * @param  {object} globalConfig - Reference to configuration object
    *                                 can be undefined
    */
-  init(globalConfig=null) {
+  init(globalConfig=false) {
     if (!this.initialized) {
       this.initialized = true;
       if (globalConfig) {
@@ -121,8 +145,10 @@ export default class SkipToContent extends HTMLElement {
 
       // Add skipto style sheet to document
       renderStyleElement(this.shadowRoot, this.config, this.skipToId);
-      this.buttonSkipTo = new SkiptoMenuButton(this.shadowRoot, this.config, this.skipToId);
+      this.buttonSkipTo = new SkiptoMenuButton(this);
     }
+
+    this.setAttribute('focus', 'none');
   }
 
  /*
@@ -210,7 +236,11 @@ export default class SkipToContent extends HTMLElement {
     renderStyleElement(this.shadowRoot, config, this.skipToId);
     if (this.buttonSkipTo) {
       this.buttonSkipTo.updateLabels(config);
+      this.buttonSkipTo.setDisplayOption(config['displayOption']);
     }
+
     return config;
   }
+
+
 }

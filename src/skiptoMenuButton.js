@@ -27,51 +27,36 @@ debug.flag = false;
  * @desc Constructor for creating a button to open a menu of headings and landmarks on 
  *       a web page
  *
- * @param {Object}  attachNode  - DOM element node to attach button and menu container element
+ * @param {Object}  skipToContentElem  -  The skip-to-content objecy
  * 
  * @returns {Object}  DOM element node that is the container for the button and the menu
  */
 export default class SkiptoMenuButton {
 
-    constructor (attachNode, config, id) {
-      this.config = config;
-      this.skiptoId = id;
+    constructor (skipToContentElem) {
+      this.skipToContentElem = skipToContentElem;
+      this.config     = skipToContentElem.config;
+      this.skiptoId   = skipToContentElem.skipToId;
 
       // check for 'nav' element, if not use 'div' element
-      const ce = config.containerElement.toLowerCase().trim() === 'nav' ? 'nav' : 'div';
+      const ce = this.config.containerElement.toLowerCase().trim() === 'nav' ? 'nav' : 'div';
 
       this.containerNode = document.createElement(ce);
-      attachNode.appendChild(this.containerNode);
+      skipToContentElem.shadowRoot.appendChild(this.containerNode);
 
-      this.containerNode.id = id;
+      this.containerNode.id = this.skiptoId;
       if (ce === 'nav') {
-        this.containerNode.setAttribute('aria-label', config.buttonLabel);
+        this.containerNode.setAttribute('aria-label', this.config.buttonLabel);
       }
-      if (isNotEmptyString(config.customClass)) {
-        this.containerNode.classList.add(config.customClass);
+      if (isNotEmptyString(this.config.customClass)) {
+        this.containerNode.classList.add(this.config.customClass);
       }
 
-      let displayOption = config.displayOption;
-      if (typeof displayOption === 'string') {
-        displayOption = displayOption.trim().toLowerCase();
-        if (displayOption.length) {
-          switch (config.displayOption) {
-            case 'static':
-              this.containerNode.classList.add('static');
-              break;
-            case 'onfocus':  // Legacy option
-            case 'popup':
-              this.containerNode.classList.add('popup');
-              break;
-            default:
-              break;
-          }
-        }
-      }
+      this.setDisplayOption(this.config.displayOption);
 
       // Create button
 
-      const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(config);
+      const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(this.config);
 
       this.buttonNode = document.createElement('button');
       this.buttonNode.setAttribute('aria-haspopup', 'menu');
@@ -90,12 +75,12 @@ export default class SkiptoMenuButton {
       this.smallButtonNode = document.createElement('span');
       this.buttonNode.appendChild(this.smallButtonNode);
       this.smallButtonNode.classList.add('skipto-small');
-      this.smallButtonNode.textContent = config.smallButtonLabel;
+      this.smallButtonNode.textContent = this.config.smallButtonLabel;
 
       this.mediumButtonNode = document.createElement('span');
       this.buttonNode.appendChild(this.mediumButtonNode);
       this.mediumButtonNode.classList.add('skipto-medium');
-      this.mediumButtonNode.textContent = config.buttonLabel;
+      this.mediumButtonNode.textContent = this.config.buttonLabel;
 
       // Create menu container
       this.menuitemNodes = [];
@@ -103,7 +88,7 @@ export default class SkiptoMenuButton {
       this.menuNode   = document.createElement('div');
       this.menuNode.setAttribute('id', 'id-skip-to-menu');
       this.menuNode.setAttribute('role', 'menu');
-      this.menuNode.setAttribute('aria-label', config.menuLabel);
+      this.menuNode.setAttribute('aria-label', this.config.menuLabel);
       this.containerNode.appendChild(this.menuNode);
 
       this.landmarkGroupLabelNode = document.createElement('div');
@@ -142,7 +127,7 @@ export default class SkiptoMenuButton {
         );
       }
 
-      attachNode.appendChild(this.containerNode);
+      skipToContentElem.shadowRoot.appendChild(this.containerNode);
 
       this.focusMenuitem = null;
     }
@@ -160,6 +145,7 @@ export default class SkiptoMenuButton {
      */
     focusButton() {
       this.buttonNode.focus();
+      this.skipToContentElem.setAttribute('focus', 'button');
     }
 
 
@@ -182,8 +168,8 @@ export default class SkiptoMenuButton {
       this.mediumButtonNode.textContent = config.buttonLabel;
 
       this.menuNode.setAttribute('aria-label', config.menuLabel);
-      this.landmarkGroupLabelNode.textContent = this.config.landmarkGroupLabel;
-      this.headingGroupLabelNode.textContent = this.config.headingGroupLabel;
+      this.landmarkGroupLabelNode.textContent = config.landmarkGroupLabel;
+      this.headingGroupLabelNode.textContent = config.headingGroupLabel;
     }
 
     /*
@@ -426,7 +412,7 @@ export default class SkiptoMenuButton {
      *
      * @desc 
      */
-    renderMenu() {
+    renderMenu(config, skipToId) {
       // remove landmark menu items
       while (this.landmarkGroupNode.lastElementChild) {
         this.landmarkGroupNode.removeChild(this.landmarkGroupNode.lastElementChild);
@@ -437,10 +423,10 @@ export default class SkiptoMenuButton {
       }
 
       // Create landmarks group
-      const [landmarkElements, headingElements] = getLandmarksAndHeadings(this.config, this.skiptoId);
+      const [landmarkElements, headingElements] = getLandmarksAndHeadings(config, skipToId);
 
-      this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, this.config.msgNoLandmarksFound);
-      this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, this.config.msgNoHeadingsFound);
+      this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, config.msgNoLandmarksFound);
+      this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, config.msgNoHeadingsFound);
 
       // Update list of menuitems
       this.updateMenuitems();
@@ -462,6 +448,7 @@ export default class SkiptoMenuButton {
         this.removeHoverClass(menuitem);
         menuitem.classList.add('hover');
         menuitem.focus();
+        this.skipToContentElem.setAttribute('focus', 'menu');
         this.focusMenuitem = menuitem;
         if (this.highlightEnabled) {
           highlightElement(menuitem.getAttribute('data-id'));
@@ -597,7 +584,7 @@ export default class SkiptoMenuButton {
       this.menuNode.setAttribute('aria-busy', 'true');
       const h = (80 * window.innerHeight) / 100;
       this.menuNode.style.maxHeight = h + 'px';
-      this.renderMenu();
+      this.renderMenu(this.config, this.skipToId);
       this.menuNode.style.display = 'block';
       const buttonRect = this.buttonNode.getBoundingClientRect();
       const menuRect = this.menuNode.getBoundingClientRect();
@@ -611,6 +598,7 @@ export default class SkiptoMenuButton {
       }
       this.menuNode.removeAttribute('aria-busy');
       this.buttonNode.setAttribute('aria-expanded', 'true');
+      this.skipToContentElem.setAttribute('focus', 'menu');
     }
 
     /*
@@ -716,14 +704,54 @@ export default class SkiptoMenuButton {
              (rect.bottom >= y);
     }    
 
+    /*
+     * @method setDisplayOption
+     *
+     * @desc Set display option for button visibility wehn it does not
+     *       have focus
+     *
+     * @param  {String}  value - String with configuration information
+     */
+    setDisplayOption(value) {
+
+      if (typeof value === 'string') {
+        value = value.trim().toLowerCase();
+        if (value.length && this.containerNode) {
+
+          this.containerNode.classList.remove('static');
+          this.containerNode.classList.remove('popup');
+          this.containerNode.classList.remove('show-border');
+
+          switch (value) {
+            case 'static':
+              this.containerNode.classList.add('static');
+              break;
+            case 'onfocus':  // Legacy option
+            case 'popup':
+              this.containerNode.classList.add('popup');
+              break;
+            case 'popup-border':
+              this.containerNode.classList.add('popup');
+              this.containerNode.classList.add('show-border');
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    }
+
+
     // Menu event handlers
     
     handleFocusin() {
       this.containerNode.classList.add('focus');
+      this.skipToContentElem.setAttribute('focus', 'button');
     }
     
     handleFocusout() {
       this.containerNode.classList.remove('focus');
+      this.skipToContentElem.setAttribute('focus', 'none');
     }
     
     handleButtonKeydown(event) {
@@ -742,6 +770,7 @@ export default class SkiptoMenuButton {
         case 'Escape':
           this.closePopup();
           this.buttonNode.focus();
+          this.skipToContentElem.setAttribute('focus', 'button');
           flag = true;
           break;
         case 'Up':
@@ -764,6 +793,7 @@ export default class SkiptoMenuButton {
       if (this.isOpen()) {
         this.closePopup();
         this.buttonNode.focus();
+        this.skipToContentElem.setAttribute('focus', 'button');
       } else {
         this.openPopup();
         this.setFocusToFirstMenuitem();
@@ -851,8 +881,9 @@ export default class SkiptoMenuButton {
           flag = true;
         }
         if (event.key === 'Tab') {
-          this.buttonNode.focus();
           this.closePopup();
+          this.buttonNode.focus();
+          this.skipToContentElem.setAttribute('focus', 'button');
           flag = true;
         }
       } else {
@@ -866,6 +897,7 @@ export default class SkiptoMenuButton {
           case 'Escape':
             this.closePopup();
             this.buttonNode.focus();
+            this.skipToContentElem.setAttribute('focus', 'button');
             flag = true;
             break;
           case 'Up':
@@ -956,7 +988,8 @@ export default class SkiptoMenuButton {
             if (!this.isOverMenu(event.clientX, event.clientY)) {
               debug.flag && debug.log(`[down][close]`);
               this.closePopup();
-              this.buttonNode.focus();            
+              this.buttonNode.focus();
+              this.skipToContentElem.setAttribute('focus', 'button');
             }
           }
           else {
@@ -1006,6 +1039,7 @@ export default class SkiptoMenuButton {
             debug.flag && debug.log(`[up] close `);
             this.closePopup();
             this.buttonNode.focus();
+            this.skipToContentElem.setAttribute('focus', 'button');
           }        
         }
       }
@@ -1022,5 +1056,6 @@ export default class SkiptoMenuButton {
         this.closePopup();
       }
     }
+
 
 }

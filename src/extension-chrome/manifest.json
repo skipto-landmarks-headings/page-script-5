@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extension_name_chrome__",
-  "version": "__MSG_extension_version__",
+  "version": "1.0.3",
   "description": "__MSG_extension_description__",
   "homepage_url": "https://skipto-landmarks-headings.github.io/page-script-5/",
   "default_locale": "en",
@@ -12,12 +12,17 @@
     "64": "./images/skipto-icon-64.png",
     "128": "./images/skipto-icon-128.png"
   },
+  "action": {
+    "default_title": "Toggle Menu"
+  },
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
   "options_page": "options.html",
   "permissions": [
+    "activeTab",
+    "scripting",
     "storage"
   ],
   "web_accessible_resources": [{
