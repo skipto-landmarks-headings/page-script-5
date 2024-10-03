@@ -1,5 +1,5 @@
 Title
-SkipTo.js for Firefox
+SkipTo.js for XXXX
 
 Summary
 SkipTo.js for Firefox extension provides keyboard navigation to landmark regions and headings to support WCAG 2.4.1 Bypass Blocks requirement.

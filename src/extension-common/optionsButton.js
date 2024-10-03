@@ -50,6 +50,9 @@ optionsButtonTemplate.innerHTML = `
           <span id="button-border-label">Bottom border of button always visible</span>
         </label>
 
+         <p id="button-border-desc">By making the bottom border always visible
+           the pointer can be used to expose the button when is mostly hidden.</p>
+
       </fieldset>
 
       <fieldset>
@@ -71,6 +74,9 @@ optionsButtonTemplate.innerHTML = `
           <input type="radio" name="focus" value="menu" id="button-focus-menu"/>
           <span id="button-focus-menu-label">Menu</span>
         </label>
+
+         <p id="button-focus-desc">When a new page loads some users may not want the button visible since it obscures some content and others
+         may want the menu to be open to more efficiently navigate to page content.</p>
 
       </fieldset>
 
@@ -113,12 +119,14 @@ class OptionsButton extends HTMLElement {
       { id: 'button-reset', label: 'options_button_button_content_reset'},
 
       { id: 'button-border-legend', label: 'options_button_border_legend'},
-      { id: 'button-border-label', label: 'options_button_border_label'},
+      { id: 'button-border-label',  label: 'options_button_border_label'},
+      { id: 'button-border-desc',   label: 'options_button_border_desc'},
 
       { id: 'button-focus-legend',       label: 'options_button_focus_legend'},
       { id: 'button-focus-none-label',   label: 'options_button_focus_none_label'},
       { id: 'button-focus-button-label', label: 'options_button_focus_button_label'},
-      { id: 'button-focus-menu-label',   label: 'options_button_focus_menu_label'}
+      { id: 'button-focus-menu-label',   label: 'options_button_focus_menu_label'},
+      { id: 'button-focus-desc',         label: 'options_button_focus_desc'}
     ];
 
     i18nLabels.forEach( item => {

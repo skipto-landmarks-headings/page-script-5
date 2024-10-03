@@ -1858,14 +1858,14 @@ $skipToId-highlight div {
   /*
    * @function getLandmarkTargets
    *
-   * @desc Analyzes a configuration string for landamrk and tag names
+   * @desc Analyzes a configuration string for landmark and tag names
    *       NOTE: This function is included to maximize compatibility
-   *             with confiuguration strings that use CSS selectors
+   *             with configuration strings that use CSS selectors
    *             in previous versions of SkipTo
    *
-   * @param {String} targets - String with landamrk and/or tag names
+   * @param {String} targets - String with landmark and/or tag names
    *
-   * @returns {Array}  A normailized array of landmark names based on target configuration 
+   * @returns {Array}  A normalized array of landmark names based on target configuration
    */
   function getLandmarkTargets (targets) {
     let targetLandmarks = [];
@@ -1913,6 +1913,7 @@ $skipToId-highlight div {
    * @returns {Array}  see @desc
    */
   function getLandmarks(config, landmarks) {
+    let allElements = [];
     let mainElements = [];
     let searchElements = [];
     let navElements = [];
@@ -1980,6 +1981,8 @@ $skipToId-highlight div {
         landmarkItem.nestingLevel = 0;
         incSkipToIdIndex();
 
+        allElements.push(landmarkItem);
+
         // For sorting landmarks into groups
         switch (tagName) {
           case 'main':
@@ -2008,6 +2011,9 @@ $skipToId-highlight div {
             break;
         }
       }
+    }
+    if (config.landmarks.includes('doc-order')) {
+      return allElements;
     }
     return [].concat(mainElements, searchElements, navElements, asideElements, regionElements, footerElements, otherElements);
   }

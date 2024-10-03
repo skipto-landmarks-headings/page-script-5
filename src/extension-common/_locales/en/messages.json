@@ -111,6 +111,14 @@
     "message" : "Search",
     "description" : "Label for search landmark checkbox"
   },
+  "options_landmark_region": {
+    "message" : "Region",
+    "description" : "Label for region landmark checkbox"
+  },
+  "options_landmark_doc_order": {
+    "message" : "Show landmarks in document order",
+    "description" : "Label for showing landmarks in document order checkbox"
+  },
   "options_font_options": {
     "message" : "Font Options",
     "description" : "h2 for font options"
@@ -259,9 +267,13 @@
     "message" : "Bottom border of button always visible",
     "description" : "Checkbox label"
   },
+  "options_button_border_desc": {
+    "message" : "By making the bottom border always visible the pointer can be used to expose the button when is typically hidden when using the popup setting.",
+    "description" : "Button visibility description"
+  },
   "options_button_focus_legend": {
     "message" : "Button Focus",
-    "description" : "Button visibility options legend"
+    "description" : "Button focus options legend"
   },
   "options_button_focus_none_label": {
     "message" : "None",
@@ -274,6 +286,10 @@
   "options_button_focus_menu_label": {
     "message" : "Menu",
     "description" : "Radio button label"
+  },
+  "options_button_focus_desc": {
+    "message" : "When a new page loads some users may not want the button visible since it obscures some content or may be distracting visually.  Others may want the menu to be open when the page loads to eliminate the extra keystrokes needed to open the menu.",
+    "description" : "Description of focus options. "
   }
 
 }

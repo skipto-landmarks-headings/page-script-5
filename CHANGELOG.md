@@ -1,7 +1,8 @@
 # Version history for Skipto.js
 
 ## Version 5.6.1
-* Added focus and setfocus features to skip-to-content element
+* Added doc-order option for use in browser extensions only
+* Added focus and setfocus features to skip-to-content element to support browser extensions
 * Added popup-border displayOption to make the bottom border of the button visible when it does not have focus
 
 ## Version 5.6.0
