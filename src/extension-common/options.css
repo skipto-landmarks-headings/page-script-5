@@ -133,6 +133,7 @@ button {
   margin-left:  0.5em;
   margin-bottom: 1em;
   font-style: italic;
+  max-width: 30em;
 }
 
 .desc code {
