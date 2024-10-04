@@ -2031,8 +2031,14 @@ $skipToId-highlight div {
 
   const overlayElement = document.createElement('div');
   overlayElement.id = 'id-skip-to-highlight';
-  document.body.appendChild(overlayElement);
   overlayElement.style.display = 'none';
+
+  window.addEventListener('load', () => {
+    if (document.body) {
+      document.body.appendChild(overlayElement);
+    }
+  });
+
 
   const overlayElementChild = document.createElement('div');
   overlayElement.appendChild(overlayElementChild);
