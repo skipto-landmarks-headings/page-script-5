@@ -17,7 +17,7 @@ export default class SkipToContent extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.skipToId = 'id-skip-to';
-    this.version = "5.6.1";
+    this.version = "5.6.2";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -91,7 +91,8 @@ export default class SkipToContent extends HTMLElement {
   static get observedAttributes() {
     return [
       "data-skipto",
-      "setfocus"
+      "setfocus",
+      "navigate"
       ];
   }
 
@@ -117,6 +118,10 @@ export default class SkipToContent extends HTMLElement {
             document.body.focus();
             break;
         }
+    }
+
+    if (name === 'navigate') {
+      console.log(`[navigate]: ${newValue}`);
     }
   }
 

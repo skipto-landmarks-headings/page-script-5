@@ -44,8 +44,92 @@ browserRuntime.onMessage.addListener(
   }
 );
 
-function getFocusOption(params) {
+// Respond to keyboard commands
 
+document.addEventListener('keydown', (event) => {
+
+    const enabledInputTypes = [
+      'button',
+      'checkbox',
+      'color',
+      'file',
+      'image',
+      'radio',
+      'range',
+      'reset',
+      'submit'
+    ];
+
+    let flag = false;
+
+    const target = event.target;
+    const tagName = target.tagName ? target.tagName.toLowerCase() : '';
+    const type = tagName === 'input' ? target.type.toLowerCase() : '';
+
+    if ((tagName !== 'textarea') &&
+        ((tagName !== 'input') ||
+         ((tagName === 'input') && enabledInputTypes.includes(type))
+        )) {
+
+      const noModiferPressed =
+        !event.altKey &&
+        !event.ctrlKey &&
+        !event.shiftKey &&
+        !event.metaKey;
+
+      const onlyShiftPressed =
+        !event.altKey &&
+        !event.ctrlKey &&
+        event.shiftKey &&
+        !event.metaKey;
+
+      if (noModifierPressed || onlyShiftPressed) {
+
+        switch (event.key) {
+          case 'h':
+            flag = true;
+            break;
+
+          case 'H':
+            flag = true;
+            break;
+
+          case 'r':
+            flag = true;
+            break;
+
+          case 'R':
+            flag = true;
+            break;
+
+          default:
+            break;
+
+        }
+
+        if (flag) {
+          event.stopPropagation();
+          event.preventDefault();
+        }
+      }
+
+      console.log(`[keydown]: ${event.key} ${noModifierPressed} ${onlyShiftPressed} ${flag}`);
+
+    }
+});
+
+
+/*
+ *   @function getFocusOption
+ *
+ *   @desc  Returns the value of the focusOption from a SkipTo.js parameter string
+ *
+ *   @param {Object} params :
+ *
+ *   @returns see @desc
+ */
+
+function getFocusOption(params) {
   let focusOption = 'none';
 
   const parts = params.split('focusOption:');
@@ -55,3 +139,5 @@ function getFocusOption(params) {
   debug && console.log(`[getFocusOption]: ${focusOption}`);
   return focusOption;
 }
+
+
