@@ -71,7 +71,7 @@ document.addEventListener('keydown', (event) => {
          ((tagName === 'input') && enabledInputTypes.includes(type))
         )) {
 
-      const noModiferPressed =
+      const noModifierPressed =
         !event.altKey &&
         !event.ctrlKey &&
         !event.shiftKey &&
@@ -83,33 +83,44 @@ document.addEventListener('keydown', (event) => {
         event.shiftKey &&
         !event.metaKey;
 
+
       if (noModifierPressed || onlyShiftPressed) {
 
-        switch (event.key) {
-          case 'h':
-            flag = true;
-            break;
+        const skipToContentElem = document.querySelector('skip-to-content');
 
-          case 'H':
-            flag = true;
-            break;
+        if (typeof skipToContentElem === 'object') {
 
-          case 'r':
-            flag = true;
-            break;
+          switch (event.key) {
+            case 'h':
+              skipToContentElem.setAttribute('navigate', 'nextHeading');
+              flag = true;
+              break;
 
-          case 'R':
-            flag = true;
-            break;
+            case 'H':
+              skipToContentElem.setAttribute('navigate', 'previousHeading');
+              flag = true;
+              break;
 
-          default:
-            break;
+            case 'r':
+              skipToContentElem.setAttribute('navigate', 'nextLandmark');
+              flag = true;
+              break;
 
-        }
+            case 'R':
+              skipToContentElem.setAttribute('navigate', 'previousLandmark');
+              flag = true;
+              break;
 
-        if (flag) {
-          event.stopPropagation();
-          event.preventDefault();
+            default:
+              break;
+
+          }
+
+          if (flag) {
+            event.stopPropagation();
+            event.preventDefault();
+          }
+
         }
       }
 

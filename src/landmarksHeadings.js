@@ -66,6 +66,8 @@ const higherLevelElements = [
 
 
 let idIndex = 0;
+let headerIndex = 1;
+let landmarkIndex = 1;
 
 /*
  *   @function getSkipToIdIndex
@@ -86,6 +88,48 @@ function getSkipToIdIndex () {
  */ 
 function incSkipToIdIndex () {
   idIndex += 1;
+}
+
+/*
+ *   @function getHeaderIndex
+ *
+ *   @desc  Returns the current header index used for generating
+ *          id for header elements
+ *
+ *   @returns  {Number} see @desc
+ */
+function getHeaderIndex () {
+  return headerIndex;
+}
+
+/*
+ *   @function incHeaderIndex
+ *
+ *   @desc  Adds one to the header index
+ */
+function incHeaderIndex () {
+  headerIndex += 1;
+}
+
+/*
+ *   @function getLandmarkIndex
+ *
+ *   @desc  Returns the current landmark index used for generating
+ *          id for landmark elements
+ *
+ *   @returns  {Number} see @desc
+ */
+function getLandmarkIndex () {
+  return landmarkIndex;
+}
+
+/*
+ *   @function incLandmarkIndex
+ *
+ *   @desc  Adds one to the landmark index
+ */
+function incLandmarkIndex () {
+  landmarkIndex += 1;
 }
 
 /*
@@ -478,6 +522,7 @@ function isMain (element) {
  *   @returns {Array}  @see @desc
  */ 
 function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skiptoId) {
+
   let headingInfo = [];
   let landmarkInfo = [];
   let targetLandmarks = getLandmarkTargets(landmarkTargets.toLowerCase());
@@ -498,9 +543,7 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
           }
         }
 
-        if (isMain(node)) {
-          inMain = true;
-        }
+        inMain = isMain(node);
 
         if (!isSkipableElement(node)) {
           // check for slotted content
