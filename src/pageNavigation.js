@@ -20,6 +20,8 @@ export {
   navigateContent
 };
 
+let hasFocusBeenSet = false;
+
 /**
  * @function monitorKeyboardFocus
  *
@@ -28,10 +30,10 @@ export {
 function monitorKeyboardFocus () {
 
   document.addEventListener('focusin', (event) => {
-    console.log(`[monitorKeyboardFocus][       target]: ${event.target.tagName}`);
     event.relatedTarget && console.log(`[monitorKeyboardFocus][relatedTarget]: ${event.relatedTarget.tagName}`);
     if (event.relatedTarget) {
       event.relatedTarget.removeAttribute('data-skip-to-focus');
+      hasFocusBeenSet = true;
     }
     event.target.setAttribute('data-skip-to-focus', '');
 
@@ -49,12 +51,14 @@ function monitorKeyboardFocus () {
 
 function navigateContent (target, direction) {
 
-  console.log(`[navigateContent]: ${target} ${direction}`);
+  console.log(`[navigateContent][A]: ${target} ${direction}`);
 
   const elem = queryDOMForSkipToNavigation(target, direction);
 
   if (elem) {
-    console.log(`[navigateContent][elem]: ${elem} ${elem.getAttribute('data-skip-to-info')}`);
+    elem.tabIndex = elem.tabIndex ? elem.tabIndex : 1;
+    elem.focus();
+    console.log(`[navigateContent][B][elem]: ${elem} ${elem.getAttribute('data-skip-to-info')}`);
   }
 }
 
@@ -80,8 +84,13 @@ function queryDOMForSkipToNavigation (target, direction) {
 
         if (node.hasAttribute('data-skip-to-info') &&
             node.getAttribute('data-skip-to-info').includes(target)) {
-          lastNode = node;
-          if (focusFound && (direction === 'next')) {
+          if (!node.hasAttribute('data-skip-to-focus')) {
+            if (!node.hasAttribute('data-skip-to-focus')) {
+              lastNode = node;
+            }
+          }
+          if (!hasFocusBeenSet || (focusFound) &&
+               (direction === 'next')) {
             return node;
           }
         }
@@ -106,8 +115,11 @@ function queryDOMForSkipToNavigation (target, direction) {
 
                 if (assignedNode.hasAttribute('data-skip-to-info') &&
                     assignedNode.getAttribute('data-skip-to-info').includes(target)) {
-                  lastNode = node;
-                  if (focusFound && (direction === 'next')) {
+                  if (!assignedNode.hasAttribute('data-skip-to-focus')) {
+                    lastNode = node;
+                  }
+                  if (!hasFocusBeenSet || (focusFound) &&
+                       (direction === 'next')) {
                     return node;
                   }
                 }
