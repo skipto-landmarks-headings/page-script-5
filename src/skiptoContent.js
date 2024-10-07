@@ -5,6 +5,18 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
 
 import DebugLogging  from './debug.js';
 
+import {
+  getLandmarksAndHeadings
+} from './landmarksHeadings.js';
+
+import {
+  navigateContent
+} from './pageNavigation.js';
+
+import {
+  monitorKeyboardFocus
+} from './pageNavigation.js';
+
 /* constants */
 const debug = new DebugLogging('skiptoContent', false);
 debug.flag = false;
@@ -122,6 +134,29 @@ export default class SkipToContent extends HTMLElement {
 
     if (name === 'navigate') {
       console.log(`[navigate]: ${newValue}`);
+      switch (newValue) {
+
+        case 'nextHeading':
+          navigateContent('heading', 'next');
+          break;
+
+        case 'previousHeading':
+          navigateContent('heading', 'previous');
+          break;
+
+        case 'nextLandmark':
+          navigateContent('landmark', 'next');
+          break;
+
+        case 'previousLandmark':
+          navigateContent('landmark', 'previous');
+          break;
+
+        default:
+          break;
+
+      }
+
     }
   }
 
@@ -151,6 +186,14 @@ export default class SkipToContent extends HTMLElement {
       // Add skipto style sheet to document
       renderStyleElement(this.shadowRoot, this.config, this.skipToId);
       this.buttonSkipTo = new SkiptoMenuButton(this);
+
+      // Add landmark and heading info to DOM elements for keyboard navigation
+      // if using bookmarklet or extension
+      if (!globalConfig) {
+        getLandmarksAndHeadings(this.config, this.skipToId);
+        monitorKeyboardFocus();
+      }
+
     }
 
     this.setAttribute('focus', 'none');

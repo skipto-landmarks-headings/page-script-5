@@ -18,7 +18,10 @@ import {
 export {
   getLandmarksAndHeadings,
   queryDOMForSkipToId,
-  skipToElement
+  skipToElement,
+  isSkipableElement,
+  isSlotElement,
+  isCustomElement
 };
 
 /* Constants */
@@ -66,8 +69,6 @@ const higherLevelElements = [
 
 
 let idIndex = 0;
-let headerIndex = 1;
-let landmarkIndex = 1;
 
 /*
  *   @function getSkipToIdIndex
@@ -88,48 +89,6 @@ function getSkipToIdIndex () {
  */ 
 function incSkipToIdIndex () {
   idIndex += 1;
-}
-
-/*
- *   @function getHeaderIndex
- *
- *   @desc  Returns the current header index used for generating
- *          id for header elements
- *
- *   @returns  {Number} see @desc
- */
-function getHeaderIndex () {
-  return headerIndex;
-}
-
-/*
- *   @function incHeaderIndex
- *
- *   @desc  Adds one to the header index
- */
-function incHeaderIndex () {
-  headerIndex += 1;
-}
-
-/*
- *   @function getLandmarkIndex
- *
- *   @desc  Returns the current landmark index used for generating
- *          id for landmark elements
- *
- *   @returns  {Number} see @desc
- */
-function getLandmarkIndex () {
-  return landmarkIndex;
-}
-
-/*
- *   @function incLandmarkIndex
- *
- *   @desc  Adds one to the landmark index
- */
-function incLandmarkIndex () {
-  landmarkIndex += 1;
 }
 
 /*
@@ -674,6 +633,7 @@ function getHeadings (config, headings) {
       } else {
         dataId = getSkipToIdIndex();
         heading.node.setAttribute('data-skip-to-id', dataId);
+        heading.node.setAttribute('data-skip-to-info', `heading ${heading.node.tagName.toLowerCase()}`);
       }
       level = heading.node.tagName.substring(1);
       const headingItem = {};
@@ -860,6 +820,7 @@ function getLandmarks(config, landmarks) {
       } else {
         dataId =  getSkipToIdIndex();
         landmark.node.setAttribute('data-skip-to-id', dataId);
+        landmark.node.setAttribute('data-skip-to-info', `landmark ${role}`);
       }
       const landmarkItem = {};
       landmarkItem.dataId = dataId.toString();
