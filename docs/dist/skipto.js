@@ -221,8 +221,8 @@
   /* style.js */
 
   /* Constants */
-  const debug$8 = new DebugLogging('style', false);
-  debug$8.flag = false;
+  const debug$9 = new DebugLogging('style', false);
+  debug$9.flag = false;
 
   const cssMenuTemplate = document.createElement('template');
   cssMenuTemplate.textContent = `
@@ -742,8 +742,8 @@ $skipToId-highlight div {
   /* utils.js */
 
   /* Constants */
-  const debug$7 = new DebugLogging('Utils', false);
-  debug$7.flag = false;
+  const debug$8 = new DebugLogging('Utils', false);
+  debug$8.flag = false;
 
 
   /*
@@ -832,8 +832,8 @@ $skipToId-highlight div {
 
   /* constants */
 
-  const debug$6 = new DebugLogging('nameFrom', false);
-  debug$6.flag = false;
+  const debug$7 = new DebugLogging('nameFrom', false);
+  debug$7.flag = false;
 
   //
   // LOW-LEVEL HELPER FUNCTIONS (NOT EXPORTED)
@@ -1102,8 +1102,8 @@ $skipToId-highlight div {
   /* accName.js */
 
   /* Constants */
-  const debug$5 = new DebugLogging('accName', false);
-  debug$5.flag = false;
+  const debug$6 = new DebugLogging('accName', false);
+  debug$6.flag = false;
 
   /**
    *   @fuction getAccessibleName
@@ -1181,8 +1181,8 @@ $skipToId-highlight div {
   /* landmarksHeadings.js */
 
   /* Constants */
-  const debug$4 = new DebugLogging('landmarksHeadings', false);
-  debug$4.flag = false;
+  const debug$5 = new DebugLogging('landmarksHeadings', false);
+  debug$5.flag = false;
 
   const skipableElements = [
     'base',
@@ -1634,6 +1634,7 @@ $skipToId-highlight div {
    *   @returns {Array}  @see @desc
    */ 
   function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skiptoId) {
+
     let headingInfo = [];
     let landmarkInfo = [];
     let targetLandmarks = getLandmarkTargets(landmarkTargets.toLowerCase());
@@ -1654,9 +1655,7 @@ $skipToId-highlight div {
             }
           }
 
-          if (isMain(node)) {
-            inMain = true;
-          }
+          inMain = isMain(node);
 
           if (!isSkipableElement(node)) {
             // check for slotted content
@@ -1787,6 +1786,7 @@ $skipToId-highlight div {
         } else {
           dataId = getSkipToIdIndex();
           heading.node.setAttribute('data-skip-to-id', dataId);
+          heading.node.setAttribute('data-skip-to-info', `heading ${heading.node.tagName.toLowerCase()}`);
         }
         level = heading.node.tagName.substring(1);
         const headingItem = {};
@@ -1971,6 +1971,7 @@ $skipToId-highlight div {
         } else {
           dataId =  getSkipToIdIndex();
           landmark.node.setAttribute('data-skip-to-id', dataId);
+          landmark.node.setAttribute('data-skip-to-info', `landmark ${role}`);
         }
         const landmarkItem = {};
         landmarkItem.dataId = dataId.toString();
@@ -2021,8 +2022,8 @@ $skipToId-highlight div {
   /* highlight.js */
 
   /* Constants */
-  const debug$3 = new DebugLogging('highlight', false);
-  debug$3.flag = false;
+  const debug$4 = new DebugLogging('highlight', false);
+  debug$4.flag = false;
 
   const minWidth = 68;
   const minHeight = 27;
@@ -2191,8 +2192,8 @@ $skipToId-highlight div {
   /* skiptoMenuButton.js */
 
   /* Constants */
-  const debug$2 = new DebugLogging('SkipToButton', false);
-  debug$2.flag = false;
+  const debug$3 = new DebugLogging('SkipToButton', false);
+  debug$3.flag = false;
 
   /**
    * @class SkiptoMenuButton
@@ -2753,7 +2754,7 @@ $skipToId-highlight div {
        * @desc Opens the menu of landmark regions and headings
        */
       openPopup() {
-        debug$2.flag && debug$2.log(`[openPopup]`);
+        debug$3.flag && debug$3.log(`[openPopup]`);
         this.menuNode.setAttribute('aria-busy', 'true');
         const h = (80 * window.innerHeight) / 100;
         this.menuNode.style.maxHeight = h + 'px';
@@ -2780,7 +2781,7 @@ $skipToId-highlight div {
        * @desc Closes the memu of landmark regions and headings
        */
       closePopup() {
-        debug$2.flag && debug$2.log(`[closePopup]`);
+        debug$3.flag && debug$3.log(`[closePopup]`);
         if (this.isOpen()) {
           this.buttonNode.setAttribute('aria-expanded', 'false');
           this.menuNode.style.display = 'none';
@@ -2958,7 +2959,7 @@ $skipToId-highlight div {
       }
 
       handleButtonClick(event) {
-        debug$2.flag && debug$2.log(`[handleButtonClick]`);
+        debug$3.flag && debug$3.log(`[handleButtonClick]`);
         if (this.isOpen()) {
           this.closePopup();
           this.buttonNode.focus();
@@ -3113,7 +3114,7 @@ $skipToId-highlight div {
       }
 
       handleMenuitemPointerenter(event) {
-        debug$2.flag && debug$2.log(`[enter]`);
+        debug$3.flag && debug$3.log(`[enter]`);
         let tgt = event.currentTarget;
         tgt.classList.add('hover');
         if (this.highlightEnabled) {
@@ -3124,7 +3125,7 @@ $skipToId-highlight div {
       }
 
      handleMenuitemPointerover(event) {
-        debug$2.flag && debug$2.log(`[over]`);
+        debug$3.flag && debug$3.log(`[over]`);
         let tgt = event.currentTarget;
         if (this.highlightEnabled) {
           highlightElement(tgt.getAttribute('data-id'));
@@ -3134,7 +3135,7 @@ $skipToId-highlight div {
       }
 
       handleMenuitemPointerleave(event) {
-        debug$2.flag && debug$2.log(`[leave]`);
+        debug$3.flag && debug$3.log(`[leave]`);
         let tgt = event.currentTarget;
         tgt.classList.remove('hover');
         event.stopPropagation();
@@ -3142,7 +3143,7 @@ $skipToId-highlight div {
       }
 
       handleContinerPointerdown(event) {
-        debug$2.flag && debug$2.log(`[down]: target: ${event.pointerId}`);
+        debug$3.flag && debug$3.log(`[down]: target: ${event.pointerId}`);
 
         if (this.isOverButton(event.clientX, event.clientY)) {
           this.containerNode.releasePointerCapture(event.pointerId);
@@ -3155,14 +3156,14 @@ $skipToId-highlight div {
           if (this.containerNode.contains(event.target)) {
             if (this.isOpen()) {
               if (!this.isOverMenu(event.clientX, event.clientY)) {
-                debug$2.flag && debug$2.log(`[down][close]`);
+                debug$3.flag && debug$3.log(`[down][close]`);
                 this.closePopup();
                 this.buttonNode.focus();
                 this.skipToContentElem.setAttribute('focus', 'button');
               }
             }
             else {
-              debug$2.flag && debug$2.log(`[down][open]`);
+              debug$3.flag && debug$3.log(`[down][open]`);
               this.openPopup();          
               this.setFocusToFirstMenuitem();
             }
@@ -3196,16 +3197,16 @@ $skipToId-highlight div {
 
         const mi = this.getMenuitem(event.clientX, event.clientY);
         const omb = this.isOverButton(event.clientX, event.clientY);
-        debug$2.flag && debug$2.log(`[up] isOverButton: ${omb} getMenuitem: ${mi} id: ${event.pointerId}`);
+        debug$3.flag && debug$3.log(`[up] isOverButton: ${omb} getMenuitem: ${mi} id: ${event.pointerId}`);
 
         if (mi) {
           this.handleMenuitemAction(mi);          
         }
         else {
           if (!omb) {
-            debug$2.flag && debug$2.log(`[up] not over button `);
+            debug$3.flag && debug$3.log(`[up] not over button `);
             if (this.isOpen()) {
-              debug$2.flag && debug$2.log(`[up] close `);
+              debug$3.flag && debug$3.log(`[up] close `);
               this.closePopup();
               this.buttonNode.focus();
               this.skipToContentElem.setAttribute('focus', 'button');
@@ -3218,7 +3219,7 @@ $skipToId-highlight div {
       }
 
       handleBodyPointerdown(event) {
-        debug$2.flag && debug$2.log(`[handleBodyPointerdown]: target: ${event.pointerId}`);
+        debug$3.flag && debug$3.log(`[handleBodyPointerdown]: target: ${event.pointerId}`);
 
         if (!this.isOverButton(event.clientX, event.clientY) &&
             !this.isOverMenu(event.clientX, event.clientY)) {
@@ -3227,6 +3228,159 @@ $skipToId-highlight div {
       }
 
 
+  }
+
+  /* pageNavigation.js */
+
+  /* Constants */
+  const debug$2 = new DebugLogging('landmarksHeadings', false);
+  debug$2.flag = false;
+
+  let hasFocusBeenSet = false;
+
+  /**
+   * @function monitorKeyboardFocus
+   *
+   * @desc Sets a data attribute on the element with current focus
+   */
+  function monitorKeyboardFocus () {
+
+    document.addEventListener('focusin', (event) => {
+      event.relatedTarget && console.log(`[monitorKeyboardFocus][relatedTarget]: ${event.relatedTarget.tagName}`);
+      if (event.relatedTarget) {
+        event.relatedTarget.removeAttribute('data-skip-to-focus');
+        hasFocusBeenSet = true;
+      }
+      event.target.setAttribute('data-skip-to-focus', '');
+
+    });
+  }
+
+  /**
+   * @function navigateContent
+   *
+   * @desc Returns DOM node associated with the id, if id not found returns null
+   *
+   * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
+   * @param {String}  direction  - 'next' or 'previous'
+   */
+
+  function navigateContent (target, direction) {
+
+    console.log(`[navigateContent][A]: ${target} ${direction}`);
+
+    const elem = queryDOMForSkipToNavigation(target, direction);
+
+    if (elem) {
+      elem.tabIndex = elem.tabIndex ? elem.tabIndex : 1;
+      elem.focus();
+      console.log(`[navigateContent][B][elem]: ${elem} ${elem.getAttribute('data-skip-to-info')}`);
+    }
+  }
+
+  /**
+   * @function queryDOMForSkipToNavigation
+   *
+   * @desc Returns DOM node associated with the id, if id not found returns null
+   *
+   * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
+   * @param {String}  direction  - 'next' or 'previous'
+   *
+   * @returns (Object) @desc
+   */
+  function queryDOMForSkipToNavigation (target, direction) {
+
+    let focusFound = false;
+    let lastNode = false;
+
+    function transverseDOMForElement(startingNode) {
+      var targetNode = null;
+      for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+
+          if (node.hasAttribute('data-skip-to-info') &&
+              node.getAttribute('data-skip-to-info').includes(target)) {
+            if (!node.hasAttribute('data-skip-to-focus')) {
+              if (!node.hasAttribute('data-skip-to-focus')) {
+                lastNode = node;
+              }
+            }
+            if (!hasFocusBeenSet || (focusFound) &&
+                 (direction === 'next')) {
+              return node;
+            }
+          }
+
+          if (node.hasAttribute('data-skip-to-focus')) {
+            focusFound = true;
+            if (direction === 'previous') {
+              return lastNode;
+            }
+          }
+
+          if (!isSkipableElement(node)) {
+            // check for slotted content
+            if (isSlotElement(node)) {
+                // if no slotted elements, check for default slotted content
+              const assignedNodes = node.assignedNodes().length ?
+                                    node.assignedNodes() :
+                                    node.assignedNodes({ flatten: true });
+              for (let i = 0; i < assignedNodes.length; i += 1) {
+                const assignedNode = assignedNodes[i];
+                if (assignedNode.nodeType === Node.ELEMENT_NODE) {
+
+                  if (assignedNode.hasAttribute('data-skip-to-info') &&
+                      assignedNode.getAttribute('data-skip-to-info').includes(target)) {
+                    if (!assignedNode.hasAttribute('data-skip-to-focus')) {
+                      lastNode = node;
+                    }
+                    if (!hasFocusBeenSet || (focusFound) &&
+                         (direction === 'next')) {
+                      return node;
+                    }
+                  }
+
+                  if (assignedNode.hasAttribute('data-skip-to-focus')) {
+                    focusFound = true;
+                    if (direction === 'previous') {
+                      return lastNode;
+                    }
+                  }
+
+                  targetNode = transverseDOMForElement(assignedNode);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+              }
+            } else {
+              // check for custom elements
+              if (isCustomElement(node)) {
+                if (node.shadowRoot) {
+                  targetNode = transverseDOMForElement(node.shadowRoot);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+                else {
+                  targetNode = transverseDOMForElement(node);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+              } else {
+                targetNode = transverseDOMForElement(node);
+                if (targetNode) {
+                  return targetNode;
+                }
+              }
+            }
+          }
+        } // end if
+      } // end for
+      return false;
+    } // end function
+    return transverseDOMForElement(document.body);
   }
 
   /* skiptoContent.js */
@@ -3348,6 +3502,26 @@ $skipToId-highlight div {
 
       if (name === 'navigate') {
         console.log(`[navigate]: ${newValue}`);
+        switch (newValue) {
+
+          case 'nextHeading':
+            navigateContent('heading', 'next');
+            break;
+
+          case 'previousHeading':
+            navigateContent('heading', 'previous');
+            break;
+
+          case 'nextLandmark':
+            navigateContent('landmark', 'next');
+            break;
+
+          case 'previousLandmark':
+            navigateContent('landmark', 'previous');
+            break;
+
+        }
+
       }
     }
 
@@ -3377,6 +3551,14 @@ $skipToId-highlight div {
         // Add skipto style sheet to document
         renderStyleElement(this.shadowRoot, this.config, this.skipToId);
         this.buttonSkipTo = new SkiptoMenuButton(this);
+
+        // Add landmark and heading info to DOM elements for keyboard navigation
+        // if using bookmarklet or extension
+        if (!globalConfig) {
+          getLandmarksAndHeadings(this.config, this.skipToId);
+          monitorKeyboardFocus();
+        }
+
       }
 
       this.setAttribute('focus', 'none');
