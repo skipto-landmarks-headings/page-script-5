@@ -18,7 +18,7 @@ const defaultButtonOptions = {
 const defaultMenuOptions = {
   headings: 'main-only h1 h2',
   landmarks: 'main search nav complementary',
-  highlightTarget: 'enabled'
+  highlightTarget: 'instant'
 };
 
 const defaultStyleOptions = {
