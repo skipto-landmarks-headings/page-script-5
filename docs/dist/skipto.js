@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.6.2
+ * Version: 5.7
  * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -3418,7 +3418,7 @@ $skipToId-highlight div {
       super();
       this.attachShadow({ mode: 'open' });
       this.skipToId = 'id-skip-to';
-      this.version = "5.6.2";
+      this.version = "5.7";
       this.buttonSkipTo = false;
       this.initialized = false;
 
@@ -3468,7 +3468,7 @@ $skipToId-highlight div {
         headings: 'main-only h1 h2',
 
         // Highlight options
-        highlightTarget: 'enabled', // options: 'enabled' (default) and 'disabled'
+        highlightTarget: 'disabled', // options: 'enabled' (default) and 'disabled'
 
         // Place holders for configuration
         colorTheme: '',

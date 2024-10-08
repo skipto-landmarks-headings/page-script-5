@@ -1,7 +1,11 @@
 # Version history for Skipto.js
 
-## Version 5.6.2
+
+## Version 5.7
 * Added "navigate" attribute for heading and landmark navigation for use in browser extensions
+
+## Version 5.6.2
+* Changed default highlight option to be disabled
 
 ## Version 5.6.1
 * Added doc-order option for use in browser extensions only
