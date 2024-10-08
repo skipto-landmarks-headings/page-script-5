@@ -94,10 +94,16 @@ const examples = [
     config: `displayOption: popup-border; positionLeft: 46%`
   },
   { template: './src-docs/templates/example/content-example.njk',
-    title: 'Static Menu Button with no Highlight',
-    filename: 'example-static.html',
-    description: '"Skip To Content" button is visible on load',
-    config: `displayOption: static; highlightTarget: disabled`
+    title: 'Smooth Highlight of menu options',
+    filename: 'example-smooth.html',
+    description: '"Skip To Content" button is visible on load and scrolling to content is enabled using the smooth value',
+    config: `highlightTarget: smooth`
+  },
+  { template: './src-docs/templates/example/content-example.njk',
+    title: 'Instant Highlight of menu options',
+    filename: 'example-instant.html',
+    description: '"Skip To Content" button is visible on load and scrolling to content is enabled using the instant value',
+    config: `highlightTarget: instant`
   },
   { template: './src-docs/templates/example/content-example.njk',
     title: 'Landmarks',

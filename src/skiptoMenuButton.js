@@ -132,10 +132,23 @@ export default class SkiptoMenuButton {
       this.focusMenuitem = null;
     }
 
-    get highlightEnabled () {
-      return (typeof this.config.highlightTarget === 'string') ?
-                this.config.highlightTarget.trim().toLowerCase() === 'enabled' :
-                false;
+    /*
+     * @get highlightTarget
+     *
+     * @desc Returns normalized value for the highlightTarget option
+     */
+    get highlightTarget () {
+      let value = this.config.highlightTarget.trim().toLowerCase();
+
+      if ('enabled smooth'.includes(value)) {
+        return 'smooth';
+      }
+
+      if (value === 'instant') {
+        return 'instant';
+      }
+
+      return '';
     }
 
     /*
@@ -450,9 +463,7 @@ export default class SkiptoMenuButton {
         menuitem.focus();
         this.skipToContentElem.setAttribute('focus', 'menu');
         this.focusMenuitem = menuitem;
-        if (this.highlightEnabled) {
-          highlightElement(menuitem.getAttribute('data-id'));
-        }
+        highlightElement(menuitem.getAttribute('data-id'), this.highlightTarget);
       }
     }
 
@@ -947,9 +958,7 @@ export default class SkiptoMenuButton {
       debug.flag && debug.log(`[enter]`);
       let tgt = event.currentTarget;
       tgt.classList.add('hover');
-      if (this.highlightEnabled) {
-        highlightElement(tgt.getAttribute('data-id'));
-      }
+      highlightElement(tgt.getAttribute('data-id'), this.highlightTarget);
       event.stopPropagation();
       event.preventDefault();
     }
@@ -957,9 +966,7 @@ export default class SkiptoMenuButton {
    handleMenuitemPointerover(event) {
       debug.flag && debug.log(`[over]`);
       let tgt = event.currentTarget;
-      if (this.highlightEnabled) {
-        highlightElement(tgt.getAttribute('data-id'));
-      }
+      highlightElement(tgt.getAttribute('data-id'), this.highlightTarget);
       event.stopPropagation();
       event.preventDefault();
     }
@@ -1010,9 +1017,7 @@ export default class SkiptoMenuButton {
       if (mi) {
         this.removeHoverClass(mi);
         mi.classList.add('hover');
-        if (this.highlightEnabled) {
-          highlightElement(mi.getAttribute('data-id'));
-        }
+        highlightElement(mi.getAttribute('data-id'), this.highlightTarget);
       }
 
       event.stopPropagation();

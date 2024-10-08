@@ -106,23 +106,24 @@ function isElementInHeightLarge(element) {
  *   @desc  Highlights the element with the id on a page when highlighting
  *          is enabled (NOTE: Highlight is enabled by default)
  *
- *   @param {String} id     : id of the element to highlight
+ *   @param {String} id               : id of the element to highlight
+ *   @param {String} ihighlightTarget : value of highlight target
  */
-function highlightElement(id) {
+function highlightElement(id, highlightTarget) {
   const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
   const isReduced = !mediaQuery || mediaQuery.matches;
   const element = queryDOMForSkipToId(id);
 
-  if (element) {
+  if (element && highlightTarget) {
     updateOverlayElement(overlayElement, element);
     if (isElementInHeightLarge(element)) {
       if (!isElementStartInViewport(element)  && !isReduced) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        element.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
       }
     }
     else {
       if (!isElementInViewport(element)  && !isReduced) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+        element.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
       }
     }
   }
