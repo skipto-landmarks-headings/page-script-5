@@ -42,12 +42,22 @@ optionsMenuTemplate.innerHTML = `
 
       <fieldset>
         <legend id="highlight-legend">
-          Highlight Content
+          Highlight Content when when navigating menu options
          </legend>
 
-        <label class="inline" for="highlight">
-          <input type="checkbox" id="highlight-disabled"/>
-          <span id="highlight-label">Disable highlighting content when navigating menu options</span>
+        <label class="inline" for="highlight-disabled">
+          <input type="radio" name="highlight" value="disabled" id="highlight-disabled"/>
+          <span id="highlight-disabled-label">None</span>
+        </label>
+
+        <label class="inline" for="highlight-instant">
+          <input type="radio" name="highlight" value="instant" id="highlight-instant"/>
+          <span id="highlight-instant-label">Scroll <em>immediately</em> to menu target</span>
+        </label>
+
+        <label class="inline" for="highlight-smooth">
+          <input type="radio" name="highlight" value="smooth" id="highlight-smooth"/>
+          <span id="highlight-smooth-label">Scroll <em>immediately</em> to menu target</span>
         </label>
 
       </fieldset>
@@ -175,8 +185,10 @@ class OptionsMenu extends HTMLElement {
     const i18nLabels = [
       { id: 'button-reset', label: 'options_button_menu_content_reset'},
 
-      { id: 'highlight-legend', label: 'options_highlight_legend'},
-      { id: 'highlight-label',  label: 'options_highlight_label'},
+      { id: 'highlight-legend',         label: 'options_highlight_legend'},
+      { id: 'highlight-disabled-label', label: 'options_highlight_disabled_label'},
+      { id: 'highlight-instant-label',  label: 'options_highlight_instant_label'},
+      { id: 'highlight-smooth-label',   label: 'options_highlight_smooth_label'},
 
       { id: 'headings-legend', label: 'options_heading_legend'},
 
@@ -215,6 +227,8 @@ class OptionsMenu extends HTMLElement {
     const form = {};
 
     form.highlightDisabled  = getNode('highlight-disabled');
+    form.highlightInstant   = getNode('highlight-instant');
+    form.highlightSmooth    = getNode('highlight-smooth');
 
     form.landmarksNavigationInput    = getNode('landmarks-navigation');
     form.landmarksSearchInput        = getNode('landmarks-search');
@@ -254,7 +268,9 @@ class OptionsMenu extends HTMLElement {
 
     getOptions().then( (options) => {
 
-      form.highlightDisabled.checked = options.highlightTarget !== 'enabled';
+      form.highlightDisabled.checked = options.highlightTarget === 'disabled';
+      form.highlightInstant.checked  = options.highlightTarget === 'instant';
+      form.highlightSmooth.checked   = options.highlightTarget === 'smooth';
 
       form.landmarksNavigationInput.checked    = options.landmarks.includes('nav');
       form.landmarksSearchInput.checked        = options.landmarks.includes('search');
@@ -309,9 +325,12 @@ class OptionsMenu extends HTMLElement {
 
     getOptions().then( (options) => {
 
-      options.highlightTarget = form.highlightDisabled.checked ?
-                              'disabled' :
-                              'enabled';
+      options.highlightTarget = form.highlightSmooth.checked ?
+                              'smooth' :
+                              (form.highlightInstant.checked ?
+                              'instant' :
+                              'disabled'
+                              );
 
       options.landmarks = 'main';
 
