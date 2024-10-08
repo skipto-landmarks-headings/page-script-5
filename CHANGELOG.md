@@ -1,5 +1,8 @@
 # Version history for Skipto.js
 
+## Version 5.6.2
+* Changed default highlight option to be disabled
+
 ## Version 5.6.1
 * Added doc-order option for use in browser extensions only
 * Added focus and setfocus features to skip-to-content element to support browser extensions

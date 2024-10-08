@@ -3243,7 +3243,7 @@ $skipToId-highlight div {
       super();
       this.attachShadow({ mode: 'open' });
       this.skipToId = 'id-skip-to';
-      this.version = "5.6.1";
+      this.version = "5.6.2";
       this.buttonSkipTo = false;
       this.initialized = false;
 
@@ -3293,7 +3293,7 @@ $skipToId-highlight div {
         headings: 'main-only h1 h2',
 
         // Highlight options
-        highlightTarget: 'enabled', // options: 'enabled' (default) and 'disabled'
+        highlightTarget: 'disabled', // options: 'enabled' (default) and 'disabled'
 
         // Place holders for configuration
         colorTheme: '',
