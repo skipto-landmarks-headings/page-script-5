@@ -2913,6 +2913,26 @@ $skipToId-highlight div {
         }
       }
 
+      /*
+       * @method inContentEditable
+       *
+       * @desc Returns false if node is not in a content editable element,
+       *       otherwise true if it does
+       *
+       * @param  {Object}  node - DOM node
+       *
+       * @returns {Boolean} see @desc
+       */
+      inContentEditable (node) {
+        let n = node;
+        while (n.hasAttribute) {
+          if (n.hasAttribute('contenteditable')) {
+            return true;
+          }
+          n = n.parentNode;
+        }
+        return false;
+      }
 
       // Menu event handlers
       
@@ -2990,7 +3010,8 @@ $skipToId-highlight div {
         const tagName = target.tagName ? target.tagName.toLowerCase() : '';
         const type = tagName === 'input' ? target.type.toLowerCase() : '';
 
-        if ((tagName !== 'textarea') &&
+        if (!this.inContentEditable(target) &&
+            (tagName !== 'textarea') &&
             ((tagName !== 'input') ||
              ((tagName === 'input') && enabledInputTypes.includes(type))
             )) {
