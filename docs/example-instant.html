@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Example: Position | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
+    <title>Example: Instant Highlight of menu options | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -95,7 +95,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
-          <li class="breadcrumb-item active">Example: Position</li>
+          <li class="breadcrumb-item active">Example: Instant Highlight of menu options</li>
         </ol>
       </nav>
 
@@ -149,7 +149,7 @@
 
           <main class="col col-lg-8">
             
-            <h1>Example: Position</h1>
+            <h1>Example: Instant Highlight of menu options</h1>
             
 
             <section class="border border-2 rounded"
@@ -157,12 +157,12 @@
               aria-labelledby="id-description">
 
               <h2 id="id-description" style="margin-top: 0">Description</h2>
-              <p>Setting the position of &quot;Skip To Content&quot; button from the left side of the window.</p>
+              <p>&quot;Skip To Content&quot; button is visible on load and scrolling to content is enabled using the instant value</p>
 
               
               <h2>Configuration Parameters</h2>
               <div class="params bg-light" width="auto">
-                <code>positionLeft: 25%</code>
+                <code>highlightTarget: instant</code>
               </div>
               
             </section>
@@ -331,7 +331,7 @@
 
 
     <!-- SkipTo.js -->
-    <script data-skipto="positionLeft: 15%; positionLeft: 25%"
+    <script data-skipto="positionLeft: 15%; highlightTarget: instant"
             src="./dist/skipto.js">
     </script>
 

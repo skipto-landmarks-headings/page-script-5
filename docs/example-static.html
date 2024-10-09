@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Example: Static Menu Button with no Highlight | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
+    <title>Example: Auto Highlight of menu options | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -95,7 +95,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
-          <li class="breadcrumb-item active">Example: Static Menu Button with no Highlight</li>
+          <li class="breadcrumb-item active">Example: Auto Highlight of menu options</li>
         </ol>
       </nav>
 
@@ -121,7 +121,9 @@
               
                 <li><a href="example-popup-border.html">Popup with Border</a></li>
               
-                <li><a href="example-static.html">Static Menu Button with no Highlight</a></li>
+                <li><a href="example-static.html">Smooth Highlight of menu options</a></li>
+              
+                <li><a href="example-static.html">Auto Highlight of menu options</a></li>
               
                 <li><a href="example-landmarks.html">Landmarks</a></li>
               
@@ -147,7 +149,7 @@
 
           <main class="col col-lg-8">
             
-            <h1>Example: Static Menu Button with no Highlight</h1>
+            <h1>Example: Auto Highlight of menu options</h1>
             
 
             <section class="border border-2 rounded"
@@ -155,12 +157,12 @@
               aria-labelledby="id-description">
 
               <h2 id="id-description" style="margin-top: 0">Description</h2>
-              <p>&quot;Skip To Content&quot; button is visible on load</p>
+              <p>&quot;Skip To Content&quot; button is visible on load and scrolling to content is enabled using the auto value</p>
 
               
               <h2>Configuration Parameters</h2>
               <div class="params bg-light" width="auto">
-                <code>displayOption: static; highlightTarget: disabled</code>
+                <code>highlightTarget: auto</code>
               </div>
               
             </section>
@@ -329,9 +331,11 @@
 
 
     <!-- SkipTo.js -->
-    <script data-skipto="positionLeft: 15%; displayOption: static; highlightTarget: disabled"
+    <script data-skipto="positionLeft: 15%; highlightTarget: auto"
             src="./dist/skipto.js">
     </script>
 
   </body>
+</html>
+dy>
 </html>

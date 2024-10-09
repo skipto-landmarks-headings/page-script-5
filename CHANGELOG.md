@@ -5,7 +5,7 @@
 * Added "navigate" attribute for heading and landmark navigation for use in browser extensions
 
 ## Version 5.6.2
-* Changed default highlight option to be disabled
+* Changed default highlight option to be 'disabled', added 'smooth' and 'instant' to replace 'enabled' option
 
 ## Version 5.6.1
 * Added doc-order option for use in browser extensions only

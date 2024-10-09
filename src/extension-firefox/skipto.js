@@ -2114,23 +2114,24 @@ $skipToId-highlight div {
    *   @desc  Highlights the element with the id on a page when highlighting
    *          is enabled (NOTE: Highlight is enabled by default)
    *
-   *   @param {String} id     : id of the element to highlight
+   *   @param {String} id               : id of the element to highlight
+   *   @param {String} ihighlightTarget : value of highlight target
    */
-  function highlightElement(id) {
+  function highlightElement(id, highlightTarget) {
     const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
     const isReduced = !mediaQuery || mediaQuery.matches;
     const element = queryDOMForSkipToId(id);
 
-    if (element) {
+    if (element && highlightTarget) {
       updateOverlayElement(overlayElement, element);
       if (isElementInHeightLarge(element)) {
         if (!isElementStartInViewport(element)  && !isReduced) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+          element.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
         }
       }
       else {
         if (!isElementInViewport(element)  && !isReduced) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+          element.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
         }
       }
     }
@@ -2306,10 +2307,23 @@ $skipToId-highlight div {
         this.focusMenuitem = null;
       }
 
-      get highlightEnabled () {
-        return (typeof this.config.highlightTarget === 'string') ?
-                  this.config.highlightTarget.trim().toLowerCase() === 'enabled' :
-                  false;
+      /*
+       * @get highlightTarget
+       *
+       * @desc Returns normalized value for the highlightTarget option
+       */
+      get highlightTarget () {
+        let value = this.config.highlightTarget.trim().toLowerCase();
+
+        if ('enabled smooth'.includes(value)) {
+          return 'smooth';
+        }
+
+        if (value === 'instant') {
+          return 'instant';
+        }
+
+        return '';
       }
 
       /*
@@ -2624,9 +2638,7 @@ $skipToId-highlight div {
           menuitem.focus();
           this.skipToContentElem.setAttribute('focus', 'menu');
           this.focusMenuitem = menuitem;
-          if (this.highlightEnabled) {
-            highlightElement(menuitem.getAttribute('data-id'));
-          }
+          highlightElement(menuitem.getAttribute('data-id'), this.highlightTarget);
         }
       }
 
@@ -3138,9 +3150,7 @@ $skipToId-highlight div {
         debug$3.flag && debug$3.log(`[enter]`);
         let tgt = event.currentTarget;
         tgt.classList.add('hover');
-        if (this.highlightEnabled) {
-          highlightElement(tgt.getAttribute('data-id'));
-        }
+        highlightElement(tgt.getAttribute('data-id'), this.highlightTarget);
         event.stopPropagation();
         event.preventDefault();
       }
@@ -3148,9 +3158,7 @@ $skipToId-highlight div {
      handleMenuitemPointerover(event) {
         debug$3.flag && debug$3.log(`[over]`);
         let tgt = event.currentTarget;
-        if (this.highlightEnabled) {
-          highlightElement(tgt.getAttribute('data-id'));
-        }
+        highlightElement(tgt.getAttribute('data-id'), this.highlightTarget);
         event.stopPropagation();
         event.preventDefault();
       }
@@ -3201,9 +3209,7 @@ $skipToId-highlight div {
         if (mi) {
           this.removeHoverClass(mi);
           mi.classList.add('hover');
-          if (this.highlightEnabled) {
-            highlightElement(mi.getAttribute('data-id'));
-          }
+          highlightElement(mi.getAttribute('data-id'), this.highlightTarget);
         }
 
         event.stopPropagation();
@@ -3468,7 +3474,7 @@ $skipToId-highlight div {
         headings: 'main-only h1 h2',
 
         // Highlight options
-        highlightTarget: 'disabled', // options: 'enabled' (default) and 'disabled'
+        highlightTarget: 'disabled', // options: 'disabled' (default), 'smooth' and 'auto'
 
         // Place holders for configuration
         colorTheme: '',
