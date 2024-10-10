@@ -67,6 +67,14 @@ const higherLevelElements = [
 'section'
 ];
 
+const headingTags = [
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6'
+];
 
 let idIndex = 0;
 
@@ -181,6 +189,7 @@ function checkForLandmark (element) {
   if (element.hasAttribute('role')) {
     const role = element.getAttribute('role').toLowerCase();
     if (allowedLandmarkSelectors.indexOf(role) >= 0) {
+      element.setAttribute('data-skip-to-info', `landmark ${role}`);
       return role;
     }
   } else {
@@ -188,22 +197,27 @@ function checkForLandmark (element) {
 
     switch (tagName) {
       case 'aside':
+        element.setAttribute('data-skip-to-info', `landmark complementary`);
         return 'complementary';
 
       case 'main':
+        element.setAttribute('data-skip-to-info', `landmark main`);
         return 'main';
 
       case 'nav':
+        element.setAttribute('data-skip-to-info', `landmark navigation`);
         return 'navigation';
 
       case 'header':
         if (isTopLevel(element)) {
+          element.setAttribute('data-skip-to-info', `landmark banner`);
           return 'banner';
         }
         break;
 
       case 'footer':
         if (isTopLevel(element)) {
+          element.setAttribute('data-skip-to-info', `landmark contentinfo`);
           return 'contentinfo';
         }
         break;
@@ -211,6 +225,7 @@ function checkForLandmark (element) {
       case 'section':
         // Sections need an accessible name for be considered a "region" landmark
         if (element.hasAttribute('aria-label') || element.hasAttribute('aria-labelledby')) {
+          element.setAttribute('data-skip-to-info', `landmark region`);
           return 'region';
         }
         break;
@@ -496,6 +511,9 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
             (node.id !== skiptoId)) {
           landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
         }
+        if (headingTags.includes(tagName)) {
+          node.setAttribute('data-skip-to-info', `heading ${tagName}`);
+        }
         if (targetHeadings.indexOf(tagName) >= 0) {
           if (!onlyInMain || inMain) {
             headingInfo.push({ node: node, name: getAccessibleName(doc, node, true)});
@@ -633,7 +651,6 @@ function getHeadings (config, headings) {
       } else {
         dataId = getSkipToIdIndex();
         heading.node.setAttribute('data-skip-to-id', dataId);
-        heading.node.setAttribute('data-skip-to-info', `heading ${heading.node.tagName.toLowerCase()}`);
       }
       level = heading.node.tagName.substring(1);
       const headingItem = {};

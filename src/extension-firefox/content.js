@@ -1,6 +1,6 @@
 /* content.js */
 
-const debug = false;
+const debug = true;
 
 // Define browser specific APIs for Opera, Firefox and Chrome
 
@@ -44,87 +44,95 @@ browserRuntime.onMessage.addListener(
   }
 );
 
-// Respond to keyboard commands
+// Respond to keyboard commands for landmark regions and headings
 
 document.addEventListener('keydown', (event) => {
 
-    const enabledInputTypes = [
-      'button',
-      'checkbox',
-      'color',
-      'file',
-      'image',
-      'radio',
-      'range',
-      'reset',
-      'submit'
-    ];
-
     let flag = false;
 
-    const target = event.target;
-    const tagName = target.tagName ? target.tagName.toLowerCase() : '';
-    const type = tagName === 'input' ? target.type.toLowerCase() : '';
+    debug && console.log(`[keydown][key]: ${event.key} ${isInteractiveElement(event.target)} ${noModifierPressed(event)} ${onlyShiftPressed(event)}`);
 
-    if ((tagName !== 'textarea') &&
-        ((tagName !== 'input') ||
-         ((tagName === 'input') && enabledInputTypes.includes(type))
-        )) {
+    if (!isInteractiveElement(event.target) &&
+        (noModifierPressed(event) || onlyShiftPressed(event))) {
 
-      const noModifierPressed =
-        !event.altKey &&
-        !event.ctrlKey &&
-        !event.shiftKey &&
-        !event.metaKey;
+      const skipToContentElem = document.querySelector('skip-to-content');
 
-      const onlyShiftPressed =
-        !event.altKey &&
-        !event.ctrlKey &&
-        event.shiftKey &&
-        !event.metaKey;
+      if (typeof skipToContentElem === 'object') {
 
+        switch (event.key) {
+          case 'h':
+            skipToContentElem.setAttribute('navigate', 'nextHeading');
+            flag = true;
+            break;
 
-      if (noModifierPressed || onlyShiftPressed) {
+          case 'g':
+            skipToContentElem.setAttribute('navigate', 'previousHeading');
+            flag = true;
+            break;
 
-        const skipToContentElem = document.querySelector('skip-to-content');
+          case 'r':
+            skipToContentElem.setAttribute('navigate', 'nextLandmark');
+            flag = true;
+            break;
 
-        if (typeof skipToContentElem === 'object') {
+          case 'e':
+            skipToContentElem.setAttribute('navigate', 'previousLandmark');
+            flag = true;
+            break;
 
-          switch (event.key) {
-            case 'h':
-              skipToContentElem.setAttribute('navigate', 'nextHeading');
-              flag = true;
-              break;
+          case 'm':
+            skipToContentElem.setAttribute('navigate', 'nextMain');
+            flag = true;
+            break;
 
-            case 'H':
-              skipToContentElem.setAttribute('navigate', 'previousHeading');
-              flag = true;
-              break;
+          case 'n':
+            skipToContentElem.setAttribute('navigate', 'nextNavigation');
+            flag = true;
+            break;
 
-            case 'r':
-              skipToContentElem.setAttribute('navigate', 'nextLandmark');
-              flag = true;
-              break;
+          case '1':
+            skipToContentElem.setAttribute('navigate', 'nextH1');
+            flag = true;
+            break;
 
-            case 'R':
-              skipToContentElem.setAttribute('navigate', 'previousLandmark');
-              flag = true;
-              break;
+          case '2':
+            skipToContentElem.setAttribute('navigate', 'nextH2');
+            flag = true;
+            break;
 
-            default:
-              break;
+          case '3':
+            skipToContentElem.setAttribute('navigate', 'nextH3');
+            flag = true;
+            break;
 
-          }
+          case '4':
+            skipToContentElem.setAttribute('navigate', 'nextH4');
+            flag = true;
+            break;
 
-          if (flag) {
-            event.stopPropagation();
-            event.preventDefault();
-          }
+          case '5':
+            skipToContentElem.setAttribute('navigate', 'nextH5');
+            flag = true;
+            break;
+
+          case '6':
+            skipToContentElem.setAttribute('navigate', 'nextH6');
+            flag = true;
+            break;
+
+          default:
+            break;
 
         }
+
+        if (flag) {
+          event.stopPropagation();
+          event.preventDefault();
+        }
+
       }
 
-      console.log(`[keydown]: ${event.key} ${noModifierPressed} ${onlyShiftPressed} ${flag}`);
+      console.log(`[keydown]: ${event.key} ${flag}`);
 
     }
 });
@@ -151,4 +159,78 @@ function getFocusOption(params) {
   return focusOption;
 }
 
+/*
+ * @method isInteractiveElement
+ *
+ * @desc  Returns true if the element can use key presses, otherwise false
+ *
+ * @param  {object} elem - DOM node element
+ *
+ * @returns {Boolean}  see @desc
+ */
+
+function isInteractiveElement (elem) {
+
+  const tagName = elem.tagName ? elem.tagName.toLowerCase() : '';
+  const type = tagName === 'input' ? elem.type.toLowerCase() : '';
+
+  return (tagName === 'textarea') ||
+        ((tagName === 'input') && enabledInputTypes.includes(type)) ||
+        inContentEditable(elem);
+}
+
+/*
+ * @function inContentEditable
+ *
+ * @desc Returns false if node is not in a content editable element,
+ *       otherwise true if it does
+ *
+ * @param  {Object}  elem - DOM node
+ *
+ * @returns {Boolean} see @desc
+ */
+function inContentEditable (elem) {
+  let n = elem;
+  while (n.hasAttribute) {
+    if (n.hasAttribute('contenteditable')) {
+      return true;
+    }
+    n = n.parentNode;
+  }
+  return false;
+}
+
+/*
+ * @function noModifierPressed
+ *
+ * @desc Returns true if no modifier key is pressed, other false
+ *
+ * @param  {Object}  event - Event object
+ *
+ * @returns {Boolean} see @desc
+ */
+
+function noModifierPressed (event) {
+  return !event.altKey &&
+        !event.ctrlKey &&
+        !event.shiftKey &&
+        !event.metaKey;
+}
+
+/*
+ * @function onlyShiftPressed
+ *
+ * @desc Returns true if only the shift modifier key is pressed, other false
+ *
+ * @param  {Object}  event - Event object
+ *
+ * @returns {Boolean} see @desc
+ */
+
+function onlyShiftPressed (event) {
+  return !event.altKey &&
+        !event.ctrlKey &&
+        event.shiftKey &&
+        !event.metaKey;
+}
 

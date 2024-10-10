@@ -1223,6 +1223,14 @@ $skipToId-highlight div {
   'section'
   ];
 
+  const headingTags = [
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6'
+  ];
 
   let idIndex = 0;
 
@@ -1337,6 +1345,7 @@ $skipToId-highlight div {
     if (element.hasAttribute('role')) {
       const role = element.getAttribute('role').toLowerCase();
       if (allowedLandmarkSelectors.indexOf(role) >= 0) {
+        element.setAttribute('data-skip-to-info', `landmark ${role}`);
         return role;
       }
     } else {
@@ -1344,22 +1353,27 @@ $skipToId-highlight div {
 
       switch (tagName) {
         case 'aside':
+          element.setAttribute('data-skip-to-info', `landmark complementary`);
           return 'complementary';
 
         case 'main':
+          element.setAttribute('data-skip-to-info', `landmark main`);
           return 'main';
 
         case 'nav':
+          element.setAttribute('data-skip-to-info', `landmark navigation`);
           return 'navigation';
 
         case 'header':
           if (isTopLevel(element)) {
+            element.setAttribute('data-skip-to-info', `landmark banner`);
             return 'banner';
           }
           break;
 
         case 'footer':
           if (isTopLevel(element)) {
+            element.setAttribute('data-skip-to-info', `landmark contentinfo`);
             return 'contentinfo';
           }
           break;
@@ -1367,6 +1381,7 @@ $skipToId-highlight div {
         case 'section':
           // Sections need an accessible name for be considered a "region" landmark
           if (element.hasAttribute('aria-label') || element.hasAttribute('aria-labelledby')) {
+            element.setAttribute('data-skip-to-info', `landmark region`);
             return 'region';
           }
           break;
@@ -1649,6 +1664,9 @@ $skipToId-highlight div {
               (node.id !== skiptoId)) {
             landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
           }
+          if (headingTags.includes(tagName)) {
+            node.setAttribute('data-skip-to-info', `heading ${tagName}`);
+          }
           if (targetHeadings.indexOf(tagName) >= 0) {
             if (!onlyInMain || inMain) {
               headingInfo.push({ node: node, name: getAccessibleName(doc, node, true)});
@@ -1786,7 +1804,6 @@ $skipToId-highlight div {
         } else {
           dataId = getSkipToIdIndex();
           heading.node.setAttribute('data-skip-to-id', dataId);
-          heading.node.setAttribute('data-skip-to-info', `heading ${heading.node.tagName.toLowerCase()}`);
         }
         level = heading.node.tagName.substring(1);
         const headingItem = {};
