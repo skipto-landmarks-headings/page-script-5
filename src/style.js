@@ -311,7 +311,7 @@ $skipToId-highlight div {
   top: -2px;
   left: -2px;
   border-radius: 3px 3px 3px 3px;
-  border: 2px solid $menuitemFocusBackgroundColor;
+  border: 2px solid $focusBorderColor;
   z-index: $zHighlight;
 }
 
@@ -321,14 +321,17 @@ $skipToId-highlight div.hasInfo {
 
 $skipToId-highlight div.info {
   position: relative;
+  text-align: left;
   top: -2px;
   left: -2px;
   padding: 1px 4px;
   border-radius: 0 0 3px 3px;
-  border: 2px solid $menuitemFocusBackgroundColor;
+  border: 2px solid $focusBorderColor;
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
   z-index: $zHighlight;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 `;

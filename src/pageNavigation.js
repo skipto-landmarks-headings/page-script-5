@@ -60,9 +60,16 @@ function navigateContent (target, direction) {
 
   const elem = queryDOMForSkipToNavigation(target, direction);
 
-  const info = elem.hasAttribute('data-skip-to-info') ?
-              elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
-              'unknown';
+  let info = elem.hasAttribute('data-skip-to-info') ?
+             elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
+            'unknown';
+
+  if (elem.hasAttribute('data-skip-to-name')) {
+    const name = elem.getAttribute('data-skip-to-name').trim();
+    if (name) {
+      info += `: ${name}`;
+    }
+  }
 
   if (elem) {
     elem.tabIndex = elem.tabIndex ? elem.tabIndex : -1;

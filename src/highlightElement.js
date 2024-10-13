@@ -116,7 +116,6 @@ function highlightElement(elem, highlightTarget, info='', force=false) {
   const isReduced = !mediaQuery || mediaQuery.matches;
 
   if (elem && highlightTarget) {
-    updateOverlayElement(overlayElement, elem, info);
     if (isElementInHeightLarge(elem)) {
       if (!isElementStartInViewport(elem) && (!isReduced || force)) {
         elem.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
@@ -127,6 +126,7 @@ function highlightElement(elem, highlightTarget, info='', force=false) {
         elem.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
       }
     }
+    updateOverlayElement(overlayElement, elem, info);
   }
 }
 
@@ -163,7 +163,7 @@ function updateOverlayElement (overlayElem, element, info) {
                   Math.round(rect.left + window.scrollX);
 
   const width  = rect.left > offset ?
-                  Math.max(rect.width  + offset * 2, minWidth) :
+                  Math.max(rect.width  + offset * 2 + borderWidth * 2, minWidth) :
                   Math.max(rect.width, minWidth);
 
   const top    = rect.top > offset ?
@@ -171,7 +171,7 @@ function updateOverlayElement (overlayElem, element, info) {
                   Math.round(rect.top + window.scrollY);
 
   const height = rect.top > offset ?
-                  Math.max(rect.height + offset * 2, minHeight) :
+                  Math.max(rect.height + offset * 2 + borderWidth * 2, minHeight) :
                   Math.max(rect.height, minHeight);
 
   overlayElem.style.left   = left   + 'px';

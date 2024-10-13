@@ -825,10 +825,6 @@ function getLandmarks(config, landmarks) {
         default:
           break;
       }
-      // if using ID for selectQuery give tagName as main
-      if (['aside', 'footer', 'form', 'header', 'main', 'nav', 'section', 'search'].indexOf(tagName) < 0) {
-        tagName = 'main';
-      }
       if (landmark.node.hasAttribute('aria-roledescription')) {
         tagName = landmark.node.getAttribute('aria-roledescription').trim().replace(' ', '-');
       }
@@ -837,12 +833,12 @@ function getLandmarks(config, landmarks) {
       } else {
         dataId =  getSkipToIdIndex();
         landmark.node.setAttribute('data-skip-to-id', dataId);
-        landmark.node.setAttribute('data-skip-to-info', `landmark ${role}`);
       }
       const landmarkItem = {};
       landmarkItem.dataId = dataId.toString();
       landmarkItem.class = 'landmark';
       landmarkItem.hasName = landmark.name.length > 0;
+      landmark.node.setAttribute('data-skip-to-name', landmark.name);
       landmarkItem.name = getLocalizedLandmarkName(config, tagName, landmark.name);
       landmarkItem.tagName = tagName;
       landmarkItem.nestingLevel = 0;

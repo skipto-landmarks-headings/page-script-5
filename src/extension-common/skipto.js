@@ -527,7 +527,7 @@ $skipToId-highlight div {
   top: -2px;
   left: -2px;
   border-radius: 3px 3px 3px 3px;
-  border: 2px solid $menuitemFocusBackgroundColor;
+  border: 2px solid $focusBorderColor;
   z-index: $zHighlight;
 }
 
@@ -537,14 +537,17 @@ $skipToId-highlight div.hasInfo {
 
 $skipToId-highlight div.info {
   position: relative;
+  text-align: left;
   top: -2px;
   left: -2px;
   padding: 1px 4px;
   border-radius: 0 0 3px 3px;
-  border: 2px solid $menuitemFocusBackgroundColor;
+  border: 2px solid $focusBorderColor;
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
   z-index: $zHighlight;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 `;
@@ -1992,10 +1995,6 @@ $skipToId-highlight div.info {
             tagName = 'search';
             break;
         }
-        // if using ID for selectQuery give tagName as main
-        if (['aside', 'footer', 'form', 'header', 'main', 'nav', 'section', 'search'].indexOf(tagName) < 0) {
-          tagName = 'main';
-        }
         if (landmark.node.hasAttribute('aria-roledescription')) {
           tagName = landmark.node.getAttribute('aria-roledescription').trim().replace(' ', '-');
         }
@@ -2004,12 +2003,12 @@ $skipToId-highlight div.info {
         } else {
           dataId =  getSkipToIdIndex();
           landmark.node.setAttribute('data-skip-to-id', dataId);
-          landmark.node.setAttribute('data-skip-to-info', `landmark ${role}`);
         }
         const landmarkItem = {};
         landmarkItem.dataId = dataId.toString();
         landmarkItem.class = 'landmark';
         landmarkItem.hasName = landmark.name.length > 0;
+        landmark.node.setAttribute('data-skip-to-name', landmark.name);
         landmarkItem.name = getLocalizedLandmarkName(config, tagName, landmark.name);
         landmarkItem.tagName = tagName;
         landmarkItem.nestingLevel = 0;
@@ -2161,7 +2160,6 @@ $skipToId-highlight div.info {
     const isReduced = !mediaQuery || mediaQuery.matches;
 
     if (elem && highlightTarget) {
-      updateOverlayElement(overlayElement, elem, info);
       if (isElementInHeightLarge(elem)) {
         if (!isElementStartInViewport(elem) && (!isReduced || force)) {
           elem.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
@@ -2172,6 +2170,7 @@ $skipToId-highlight div.info {
           elem.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
         }
       }
+      updateOverlayElement(overlayElement, elem, info);
     }
   }
 
@@ -2208,7 +2207,7 @@ $skipToId-highlight div.info {
                     Math.round(rect.left + window.scrollX);
 
     const width  = rect.left > offset ?
-                    Math.max(rect.width  + offset * 2, minWidth) :
+                    Math.max(rect.width  + offset * 2 + borderWidth * 2, minWidth) :
                     Math.max(rect.width, minWidth);
 
     const top    = rect.top > offset ?
@@ -2216,7 +2215,7 @@ $skipToId-highlight div.info {
                     Math.round(rect.top + window.scrollY);
 
     const height = rect.top > offset ?
-                    Math.max(rect.height + offset * 2, minHeight) :
+                    Math.max(rect.height + offset * 2 + borderWidth * 2, minHeight) :
                     Math.max(rect.height, minHeight);
 
     overlayElem.style.left   = left   + 'px';
@@ -3354,9 +3353,16 @@ $skipToId-highlight div.info {
 
     const elem = queryDOMForSkipToNavigation(target, direction);
 
-    const info = elem.hasAttribute('data-skip-to-info') ?
-                elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
-                'unknown';
+    let info = elem.hasAttribute('data-skip-to-info') ?
+               elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
+              'unknown';
+
+    if (elem.hasAttribute('data-skip-to-name')) {
+      const name = elem.getAttribute('data-skip-to-name').trim();
+      if (name) {
+        info += `: ${name}`;
+      }
+    }
 
     if (elem) {
       elem.tabIndex = elem.tabIndex ? elem.tabIndex : -1;
