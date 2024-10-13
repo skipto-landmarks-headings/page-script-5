@@ -9,9 +9,14 @@ import {
   isCustomElement
 } from './landmarksHeadings.js';
 
+import {
+  highlightElement,
+  removeHighlight
+} from './highlightElement.js';
+
 /* Constants */
-const debug = new DebugLogging('landmarksHeadings', false);
-debug.flag = false;
+const debug = new DebugLogging('pageNavigation', false);
+debug.flag = true;
 
 
 /*Exports */
@@ -30,13 +35,13 @@ let hasFocusBeenSet = false;
 function monitorKeyboardFocus () {
 
   document.addEventListener('focusin', (event) => {
+    removeHighlight();
     event.relatedTarget && console.log(`[monitorKeyboardFocus][relatedTarget]: ${event.relatedTarget.tagName}`);
     if (event.relatedTarget) {
       event.relatedTarget.removeAttribute('data-skip-to-focus');
       hasFocusBeenSet = true;
     }
     event.target.setAttribute('data-skip-to-focus', '');
-
   });
 }
 
@@ -55,9 +60,14 @@ function navigateContent (target, direction) {
 
   const elem = queryDOMForSkipToNavigation(target, direction);
 
+  const info = elem.hasAttribute('data-skip-to-info') ?
+              elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
+              'unknown';
+
   if (elem) {
-    elem.tabIndex = elem.tabIndex ? elem.tabIndex : 1;
+    elem.tabIndex = elem.tabIndex ? elem.tabIndex : -1;
     elem.focus();
+    highlightElement(elem, 'instant', info, true);  // force highligt since navigation
     console.log(`[navigateContent][B][elem]: ${elem} ${elem.getAttribute('data-skip-to-info')}`);
   }
 }
@@ -82,6 +92,14 @@ function queryDOMForSkipToNavigation (target, direction) {
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE) {
 
+        debug.flag && debug.log(`[transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
+
+        if (debug.flag && node.hasAttribute('data-skip-to-info')) {
+          debug.log(`[transverseDOMForElement][focusFound]: ${focusFound}`);
+          debug.log(`[transverseDOMForElement][  lastNode]: ${lastNode ? lastNode.getAttribute('data-skip-to-info') : 'none'}`);
+          debug.log(`[transverseDOMForElement][      data]: ${node.getAttribute('data-skip-to-info')}`);
+        }
+
         if (node.hasAttribute('data-skip-to-info') &&
             node.getAttribute('data-skip-to-info').includes(target)) {
           if (!node.hasAttribute('data-skip-to-focus')) {
@@ -96,6 +114,7 @@ function queryDOMForSkipToNavigation (target, direction) {
         }
 
         if (node.hasAttribute('data-skip-to-focus')) {
+          debug.log(`[transverseDOMForElement][focusFound]: ${node.tagName}`);
           focusFound = true;
           if (direction === 'previous') {
             return lastNode;
@@ -125,6 +144,8 @@ function queryDOMForSkipToNavigation (target, direction) {
                 }
 
                 if (assignedNode.hasAttribute('data-skip-to-focus')) {
+                  debug && debug.log(`[transverseDOMForElement][focusFound]: ${assignedNode.tagName}`);
+
                   focusFound = true;
                   if (direction === 'previous') {
                     return lastNode;
@@ -164,6 +185,8 @@ function queryDOMForSkipToNavigation (target, direction) {
     } // end for
     return false;
   } // end function
+
+  debug.flag && debug.log(`\n\n[start]: ${focusFound} ${lastNode}`);
   return transverseDOMForElement(document.body);
 }
 

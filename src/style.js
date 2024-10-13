@@ -304,18 +304,33 @@ const cssHighlightTemplate = document.createElement('template');
 cssHighlightTemplate.textContent = `
 $skipToId-highlight {
   position: absolute;
-  border-radius: 3px;
-  border: 4px solid $buttonBackgroundColor;
 }
 
 $skipToId-highlight div {
   position: relative;
   top: -2px;
   left: -2px;
-  border-radius: 3px;
-  border: 2px solid $focusBorderColor;
+  border-radius: 3px 3px 3px 3px;
+  border: 2px solid $menuitemFocusBackgroundColor;
   z-index: $zHighlight;
 }
+
+$skipToId-highlight div.hasInfo {
+  border-radius: 3px 3px 3px 0;
+}
+
+$skipToId-highlight div.info {
+  position: relative;
+  top: -2px;
+  left: -2px;
+  padding: 1px 4px;
+  border-radius: 0 0 3px 3px;
+  border: 2px solid $menuitemFocusBackgroundColor;
+  background-color: $menuitemFocusBackgroundColor;
+  color: $menuitemFocusTextColor;
+  z-index: $zHighlight;
+}
+
 `;
 
 /*
@@ -474,10 +489,11 @@ function addCSSColors (cssMenu, cssHighlight, config) {
 
   cssMenu = updateStyle(cssMenu, '$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
 
-  cssMenu = updateStyle(cssMenu, '$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
-
+  cssHighlight = updateStyle(cssHighlight, '$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
   cssHighlight = updateStyle(cssHighlight, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
   cssHighlight = updateStyle(cssHighlight, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
+  cssHighlight = updateStyle(cssHighlight, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
+  cssHighlight = updateStyle(cssHighlight, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
 
   return [cssMenu, cssHighlight];
 

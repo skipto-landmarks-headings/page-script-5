@@ -109,6 +109,8 @@ export default class SkipToContent extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
+
+
     if (name === 'data-skipto') {
       this.config = this.setupConfigFromDataAttribute(this.config, newValue);
     }
@@ -133,6 +135,7 @@ export default class SkipToContent extends HTMLElement {
     }
 
     if (name === 'navigate') {
+
       console.log(`[navigate]: ${newValue}`);
       switch (newValue) {
 
@@ -144,12 +147,45 @@ export default class SkipToContent extends HTMLElement {
           navigateContent('heading', 'previous');
           break;
 
+        case 'nextH1':
+          navigateContent('h1', 'next');
+          break;
+
+        case 'nextH2':
+          navigateContent('h2', 'next');
+          break;
+
+        case 'nextH3':
+          navigateContent('h3', 'next');
+          break;
+
+        case 'nextH4':
+          navigateContent('h4', 'next');
+          break;
+
+        case 'nextH5':
+          navigateContent('h5', 'next');
+          break;
+
+        case 'nextH6':
+          navigateContent('h6', 'next');
+          break;
+
+
         case 'nextLandmark':
           navigateContent('landmark', 'next');
           break;
 
         case 'previousLandmark':
           navigateContent('landmark', 'previous');
+          break;
+
+        case 'nextMain':
+          navigateContent('main', 'next');
+          break;
+
+        case 'nextNavigation':
+          navigateContent('navigation', 'next');
           break;
 
         default:

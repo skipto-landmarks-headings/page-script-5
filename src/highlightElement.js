@@ -3,10 +3,6 @@
 /* Imports */
 import DebugLogging  from './debug.js';
 
-import {
-  queryDOMForSkipToId
-} from './landmarksHeadings.js';
-
 /*Exports */
 export {
   highlightElement,
@@ -35,6 +31,10 @@ window.addEventListener('load', () => {
 
 const overlayElementChild = document.createElement('div');
 overlayElement.appendChild(overlayElementChild);
+
+const overlayInfoChild = document.createElement('div');
+overlayInfoChild.className = 'info';
+overlayElement.appendChild(overlayInfoChild);
 
 
 /*
@@ -106,28 +106,30 @@ function isElementInHeightLarge(element) {
  *   @desc  Highlights the element with the id on a page when highlighting
  *          is enabled (NOTE: Highlight is enabled by default)
  *
- *   @param {String} id               : id of the element to highlight
- *   @param {String} ihighlightTarget : value of highlight target
+ *   @param {Object}  elem            : DOM node of element to highlight
+ *   @param {String}  highlightTarget : value of highlight target
+ *   @param {String}  info            : Information about target
+ *   @param {Boolean} force           : If true override isRduced
  */
-function highlightElement(id, highlightTarget) {
+function highlightElement(elem, highlightTarget, info='', force=false) {
   const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
   const isReduced = !mediaQuery || mediaQuery.matches;
-  const element = queryDOMForSkipToId(id);
 
-  if (element && highlightTarget) {
-    updateOverlayElement(overlayElement, element);
-    if (isElementInHeightLarge(element)) {
-      if (!isElementStartInViewport(element)  && !isReduced) {
-        element.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
+  if (elem && highlightTarget) {
+    updateOverlayElement(overlayElement, elem, info);
+    if (isElementInHeightLarge(elem)) {
+      if (!isElementStartInViewport(elem) && (!isReduced || force)) {
+        elem.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
       }
     }
     else {
-      if (!isElementInViewport(element)  && !isReduced) {
-        element.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
+      if (!isElementInViewport(elem)  && (!isReduced || force)) {
+        elem.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
       }
     }
   }
 }
+
 
 /*
  *   @function removeHighlight
@@ -145,12 +147,14 @@ function removeHighlight() {
  *
  *  @param  {Object}  overlayElem      -  DOM element for overlay
  *  @param  {Object}  element          -  DOM element node to highlight
+ *  @param  {String}  info             -  Description of the element
  *
  */
 
-function updateOverlayElement (overlayElem, element) {
+function updateOverlayElement (overlayElem, element, info) {
 
   const childElem = overlayElem.firstElementChild;
+  const infoElem = overlayElem.querySelector('.info');
 
   const rect = element.getBoundingClientRect();
 
@@ -180,5 +184,16 @@ function updateOverlayElement (overlayElem, element) {
 
 
   overlayElem.style.display = 'block';
+
+  if (info) {
+    childElem.classList.add('hasInfo');
+    infoElem.style.display = 'inline-block';
+    infoElem.textContent = info;
+  }
+  else {
+    childElem.classList.remove('hasInfo');
+    infoElem.style.display = 'none';
+  }
+
 }
 

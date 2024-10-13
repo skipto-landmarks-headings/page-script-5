@@ -520,18 +520,33 @@ $skipToId [role="menuitem"].hover .label {
   cssHighlightTemplate.textContent = `
 $skipToId-highlight {
   position: absolute;
-  border-radius: 3px;
-  border: 4px solid $buttonBackgroundColor;
 }
 
 $skipToId-highlight div {
   position: relative;
   top: -2px;
   left: -2px;
-  border-radius: 3px;
-  border: 2px solid $focusBorderColor;
+  border-radius: 3px 3px 3px 3px;
+  border: 2px solid $menuitemFocusBackgroundColor;
   z-index: $zHighlight;
 }
+
+$skipToId-highlight div.hasInfo {
+  border-radius: 3px 3px 3px 0;
+}
+
+$skipToId-highlight div.info {
+  position: relative;
+  top: -2px;
+  left: -2px;
+  padding: 1px 4px;
+  border-radius: 0 0 3px 3px;
+  border: 2px solid $menuitemFocusBackgroundColor;
+  background-color: $menuitemFocusBackgroundColor;
+  color: $menuitemFocusTextColor;
+  z-index: $zHighlight;
+}
+
 `;
 
   /*
@@ -690,10 +705,11 @@ $skipToId-highlight div {
 
     cssMenu = updateStyle(cssMenu, '$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
 
-    cssMenu = updateStyle(cssMenu, '$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
-
+    cssHighlight = updateStyle(cssHighlight, '$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
     cssHighlight = updateStyle(cssHighlight, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
     cssHighlight = updateStyle(cssHighlight, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
+    cssHighlight = updateStyle(cssHighlight, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
+    cssHighlight = updateStyle(cssHighlight, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
 
     return [cssMenu, cssHighlight];
 
@@ -2061,6 +2077,10 @@ $skipToId-highlight div {
   const overlayElementChild = document.createElement('div');
   overlayElement.appendChild(overlayElementChild);
 
+  const overlayInfoChild = document.createElement('div');
+  overlayInfoChild.className = 'info';
+  overlayElement.appendChild(overlayInfoChild);
+
 
   /*
    *   @function isElementInViewport
@@ -2131,28 +2151,30 @@ $skipToId-highlight div {
    *   @desc  Highlights the element with the id on a page when highlighting
    *          is enabled (NOTE: Highlight is enabled by default)
    *
-   *   @param {String} id               : id of the element to highlight
-   *   @param {String} ihighlightTarget : value of highlight target
+   *   @param {Object}  elem            : DOM node of element to highlight
+   *   @param {String}  highlightTarget : value of highlight target
+   *   @param {String}  info            : Information about target
+   *   @param {Boolean} force           : If true override isRduced
    */
-  function highlightElement(id, highlightTarget) {
+  function highlightElement(elem, highlightTarget, info='', force=false) {
     const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
     const isReduced = !mediaQuery || mediaQuery.matches;
-    const element = queryDOMForSkipToId(id);
 
-    if (element && highlightTarget) {
-      updateOverlayElement(overlayElement, element);
-      if (isElementInHeightLarge(element)) {
-        if (!isElementStartInViewport(element)  && !isReduced) {
-          element.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
+    if (elem && highlightTarget) {
+      updateOverlayElement(overlayElement, elem, info);
+      if (isElementInHeightLarge(elem)) {
+        if (!isElementStartInViewport(elem) && (!isReduced || force)) {
+          elem.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
         }
       }
       else {
-        if (!isElementInViewport(element)  && !isReduced) {
-          element.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
+        if (!isElementInViewport(elem)  && (!isReduced || force)) {
+          elem.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
         }
       }
     }
   }
+
 
   /*
    *   @function removeHighlight
@@ -2170,12 +2192,14 @@ $skipToId-highlight div {
    *
    *  @param  {Object}  overlayElem      -  DOM element for overlay
    *  @param  {Object}  element          -  DOM element node to highlight
+   *  @param  {String}  info             -  Description of the element
    *
    */
 
-  function updateOverlayElement (overlayElem, element) {
+  function updateOverlayElement (overlayElem, element, info) {
 
     const childElem = overlayElem.firstElementChild;
+    const infoElem = overlayElem.querySelector('.info');
 
     const rect = element.getBoundingClientRect();
 
@@ -2205,6 +2229,17 @@ $skipToId-highlight div {
 
 
     overlayElem.style.display = 'block';
+
+    if (info) {
+      childElem.classList.add('hasInfo');
+      infoElem.style.display = 'inline-block';
+      infoElem.textContent = info;
+    }
+    else {
+      childElem.classList.remove('hasInfo');
+      infoElem.style.display = 'none';
+    }
+
   }
 
   /* skiptoMenuButton.js */
@@ -2655,7 +2690,8 @@ $skipToId-highlight div {
           menuitem.focus();
           this.skipToContentElem.setAttribute('focus', 'menu');
           this.focusMenuitem = menuitem;
-          highlightElement(menuitem.getAttribute('data-id'), this.highlightTarget);
+          const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
+          highlightElement(elem, this.highlightTarget);
         }
       }
 
@@ -3167,7 +3203,8 @@ $skipToId-highlight div {
         debug$3.flag && debug$3.log(`[enter]`);
         let tgt = event.currentTarget;
         tgt.classList.add('hover');
-        highlightElement(tgt.getAttribute('data-id'), this.highlightTarget);
+        const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
+        highlightElement(elem, this.highlightTarget);
         event.stopPropagation();
         event.preventDefault();
       }
@@ -3175,7 +3212,8 @@ $skipToId-highlight div {
      handleMenuitemPointerover(event) {
         debug$3.flag && debug$3.log(`[over]`);
         let tgt = event.currentTarget;
-        highlightElement(tgt.getAttribute('data-id'), this.highlightTarget);
+        const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
+        highlightElement(elem, this.highlightTarget);
         event.stopPropagation();
         event.preventDefault();
       }
@@ -3226,7 +3264,8 @@ $skipToId-highlight div {
         if (mi) {
           this.removeHoverClass(mi);
           mi.classList.add('hover');
-          highlightElement(mi.getAttribute('data-id'), this.highlightTarget);
+          const elem = queryDOMForSkipToId(mi.getAttribute('data-id'));
+          highlightElement(elem, this.highlightTarget);
         }
 
         event.stopPropagation();
@@ -3277,8 +3316,8 @@ $skipToId-highlight div {
   /* pageNavigation.js */
 
   /* Constants */
-  const debug$2 = new DebugLogging('landmarksHeadings', false);
-  debug$2.flag = false;
+  const debug$2 = new DebugLogging('pageNavigation', false);
+  debug$2.flag = true;
 
   let hasFocusBeenSet = false;
 
@@ -3290,13 +3329,13 @@ $skipToId-highlight div {
   function monitorKeyboardFocus () {
 
     document.addEventListener('focusin', (event) => {
+      removeHighlight();
       event.relatedTarget && console.log(`[monitorKeyboardFocus][relatedTarget]: ${event.relatedTarget.tagName}`);
       if (event.relatedTarget) {
         event.relatedTarget.removeAttribute('data-skip-to-focus');
         hasFocusBeenSet = true;
       }
       event.target.setAttribute('data-skip-to-focus', '');
-
     });
   }
 
@@ -3315,9 +3354,14 @@ $skipToId-highlight div {
 
     const elem = queryDOMForSkipToNavigation(target, direction);
 
+    const info = elem.hasAttribute('data-skip-to-info') ?
+                elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
+                'unknown';
+
     if (elem) {
-      elem.tabIndex = elem.tabIndex ? elem.tabIndex : 1;
+      elem.tabIndex = elem.tabIndex ? elem.tabIndex : -1;
       elem.focus();
+      highlightElement(elem, 'instant', info, true);  // force highligt since navigation
       console.log(`[navigateContent][B][elem]: ${elem} ${elem.getAttribute('data-skip-to-info')}`);
     }
   }
@@ -3342,6 +3386,14 @@ $skipToId-highlight div {
       for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
         if (node.nodeType === Node.ELEMENT_NODE) {
 
+          debug$2.flag && debug$2.log(`[transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
+
+          if (debug$2.flag && node.hasAttribute('data-skip-to-info')) {
+            debug$2.log(`[transverseDOMForElement][focusFound]: ${focusFound}`);
+            debug$2.log(`[transverseDOMForElement][  lastNode]: ${lastNode ? lastNode.getAttribute('data-skip-to-info') : 'none'}`);
+            debug$2.log(`[transverseDOMForElement][      data]: ${node.getAttribute('data-skip-to-info')}`);
+          }
+
           if (node.hasAttribute('data-skip-to-info') &&
               node.getAttribute('data-skip-to-info').includes(target)) {
             if (!node.hasAttribute('data-skip-to-focus')) {
@@ -3356,6 +3408,7 @@ $skipToId-highlight div {
           }
 
           if (node.hasAttribute('data-skip-to-focus')) {
+            debug$2.log(`[transverseDOMForElement][focusFound]: ${node.tagName}`);
             focusFound = true;
             if (direction === 'previous') {
               return lastNode;
@@ -3385,6 +3438,8 @@ $skipToId-highlight div {
                   }
 
                   if (assignedNode.hasAttribute('data-skip-to-focus')) {
+                    debug$2 && debug$2.log(`[transverseDOMForElement][focusFound]: ${assignedNode.tagName}`);
+
                     focusFound = true;
                     if (direction === 'previous') {
                       return lastNode;
@@ -3424,6 +3479,8 @@ $skipToId-highlight div {
       } // end for
       return false;
     } // end function
+
+    debug$2.flag && debug$2.log(`\n\n[start]: ${focusFound} ${lastNode}`);
     return transverseDOMForElement(document.body);
   }
 
@@ -3521,6 +3578,8 @@ $skipToId-highlight div {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
+
+
       if (name === 'data-skipto') {
         this.config = this.setupConfigFromDataAttribute(this.config, newValue);
       }
@@ -3545,6 +3604,7 @@ $skipToId-highlight div {
       }
 
       if (name === 'navigate') {
+
         console.log(`[navigate]: ${newValue}`);
         switch (newValue) {
 
@@ -3556,12 +3616,45 @@ $skipToId-highlight div {
             navigateContent('heading', 'previous');
             break;
 
+          case 'nextH1':
+            navigateContent('h1', 'next');
+            break;
+
+          case 'nextH2':
+            navigateContent('h2', 'next');
+            break;
+
+          case 'nextH3':
+            navigateContent('h3', 'next');
+            break;
+
+          case 'nextH4':
+            navigateContent('h4', 'next');
+            break;
+
+          case 'nextH5':
+            navigateContent('h5', 'next');
+            break;
+
+          case 'nextH6':
+            navigateContent('h6', 'next');
+            break;
+
+
           case 'nextLandmark':
             navigateContent('landmark', 'next');
             break;
 
           case 'previousLandmark':
             navigateContent('landmark', 'previous');
+            break;
+
+          case 'nextMain':
+            navigateContent('main', 'next');
+            break;
+
+          case 'nextNavigation':
+            navigateContent('navigation', 'next');
             break;
 
         }

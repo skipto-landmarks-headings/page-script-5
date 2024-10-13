@@ -9,7 +9,8 @@ import {
 
 import {
   getLandmarksAndHeadings,
-  skipToElement
+  skipToElement,
+  queryDOMForSkipToId
 } from './landmarksHeadings.js';
 
 import {
@@ -463,7 +464,8 @@ export default class SkiptoMenuButton {
         menuitem.focus();
         this.skipToContentElem.setAttribute('focus', 'menu');
         this.focusMenuitem = menuitem;
-        highlightElement(menuitem.getAttribute('data-id'), this.highlightTarget);
+        const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
+        highlightElement(elem, this.highlightTarget);
       }
     }
 
@@ -979,7 +981,8 @@ export default class SkiptoMenuButton {
       debug.flag && debug.log(`[enter]`);
       let tgt = event.currentTarget;
       tgt.classList.add('hover');
-      highlightElement(tgt.getAttribute('data-id'), this.highlightTarget);
+      const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
+      highlightElement(elem, this.highlightTarget);
       event.stopPropagation();
       event.preventDefault();
     }
@@ -987,7 +990,8 @@ export default class SkiptoMenuButton {
    handleMenuitemPointerover(event) {
       debug.flag && debug.log(`[over]`);
       let tgt = event.currentTarget;
-      highlightElement(tgt.getAttribute('data-id'), this.highlightTarget);
+      const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
+      highlightElement(elem, this.highlightTarget);
       event.stopPropagation();
       event.preventDefault();
     }
@@ -1038,7 +1042,8 @@ export default class SkiptoMenuButton {
       if (mi) {
         this.removeHoverClass(mi);
         mi.classList.add('hover');
-        highlightElement(mi.getAttribute('data-id'), this.highlightTarget);
+        const elem = queryDOMForSkipToId(mi.getAttribute('data-id'));
+        highlightElement(elem, this.highlightTarget);
       }
 
       event.stopPropagation();
