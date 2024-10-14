@@ -531,11 +531,11 @@ export default function renderStyleElement (attachNode, config, skipToId) {
 
   const headNode = document.querySelector('head');
   if (headNode) {
-    let highlightStyleNode = headNode.querySelector('#id-skip-to-highlight');
+    let highlightStyleNode = headNode.querySelector('#id-skip-to-highlight-style');
     if (!highlightStyleNode) {
       highlightStyleNode = document.createElement('style');
       headNode.appendChild(highlightStyleNode);
-      highlightStyleNode.setAttribute('id', 'id-skip-to-highlight');
+      highlightStyleNode.setAttribute('id', 'id-skip-to-highlight-style');
     }
     highlightStyleNode.textContent = cssHighlight;
   }

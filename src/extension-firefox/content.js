@@ -1,6 +1,6 @@
 /* content.js */
 
-const debug = true;
+const debug = false;
 
 // Define browser specific APIs for Opera, Firefox and Chrome
 
@@ -131,9 +131,6 @@ document.addEventListener('keydown', (event) => {
         }
 
       }
-
-      console.log(`[keydown]: ${event.key} ${flag}`);
-
     }
 });
 
@@ -170,6 +167,18 @@ function getFocusOption(params) {
  */
 
 function isInteractiveElement (elem) {
+
+  const enabledInputTypes = [
+    'button',
+    'checkbox',
+    'color',
+    'file',
+    'image',
+    'radio',
+    'range',
+    'reset',
+    'submit'
+  ];
 
   const tagName = elem.tagName ? elem.tagName.toLowerCase() : '';
   const type = tagName === 'input' ? elem.type.toLowerCase() : '';

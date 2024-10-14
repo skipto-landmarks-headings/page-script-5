@@ -18,24 +18,40 @@ const minHeight = 27;
 const offset = 6;
 const borderWidth = 2;
 
-const overlayElement = document.createElement('div');
-overlayElement.id = 'id-skip-to-highlight';
-overlayElement.style.display = 'none';
+/*
+ *   @function getOverlayElement
+ *
+ *   @desc  Returns DOM node for the overlay element
+ *
+ *   @returns {Object} see @desc
+ */
 
-window.addEventListener('load', () => {
-  if (document.body) {
-    document.body.appendChild(overlayElement);
+function getOverlayElement() {
+
+  let overlayElem = document.getElementById('id-skip-to-highlight');
+
+  if (!overlayElem) {
+    overlayElem = document.createElement('div');
+    overlayElem.style.display = 'none';
+    overlayElem.id = 'id-skip-to-highlight';
+    document.body.appendChild(overlayElem);
+
+    const overlayElemChild = document.createElement('div');
+    overlayElem.appendChild(overlayElemChild);
+
   }
-});
 
+  const infoElem = overlayElem.querySelector('.info');
+  console.log(`[infoElem]: ${infoElem}`);
 
-const overlayElementChild = document.createElement('div');
-overlayElement.appendChild(overlayElementChild);
+  if (infoElem === null) {
+    const overlayInfoChild = document.createElement('div');
+    overlayInfoChild.className = 'info';
+    overlayElem.appendChild(overlayInfoChild);
+  }
 
-const overlayInfoChild = document.createElement('div');
-overlayInfoChild.className = 'info';
-overlayElement.appendChild(overlayInfoChild);
-
+  return overlayElem;
+}
 
 /*
  *   @function isElementInViewport
@@ -126,6 +142,8 @@ function highlightElement(elem, highlightTarget, info='', force=false) {
         elem.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
       }
     }
+
+    const overlayElement = getOverlayElement();
     updateOverlayElement(overlayElement, elem, info);
   }
 }
@@ -137,7 +155,10 @@ function highlightElement(elem, highlightTarget, info='', force=false) {
  *   @desc  Hides the highlight element on the page
  */
 function removeHighlight() {
-  overlayElement.style.display = 'none';
+  const overlayElement = getOverlayElement();
+  if (overlayElement) {
+    overlayElement.style.display = 'none';
+  }
 }
 
 /*
@@ -154,7 +175,7 @@ function removeHighlight() {
 function updateOverlayElement (overlayElem, element, info) {
 
   const childElem = overlayElem.firstElementChild;
-  const infoElem = overlayElem.querySelector('.info');
+  const infoElem  = overlayElem.querySelector('.info');
 
   const rect = element.getBoundingClientRect();
 
@@ -181,7 +202,6 @@ function updateOverlayElement (overlayElem, element, info) {
 
   childElem.style.width  = (width  - 2 * borderWidth) + 'px';
   childElem.style.height = (height - 2 * borderWidth) + 'px';
-
 
   overlayElem.style.display = 'block';
 

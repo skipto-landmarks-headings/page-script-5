@@ -747,11 +747,11 @@ $skipToId-highlight div.info {
 
     const headNode = document.querySelector('head');
     if (headNode) {
-      let highlightStyleNode = headNode.querySelector('#id-skip-to-highlight');
+      let highlightStyleNode = headNode.querySelector('#id-skip-to-highlight-style');
       if (!highlightStyleNode) {
         highlightStyleNode = document.createElement('style');
         headNode.appendChild(highlightStyleNode);
-        highlightStyleNode.setAttribute('id', 'id-skip-to-highlight');
+        highlightStyleNode.setAttribute('id', 'id-skip-to-highlight-style');
       }
       highlightStyleNode.textContent = cssHighlight;
     }
@@ -2062,24 +2062,40 @@ $skipToId-highlight div.info {
   const offset = 6;
   const borderWidth = 2;
 
-  const overlayElement = document.createElement('div');
-  overlayElement.id = 'id-skip-to-highlight';
-  overlayElement.style.display = 'none';
+  /*
+   *   @function getOverlayElement
+   *
+   *   @desc  Returns DOM node for the overlay element
+   *
+   *   @returns {Object} see @desc
+   */
 
-  window.addEventListener('load', () => {
-    if (document.body) {
-      document.body.appendChild(overlayElement);
+  function getOverlayElement() {
+
+    let overlayElem = document.getElementById('id-skip-to-highlight');
+
+    if (!overlayElem) {
+      overlayElem = document.createElement('div');
+      overlayElem.style.display = 'none';
+      overlayElem.id = 'id-skip-to-highlight';
+      document.body.appendChild(overlayElem);
+
+      const overlayElemChild = document.createElement('div');
+      overlayElem.appendChild(overlayElemChild);
+
     }
-  });
 
+    const infoElem = overlayElem.querySelector('.info');
+    console.log(`[infoElem]: ${infoElem}`);
 
-  const overlayElementChild = document.createElement('div');
-  overlayElement.appendChild(overlayElementChild);
+    if (infoElem === null) {
+      const overlayInfoChild = document.createElement('div');
+      overlayInfoChild.className = 'info';
+      overlayElem.appendChild(overlayInfoChild);
+    }
 
-  const overlayInfoChild = document.createElement('div');
-  overlayInfoChild.className = 'info';
-  overlayElement.appendChild(overlayInfoChild);
-
+    return overlayElem;
+  }
 
   /*
    *   @function isElementInViewport
@@ -2170,6 +2186,8 @@ $skipToId-highlight div.info {
           elem.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
         }
       }
+
+      const overlayElement = getOverlayElement();
       updateOverlayElement(overlayElement, elem, info);
     }
   }
@@ -2181,7 +2199,10 @@ $skipToId-highlight div.info {
    *   @desc  Hides the highlight element on the page
    */
   function removeHighlight() {
-    overlayElement.style.display = 'none';
+    const overlayElement = getOverlayElement();
+    if (overlayElement) {
+      overlayElement.style.display = 'none';
+    }
   }
 
   /*
@@ -2198,7 +2219,7 @@ $skipToId-highlight div.info {
   function updateOverlayElement (overlayElem, element, info) {
 
     const childElem = overlayElem.firstElementChild;
-    const infoElem = overlayElem.querySelector('.info');
+    const infoElem  = overlayElem.querySelector('.info');
 
     const rect = element.getBoundingClientRect();
 
@@ -2225,7 +2246,6 @@ $skipToId-highlight div.info {
 
     childElem.style.width  = (width  - 2 * borderWidth) + 'px';
     childElem.style.height = (height - 2 * borderWidth) + 'px';
-
 
     overlayElem.style.display = 'block';
 
@@ -3316,9 +3336,10 @@ $skipToId-highlight div.info {
 
   /* Constants */
   const debug$2 = new DebugLogging('pageNavigation', false);
-  debug$2.flag = true;
+  debug$2.flag = false;
 
   let hasFocusBeenSet = false;
+  let lastElemWithFocus = false;
 
   /**
    * @function monitorKeyboardFocus
@@ -3332,10 +3353,18 @@ $skipToId-highlight div.info {
       event.relatedTarget && console.log(`[monitorKeyboardFocus][relatedTarget]: ${event.relatedTarget.tagName}`);
       if (event.relatedTarget) {
         event.relatedTarget.removeAttribute('data-skip-to-focus');
-        hasFocusBeenSet = true;
+        console.log(`[focus][remove]: ${event.relatedTarget.tagName}`);
+      }
+      if (lastElemWithFocus) {
+        lastElemWithFocus.removeAttribute('data-skip-to-focus');
+        lastElemWithFocus = false;
       }
       event.target.setAttribute('data-skip-to-focus', '');
+      console.log(`[focus][add]: ${event.target.tagName}`);
+      lastElemWithFocus = event.target;
+      hasFocusBeenSet = true;
     });
+
   }
 
   /**
@@ -3349,26 +3378,25 @@ $skipToId-highlight div.info {
 
   function navigateContent (target, direction) {
 
-    console.log(`[navigateContent][A]: ${target} ${direction}`);
-
     const elem = queryDOMForSkipToNavigation(target, direction);
 
-    let info = elem.hasAttribute('data-skip-to-info') ?
-               elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
-              'unknown';
-
-    if (elem.hasAttribute('data-skip-to-name')) {
-      const name = elem.getAttribute('data-skip-to-name').trim();
-      if (name) {
-        info += `: ${name}`;
-      }
-    }
 
     if (elem) {
+
+      let info = elem.hasAttribute('data-skip-to-info') ?
+                 elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
+                'unknown';
+
+      if (elem.hasAttribute('data-skip-to-name')) {
+        const name = elem.getAttribute('data-skip-to-name').trim();
+        if (name) {
+          info += `: ${name}`;
+        }
+      }
+
       elem.tabIndex = elem.tabIndex ? elem.tabIndex : -1;
       elem.focus();
       highlightElement(elem, 'instant', info, true);  // force highligt since navigation
-      console.log(`[navigateContent][B][elem]: ${elem} ${elem.getAttribute('data-skip-to-info')}`);
     }
   }
 
@@ -3489,6 +3517,76 @@ $skipToId-highlight div.info {
     debug$2.flag && debug$2.log(`\n\n[start]: ${focusFound} ${lastNode}`);
     return transverseDOMForElement(document.body);
   }
+
+  /**
+   * @function removeFocusInfo
+   *
+   * @desc Removes data-skip-to-focus attribute from DOM
+  function removeFocusInfo () {
+
+    function transverseDOMForElement(startingNode) {
+      var targetNode = null;
+      for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+
+          debug.flag && debug.log(`[removeFocusInfo][transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
+
+          if (node.hasAttribute('data-skip-to-focus')) {
+            node.removeAttribute('data-skip-to-focus');
+          }
+
+          if (!isSkipableElement(node)) {
+            // check for slotted content
+            if (isSlotElement(node)) {
+                // if no slotted elements, check for default slotted content
+              const assignedNodes = node.assignedNodes().length ?
+                                    node.assignedNodes() :
+                                    node.assignedNodes({ flatten: true });
+              for (let i = 0; i < assignedNodes.length; i += 1) {
+                const assignedNode = assignedNodes[i];
+                if (assignedNode.nodeType === Node.ELEMENT_NODE) {
+
+                  if (assignedNode.hasAttribute('data-skip-to-focus')) {
+                    assignedNode.removeAttribute('data-skip-to-focus');
+                  }
+
+                  targetNode = transverseDOMForElement(assignedNode);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+              }
+            } else {
+              // check for custom elements
+              if (isCustomElement(node)) {
+                if (node.shadowRoot) {
+                  targetNode = transverseDOMForElement(node.shadowRoot);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+                else {
+                  targetNode = transverseDOMForElement(node);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+              } else {
+                targetNode = transverseDOMForElement(node);
+                if (targetNode) {
+                  return targetNode;
+                }
+              }
+            }
+          }
+        } // end if
+      } // end for
+      return false;
+    } // end function
+
+    return transverseDOMForElement(document.body);
+  }
+   */
 
   /* skiptoContent.js */
 
