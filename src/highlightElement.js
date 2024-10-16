@@ -38,11 +38,9 @@ function getOverlayElement() {
 
     const overlayElemChild = document.createElement('div');
     overlayElem.appendChild(overlayElemChild);
-
   }
 
   const infoElem = overlayElem.querySelector('.info');
-  console.log(`[infoElem]: ${infoElem}`);
 
   if (infoElem === null) {
     const overlayInfoChild = document.createElement('div');

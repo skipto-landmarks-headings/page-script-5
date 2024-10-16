@@ -15,8 +15,8 @@ import {
 } from './highlightElement.js';
 
 /* Constants */
-const debug = new DebugLogging('pageNavigation', false);
-debug.flag = false;
+const debug = new DebugLogging('pNav', false);
+debug.flag = true;
 
 
 /*Exports */
@@ -37,17 +37,20 @@ function monitorKeyboardFocus () {
 
   document.addEventListener('focusin', (event) => {
     removeHighlight();
-    event.relatedTarget && console.log(`[monitorKeyboardFocus][relatedTarget]: ${event.relatedTarget.tagName}`);
+    debug.flag && debug.log(`\n\n[           target]: ${event.target}`);
+    debug.flag && debug.log(`[    relatedTarget]: ${event.relatedTarget}`);
+    debug.flag && debug.log(`[lastElemWithFocus]: ${lastElemWithFocus}`);
     if (event.relatedTarget) {
+      debug.flag && debug.log(`[focus][remove][A]: ${event.relatedTarget.tagName}`);
       event.relatedTarget.removeAttribute('data-skip-to-focus');
-      console.log(`[focus][remove]: ${event.relatedTarget.tagName}`);
     }
     if (lastElemWithFocus) {
+      debug.flag && debug.log(`[focus][remove][B]: ${lastElemWithFocus.tagName}`);
       lastElemWithFocus.removeAttribute('data-skip-to-focus');
       lastElemWithFocus = false;
     }
     event.target.setAttribute('data-skip-to-focus', '');
-    console.log(`[focus][add]: ${event.target.tagName}`);
+    debug.flag && debug.log(`[focus][add]: ${event.target.tagName}`);
     lastElemWithFocus = event.target;
     hasFocusBeenSet = true;
   });
@@ -67,6 +70,7 @@ function navigateContent (target, direction) {
 
   const elem = queryDOMForSkipToNavigation(target, direction);
 
+  debug.flag && debug.log(`[navigateContent][elem]: ${elem}`);
 
   if (elem) {
 
@@ -83,7 +87,7 @@ function navigateContent (target, direction) {
 
     elem.tabIndex = elem.tabIndex ? elem.tabIndex : -1;
     elem.focus();
-    highlightElement(elem, 'instant', info, true);  // force highligt since navigation
+    highlightElement(elem, 'instant', info, true);  // force highlight since navigation
   }
 }
 
@@ -105,8 +109,9 @@ function queryDOMForSkipToNavigation (target, direction) {
   function transverseDOMForElement(startingNode) {
     var targetNode = null;
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-      if (node.nodeType === Node.ELEMENT_NODE) {
+      if (node.nodeType === Node.ELEMENT_NODE && node.checkVisibility()) {
 
+/*
         debug.flag && debug.log(`[transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
 
         if (debug.flag && node.hasAttribute('data-skip-to-info')) {
@@ -114,6 +119,7 @@ function queryDOMForSkipToNavigation (target, direction) {
           debug.log(`[transverseDOMForElement][  lastNode]: ${lastNode ? lastNode.getAttribute('data-skip-to-info') : 'none'}`);
           debug.log(`[transverseDOMForElement][      data]: ${node.getAttribute('data-skip-to-info')}`);
         }
+*/
 
         if (node.hasAttribute('data-skip-to-info') &&
             node.getAttribute('data-skip-to-info').includes(target)) {
@@ -129,7 +135,6 @@ function queryDOMForSkipToNavigation (target, direction) {
         }
 
         if (node.hasAttribute('data-skip-to-focus')) {
-          debug.log(`[transverseDOMForElement][focusFound]: ${node.tagName}`);
           focusFound = true;
           if (direction === 'previous') {
             return lastNode;
@@ -159,7 +164,6 @@ function queryDOMForSkipToNavigation (target, direction) {
                 }
 
                 if (assignedNode.hasAttribute('data-skip-to-focus')) {
-                  debug && debug.log(`[transverseDOMForElement][focusFound]: ${assignedNode.tagName}`);
 
                   focusFound = true;
                   if (direction === 'previous') {
@@ -201,7 +205,6 @@ function queryDOMForSkipToNavigation (target, direction) {
     return false;
   } // end function
 
-  debug.flag && debug.log(`\n\n[start]: ${focusFound} ${lastNode}`);
   return transverseDOMForElement(document.body);
 }
 

@@ -19,7 +19,7 @@ import {
 
 /* constants */
 const debug = new DebugLogging('skiptoContent', false);
-debug.flag = false;
+debug.flag = true;
 
 
 export default class SkipToContent extends HTMLElement {
@@ -136,7 +136,7 @@ export default class SkipToContent extends HTMLElement {
 
     if (name === 'navigate') {
 
-      console.log(`[navigate]: ${newValue}`);
+      debug.flag && debug.log(`[navigate]: ${newValue}`);
       switch (newValue) {
 
         case 'nextHeading':

@@ -2082,11 +2082,9 @@ $skipToId-highlight div.info {
 
       const overlayElemChild = document.createElement('div');
       overlayElem.appendChild(overlayElemChild);
-
     }
 
     const infoElem = overlayElem.querySelector('.info');
-    console.log(`[infoElem]: ${infoElem}`);
 
     if (infoElem === null) {
       const overlayInfoChild = document.createElement('div');
@@ -3335,8 +3333,8 @@ $skipToId-highlight div.info {
   /* pageNavigation.js */
 
   /* Constants */
-  const debug$2 = new DebugLogging('pageNavigation', false);
-  debug$2.flag = false;
+  const debug$2 = new DebugLogging('pNav', false);
+  debug$2.flag = true;
 
   let hasFocusBeenSet = false;
   let lastElemWithFocus = false;
@@ -3350,17 +3348,20 @@ $skipToId-highlight div.info {
 
     document.addEventListener('focusin', (event) => {
       removeHighlight();
-      event.relatedTarget && console.log(`[monitorKeyboardFocus][relatedTarget]: ${event.relatedTarget.tagName}`);
+      debug$2.flag && debug$2.log(`\n\n[           target]: ${event.target}`);
+      debug$2.flag && debug$2.log(`[    relatedTarget]: ${event.relatedTarget}`);
+      debug$2.flag && debug$2.log(`[lastElemWithFocus]: ${lastElemWithFocus}`);
       if (event.relatedTarget) {
+        debug$2.flag && debug$2.log(`[focus][remove][A]: ${event.relatedTarget.tagName}`);
         event.relatedTarget.removeAttribute('data-skip-to-focus');
-        console.log(`[focus][remove]: ${event.relatedTarget.tagName}`);
       }
       if (lastElemWithFocus) {
+        debug$2.flag && debug$2.log(`[focus][remove][B]: ${lastElemWithFocus.tagName}`);
         lastElemWithFocus.removeAttribute('data-skip-to-focus');
         lastElemWithFocus = false;
       }
       event.target.setAttribute('data-skip-to-focus', '');
-      console.log(`[focus][add]: ${event.target.tagName}`);
+      debug$2.flag && debug$2.log(`[focus][add]: ${event.target.tagName}`);
       lastElemWithFocus = event.target;
       hasFocusBeenSet = true;
     });
@@ -3380,6 +3381,7 @@ $skipToId-highlight div.info {
 
     const elem = queryDOMForSkipToNavigation(target, direction);
 
+    debug$2.flag && debug$2.log(`[navigateContent][elem]: ${elem}`);
 
     if (elem) {
 
@@ -3396,7 +3398,7 @@ $skipToId-highlight div.info {
 
       elem.tabIndex = elem.tabIndex ? elem.tabIndex : -1;
       elem.focus();
-      highlightElement(elem, 'instant', info, true);  // force highligt since navigation
+      highlightElement(elem, 'instant', info, true);  // force highlight since navigation
     }
   }
 
@@ -3418,15 +3420,17 @@ $skipToId-highlight div.info {
     function transverseDOMForElement(startingNode) {
       var targetNode = null;
       for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-        if (node.nodeType === Node.ELEMENT_NODE) {
+        if (node.nodeType === Node.ELEMENT_NODE && node.checkVisibility()) {
 
-          debug$2.flag && debug$2.log(`[transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
+  /*
+          debug.flag && debug.log(`[transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
 
-          if (debug$2.flag && node.hasAttribute('data-skip-to-info')) {
-            debug$2.log(`[transverseDOMForElement][focusFound]: ${focusFound}`);
-            debug$2.log(`[transverseDOMForElement][  lastNode]: ${lastNode ? lastNode.getAttribute('data-skip-to-info') : 'none'}`);
-            debug$2.log(`[transverseDOMForElement][      data]: ${node.getAttribute('data-skip-to-info')}`);
+          if (debug.flag && node.hasAttribute('data-skip-to-info')) {
+            debug.log(`[transverseDOMForElement][focusFound]: ${focusFound}`);
+            debug.log(`[transverseDOMForElement][  lastNode]: ${lastNode ? lastNode.getAttribute('data-skip-to-info') : 'none'}`);
+            debug.log(`[transverseDOMForElement][      data]: ${node.getAttribute('data-skip-to-info')}`);
           }
+  */
 
           if (node.hasAttribute('data-skip-to-info') &&
               node.getAttribute('data-skip-to-info').includes(target)) {
@@ -3442,7 +3446,6 @@ $skipToId-highlight div.info {
           }
 
           if (node.hasAttribute('data-skip-to-focus')) {
-            debug$2.log(`[transverseDOMForElement][focusFound]: ${node.tagName}`);
             focusFound = true;
             if (direction === 'previous') {
               return lastNode;
@@ -3472,7 +3475,6 @@ $skipToId-highlight div.info {
                   }
 
                   if (assignedNode.hasAttribute('data-skip-to-focus')) {
-                    debug$2 && debug$2.log(`[transverseDOMForElement][focusFound]: ${assignedNode.tagName}`);
 
                     focusFound = true;
                     if (direction === 'previous') {
@@ -3514,7 +3516,6 @@ $skipToId-highlight div.info {
       return false;
     } // end function
 
-    debug$2.flag && debug$2.log(`\n\n[start]: ${focusFound} ${lastNode}`);
     return transverseDOMForElement(document.body);
   }
 
@@ -3592,7 +3593,7 @@ $skipToId-highlight div.info {
 
   /* constants */
   const debug$1 = new DebugLogging('skiptoContent', false);
-  debug$1.flag = false;
+  debug$1.flag = true;
 
 
   class SkipToContent extends HTMLElement {
@@ -3709,7 +3710,7 @@ $skipToId-highlight div.info {
 
       if (name === 'navigate') {
 
-        console.log(`[navigate]: ${newValue}`);
+        debug$1.flag && debug$1.log(`[navigate]: ${newValue}`);
         switch (newValue) {
 
           case 'nextHeading':
