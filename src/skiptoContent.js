@@ -79,7 +79,7 @@ export default class SkipToContent extends HTMLElement {
       headings: 'main-only h1 h2',
 
       // Highlight options
-      highlightTarget: 'disabled', // options: 'disabled' (default), 'smooth' and 'auto'
+      highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
 
       // Place holders for configuration
       colorTheme: '',

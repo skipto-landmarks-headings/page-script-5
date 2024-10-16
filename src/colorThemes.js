@@ -42,6 +42,7 @@ export const colorThemes = {
     focusBorderColor: '#ff552e',
     buttonTextColor: '#444444',
     buttonBackgroundColor: '#dddede',
+    highlightTarget: 'disabled'
   },
   'openweba11y': {
     hostnameSelector: 'openweba11y.com',
@@ -85,6 +86,7 @@ export const colorThemes = {
     focusBorderColor: '#dd3403',
     buttonTextColor: '#e8e9ea',
     buttonBackgroundColor: '#13294b',
+    highlightTarget: 'disabled'
   },
   'uis': {
     hostnameSelector: 'uis.edu',

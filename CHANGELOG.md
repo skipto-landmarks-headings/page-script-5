@@ -1,8 +1,12 @@
 # Version history for Skipto.js
 
-
 ## Version 5.7
 * Added "navigate" attribute for heading and landmark navigation for use in browser extensions
+
+## Version 5.6.3
+* Changed default highlight option to be 'instant' instead of 'none'
+* Updated illinois configuration to have highlight option be 'none'
+* Updated highlight div creation to be dynamic and CSS for styling
 
 ## Version 5.6.2
 * Changed default highlight option to be 'disabled', added 'smooth' and 'instant' to replace 'enabled' option

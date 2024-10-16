@@ -62,6 +62,7 @@
       focusBorderColor: '#ff552e',
       buttonTextColor: '#444444',
       buttonBackgroundColor: '#dddede',
+      highlightTarget: 'disabled'
     },
     'openweba11y': {
       hostnameSelector: 'openweba11y.com',
@@ -105,6 +106,7 @@
       focusBorderColor: '#dd3403',
       buttonTextColor: '#e8e9ea',
       buttonBackgroundColor: '#13294b',
+      highlightTarget: 'disabled'
     },
     'uis': {
       hostnameSelector: 'uis.edu',
@@ -518,24 +520,32 @@ $skipToId [role="menuitem"].hover .label {
 
   const cssHighlightTemplate = document.createElement('template');
   cssHighlightTemplate.textContent = `
-$skipToId-highlight {
+$skipToId-overlay {
+  margin: 0;
+  padding: 0;
   position: absolute;
+  border-radius: 3px;
+  border: 4px solid $buttonBackgroundColor;
+  box-sizing: border-box;
 }
 
-$skipToId-highlight div {
+$skipToId-overlay div.overlay-border {
+  margin: 0;
+  padding: 0;
   position: relative;
   top: -2px;
   left: -2px;
   border-radius: 3px 3px 3px 3px;
   border: 2px solid $focusBorderColor;
   z-index: $zHighlight;
+  box-sizing: border-box;
 }
 
 $skipToId-highlight div.hasInfo {
   border-radius: 3px 3px 3px 0;
 }
 
-$skipToId-highlight div.info {
+$skipToId-highlight div.overlay-info {
   position: relative;
   text-align: left;
   top: -2px;
@@ -713,6 +723,11 @@ $skipToId-highlight div.info {
     cssHighlight = updateStyle(cssHighlight, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
     cssHighlight = updateStyle(cssHighlight, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
     cssHighlight = updateStyle(cssHighlight, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
+
+    // Special case for theme configuration used in Illinois theme
+    if (typeof theme.highlightTarget === 'string') {
+      config.highlightTarget = theme.highlightTarget;
+    }
 
     return [cssMenu, cssHighlight];
 
@@ -2062,6 +2077,8 @@ $skipToId-highlight div.info {
   const offset = 6;
   const borderWidth = 2;
 
+  const OVERLAY_ID = 'id-skip-to-overlay';
+
   /*
    *   @function getOverlayElement
    *
@@ -2072,23 +2089,24 @@ $skipToId-highlight div.info {
 
   function getOverlayElement() {
 
-    let overlayElem = document.getElementById('id-skip-to-highlight');
+    let overlayElem = document.getElementById(OVERLAY_ID);
 
     if (!overlayElem) {
       overlayElem = document.createElement('div');
       overlayElem.style.display = 'none';
-      overlayElem.id = 'id-skip-to-highlight';
+      overlayElem.id = OVERLAY_ID;
       document.body.appendChild(overlayElem);
 
       const overlayElemChild = document.createElement('div');
+      overlayElemChild.className = 'overlay-border';
       overlayElem.appendChild(overlayElemChild);
     }
 
-    const infoElem = overlayElem.querySelector('.info');
+    const infoElem = overlayElem.querySelector('.overlay-info');
 
     if (infoElem === null) {
       const overlayInfoChild = document.createElement('div');
-      overlayInfoChild.className = 'info';
+      overlayInfoChild.className = 'overlay-info';
       overlayElem.appendChild(overlayInfoChild);
     }
 
@@ -2122,7 +2140,7 @@ $skipToId-highlight div.info {
    *   @function isElementStartInViewport
    *
    *   @desc  Returns true if start of the element is already visible in view port,
-   *          otheriwse false
+   *          otherwise false
    *
    *   @param {Object} element : DOM node of element to highlight
    *
@@ -2185,11 +2203,10 @@ $skipToId-highlight div.info {
         }
       }
 
-      const overlayElement = getOverlayElement();
-      updateOverlayElement(overlayElement, elem, info);
+      const overlayElem = getOverlayElement();
+      updateOverlayElement(overlayElem, elem, info);
     }
   }
-
 
   /*
    *   @function removeHighlight
@@ -2217,7 +2234,7 @@ $skipToId-highlight div.info {
   function updateOverlayElement (overlayElem, element, info) {
 
     const childElem = overlayElem.firstElementChild;
-    const infoElem  = overlayElem.querySelector('.info');
+    const infoElem  = overlayElem.querySelector('.overlay-info');
 
     const rect = element.getBoundingClientRect();
 
@@ -3653,7 +3670,7 @@ $skipToId-highlight div.info {
         headings: 'main-only h1 h2',
 
         // Highlight options
-        highlightTarget: 'disabled', // options: 'disabled' (default), 'smooth' and 'auto'
+        highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
 
         // Place holders for configuration
         colorTheme: '',

@@ -18,6 +18,8 @@ const minHeight = 27;
 const offset = 6;
 const borderWidth = 2;
 
+const OVERLAY_ID = 'id-skip-to-overlay';
+
 /*
  *   @function getOverlayElement
  *
@@ -28,23 +30,24 @@ const borderWidth = 2;
 
 function getOverlayElement() {
 
-  let overlayElem = document.getElementById('id-skip-to-highlight');
+  let overlayElem = document.getElementById(OVERLAY_ID);
 
   if (!overlayElem) {
     overlayElem = document.createElement('div');
     overlayElem.style.display = 'none';
-    overlayElem.id = 'id-skip-to-highlight';
+    overlayElem.id = OVERLAY_ID;
     document.body.appendChild(overlayElem);
 
     const overlayElemChild = document.createElement('div');
+    overlayElemChild.className = 'overlay-border';
     overlayElem.appendChild(overlayElemChild);
   }
 
-  const infoElem = overlayElem.querySelector('.info');
+  const infoElem = overlayElem.querySelector('.overlay-info');
 
   if (infoElem === null) {
     const overlayInfoChild = document.createElement('div');
-    overlayInfoChild.className = 'info';
+    overlayInfoChild.className = 'overlay-info';
     overlayElem.appendChild(overlayInfoChild);
   }
 
@@ -78,7 +81,7 @@ function isElementInViewport(element) {
  *   @function isElementStartInViewport
  *
  *   @desc  Returns true if start of the element is already visible in view port,
- *          otheriwse false
+ *          otherwise false
  *
  *   @param {Object} element : DOM node of element to highlight
  *
@@ -141,11 +144,10 @@ function highlightElement(elem, highlightTarget, info='', force=false) {
       }
     }
 
-    const overlayElement = getOverlayElement();
-    updateOverlayElement(overlayElement, elem, info);
+    const overlayElem = getOverlayElement();
+    updateOverlayElement(overlayElem, elem, info);
   }
 }
-
 
 /*
  *   @function removeHighlight
@@ -173,7 +175,7 @@ function removeHighlight() {
 function updateOverlayElement (overlayElem, element, info) {
 
   const childElem = overlayElem.firstElementChild;
-  const infoElem  = overlayElem.querySelector('.info');
+  const infoElem  = overlayElem.querySelector('.overlay-info');
 
   const rect = element.getBoundingClientRect();
 
@@ -214,4 +216,3 @@ function updateOverlayElement (overlayElem, element, info) {
   }
 
 }
-
