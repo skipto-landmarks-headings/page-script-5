@@ -2,8 +2,8 @@
 
 ## Version 5.6.3
 * Changed default highlight option to be 'instant' instead of 'none'
-* Updated illinois configuration to have highglight option be 'none'
-* Updated highlight div creation to be dynamic
+* Updated illinois configuration to have highlight option be 'none'
+* Updated highlight div creation to be dynamic and CSS for styling
 
 ## Version 5.6.2
 * Changed default highlight option to be 'disabled', added 'smooth' and 'instant' to replace 'enabled' option
