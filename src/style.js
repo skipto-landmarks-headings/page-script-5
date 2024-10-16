@@ -302,13 +302,13 @@ $skipToId [role="menuitem"].hover .label {
 
 const cssHighlightTemplate = document.createElement('template');
 cssHighlightTemplate.textContent = `
-$skipToId-highlight {
+#id-skip-to-overlay {
   position: absolute;
   border-radius: 3px;
   border: 4px solid $buttonBackgroundColor;
 }
 
-$skipToId-highlight div {
+#id-skip-to-overlay div {
   position: relative;
   top: -2px;
   left: -2px;
@@ -474,10 +474,14 @@ function addCSSColors (cssMenu, cssHighlight, config) {
 
   cssMenu = updateStyle(cssMenu, '$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
 
-  cssMenu = updateStyle(cssMenu, '$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
-
+  cssHighlight = updateStyle(cssHighlight, '$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
   cssHighlight = updateStyle(cssHighlight, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
   cssHighlight = updateStyle(cssHighlight, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
+
+  // Special case for theme configuration used in Illinois theme
+  if (typeof theme.highlightTarget === 'string') {
+    config.highlightTarget = theme.highlightTarget;
+  }
 
   return [cssMenu, cssHighlight];
 

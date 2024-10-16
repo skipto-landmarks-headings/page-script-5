@@ -22,20 +22,36 @@ const minHeight = 27;
 const offset = 6;
 const borderWidth = 2;
 
-const overlayElement = document.createElement('div');
-overlayElement.id = 'id-skip-to-highlight';
-overlayElement.style.display = 'none';
+const overlayId = 'id-skip-to-overlay';
 
-window.addEventListener('load', () => {
-  if (document.body) {
-    document.body.appendChild(overlayElement);
+/*
+ *   @function getOverlayElement
+ *
+ *   @desc  Returns DOM node for the overlay element
+ *
+ *   @returns {Object} see @desc
+ */
+
+function getOverlayElement() {
+
+  let overlayElem = document.getElementById(overlayId);
+  debug.log(`\n[getOverlayElement][     overlayElem][A]: ${overlayElem} (${typeof overlayElem})`);
+
+  if (overlayElem === null) {
+    overlayElem = document.createElement('div');
+    overlayElem.style.display = 'none';
+    overlayElem.id = overlayId;
+    document.body.appendChild(overlayElem);
+
+    const overlayElemChild = document.createElement('div');
+    overlayElem.appendChild(overlayElemChild);
+    debug.log(`[getOverlayElement][overlayElemChild][B]: ${overlayElemChild} (${typeof overlayElemChild})`);
   }
-});
 
+  debug.log(`[getOverlayElement][     overlayElem][C]: ${overlayElem} (${typeof overlayElem})`);
 
-const overlayElementChild = document.createElement('div');
-overlayElement.appendChild(overlayElementChild);
-
+  return overlayElem;
+}
 
 /*
  *   @function isElementInViewport
@@ -115,7 +131,7 @@ function highlightElement(id, highlightTarget) {
   const element = queryDOMForSkipToId(id);
 
   if (element && highlightTarget) {
-    updateOverlayElement(overlayElement, element);
+
     if (isElementInHeightLarge(element)) {
       if (!isElementStartInViewport(element)  && !isReduced) {
         element.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
@@ -126,6 +142,9 @@ function highlightElement(id, highlightTarget) {
         element.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
       }
     }
+
+    const overlayElement = getOverlayElement();
+    updateOverlayElement(overlayElement, element);
   }
 }
 
@@ -135,6 +154,7 @@ function highlightElement(id, highlightTarget) {
  *   @desc  Hides the highlight element on the page
  */
 function removeHighlight() {
+  const overlayElement = getOverlayElement();
   overlayElement.style.display = 'none';
 }
 

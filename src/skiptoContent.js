@@ -17,7 +17,7 @@ export default class SkipToContent extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.skipToId = 'id-skip-to';
-    this.version = "5.6.2";
+    this.version = "5.6.3";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -67,7 +67,7 @@ export default class SkipToContent extends HTMLElement {
       headings: 'main-only h1 h2',
 
       // Highlight options
-      highlightTarget: 'disabled', // options: 'disabled' (default), 'smooth' and 'auto'
+      highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
 
       // Place holders for configuration
       colorTheme: '',
