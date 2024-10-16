@@ -43,6 +43,7 @@ function getOverlayElement() {
     document.body.appendChild(overlayElem);
 
     const overlayElemChild = document.createElement('div');
+    overlayElemChild.className = 'overlay-border';
     overlayElem.appendChild(overlayElemChild);
   }
 
