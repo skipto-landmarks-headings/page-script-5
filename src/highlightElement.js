@@ -35,7 +35,6 @@ const overlayId = 'id-skip-to-overlay';
 function getOverlayElement() {
 
   let overlayElem = document.getElementById(overlayId);
-  debug.log(`\n[getOverlayElement][     overlayElem][A]: ${overlayElem} (${typeof overlayElem})`);
 
   if (overlayElem === null) {
     overlayElem = document.createElement('div');
@@ -45,10 +44,7 @@ function getOverlayElement() {
 
     const overlayElemChild = document.createElement('div');
     overlayElem.appendChild(overlayElemChild);
-    debug.log(`[getOverlayElement][overlayElemChild][B]: ${overlayElemChild} (${typeof overlayElemChild})`);
   }
-
-  debug.log(`[getOverlayElement][     overlayElem][C]: ${overlayElem} (${typeof overlayElem})`);
 
   return overlayElem;
 }

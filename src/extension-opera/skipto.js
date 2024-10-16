@@ -520,13 +520,13 @@ $skipToId [role="menuitem"].hover .label {
 
   const cssHighlightTemplate = document.createElement('template');
   cssHighlightTemplate.textContent = `
-#id-skip-to-overlay {
+$skipToId-overlay {
   position: absolute;
   border-radius: 3px;
   border: 4px solid $buttonBackgroundColor;
 }
 
-#id-skip-to-overlay div {
+$skipToId-overlay div {
   position: relative;
   top: -2px;
   left: -2px;
@@ -2048,7 +2048,6 @@ $skipToId [role="menuitem"].hover .label {
   function getOverlayElement() {
 
     let overlayElem = document.getElementById(overlayId);
-    debug$3.log(`\n[getOverlayElement][     overlayElem][A]: ${overlayElem} (${typeof overlayElem})`);
 
     if (overlayElem === null) {
       overlayElem = document.createElement('div');
@@ -2058,10 +2057,7 @@ $skipToId [role="menuitem"].hover .label {
 
       const overlayElemChild = document.createElement('div');
       overlayElem.appendChild(overlayElemChild);
-      debug$3.log(`[getOverlayElement][overlayElemChild][B]: ${overlayElemChild} (${typeof overlayElemChild})`);
     }
-
-    debug$3.log(`[getOverlayElement][     overlayElem][C]: ${overlayElem} (${typeof overlayElem})`);
 
     return overlayElem;
   }
