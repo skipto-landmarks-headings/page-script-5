@@ -58,6 +58,23 @@ export default class SkipToContent extends HTMLElement {
       buttonShortcut: ' ($modifier+$key)',
       buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
+      // Page navigation flag and keys
+      pageNavigation: 'enabled',  // options: disabled and enabled
+      pageNextHeader: 'h',
+      pagePreviousHeader: 'g',
+      pageNextH1: '1',
+      pageNextH2: '2',
+      pageNextH3: '3',
+      pageNextH4: '4',
+      pageNextH5: '5',
+      pageNextH6: '6',
+
+      pageNextRegion: 'r',
+      pagePreviousRegion: 'e',
+      pageNextMainRegion: 'm',
+      pageNextNavigationRegion: 'n',
+
+
       // Menu labels and messages
       menuLabel: 'Landmarks and Headings',
       landmarkGroupLabel: 'Landmark Regions',

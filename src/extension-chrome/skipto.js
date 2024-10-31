@@ -2276,11 +2276,393 @@ $skipToId-highlight div.overlay-info {
 
   }
 
+  /* pageNavigation.js */
+
+  /* Constants */
+  const debug$3 = new DebugLogging('pNav', false);
+  debug$3.flag = true;
+
+  let hasFocusBeenSet = false;
+  let lastElemWithFocus = false;
+
+  /**
+   * @function monitorKeyboardFocus
+   *
+   * @desc Sets a data attribute on the element with current focus
+   */
+  function monitorKeyboardFocus () {
+
+    document.addEventListener('focusin', (event) => {
+      removeHighlight();
+      debug$3.flag && debug$3.log(`\n\n[           target]: ${event.target}`);
+      debug$3.flag && debug$3.log(`[    relatedTarget]: ${event.relatedTarget}`);
+      debug$3.flag && debug$3.log(`[lastElemWithFocus]: ${lastElemWithFocus}`);
+      if (event.relatedTarget) {
+        debug$3.flag && debug$3.log(`[focus][remove][A]: ${event.relatedTarget.tagName}`);
+        event.relatedTarget.removeAttribute('data-skip-to-focus');
+      }
+      if (lastElemWithFocus) {
+        debug$3.flag && debug$3.log(`[focus][remove][B]: ${lastElemWithFocus.tagName}`);
+        lastElemWithFocus.removeAttribute('data-skip-to-focus');
+        lastElemWithFocus = false;
+      }
+      event.target.setAttribute('data-skip-to-focus', '');
+      debug$3.flag && debug$3.log(`[focus][add]: ${event.target.tagName}`);
+      lastElemWithFocus = event.target;
+      hasFocusBeenSet = true;
+    });
+
+  }
+
+  /**
+   * @function navigateContent
+   *
+   * @desc Returns DOM node associated with the id, if id not found returns null
+   *
+   * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
+   * @param {String}  direction  - 'next' or 'previous'
+   */
+
+  function navigateContent (target, direction) {
+
+    const elem = queryDOMForSkipToNavigation(target, direction);
+
+    debug$3.flag && debug$3.log(`[navigateContent][elem]: ${elem}`);
+
+    if (elem) {
+
+      let info = elem.hasAttribute('data-skip-to-info') ?
+                 elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
+                'unknown';
+
+      if (elem.hasAttribute('data-skip-to-name')) {
+        const name = elem.getAttribute('data-skip-to-name').trim();
+        if (name) {
+          info += `: ${name}`;
+        }
+      }
+
+      elem.tabIndex = elem.tabIndex ? elem.tabIndex : -1;
+      elem.focus();
+      highlightElement(elem, 'instant', info, true);  // force highlight since navigation
+    }
+  }
+
+  /**
+   * @function queryDOMForSkipToNavigation
+   *
+   * @desc Returns DOM node associated with the id, if id not found returns null
+   *
+   * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
+   * @param {String}  direction  - 'next' or 'previous'
+   *
+   * @returns (Object) @desc
+   */
+  function queryDOMForSkipToNavigation (target, direction) {
+
+    let focusFound = false;
+    let lastNode = false;
+
+    function transverseDOMForElement(startingNode) {
+      var targetNode = null;
+      for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
+        if (node.nodeType === Node.ELEMENT_NODE && node.checkVisibility()) {
+
+  /*
+          debug.flag && debug.log(`[transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
+
+          if (debug.flag && node.hasAttribute('data-skip-to-info')) {
+            debug.log(`[transverseDOMForElement][focusFound]: ${focusFound}`);
+            debug.log(`[transverseDOMForElement][  lastNode]: ${lastNode ? lastNode.getAttribute('data-skip-to-info') : 'none'}`);
+            debug.log(`[transverseDOMForElement][      data]: ${node.getAttribute('data-skip-to-info')}`);
+          }
+  */
+
+          if (node.hasAttribute('data-skip-to-info') &&
+              node.getAttribute('data-skip-to-info').includes(target)) {
+            if (!node.hasAttribute('data-skip-to-focus')) {
+              if (!node.hasAttribute('data-skip-to-focus')) {
+                lastNode = node;
+              }
+            }
+            if (!hasFocusBeenSet || (focusFound) &&
+                 (direction === 'next')) {
+              return node;
+            }
+          }
+
+          if (node.hasAttribute('data-skip-to-focus')) {
+            focusFound = true;
+            if (direction === 'previous') {
+              return lastNode;
+            }
+          }
+
+          if (!isSkipableElement(node)) {
+            // check for slotted content
+            if (isSlotElement(node)) {
+                // if no slotted elements, check for default slotted content
+              const assignedNodes = node.assignedNodes().length ?
+                                    node.assignedNodes() :
+                                    node.assignedNodes({ flatten: true });
+              for (let i = 0; i < assignedNodes.length; i += 1) {
+                const assignedNode = assignedNodes[i];
+                if (assignedNode.nodeType === Node.ELEMENT_NODE) {
+
+                  if (assignedNode.hasAttribute('data-skip-to-info') &&
+                      assignedNode.getAttribute('data-skip-to-info').includes(target)) {
+                    if (!assignedNode.hasAttribute('data-skip-to-focus')) {
+                      lastNode = node;
+                    }
+                    if (!hasFocusBeenSet || (focusFound) &&
+                         (direction === 'next')) {
+                      return node;
+                    }
+                  }
+
+                  if (assignedNode.hasAttribute('data-skip-to-focus')) {
+
+                    focusFound = true;
+                    if (direction === 'previous') {
+                      return lastNode;
+                    }
+                  }
+
+                  targetNode = transverseDOMForElement(assignedNode);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+              }
+            } else {
+              // check for custom elements
+              if (isCustomElement(node)) {
+                if (node.shadowRoot) {
+                  targetNode = transverseDOMForElement(node.shadowRoot);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+                else {
+                  targetNode = transverseDOMForElement(node);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+              } else {
+                targetNode = transverseDOMForElement(node);
+                if (targetNode) {
+                  return targetNode;
+                }
+              }
+            }
+          }
+        } // end if
+      } // end for
+      return false;
+    } // end function
+
+    return transverseDOMForElement(document.body);
+  }
+
+  /**
+   * @function removeFocusInfo
+   *
+   * @desc Removes data-skip-to-focus attribute from DOM
+  function removeFocusInfo () {
+
+    function transverseDOMForElement(startingNode) {
+      var targetNode = null;
+      for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+
+          debug.flag && debug.log(`[removeFocusInfo][transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
+
+          if (node.hasAttribute('data-skip-to-focus')) {
+            node.removeAttribute('data-skip-to-focus');
+          }
+
+          if (!isSkipableElement(node)) {
+            // check for slotted content
+            if (isSlotElement(node)) {
+                // if no slotted elements, check for default slotted content
+              const assignedNodes = node.assignedNodes().length ?
+                                    node.assignedNodes() :
+                                    node.assignedNodes({ flatten: true });
+              for (let i = 0; i < assignedNodes.length; i += 1) {
+                const assignedNode = assignedNodes[i];
+                if (assignedNode.nodeType === Node.ELEMENT_NODE) {
+
+                  if (assignedNode.hasAttribute('data-skip-to-focus')) {
+                    assignedNode.removeAttribute('data-skip-to-focus');
+                  }
+
+                  targetNode = transverseDOMForElement(assignedNode);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+              }
+            } else {
+              // check for custom elements
+              if (isCustomElement(node)) {
+                if (node.shadowRoot) {
+                  targetNode = transverseDOMForElement(node.shadowRoot);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+                else {
+                  targetNode = transverseDOMForElement(node);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+              } else {
+                targetNode = transverseDOMForElement(node);
+                if (targetNode) {
+                  return targetNode;
+                }
+              }
+            }
+          }
+        } // end if
+      } // end for
+      return false;
+    } // end function
+
+    return transverseDOMForElement(document.body);
+  }
+   */
+
+  /* keyboardHelper.js */
+
+  /*
+   * @method isInteractiveElement
+   *
+   * @desc  Returns true if the element can use key presses, otherwise false
+   *
+   * @param  {object} elem - DOM node element
+   *
+   * @returns {Boolean}  see @desc
+   */
+
+  function isInteractiveElement (elem) {
+
+    const enabledInputTypes = [
+      'button',
+      'checkbox',
+      'color',
+      'file',
+      'image',
+      'radio',
+      'range',
+      'reset',
+      'submit'
+    ];
+
+    const tagName = elem.tagName ? elem.tagName.toLowerCase() : '';
+    const type = tagName === 'input' ? elem.type.toLowerCase() : '';
+
+    return (tagName === 'textarea') ||
+          ((tagName === 'input') && enabledInputTypes.includes(type)) ||
+          inContentEditable(elem);
+  }
+
+  /*
+   * @function inContentEditable
+   *
+   * @desc Returns false if node is not in a content editable element,
+   *       otherwise true if it does
+   *
+   * @param  {Object}  elem - DOM node
+   *
+   * @returns {Boolean} see @desc
+   */
+  function inContentEditable (elem) {
+    let n = elem;
+    while (n.hasAttribute) {
+      if (n.hasAttribute('contenteditable')) {
+        return true;
+      }
+      n = n.parentNode;
+    }
+    return false;
+  }
+
+  /*
+   * @function noModifierPressed
+   *
+   * @desc Returns true if no modifier key is pressed, other false
+   *
+   * @param  {Object}  event - Event object
+   *
+   * @returns {Boolean} see @desc
+   */
+
+  function noModifierPressed (event) {
+    return !event.altKey &&
+          !event.ctrlKey &&
+          !event.shiftKey &&
+          !event.metaKey;
+  }
+
+  /*
+   * @function onlyShiftPressed
+   *
+   * @desc Returns true if only the shift modifier key is pressed, other false
+   *
+   * @param  {Object}  event - Event object
+   *
+   * @returns {Boolean} see @desc
+   */
+
+  function onlyShiftPressed (event) {
+    return !event.altKey &&
+          !event.ctrlKey &&
+          event.shiftKey &&
+          !event.metaKey;
+  }
+
+  /*
+   * @function onlyAltPressed
+   *
+   * @desc Returns true if only the alt modifier key is pressed, other false
+   *
+   * @param  {Object}  event - Event object
+   *
+   * @returns {Boolean} see @desc
+   */
+
+  function onlyAltPressed (event) {
+    return event.altKey &&
+          !event.ctrlKey &&
+          !event.shiftKey &&
+          !event.metaKey;
+  }
+
+  /*
+   * @function onlyOptionPressed
+   *
+   * @desc Returns true if only the option modifier key is pressed, other false
+   *
+   * @param  {Object}  event - Event object
+   *
+   * @returns {Boolean} see @desc
+   */
+
+  function onlyOptionPressed (event) {
+    return event.altKey &&
+          !event.ctrlKey &&
+          !event.shiftKey &&
+          !event.metaKey;
+  }
+
   /* skiptoMenuButton.js */
 
   /* Constants */
-  const debug$3 = new DebugLogging('SkipToButton', false);
-  debug$3.flag = false;
+  const debug$2 = new DebugLogging('SkipToButton', false);
+  debug$2.flag = true;
 
   /**
    * @class SkiptoMenuButton
@@ -2853,7 +3235,7 @@ $skipToId-highlight div.overlay-info {
        * @desc Opens the menu of landmark regions and headings
        */
       openPopup() {
-        debug$3.flag && debug$3.log(`[openPopup]`);
+        debug$2.flag && debug$2.log(`[openPopup]`);
         this.menuNode.setAttribute('aria-busy', 'true');
         const h = (80 * window.innerHeight) / 100;
         this.menuNode.style.maxHeight = h + 'px';
@@ -2880,7 +3262,7 @@ $skipToId-highlight div.overlay-info {
        * @desc Closes the memu of landmark regions and headings
        */
       closePopup() {
-        debug$3.flag && debug$3.log(`[closePopup]`);
+        debug$2.flag && debug$2.log(`[closePopup]`);
         if (this.isOpen()) {
           this.buttonNode.setAttribute('aria-expanded', 'false');
           this.menuNode.style.display = 'none';
@@ -3012,27 +3394,6 @@ $skipToId-highlight div.overlay-info {
         }
       }
 
-      /*
-       * @method inContentEditable
-       *
-       * @desc Returns false if node is not in a content editable element,
-       *       otherwise true if it does
-       *
-       * @param  {Object}  node - DOM node
-       *
-       * @returns {Boolean} see @desc
-       */
-      inContentEditable (node) {
-        let n = node;
-        while (n.hasAttribute) {
-          if (n.hasAttribute('contenteditable')) {
-            return true;
-          }
-          n = n.parentNode;
-        }
-        return false;
-      }
-
       // Menu event handlers
       
       handleFocusin() {
@@ -3078,7 +3439,7 @@ $skipToId-highlight div.overlay-info {
       }
 
       handleButtonClick(event) {
-        debug$3.flag && debug$3.log(`[handleButtonClick]`);
+        debug$2.flag && debug$2.log(`[handleButtonClick]`);
         if (this.isOpen()) {
           this.closePopup();
           this.buttonNode.focus();
@@ -3093,41 +3454,12 @@ $skipToId-highlight div.overlay-info {
 
       handleDocumentKeydown (event) {
 
-        const enabledInputTypes = [
-          'button',
-          'checkbox',
-          'color',
-          'file',
-          'image',
-          'radio',
-          'range',
-          'reset',
-          'submit'
-        ];
+        let flag = false;
+        if (!inContentEditable(event.target) &&
+            !isInteractiveElement(event.target)) {
 
-        const target = event.target;
-        const tagName = target.tagName ? target.tagName.toLowerCase() : '';
-        const type = tagName === 'input' ? target.type.toLowerCase() : '';
-
-        if (!this.inContentEditable(target) &&
-            (tagName !== 'textarea') &&
-            ((tagName !== 'input') ||
-             ((tagName === 'input') && enabledInputTypes.includes(type))
-            )) {
-
-          const altPressed =
-            this.usesAltKey &&
-            event.altKey &&
-            !event.ctrlKey &&
-            !event.shiftKey &&
-            !event.metaKey;
-
-          const optionPressed =
-            this.usesOptionKey &&
-            event.altKey &&
-            !event.ctrlKey &&
-            !event.shiftKey &&
-            !event.metaKey;
+          const altPressed = this.usesAltKey && onlyAltPressed(event);
+          const optionPressed = this.usesOptionKey && onlyOptionPressed(event);
 
           if ((optionPressed && this.config.optionShortcut === event.key) ||
               (altPressed && this.config.altShortcut === event.key) ||
@@ -3135,6 +3467,93 @@ $skipToId-highlight div.overlay-info {
           ) {
             this.openPopup();
             this.setFocusToFirstMenuitem();
+            flag = true;
+          }
+
+          // Check for navigation keys
+
+          debug$2.flag && debug$2.log(`[   pageNavigation]: ${this.config.pageNavigation}`);
+          debug$2.flag && debug$2.log(`[ onlyShiftPressed]: ${onlyShiftPressed(event)}`);
+          debug$2.flag && debug$2.log(`[noModifierPressed]: ${noModifierPressed(event)}`);
+
+          if ((this.config.pageNavigation === 'enabled') &&
+              (onlyShiftPressed(event) || noModifierPressed(event))) {
+
+            switch (event.key) {
+              case this.config.pageNextHeader:
+                debug$2.flag && debug$2.log(`[pageNextHeader]`);
+                navigateContent('heading', 'next');
+                flag = true;
+                break;
+
+              case this.config.pagePreviousHeader:
+                debug$2.flag && debug$2.log(`[pagePreviousHeader]`);
+                navigateContent('heading', 'previous');
+                flag = true;
+                break;
+
+              case this.config.pageNextRegion:
+                debug$2.flag && debug$2.log(`[pageNextRegion]`);
+                navigateContent('landmark', 'next');
+                flag = true;
+                break;
+
+              case this.config.pagePreviousRegion:
+                debug$2.flag && debug$2.log(`[pagePreviousRegion]`);
+                navigateContent('landmark', 'previous');
+                flag = true;
+                break;
+
+              case this.config.pageNextMainRegion:
+                debug$2.flag && debug$2.log(`[pageNextMainRegion]`);
+                navigateContent('main', 'next');
+                flag = true;
+                break;
+
+              case this.config.pageNextNavigationRegion:
+                debug$2.flag && debug$2.log(`[pageNextNavigationRegion]`);
+                flag = true;
+                break;
+
+              case this.config.pageNextH1:
+                debug$2.flag && debug$2.log(`[pageNextH1]`);
+                navigateContent('h1', 'next');
+                flag = true;
+                break;
+
+              case this.config.pageNextH2:
+                debug$2.flag && debug$2.log(`[pageNextH2]`);
+                navigateContent('h2', 'next');
+                flag = true;
+                break;
+
+              case this.config.pageNextH3:
+                debug$2.flag && debug$2.log(`[pageNextH3]`);
+                navigateContent('h3', 'next');
+                flag = true;
+                break;
+
+              case this.config.pageNextH4:
+                debug$2.flag && debug$2.log(`[pageNextH4]`);
+                navigateContent('h4', 'next');
+                flag = true;
+                break;
+
+              case this.config.pageNextH5:
+                debug$2.flag && debug$2.log(`[pageNextH5]`);
+                navigateContent('h5', 'next');
+                flag = true;
+                break;
+
+              case this.config.pageNextH6:
+                debug$2.flag && debug$2.log(`[pageNextH6]`);
+                navigateContent('h6', 'next');
+                flag = true;
+                break;
+            }
+          }
+
+          if (flag) {
             event.stopPropagation();
             event.preventDefault();
           }
@@ -3234,7 +3653,7 @@ $skipToId-highlight div.overlay-info {
       }
 
       handleMenuitemPointerenter(event) {
-        debug$3.flag && debug$3.log(`[enter]`);
+        debug$2.flag && debug$2.log(`[enter]`);
         let tgt = event.currentTarget;
         tgt.classList.add('hover');
         const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
@@ -3244,7 +3663,7 @@ $skipToId-highlight div.overlay-info {
       }
 
      handleMenuitemPointerover(event) {
-        debug$3.flag && debug$3.log(`[over]`);
+        debug$2.flag && debug$2.log(`[over]`);
         let tgt = event.currentTarget;
         const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
         highlightElement(elem, this.highlightTarget);
@@ -3253,7 +3672,7 @@ $skipToId-highlight div.overlay-info {
       }
 
       handleMenuitemPointerleave(event) {
-        debug$3.flag && debug$3.log(`[leave]`);
+        debug$2.flag && debug$2.log(`[leave]`);
         let tgt = event.currentTarget;
         tgt.classList.remove('hover');
         event.stopPropagation();
@@ -3261,7 +3680,7 @@ $skipToId-highlight div.overlay-info {
       }
 
       handleContinerPointerdown(event) {
-        debug$3.flag && debug$3.log(`[down]: target: ${event.pointerId}`);
+        debug$2.flag && debug$2.log(`[down]: target: ${event.pointerId}`);
 
         if (this.isOverButton(event.clientX, event.clientY)) {
           this.containerNode.releasePointerCapture(event.pointerId);
@@ -3274,14 +3693,14 @@ $skipToId-highlight div.overlay-info {
           if (this.containerNode.contains(event.target)) {
             if (this.isOpen()) {
               if (!this.isOverMenu(event.clientX, event.clientY)) {
-                debug$3.flag && debug$3.log(`[down][close]`);
+                debug$2.flag && debug$2.log(`[down][close]`);
                 this.closePopup();
                 this.buttonNode.focus();
                 this.skipToContentElem.setAttribute('focus', 'button');
               }
             }
             else {
-              debug$3.flag && debug$3.log(`[down][open]`);
+              debug$2.flag && debug$2.log(`[down][open]`);
               this.openPopup();          
               this.setFocusToFirstMenuitem();
             }
@@ -3314,16 +3733,16 @@ $skipToId-highlight div.overlay-info {
 
         const mi = this.getMenuitem(event.clientX, event.clientY);
         const omb = this.isOverButton(event.clientX, event.clientY);
-        debug$3.flag && debug$3.log(`[up] isOverButton: ${omb} getMenuitem: ${mi} id: ${event.pointerId}`);
+        debug$2.flag && debug$2.log(`[up] isOverButton: ${omb} getMenuitem: ${mi} id: ${event.pointerId}`);
 
         if (mi) {
           this.handleMenuitemAction(mi);          
         }
         else {
           if (!omb) {
-            debug$3.flag && debug$3.log(`[up] not over button `);
+            debug$2.flag && debug$2.log(`[up] not over button `);
             if (this.isOpen()) {
-              debug$3.flag && debug$3.log(`[up] close `);
+              debug$2.flag && debug$2.log(`[up] close `);
               this.closePopup();
               this.buttonNode.focus();
               this.skipToContentElem.setAttribute('focus', 'button');
@@ -3336,275 +3755,14 @@ $skipToId-highlight div.overlay-info {
       }
 
       handleBodyPointerdown(event) {
-        debug$3.flag && debug$3.log(`[handleBodyPointerdown]: target: ${event.pointerId}`);
+        debug$2.flag && debug$2.log(`[handleBodyPointerdown]: target: ${event.pointerId}`);
 
         if (!this.isOverButton(event.clientX, event.clientY) &&
             !this.isOverMenu(event.clientX, event.clientY)) {
           this.closePopup();
         }
       }
-
-
   }
-
-  /* pageNavigation.js */
-
-  /* Constants */
-  const debug$2 = new DebugLogging('pNav', false);
-  debug$2.flag = true;
-
-  let hasFocusBeenSet = false;
-  let lastElemWithFocus = false;
-
-  /**
-   * @function monitorKeyboardFocus
-   *
-   * @desc Sets a data attribute on the element with current focus
-   */
-  function monitorKeyboardFocus () {
-
-    document.addEventListener('focusin', (event) => {
-      removeHighlight();
-      debug$2.flag && debug$2.log(`\n\n[           target]: ${event.target}`);
-      debug$2.flag && debug$2.log(`[    relatedTarget]: ${event.relatedTarget}`);
-      debug$2.flag && debug$2.log(`[lastElemWithFocus]: ${lastElemWithFocus}`);
-      if (event.relatedTarget) {
-        debug$2.flag && debug$2.log(`[focus][remove][A]: ${event.relatedTarget.tagName}`);
-        event.relatedTarget.removeAttribute('data-skip-to-focus');
-      }
-      if (lastElemWithFocus) {
-        debug$2.flag && debug$2.log(`[focus][remove][B]: ${lastElemWithFocus.tagName}`);
-        lastElemWithFocus.removeAttribute('data-skip-to-focus');
-        lastElemWithFocus = false;
-      }
-      event.target.setAttribute('data-skip-to-focus', '');
-      debug$2.flag && debug$2.log(`[focus][add]: ${event.target.tagName}`);
-      lastElemWithFocus = event.target;
-      hasFocusBeenSet = true;
-    });
-
-  }
-
-  /**
-   * @function navigateContent
-   *
-   * @desc Returns DOM node associated with the id, if id not found returns null
-   *
-   * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
-   * @param {String}  direction  - 'next' or 'previous'
-   */
-
-  function navigateContent (target, direction) {
-
-    const elem = queryDOMForSkipToNavigation(target, direction);
-
-    debug$2.flag && debug$2.log(`[navigateContent][elem]: ${elem}`);
-
-    if (elem) {
-
-      let info = elem.hasAttribute('data-skip-to-info') ?
-                 elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
-                'unknown';
-
-      if (elem.hasAttribute('data-skip-to-name')) {
-        const name = elem.getAttribute('data-skip-to-name').trim();
-        if (name) {
-          info += `: ${name}`;
-        }
-      }
-
-      elem.tabIndex = elem.tabIndex ? elem.tabIndex : -1;
-      elem.focus();
-      highlightElement(elem, 'instant', info, true);  // force highlight since navigation
-    }
-  }
-
-  /**
-   * @function queryDOMForSkipToNavigation
-   *
-   * @desc Returns DOM node associated with the id, if id not found returns null
-   *
-   * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
-   * @param {String}  direction  - 'next' or 'previous'
-   *
-   * @returns (Object) @desc
-   */
-  function queryDOMForSkipToNavigation (target, direction) {
-
-    let focusFound = false;
-    let lastNode = false;
-
-    function transverseDOMForElement(startingNode) {
-      var targetNode = null;
-      for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-        if (node.nodeType === Node.ELEMENT_NODE && node.checkVisibility()) {
-
-  /*
-          debug.flag && debug.log(`[transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
-
-          if (debug.flag && node.hasAttribute('data-skip-to-info')) {
-            debug.log(`[transverseDOMForElement][focusFound]: ${focusFound}`);
-            debug.log(`[transverseDOMForElement][  lastNode]: ${lastNode ? lastNode.getAttribute('data-skip-to-info') : 'none'}`);
-            debug.log(`[transverseDOMForElement][      data]: ${node.getAttribute('data-skip-to-info')}`);
-          }
-  */
-
-          if (node.hasAttribute('data-skip-to-info') &&
-              node.getAttribute('data-skip-to-info').includes(target)) {
-            if (!node.hasAttribute('data-skip-to-focus')) {
-              if (!node.hasAttribute('data-skip-to-focus')) {
-                lastNode = node;
-              }
-            }
-            if (!hasFocusBeenSet || (focusFound) &&
-                 (direction === 'next')) {
-              return node;
-            }
-          }
-
-          if (node.hasAttribute('data-skip-to-focus')) {
-            focusFound = true;
-            if (direction === 'previous') {
-              return lastNode;
-            }
-          }
-
-          if (!isSkipableElement(node)) {
-            // check for slotted content
-            if (isSlotElement(node)) {
-                // if no slotted elements, check for default slotted content
-              const assignedNodes = node.assignedNodes().length ?
-                                    node.assignedNodes() :
-                                    node.assignedNodes({ flatten: true });
-              for (let i = 0; i < assignedNodes.length; i += 1) {
-                const assignedNode = assignedNodes[i];
-                if (assignedNode.nodeType === Node.ELEMENT_NODE) {
-
-                  if (assignedNode.hasAttribute('data-skip-to-info') &&
-                      assignedNode.getAttribute('data-skip-to-info').includes(target)) {
-                    if (!assignedNode.hasAttribute('data-skip-to-focus')) {
-                      lastNode = node;
-                    }
-                    if (!hasFocusBeenSet || (focusFound) &&
-                         (direction === 'next')) {
-                      return node;
-                    }
-                  }
-
-                  if (assignedNode.hasAttribute('data-skip-to-focus')) {
-
-                    focusFound = true;
-                    if (direction === 'previous') {
-                      return lastNode;
-                    }
-                  }
-
-                  targetNode = transverseDOMForElement(assignedNode);
-                  if (targetNode) {
-                    return targetNode;
-                  }
-                }
-              }
-            } else {
-              // check for custom elements
-              if (isCustomElement(node)) {
-                if (node.shadowRoot) {
-                  targetNode = transverseDOMForElement(node.shadowRoot);
-                  if (targetNode) {
-                    return targetNode;
-                  }
-                }
-                else {
-                  targetNode = transverseDOMForElement(node);
-                  if (targetNode) {
-                    return targetNode;
-                  }
-                }
-              } else {
-                targetNode = transverseDOMForElement(node);
-                if (targetNode) {
-                  return targetNode;
-                }
-              }
-            }
-          }
-        } // end if
-      } // end for
-      return false;
-    } // end function
-
-    return transverseDOMForElement(document.body);
-  }
-
-  /**
-   * @function removeFocusInfo
-   *
-   * @desc Removes data-skip-to-focus attribute from DOM
-  function removeFocusInfo () {
-
-    function transverseDOMForElement(startingNode) {
-      var targetNode = null;
-      for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-
-          debug.flag && debug.log(`[removeFocusInfo][transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
-
-          if (node.hasAttribute('data-skip-to-focus')) {
-            node.removeAttribute('data-skip-to-focus');
-          }
-
-          if (!isSkipableElement(node)) {
-            // check for slotted content
-            if (isSlotElement(node)) {
-                // if no slotted elements, check for default slotted content
-              const assignedNodes = node.assignedNodes().length ?
-                                    node.assignedNodes() :
-                                    node.assignedNodes({ flatten: true });
-              for (let i = 0; i < assignedNodes.length; i += 1) {
-                const assignedNode = assignedNodes[i];
-                if (assignedNode.nodeType === Node.ELEMENT_NODE) {
-
-                  if (assignedNode.hasAttribute('data-skip-to-focus')) {
-                    assignedNode.removeAttribute('data-skip-to-focus');
-                  }
-
-                  targetNode = transverseDOMForElement(assignedNode);
-                  if (targetNode) {
-                    return targetNode;
-                  }
-                }
-              }
-            } else {
-              // check for custom elements
-              if (isCustomElement(node)) {
-                if (node.shadowRoot) {
-                  targetNode = transverseDOMForElement(node.shadowRoot);
-                  if (targetNode) {
-                    return targetNode;
-                  }
-                }
-                else {
-                  targetNode = transverseDOMForElement(node);
-                  if (targetNode) {
-                    return targetNode;
-                  }
-                }
-              } else {
-                targetNode = transverseDOMForElement(node);
-                if (targetNode) {
-                  return targetNode;
-                }
-              }
-            }
-          }
-        } // end if
-      } // end for
-      return false;
-    } // end function
-
-    return transverseDOMForElement(document.body);
-  }
-   */
 
   /* skiptoContent.js */
 
@@ -3648,6 +3806,23 @@ $skipToId-highlight div.overlay-info {
         shortcutLabel: 'shortcut',
         buttonShortcut: ' ($modifier+$key)',
         buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
+
+        // Page navigation flag and keys
+        pageNavigation: 'enabled',  // options: disabled and enabled
+        pageNextHeader: 'h',
+        pagePreviousHeader: 'g',
+        pageNextH1: '1',
+        pageNextH2: '2',
+        pageNextH3: '3',
+        pageNextH4: '4',
+        pageNextH5: '5',
+        pageNextH6: '6',
+
+        pageNextRegion: 'r',
+        pagePreviousRegion: 'e',
+        pageNextMainRegion: 'm',
+        pageNextNavigationRegion: 'n',
+
 
         // Menu labels and messages
         menuLabel: 'Landmarks and Headings',

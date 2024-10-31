@@ -18,9 +18,22 @@ import {
   removeHighlight
 } from './highlightElement.js';
 
+import {
+  navigateContent
+} from './pageNavigation.js';
+
+import {
+  isInteractiveElement,
+  inContentEditable,
+  onlyShiftPressed,
+  noModifierPressed,
+  onlyAltPressed,
+  onlyOptionPressed
+} from './keyboardHelpers.js';
+
 /* Constants */
 const debug = new DebugLogging('SkipToButton', false);
-debug.flag = false;
+debug.flag = true;
 
 /**
  * @class SkiptoMenuButton
@@ -754,27 +767,6 @@ export default class SkiptoMenuButton {
       }
     }
 
-    /*
-     * @method inContentEditable
-     *
-     * @desc Returns false if node is not in a content editable element,
-     *       otherwise true if it does
-     *
-     * @param  {Object}  node - DOM node
-     *
-     * @returns {Boolean} see @desc
-     */
-    inContentEditable (node) {
-      let n = node;
-      while (n.hasAttribute) {
-        if (n.hasAttribute('contenteditable')) {
-          return true;
-        }
-        n = n.parentNode;
-      }
-      return false;
-    }
-
     // Menu event handlers
     
     handleFocusin() {
@@ -837,41 +829,12 @@ export default class SkiptoMenuButton {
 
     handleDocumentKeydown (event) {
 
-      const enabledInputTypes = [
-        'button',
-        'checkbox',
-        'color',
-        'file',
-        'image',
-        'radio',
-        'range',
-        'reset',
-        'submit'
-      ];
+      let flag = false;
+      if (!inContentEditable(event.target) &&
+          !isInteractiveElement(event.target)) {
 
-      const target = event.target;
-      const tagName = target.tagName ? target.tagName.toLowerCase() : '';
-      const type = tagName === 'input' ? target.type.toLowerCase() : '';
-
-      if (!this.inContentEditable(target) &&
-          (tagName !== 'textarea') &&
-          ((tagName !== 'input') ||
-           ((tagName === 'input') && enabledInputTypes.includes(type))
-          )) {
-
-        const altPressed =
-          this.usesAltKey &&
-          event.altKey &&
-          !event.ctrlKey &&
-          !event.shiftKey &&
-          !event.metaKey;
-
-        const optionPressed =
-          this.usesOptionKey &&
-          event.altKey &&
-          !event.ctrlKey &&
-          !event.shiftKey &&
-          !event.metaKey;
+        const altPressed = this.usesAltKey && onlyAltPressed(event);
+        const optionPressed = this.usesOptionKey && onlyOptionPressed(event);
 
         if ((optionPressed && this.config.optionShortcut === event.key) ||
             (altPressed && this.config.altShortcut === event.key) ||
@@ -879,6 +842,96 @@ export default class SkiptoMenuButton {
         ) {
           this.openPopup();
           this.setFocusToFirstMenuitem();
+          flag = true;
+        }
+
+        // Check for navigation keys
+
+        debug.flag && debug.log(`[   pageNavigation]: ${this.config.pageNavigation}`);
+        debug.flag && debug.log(`[ onlyShiftPressed]: ${onlyShiftPressed(event)}`);
+        debug.flag && debug.log(`[noModifierPressed]: ${noModifierPressed(event)}`);
+
+        if ((this.config.pageNavigation === 'enabled') &&
+            (onlyShiftPressed(event) || noModifierPressed(event))) {
+
+          switch (event.key) {
+            case this.config.pageNextHeader:
+              debug.flag && debug.log(`[pageNextHeader]`);
+              navigateContent('heading', 'next');
+              flag = true;
+              break;
+
+            case this.config.pagePreviousHeader:
+              debug.flag && debug.log(`[pagePreviousHeader]`);
+              navigateContent('heading', 'previous');
+              flag = true;
+              break;
+
+            case this.config.pageNextRegion:
+              debug.flag && debug.log(`[pageNextRegion]`);
+              navigateContent('landmark', 'next');
+              flag = true;
+              break;
+
+            case this.config.pagePreviousRegion:
+              debug.flag && debug.log(`[pagePreviousRegion]`);
+              navigateContent('landmark', 'previous');
+              flag = true;
+              break;
+
+            case this.config.pageNextMainRegion:
+              debug.flag && debug.log(`[pageNextMainRegion]`);
+              navigateContent('main', 'next');
+              flag = true;
+              break;
+
+            case this.config.pageNextNavigationRegion:
+              debug.flag && debug.log(`[pageNextNavigationRegion]`);
+              flag = true;
+              break;
+
+            case this.config.pageNextH1:
+              debug.flag && debug.log(`[pageNextH1]`);
+              navigateContent('h1', 'next');
+              flag = true;
+              break;
+
+            case this.config.pageNextH2:
+              debug.flag && debug.log(`[pageNextH2]`);
+              navigateContent('h2', 'next');
+              flag = true;
+              break;
+
+            case this.config.pageNextH3:
+              debug.flag && debug.log(`[pageNextH3]`);
+              navigateContent('h3', 'next');
+              flag = true;
+              break;
+
+            case this.config.pageNextH4:
+              debug.flag && debug.log(`[pageNextH4]`);
+              navigateContent('h4', 'next');
+              flag = true;
+              break;
+
+            case this.config.pageNextH5:
+              debug.flag && debug.log(`[pageNextH5]`);
+              navigateContent('h5', 'next');
+              flag = true;
+              break;
+
+            case this.config.pageNextH6:
+              debug.flag && debug.log(`[pageNextH6]`);
+              navigateContent('h6', 'next');
+              flag = true;
+              break;
+
+            default:
+              break;
+          }
+        }
+
+        if (flag) {
           event.stopPropagation();
           event.preventDefault();
         }
@@ -1087,6 +1140,4 @@ export default class SkiptoMenuButton {
         this.closePopup();
       }
     }
-
-
 }
