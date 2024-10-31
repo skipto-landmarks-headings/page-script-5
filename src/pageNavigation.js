@@ -15,8 +15,8 @@ import {
 } from './highlightElement.js';
 
 /* Constants */
-const debug = new DebugLogging('pNav', false);
-debug.flag = true;
+const debug = new DebugLogging('pageNav', false);
+debug.flag = false;
 
 
 /*Exports */

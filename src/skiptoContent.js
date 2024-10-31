@@ -59,7 +59,7 @@ export default class SkipToContent extends HTMLElement {
       buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
       // Page navigation flag and keys
-      pageNavigation: 'enabled',  // options: disabled and enabled
+      pageNavigation: 'disabled',  // options: disabled and enabled
       pageNextHeader: 'h',
       pagePreviousHeader: 'g',
       pageNextH1: '1',

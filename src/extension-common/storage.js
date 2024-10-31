@@ -15,6 +15,23 @@ const defaultButtonOptions = {
   focusOption: 'button'
 };
 
+const defaultPageNavigationOptions = {
+  pageNavigation: 'enabled',
+  pageNextHeader: 'h',
+  pagePreviousHeader: 'g',
+  pageNextH1: '1',
+  pageNextH2: '2',
+  pageNextH3: '3',
+  pageNextH4: '4',
+  pageNextH5: '5',
+  pageNextH6: '6',
+
+  pageNextRegion: 'r',
+  pagePreviousRegion: 'e',
+  pageNextMainRegion: 'm',
+  pageNextNavigationRegion: 'n'
+};
+
 const defaultMenuOptions = {
   headings: 'main-only h1 h2',
   landmarks: 'main search nav complementary',
@@ -34,33 +51,33 @@ const defaultStyleOptions = {
 };
 
 const i18nOptions = {
-      // Button labels and messages
-      buttonLabel: 'Skip To Content',
-      smallButtonLabel: 'SkipTo',
-      altLabel: 'Alt',
-      optionLabel: 'Option',
-      shortcutLabel: 'shortcut',
+  // Button labels and messages
+  buttonLabel: 'Skip To Content',
+  smallButtonLabel: 'SkipTo',
+  altLabel: 'Alt',
+  optionLabel: 'Option',
+  shortcutLabel: 'shortcut',
 
-      // Menu labels and messages
-      menuLabel: 'Landmarks and Headings',
-      landmarkGroupLabel: 'Landmark Regions',
-      headingGroupLabel: 'Headings',
-      headingLevelLabel: 'Heading level',
+  // Menu labels and messages
+  menuLabel: 'Landmarks and Headings',
+  landmarkGroupLabel: 'Landmark Regions',
+  headingGroupLabel: 'Headings',
+  headingLevelLabel: 'Heading level',
 
-      // Landmark names
-      mainLabel: 'main',
-      searchLabel: 'search',
-      navLabel: 'navigation',
-      regionLabel: 'region',
-      asideLabel: 'complementary',
-      footerLabel: 'contentinfo',
-      headerLabel: 'banner',
-      formLabel: 'form',
-      msgNoLandmarksFound: 'No landmarks found',
-      msgNoHeadingsFound: 'No headings found'
-  };
+  // Landmark names
+  mainLabel: 'main',
+  searchLabel: 'search',
+  navLabel: 'navigation',
+  regionLabel: 'region',
+  asideLabel: 'complementary',
+  footerLabel: 'contentinfo',
+  headerLabel: 'banner',
+  formLabel: 'form',
+  msgNoLandmarksFound: 'No landmarks found',
+  msgNoHeadingsFound: 'No headings found'
+};
 
-const defaultOptions = Object.assign({}, defaultButtonOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions);
+const defaultOptions = Object.assign({}, defaultButtonOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions, defaultPageNavigationOptions);
 
 function hasAllProperties (refObj, srcObj) {
   for (const key of Object.keys(refObj)) {

@@ -2306,8 +2306,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
   /* pageNavigation.js */
 
   /* Constants */
-  const debug$3 = new DebugLogging('pNav', false);
-  debug$3.flag = true;
+  const debug$3 = new DebugLogging('pageNav', false);
+  debug$3.flag = false;
 
   let hasFocusBeenSet = false;
   let lastElemWithFocus = false;
@@ -3765,7 +3765,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
         // Page navigation flag and keys
-        pageNavigation: 'enabled',  // options: disabled and enabled
+        pageNavigation: 'disabled',  // options: disabled and enabled
         pageNextHeader: 'h',
         pagePreviousHeader: 'g',
         pageNextH1: '1',
