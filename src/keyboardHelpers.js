@@ -1,7 +1,7 @@
 /* keyboardHelper.js */
 
 export {
-  isInteractiveElement,
+  elementTakesText,
   inContentEditable,
   onlyShiftPressed,
   noModifierPressed,
@@ -19,7 +19,7 @@ export {
  * @returns {Boolean}  see @desc
  */
 
-function isInteractiveElement (elem) {
+function elementTakesText (elem) {
 
   const enabledInputTypes = [
     'button',
@@ -30,14 +30,18 @@ function isInteractiveElement (elem) {
     'radio',
     'range',
     'reset',
-    'submit'
+    'submit',
+    'text'
   ];
 
   const tagName = elem.tagName ? elem.tagName.toLowerCase() : '';
-  const type = tagName === 'input' ? elem.type.toLowerCase() : '';
+  const type =  tagName === 'input' ?
+                (elem.type.toLowerCase() ? elem.type.toLowerCase() : 'text') :
+                '';
 
   return (tagName === 'textarea') ||
-        ((tagName === 'input') && enabledInputTypes.includes(type)) ||
+        ((tagName === 'input') &&
+          enabledInputTypes.includes(type)) ||
         inContentEditable(elem);
 }
 
@@ -54,7 +58,8 @@ function isInteractiveElement (elem) {
 function inContentEditable (elem) {
   let n = elem;
   while (n.hasAttribute) {
-    if (n.hasAttribute('contenteditable')) {
+    if (n.hasAttribute('contenteditable') &&
+        (n.getAttribute('contenteditable').toLowerCase().trim() !== 'false')) {
       return true;
     }
     n = n.parentNode;

@@ -309,9 +309,10 @@ $skipToId-overlay {
   border-radius: 3px;
   border: 4px solid $buttonBackgroundColor;
   box-sizing: border-box;
+  pointer-events:none;
 }
 
-$skipToId-overlay div.overlay-border {
+$skipToId-overlay .overlay-border {
   margin: 0;
   padding: 0;
   position: relative;
@@ -321,27 +322,38 @@ $skipToId-overlay div.overlay-border {
   border: 2px solid $focusBorderColor;
   z-index: $zHighlight;
   box-sizing: border-box;
+  pointer-events:none;
 }
 
-$skipToId-highlight div.hasInfo {
+$skipToId-overlay .overlay-border.hasInfoBottom {
   border-radius: 3px 3px 3px 0;
 }
 
-$skipToId-highlight div.overlay-info {
+$skipToId-overlay .overlay-border.hasInfoTop {
+  border-radius: 0 3px 3px 3px;
+}
+
+$skipToId-overlay .overlay-info {
   position: relative;
   text-align: left;
-  top: -2px;
   left: -2px;
   padding: 1px 4px;
-  border-radius: 0 0 3px 3px;
   border: 2px solid $focusBorderColor;
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
   z-index: $zHighlight;
   overflow: hidden;
   text-overflow: ellipsis;
+  pointer-events:none;
 }
 
+$skipToId-overlay .overlay-info.hasInfoTop {
+  border-radius: 3px 3px 0 0;
+}
+
+$skipToId-overlay .overlay-info.hasInfoBottom {
+  border-radius: 0 0 3px 3px;
+}
 `;
 
 /*

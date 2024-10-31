@@ -23,7 +23,7 @@ import {
 } from './pageNavigation.js';
 
 import {
-  isInteractiveElement,
+  elementTakesText,
   inContentEditable,
   onlyShiftPressed,
   noModifierPressed,
@@ -33,7 +33,7 @@ import {
 
 /* Constants */
 const debug = new DebugLogging('SkipToButton', false);
-debug.flag = true;
+debug.flag = false;
 
 /**
  * @class SkiptoMenuButton
@@ -831,7 +831,7 @@ export default class SkiptoMenuButton {
 
       let flag = false;
       if (!inContentEditable(event.target) &&
-          !isInteractiveElement(event.target)) {
+          !elementTakesText(event.target)) {
 
         const altPressed = this.usesAltKey && onlyAltPressed(event);
         const optionPressed = this.usesOptionKey && onlyOptionPressed(event);
@@ -856,73 +856,62 @@ export default class SkiptoMenuButton {
 
           switch (event.key) {
             case this.config.pageNextHeader:
-              debug.flag && debug.log(`[pageNextHeader]`);
               navigateContent('heading', 'next');
               flag = true;
               break;
 
             case this.config.pagePreviousHeader:
-              debug.flag && debug.log(`[pagePreviousHeader]`);
               navigateContent('heading', 'previous');
               flag = true;
               break;
 
             case this.config.pageNextRegion:
-              debug.flag && debug.log(`[pageNextRegion]`);
               navigateContent('landmark', 'next');
               flag = true;
               break;
 
             case this.config.pagePreviousRegion:
-              debug.flag && debug.log(`[pagePreviousRegion]`);
               navigateContent('landmark', 'previous');
               flag = true;
               break;
 
             case this.config.pageNextMainRegion:
-              debug.flag && debug.log(`[pageNextMainRegion]`);
-              navigateContent('main', 'next');
+              navigateContent('main', 'next', true);
               flag = true;
               break;
 
             case this.config.pageNextNavigationRegion:
-              debug.flag && debug.log(`[pageNextNavigationRegion]`);
+              navigateContent('navigation', 'next', true);
               flag = true;
               break;
 
             case this.config.pageNextH1:
-              debug.flag && debug.log(`[pageNextH1]`);
-              navigateContent('h1', 'next');
+              navigateContent('h1', 'next', true);
               flag = true;
               break;
 
             case this.config.pageNextH2:
-              debug.flag && debug.log(`[pageNextH2]`);
-              navigateContent('h2', 'next');
+              navigateContent('h2', 'next', true);
               flag = true;
               break;
 
             case this.config.pageNextH3:
-              debug.flag && debug.log(`[pageNextH3]`);
-              navigateContent('h3', 'next');
+              navigateContent('h3', 'next', true);
               flag = true;
               break;
 
             case this.config.pageNextH4:
-              debug.flag && debug.log(`[pageNextH4]`);
-              navigateContent('h4', 'next');
+              navigateContent('h4', 'next', true);
               flag = true;
               break;
 
             case this.config.pageNextH5:
-              debug.flag && debug.log(`[pageNextH5]`);
-              navigateContent('h5', 'next');
+              navigateContent('h5', 'next', true);
               flag = true;
               break;
 
             case this.config.pageNextH6:
-              debug.flag && debug.log(`[pageNextH6]`);
-              navigateContent('h6', 'next');
+              navigateContent('h6', 'next', true);
               flag = true;
               break;
 

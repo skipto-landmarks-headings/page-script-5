@@ -527,9 +527,10 @@ $skipToId-overlay {
   border-radius: 3px;
   border: 4px solid $buttonBackgroundColor;
   box-sizing: border-box;
+  pointer-events:none;
 }
 
-$skipToId-overlay div.overlay-border {
+$skipToId-overlay .overlay-border {
   margin: 0;
   padding: 0;
   position: relative;
@@ -539,27 +540,38 @@ $skipToId-overlay div.overlay-border {
   border: 2px solid $focusBorderColor;
   z-index: $zHighlight;
   box-sizing: border-box;
+  pointer-events:none;
 }
 
-$skipToId-highlight div.hasInfo {
+$skipToId-overlay .overlay-border.hasInfoBottom {
   border-radius: 3px 3px 3px 0;
 }
 
-$skipToId-highlight div.overlay-info {
+$skipToId-overlay .overlay-border.hasInfoTop {
+  border-radius: 0 3px 3px 3px;
+}
+
+$skipToId-overlay .overlay-info {
   position: relative;
   text-align: left;
-  top: -2px;
   left: -2px;
   padding: 1px 4px;
-  border-radius: 0 0 3px 3px;
   border: 2px solid $focusBorderColor;
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
   z-index: $zHighlight;
   overflow: hidden;
   text-overflow: ellipsis;
+  pointer-events:none;
 }
 
+$skipToId-overlay .overlay-info.hasInfoTop {
+  border-radius: 3px 3px 0 0;
+}
+
+$skipToId-overlay .overlay-info.hasInfoBottom {
+  border-radius: 0 0 3px 3px;
+}
 `;
 
   /*
@@ -2192,19 +2204,20 @@ $skipToId-highlight div.overlay-info {
     const isReduced = !mediaQuery || mediaQuery.matches;
 
     if (elem && highlightTarget) {
+
+      const overlayElem = getOverlayElement();
+      const scrollElement = updateOverlayElement(overlayElem, elem, info);
+
       if (isElementInHeightLarge(elem)) {
         if (!isElementStartInViewport(elem) && (!isReduced || force)) {
-          elem.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
+          scrollElement.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
         }
       }
       else {
         if (!isElementInViewport(elem)  && (!isReduced || force)) {
-          elem.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
+          scrollElement.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
         }
       }
-
-      const overlayElem = getOverlayElement();
-      updateOverlayElement(overlayElem, elem, info);
     }
   }
 
@@ -2243,7 +2256,7 @@ $skipToId-highlight div.overlay-info {
                     Math.round(rect.left + window.scrollX);
 
     const width  = rect.left > offset ?
-                    Math.max(rect.width  + offset * 2 + borderWidth * 2, minWidth) :
+                    Math.max(rect.width  + offset * 2, minWidth) :
                     Math.max(rect.width, minWidth);
 
     const top    = rect.top > offset ?
@@ -2251,7 +2264,7 @@ $skipToId-highlight div.overlay-info {
                     Math.round(rect.top + window.scrollY);
 
     const height = rect.top > offset ?
-                    Math.max(rect.height + offset * 2 + borderWidth * 2, minHeight) :
+                    Math.max(rect.height + offset * 2, minHeight) :
                     Math.max(rect.height, minHeight);
 
     overlayElem.style.left   = left   + 'px';
@@ -2265,15 +2278,29 @@ $skipToId-highlight div.overlay-info {
     overlayElem.style.display = 'block';
 
     if (info) {
-      childElem.classList.add('hasInfo');
       infoElem.style.display = 'inline-block';
       infoElem.textContent = info;
+      if (top >= infoElem.getBoundingClientRect().height) {
+        childElem.classList.remove('hasInfoBottom');
+        infoElem.classList.remove('hasInfoBottom');
+        childElem.classList.add('hasInfoTop');
+        infoElem.classList.add('hasInfoTop');
+        infoElem.style.top = (-1 * (height + infoElem.getBoundingClientRect().height - 2 * borderWidth)) + 'px';
+      }
+      else {
+        childElem.classList.remove('hasInfoTop');
+        infoElem.classList.remove('hasInfoTop');
+        childElem.classList.add('hasInfoBottom');
+        infoElem.classList.add('hasInfoBottom');
+        infoElem.style.top = -2 + 'px';
+      }
+      return infoElem;
     }
     else {
       childElem.classList.remove('hasInfo');
       infoElem.style.display = 'none';
+      return overlayElem;
     }
-
   }
 
   /* pageNavigation.js */
@@ -2321,11 +2348,12 @@ $skipToId-highlight div.overlay-info {
    *
    * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
    * @param {String}  direction  - 'next' or 'previous'
+   * @param {boolean} useFirst   - if item not found use first
    */
 
-  function navigateContent (target, direction) {
+  function navigateContent (target, direction, useFirst=false) {
 
-    const elem = queryDOMForSkipToNavigation(target, direction);
+    const elem = queryDOMForSkipToNavigation(target, direction, useFirst);
 
     debug$3.flag && debug$3.log(`[navigateContent][elem]: ${elem}`);
 
@@ -2346,6 +2374,8 @@ $skipToId-highlight div.overlay-info {
       elem.focus();
       highlightElement(elem, 'instant', info, true);  // force highlight since navigation
     }
+
+    return elem;
   }
 
   /**
@@ -2355,31 +2385,28 @@ $skipToId-highlight div.overlay-info {
    *
    * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
    * @param {String}  direction  - 'next' or 'previous'
+   * @param {boolean} useFirst   - if item not found use first
    *
    * @returns (Object) @desc
    */
-  function queryDOMForSkipToNavigation (target, direction) {
+  function queryDOMForSkipToNavigation (target, direction, useFirst=false) {
 
     let focusFound = false;
     let lastNode = false;
+    let firstNode = false;
 
     function transverseDOMForElement(startingNode) {
       var targetNode = null;
       for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
         if (node.nodeType === Node.ELEMENT_NODE && node.checkVisibility()) {
 
-  /*
-          debug.flag && debug.log(`[transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
-
-          if (debug.flag && node.hasAttribute('data-skip-to-info')) {
-            debug.log(`[transverseDOMForElement][focusFound]: ${focusFound}`);
-            debug.log(`[transverseDOMForElement][  lastNode]: ${lastNode ? lastNode.getAttribute('data-skip-to-info') : 'none'}`);
-            debug.log(`[transverseDOMForElement][      data]: ${node.getAttribute('data-skip-to-info')}`);
-          }
-  */
-
           if (node.hasAttribute('data-skip-to-info') &&
               node.getAttribute('data-skip-to-info').includes(target)) {
+
+            if (!firstNode) {
+              firstNode = node;
+            }
+
             if (!node.hasAttribute('data-skip-to-focus')) {
               if (!node.hasAttribute('data-skip-to-focus')) {
                 lastNode = node;
@@ -2462,78 +2489,14 @@ $skipToId-highlight div.overlay-info {
       return false;
     } // end function
 
-    return transverseDOMForElement(document.body);
+    let node = transverseDOMForElement(document.body);
+
+    if (!node && useFirst && firstNode) {
+      node = firstNode;
+    }
+
+    return node;
   }
-
-  /**
-   * @function removeFocusInfo
-   *
-   * @desc Removes data-skip-to-focus attribute from DOM
-  function removeFocusInfo () {
-
-    function transverseDOMForElement(startingNode) {
-      var targetNode = null;
-      for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-
-          debug.flag && debug.log(`[removeFocusInfo][transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
-
-          if (node.hasAttribute('data-skip-to-focus')) {
-            node.removeAttribute('data-skip-to-focus');
-          }
-
-          if (!isSkipableElement(node)) {
-            // check for slotted content
-            if (isSlotElement(node)) {
-                // if no slotted elements, check for default slotted content
-              const assignedNodes = node.assignedNodes().length ?
-                                    node.assignedNodes() :
-                                    node.assignedNodes({ flatten: true });
-              for (let i = 0; i < assignedNodes.length; i += 1) {
-                const assignedNode = assignedNodes[i];
-                if (assignedNode.nodeType === Node.ELEMENT_NODE) {
-
-                  if (assignedNode.hasAttribute('data-skip-to-focus')) {
-                    assignedNode.removeAttribute('data-skip-to-focus');
-                  }
-
-                  targetNode = transverseDOMForElement(assignedNode);
-                  if (targetNode) {
-                    return targetNode;
-                  }
-                }
-              }
-            } else {
-              // check for custom elements
-              if (isCustomElement(node)) {
-                if (node.shadowRoot) {
-                  targetNode = transverseDOMForElement(node.shadowRoot);
-                  if (targetNode) {
-                    return targetNode;
-                  }
-                }
-                else {
-                  targetNode = transverseDOMForElement(node);
-                  if (targetNode) {
-                    return targetNode;
-                  }
-                }
-              } else {
-                targetNode = transverseDOMForElement(node);
-                if (targetNode) {
-                  return targetNode;
-                }
-              }
-            }
-          }
-        } // end if
-      } // end for
-      return false;
-    } // end function
-
-    return transverseDOMForElement(document.body);
-  }
-   */
 
   /* keyboardHelper.js */
 
@@ -2547,7 +2510,7 @@ $skipToId-highlight div.overlay-info {
    * @returns {Boolean}  see @desc
    */
 
-  function isInteractiveElement (elem) {
+  function elementTakesText (elem) {
 
     const enabledInputTypes = [
       'button',
@@ -2558,14 +2521,18 @@ $skipToId-highlight div.overlay-info {
       'radio',
       'range',
       'reset',
-      'submit'
+      'submit',
+      'text'
     ];
 
     const tagName = elem.tagName ? elem.tagName.toLowerCase() : '';
-    const type = tagName === 'input' ? elem.type.toLowerCase() : '';
+    const type =  tagName === 'input' ?
+                  (elem.type.toLowerCase() ? elem.type.toLowerCase() : 'text') :
+                  '';
 
     return (tagName === 'textarea') ||
-          ((tagName === 'input') && enabledInputTypes.includes(type)) ||
+          ((tagName === 'input') &&
+            enabledInputTypes.includes(type)) ||
           inContentEditable(elem);
   }
 
@@ -2582,7 +2549,8 @@ $skipToId-highlight div.overlay-info {
   function inContentEditable (elem) {
     let n = elem;
     while (n.hasAttribute) {
-      if (n.hasAttribute('contenteditable')) {
+      if (n.hasAttribute('contenteditable') &&
+          (n.getAttribute('contenteditable').toLowerCase().trim() !== 'false')) {
         return true;
       }
       n = n.parentNode;
@@ -2662,7 +2630,7 @@ $skipToId-highlight div.overlay-info {
 
   /* Constants */
   const debug$2 = new DebugLogging('SkipToButton', false);
-  debug$2.flag = true;
+  debug$2.flag = false;
 
   /**
    * @class SkiptoMenuButton
@@ -3456,7 +3424,7 @@ $skipToId-highlight div.overlay-info {
 
         let flag = false;
         if (!inContentEditable(event.target) &&
-            !isInteractiveElement(event.target)) {
+            !elementTakesText(event.target)) {
 
           const altPressed = this.usesAltKey && onlyAltPressed(event);
           const optionPressed = this.usesOptionKey && onlyOptionPressed(event);
@@ -3481,73 +3449,62 @@ $skipToId-highlight div.overlay-info {
 
             switch (event.key) {
               case this.config.pageNextHeader:
-                debug$2.flag && debug$2.log(`[pageNextHeader]`);
                 navigateContent('heading', 'next');
                 flag = true;
                 break;
 
               case this.config.pagePreviousHeader:
-                debug$2.flag && debug$2.log(`[pagePreviousHeader]`);
                 navigateContent('heading', 'previous');
                 flag = true;
                 break;
 
               case this.config.pageNextRegion:
-                debug$2.flag && debug$2.log(`[pageNextRegion]`);
                 navigateContent('landmark', 'next');
                 flag = true;
                 break;
 
               case this.config.pagePreviousRegion:
-                debug$2.flag && debug$2.log(`[pagePreviousRegion]`);
                 navigateContent('landmark', 'previous');
                 flag = true;
                 break;
 
               case this.config.pageNextMainRegion:
-                debug$2.flag && debug$2.log(`[pageNextMainRegion]`);
-                navigateContent('main', 'next');
+                navigateContent('main', 'next', true);
                 flag = true;
                 break;
 
               case this.config.pageNextNavigationRegion:
-                debug$2.flag && debug$2.log(`[pageNextNavigationRegion]`);
+                navigateContent('navigation', 'next', true);
                 flag = true;
                 break;
 
               case this.config.pageNextH1:
-                debug$2.flag && debug$2.log(`[pageNextH1]`);
-                navigateContent('h1', 'next');
+                navigateContent('h1', 'next', true);
                 flag = true;
                 break;
 
               case this.config.pageNextH2:
-                debug$2.flag && debug$2.log(`[pageNextH2]`);
-                navigateContent('h2', 'next');
+                navigateContent('h2', 'next', true);
                 flag = true;
                 break;
 
               case this.config.pageNextH3:
-                debug$2.flag && debug$2.log(`[pageNextH3]`);
-                navigateContent('h3', 'next');
+                navigateContent('h3', 'next', true);
                 flag = true;
                 break;
 
               case this.config.pageNextH4:
-                debug$2.flag && debug$2.log(`[pageNextH4]`);
-                navigateContent('h4', 'next');
+                navigateContent('h4', 'next', true);
                 flag = true;
                 break;
 
               case this.config.pageNextH5:
-                debug$2.flag && debug$2.log(`[pageNextH5]`);
-                navigateContent('h5', 'next');
+                navigateContent('h5', 'next', true);
                 flag = true;
                 break;
 
               case this.config.pageNextH6:
-                debug$2.flag && debug$2.log(`[pageNextH6]`);
-                navigateContent('h6', 'next');
+                navigateContent('h6', 'next', true);
                 flag = true;
                 break;
             }

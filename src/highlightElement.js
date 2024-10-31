@@ -133,19 +133,20 @@ function highlightElement(elem, highlightTarget, info='', force=false) {
   const isReduced = !mediaQuery || mediaQuery.matches;
 
   if (elem && highlightTarget) {
+
+    const overlayElem = getOverlayElement();
+    const scrollElement = updateOverlayElement(overlayElem, elem, info);
+
     if (isElementInHeightLarge(elem)) {
       if (!isElementStartInViewport(elem) && (!isReduced || force)) {
-        elem.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
+        scrollElement.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
       }
     }
     else {
       if (!isElementInViewport(elem)  && (!isReduced || force)) {
-        elem.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
+        scrollElement.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
       }
     }
-
-    const overlayElem = getOverlayElement();
-    updateOverlayElement(overlayElem, elem, info);
   }
 }
 
@@ -184,7 +185,7 @@ function updateOverlayElement (overlayElem, element, info) {
                   Math.round(rect.left + window.scrollX);
 
   const width  = rect.left > offset ?
-                  Math.max(rect.width  + offset * 2 + borderWidth * 2, minWidth) :
+                  Math.max(rect.width  + offset * 2, minWidth) :
                   Math.max(rect.width, minWidth);
 
   const top    = rect.top > offset ?
@@ -192,7 +193,7 @@ function updateOverlayElement (overlayElem, element, info) {
                   Math.round(rect.top + window.scrollY);
 
   const height = rect.top > offset ?
-                  Math.max(rect.height + offset * 2 + borderWidth * 2, minHeight) :
+                  Math.max(rect.height + offset * 2, minHeight) :
                   Math.max(rect.height, minHeight);
 
   overlayElem.style.left   = left   + 'px';
@@ -206,13 +207,27 @@ function updateOverlayElement (overlayElem, element, info) {
   overlayElem.style.display = 'block';
 
   if (info) {
-    childElem.classList.add('hasInfo');
     infoElem.style.display = 'inline-block';
     infoElem.textContent = info;
+    if (top >= infoElem.getBoundingClientRect().height) {
+      childElem.classList.remove('hasInfoBottom');
+      infoElem.classList.remove('hasInfoBottom');
+      childElem.classList.add('hasInfoTop');
+      infoElem.classList.add('hasInfoTop');
+      infoElem.style.top = (-1 * (height + infoElem.getBoundingClientRect().height - 2 * borderWidth)) + 'px';
+    }
+    else {
+      childElem.classList.remove('hasInfoTop');
+      infoElem.classList.remove('hasInfoTop');
+      childElem.classList.add('hasInfoBottom');
+      infoElem.classList.add('hasInfoBottom');
+      infoElem.style.top = -2 + 'px';
+    }
+    return infoElem;
   }
   else {
     childElem.classList.remove('hasInfo');
     infoElem.style.display = 'none';
+    return overlayElem;
   }
-
 }

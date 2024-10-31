@@ -64,11 +64,12 @@ function monitorKeyboardFocus () {
  *
  * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
  * @param {String}  direction  - 'next' or 'previous'
+ * @param {boolean} useFirst   - if item not found use first
  */
 
-function navigateContent (target, direction) {
+function navigateContent (target, direction, useFirst=false) {
 
-  const elem = queryDOMForSkipToNavigation(target, direction);
+  const elem = queryDOMForSkipToNavigation(target, direction, useFirst);
 
   debug.flag && debug.log(`[navigateContent][elem]: ${elem}`);
 
@@ -89,6 +90,8 @@ function navigateContent (target, direction) {
     elem.focus();
     highlightElement(elem, 'instant', info, true);  // force highlight since navigation
   }
+
+  return elem;
 }
 
 /**
@@ -98,31 +101,28 @@ function navigateContent (target, direction) {
  *
  * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
  * @param {String}  direction  - 'next' or 'previous'
+ * @param {boolean} useFirst   - if item not found use first
  *
  * @returns (Object) @desc
  */
-function queryDOMForSkipToNavigation (target, direction) {
+function queryDOMForSkipToNavigation (target, direction, useFirst=false) {
 
   let focusFound = false;
   let lastNode = false;
+  let firstNode = false;
 
   function transverseDOMForElement(startingNode) {
     var targetNode = null;
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE && node.checkVisibility()) {
 
-/*
-        debug.flag && debug.log(`[transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
-
-        if (debug.flag && node.hasAttribute('data-skip-to-info')) {
-          debug.log(`[transverseDOMForElement][focusFound]: ${focusFound}`);
-          debug.log(`[transverseDOMForElement][  lastNode]: ${lastNode ? lastNode.getAttribute('data-skip-to-info') : 'none'}`);
-          debug.log(`[transverseDOMForElement][      data]: ${node.getAttribute('data-skip-to-info')}`);
-        }
-*/
-
         if (node.hasAttribute('data-skip-to-info') &&
             node.getAttribute('data-skip-to-info').includes(target)) {
+
+          if (!firstNode) {
+            firstNode = node;
+          }
+
           if (!node.hasAttribute('data-skip-to-focus')) {
             if (!node.hasAttribute('data-skip-to-focus')) {
               lastNode = node;
@@ -205,76 +205,13 @@ function queryDOMForSkipToNavigation (target, direction) {
     return false;
   } // end function
 
-  return transverseDOMForElement(document.body);
+  let node = transverseDOMForElement(document.body);
+
+  if (!node && useFirst && firstNode) {
+    node = firstNode;
+  }
+
+  return node;
 }
 
-/**
- * @function removeFocusInfo
- *
- * @desc Removes data-skip-to-focus attribute from DOM
-function removeFocusInfo () {
-
-  function transverseDOMForElement(startingNode) {
-    var targetNode = null;
-    for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-
-        debug.flag && debug.log(`[removeFocusInfo][transverseDOMForElement][node]: ${node.tagName} ${node.hasAttribute('data-skip-to-focus')}`);
-
-        if (node.hasAttribute('data-skip-to-focus')) {
-          node.removeAttribute('data-skip-to-focus');
-        }
-
-        if (!isSkipableElement(node)) {
-          // check for slotted content
-          if (isSlotElement(node)) {
-              // if no slotted elements, check for default slotted content
-            const assignedNodes = node.assignedNodes().length ?
-                                  node.assignedNodes() :
-                                  node.assignedNodes({ flatten: true });
-            for (let i = 0; i < assignedNodes.length; i += 1) {
-              const assignedNode = assignedNodes[i];
-              if (assignedNode.nodeType === Node.ELEMENT_NODE) {
-
-                if (assignedNode.hasAttribute('data-skip-to-focus')) {
-                  assignedNode.removeAttribute('data-skip-to-focus');
-                }
-
-                targetNode = transverseDOMForElement(assignedNode);
-                if (targetNode) {
-                  return targetNode;
-                }
-              }
-            }
-          } else {
-            // check for custom elements
-            if (isCustomElement(node)) {
-              if (node.shadowRoot) {
-                targetNode = transverseDOMForElement(node.shadowRoot);
-                if (targetNode) {
-                  return targetNode;
-                }
-              }
-              else {
-                targetNode = transverseDOMForElement(node);
-                if (targetNode) {
-                  return targetNode;
-                }
-              }
-            } else {
-              targetNode = transverseDOMForElement(node);
-              if (targetNode) {
-                return targetNode;
-              }
-            }
-          }
-        }
-      } // end if
-    } // end for
-    return false;
-  } // end function
-
-  return transverseDOMForElement(document.body);
-}
- */
 
