@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="optionsTablist.css"/>
 
     <script type="module" src="options.js"></script>
+    <script type="module" src="optionsPageNavigation.js"></script>
     <script type="module" src="optionsButton.js"></script>
     <script type="module" src="optionsMenu.js"></script>
     <script type="module" src="optionsStyle.js"></script>
@@ -20,6 +21,12 @@
   <body>
     <main>
       <div class="tablist" role="tablist">
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-page-nav"
+             aria-controls="tabpanel-options-page-nav">
+          Page Navigation
+        </div>
         <div class="tab"
              role="tab"
              id="tablist-tab-button"
@@ -45,6 +52,16 @@
           Internationalization
         </div>
       </div>
+
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-page-nav"
+           aria-labelledby="tablist-tab-page-nav">
+
+        <options-page-navigation></options-page-navigation>
+
+      </div>
+
 
       <div class="tabpanel"
            role="tabpanel"

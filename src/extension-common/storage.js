@@ -160,6 +160,16 @@ export function resetDefaultButtonOptions () {
   });
 }
 
+/*
+** resetDefaultPageNavigationOptions
+*/
+export function resetDefaultPageNavigationOptions () {
+  return new Promise (function (resolve, reject) {
+    browserStorage.set(defaultPageNavigationOptions, function () {
+      if (notLastError()) { resolve() }
+    });
+  });
+}
 
 /*
 ** resetDefaultMenuOptions

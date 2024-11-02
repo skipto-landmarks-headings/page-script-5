@@ -19,6 +19,10 @@
     "message" : "Preferences",
     "description" : "Title of options page"
   },
+  "options_tab_page_nav": {
+    "message" : "Navigation",
+    "description" : "Title of page navigation tab"
+  },
   "options_tab_button": {
     "message" : "Button",
     "description" : "Title of button tab"
@@ -298,6 +302,13 @@
   "options_button_focus_desc": {
     "message" : "When a new page loads some users may not want the button visible since it obscures some content or may be distracting visually.  Others may want the menu to be open when the page loads to eliminate the extra keystrokes needed to open the menu.",
     "description" : "Description of focus options. "
+  },
+  "options_button_page_nav_reset": {
+    "message" : "Reset Page Navigation Defaults",
+    "description" : "Label for reset page navigation defaults button"
+  },
+  "options_enable_page_nav_label": {
+    "message" : "Enable page navigation with shortcut keys",
+    "description" : "Checkbox label"
   }
-
 }
