@@ -310,5 +310,61 @@
   "options_enable_page_nav_label": {
     "message" : "Enable page navigation with shortcut keys",
     "description" : "Checkbox label"
+  },
+  "region_legend": {
+      "message" : "Landmark Regions",
+      "description" : "Legend for region landmark navigation shortcuts"
+  },
+  "region_next_label": {
+      "message" : "Next region",
+      "description" : "Short cut for next region"
+  },
+  "region_prev_label": {
+      "message" : "Previous region",
+      "description" : "Short cut for previous region"
+  },
+  "region_main_label": {
+      "message" : "Main regions",
+      "description" : "Shortcut for next main region"
+  },
+  "region_nav_label": {
+      "message" : "Navigation regions",
+      "description" : "Shortcut for next navigation region"
+  },
+  "heading_legend": {
+      "message" : "Headings",
+      "description" : "Legend for heading navigation shortcuts"
+  },
+  "heading_next_label": {
+      "message" : "Next heading",
+      "description" : "Short cut for next heading"
+  },
+  "heading_prev_label": {
+      "message" : "Previous heading",
+      "description" : "Short cut for previous headings"
+  },
+  "heading_h1_label": {
+      "message" : "H1 headings",
+      "description" : "Shortcut for h1 headings"
+  },
+  "heading_h2_label": {
+      "message" : "H2 headings",
+      "description" : "Shortcut for h2 headings"
+  },
+  "heading_h3_label": {
+      "message" : "H3 headings",
+      "description" : "Shortcut for h3 headings"
+  },
+  "heading_h4_label": {
+      "message" : "H4 headings",
+      "description" : "Shortcut for h4 headings"
+  },
+  "heading_h5_label": {
+      "message" : "H5 headings",
+      "description" : "Shortcut for h5 headings"
+  },
+  "heading_h6_label": {
+      "message" : "H6 headings",
+      "description" : "Shortcut for h6 headings"
   }
 }

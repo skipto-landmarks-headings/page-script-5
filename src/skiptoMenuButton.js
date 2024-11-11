@@ -855,62 +855,67 @@ export default class SkiptoMenuButton {
             (onlyShiftPressed(event) || noModifierPressed(event))) {
 
           switch (event.key) {
-            case this.config.pageNextHeader:
-              navigateContent('heading', 'next');
-              flag = true;
+            // ignore and space characters
+            case ' ':
+            case '':
               break;
 
-            case this.config.pagePreviousHeader:
-              navigateContent('heading', 'previous');
-              flag = true;
-              break;
-
-            case this.config.pageNextRegion:
+            case this.config.pageRegionNext:
               navigateContent('landmark', 'next');
               flag = true;
               break;
 
-            case this.config.pagePreviousRegion:
+            case this.config.pageRegionPrevious:
               navigateContent('landmark', 'previous');
               flag = true;
               break;
 
-            case this.config.pageNextMainRegion:
+            case this.config.pageRegionMain:
               navigateContent('main', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageNextNavigationRegion:
+            case this.config.pageRegionNavigation:
               navigateContent('navigation', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageNextH1:
+            case this.config.pageHeadingNext:
+              navigateContent('heading', 'next');
+              flag = true;
+              break;
+
+            case this.config.pageHeadingPrevious:
+              navigateContent('heading', 'previous');
+              flag = true;
+              break;
+
+            case this.config.pageHeadingH1:
               navigateContent('h1', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageNextH2:
+            case this.config.pageHeadingH2:
               navigateContent('h2', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageNextH3:
+            case this.config.pageHeadingH3:
               navigateContent('h3', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageNextH4:
+            case this.config.pageHeadingH4:
               navigateContent('h4', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageNextH5:
+            case this.config.pageHeadingH5:
               navigateContent('h5', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageNextH6:
+            case this.config.pageHeadingH6:
               navigateContent('h6', 'next', true);
               flag = true;
               break;

@@ -17,19 +17,19 @@ const defaultButtonOptions = {
 
 const defaultPageNavigationOptions = {
   pageNavigation: 'enabled',
-  pageNextHeader: 'h',
-  pagePreviousHeader: 'g',
-  pageNextH1: '1',
-  pageNextH2: '2',
-  pageNextH3: '3',
-  pageNextH4: '4',
-  pageNextH5: '5',
-  pageNextH6: '6',
+  pageHeadingNext: 'h',
+  pageHeadingPrevious: 'g',
+  pageHeadingH1: '1',
+  pageHeadingH2: '2',
+  pageHeadingH3: '3',
+  pageHeadingH4: '4',
+  pageHeadingH5: '5',
+  pageHeadingH6: '6',
 
-  pageNextRegion: 'r',
-  pagePreviousRegion: 'e',
-  pageNextMainRegion: 'm',
-  pageNextNavigationRegion: 'n'
+  pageRegionNext: 'r',
+  pageRegionPrevious: 'e',
+  pageRegionMain: 'm',
+  pageRegionNavigation: 'n'
 };
 
 const defaultMenuOptions = {
