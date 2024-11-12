@@ -221,6 +221,11 @@ class OptionsPageNavigation extends HTMLElement {
       input.addEventListener('blur',   optionsPageNavigation.onBlur);
       input.addEventListener('change', optionsPageNavigation.onChange.bind(optionsPageNavigation));
     });
+
+    optionsPageNavigation.shadowRoot.querySelectorAll('input[type=text]').forEach( input => {
+      input.addEventListener('keydown', optionsPageNavigation.onKeydown.bind(optionsPageNavigation));
+    });
+
   }
 
   updateOptions () {
@@ -231,13 +236,11 @@ class OptionsPageNavigation extends HTMLElement {
       form.checkboxEnablePageNavInput.checked = options.pageNavigation === 'enabled';
 
       form.textRegionNextInput.value = options.pageRegionNext;
-      debug && console.log(`[updateOptions][RegionNext]: ${form.textRegionNextInput} ${form.textRegionNextInput.value} ${options.pageRegionNext}`);
       form.textRegionPrevInput.value = options.pageRegionPrevious;
       form.textRegionMainInput.value = options.pageRegionMain;
       form.textRegionNavInput.value  = options.pageRegionNavigation;
 
       form.textHeadingNextInput.value  = options.pageHeadingNext;
-      debug && console.log(`[updateOptions][HeadingNext]: ${form.textHeadingNextInput} ${form.textHeadingNextInput.value} ${options.pageHeadingNext}`);
       form.textHeadingPrevInput.value  = options.pageHeadingPrevious;
       form.textHeadingH1Input.value    = options.pageHeadingH1;
       form.textHeadingH2Input.value    = options.pageHeadingH2;
@@ -307,7 +310,7 @@ class OptionsPageNavigation extends HTMLElement {
   onFocus (event) {
     const node = event.currentTarget.parentNode;
     const rect = node.querySelector('span').getBoundingClientRect();
-    node.style.width = (rect.width + 40) + 'px';
+    node.style.width = (rect.width + 60) + 'px';
     node.classList.add('focus');
   }
 
@@ -316,8 +319,36 @@ class OptionsPageNavigation extends HTMLElement {
   }
 
   onChange () {
-    debug && console.log(`[saveOptions]`);
     this.saveButtonContentOptions();
+  }
+
+  onKeydown (event) {
+    const tgt = event.currentTarget;
+    if (event.key.length === 1) {
+      if (this.unusedShortcutKey(tgt, event.key)) {
+        tgt.value = event.key;
+      }
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  }
+
+  unusedShortcutKey(inputNode, key) {
+
+    const unique = (this.form.textRegionNextInput.value  !== key) &&
+      (this.form.textRegionPrevInput.value  !== key) &&
+      (this.form.textRegionMainInput.value  !== key) &&
+      (this.form.textRegionNavInput.value   !== key) &&
+      (this.form.textHeadingNextInput.value !== key) &&
+      (this.form.textHeadingPrevInput.value !== key) &&
+      (this.form.textHeadingH1Input.value   !== key) &&
+      (this.form.textHeadingH2Input.value   !== key) &&
+      (this.form.textHeadingH3Input.value   !== key) &&
+      (this.form.textHeadingH4Input.value   !== key) &&
+      (this.form.textHeadingH5Input.value   !== key) &&
+      (this.form.textHeadingH6Input.value   !== key);
+
+    return unique;
   }
 
 }

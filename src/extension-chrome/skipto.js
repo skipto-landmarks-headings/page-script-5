@@ -1378,20 +1378,19 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
   }  
 
   /*
-   *   @function checkForLandmark
+   *   @function checkForLandmarkRole
    *
-   *   @desc  Re=trns the lamdnark name if a landmark, otherwise an
-   *          empty string
+   *   @desc  Returns the type of landmark region,
+   *          otherwise an empty string
    *
    *   @param  {Object}  element  - DOM element node
    *
    *   @returns {String}  see @desc
    */ 
-  function checkForLandmark (element) {
+  function checkForLandmarkRole (element) {
     if (element.hasAttribute('role')) {
       const role = element.getAttribute('role').toLowerCase();
       if (allowedLandmarkSelectors.indexOf(role) >= 0) {
-        element.setAttribute('data-skip-to-info', `landmark ${role}`);
         return role;
       }
     } else {
@@ -1399,27 +1398,22 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
       switch (tagName) {
         case 'aside':
-          element.setAttribute('data-skip-to-info', `landmark complementary`);
           return 'complementary';
 
         case 'main':
-          element.setAttribute('data-skip-to-info', `landmark main`);
           return 'main';
 
         case 'nav':
-          element.setAttribute('data-skip-to-info', `landmark navigation`);
           return 'navigation';
 
         case 'header':
           if (isTopLevel(element)) {
-            element.setAttribute('data-skip-to-info', `landmark banner`);
             return 'banner';
           }
           break;
 
         case 'footer':
           if (isTopLevel(element)) {
-            element.setAttribute('data-skip-to-info', `landmark contentinfo`);
             return 'contentinfo';
           }
           break;
@@ -1427,7 +1421,6 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         case 'section':
           // Sections need an accessible name for be considered a "region" landmark
           if (element.hasAttribute('aria-label') || element.hasAttribute('aria-labelledby')) {
-            element.setAttribute('data-skip-to-info', `landmark region`);
             return 'region';
           }
           break;
@@ -1703,22 +1696,44 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     let onlyInMain = headingTargets.includes('main') || headingTargets.includes('main-only');
 
     function transverseDOM(startingNode, doc, parentDoc=null, inMain = false) {
-      for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const tagName = node.tagName.toLowerCase();
-          if ((targetLandmarks.indexOf(checkForLandmark(node)) >= 0) &&
-              (node.id !== skiptoId)) {
-            landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
+
+      function checkForLandmark(doc, node) {
+        const landmark = checkForLandmarkRole(node);
+        if (landmark && (node.id !== skiptoId)) {
+          const accName = getAccessibleName(doc, node);
+          node.setAttribute('data-skip-to-info', `landmark ${landmark}`);
+          node.setAttribute('data-skip-to-acc-name', accName);
+
+          if ((targetLandmarks.indexOf(landmark) >= 0) ) {
+            landmarkInfo.push({
+              node: node,
+              name: accName
+            });
           }
-          if (headingTags.includes(tagName)) {
-            node.setAttribute('data-skip-to-info', `heading ${tagName}`);
-          }
+        }
+      }
+
+      function checkForHeading(doc, node) {
+        const tagName = node.tagName.toLowerCase();
+        if (headingTags.includes(tagName)) {
+          const accName = getAccessibleName(doc, node, true);
+          node.setAttribute('data-skip-to-info', `heading ${tagName}`);
+          node.setAttribute('data-skip-to-acc-name', accName);
           if (targetHeadings.indexOf(tagName) >= 0) {
             if (!onlyInMain || inMain) {
-              headingInfo.push({ node: node, name: getAccessibleName(doc, node, true)});
+              headingInfo.push({
+                node: node,
+                name: accName
+              });
             }
           }
+        }
+      }
 
+      for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          checkForLandmark(doc, node);
+          checkForHeading(doc, node);
           inMain = isMain(node);
 
           if (!isSkipableElement(node)) {
@@ -1735,16 +1750,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
               for (let i = 0; i < assignedNodes.length; i += 1) {
                 const assignedNode = assignedNodes[i];
                 if (assignedNode.nodeType === Node.ELEMENT_NODE) {
-                  const tagName = assignedNodes[i].tagName.toLowerCase();
-                  if (targetLandmarks.indexOf(checkForLandmark(assignedNode)) >= 0) {
-                    landmarkInfo.push({ node: assignedNode, name: getAccessibleName(nameDoc, assignedNode)});
-                  }
-
-                  if (targetHeadings.indexOf(tagName) >= 0) {
-                    if (!onlyInMain || inMain) {
-                      headingInfo.push({ node: assignedNode, name: getAccessibleName(nameDoc, assignedNode, true)});
-                    }
-                  }
+                  checkForLandmark(nameDoc, assignedNode);
+                  checkForHeading(nameDoc, assignedNode);
                   if (slotContent) {
                     transverseDOM(assignedNode, parentDoc, null, inMain);
                   } else {
@@ -2035,7 +2042,6 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         landmarkItem.dataId = dataId.toString();
         landmarkItem.class = 'landmark';
         landmarkItem.hasName = landmark.name.length > 0;
-        landmark.node.setAttribute('data-skip-to-name', landmark.name);
         landmarkItem.name = getLocalizedLandmarkName(config, tagName, landmark.name);
         landmarkItem.tagName = tagName;
         landmarkItem.nestingLevel = 0;
@@ -2307,38 +2313,17 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
   /* Constants */
   const debug$3 = new DebugLogging('pageNav', false);
-  debug$3.flag = false;
-
-  let hasFocusBeenSet = false;
-  let lastElemWithFocus = false;
+  debug$3.flag = true;
 
   /**
    * @function monitorKeyboardFocus
    *
-   * @desc Sets a data attribute on the element with current focus
+   * @desc Removes highlighting when keyboard focus changes
    */
   function monitorKeyboardFocus () {
-
-    document.addEventListener('focusin', (event) => {
+    document.addEventListener('focusin', () => {
       removeHighlight();
-      debug$3.flag && debug$3.log(`\n\n[           target]: ${event.target}`);
-      debug$3.flag && debug$3.log(`[    relatedTarget]: ${event.relatedTarget}`);
-      debug$3.flag && debug$3.log(`[lastElemWithFocus]: ${lastElemWithFocus}`);
-      if (event.relatedTarget) {
-        debug$3.flag && debug$3.log(`[focus][remove][A]: ${event.relatedTarget.tagName}`);
-        event.relatedTarget.removeAttribute('data-skip-to-focus');
-      }
-      if (lastElemWithFocus) {
-        debug$3.flag && debug$3.log(`[focus][remove][B]: ${lastElemWithFocus.tagName}`);
-        lastElemWithFocus.removeAttribute('data-skip-to-focus');
-        lastElemWithFocus = false;
-      }
-      event.target.setAttribute('data-skip-to-focus', '');
-      debug$3.flag && debug$3.log(`[focus][add]: ${event.target.tagName}`);
-      lastElemWithFocus = event.target;
-      hasFocusBeenSet = true;
     });
-
   }
 
   /**
@@ -2353,9 +2338,13 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
   function navigateContent (target, direction, useFirst=false) {
 
+    debug$3.flag && debug$3.log(`[navigateContent][   target]: ${target}`);
+    debug$3.flag && debug$3.log(`[navigateContent][direction]: ${direction}`);
+    debug$3.flag && debug$3.log(`[navigateContent][ useFirst]: ${useFirst}`);
+
     const elem = queryDOMForSkipToNavigation(target, direction, useFirst);
 
-    debug$3.flag && debug$3.log(`[navigateContent][elem]: ${elem}`);
+    debug$3.flag && debug$3.log(`[navigateContent][   return]: ${elem}`);
 
     if (elem) {
 
@@ -2363,8 +2352,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
                  elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
                 'unknown';
 
-      if (elem.hasAttribute('data-skip-to-name')) {
-        const name = elem.getAttribute('data-skip-to-name').trim();
+      if (elem.hasAttribute('data-skip-to-acc-name')) {
+        const name = elem.getAttribute('data-skip-to-acc-name').trim();
         if (name) {
           info += `: ${name}`;
         }
@@ -2387,42 +2376,61 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
    * @param {String}  direction  - 'next' or 'previous'
    * @param {boolean} useFirst   - if item not found use first
    *
-   * @returns (Object) @desc
+   * @returns {Object} @desc
    */
   function queryDOMForSkipToNavigation (target, direction, useFirst=false) {
 
     let focusFound = false;
     let lastNode = false;
     let firstNode = false;
+    const focusElem = getFocusElement();
 
     function transverseDOMForElement(startingNode) {
-      var targetNode = null;
+
+      function checkForTarget (node) {
+
+        if (node.hasAttribute('data-skip-to-info')) {
+          debug$3.log(`[traverse][${node.tagName}]: found:${focusFound}`);
+        }
+        else {
+          debug$3.log(`[traverse][${node.tagName}]`);
+        }
+
+        if (node.hasAttribute('data-skip-to-info') &&
+            node.getAttribute('data-skip-to-info').includes(target)) {
+
+          debug$3.log(`[traverse][found]`);
+
+          if (!firstNode) {
+            firstNode = node;
+          }
+
+          if (node !== focusElem) {
+            lastNode = node;
+          }
+
+          if (focusFound &&
+             (direction === 'next')) {
+            return node;
+          }
+        }
+
+        if (node === focusElem) {
+          focusFound = true;
+          if (direction === 'previous') {
+            return lastNode;
+          }
+        }
+        return false;
+      }
+
+      let targetNode = null;
       for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
         if (node.nodeType === Node.ELEMENT_NODE && node.checkVisibility()) {
 
-          if (node.hasAttribute('data-skip-to-info') &&
-              node.getAttribute('data-skip-to-info').includes(target)) {
-
-            if (!firstNode) {
-              firstNode = node;
-            }
-
-            if (!node.hasAttribute('data-skip-to-focus')) {
-              if (!node.hasAttribute('data-skip-to-focus')) {
-                lastNode = node;
-              }
-            }
-            if (!hasFocusBeenSet || (focusFound) &&
-                 (direction === 'next')) {
-              return node;
-            }
-          }
-
-          if (node.hasAttribute('data-skip-to-focus')) {
-            focusFound = true;
-            if (direction === 'previous') {
-              return lastNode;
-            }
+          targetNode = checkForTarget(node);
+          if (targetNode) {
+            return targetNode;
           }
 
           if (!isSkipableElement(node)) {
@@ -2436,23 +2444,9 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
                 const assignedNode = assignedNodes[i];
                 if (assignedNode.nodeType === Node.ELEMENT_NODE) {
 
-                  if (assignedNode.hasAttribute('data-skip-to-info') &&
-                      assignedNode.getAttribute('data-skip-to-info').includes(target)) {
-                    if (!assignedNode.hasAttribute('data-skip-to-focus')) {
-                      lastNode = node;
-                    }
-                    if (!hasFocusBeenSet || (focusFound) &&
-                         (direction === 'next')) {
-                      return node;
-                    }
-                  }
-
-                  if (assignedNode.hasAttribute('data-skip-to-focus')) {
-
-                    focusFound = true;
-                    if (direction === 'previous') {
-                      return lastNode;
-                    }
+                  targetNode = checkForTarget(assignedNode);
+                  if (targetNode) {
+                    return targetNode;
                   }
 
                   targetNode = transverseDOMForElement(assignedNode);
@@ -2498,6 +2492,24 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     return node;
   }
 
+  /**
+   * @function getFocusElement
+   *
+   * @desc Returns DOM element node that has focus, if no DOM node
+   *       has focus returns null
+   *
+   * @returns {Object} @desc
+   */
+  function getFocusElement() {
+
+    let elem = document.activeElement;
+
+    while (elem.shadowRoot && elem.shadowRoot.activeElement) {
+      elem = elem.shadowRoot.activeElement;
+    }
+    return elem;
+  }
+
   /* keyboardHelper.js */
 
   /*
@@ -2516,13 +2528,11 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
       'button',
       'checkbox',
       'color',
-      'file',
       'image',
       'radio',
       'range',
       'reset',
-      'submit',
-      'text'
+      'submit'
     ];
 
     const tagName = elem.tagName ? elem.tagName.toLowerCase() : '';
@@ -3831,8 +3841,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     static get observedAttributes() {
       return [
         "data-skipto",
-        "setfocus",
-        "navigate"
+        "setfocus"
         ];
     }
 
@@ -3860,64 +3869,6 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
               document.body.focus();
               break;
           }
-      }
-
-      if (name === 'navigate') {
-
-        debug$1.flag && debug$1.log(`[navigate]: ${newValue}`);
-        switch (newValue) {
-
-          case 'nextHeading':
-            navigateContent('heading', 'next');
-            break;
-
-          case 'previousHeading':
-            navigateContent('heading', 'previous');
-            break;
-
-          case 'nextH1':
-            navigateContent('h1', 'next');
-            break;
-
-          case 'nextH2':
-            navigateContent('h2', 'next');
-            break;
-
-          case 'nextH3':
-            navigateContent('h3', 'next');
-            break;
-
-          case 'nextH4':
-            navigateContent('h4', 'next');
-            break;
-
-          case 'nextH5':
-            navigateContent('h5', 'next');
-            break;
-
-          case 'nextH6':
-            navigateContent('h6', 'next');
-            break;
-
-
-          case 'nextLandmark':
-            navigateContent('landmark', 'next');
-            break;
-
-          case 'previousLandmark':
-            navigateContent('landmark', 'previous');
-            break;
-
-          case 'nextMain':
-            navigateContent('main', 'next');
-            break;
-
-          case 'nextNavigation':
-            navigateContent('navigation', 'next');
-            break;
-
-        }
-
       }
     }
 

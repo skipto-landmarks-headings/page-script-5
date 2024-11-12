@@ -25,13 +25,11 @@ function elementTakesText (elem) {
     'button',
     'checkbox',
     'color',
-    'file',
     'image',
     'radio',
     'range',
     'reset',
-    'submit',
-    'text'
+    'submit'
   ];
 
   const tagName = elem.tagName ? elem.tagName.toLowerCase() : '';

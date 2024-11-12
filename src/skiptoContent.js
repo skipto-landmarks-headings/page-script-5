@@ -10,10 +10,6 @@ import {
 } from './landmarksHeadings.js';
 
 import {
-  navigateContent
-} from './pageNavigation.js';
-
-import {
   monitorKeyboardFocus
 } from './pageNavigation.js';
 
@@ -120,8 +116,7 @@ export default class SkipToContent extends HTMLElement {
   static get observedAttributes() {
     return [
       "data-skipto",
-      "setfocus",
-      "navigate"
+      "setfocus"
       ];
   }
 
@@ -149,67 +144,6 @@ export default class SkipToContent extends HTMLElement {
             document.body.focus();
             break;
         }
-    }
-
-    if (name === 'navigate') {
-
-      debug.flag && debug.log(`[navigate]: ${newValue}`);
-      switch (newValue) {
-
-        case 'nextHeading':
-          navigateContent('heading', 'next');
-          break;
-
-        case 'previousHeading':
-          navigateContent('heading', 'previous');
-          break;
-
-        case 'nextH1':
-          navigateContent('h1', 'next');
-          break;
-
-        case 'nextH2':
-          navigateContent('h2', 'next');
-          break;
-
-        case 'nextH3':
-          navigateContent('h3', 'next');
-          break;
-
-        case 'nextH4':
-          navigateContent('h4', 'next');
-          break;
-
-        case 'nextH5':
-          navigateContent('h5', 'next');
-          break;
-
-        case 'nextH6':
-          navigateContent('h6', 'next');
-          break;
-
-
-        case 'nextLandmark':
-          navigateContent('landmark', 'next');
-          break;
-
-        case 'previousLandmark':
-          navigateContent('landmark', 'previous');
-          break;
-
-        case 'nextMain':
-          navigateContent('main', 'next');
-          break;
-
-        case 'nextNavigation':
-          navigateContent('navigation', 'next');
-          break;
-
-        default:
-          break;
-
-      }
-
     }
   }
 

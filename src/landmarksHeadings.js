@@ -176,20 +176,19 @@ function isTopLevel (node) {
 }  
 
 /*
- *   @function checkForLandmark
+ *   @function checkForLandmarkRole
  *
- *   @desc  Re=trns the lamdnark name if a landmark, otherwise an
- *          empty string
+ *   @desc  Returns the type of landmark region,
+ *          otherwise an empty string
  *
  *   @param  {Object}  element  - DOM element node
  *
  *   @returns {String}  see @desc
  */ 
-function checkForLandmark (element) {
+function checkForLandmarkRole (element) {
   if (element.hasAttribute('role')) {
     const role = element.getAttribute('role').toLowerCase();
     if (allowedLandmarkSelectors.indexOf(role) >= 0) {
-      element.setAttribute('data-skip-to-info', `landmark ${role}`);
       return role;
     }
   } else {
@@ -197,27 +196,22 @@ function checkForLandmark (element) {
 
     switch (tagName) {
       case 'aside':
-        element.setAttribute('data-skip-to-info', `landmark complementary`);
         return 'complementary';
 
       case 'main':
-        element.setAttribute('data-skip-to-info', `landmark main`);
         return 'main';
 
       case 'nav':
-        element.setAttribute('data-skip-to-info', `landmark navigation`);
         return 'navigation';
 
       case 'header':
         if (isTopLevel(element)) {
-          element.setAttribute('data-skip-to-info', `landmark banner`);
           return 'banner';
         }
         break;
 
       case 'footer':
         if (isTopLevel(element)) {
-          element.setAttribute('data-skip-to-info', `landmark contentinfo`);
           return 'contentinfo';
         }
         break;
@@ -225,7 +219,6 @@ function checkForLandmark (element) {
       case 'section':
         // Sections need an accessible name for be considered a "region" landmark
         if (element.hasAttribute('aria-label') || element.hasAttribute('aria-labelledby')) {
-          element.setAttribute('data-skip-to-info', `landmark region`);
           return 'region';
         }
         break;
@@ -504,22 +497,44 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
   let onlyInMain = headingTargets.includes('main') || headingTargets.includes('main-only');
 
   function transverseDOM(startingNode, doc, parentDoc=null, inMain = false) {
-    for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        const tagName = node.tagName.toLowerCase();
-        if ((targetLandmarks.indexOf(checkForLandmark(node)) >= 0) &&
-            (node.id !== skiptoId)) {
-          landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
+
+    function checkForLandmark(doc, node) {
+      const landmark = checkForLandmarkRole(node);
+      if (landmark && (node.id !== skiptoId)) {
+        const accName = getAccessibleName(doc, node);
+        node.setAttribute('data-skip-to-info', `landmark ${landmark}`);
+        node.setAttribute('data-skip-to-acc-name', accName);
+
+        if ((targetLandmarks.indexOf(landmark) >= 0) ) {
+          landmarkInfo.push({
+            node: node,
+            name: accName
+          });
         }
-        if (headingTags.includes(tagName)) {
-          node.setAttribute('data-skip-to-info', `heading ${tagName}`);
-        }
+      }
+    }
+
+    function checkForHeading(doc, node) {
+      const tagName = node.tagName.toLowerCase();
+      if (headingTags.includes(tagName)) {
+        const accName = getAccessibleName(doc, node, true);
+        node.setAttribute('data-skip-to-info', `heading ${tagName}`);
+        node.setAttribute('data-skip-to-acc-name', accName);
         if (targetHeadings.indexOf(tagName) >= 0) {
           if (!onlyInMain || inMain) {
-            headingInfo.push({ node: node, name: getAccessibleName(doc, node, true)});
+            headingInfo.push({
+              node: node,
+              name: accName
+            });
           }
         }
+      }
+    }
 
+    for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        checkForLandmark(doc, node);
+        checkForHeading(doc, node);
         inMain = isMain(node);
 
         if (!isSkipableElement(node)) {
@@ -536,16 +551,8 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
             for (let i = 0; i < assignedNodes.length; i += 1) {
               const assignedNode = assignedNodes[i];
               if (assignedNode.nodeType === Node.ELEMENT_NODE) {
-                const tagName = assignedNodes[i].tagName.toLowerCase();
-                if (targetLandmarks.indexOf(checkForLandmark(assignedNode)) >= 0) {
-                  landmarkInfo.push({ node: assignedNode, name: getAccessibleName(nameDoc, assignedNode)});
-                }
-
-                if (targetHeadings.indexOf(tagName) >= 0) {
-                  if (!onlyInMain || inMain) {
-                    headingInfo.push({ node: assignedNode, name: getAccessibleName(nameDoc, assignedNode, true)});
-                  }
-                }
+                checkForLandmark(nameDoc, assignedNode);
+                checkForHeading(nameDoc, assignedNode);
                 if (slotContent) {
                   transverseDOM(assignedNode, parentDoc, null, inMain);
                 } else {
@@ -838,7 +845,6 @@ function getLandmarks(config, landmarks) {
       landmarkItem.dataId = dataId.toString();
       landmarkItem.class = 'landmark';
       landmarkItem.hasName = landmark.name.length > 0;
-      landmark.node.setAttribute('data-skip-to-name', landmark.name);
       landmarkItem.name = getLocalizedLandmarkName(config, tagName, landmark.name);
       landmarkItem.tagName = tagName;
       landmarkItem.nestingLevel = 0;
