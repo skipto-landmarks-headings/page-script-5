@@ -223,8 +223,8 @@
   /* style.js */
 
   /* Constants */
-  const debug$9 = new DebugLogging('style', false);
-  debug$9.flag = false;
+  const debug$a = new DebugLogging('style', false);
+  debug$a.flag = false;
 
   const cssMenuTemplate = document.createElement('template');
   cssMenuTemplate.textContent = `
@@ -788,8 +788,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
   /* utils.js */
 
   /* Constants */
-  const debug$8 = new DebugLogging('Utils', false);
-  debug$8.flag = false;
+  const debug$9 = new DebugLogging('Utils', false);
+  debug$9.flag = false;
 
 
   /*
@@ -878,8 +878,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
   /* constants */
 
-  const debug$7 = new DebugLogging('nameFrom', false);
-  debug$7.flag = false;
+  const debug$8 = new DebugLogging('nameFrom', false);
+  debug$8.flag = false;
 
   //
   // LOW-LEVEL HELPER FUNCTIONS (NOT EXPORTED)
@@ -1148,8 +1148,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
   /* accName.js */
 
   /* Constants */
-  const debug$6 = new DebugLogging('accName', false);
-  debug$6.flag = false;
+  const debug$7 = new DebugLogging('accName', false);
+  debug$7.flag = false;
 
   /**
    *   @fuction getAccessibleName
@@ -1227,8 +1227,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
   /* landmarksHeadings.js */
 
   /* Constants */
-  const debug$5 = new DebugLogging('landmarksHeadings', false);
-  debug$5.flag = false;
+  const debug$6 = new DebugLogging('landmarksHeadings', false);
+  debug$6.flag = false;
 
   const skipableElements = [
     'base',
@@ -1243,8 +1243,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     'style',
     'template',
     'shadow',
-    'title',
-    'skip-to-content'
+    'title'
   ];
 
   const allowedLandmarkSelectors = [
@@ -1512,6 +1511,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
       var targetNode = null;
       for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
         if (node.nodeType === Node.ELEMENT_NODE) {
+
           if (!isSkipableElement(node)) {
             // check for slotted content
             if (isSlotElement(node)) {
@@ -1588,19 +1588,36 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
    */ 
   function skipToElement(menuitem) {
 
-    let focusNode = false;
-    let scrollNode = false;
     let elem;
-
-    const searchSelectors = ['input', 'button', 'a'];
-    const navigationSelectors = ['a', 'input', 'button'];
-    const landmarkSelectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'section', 'article', 'p', 'li', 'a'];
 
     const isLandmark = menuitem.classList.contains('landmark');
     const isSearch = menuitem.classList.contains('skip-to-search');
     const isNav = menuitem.classList.contains('skip-to-nav');
 
     elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
+
+    setItemFocus(elem, isLandmark, isSearch, isNav);
+
+  }
+
+  /*
+   *   @function setItemFocus
+   *
+   *   @desc  Sets focus on the appropriate element
+   *
+   *   @param {Object}   elem        -  A target element
+   *   @param {Boolean}  isLandmark  -  True if item is a landmark, otherwise false
+   *   @param {Boolean}  isSearch    -  True if item is a search landmark, otherwise false
+   *   @param {Boolean}  isNav       -  True if item is a navigation landmark, otherwise false
+   */
+  function setItemFocus(elem, isLandmark, isSearch, isNav) {
+
+    let focusNode = false;
+    let scrollNode = false;
+
+    const searchSelectors = ['input', 'button', 'a'];
+    const navigationSelectors = ['a', 'input', 'button'];
+    const landmarkSelectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'section', 'article', 'p', 'li', 'a'];
 
     if (elem) {
       if (isSearch) {
@@ -1636,6 +1653,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         elem.scrollIntoView({block: 'center'});
       }
     }
+
+
   }
 
   /*
@@ -1732,6 +1751,9 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
       for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
         if (node.nodeType === Node.ELEMENT_NODE) {
+
+          debug$6.flag && debug$6.log(`[transverseDOM][node]: ${node.tagName} isSlot:${isSlotElement(node)} isCustom:${isCustomElement(node)}`);
+
           checkForLandmark(doc, node);
           checkForHeading(doc, node);
           inMain = isMain(node);
@@ -2087,8 +2109,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
   /* highlight.js */
 
   /* Constants */
-  const debug$4 = new DebugLogging('highlight', false);
-  debug$4.flag = false;
+  const debug$5 = new DebugLogging('highlight', false);
+  debug$5.flag = false;
 
   const minWidth = 68;
   const minHeight = 27;
@@ -2312,8 +2334,9 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
   /* pageNavigation.js */
 
   /* Constants */
-  const debug$3 = new DebugLogging('pageNav', false);
-  debug$3.flag = true;
+  const debug$4 = new DebugLogging('pageNav', false);
+  debug$4.flag = true;
+
 
   /**
    * @function monitorKeyboardFocus
@@ -2338,14 +2361,28 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
   function navigateContent (target, direction, useFirst=false) {
 
-    debug$3.flag && debug$3.log(`[navigateContent][   target]: ${target}`);
-    debug$3.flag && debug$3.log(`[navigateContent][direction]: ${direction}`);
-    debug$3.flag && debug$3.log(`[navigateContent][ useFirst]: ${useFirst}`);
+    debug$4.flag && debug$4.log(`\n[navigateContent][   target]: ${target}`);
+    debug$4.flag && debug$4.log(`[navigateContent][direction]: ${direction}`);
+    debug$4.flag && debug$4.log(`[navigateContent][ useFirst]: ${useFirst}`);
 
-    const elem = queryDOMForSkipToNavigation(target, direction, useFirst);
+    const lastFocusElem = getFocusElement();
+    let elem = lastFocusElem;
+    let count = 1;  // never do more than 5
 
-    debug$3.flag && debug$3.log(`[navigateContent][   return]: ${elem}`);
+    do {
+      elem = queryDOMForSkipToNavigation(target, direction, elem, useFirst);
+      debug$4.flag && debug$4.log(`[${count}][navigateContent][     elem]: ${elem}`);
+      if (elem) {
+        elem.tabIndex = elem.tabIndex >= 0 ? elem.tabIndex : -1;
+        elem.focus();
+        debug$4.flag && debug$4.log(`[${count}][navigateContent][focus][   last]: ${lastFocusElem.tagName}`);
+        debug$4.flag && debug$4.log(`[${count}[navigateContent][focus][current]: ${getFocusElement().tagName} (${lastFocusElem === getFocusElement})`);
+      }
+      count += 1;
+    }
+    while ((count < 5) && elem && (lastFocusElem === getFocusElement()));
 
+    // Set highlight
     if (elem) {
 
       let info = elem.hasAttribute('data-skip-to-info') ?
@@ -2359,8 +2396,6 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         }
       }
 
-      elem.tabIndex = elem.tabIndex ? elem.tabIndex : -1;
-      elem.focus();
       highlightElement(elem, 'instant', info, true);  // force highlight since navigation
     }
 
@@ -2374,59 +2409,62 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
    *
    * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
    * @param {String}  direction  - 'next' or 'previous'
+   * @param {Object}  elem       - Element the search needs to pass, if null used focused element
    * @param {boolean} useFirst   - if item not found use first
    *
    * @returns {Object} @desc
    */
-  function queryDOMForSkipToNavigation (target, direction, useFirst=false) {
+  function queryDOMForSkipToNavigation (target, direction, elem, useFirst=false) {
 
-    let focusFound = false;
     let lastNode = false;
     let firstNode = false;
-    const focusElem = getFocusElement();
+    let passFound = false;
+
+    const passElem = elem ? elem : getFocusElement();
 
     function transverseDOMForElement(startingNode) {
 
       function checkForTarget (node) {
 
-        if (node.hasAttribute('data-skip-to-info')) {
-          debug$3.log(`[traverse][${node.tagName}]: found:${focusFound}`);
-        }
-        else {
-          debug$3.log(`[traverse][${node.tagName}]`);
-        }
-
         if (node.hasAttribute('data-skip-to-info') &&
             node.getAttribute('data-skip-to-info').includes(target)) {
 
-          debug$3.log(`[traverse][found]`);
+          debug$4.flag && debug$4.log(`[checkForTarget][${node.tagName}]: ${node.textContent.trim().substring(0, 10)} (vis:${isVisible(node)} pf:${passFound})`);
 
-          if (!firstNode) {
+          if (!firstNode &&
+              isVisible(node)) {
+            debug$4.flag && debug$4.log(`[checkForTarget][firstNode]`);
             firstNode = node;
           }
 
-          if (node !== focusElem) {
+          if ((node !== passElem) &&
+              isVisible(node)) {
+            debug$4.flag && debug$4.log(`[checkForTarget][lastNode]`);
             lastNode = node;
           }
 
-          if (focusFound &&
-             (direction === 'next')) {
+          if (passFound &&
+             (direction === 'next') &&
+              isVisible(node)) {
+            debug$4.flag && debug$4.log(`[checkForTarget][found]`);
             return node;
           }
         }
 
-        if (node === focusElem) {
-          focusFound = true;
+        if (node === passElem) {
+          passFound = true;
+          debug$4.flag && debug$4.log(`[checkForTarget][passFound]: ${node.tagName}`);
           if (direction === 'previous') {
             return lastNode;
           }
         }
+
         return false;
       }
 
       let targetNode = null;
       for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-        if (node.nodeType === Node.ELEMENT_NODE && node.checkVisibility()) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
 
           targetNode = checkForTarget(node);
           if (targetNode) {
@@ -2483,6 +2521,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
       return false;
     } // end function
 
+    passFound = passElem === document.body;
     let node = transverseDOMForElement(document.body);
 
     if (!node && useFirst && firstNode) {
@@ -2512,6 +2551,10 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
   /* keyboardHelper.js */
 
+  /* Constants */
+  const debug$3 = new DebugLogging('[kbdHelpers]', false);
+  debug$3.flag = false;
+
   /*
    * @method isInteractiveElement
    *
@@ -2537,12 +2580,15 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
     const tagName = elem.tagName ? elem.tagName.toLowerCase() : '';
     const type =  tagName === 'input' ?
-                  (elem.type.toLowerCase() ? elem.type.toLowerCase() : 'text') :
+                  (elem.type ? elem.type.toLowerCase() : 'text') :
                   '';
 
-    return (tagName === 'textarea') ||
-          ((tagName === 'input') &&
-            enabledInputTypes.includes(type)) ||
+    debug$3.flag && debug$3.log(`[elementTakesText][type]: ${type} (${enabledInputTypes.includes(type)})`);
+
+    return (tagName === 'select') ||
+           (tagName === 'textarea') ||
+           ((tagName === 'input') &&
+            !enabledInputTypes.includes(type)) ||
           inContentEditable(elem);
   }
 
@@ -2640,7 +2686,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
   /* Constants */
   const debug$2 = new DebugLogging('SkipToButton', false);
-  debug$2.flag = false;
+  debug$2.flag = true;
 
   /**
    * @class SkiptoMenuButton
@@ -3433,8 +3479,9 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
       handleDocumentKeydown (event) {
 
         let flag = false;
-        if (!inContentEditable(event.target) &&
-            !elementTakesText(event.target)) {
+        const focusElem = getFocusElement();
+        debug$2.flag && debug$2.log(`[handleDocumentKeydown][elementTakesText][${event.target.tagName}]: ${elementTakesText(focusElem)}`);
+        if (!elementTakesText(focusElem)) {
 
           const altPressed = this.usesAltKey && onlyAltPressed(event);
           const optionPressed = this.usesOptionKey && onlyOptionPressed(event);
@@ -3450,9 +3497,11 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
           // Check for navigation keys
 
-          debug$2.flag && debug$2.log(`[   pageNavigation]: ${this.config.pageNavigation}`);
-          debug$2.flag && debug$2.log(`[ onlyShiftPressed]: ${onlyShiftPressed(event)}`);
-          debug$2.flag && debug$2.log(`[noModifierPressed]: ${noModifierPressed(event)}`);
+          debug$2.flag && debug$2.log(`[handleDocumentKeydown][   pageNavigation]: ${this.config.pageNavigation}`);
+          debug$2.flag && debug$2.log(`[handleDocumentKeydown][ onlyShiftPressed]: ${onlyShiftPressed(event)}`);
+          debug$2.flag && debug$2.log(`[handleDocumentKeydown][noModifierPressed]: ${noModifierPressed(event)}`);
+
+          debug$2.flag && debug$2.log(`[handleDocumentKeydown][pageNavigation]: ${this.config.pageNavigation} ${event.key}`);
 
           if ((this.config.pageNavigation === 'enabled') &&
               (onlyShiftPressed(event) || noModifierPressed(event))) {
@@ -3740,7 +3789,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
   /* constants */
   const debug$1 = new DebugLogging('skiptoContent', false);
-  debug$1.flag = true;
+  debug$1.flag = false;
 
 
   class SkipToContent extends HTMLElement {

@@ -21,7 +21,8 @@ export {
   skipToElement,
   isSkipableElement,
   isSlotElement,
-  isCustomElement
+  isCustomElement,
+  setItemFocus
 };
 
 /* Constants */
@@ -41,8 +42,7 @@ const skipableElements = [
   'style',
   'template',
   'shadow',
-  'title',
-  'skip-to-content'
+  'title'
 ];
 
 const allowedLandmarkSelectors = [
@@ -313,6 +313,7 @@ function findVisibleElement (startingNode, tagNames) {
     var targetNode = null;
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE) {
+
         if (!isSkipableElement(node)) {
           // check for slotted content
           if (isSlotElement(node)) {
@@ -389,19 +390,36 @@ function findVisibleElement (startingNode, tagNames) {
  */ 
 function skipToElement(menuitem) {
 
-  let focusNode = false;
-  let scrollNode = false;
   let elem;
-
-  const searchSelectors = ['input', 'button', 'a'];
-  const navigationSelectors = ['a', 'input', 'button'];
-  const landmarkSelectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'section', 'article', 'p', 'li', 'a'];
 
   const isLandmark = menuitem.classList.contains('landmark');
   const isSearch = menuitem.classList.contains('skip-to-search');
   const isNav = menuitem.classList.contains('skip-to-nav');
 
   elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
+
+  setItemFocus(elem, isLandmark, isSearch, isNav);
+
+}
+
+/*
+ *   @function setItemFocus
+ *
+ *   @desc  Sets focus on the appropriate element
+ *
+ *   @param {Object}   elem        -  A target element
+ *   @param {Boolean}  isLandmark  -  True if item is a landmark, otherwise false
+ *   @param {Boolean}  isSearch    -  True if item is a search landmark, otherwise false
+ *   @param {Boolean}  isNav       -  True if item is a navigation landmark, otherwise false
+ */
+function setItemFocus(elem, isLandmark, isSearch, isNav) {
+
+  let focusNode = false;
+  let scrollNode = false;
+
+  const searchSelectors = ['input', 'button', 'a'];
+  const navigationSelectors = ['a', 'input', 'button'];
+  const landmarkSelectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'section', 'article', 'p', 'li', 'a'];
 
   if (elem) {
     if (isSearch) {
@@ -437,6 +455,8 @@ function skipToElement(menuitem) {
       elem.scrollIntoView({block: 'center'});
     }
   }
+
+
 }
 
 /*
@@ -533,6 +553,9 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
 
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE) {
+
+        debug.flag && debug.log(`[transverseDOM][node]: ${node.tagName} isSlot:${isSlotElement(node)} isCustom:${isCustomElement(node)}`);
+
         checkForLandmark(doc, node);
         checkForHeading(doc, node);
         inMain = isMain(node);

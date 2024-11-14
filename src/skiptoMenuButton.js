@@ -19,12 +19,12 @@ import {
 } from './highlightElement.js';
 
 import {
+  getFocusElement,
   navigateContent
 } from './pageNavigation.js';
 
 import {
   elementTakesText,
-  inContentEditable,
   onlyShiftPressed,
   noModifierPressed,
   onlyAltPressed,
@@ -33,7 +33,7 @@ import {
 
 /* Constants */
 const debug = new DebugLogging('SkipToButton', false);
-debug.flag = false;
+debug.flag = true;
 
 /**
  * @class SkiptoMenuButton
@@ -830,8 +830,9 @@ export default class SkiptoMenuButton {
     handleDocumentKeydown (event) {
 
       let flag = false;
-      if (!inContentEditable(event.target) &&
-          !elementTakesText(event.target)) {
+      const focusElem = getFocusElement();
+      debug.flag && debug.log(`[handleDocumentKeydown][elementTakesText][${event.target.tagName}]: ${elementTakesText(focusElem)}`);
+      if (!elementTakesText(focusElem)) {
 
         const altPressed = this.usesAltKey && onlyAltPressed(event);
         const optionPressed = this.usesOptionKey && onlyOptionPressed(event);
@@ -847,9 +848,11 @@ export default class SkiptoMenuButton {
 
         // Check for navigation keys
 
-        debug.flag && debug.log(`[   pageNavigation]: ${this.config.pageNavigation}`);
-        debug.flag && debug.log(`[ onlyShiftPressed]: ${onlyShiftPressed(event)}`);
-        debug.flag && debug.log(`[noModifierPressed]: ${noModifierPressed(event)}`);
+        debug.flag && debug.log(`[handleDocumentKeydown][   pageNavigation]: ${this.config.pageNavigation}`);
+        debug.flag && debug.log(`[handleDocumentKeydown][ onlyShiftPressed]: ${onlyShiftPressed(event)}`);
+        debug.flag && debug.log(`[handleDocumentKeydown][noModifierPressed]: ${noModifierPressed(event)}`);
+
+        debug.flag && debug.log(`[handleDocumentKeydown][pageNavigation]: ${this.config.pageNavigation} ${event.key}`);
 
         if ((this.config.pageNavigation === 'enabled') &&
             (onlyShiftPressed(event) || noModifierPressed(event))) {

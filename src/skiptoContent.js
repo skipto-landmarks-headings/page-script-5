@@ -15,7 +15,7 @@ import {
 
 /* constants */
 const debug = new DebugLogging('skiptoContent', false);
-debug.flag = true;
+debug.flag = false;
 
 
 export default class SkipToContent extends HTMLElement {

@@ -1,5 +1,8 @@
 /* keyboardHelper.js */
 
+/* Imports */
+import DebugLogging  from './debug.js';
+
 export {
   elementTakesText,
   inContentEditable,
@@ -8,6 +11,10 @@ export {
   onlyAltPressed,
   onlyOptionPressed
 };
+
+/* Constants */
+const debug = new DebugLogging('[kbdHelpers]', false);
+debug.flag = false;
 
 /*
  * @method isInteractiveElement
@@ -34,12 +41,15 @@ function elementTakesText (elem) {
 
   const tagName = elem.tagName ? elem.tagName.toLowerCase() : '';
   const type =  tagName === 'input' ?
-                (elem.type.toLowerCase() ? elem.type.toLowerCase() : 'text') :
+                (elem.type ? elem.type.toLowerCase() : 'text') :
                 '';
 
-  return (tagName === 'textarea') ||
-        ((tagName === 'input') &&
-          enabledInputTypes.includes(type)) ||
+  debug.flag && debug.log(`[elementTakesText][type]: ${type} (${enabledInputTypes.includes(type)})`);
+
+  return (tagName === 'select') ||
+         (tagName === 'textarea') ||
+         ((tagName === 'input') &&
+          !enabledInputTypes.includes(type)) ||
         inContentEditable(elem);
 }
 

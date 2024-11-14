@@ -4,6 +4,10 @@
 import DebugLogging  from './debug.js';
 
 import {
+  isVisible
+} from './utils.js';
+
+import {
   isSkipableElement,
   isSlotElement,
   isCustomElement
@@ -14,16 +18,17 @@ import {
   removeHighlight
 } from './highlightElement.js';
 
+/*Exports */
+export {
+  getFocusElement,
+  monitorKeyboardFocus,
+  navigateContent
+};
+
 /* Constants */
 const debug = new DebugLogging('pageNav', false);
 debug.flag = true;
 
-
-/*Exports */
-export {
-  monitorKeyboardFocus,
-  navigateContent
-};
 
 /**
  * @function monitorKeyboardFocus
@@ -48,14 +53,28 @@ function monitorKeyboardFocus () {
 
 function navigateContent (target, direction, useFirst=false) {
 
-  debug.flag && debug.log(`[navigateContent][   target]: ${target}`);
+  debug.flag && debug.log(`\n[navigateContent][   target]: ${target}`);
   debug.flag && debug.log(`[navigateContent][direction]: ${direction}`);
   debug.flag && debug.log(`[navigateContent][ useFirst]: ${useFirst}`);
 
-  const elem = queryDOMForSkipToNavigation(target, direction, useFirst);
+  const lastFocusElem = getFocusElement();
+  let elem = lastFocusElem;
+  let count = 1;  // never do more than 5
 
-  debug.flag && debug.log(`[navigateContent][   return]: ${elem}`);
+  do {
+    elem = queryDOMForSkipToNavigation(target, direction, elem, useFirst);
+    debug.flag && debug.log(`[${count}][navigateContent][     elem]: ${elem}`);
+    if (elem) {
+      elem.tabIndex = elem.tabIndex >= 0 ? elem.tabIndex : -1;
+      elem.focus();
+      debug.flag && debug.log(`[${count}][navigateContent][focus][   last]: ${lastFocusElem.tagName}`);
+      debug.flag && debug.log(`[${count}[navigateContent][focus][current]: ${getFocusElement().tagName} (${lastFocusElem === getFocusElement})`);
+    }
+    count += 1;
+  }
+  while ((count < 5) && elem && (lastFocusElem === getFocusElement()));
 
+  // Set highlight
   if (elem) {
 
     let info = elem.hasAttribute('data-skip-to-info') ?
@@ -69,8 +88,6 @@ function navigateContent (target, direction, useFirst=false) {
       }
     }
 
-    elem.tabIndex = elem.tabIndex ? elem.tabIndex : -1;
-    elem.focus();
     highlightElement(elem, 'instant', info, true);  // force highlight since navigation
   }
 
@@ -84,59 +101,62 @@ function navigateContent (target, direction, useFirst=false) {
  *
  * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
  * @param {String}  direction  - 'next' or 'previous'
+ * @param {Object}  elem       - Element the search needs to pass, if null used focused element
  * @param {boolean} useFirst   - if item not found use first
  *
  * @returns {Object} @desc
  */
-function queryDOMForSkipToNavigation (target, direction, useFirst=false) {
+function queryDOMForSkipToNavigation (target, direction, elem, useFirst=false) {
 
-  let focusFound = false;
   let lastNode = false;
   let firstNode = false;
-  const focusElem = getFocusElement();
+  let passFound = false;
+
+  const passElem = elem ? elem : getFocusElement();
 
   function transverseDOMForElement(startingNode) {
 
     function checkForTarget (node) {
 
-      if (node.hasAttribute('data-skip-to-info')) {
-        debug.log(`[traverse][${node.tagName}]: found:${focusFound}`);
-      }
-      else {
-        debug.log(`[traverse][${node.tagName}]`);
-      }
-
       if (node.hasAttribute('data-skip-to-info') &&
           node.getAttribute('data-skip-to-info').includes(target)) {
 
-        debug.log(`[traverse][found]`);
+        debug.flag && debug.log(`[checkForTarget][${node.tagName}]: ${node.textContent.trim().substring(0, 10)} (vis:${isVisible(node)} pf:${passFound})`);
 
-        if (!firstNode) {
+        if (!firstNode &&
+            isVisible(node)) {
+          debug.flag && debug.log(`[checkForTarget][firstNode]`);
           firstNode = node;
         }
 
-        if (node !== focusElem) {
+        if ((node !== passElem) &&
+            isVisible(node)) {
+          debug.flag && debug.log(`[checkForTarget][lastNode]`);
           lastNode = node;
         }
 
-        if (focusFound &&
-           (direction === 'next')) {
+        if (passFound &&
+           (direction === 'next') &&
+            isVisible(node)) {
+          debug.flag && debug.log(`[checkForTarget][found]`);
           return node;
         }
       }
 
-      if (node === focusElem) {
-        focusFound = true;
+      if (node === passElem) {
+        passFound = true;
+        debug.flag && debug.log(`[checkForTarget][passFound]: ${node.tagName}`);
         if (direction === 'previous') {
           return lastNode;
         }
       }
+
       return false;
     }
 
     let targetNode = null;
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-      if (node.nodeType === Node.ELEMENT_NODE && node.checkVisibility()) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
 
         targetNode = checkForTarget(node);
         if (targetNode) {
@@ -193,6 +213,7 @@ function queryDOMForSkipToNavigation (target, direction, useFirst=false) {
     return false;
   } // end function
 
+  passFound = passElem === document.body;
   let node = transverseDOMForElement(document.body);
 
   if (!node && useFirst && firstNode) {
