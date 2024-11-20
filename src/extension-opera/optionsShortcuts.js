@@ -1,4 +1,4 @@
-/* optionsPageNavigation.js */
+/* optionsShortcuts.js */
 
 const debug = false;
 
@@ -21,7 +21,7 @@ import {
   getOptions,
   saveOptions,
   optionsToParams,
-  resetDefaultPageNavigationOptions
+  resetDefaultShortcutOptions
 } from './storage.js';
 
 // Generic error handler
@@ -35,15 +35,15 @@ function notLastError () {
 
 // Constants
 
-const optionsPageNavigationTemplate = document.createElement('template');
-optionsPageNavigationTemplate.innerHTML = `
+const optionsShortcutsTemplate = document.createElement('template');
+optionsShortcutsTemplate.innerHTML = `
   <form>
     <div>
 
-      <label class="inline" for="enable-page-nav">
-        <input id="enable-page-nav"
+      <label class="inline" for="enable-shortcuts">
+        <input id="enable-shortcuts"
            type="checkbox"/>
-        <span id="enable-page-nav-label">Enable page navigation with shortcut keys</span>
+        <span id="enable-shortcuts-label">Enable page navigation with shortcut keys</span>
       </label>
 
       <fieldset>
@@ -128,13 +128,13 @@ optionsPageNavigationTemplate.innerHTML = `
 `;
 
 
-class OptionsPageNavigation extends HTMLElement {
+class OptionsShortcuts extends HTMLElement {
 
   constructor() {
 
     // Helper function
     function getNode (id) {
-      return optionsPageNavigation.shadowRoot.querySelector(`#${id}`);
+      return optionsShortcuts.shadowRoot.querySelector(`#${id}`);
     }
 
     super();
@@ -142,10 +142,10 @@ class OptionsPageNavigation extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     // const used for help function
 
-    const optionsPageNavigation = this;
+    const optionsShortcuts = this;
 
-    const optionsPageNavigationClone = optionsPageNavigationTemplate.content.cloneNode(true);
-    this.shadowRoot.appendChild(optionsPageNavigationClone);
+    const optionsShortcutsClone = optionsShortcutsTemplate.content.cloneNode(true);
+    this.shadowRoot.appendChild(optionsShortcutsClone);
 
     // Add stylesheet
     const linkNode = document.createElement('link');
@@ -156,9 +156,9 @@ class OptionsPageNavigation extends HTMLElement {
     // Update labels with i18n information
 
     const i18nLabels = [
-      { id: 'button-reset', label: 'options_button_page_nav_reset'},
+      { id: 'button-reset', label: 'options_button_shortcuts_reset'},
 
-      { id: 'enable-page-nav-label',  label: 'options_enable_page_nav_label'},
+      { id: 'enable-shortcuts-label',  label: 'options_enable_shortcuts_label'},
 
       { id: 'region-legend',      label: 'region_legend'},
       { id: 'region-next-label',  label: 'region_next_label'},
@@ -192,7 +192,7 @@ class OptionsPageNavigation extends HTMLElement {
 
     const form = {};
 
-    form.checkboxEnablePageNavInput    = getNode('enable-page-nav');
+    form.checkboxEnableShortcutsInput    = getNode('enable-shortcuts');
 
     form.textRegionNextInput  = getNode('region-next');
     form.textRegionPrevInput  = getNode('region-prev');
@@ -213,17 +213,17 @@ class OptionsPageNavigation extends HTMLElement {
     this.updateOptions();
 
     getNode('button-reset').addEventListener('click', () => {
-      resetDefaultPageNavigationOptions().then(this.updateOptions.bind(this));
+      resetDefaultShortcutOptions().then(this.updateOptions.bind(this));
     });
 
-    optionsPageNavigation.shadowRoot.querySelectorAll('input[type=checkbox], input[type=text]').forEach( input => {
-      input.addEventListener('focus',  optionsPageNavigation.onFocus);
-      input.addEventListener('blur',   optionsPageNavigation.onBlur);
-      input.addEventListener('change', optionsPageNavigation.onChange.bind(optionsPageNavigation));
+    optionsShortcuts.shadowRoot.querySelectorAll('input[type=checkbox], input[type=text]').forEach( input => {
+      input.addEventListener('focus',  optionsShortcuts.onFocus);
+      input.addEventListener('blur',   optionsShortcuts.onBlur);
+      input.addEventListener('change', optionsShortcuts.onChange.bind(optionsShortcuts));
     });
 
-    optionsPageNavigation.shadowRoot.querySelectorAll('input[type=text]').forEach( input => {
-      input.addEventListener('keydown', optionsPageNavigation.onKeydown.bind(optionsPageNavigation));
+    optionsShortcuts.shadowRoot.querySelectorAll('input[type=text]').forEach( input => {
+      input.addEventListener('keydown', optionsShortcuts.onKeydown.bind(optionsShortcuts));
     });
 
   }
@@ -233,21 +233,21 @@ class OptionsPageNavigation extends HTMLElement {
 
     getOptions().then( (options) => {
 
-      form.checkboxEnablePageNavInput.checked = options.pageNavigation === 'enabled';
+      form.checkboxEnableShortcutsInput.checked = options.shortcuts === 'enabled';
 
-      form.textRegionNextInput.value = options.pageRegionNext;
-      form.textRegionPrevInput.value = options.pageRegionPrevious;
-      form.textRegionMainInput.value = options.pageRegionMain;
-      form.textRegionNavInput.value  = options.pageRegionNavigation;
+      form.textRegionNextInput.value = options.shortcutRegionNext;
+      form.textRegionPrevInput.value = options.shortcutRegionPrevious;
+      form.textRegionMainInput.value = options.shortcutRegionMain;
+      form.textRegionNavInput.value  = options.shortcutRegionNavigation;
 
-      form.textHeadingNextInput.value  = options.pageHeadingNext;
-      form.textHeadingPrevInput.value  = options.pageHeadingPrevious;
-      form.textHeadingH1Input.value    = options.pageHeadingH1;
-      form.textHeadingH2Input.value    = options.pageHeadingH2;
-      form.textHeadingH3Input.value    = options.pageHeadingH3;
-      form.textHeadingH4Input.value    = options.pageHeadingH4;
-      form.textHeadingH5Input.value    = options.pageHeadingH5;
-      form.textHeadingH6Input.value    = options.pageHeadingH6;
+      form.textHeadingNextInput.value  = options.shortcutHeadingNext;
+      form.textHeadingPrevInput.value  = options.shortcutHeadingPrevious;
+      form.textHeadingH1Input.value    = options.shortcutHeadingH1;
+      form.textHeadingH2Input.value    = options.shortcutHeadingH2;
+      form.textHeadingH3Input.value    = options.shortcutHeadingH3;
+      form.textHeadingH4Input.value    = options.shortcutHeadingH4;
+      form.textHeadingH5Input.value    = options.shortcutHeadingH5;
+      form.textHeadingH6Input.value    = options.shortcutHeadingH6;
 
       this.syncOptionsWithSkipToScript (options);
     });
@@ -284,21 +284,21 @@ class OptionsPageNavigation extends HTMLElement {
 
     getOptions().then( (options) => {
 
-      options.pageNavigation = form.checkboxEnablePageNavInput.checked ? 'enabled' : 'disabled';
+      options.shortcuts = form.checkboxEnableShortcutsInput.checked ? 'enabled' : 'disabled';
 
-      options.pageRegionNext       = form.textRegionNextInput.value.trim().substring(0,1);
-      options.pageRegionPrevious   = form.textRegionPrevInput.value.trim().substring(0,1);
-      options.pageRegionMain       = form.textRegionMainInput.value.trim().substring(0,1);
-      options.pageRegionNavigation = form.textRegionNavInput.value.trim().substring(0,1);
+      options.shortcutRegionNext       = form.textRegionNextInput.value.trim().substring(0,1);
+      options.shortcutRegionPrevious   = form.textRegionPrevInput.value.trim().substring(0,1);
+      options.shortcutRegionMain       = form.textRegionMainInput.value.trim().substring(0,1);
+      options.shortcutRegionNavigation = form.textRegionNavInput.value.trim().substring(0,1);
 
-      options.pageHeadingNext     = form.textHeadingNextInput.value.trim().substring(0,1);
-      options.pageHeadingPrevious = form.textHeadingPrevInput.value.trim().substring(0,1);
-      options.pageHeadingH1       = form.textHeadingH1Input.value.trim().substring(0,1);
-      options.pageHeadingH2       = form.textHeadingH2Input.value.trim().substring(0,1);
-      options.pageHeadingH3       = form.textHeadingH3Input.value.trim().substring(0,1);
-      options.pageHeadingH4       = form.textHeadingH4Input.value.trim().substring(0,1);
-      options.pageHeadingH5       = form.textHeadingH5Input.value.trim().substring(0,1);
-      options.pageHeadingH6       = form.textHeadingH6Input.value.trim().substring(0,1);
+      options.shortcutHeadingNext     = form.textHeadingNextInput.value.trim().substring(0,1);
+      options.shortcutHeadingPrevious = form.textHeadingPrevInput.value.trim().substring(0,1);
+      options.shortcutHeadingH1       = form.textHeadingH1Input.value.trim().substring(0,1);
+      options.shortcutHeadingH2       = form.textHeadingH2Input.value.trim().substring(0,1);
+      options.shortcutHeadingH3       = form.textHeadingH3Input.value.trim().substring(0,1);
+      options.shortcutHeadingH4       = form.textHeadingH4Input.value.trim().substring(0,1);
+      options.shortcutHeadingH5       = form.textHeadingH5Input.value.trim().substring(0,1);
+      options.shortcutHeadingH6       = form.textHeadingH6Input.value.trim().substring(0,1);
 
       saveOptions(options).then(
         this.syncOptionsWithSkipToScript(options));
@@ -353,4 +353,4 @@ class OptionsPageNavigation extends HTMLElement {
 
 }
 
-window.customElements.define("options-page-navigation", OptionsPageNavigation);
+window.customElements.define("options-shortcuts", OptionsShortcuts);

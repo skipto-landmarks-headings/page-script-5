@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="optionsTablist.css"/>
 
     <script type="module" src="options.js"></script>
-    <script type="module" src="optionsPageNavigation.js"></script>
+    <script type="module" src="optionsShortcuts.js"></script>
     <script type="module" src="optionsButton.js"></script>
     <script type="module" src="optionsMenu.js"></script>
     <script type="module" src="optionsStyle.js"></script>
@@ -23,8 +23,8 @@
       <div class="tablist" role="tablist">
         <div class="tab"
              role="tab"
-             id="tablist-tab-page-nav"
-             aria-controls="tabpanel-options-page-nav">
+             id="tablist-tab-shortcuts"
+             aria-controls="tabpanel-options-shortcuts">
           Page Navigation
         </div>
         <div class="tab"
@@ -55,10 +55,10 @@
 
       <div class="tabpanel"
            role="tabpanel"
-           id="tabpanel-options-page-nav"
-           aria-labelledby="tablist-tab-page-nav">
+           id="tabpanel-options-shortcuts"
+           aria-labelledby="tablist-tab-shortcuts">
 
-        <options-page-navigation></options-page-navigation>
+        <options-shortcuts></options-shortcuts>
 
       </div>
 

@@ -11,7 +11,7 @@ import {
 
 import {
   monitorKeyboardFocus
-} from './pageNavigation.js';
+} from './shortcuts.js';
 
 /* constants */
 const debug = new DebugLogging('skiptoContent', false);
@@ -55,28 +55,28 @@ export default class SkipToContent extends HTMLElement {
       buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
       // Page navigation flag and keys
-      pageNavigationSupported: 'true', // options: true or false
-      pageNavigation: 'disabled',  // options: disabled and enabled
-      pageHeadingNext: 'h',
-      pageHeadingPrevious: 'g',
-      pageHeadingH1: '1',
-      pageHeadingH2: '2',
-      pageHeadingH3: '3',
-      pageHeadingH4: '4',
-      pageHeadingH5: '5',
-      pageHeadingH6: '6',
+      shortcutsSupported: 'true', // options: true or false
+      shortcuts: 'disabled',  // options: disabled and enabled
+      shortcutHeadingNext: 'h',
+      shortcutHeadingPrevious: 'g',
+      shortcutHeadingH1: '1',
+      shortcutHeadingH2: '2',
+      shortcutHeadingH3: '3',
+      shortcutHeadingH4: '4',
+      shortcutHeadingH5: '5',
+      shortcutHeadingH6: '6',
 
-      pageRegionNext: 'r',
-      pageRegionPrevious: 'e',
-      pageRegionMain: 'm',
-      pageRegionNavigation: 'n',
-      pageRegionComplementary: 'c',
+      shortcutRegionNext: 'r',
+      shortcutRegionPrevious: 'e',
+      shortcutRegionMain: 'm',
+      shortcutRegionNavigation: 'n',
+      shortcutRegionComplementary: 'c',
 
-      pageNavGroupEnabledLabel:  'Navigation Shortcuts: Enabled',
-      pageNavGroupDisabledLabel: 'Navigation Shortcuts: Disabled',
-      pageNavToggleEnableLabel:  'Enable shortcuts',
-      pageNavToggleDisableLabel: 'Disable shortcuts',
-      pageNavInfoLabel:          'Shortcut Information',
+      shortcutsGroupEnabledLabel:  'Navigation Shortcuts: Enabled',
+      shortcutsGroupDisabledLabel: 'Navigation Shortcuts: Disabled',
+      shortcutsToggleEnableLabel:  'Enable shortcuts',
+      shortcutsToggleDisableLabel: 'Disable shortcuts',
+      shortcutsInfoLabel:          'Shortcut Information',
 
       // Menu labels and messages
       menuLabel: 'Landmarks and Headings',
@@ -125,7 +125,7 @@ export default class SkipToContent extends HTMLElement {
       "data-skipto",
       "setfocus",
       "type",
-      "pagenav"
+      "shortcuts"
       ];
   }
 
@@ -138,16 +138,16 @@ export default class SkipToContent extends HTMLElement {
 
     if (name === 'type') {
       if (newValue === 'extension') {
-        this.config.pageNavigation = 'enabled';
+        this.config.shortcuts = 'enabled';
       }
     }
 
-    if (name === 'pagenav') {
+    if (name === 'shortcuts') {
       if (newValue.trim().toLowerCase() === 'enable') {
-        this.config.pageNavigation = 'enabled';
+        this.config.shortcuts = 'enabled';
       }
       else {
-        this.config.pageNavigation = 'disabled';
+        this.config.shortcuts = 'disabled';
       }
     }
 

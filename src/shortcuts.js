@@ -1,4 +1,4 @@
-/* pageNavigation.js */
+/* shortcuts.js */
 
 /* Imports */
 import DebugLogging  from './debug.js';
@@ -26,7 +26,7 @@ export {
 };
 
 /* Constants */
-const debug = new DebugLogging('pageNav', false);
+const debug = new DebugLogging('shortcuts', false);
 debug.flag = true;
 
 

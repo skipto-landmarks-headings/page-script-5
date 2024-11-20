@@ -15,21 +15,21 @@ const defaultButtonOptions = {
   focusOption: 'button'
 };
 
-const defaultPageNavigationOptions = {
-  pageNavigation: 'enabled',
-  pageHeadingNext: 'h',
-  pageHeadingPrevious: 'g',
-  pageHeadingH1: '1',
-  pageHeadingH2: '2',
-  pageHeadingH3: '3',
-  pageHeadingH4: '4',
-  pageHeadingH5: '5',
-  pageHeadingH6: '6',
+const defaultShortcutOptions = {
+  shortcuts: 'enabled',
+  shortcutHeadingNext: 'h',
+  shortcutHeadingPrevious: 'g',
+  shortcutHeadingH1: '1',
+  shortcutHeadingH2: '2',
+  shortcutHeadingH3: '3',
+  shortcutHeadingH4: '4',
+  shortcutHeadingH5: '5',
+  shortcutHeadingH6: '6',
 
-  pageRegionNext: 'r',
-  pageRegionPrevious: 'e',
-  pageRegionMain: 'm',
-  pageRegionNavigation: 'n'
+  shortcutRegionNext: 'r',
+  shortcutRegionPrevious: 'e',
+  shortcutRegionMain: 'm',
+  shortcutRegionNavigation: 'n'
 };
 
 const defaultMenuOptions = {
@@ -77,7 +77,7 @@ const i18nOptions = {
   msgNoHeadingsFound: 'No headings found'
 };
 
-const defaultOptions = Object.assign({}, defaultButtonOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions, defaultPageNavigationOptions);
+const defaultOptions = Object.assign({}, defaultButtonOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions, defaultShortcutOptions);
 
 function hasAllProperties (refObj, srcObj) {
   for (const key of Object.keys(refObj)) {
@@ -161,11 +161,11 @@ export function resetDefaultButtonOptions () {
 }
 
 /*
-** resetDefaultPageNavigationOptions
+** resetDefaultShortcutOptions
 */
-export function resetDefaultPageNavigationOptions () {
+export function resetDefaultShortcutOptions () {
   return new Promise (function (resolve, reject) {
-    browserStorage.set(defaultPageNavigationOptions, function () {
+    browserStorage.set(defaultShortcutOptions, function () {
       if (notLastError()) { resolve() }
     });
   });

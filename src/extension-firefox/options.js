@@ -9,14 +9,14 @@ const browserI18n = typeof browser === 'object' ?
             chrome.i18n;
 
 const i18nLabels = [
-//  { id: 'head-title',        label: 'extension_name'},
-//  { id: 'banner-title',      label: 'extension_name'},
-//  { id: 'h1-title',          label: 'options_h1_title'},
-  { id: 'tablist-tab-page-nav', label: 'options_tab_page_nav'},
-  { id: 'tablist-tab-button',   label: 'options_tab_button'},
-  { id: 'tablist-tab-menu',     label: 'options_tab_menu'},
-  { id: 'tablist-tab-style',    label: 'options_tab_style'},
-  { id: 'tablist-tab-i18n',     label: 'options_tab_i18n'}
+//  { id: 'head-title',          label: 'extension_name'},
+//  { id: 'banner-title',        label: 'extension_name'},
+//  { id: 'h1-title',            label: 'options_h1_title'},
+  { id: 'tablist-tab-shortcuts', label: 'options_tab_shortcuts'},
+  { id: 'tablist-tab-button',    label: 'options_tab_button'},
+  { id: 'tablist-tab-menu',      label: 'options_tab_menu'},
+  { id: 'tablist-tab-style',     label: 'options_tab_style'},
+  { id: 'tablist-tab-i18n',      label: 'options_tab_i18n'}
 ];
 
 window.addEventListener("load", (event) => {

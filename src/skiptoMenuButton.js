@@ -21,7 +21,7 @@ import {
 import {
   getFocusElement,
   navigateContent
-} from './pageNavigation.js';
+} from './shortcuts.js';
 
 import {
   elementTakesText,
@@ -129,23 +129,23 @@ export default class SkiptoMenuButton {
       this.headingGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-heading-group-label');
       this.menuNode.appendChild(this.headingGroupNode);
 
-      if (this.config.pageNavigationSupported === 'true') {
-        this.pageNavGroupLabelNode = document.createElement('div');
-        this.pageNavGroupLabelNode.setAttribute('id', 'id-skip-to-menu-page-nav-group-label');
-        this.pageNavGroupLabelNode.setAttribute('role', 'separator');
-        if (this.config.pageNavigation === 'enabled') {
-          this.pageNavGroupLabelNode.textContent = this.config.pageNavGroupEnabledLabel;
+      if (this.config.shortcutsSupported === 'true') {
+        this.shortcutsGroupLabelNode = document.createElement('div');
+        this.shortcutsGroupLabelNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group-label');
+        this.shortcutsGroupLabelNode.setAttribute('role', 'separator');
+        if (this.config.shortcuts === 'enabled') {
+          this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupEnabledLabel;
         }
         else {
-          this.pageNavGroupLabelNode.textContent = this.config.pageNavGroupDisabledLabel;
+          this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
         }
-        this.menuNode.appendChild(this.pageNavGroupLabelNode);
+        this.menuNode.appendChild(this.shortcutsGroupLabelNode);
 
-        this.pageNavGroupNode = document.createElement('div');
-        this.pageNavGroupNode.setAttribute('id', 'id-skip-to-menu-page-nav-group');
-        this.pageNavGroupNode.setAttribute('role', 'group');
-        this.pageNavGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-page-nave-group-label');
-        this.menuNode.appendChild(this.pageNavGroupNode);
+        this.shortcutsGroupNode = document.createElement('div');
+        this.shortcutsGroupNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group');
+        this.shortcutsGroupNode.setAttribute('role', 'group');
+        this.shortcutsGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-shortcutse-group-label');
+        this.menuNode.appendChild(this.shortcutsGroupNode);
       }
 
       this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
@@ -474,62 +474,62 @@ export default class SkiptoMenuButton {
 
       this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, config.msgNoLandmarksFound);
       this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, config.msgNoHeadingsFound);
-      if (config.pageNavigationSupported === 'true') {
-        this.renderMenuitemsToPageNavigationGroup(this.pageNavGroupLabelNode, this.pageNavGroupNode);
+      if (config.shortcutsSupported === 'true') {
+        this.renderMenuitemsToShortcutsGroup(this.shortcutsGroupLabelNode, this.shortcutsGroupNode);
       }
       // Update list of menuitems
       this.updateMenuitems();
     }
 
     /*
-     * @method renderMenuitemsToPageNavigationGroup
+     * @method renderMenuitemsToShortcutsGroup
      *
      * @desc Updates separator and menuitems related to page navigation
      *
      * @param  {Object}  groupLabelNode  -  DOM element node for the label for page navigation group
      * @param  {Object}  groupLabelNode  -  DOM element node for the page navigation group
      */
-    renderMenuitemsToPageNavigationGroup (groupLabelNode, groupNode) {
+    renderMenuitemsToShortcutsGroup (groupLabelNode, groupNode) {
 
       // remove page navigation menu items
       while (groupNode.lastElementChild) {
         groupNode.removeChild(groupNode.lastElementChild);
       }
 
-      const pageNavToggleNode = document.createElement('div');
-      pageNavToggleNode.setAttribute('role', 'menuitem');
-      pageNavToggleNode.className = 'page-nav skip-to-nav skip-to-nesting-level-0';
-      pageNavToggleNode.setAttribute('tabindex', '-1');
-      groupNode.appendChild(pageNavToggleNode);
+      const shortcutsToggleNode = document.createElement('div');
+      shortcutsToggleNode.setAttribute('role', 'menuitem');
+      shortcutsToggleNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
+      shortcutsToggleNode.setAttribute('tabindex', '-1');
+      groupNode.appendChild(shortcutsToggleNode);
 
-      const pageNavToggleLabelNode = document.createElement('span');
-      pageNavToggleLabelNode.className = 'label';
-      pageNavToggleNode.appendChild(pageNavToggleLabelNode);
+      const shortcutsToggleLabelNode = document.createElement('span');
+      shortcutsToggleLabelNode.className = 'label';
+      shortcutsToggleNode.appendChild(shortcutsToggleLabelNode);
 
-      if (this.skipToContentElem.config.pageNavigation === 'enabled') {
-        groupLabelNode.textContent    = this.config.pageNavGroupEnabledLabel;
-        pageNavToggleNode.setAttribute('data-page-nav-toggle', 'disable');
-        pageNavToggleLabelNode.textContent = this.config.pageNavToggleDisableLabel;
+      if (this.skipToContentElem.config.shortcuts === 'enabled') {
+        groupLabelNode.textContent    = this.config.shortcutsGroupEnabledLabel;
+        shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'disable');
+        shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleDisableLabel;
       }
       else {
-        groupLabelNode.textContent = this.config.pageNavGroupDisabledLabel;
-        pageNavToggleNode.setAttribute('data-page-nav-toggle', 'enable');
-        pageNavToggleLabelNode.textContent = this.config.pageNavToggleEnableLabel;
+        groupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
+        shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'enable');
+        shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleEnableLabel;
       }
-      groupNode.appendChild(pageNavToggleNode);
+      groupNode.appendChild(shortcutsToggleNode);
 
 
-      const pageNavInfoNode = document.createElement('div');
-      pageNavInfoNode.setAttribute('role', 'menuitem');
-      pageNavInfoNode.className = 'page-nav skip-to-nav skip-to-nesting-level-0';
-      pageNavInfoNode.setAttribute('tabindex', '-1');
-      pageNavInfoNode.setAttribute('data-page-nav-info', '');
-      groupNode.appendChild(pageNavInfoNode);
+      const shortcutsInfoNode = document.createElement('div');
+      shortcutsInfoNode.setAttribute('role', 'menuitem');
+      shortcutsInfoNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
+      shortcutsInfoNode.setAttribute('tabindex', '-1');
+      shortcutsInfoNode.setAttribute('data-shortcuts-info', '');
+      groupNode.appendChild(shortcutsInfoNode);
 
-      const pageNavInfoLabelNode = document.createElement('span');
-      pageNavInfoLabelNode.className = 'label';
-      pageNavInfoLabelNode.textContent = this.config.pageNavInfoLabel;
-      pageNavInfoNode.appendChild(pageNavInfoLabelNode);
+      const shortcutsInfoLabelNode = document.createElement('span');
+      shortcutsInfoLabelNode.className = 'label';
+      shortcutsInfoLabelNode.textContent = this.config.shortcutsInfoLabel;
+      shortcutsInfoNode.appendChild(shortcutsInfoLabelNode);
 
 
     }
@@ -927,7 +927,7 @@ export default class SkiptoMenuButton {
         }
 
         // Check for navigation keys
-        if ((this.config.pageNavigation === 'enabled') &&
+        if ((this.config.shortcuts === 'enabled') &&
             (onlyShiftPressed(event) || noModifierPressed(event))) {
 
           switch (event.key) {
@@ -936,67 +936,67 @@ export default class SkiptoMenuButton {
             case '':
               break;
 
-            case this.config.pageRegionNext:
+            case this.config.shortcutRegionNext:
               navigateContent('landmark', 'next');
               flag = true;
               break;
 
-            case this.config.pageRegionPrevious:
+            case this.config.shortcutRegionPrevious:
               navigateContent('landmark', 'previous');
               flag = true;
               break;
 
-            case this.config.pageRegionComplementary:
+            case this.config.shortcutRegionComplementary:
               navigateContent('complementary', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageRegionMain:
+            case this.config.shortcutRegionMain:
               navigateContent('main', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageRegionNavigation:
+            case this.config.shortcutRegionNavigation:
               navigateContent('navigation', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageHeadingNext:
+            case this.config.shortcutHeadingNext:
               navigateContent('heading', 'next');
               flag = true;
               break;
 
-            case this.config.pageHeadingPrevious:
+            case this.config.shortcutHeadingPrevious:
               navigateContent('heading', 'previous');
               flag = true;
               break;
 
-            case this.config.pageHeadingH1:
+            case this.config.shortcutHeadingH1:
               navigateContent('h1', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageHeadingH2:
+            case this.config.shortcutHeadingH2:
               navigateContent('h2', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageHeadingH3:
+            case this.config.shortcutHeadingH3:
               navigateContent('h3', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageHeadingH4:
+            case this.config.shortcutHeadingH4:
               navigateContent('h4', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageHeadingH5:
+            case this.config.shortcutHeadingH5:
               navigateContent('h5', 'next', true);
               flag = true;
               break;
 
-            case this.config.pageHeadingH6:
+            case this.config.shortcutHeadingH6:
               navigateContent('h6', 'next', true);
               flag = true;
               break;
@@ -1027,17 +1027,17 @@ export default class SkiptoMenuButton {
         }
       }
 
-      if (tgt.hasAttribute('data-page-nav-toggle')) {
-        if (tgt.getAttribute('data-page-nav-toggle') === 'enable') {
-          this.skipToContentElem.setAttribute('pagenav', 'enable');
+      if (tgt.hasAttribute('data-shortcuts-toggle')) {
+        if (tgt.getAttribute('data-shortcuts-toggle') === 'enable') {
+          this.skipToContentElem.setAttribute('shortcuts', 'enable');
         }
         else {
-          this.skipToContentElem.setAttribute('pagenav', 'disable');
+          this.skipToContentElem.setAttribute('shortcuts', 'disable');
         }
         this.closePopup();
       }
 
-      if (tgt.hasAttribute('data-page-nav-info')) {
+      if (tgt.hasAttribute('data-shortcuts-info')) {
         alert('Shortcut Information');
         this.closePopup();
       }
