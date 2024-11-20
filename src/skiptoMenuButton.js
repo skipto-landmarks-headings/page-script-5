@@ -33,7 +33,7 @@ import {
 
 /* Constants */
 const debug = new DebugLogging('SkipToButton', false);
-debug.flag = true;
+debug.flag = false;
 
 /**
  * @class SkiptoMenuButton
@@ -128,6 +128,25 @@ export default class SkiptoMenuButton {
       this.headingGroupNode.setAttribute('role', 'group');
       this.headingGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-heading-group-label');
       this.menuNode.appendChild(this.headingGroupNode);
+
+      if (this.config.pageNavigationSupported === 'true') {
+        this.pageNavGroupLabelNode = document.createElement('div');
+        this.pageNavGroupLabelNode.setAttribute('id', 'id-skip-to-menu-page-nav-group-label');
+        this.pageNavGroupLabelNode.setAttribute('role', 'separator');
+        if (this.config.pageNavigation === 'enabled') {
+          this.pageNavGroupLabelNode.textContent = this.config.pageNavGroupEnabledLabel;
+        }
+        else {
+          this.pageNavGroupLabelNode.textContent = this.config.pageNavGroupDisabledLabel;
+        }
+        this.menuNode.appendChild(this.pageNavGroupLabelNode);
+
+        this.pageNavGroupNode = document.createElement('div');
+        this.pageNavGroupNode.setAttribute('id', 'id-skip-to-menu-page-nav-group');
+        this.pageNavGroupNode.setAttribute('role', 'group');
+        this.pageNavGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-page-nave-group-label');
+        this.menuNode.appendChild(this.pageNavGroupNode);
+      }
 
       this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
       this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -315,14 +334,20 @@ export default class SkiptoMenuButton {
      * @method updateMenuitems
      *
      * @desc  Updates the menu information with the current menu items
-     *        used for menu navigation commands
+     *        used for menu navigation commands and adds event handlers
      */
     updateMenuitems () {
       let menuitemNodes = this.menuNode.querySelectorAll('[role=menuitem');
 
       this.menuitemNodes = [];
       for(let i = 0; i < menuitemNodes.length; i += 1) {
-        this.menuitemNodes.push(menuitemNodes[i]);
+        const menuitemNode = menuitemNodes[i];
+        menuitemNode.addEventListener('keydown', this.handleMenuitemKeydown.bind(this));
+        menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
+        menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
+        menuitemNode.addEventListener('pointerleave', this.handleMenuitemPointerleave.bind(this));
+        menuitemNode.addEventListener('pointerover', this.handleMenuitemPointerover.bind(this));
+        this.menuitemNodes.push(menuitemNode);
       }
 
       this.firstMenuitem = this.menuitemNodes[0];
@@ -355,11 +380,6 @@ export default class SkiptoMenuButton {
       }
 
       // add event handlers
-      menuitemNode.addEventListener('keydown', this.handleMenuitemKeydown.bind(this));
-      menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
-      menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
-      menuitemNode.addEventListener('pointerleave', this.handleMenuitemPointerleave.bind(this));
-      menuitemNode.addEventListener('pointerover', this.handleMenuitemPointerover.bind(this));
       groupNode.appendChild(menuitemNode);
 
       // add heading level and label
@@ -454,9 +474,64 @@ export default class SkiptoMenuButton {
 
       this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, config.msgNoLandmarksFound);
       this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, config.msgNoHeadingsFound);
-
+      if (config.pageNavigationSupported === 'true') {
+        this.renderMenuitemsToPageNavigationGroup(this.pageNavGroupLabelNode, this.pageNavGroupNode);
+      }
       // Update list of menuitems
       this.updateMenuitems();
+    }
+
+    /*
+     * @method renderMenuitemsToPageNavigationGroup
+     *
+     * @desc Updates separator and menuitems related to page navigation
+     *
+     * @param  {Object}  groupLabelNode  -  DOM element node for the label for page navigation group
+     * @param  {Object}  groupLabelNode  -  DOM element node for the page navigation group
+     */
+    renderMenuitemsToPageNavigationGroup (groupLabelNode, groupNode) {
+
+      // remove page navigation menu items
+      while (groupNode.lastElementChild) {
+        groupNode.removeChild(groupNode.lastElementChild);
+      }
+
+      const pageNavToggleNode = document.createElement('div');
+      pageNavToggleNode.setAttribute('role', 'menuitem');
+      pageNavToggleNode.className = 'page-nav skip-to-nav skip-to-nesting-level-0';
+      pageNavToggleNode.setAttribute('tabindex', '-1');
+      groupNode.appendChild(pageNavToggleNode);
+
+      const pageNavToggleLabelNode = document.createElement('span');
+      pageNavToggleLabelNode.className = 'label';
+      pageNavToggleNode.appendChild(pageNavToggleLabelNode);
+
+      if (this.skipToContentElem.config.pageNavigation === 'enabled') {
+        groupLabelNode.textContent    = this.config.pageNavGroupEnabledLabel;
+        pageNavToggleNode.setAttribute('data-page-nav-toggle', 'disable');
+        pageNavToggleLabelNode.textContent = this.config.pageNavToggleDisableLabel;
+      }
+      else {
+        groupLabelNode.textContent = this.config.pageNavGroupDisabledLabel;
+        pageNavToggleNode.setAttribute('data-page-nav-toggle', 'enable');
+        pageNavToggleLabelNode.textContent = this.config.pageNavToggleEnableLabel;
+      }
+      groupNode.appendChild(pageNavToggleNode);
+
+
+      const pageNavInfoNode = document.createElement('div');
+      pageNavInfoNode.setAttribute('role', 'menuitem');
+      pageNavInfoNode.className = 'page-nav skip-to-nav skip-to-nesting-level-0';
+      pageNavInfoNode.setAttribute('tabindex', '-1');
+      pageNavInfoNode.setAttribute('data-page-nav-info', '');
+      groupNode.appendChild(pageNavInfoNode);
+
+      const pageNavInfoLabelNode = document.createElement('span');
+      pageNavInfoLabelNode.className = 'label';
+      pageNavInfoLabelNode.textContent = this.config.pageNavInfoLabel;
+      pageNavInfoNode.appendChild(pageNavInfoLabelNode);
+
+
     }
 
 //
@@ -477,8 +552,13 @@ export default class SkiptoMenuButton {
         menuitem.focus();
         this.skipToContentElem.setAttribute('focus', 'menu');
         this.focusMenuitem = menuitem;
-        const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
-        highlightElement(elem, this.highlightTarget);
+        if (menuitem.hasAttribute('data-id')) {
+          const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
+          highlightElement(elem, this.highlightTarget);
+        }
+        else {
+          removeHighlight();
+        }
       }
     }
 
@@ -847,13 +927,6 @@ export default class SkiptoMenuButton {
         }
 
         // Check for navigation keys
-
-        debug.flag && debug.log(`[handleDocumentKeydown][   pageNavigation]: ${this.config.pageNavigation}`);
-        debug.flag && debug.log(`[handleDocumentKeydown][ onlyShiftPressed]: ${onlyShiftPressed(event)}`);
-        debug.flag && debug.log(`[handleDocumentKeydown][noModifierPressed]: ${noModifierPressed(event)}`);
-
-        debug.flag && debug.log(`[handleDocumentKeydown][pageNavigation]: ${this.config.pageNavigation} ${event.key}`);
-
         if ((this.config.pageNavigation === 'enabled') &&
             (onlyShiftPressed(event) || noModifierPressed(event))) {
 
@@ -870,6 +943,11 @@ export default class SkiptoMenuButton {
 
             case this.config.pageRegionPrevious:
               navigateContent('landmark', 'previous');
+              flag = true;
+              break;
+
+            case this.config.pageRegionComplementary:
+              navigateContent('complementary', 'next', true);
               flag = true;
               break;
 
@@ -936,15 +1014,32 @@ export default class SkiptoMenuButton {
     }    
 
     handleMenuitemAction(tgt) {
-      switch (tgt.getAttribute('data-id')) {
-        case '':
-          // this means there were no headings or landmarks in the list
-          break;
+      if (tgt.hasAttribute('data-id')) {
+        switch (tgt.getAttribute('data-id')) {
+          case '':
+            // this means there were no headings or landmarks in the list
+            break;
 
-        default:
-          this.closePopup();
-          skipToElement(tgt);
-          break;
+          default:
+            this.closePopup();
+            skipToElement(tgt);
+            break;
+        }
+      }
+
+      if (tgt.hasAttribute('data-page-nav-toggle')) {
+        if (tgt.getAttribute('data-page-nav-toggle') === 'enable') {
+          this.skipToContentElem.setAttribute('pagenav', 'enable');
+        }
+        else {
+          this.skipToContentElem.setAttribute('pagenav', 'disable');
+        }
+        this.closePopup();
+      }
+
+      if (tgt.hasAttribute('data-page-nav-info')) {
+        alert('Shortcut Information');
+        this.closePopup();
       }
     }
 
@@ -1031,8 +1126,13 @@ export default class SkiptoMenuButton {
       debug.flag && debug.log(`[enter]`);
       let tgt = event.currentTarget;
       tgt.classList.add('hover');
-      const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
-      highlightElement(elem, this.highlightTarget);
+      if (tgt.hasAttribute('data-id')) {
+        const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
+        highlightElement(elem, this.highlightTarget);
+      }
+      else {
+        removeHighlight();
+      }
       event.stopPropagation();
       event.preventDefault();
     }
@@ -1040,8 +1140,13 @@ export default class SkiptoMenuButton {
    handleMenuitemPointerover(event) {
       debug.flag && debug.log(`[over]`);
       let tgt = event.currentTarget;
-      const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
-      highlightElement(elem, this.highlightTarget);
+      if (tgt.hasAttribute('data-id')) {
+        const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
+        highlightElement(elem, this.highlightTarget);
+      }
+      else {
+        removeHighlight();
+      }
       event.stopPropagation();
       event.preventDefault();
     }
@@ -1092,8 +1197,13 @@ export default class SkiptoMenuButton {
       if (mi) {
         this.removeHoverClass(mi);
         mi.classList.add('hover');
-        const elem = queryDOMForSkipToId(mi.getAttribute('data-id'));
-        highlightElement(elem, this.highlightTarget);
+        if (mi.hasAttribute('data-id')) {
+          const elem = queryDOMForSkipToId(mi.getAttribute('data-id'));
+          highlightElement(elem, this.highlightTarget);
+        }
+        else {
+          removeHighlight();
+        }
       }
 
       event.stopPropagation();

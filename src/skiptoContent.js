@@ -55,6 +55,7 @@ export default class SkipToContent extends HTMLElement {
       buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
       // Page navigation flag and keys
+      pageNavigationSupported: 'true', // options: true or false
       pageNavigation: 'disabled',  // options: disabled and enabled
       pageHeadingNext: 'h',
       pageHeadingPrevious: 'g',
@@ -69,7 +70,13 @@ export default class SkipToContent extends HTMLElement {
       pageRegionPrevious: 'e',
       pageRegionMain: 'm',
       pageRegionNavigation: 'n',
+      pageRegionComplementary: 'c',
 
+      pageNavGroupEnabledLabel:  'Navigation Shortcuts: Enabled',
+      pageNavGroupDisabledLabel: 'Navigation Shortcuts: Disabled',
+      pageNavToggleEnableLabel:  'Enable shortcuts',
+      pageNavToggleDisableLabel: 'Disable shortcuts',
+      pageNavInfoLabel:          'Shortcut Information',
 
       // Menu labels and messages
       menuLabel: 'Landmarks and Headings',
@@ -116,7 +123,9 @@ export default class SkipToContent extends HTMLElement {
   static get observedAttributes() {
     return [
       "data-skipto",
-      "setfocus"
+      "setfocus",
+      "type",
+      "pagenav"
       ];
   }
 
@@ -125,6 +134,21 @@ export default class SkipToContent extends HTMLElement {
 
     if (name === 'data-skipto') {
       this.config = this.setupConfigFromDataAttribute(this.config, newValue);
+    }
+
+    if (name === 'type') {
+      if (newValue === 'extension') {
+        this.config.pageNavigation = 'enabled';
+      }
+    }
+
+    if (name === 'pagenav') {
+      if (newValue.trim().toLowerCase() === 'enable') {
+        this.config.pageNavigation = 'enabled';
+      }
+      else {
+        this.config.pageNavigation = 'disabled';
+      }
     }
 
     if (name === 'setfocus') {

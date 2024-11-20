@@ -2686,7 +2686,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
   /* Constants */
   const debug$2 = new DebugLogging('SkipToButton', false);
-  debug$2.flag = true;
+  debug$2.flag = false;
 
   /**
    * @class SkiptoMenuButton
@@ -2781,6 +2781,25 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         this.headingGroupNode.setAttribute('role', 'group');
         this.headingGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-heading-group-label');
         this.menuNode.appendChild(this.headingGroupNode);
+
+        if (this.config.pageNavigationSupported === 'true') {
+          this.pageNavGroupLabelNode = document.createElement('div');
+          this.pageNavGroupLabelNode.setAttribute('id', 'id-skip-to-menu-page-nav-group-label');
+          this.pageNavGroupLabelNode.setAttribute('role', 'separator');
+          if (this.config.pageNavigation === 'enabled') {
+            this.pageNavGroupLabelNode.textContent = this.config.pageNavGroupEnabledLabel;
+          }
+          else {
+            this.pageNavGroupLabelNode.textContent = this.config.pageNavGroupDisabledLabel;
+          }
+          this.menuNode.appendChild(this.pageNavGroupLabelNode);
+
+          this.pageNavGroupNode = document.createElement('div');
+          this.pageNavGroupNode.setAttribute('id', 'id-skip-to-menu-page-nav-group');
+          this.pageNavGroupNode.setAttribute('role', 'group');
+          this.pageNavGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-page-nave-group-label');
+          this.menuNode.appendChild(this.pageNavGroupNode);
+        }
 
         this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
         this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -2968,14 +2987,20 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
        * @method updateMenuitems
        *
        * @desc  Updates the menu information with the current menu items
-       *        used for menu navigation commands
+       *        used for menu navigation commands and adds event handlers
        */
       updateMenuitems () {
         let menuitemNodes = this.menuNode.querySelectorAll('[role=menuitem');
 
         this.menuitemNodes = [];
         for(let i = 0; i < menuitemNodes.length; i += 1) {
-          this.menuitemNodes.push(menuitemNodes[i]);
+          const menuitemNode = menuitemNodes[i];
+          menuitemNode.addEventListener('keydown', this.handleMenuitemKeydown.bind(this));
+          menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
+          menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
+          menuitemNode.addEventListener('pointerleave', this.handleMenuitemPointerleave.bind(this));
+          menuitemNode.addEventListener('pointerover', this.handleMenuitemPointerover.bind(this));
+          this.menuitemNodes.push(menuitemNode);
         }
 
         this.firstMenuitem = this.menuitemNodes[0];
@@ -3008,11 +3033,6 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         }
 
         // add event handlers
-        menuitemNode.addEventListener('keydown', this.handleMenuitemKeydown.bind(this));
-        menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
-        menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
-        menuitemNode.addEventListener('pointerleave', this.handleMenuitemPointerleave.bind(this));
-        menuitemNode.addEventListener('pointerover', this.handleMenuitemPointerover.bind(this));
         groupNode.appendChild(menuitemNode);
 
         // add heading level and label
@@ -3107,9 +3127,64 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
         this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, config.msgNoLandmarksFound);
         this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, config.msgNoHeadingsFound);
-
+        if (config.pageNavigationSupported === 'true') {
+          this.renderMenuitemsToPageNavigationGroup(this.pageNavGroupLabelNode, this.pageNavGroupNode);
+        }
         // Update list of menuitems
         this.updateMenuitems();
+      }
+
+      /*
+       * @method renderMenuitemsToPageNavigationGroup
+       *
+       * @desc Updates separator and menuitems related to page navigation
+       *
+       * @param  {Object}  groupLabelNode  -  DOM element node for the label for page navigation group
+       * @param  {Object}  groupLabelNode  -  DOM element node for the page navigation group
+       */
+      renderMenuitemsToPageNavigationGroup (groupLabelNode, groupNode) {
+
+        // remove page navigation menu items
+        while (groupNode.lastElementChild) {
+          groupNode.removeChild(groupNode.lastElementChild);
+        }
+
+        const pageNavToggleNode = document.createElement('div');
+        pageNavToggleNode.setAttribute('role', 'menuitem');
+        pageNavToggleNode.className = 'page-nav skip-to-nav skip-to-nesting-level-0';
+        pageNavToggleNode.setAttribute('tabindex', '-1');
+        groupNode.appendChild(pageNavToggleNode);
+
+        const pageNavToggleLabelNode = document.createElement('span');
+        pageNavToggleLabelNode.className = 'label';
+        pageNavToggleNode.appendChild(pageNavToggleLabelNode);
+
+        if (this.skipToContentElem.config.pageNavigation === 'enabled') {
+          groupLabelNode.textContent    = this.config.pageNavGroupEnabledLabel;
+          pageNavToggleNode.setAttribute('data-page-nav-toggle', 'disable');
+          pageNavToggleLabelNode.textContent = this.config.pageNavToggleDisableLabel;
+        }
+        else {
+          groupLabelNode.textContent = this.config.pageNavGroupDisabledLabel;
+          pageNavToggleNode.setAttribute('data-page-nav-toggle', 'enable');
+          pageNavToggleLabelNode.textContent = this.config.pageNavToggleEnableLabel;
+        }
+        groupNode.appendChild(pageNavToggleNode);
+
+
+        const pageNavInfoNode = document.createElement('div');
+        pageNavInfoNode.setAttribute('role', 'menuitem');
+        pageNavInfoNode.className = 'page-nav skip-to-nav skip-to-nesting-level-0';
+        pageNavInfoNode.setAttribute('tabindex', '-1');
+        pageNavInfoNode.setAttribute('data-page-nav-info', '');
+        groupNode.appendChild(pageNavInfoNode);
+
+        const pageNavInfoLabelNode = document.createElement('span');
+        pageNavInfoLabelNode.className = 'label';
+        pageNavInfoLabelNode.textContent = this.config.pageNavInfoLabel;
+        pageNavInfoNode.appendChild(pageNavInfoLabelNode);
+
+
       }
 
   //
@@ -3130,8 +3205,13 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
           menuitem.focus();
           this.skipToContentElem.setAttribute('focus', 'menu');
           this.focusMenuitem = menuitem;
-          const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
-          highlightElement(elem, this.highlightTarget);
+          if (menuitem.hasAttribute('data-id')) {
+            const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
+            highlightElement(elem, this.highlightTarget);
+          }
+          else {
+            removeHighlight();
+          }
         }
       }
 
@@ -3496,13 +3576,6 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
           }
 
           // Check for navigation keys
-
-          debug$2.flag && debug$2.log(`[handleDocumentKeydown][   pageNavigation]: ${this.config.pageNavigation}`);
-          debug$2.flag && debug$2.log(`[handleDocumentKeydown][ onlyShiftPressed]: ${onlyShiftPressed(event)}`);
-          debug$2.flag && debug$2.log(`[handleDocumentKeydown][noModifierPressed]: ${noModifierPressed(event)}`);
-
-          debug$2.flag && debug$2.log(`[handleDocumentKeydown][pageNavigation]: ${this.config.pageNavigation} ${event.key}`);
-
           if ((this.config.pageNavigation === 'enabled') &&
               (onlyShiftPressed(event) || noModifierPressed(event))) {
 
@@ -3519,6 +3592,11 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
               case this.config.pageRegionPrevious:
                 navigateContent('landmark', 'previous');
+                flag = true;
+                break;
+
+              case this.config.pageRegionComplementary:
+                navigateContent('complementary', 'next', true);
                 flag = true;
                 break;
 
@@ -3582,15 +3660,32 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
       }    
 
       handleMenuitemAction(tgt) {
-        switch (tgt.getAttribute('data-id')) {
-          case '':
-            // this means there were no headings or landmarks in the list
-            break;
+        if (tgt.hasAttribute('data-id')) {
+          switch (tgt.getAttribute('data-id')) {
+            case '':
+              // this means there were no headings or landmarks in the list
+              break;
 
-          default:
-            this.closePopup();
-            skipToElement(tgt);
-            break;
+            default:
+              this.closePopup();
+              skipToElement(tgt);
+              break;
+          }
+        }
+
+        if (tgt.hasAttribute('data-page-nav-toggle')) {
+          if (tgt.getAttribute('data-page-nav-toggle') === 'enable') {
+            this.skipToContentElem.setAttribute('pagenav', 'enable');
+          }
+          else {
+            this.skipToContentElem.setAttribute('pagenav', 'disable');
+          }
+          this.closePopup();
+        }
+
+        if (tgt.hasAttribute('data-page-nav-info')) {
+          alert('Shortcut Information');
+          this.closePopup();
         }
       }
 
@@ -3677,8 +3772,13 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         debug$2.flag && debug$2.log(`[enter]`);
         let tgt = event.currentTarget;
         tgt.classList.add('hover');
-        const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
-        highlightElement(elem, this.highlightTarget);
+        if (tgt.hasAttribute('data-id')) {
+          const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
+          highlightElement(elem, this.highlightTarget);
+        }
+        else {
+          removeHighlight();
+        }
         event.stopPropagation();
         event.preventDefault();
       }
@@ -3686,8 +3786,13 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
      handleMenuitemPointerover(event) {
         debug$2.flag && debug$2.log(`[over]`);
         let tgt = event.currentTarget;
-        const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
-        highlightElement(elem, this.highlightTarget);
+        if (tgt.hasAttribute('data-id')) {
+          const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
+          highlightElement(elem, this.highlightTarget);
+        }
+        else {
+          removeHighlight();
+        }
         event.stopPropagation();
         event.preventDefault();
       }
@@ -3738,8 +3843,13 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         if (mi) {
           this.removeHoverClass(mi);
           mi.classList.add('hover');
-          const elem = queryDOMForSkipToId(mi.getAttribute('data-id'));
-          highlightElement(elem, this.highlightTarget);
+          if (mi.hasAttribute('data-id')) {
+            const elem = queryDOMForSkipToId(mi.getAttribute('data-id'));
+            highlightElement(elem, this.highlightTarget);
+          }
+          else {
+            removeHighlight();
+          }
         }
 
         event.stopPropagation();
@@ -3829,6 +3939,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
         // Page navigation flag and keys
+        pageNavigationSupported: 'true', // options: true or false
         pageNavigation: 'disabled',  // options: disabled and enabled
         pageHeadingNext: 'h',
         pageHeadingPrevious: 'g',
@@ -3843,7 +3954,13 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         pageRegionPrevious: 'e',
         pageRegionMain: 'm',
         pageRegionNavigation: 'n',
+        pageRegionComplementary: 'c',
 
+        pageNavGroupEnabledLabel:  'Navigation Shortcuts: Enabled',
+        pageNavGroupDisabledLabel: 'Navigation Shortcuts: Disabled',
+        pageNavToggleEnableLabel:  'Enable shortcuts',
+        pageNavToggleDisableLabel: 'Disable shortcuts',
+        pageNavInfoLabel:          'Shortcut Information',
 
         // Menu labels and messages
         menuLabel: 'Landmarks and Headings',
@@ -3890,7 +4007,9 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     static get observedAttributes() {
       return [
         "data-skipto",
-        "setfocus"
+        "setfocus",
+        "type",
+        "pagenav"
         ];
     }
 
@@ -3899,6 +4018,21 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
       if (name === 'data-skipto') {
         this.config = this.setupConfigFromDataAttribute(this.config, newValue);
+      }
+
+      if (name === 'type') {
+        if (newValue === 'extension') {
+          this.config.pageNavigation = 'enabled';
+        }
+      }
+
+      if (name === 'pagenav') {
+        if (newValue.trim().toLowerCase() === 'enable') {
+          this.config.pageNavigation = 'enabled';
+        }
+        else {
+          this.config.pageNavigation = 'disabled';
+        }
       }
 
       if (name === 'setfocus') {
@@ -4101,7 +4235,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     * @returns  Returns dom node of new element or false if the page
     *           has a legacy SkipTo.js
     */
-    function getSkipToContentElement() {
+    function getSkipToContentElement(type="pagescript") {
 
       if (document.getElementById('id-skip-to')) {
         removeLegacySkipToJS();
@@ -4113,6 +4247,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         window.customElements.define("skip-to-content", SkipToContent);
         skipToContentElem = document.createElement('skip-to-content');
         skipToContentElem.setAttribute('version', skipToContentElem.version);
+        skipToContentElem.setAttribute('type', type);
         // always attach SkipToContent element to body
         if (document.body) {
           document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
@@ -4124,7 +4259,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     // Check for SkipTo.js bookmarklet script, if it is initialize it immediately
     if (document.getElementById(`id-skip-to-bookmarklet`)) {
       debug.flag && debug.log(`[bookmarklet]`);
-      const skipToContentElem = getSkipToContentElement();
+      const skipToContentElem = getSkipToContentElement('bookmarklet');
       if (skipToContentElem) {
         skipToContentElem.init();
         skipToContentElem.buttonSkipTo.openPopup();
@@ -4134,7 +4269,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     else {
       if (document.getElementById(`id-skip-to-extension`)) {
         debug.flag && debug.log(`[extension]`);
-        const skipToContentElem = getSkipToContentElement();
+        const skipToContentElem = getSkipToContentElement('extension');
         if (skipToContentElem) {
           skipToContentElem.init();
           window.addEventListener('load', function() {

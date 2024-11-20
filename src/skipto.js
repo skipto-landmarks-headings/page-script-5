@@ -48,7 +48,7 @@ debug.flag = false;
   * @returns  Returns dom node of new element or false if the page
   *           has a legacy SkipTo.js
   */
-  function getSkipToContentElement() {
+  function getSkipToContentElement(type="pagescript") {
 
     if (document.getElementById('id-skip-to')) {
       removeLegacySkipToJS();
@@ -60,6 +60,7 @@ debug.flag = false;
       window.customElements.define("skip-to-content", SkipToContent);
       skipToContentElem = document.createElement('skip-to-content');
       skipToContentElem.setAttribute('version', skipToContentElem.version);
+      skipToContentElem.setAttribute('type', type);
       // always attach SkipToContent element to body
       if (document.body) {
         document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
@@ -71,7 +72,7 @@ debug.flag = false;
   // Check for SkipTo.js bookmarklet script, if it is initialize it immediately
   if (document.getElementById(`id-skip-to-bookmarklet`)) {
     debug.flag && debug.log(`[bookmarklet]`);
-    const skipToContentElem = getSkipToContentElement();
+    const skipToContentElem = getSkipToContentElement('bookmarklet');
     if (skipToContentElem) {
       skipToContentElem.init();
       skipToContentElem.buttonSkipTo.openPopup();
@@ -81,7 +82,7 @@ debug.flag = false;
   else {
     if (document.getElementById(`id-skip-to-extension`)) {
       debug.flag && debug.log(`[extension]`);
-      const skipToContentElem = getSkipToContentElement();
+      const skipToContentElem = getSkipToContentElement('extension');
       if (skipToContentElem) {
         skipToContentElem.init();
         window.addEventListener('load', function() {
