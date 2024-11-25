@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>About | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
+    <title>Page Navigation Shortcut Keys | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -17,6 +17,11 @@
 
 
 
+    <style type="text/css">
+      table.shortcuts {
+        width: 18em;
+      }
+    </style>
   </head>
   <body>
             <!-- Navigation-->
@@ -101,69 +106,81 @@
       <nav aria-label="Breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">About</li>
+          <li class="breadcrumb-item active">Page Navigation Shortcut Keys</li>
         </ol>
       </nav>
       <main class="row gx-4 justify-content-center">
         <div class="col-lg-10">
           
-          <h1>About</h1>
+          <h1>Page Navigation Shortcut Keys</h1>
           
+          <div id="shortcuts">
 
-          <div id="about">
+            <h2 id="landmark-regions">Landmark Regions</h2>
 
-            <h2 id="authors">Authors</h2>
+            <table class="table table-striped shortcuts" aria-labelledby="landmark-regions">
+               <thead>
+                  <tr>
+                     <th>Key</th>
+                     <th>Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                    <th>r</th><td>Next region</td>
+                  </tr>
+                  <tr>
+                    <th>e</th><td>Previous region</td>
+                  </tr>
+                  <tr>
+                    <th>m</th><td>Main regions</td>
+                  </tr>
+                  <tr>
+                    <th>n</th><td>Navigation regions</td>
+                  </tr>
+                  <tr>
+                    <th>c</th><td>Complementary regions</td>
+                  </tr>
+                </tbody>
+              </table>
 
-            <h3 id="current-contributors">Current Contributors</h3>
+            <h2 id="headings">Headings</h2>
 
-            <p><strong>Jon Gunderson</strong>
-            <a href="https://github.com/jongund">https://github.com/jongund</a></p>
-
-            <p style="font-style: italic">Note:A special thank you to Matt King and the members of the <a href="https://www.w3.org/WAI/ARIA/task-forces/practices/">ARIA Authoring Practices Task Force</a> for their feedback on the features of <code>SkipTo.js</code>.</p>
-
-            <h3 id="previous-contributors">Previous Contributors</h3>
-
-            <p><strong>Nicholas Hoyt</strong>
-            <a href="https://github.com/nhoyt">https://github.com/nhoyt</a></p>
-
-            <p><strong>Prem Nawaz Khan</strong>
-            <a href="https://github.com/mpnkhan">https://github.com/mpnkhan</a> || <a href="https://twitter.com/mpnkhan">@mpnkhan</a></p>
-
-            <p><strong>Ron Feathers</strong>
-            <a href="https://github.com/rfeathers">https://github.com/rfeathers</a> || <a href="https://twitter.com/ronfeathers">@ronfeathers</a></p>
-
-            <p><strong>Marc Kocher</strong>
-            <a href="https://github.com/mdkocher">https://github.com/mdkocher</a> || <a href="https://twitter.com/marckocher">@marckocher</a></p>
-
-            <p><strong>Brian Teeman</strong>
-            <a href="https://github.com/brianteeman">https://github.com/brianteeman</a></p>
-
-            <p><strong>Victor Tsaran</strong>
-            <a href="https://github.com/vick08">https://github.com/vick08</a> || <a href="https://twitter.com/vick08">@vick08</a></p>
-
-            <h2 id="compiling-css-and-javascript">Compiling CSS and JavaScript</h2>
-
-            <p>The <a href="https://github.com/skipto-landmarks-headings/page-script-5">SkipTo.js code</a> is open-source. You may feel slightly adventurous and decide to change some colors by creating a built-in color theme or even enhance the script with your changes. Once you do this, here is how you compile the skipTo script for production.</p>
-
-            <div class="language-html highlighter-rouge">
-              <div class="highlight">
-                <pre class="highlight">
-<code>git clone https://github.com/skipto-landmarks-headings/page-script-5.git
-<span class="nb">cd </span>page-script-5
-<span class="nb">sudo </span>npm <span class="nb">install </span>grunt-cli <span class="nt">-g</span>
-npm <span class="nb">install</span>
-gulp
-</code>
-</pre></div></div>
-
-            <ol>
-              <li>You should now have a directory called <strong><code class="language-plaintext highlighter-rouge">docs/dist</code></strong> with the necessary files in it.</li>
-              <li>See <a href="using.html">Using Skipto</a> and the <a href-"config.html":>Configuration</a> pages to get the SkipTo.js script running on your web site.</li>
-            </ol>
-
-            <h2>Version Information</h2>
-
-            <p>The <a href="https://github.com/skipto-landmarks-headings/page-script-5/blob/main/CHANGELOG.md"><code>CHANGELOG.md</code></a> file in the GitHub repository contains version history information.</p>
+            <table class="table table-striped shortcuts" aria-labelledby="headings">
+               <thead>
+                  <tr>
+                     <th>Key</th>
+                     <th>Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                    <th>h</th><td>Next heading</td>
+                  </tr>
+                  <tr>
+                    <th>g</th><td>Previous heading</td>
+                  </tr>
+                  <tr>
+                    <th>1</th><td>Level 1 headings</td>
+                  </tr>
+                  <tr>
+                    <th>2</th><td>Level 2 headings</td>
+                  </tr>
+                  <tr>
+                    <th>3</th><td>Level 3 headings</td>
+                  </tr>
+                  <tr>
+                    <th>4</th><td>Level 4 headings</td>
+                  </tr>
+                  <tr>
+                    <th>5</th><td>Level 5 headings</td>
+                  </tr>
+                  <tr>
+                    <th>6</th><td>Level 6 headings</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
 
                         <h2 id="of-course-we-want-feedback">Feedback and Reporting Issues</h2>
 
@@ -175,7 +192,6 @@ gulp
           </div>
         </div>
       </main>
-    </nav>
             <!-- Footer-->
         <footer class="py-5 bg-light">
 

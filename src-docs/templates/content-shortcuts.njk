@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {% include "./head.njk" %}
+    <style type="text/css">
+      table.shortcuts {
+        width: 18em;
+      }
+    </style>
+  </head>
+  <body>
+    {% include "./header.njk" %}
+
+    <!-- Main section-->
+    <div id="main-section" class="container px-4">
+      <nav aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">{{title | safe}}</li>
+        </ol>
+      </nav>
+      <main class="row gx-4 justify-content-center">
+        <div class="col-lg-10">
+          {% block title %}
+          <h1>{{title}}</h1>
+          {% endblock %}
+          <div id="shortcuts">
+
+            <h2 id="landmark-regions">Landmark Regions</h2>
+
+            <table class="table table-striped shortcuts" aria-labelledby="landmark-regions">
+               <thead>
+                  <tr>
+                     <th>Key</th>
+                     <th>Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                    <th>r</th><td>Next region</td>
+                  </tr>
+                  <tr>
+                    <th>e</th><td>Previous region</td>
+                  </tr>
+                  <tr>
+                    <th>m</th><td>Main regions</td>
+                  </tr>
+                  <tr>
+                    <th>n</th><td>Navigation regions</td>
+                  </tr>
+                  <tr>
+                    <th>c</th><td>Complementary regions</td>
+                  </tr>
+                </tbody>
+              </table>
+
+            <h2 id="headings">Headings</h2>
+
+            <table class="table table-striped shortcuts" aria-labelledby="headings">
+               <thead>
+                  <tr>
+                     <th>Key</th>
+                     <th>Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                    <th>h</th><td>Next heading</td>
+                  </tr>
+                  <tr>
+                    <th>g</th><td>Previous heading</td>
+                  </tr>
+                  <tr>
+                    <th>1</th><td>Level 1 headings</td>
+                  </tr>
+                  <tr>
+                    <th>2</th><td>Level 2 headings</td>
+                  </tr>
+                  <tr>
+                    <th>3</th><td>Level 3 headings</td>
+                  </tr>
+                  <tr>
+                    <th>4</th><td>Level 4 headings</td>
+                  </tr>
+                  <tr>
+                    <th>5</th><td>Level 5 headings</td>
+                  </tr>
+                  <tr>
+                    <th>6</th><td>Level 6 headings</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+
+            {% include "./feedback.njk" %}
+
+          </div>
+        </div>
+      </main>
+    {% include "./footer.njk" %}
+    {% include "./scripts.njk" %}
+
+  </body>
+</html>

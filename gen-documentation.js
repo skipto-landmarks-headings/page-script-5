@@ -53,8 +53,13 @@ const pages = [
   },
   { template: './src-docs/templates/content-browsers.njk',
     title: 'SkipTo.js Web Browser Extensions',
-    link: 'Web Browsers',
-    filename: 'browsers.html'
+    link: 'Extensions',
+    filename: 'extensions.html'
+  },
+  { template: './src-docs/templates/content-shortcuts.njk',
+    title: 'Page Navigation Shortcut Keys',
+    link: 'Shortcut Keys',
+    filename: 'shortcuts.html'
   },
   { template: './src-docs/templates/content-config.njk',
     title: 'Configuration Options',

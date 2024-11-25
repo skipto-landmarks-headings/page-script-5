@@ -27,7 +27,7 @@ export {
 
 /* Constants */
 const debug = new DebugLogging('shortcuts', false);
-debug.flag = true;
+debug.flag = false;
 
 
 /**

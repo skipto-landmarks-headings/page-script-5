@@ -325,6 +325,22 @@ $skipToId-overlay .overlay-border {
   pointer-events:none;
 }
 
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+$skipToId-overlay .overlay-border.skip-to-hidden {
+  background-color: $hiddenHeadingBackgroundColor;
+  color: $hiddenHeadingColor;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 0.9em;
+  text-align: center;
+  padding: .25em;
+  animation: fadeIn 1.5s;
+}
+
 $skipToId-overlay .overlay-border.hasInfoBottom {
   border-radius: 3px 3px 3px 0;
 }
@@ -517,6 +533,8 @@ function addCSSColors (cssMenu, cssHighlight, config) {
   cssHighlight = updateStyle(cssHighlight, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
   cssHighlight = updateStyle(cssHighlight, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
   cssHighlight = updateStyle(cssHighlight, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
+  cssHighlight = updateStyle(cssHighlight, '$hiddenHeadingColor', config.hiddenHeadingColor, theme.hiddenHeadingColor, defaultTheme.hiddenHeadingColor);
+  cssHighlight = updateStyle(cssHighlight, '$hiddenHeadingBackgroundColor', config.hiddenHeadingBackgroundColor, theme.hiddenHeadingBackgroundColor, defaultTheme.hiddenHeadingBackgroundColor);
 
   // Special case for theme configuration used in Illinois theme
   if (typeof theme.highlightTarget === 'string') {

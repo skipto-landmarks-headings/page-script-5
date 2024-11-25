@@ -78,6 +78,22 @@ export default class SkipToContent extends HTMLElement {
       shortcutsToggleDisableLabel: 'Disable shortcuts',
       shortcutsInfoLabel:          'Shortcut Information',
 
+      msgNextRegion: 'Next region',
+      msgPreviousRegion: 'Previous region',
+      msgNextHeading: 'Next heading',
+      msgPreviousHeading: 'Previous heading',
+
+      msgMainRegions: 'Main regions',
+      msgNavigationRegions: 'Navigation regions',
+      msgComplementaryRegions: 'Complementary regions',
+
+      msgH1Headings: 'H1 headings',
+      msgH2Headings: 'H2 headings',
+      msgH3Headings: 'H3 headings',
+      msgH4Headings: 'H4 headings',
+      msgH5Headings: 'H5 headings',
+      msgH6Headings: 'H6 headings',
+
       // Menu labels and messages
       menuLabel: 'Landmarks and Headings',
       landmarkGroupLabel: 'Landmark Regions',
@@ -100,6 +116,9 @@ export default class SkipToContent extends HTMLElement {
 
       // Highlight options
       highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
+      msgHidden: 'Hidden',
+      hiddenHeadingColor: '#000000',
+      hiddenHeadingBackgroundColor: '#ffcc00',
 
       // Place holders for configuration
       colorTheme: '',

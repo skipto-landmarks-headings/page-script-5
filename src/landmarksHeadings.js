@@ -673,6 +673,7 @@ function getHeadings (config, headings) {
 
   for (let i = 0, len = headings.length; i < len; i += 1) {
     let heading = headings[i];
+
     let role = heading.node.getAttribute('role');
     if ((typeof role === 'string') && (role === 'presentation')) continue;
     if (isVisible(heading.node) && isNotEmptyString(heading.node.textContent)) {

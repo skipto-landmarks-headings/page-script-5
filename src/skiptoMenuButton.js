@@ -7,6 +7,8 @@ import {
   isNotEmptyString
 } from './utils.js';
 
+import ShortcutsInfoDialog from './shortcutsInfoDialog.js';
+
 import {
   getLandmarksAndHeadings,
   skipToElement,
@@ -147,6 +149,10 @@ export default class SkiptoMenuButton {
         this.shortcutsGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-shortcutse-group-label');
         this.menuNode.appendChild(this.shortcutsGroupNode);
       }
+
+      window.customElements.define("shortcuts-info-dialog", ShortcutsInfoDialog);
+      this.infoDialog = document.createElement('shortcuts-info-dialog');
+      document.body.appendChild(this.infoDialog);
 
       this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
       this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -1038,7 +1044,8 @@ export default class SkiptoMenuButton {
       }
 
       if (tgt.hasAttribute('data-shortcuts-info')) {
-        alert('Shortcut Information');
+        this.infoDialog.updateContent(this.skipToContentElem.config);
+        this.infoDialog.openDialog();
         this.closePopup();
       }
     }

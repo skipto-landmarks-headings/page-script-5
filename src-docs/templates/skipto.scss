@@ -191,3 +191,27 @@ div.params {
   color: darkgreen;
 }
 
+p.happy {
+  font-family: fantasy, cursive;
+  font-size: 1.5em;
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+main ul.shortcuts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+main ul.shortcuts li {
+  margin: 0;
+  padding: 0;
+}
+
+main li span.shortcut {
+  display: inline-block;
+  width: 1.5em;
+  font-weight: bold;
+}

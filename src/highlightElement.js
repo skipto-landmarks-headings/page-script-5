@@ -178,13 +178,15 @@ function updateOverlayElement (overlayElem, element, info) {
   const childElem = overlayElem.firstElementChild;
   const infoElem  = overlayElem.querySelector('.overlay-info');
 
-  const rect = element.getBoundingClientRect();
+  let rect  = element.getBoundingClientRect();
+
+  const isHidden = (rect.height < 3) || (rect.width < 3);
 
   const left   = rect.left > offset ?
                   Math.round(rect.left - offset + window.scrollX) :
                   Math.round(rect.left + window.scrollX);
 
-  const width  = rect.left > offset ?
+  let   width  = rect.left > offset ?
                   Math.max(rect.width  + offset * 2, minWidth) :
                   Math.max(rect.width, minWidth);
 
@@ -192,17 +194,35 @@ function updateOverlayElement (overlayElem, element, info) {
                   Math.round(rect.top  - offset + window.scrollY) :
                   Math.round(rect.top + window.scrollY);
 
-  const height = rect.top > offset ?
+  let height   = rect.top > offset ?
                   Math.max(rect.height + offset * 2, minHeight) :
                   Math.max(rect.height, minHeight);
 
   overlayElem.style.left   = left   + 'px';
-  overlayElem.style.width  = width  + 'px';
   overlayElem.style.top    = top    + 'px';
-  overlayElem.style.height = height + 'px';
 
-  childElem.style.width  = (width  - 2 * borderWidth) + 'px';
-  childElem.style.height = (height - 2 * borderWidth) + 'px';
+  if (isHidden) {
+    childElem.textContent = 'Heading is hidden';
+    childElem.classList.add('skip-to-hidden');
+    overlayElem.style.width  = 'auto';
+    overlayElem.style.height = 'auto';
+    childElem.style.width  = 'auto';
+    childElem.style.height = 'auto';
+    height = childElem.getBoundingClientRect().height;
+    width  = childElem.getBoundingClientRect().width;
+    if (rect.top > offset) {
+      height += offset + 2;
+      width += offset + 2;
+    }
+  }
+  else {
+    childElem.textContent = '';
+    childElem.classList.remove('skip-to-hidden');
+    overlayElem.style.width  = width  + 'px';
+    overlayElem.style.height = height + 'px';
+    childElem.style.width  = (width  - 2 * borderWidth) + 'px';
+    childElem.style.height = (height - 2 * borderWidth) + 'px';
+  }
 
   overlayElem.style.display = 'block';
 
@@ -214,7 +234,12 @@ function updateOverlayElement (overlayElem, element, info) {
       infoElem.classList.remove('hasInfoBottom');
       childElem.classList.add('hasInfoTop');
       infoElem.classList.add('hasInfoTop');
-      infoElem.style.top = (-1 * (height + infoElem.getBoundingClientRect().height - 2 * borderWidth)) + 'px';
+      if (!isHidden) {
+        infoElem.style.top = (-1 * (height + infoElem.getBoundingClientRect().height - 2 * borderWidth)) + 'px';
+      }
+      else {
+        infoElem.style.top = (-1 * (infoElem.getBoundingClientRect().height + childElem.getBoundingClientRect().height)) + 'px';
+      }
     }
     else {
       childElem.classList.remove('hasInfoTop');

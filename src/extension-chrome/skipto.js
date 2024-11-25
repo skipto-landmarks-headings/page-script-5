@@ -223,8 +223,8 @@
   /* style.js */
 
   /* Constants */
-  const debug$a = new DebugLogging('style', false);
-  debug$a.flag = false;
+  const debug$b = new DebugLogging('style', false);
+  debug$b.flag = false;
 
   const cssMenuTemplate = document.createElement('template');
   cssMenuTemplate.textContent = `
@@ -543,6 +543,22 @@ $skipToId-overlay .overlay-border {
   pointer-events:none;
 }
 
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+$skipToId-overlay .overlay-border.skip-to-hidden {
+  background-color: $hiddenHeadingBackgroundColor;
+  color: $hiddenHeadingColor;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 0.9em;
+  text-align: center;
+  padding: .25em;
+  animation: fadeIn 1.5s;
+}
+
 $skipToId-overlay .overlay-border.hasInfoBottom {
   border-radius: 3px 3px 3px 0;
 }
@@ -735,6 +751,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     cssHighlight = updateStyle(cssHighlight, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
     cssHighlight = updateStyle(cssHighlight, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
     cssHighlight = updateStyle(cssHighlight, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
+    cssHighlight = updateStyle(cssHighlight, '$hiddenHeadingColor', config.hiddenHeadingColor, theme.hiddenHeadingColor, defaultTheme.hiddenHeadingColor);
+    cssHighlight = updateStyle(cssHighlight, '$hiddenHeadingBackgroundColor', config.hiddenHeadingBackgroundColor, theme.hiddenHeadingBackgroundColor, defaultTheme.hiddenHeadingBackgroundColor);
 
     // Special case for theme configuration used in Illinois theme
     if (typeof theme.highlightTarget === 'string') {
@@ -788,8 +806,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
   /* utils.js */
 
   /* Constants */
-  const debug$9 = new DebugLogging('Utils', false);
-  debug$9.flag = false;
+  const debug$a = new DebugLogging('Utils', false);
+  debug$a.flag = false;
 
 
   /*
@@ -870,6 +888,270 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     }
 
     return !isDisplayNone(element);
+  }
+
+  /* shortcutInfoDialog.js */
+
+  /* Constants */
+  const debug$9 = new DebugLogging('[shortcutsInfoDialog]', false);
+  debug$9.flag = false;
+
+  const MORE_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/';
+
+  const styleTemplate = document.createElement('template');
+  styleTemplate.textContent = `
+/* infoDialog.css */
+
+button#open-button {
+  display: inline;
+  background: transparent;
+  border: none;
+}
+
+dialog#info-dialog {
+  max-width: 70%;
+  padding: 0;
+  background-color: white;
+  border: 2px solid #aaa;
+  border-radius: 5px;
+  color: black;
+}
+
+dialog#info-dialog .header {
+  margin-bottom: 0.5em;
+  padding: 4px;
+  padding-left: 1em;
+  border-bottom: 1px solid #aaa;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-weight:  bold;
+  background-color: #eee;
+  position: relative;
+  font-size: 1em;
+}
+
+dialog#info-dialog .header h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+}
+
+
+dialog#info-dialog .header button {
+  position: absolute;
+  top: -0.25em;
+  right: 0;
+  border: none;
+  background: transparent;
+  font-weight: bold;
+  color: black;
+}
+
+dialog#info-dialog .content {
+  margin: 2em 2.5em 1em 2.5em;
+}
+
+dialog#info-dialog .content fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+dialog#info-dialog .content legend {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+dialog#info-dialog .content ul {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 1em;
+  list-style: none;
+}
+
+dialog#info-dialog .content li {
+  margin: 0;
+  padding: 0;
+  margin-left:
+}
+
+
+dialog#info-dialog .content span.shortcut {
+  display: inline-block;
+  width: 1.35em;
+}
+
+
+dialog#info-dialog .buttons {
+  float: right;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+dialog#info-dialog button {
+  margin: 6px;
+}
+
+dialog#info-dialog .buttons button {
+  min-width: 5em;
+}
+
+button:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+`;
+
+  class ShortcutsInfoDialog extends HTMLElement {
+    constructor () {
+
+      super();
+      this.attachShadow({ mode: 'open' });
+
+      const styleNode = document.createElement('style');
+      styleNode.textContent = styleTemplate.textContent;
+      this.shadowRoot.appendChild(styleNode);
+
+      // Get references
+
+      this.infoDialog  = document.createElement('dialog');
+      this.infoDialog.id = 'info-dialog';
+      this.shadowRoot.appendChild(this.infoDialog);
+
+      const headerElem  = document.createElement('div');
+      headerElem.className = 'header';
+      this.infoDialog.appendChild(headerElem);
+
+      const h2Elem  = document.createElement('h2');
+      h2Elem.textContent = 'Keyboard Shortcuts';
+      headerElem.appendChild(h2Elem);
+
+      this.closeButton1  = document.createElement('button');
+      this.closeButton1.textContent = '✕';
+      headerElem.appendChild(this.closeButton1);
+      this.closeButton1.addEventListener('click', this.onCloseButtonClick.bind(this));
+      this.closeButton1.addEventListener('keydown', this.onKeyDown.bind(this));
+
+      this.contentElem  = document.createElement('div');
+      this.contentElem.className = 'content';
+      this.infoDialog.appendChild(this.contentElem);
+
+      const buttonsElem  = document.createElement('div');
+      buttonsElem.className = 'buttons';
+      this.infoDialog.appendChild(buttonsElem);
+
+      this.moreInfoButton  = document.createElement('button');
+      this.moreInfoButton.textContent = 'More Information';
+      buttonsElem.appendChild(this.moreInfoButton);
+      this.moreInfoButton.addEventListener('click', this.onMoreInfoClick.bind(this));
+
+      this.closeButton2  = document.createElement('button');
+      this.closeButton2.textContent  = 'Close';
+      buttonsElem.appendChild(this.closeButton2);
+      this.closeButton2.addEventListener('click', this.onCloseButtonClick.bind(this));
+      this.closeButton2.addEventListener('keydown', this.onKeyDown.bind(this));
+
+    }
+
+    onCloseButtonClick () {
+      this.infoDialog.close();
+    }
+
+    openDialog () {
+      this.infoDialog.showModal();
+      this.closeButton2.focus();
+    }
+
+    onMoreInfoClick () {
+      window.open(MORE_INFO_URL, '_blank').focus();
+    }
+
+    updateContent (config) {
+
+      function addItem(listElem, shortcut, desc) {
+
+        const liElem    = document.createElement('li');
+        listElem.appendChild(liElem);
+        const spanElem1 = document.createElement('span');
+        spanElem1.className = 'shortcut';
+        liElem.appendChild(spanElem1);
+        spanElem1.textContent = shortcut + `: `;
+        const spanElem2 = document.createElement('span');
+        spanElem2.className = 'desc';
+        spanElem2.textContent = desc;
+        liElem.appendChild(spanElem2);
+      }
+
+      while (this.contentElem.lastElementChild) {
+        this.contentElem.removeChild(this.contentElem.lastElementChild);
+      }
+
+      const fieldsetElem1 = document.createElement('fieldset');
+      this.contentElem.appendChild(fieldsetElem1);
+
+      const legendElem1 = document.createElement('legend');
+      legendElem1.textContent = config.landmarkGroupLabel;
+      fieldsetElem1.appendChild(legendElem1);
+
+      const ulElem1 = document.createElement('ul');
+      fieldsetElem1.appendChild(ulElem1);
+
+      addItem(ulElem1, config.shortcutRegionNext,          `${config.msgNextRegion}`);
+      addItem(ulElem1, config.shortcutRegionPrevious,      `${config.msgPreviousRegion}`);
+      addItem(ulElem1, config.shortcutRegionMain,          `${config.msgMainRegions}`);
+      addItem(ulElem1, config.shortcutRegionNavigation,    `${config.msgNavigationRegions}`);
+      addItem(ulElem1, config.shortcutRegionComplementary, `${config.msgComplementaryRegions}`);
+
+      const fieldsetElem2 = document.createElement('fieldset');
+      this.contentElem.appendChild(fieldsetElem2);
+
+      const legendElem2 = document.createElement('legend');
+      legendElem2.textContent = config.headingGroupLabel;
+      fieldsetElem2.appendChild(legendElem2);
+
+      const ulElem2 = document.createElement('ul');
+      fieldsetElem2.appendChild(ulElem2);
+
+      addItem(ulElem2, config.shortcutHeadingNext, `${config.msgNextHeading}`);
+      addItem(ulElem2, config.shortcutHeadingPrevious, `${config.msgPreviousHeading}`);
+
+      addItem(ulElem2, config.shortcutHeadingH1, `${config.msgH1Headings}`);
+      addItem(ulElem2, config.shortcutHeadingH2, `${config.msgH2Headings}`);
+      addItem(ulElem2, config.shortcutHeadingH3, `${config.msgH3Headings}`);
+      addItem(ulElem2, config.shortcutHeadingH4, `${config.msgH4Headings}`);
+      addItem(ulElem2, config.shortcutHeadingH5, `${config.msgH5Headings}`);
+      addItem(ulElem2, config.shortcutHeadingH6, `${config.msgH6Headings}`);
+
+    }
+
+    onKeyDown (event) {
+
+      if ((event.key === "Tab") &&
+          !event.altKey &&
+          !event.ctlKey &&
+          !event.metaKey) {
+
+        if (event.shiftKey &&
+            (event.currentTarget === this.closeButton1)) {
+          this.closeButton2.focus();
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        if (!event.shiftKey &&
+            (event.currentTarget === this.closeButton2)) {
+          this.closeButton1.focus();
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }
+    }
   }
 
   /*
@@ -1871,6 +2153,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
     for (let i = 0, len = headings.length; i < len; i += 1) {
       let heading = headings[i];
+
       let role = heading.node.getAttribute('role');
       if ((typeof role === 'string') && (role === 'presentation')) continue;
       if (isVisible(heading.node) && isNotEmptyString(heading.node.textContent)) {
@@ -2277,13 +2560,15 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     const childElem = overlayElem.firstElementChild;
     const infoElem  = overlayElem.querySelector('.overlay-info');
 
-    const rect = element.getBoundingClientRect();
+    let rect  = element.getBoundingClientRect();
+
+    const isHidden = (rect.height < 3) || (rect.width < 3);
 
     const left   = rect.left > offset ?
                     Math.round(rect.left - offset + window.scrollX) :
                     Math.round(rect.left + window.scrollX);
 
-    const width  = rect.left > offset ?
+    let   width  = rect.left > offset ?
                     Math.max(rect.width  + offset * 2, minWidth) :
                     Math.max(rect.width, minWidth);
 
@@ -2291,17 +2576,35 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
                     Math.round(rect.top  - offset + window.scrollY) :
                     Math.round(rect.top + window.scrollY);
 
-    const height = rect.top > offset ?
+    let height   = rect.top > offset ?
                     Math.max(rect.height + offset * 2, minHeight) :
                     Math.max(rect.height, minHeight);
 
     overlayElem.style.left   = left   + 'px';
-    overlayElem.style.width  = width  + 'px';
     overlayElem.style.top    = top    + 'px';
-    overlayElem.style.height = height + 'px';
 
-    childElem.style.width  = (width  - 2 * borderWidth) + 'px';
-    childElem.style.height = (height - 2 * borderWidth) + 'px';
+    if (isHidden) {
+      childElem.textContent = 'Heading is hidden';
+      childElem.classList.add('skip-to-hidden');
+      overlayElem.style.width  = 'auto';
+      overlayElem.style.height = 'auto';
+      childElem.style.width  = 'auto';
+      childElem.style.height = 'auto';
+      height = childElem.getBoundingClientRect().height;
+      width  = childElem.getBoundingClientRect().width;
+      if (rect.top > offset) {
+        height += offset + 2;
+        width += offset + 2;
+      }
+    }
+    else {
+      childElem.textContent = '';
+      childElem.classList.remove('skip-to-hidden');
+      overlayElem.style.width  = width  + 'px';
+      overlayElem.style.height = height + 'px';
+      childElem.style.width  = (width  - 2 * borderWidth) + 'px';
+      childElem.style.height = (height - 2 * borderWidth) + 'px';
+    }
 
     overlayElem.style.display = 'block';
 
@@ -2313,7 +2616,12 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         infoElem.classList.remove('hasInfoBottom');
         childElem.classList.add('hasInfoTop');
         infoElem.classList.add('hasInfoTop');
-        infoElem.style.top = (-1 * (height + infoElem.getBoundingClientRect().height - 2 * borderWidth)) + 'px';
+        if (!isHidden) {
+          infoElem.style.top = (-1 * (height + infoElem.getBoundingClientRect().height - 2 * borderWidth)) + 'px';
+        }
+        else {
+          infoElem.style.top = (-1 * (infoElem.getBoundingClientRect().height + childElem.getBoundingClientRect().height)) + 'px';
+        }
       }
       else {
         childElem.classList.remove('hasInfoTop');
@@ -2335,7 +2643,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
   /* Constants */
   const debug$4 = new DebugLogging('shortcuts', false);
-  debug$4.flag = true;
+  debug$4.flag = false;
 
 
   /**
@@ -2800,6 +3108,10 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
           this.shortcutsGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-shortcutse-group-label');
           this.menuNode.appendChild(this.shortcutsGroupNode);
         }
+
+        window.customElements.define("shortcuts-info-dialog", ShortcutsInfoDialog);
+        this.infoDialog = document.createElement('shortcuts-info-dialog');
+        document.body.appendChild(this.infoDialog);
 
         this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
         this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -3684,7 +3996,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         }
 
         if (tgt.hasAttribute('data-shortcuts-info')) {
-          alert('Shortcut Information');
+          this.infoDialog.updateContent(this.skipToContentElem.config);
+          this.infoDialog.openDialog();
           this.closePopup();
         }
       }
@@ -3962,6 +4275,22 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
         shortcutsToggleDisableLabel: 'Disable shortcuts',
         shortcutsInfoLabel:          'Shortcut Information',
 
+        msgNextRegion: 'Next region',
+        msgPreviousRegion: 'Previous region',
+        msgNextHeading: 'Next heading',
+        msgPreviousHeading: 'Previous heading',
+
+        msgMainRegions: 'Main regions',
+        msgNavigationRegions: 'Navigation regions',
+        msgComplementaryRegions: 'Complementary regions',
+
+        msgH1Headings: 'H1 headings',
+        msgH2Headings: 'H2 headings',
+        msgH3Headings: 'H3 headings',
+        msgH4Headings: 'H4 headings',
+        msgH5Headings: 'H5 headings',
+        msgH6Headings: 'H6 headings',
+
         // Menu labels and messages
         menuLabel: 'Landmarks and Headings',
         landmarkGroupLabel: 'Landmark Regions',
@@ -3984,6 +4313,9 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
 
         // Highlight options
         highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
+        msgHidden: 'Hidden',
+        hiddenHeadingColor: '#000000',
+        hiddenHeadingBackgroundColor: '#ffcc00',
 
         // Place holders for configuration
         colorTheme: '',
