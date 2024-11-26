@@ -98,6 +98,7 @@ export default class SkipToContent extends HTMLElement {
       menuLabel: 'Landmarks and Headings',
       landmarkGroupLabel: 'Landmark Regions',
       headingGroupLabel: 'Headings',
+      headingMainGroupLabel: 'Headings in Main',
       headingLevelLabel: 'Heading level',
       mainLabel: 'main',
       searchLabel: 'search',

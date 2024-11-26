@@ -2014,7 +2014,7 @@ button:hover {
         }
       }
 
-      function checkForHeading(doc, node) {
+      function checkForHeading(doc, node, inMain) {
         const tagName = node.tagName.toLowerCase();
         if (headingTags.includes(tagName)) {
           const accName = getAccessibleName(doc, node, true);
@@ -2024,7 +2024,8 @@ button:hover {
             if (!onlyInMain || inMain) {
               headingInfo.push({
                 node: node,
-                name: accName
+                name: accName,
+                inMain: inMain
               });
             }
           }
@@ -2037,8 +2038,8 @@ button:hover {
           debug$6.flag && debug$6.log(`[transverseDOM][node]: ${node.tagName} isSlot:${isSlotElement(node)} isCustom:${isCustomElement(node)}`);
 
           checkForLandmark(doc, node);
-          checkForHeading(doc, node);
-          inMain = isMain(node);
+          checkForHeading(doc, node, inMain);
+          inMain = isMain(node) || isMain;
 
           if (!isSkipableElement(node)) {
             // check for slotted content
@@ -2055,7 +2056,7 @@ button:hover {
                 const assignedNode = assignedNodes[i];
                 if (assignedNode.nodeType === Node.ELEMENT_NODE) {
                   checkForLandmark(nameDoc, assignedNode);
-                  checkForHeading(nameDoc, assignedNode);
+                  checkForHeading(nameDoc, assignedNode, inMain);
                   if (slotContent) {
                     transverseDOM(assignedNode, parentDoc, null, inMain);
                   } else {
@@ -2100,7 +2101,6 @@ button:hover {
     if (landmarkInfo.length === 0) {
        console.warn(`[skipTo.js]: no landmarks found on page`);
     }
-
 
     return [landmarkInfo, headingInfo];
   }
@@ -2173,6 +2173,7 @@ button:hover {
         headingItem.tagName = heading.node.tagName.toLowerCase();
         headingItem.role = 'heading';
         headingItem.level = level;
+        headingItem.inMain = heading.inMain;
         headingElementsArr.push(headingItem);
         incSkipToIdIndex();
       }
@@ -3442,8 +3443,21 @@ button:hover {
         if (config.shortcutsSupported === 'true') {
           this.renderMenuitemsToShortcutsGroup(this.shortcutsGroupLabelNode, this.shortcutsGroupNode);
         }
+
         // Update list of menuitems
         this.updateMenuitems();
+
+        // Are all headings in the main region
+        const allInMain = headingElements.reduce( (flag, item) => {
+          return flag && item.inMain;
+        }, true);
+
+        if (config.headings.includes('main') && allInMain) {
+          this.headingGroupLabelNode.textContent = config.headingMainGroupLabel;
+        }
+        else {
+          this.headingGroupLabelNode.textContent = config.headingGroupLabel;
+        }
       }
 
       /*
@@ -4295,6 +4309,7 @@ button:hover {
         menuLabel: 'Landmarks and Headings',
         landmarkGroupLabel: 'Landmark Regions',
         headingGroupLabel: 'Headings',
+        headingMainGroupLabel: 'Headings in Main',
         headingLevelLabel: 'Heading level',
         mainLabel: 'main',
         searchLabel: 'search',

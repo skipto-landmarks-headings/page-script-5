@@ -534,7 +534,7 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
       }
     }
 
-    function checkForHeading(doc, node) {
+    function checkForHeading(doc, node, inMain) {
       const tagName = node.tagName.toLowerCase();
       if (headingTags.includes(tagName)) {
         const accName = getAccessibleName(doc, node, true);
@@ -544,7 +544,8 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
           if (!onlyInMain || inMain) {
             headingInfo.push({
               node: node,
-              name: accName
+              name: accName,
+              inMain: inMain
             });
           }
         }
@@ -557,8 +558,8 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
         debug.flag && debug.log(`[transverseDOM][node]: ${node.tagName} isSlot:${isSlotElement(node)} isCustom:${isCustomElement(node)}`);
 
         checkForLandmark(doc, node);
-        checkForHeading(doc, node);
-        inMain = isMain(node);
+        checkForHeading(doc, node, inMain);
+        inMain = isMain(node) || isMain;
 
         if (!isSkipableElement(node)) {
           // check for slotted content
@@ -575,7 +576,7 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
               const assignedNode = assignedNodes[i];
               if (assignedNode.nodeType === Node.ELEMENT_NODE) {
                 checkForLandmark(nameDoc, assignedNode);
-                checkForHeading(nameDoc, assignedNode);
+                checkForHeading(nameDoc, assignedNode, inMain);
                 if (slotContent) {
                   transverseDOM(assignedNode, parentDoc, null, inMain);
                 } else {
@@ -620,7 +621,6 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
   if (landmarkInfo.length === 0) {
      console.warn(`[skipTo.js]: no landmarks found on page`);
   }
-
 
   return [landmarkInfo, headingInfo];
 }
@@ -693,6 +693,7 @@ function getHeadings (config, headings) {
       headingItem.tagName = heading.node.tagName.toLowerCase();
       headingItem.role = 'heading';
       headingItem.level = level;
+      headingItem.inMain = heading.inMain;
       headingElementsArr.push(headingItem);
       incSkipToIdIndex();
     }

@@ -483,8 +483,21 @@ export default class SkiptoMenuButton {
       if (config.shortcutsSupported === 'true') {
         this.renderMenuitemsToShortcutsGroup(this.shortcutsGroupLabelNode, this.shortcutsGroupNode);
       }
+
       // Update list of menuitems
       this.updateMenuitems();
+
+      // Are all headings in the main region
+      const allInMain = headingElements.reduce( (flag, item) => {
+        return flag && item.inMain;
+      }, true);
+
+      if (config.headings.includes('main') && allInMain) {
+        this.headingGroupLabelNode.textContent = config.headingMainGroupLabel;
+      }
+      else {
+        this.headingGroupLabelNode.textContent = config.headingGroupLabel;
+      }
     }
 
     /*
