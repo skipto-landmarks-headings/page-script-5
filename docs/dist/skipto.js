@@ -706,11 +706,12 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
    * @param  {String}  cssMenu       -  CSS template for the button and menu
    * @param  {String}  cssHighlight  -  CSS template for the highlighting
    * @param  {Object}  config        -  SkipTo.js configuration information object
+   * @param  {Boolean} useURLTheme   -  When true use the theme associated with the URL
    *
    * @returns. see @desc
    */
-  function addCSSColors (cssMenu, cssHighlight, config) {
-    const theme = getTheme(config.colorTheme);
+  function addCSSColors (cssMenu, cssHighlight, config, useURLTheme=false) {
+    const theme = useURLTheme ? getTheme(config.colorTheme) : {};
     const defaultTheme = getTheme('default');
 
     // Check for display option in theme
@@ -768,18 +769,19 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
    *
    *   @desc  Updates the style sheet template and then attaches it to the document
    *
-   * @param {Object}  attachNode      - DOM element node to attach button and menu container element
+   * @param  {Object}  attachNode      - DOM element node to attach button and menu container element
    * @param  {Object}  config          -  Configuration information object
    * @param  {String}  skipYToStyleId  -  Id used for the skipto container element
+   * @param  {Boolean} useURLTheme     - When true use the theme associated with the URL
    */
-  function renderStyleElement (attachNode, config, skipToId) {
+  function renderStyleElement (attachNode, config, skipToId, useURLTheme=false) {
     let cssMenu = cssMenuTemplate.textContent.slice(0);
     cssMenu = cssMenu.replaceAll('$skipToId', '#' + skipToId);
 
     let cssHighlight = cssHighlightTemplate.textContent.slice(0);
     cssHighlight = cssHighlight.replaceAll('$skipToId', '#' + skipToId);
 
-    [cssMenu, cssHighlight] = addCSSColors(cssMenu, cssHighlight, config);
+    [cssMenu, cssHighlight] = addCSSColors(cssMenu, cssHighlight, config, useURLTheme);
 
 
     let styleNode = attachNode.querySelector('#id-skip-to-style');
@@ -4298,18 +4300,18 @@ button:hover {
         msgNavigationRegions: 'Navigation regions',
         msgComplementaryRegions: 'Complementary regions',
 
-        msgH1Headings: 'H1 headings',
-        msgH2Headings: 'H2 headings',
-        msgH3Headings: 'H3 headings',
-        msgH4Headings: 'H4 headings',
-        msgH5Headings: 'H5 headings',
-        msgH6Headings: 'H6 headings',
+        msgH1Headings: 'Level 1 headings',
+        msgH2Headings: 'Level 2 headings',
+        msgH3Headings: 'Level 3 headings',
+        msgH4Headings: 'Level 4 headings',
+        msgH5Headings: 'Level 5 headings',
+        msgH6Headings: 'Level 6 headings',
 
         // Menu labels and messages
         menuLabel: 'Landmarks and Headings',
         landmarkGroupLabel: 'Landmark Regions',
         headingGroupLabel: 'Headings',
-        headingMainGroupLabel: 'Headings in Main',
+        headingMainGroupLabel: 'Headings in Main Region',
         headingLevelLabel: 'Heading level',
         mainLabel: 'main',
         searchLabel: 'search',
@@ -4328,7 +4330,9 @@ button:hover {
 
         // Highlight options
         highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
-        msgHidden: 'Hidden',
+
+        // Hidden heading when highlighting
+        msgHidden: 'Heading is hidden',
         hiddenHeadingColor: '#000000',
         hiddenHeadingBackgroundColor: '#ffcc00',
 
@@ -4614,6 +4618,7 @@ button:hover {
       }
     }
     else {
+      // Check for SkipTo.js extension script, if it is initialize it immediately
       if (document.getElementById(`id-skip-to-extension`)) {
         debug.flag && debug.log(`[extension]`);
         const skipToContentElem = getSkipToContentElement('extension');

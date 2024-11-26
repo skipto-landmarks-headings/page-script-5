@@ -87,18 +87,18 @@ export default class SkipToContent extends HTMLElement {
       msgNavigationRegions: 'Navigation regions',
       msgComplementaryRegions: 'Complementary regions',
 
-      msgH1Headings: 'H1 headings',
-      msgH2Headings: 'H2 headings',
-      msgH3Headings: 'H3 headings',
-      msgH4Headings: 'H4 headings',
-      msgH5Headings: 'H5 headings',
-      msgH6Headings: 'H6 headings',
+      msgH1Headings: 'Level 1 headings',
+      msgH2Headings: 'Level 2 headings',
+      msgH3Headings: 'Level 3 headings',
+      msgH4Headings: 'Level 4 headings',
+      msgH5Headings: 'Level 5 headings',
+      msgH6Headings: 'Level 6 headings',
 
       // Menu labels and messages
       menuLabel: 'Landmarks and Headings',
       landmarkGroupLabel: 'Landmark Regions',
       headingGroupLabel: 'Headings',
-      headingMainGroupLabel: 'Headings in Main',
+      headingMainGroupLabel: 'Headings in Main Region',
       headingLevelLabel: 'Heading level',
       mainLabel: 'main',
       searchLabel: 'search',
@@ -117,7 +117,9 @@ export default class SkipToContent extends HTMLElement {
 
       // Highlight options
       highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
-      msgHidden: 'Hidden',
+
+      // Hidden heading when highlighting
+      msgHidden: 'Heading is hidden',
       hiddenHeadingColor: '#000000',
       hiddenHeadingBackgroundColor: '#ffcc00',
 

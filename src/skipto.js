@@ -80,6 +80,7 @@ debug.flag = false;
     }
   }
   else {
+    // Check for SkipTo.js extension script, if it is initialize it immediately
     if (document.getElementById(`id-skip-to-extension`)) {
       debug.flag && debug.log(`[extension]`);
       const skipToContentElem = getSkipToContentElement('extension');

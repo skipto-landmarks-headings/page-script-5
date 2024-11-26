@@ -208,12 +208,16 @@
     "description" : "Label for i18n for menu of  landmarks and headings"
   },
   "options_landmark_group_label": {
-    "message" : "Landmark Group Label",
+    "message" : "Landmark Regions Group Label",
     "description" : "Legend for i18n for landmark group label"
   },
   "options_heading_group_label": {
-    "message" : "Heading Group Label",
+    "message" : "Headings Group Label",
     "description" : "Legend for i18n for heading group label"
+  },
+  "options_heading_main_group_label": {
+    "message" : "Headings in Main Region Group Label",
+    "description" : "Legend for i18n for heading main group label"
   },
   "options_heading_level_label": {
     "message" : "Heading Level Label",
@@ -344,27 +348,27 @@
       "description" : "Short cut for previous headings"
   },
   "heading_h1_label": {
-      "message" : "H1 headings",
+      "message" : "Level 1 headings",
       "description" : "Shortcut for h1 headings"
   },
   "heading_h2_label": {
-      "message" : "H2 headings",
+      "message" : "Level 2 headings",
       "description" : "Shortcut for h2 headings"
   },
   "heading_h3_label": {
-      "message" : "H3 headings",
+      "message" : "Level 3 headings",
       "description" : "Shortcut for h3 headings"
   },
   "heading_h4_label": {
-      "message" : "H4 headings",
+      "message" : "Level 4 headings",
       "description" : "Shortcut for h4 headings"
   },
   "heading_h5_label": {
-      "message" : "H5 headings",
+      "message" : "Level 5 headings",
       "description" : "Shortcut for h5 headings"
   },
   "heading_h6_label": {
-      "message" : "H6 headings",
+      "message" : "Level 6 headings",
       "description" : "Shortcut for h6 headings"
   }
 }

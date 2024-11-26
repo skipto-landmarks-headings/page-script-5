@@ -488,11 +488,12 @@ function updateStyle(cssContent, stylePlaceholder, configValue, themeValue, defa
  * @param  {String}  cssMenu       -  CSS template for the button and menu
  * @param  {String}  cssHighlight  -  CSS template for the highlighting
  * @param  {Object}  config        -  SkipTo.js configuration information object
+ * @param  {Boolean} useURLTheme   -  When true use the theme associated with the URL
  *
  * @returns. see @desc
  */
-function addCSSColors (cssMenu, cssHighlight, config) {
-  const theme = getTheme(config.colorTheme);
+function addCSSColors (cssMenu, cssHighlight, config, useURLTheme=false) {
+  const theme = useURLTheme ? getTheme(config.colorTheme) : {};
   const defaultTheme = getTheme('default');
 
   // Check for display option in theme
@@ -550,18 +551,19 @@ function addCSSColors (cssMenu, cssHighlight, config) {
  *
  *   @desc  Updates the style sheet template and then attaches it to the document
  *
- * @param {Object}  attachNode      - DOM element node to attach button and menu container element
+ * @param  {Object}  attachNode      - DOM element node to attach button and menu container element
  * @param  {Object}  config          -  Configuration information object
  * @param  {String}  skipYToStyleId  -  Id used for the skipto container element
+ * @param  {Boolean} useURLTheme     - When true use the theme associated with the URL
  */
-export default function renderStyleElement (attachNode, config, skipToId) {
+export default function renderStyleElement (attachNode, config, skipToId, useURLTheme=false) {
   let cssMenu = cssMenuTemplate.textContent.slice(0);
   cssMenu = cssMenu.replaceAll('$skipToId', '#' + skipToId);
 
   let cssHighlight = cssHighlightTemplate.textContent.slice(0);
   cssHighlight = cssHighlight.replaceAll('$skipToId', '#' + skipToId);
 
-  [cssMenu, cssHighlight] = addCSSColors(cssMenu, cssHighlight, config);
+  [cssMenu, cssHighlight] = addCSSColors(cssMenu, cssHighlight, config, useURLTheme);
 
 
   let styleNode = attachNode.querySelector('#id-skip-to-style');

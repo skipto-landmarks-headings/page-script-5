@@ -48,7 +48,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-button-label"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -58,7 +58,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-small-button-label"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -68,7 +68,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-alt-name"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -78,7 +78,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-option-name"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -88,7 +88,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-shortcut-name"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
     </fieldset>
@@ -106,7 +106,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-menu"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -116,7 +116,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-landmark-group"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -126,7 +126,17 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-heading-group"
           type="text"
-          length="15"/>
+          size="15"/>
+      </div>
+
+      <div class="text">
+        <label id="input-heading-main-group-label"
+               for="input-heading-main-group">
+                Heading in Main Region Group Label
+        </label>
+        <input id="input-heading-main-group"
+          type="text"
+          size="25"/>
       </div>
 
       <div class="text">
@@ -136,7 +146,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-heading-level"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
     </fieldset>
@@ -152,7 +162,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-main-region-name"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -162,7 +172,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-search-region-name"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -172,7 +182,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-navigation-region-name"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -182,7 +192,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-complementary-region-name"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -192,7 +202,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-contentinfo-region-name"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -202,7 +212,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-banner-region-name"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -212,7 +222,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-msg-no-landmarks"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
       <div class="text">
@@ -222,7 +232,7 @@ optionsI18nTemplate.innerHTML = `
         </label>
         <input id="input-msg-no-headings"
           type="text"
-          length="15"/>
+          size="15"/>
       </div>
 
 
@@ -274,6 +284,7 @@ class OptionsI18n extends HTMLElement {
       { id: 'input-menu-label',             label: 'options_menu_label'},
       { id: 'input-landmark-group-label',   label: 'options_landmark_group_label'},
       { id: 'input-heading-group-label',    label: 'options_heading_group_label'},
+      { id: 'input-heading-main-group-label',    label: 'options_heading_main_group_label'},
       { id: 'input-heading-level-label',    label: 'options_heading_level_label'},
 
       { id: 'legend-landmark-names',              label: 'options_legend_landmark_labels'},
@@ -310,6 +321,7 @@ class OptionsI18n extends HTMLElement {
     form.menuLabelInput              = getNode('input-menu');
     form.landmarkGroupInput          = getNode('input-landmark-group');
     form.headingGroupInput           = getNode('input-heading-group');
+    form.headingMainGroupInput           = getNode('input-heading-main-group');
     form.headingLevelInput           = getNode('input-heading-level');
 
     form.mainRegionNameInput           = getNode('input-main-region-name');
@@ -352,6 +364,7 @@ class OptionsI18n extends HTMLElement {
       form.menuLabelInput.value       = options.menuLabel;
       form.landmarkGroupInput.value   = options.landmarkGroupLabel;
       form.headingGroupInput.value    = options.headingGroupLabel;
+      form.headingMainGroupInput.value    = options.headingMainGroupLabel;
       form.headingLevelInput.value    = options.headingLevelLabel;
 
       form.mainRegionNameInput.value          = options.mainLabel;
@@ -407,6 +420,7 @@ class OptionsI18n extends HTMLElement {
       options.menuLabel           = form.menuLabelInput.value;
       options.landmarkGroupLabel  = form.landmarkGroupInput.value;
       options.headingGroupLabel   = form.headingGroupInput.value;
+      options.headingMainGroupLabel   = form.headingMainGroupInput.value;
       options.headingLevelLabel   = form.headingLevelInput.value;
 
       options.mainLabel        = form.mainRegionNameInput.value;

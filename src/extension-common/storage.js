@@ -62,6 +62,7 @@ const i18nOptions = {
   menuLabel: 'Landmarks and Headings',
   landmarkGroupLabel: 'Landmark Regions',
   headingGroupLabel: 'Headings',
+  headingMainGroupLabel: 'Headings in Main Region',
   headingLevelLabel: 'Heading level',
 
   // Landmark names
