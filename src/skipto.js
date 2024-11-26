@@ -99,7 +99,8 @@ debug.flag = false;
         const skipToContentElem = getSkipToContentElement();
         if (skipToContentElem) {
           debug.flag && debug.log(`[onload][script][elem]: ${skipToContentElem}`);
-          skipToContentElem.init(window.SkipToConfig);
+          const initInfo = window.SkipToConfig ? window.SkipToConfig : true;
+          skipToContentElem.init(initInfo);
         }
       });
     }

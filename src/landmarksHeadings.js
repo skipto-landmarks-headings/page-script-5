@@ -493,6 +493,9 @@ function getHeadingTargets(targets) {
 function isMain (element) {
   const tagName = element.tagName.toLowerCase();
   const role = element.hasAttribute('role') ? element.getAttribute('role').toLowerCase() : '';
+  if ((role === 'presentation') || (role === 'none')) {
+    return false;
+  }
   return (tagName === 'main') || (role === 'main');
 }
 
@@ -559,7 +562,7 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
 
         checkForLandmark(doc, node);
         checkForHeading(doc, node, inMain);
-        inMain = isMain(node) || isMain;
+        inMain = isMain(node) || inMain;
 
         if (!isSkipableElement(node)) {
           // check for slotted content

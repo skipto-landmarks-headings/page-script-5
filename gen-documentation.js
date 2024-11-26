@@ -184,6 +184,12 @@ const tests = [
     filename: 'test-input-controls.html',
     description: 'Shortcut keys is disabled when focus is a text input.',
     config: ``
+  },
+  { template: './src-docs/templates/example/content-init-object.njk',
+    title: 'Initialization Object',
+    filename: 'test-init-object.html',
+    description: 'Uses the SkipToConfig configuration object',
+    config: ``
   }
   ]
 

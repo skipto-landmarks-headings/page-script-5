@@ -1,7 +1,10 @@
-# Version history for Skipto.js
+# Version history for SkipTo.js
 
 ## Version 5.7
-* Added "navigate" attribute for heading and landmark navigation for use in browser extensions
+* Added keyboard shortcuts for navigation to landmark regions and headings
+* Fixed bug with 'main-only' option for headings
+* Updates headings group label when all headings are in the main region
+* Added hidden heading message when a heading gets focus but is not visible
 
 ## Version 5.6.3
 * Changed default highlight option to be 'instant' instead of 'none'

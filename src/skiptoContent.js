@@ -55,7 +55,7 @@ export default class SkipToContent extends HTMLElement {
       buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
       // Page navigation flag and keys
-      shortcutsSupported: 'true', // options: true or false
+      shortcutsSupported: 'false', // options: true or false
       shortcuts: 'disabled',  // options: disabled and enabled
       shortcutHeadingNext: 'h',
       shortcutHeadingPrevious: 'g',
@@ -217,7 +217,7 @@ export default class SkipToContent extends HTMLElement {
       }
 
       // Add skipto style sheet to document
-      renderStyleElement(this.shadowRoot, this.config, this.skipToId);
+      renderStyleElement(this.shadowRoot, this.config, this.skipToId, globalConfig);
       this.buttonSkipTo = new SkiptoMenuButton(this);
 
       // Add landmark and heading info to DOM elements for keyboard navigation

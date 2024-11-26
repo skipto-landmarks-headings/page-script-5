@@ -1975,6 +1975,9 @@ button:hover {
   function isMain (element) {
     const tagName = element.tagName.toLowerCase();
     const role = element.hasAttribute('role') ? element.getAttribute('role').toLowerCase() : '';
+    if ((role === 'presentation') || (role === 'none')) {
+      return false;
+    }
     return (tagName === 'main') || (role === 'main');
   }
 
@@ -2041,7 +2044,7 @@ button:hover {
 
           checkForLandmark(doc, node);
           checkForHeading(doc, node, inMain);
-          inMain = isMain(node) || isMain;
+          inMain = isMain(node) || inMain;
 
           if (!isSkipableElement(node)) {
             // check for slotted content
@@ -3450,9 +3453,11 @@ button:hover {
         this.updateMenuitems();
 
         // Are all headings in the main region
-        const allInMain = headingElements.reduce( (flag, item) => {
-          return flag && item.inMain;
-        }, true);
+        const allInMain = headingElements.length > 0 ?
+              headingElements.reduce( (flag, item) => {
+                return flag && item.inMain;
+              }, true) :
+              false;
 
         if (config.headings.includes('main') && allInMain) {
           this.headingGroupLabelNode.textContent = config.headingMainGroupLabel;
@@ -4268,7 +4273,7 @@ button:hover {
         buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
         // Page navigation flag and keys
-        shortcutsSupported: 'true', // options: true or false
+        shortcutsSupported: 'false', // options: true or false
         shortcuts: 'disabled',  // options: disabled and enabled
         shortcutHeadingNext: 'h',
         shortcutHeadingPrevious: 'g',
@@ -4430,7 +4435,7 @@ button:hover {
         }
 
         // Add skipto style sheet to document
-        renderStyleElement(this.shadowRoot, this.config, this.skipToId);
+        renderStyleElement(this.shadowRoot, this.config, this.skipToId, globalConfig);
         this.buttonSkipTo = new SkiptoMenuButton(this);
 
         // Add landmark and heading info to DOM elements for keyboard navigation
@@ -4637,7 +4642,8 @@ button:hover {
           const skipToContentElem = getSkipToContentElement();
           if (skipToContentElem) {
             debug.flag && debug.log(`[onload][script][elem]: ${skipToContentElem}`);
-            skipToContentElem.init(window.SkipToConfig);
+            const initInfo = window.SkipToConfig ? window.SkipToConfig : true;
+            skipToContentElem.init(initInfo);
           }
         });
       }

@@ -488,9 +488,11 @@ export default class SkiptoMenuButton {
       this.updateMenuitems();
 
       // Are all headings in the main region
-      const allInMain = headingElements.reduce( (flag, item) => {
-        return flag && item.inMain;
-      }, true);
+      const allInMain = headingElements.length > 0 ?
+            headingElements.reduce( (flag, item) => {
+              return flag && item.inMain;
+            }, true) :
+            false;
 
       if (config.headings.includes('main') && allInMain) {
         this.headingGroupLabelNode.textContent = config.headingMainGroupLabel;
