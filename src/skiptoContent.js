@@ -87,6 +87,7 @@ export default class SkipToContent extends HTMLElement {
       msgNavigationRegions: 'Navigation regions',
       msgComplementaryRegions: 'Complementary regions',
 
+      msgHeadingLevel: 'Level #',
       msgH1Headings: 'Level 1 headings',
       msgH2Headings: 'Level 2 headings',
       msgH3Headings: 'Level 3 headings',

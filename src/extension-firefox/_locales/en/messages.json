@@ -64,27 +64,27 @@
     "description" : "Label for headings radio group"
   },
   "options_heading_h1": {
-    "message" : "h1 ",
+    "message" : "Level 1 ",
     "description" : "Include only h1 headings from page in menu"
   },
   "options_heading_h2": {
-    "message" : "h1, h2 ",
+    "message" : "Level 1 and 2 ",
     "description" : "Include h1 and h2 headings from page in menu"
   },
   "options_heading_h3": {
-    "message" : "h1, h2, h3",
+    "message" : "Level 1, 2 and 3",
     "description" : "Include h1, h2 and h3 headings from page in menu"
   },
   "options_heading_h4": {
-    "message" : "h1, h2, h3, h4",
+    "message" : "Level 1, 2 3 and 4",
     "description" : "Include h1, h2, h3 and h4 headings from page in menu"
   },
   "options_heading_h5": {
-    "message" : "h1, h2, h3, h4, h5",
+    "message" : "Level 1,2 ,3 ,4 and 5",
     "description" : "Include h1, h2, h3, h4 and h5 headings from page in menu"
   },
   "options_heading_h6": {
-    "message" : "h1, h2, h3, h4, h5, h6",
+    "message" : "Level 1,2 ,3 ,4, 5 and 6",
     "description" : "Include h1, h2, h3, h4, h5 and h6 headings from page in menu"
   },
   "options_heading_main_only": {

@@ -2160,7 +2160,9 @@ button:hover {
       let heading = headings[i];
 
       let role = heading.node.getAttribute('role');
-      if ((typeof role === 'string') && (role === 'presentation')) continue;
+      if ((typeof role === 'string') &&
+          ((role === 'presentation') || role === 'none')
+         ) continue;
       if (isVisible(heading.node) && isNotEmptyString(heading.node.textContent)) {
         if (heading.node.hasAttribute('data-skip-to-id')) {
           dataId = heading.node.getAttribute('data-skip-to-id');
@@ -2310,7 +2312,9 @@ button:hover {
       }
       let role = landmark.node.getAttribute('role');
       let tagName = landmark.node.tagName.toLowerCase();
-      if ((typeof role === 'string') && (role === 'presentation')) continue;
+      if ((typeof role === 'string') &&
+          ((role === 'presentation') || (role === 'none'))
+         ) continue;
       if (isVisible(landmark.node)) {
         if (!role) role = tagName;
         // normalize tagNames
@@ -2568,23 +2572,60 @@ button:hover {
 
     let rect  = element.getBoundingClientRect();
 
-    const isHidden = (rect.height < 3) || (rect.width < 3);
+    let isHidden = false;
 
-    const left   = rect.left > offset ?
+
+    const rectLeft  = rect.left > offset ?
                     Math.round(rect.left - offset + window.scrollX) :
                     Math.round(rect.left + window.scrollX);
 
-    let   width  = rect.left > offset ?
+    let left = rectLeft;
+
+    const rectWidth  = rect.left > offset ?
                     Math.max(rect.width  + offset * 2, minWidth) :
                     Math.max(rect.width, minWidth);
 
-    const top    = rect.top > offset ?
+    let width = rectWidth;
+
+    const rectTop    = rect.top > offset ?
                     Math.round(rect.top  - offset + window.scrollY) :
                     Math.round(rect.top + window.scrollY);
 
-    let height   = rect.top > offset ?
+    let top = rectTop;
+
+    const rectHeight   = rect.top > offset ?
                     Math.max(rect.height + offset * 2, minHeight) :
                     Math.max(rect.height, minHeight);
+
+    let height = rectHeight;
+
+    if ((rect.height < 3) || (rect.width < 3)) {
+      isHidden = true;
+    }
+
+    if ((rectTop < 0) || (rectLeft < 0)) {
+      isHidden = true;
+      if (element.parentNode) {
+        const parentRect = element.parentNode.getBoundingClientRect();
+
+        if ((parentRect.top > 0) && (parentRect.left > 0)) {
+          top = parentRect.top > offset ?
+                    Math.round(parentRect.top  - offset + window.scrollY) :
+                    Math.round(parentRect.top + window.scrollY);
+          left = parentRect.left > offset ?
+                    Math.round(parentRect.left - offset + window.scrollX) :
+                    Math.round(parentRect.left + window.scrollX);
+        }
+        else {
+          left = offset;
+          top = offset;
+        }
+      }
+      else {
+        left = offset;
+        top = offset;
+      }
+    }
 
     overlayElem.style.left   = left   + 'px';
     overlayElem.style.top    = top    + 'px';
@@ -2673,11 +2714,7 @@ button:hover {
    * @param {boolean} useFirst   - if item not found use first
    */
 
-  function navigateContent (target, direction, useFirst=false) {
-
-    debug$4.flag && debug$4.log(`\n[navigateContent][   target]: ${target}`);
-    debug$4.flag && debug$4.log(`[navigateContent][direction]: ${direction}`);
-    debug$4.flag && debug$4.log(`[navigateContent][ useFirst]: ${useFirst}`);
+  function navigateContent (target, direction, msgHeadingLevel, useFirst=false) {
 
     const lastFocusElem = getFocusElement();
     let elem = lastFocusElem;
@@ -2689,8 +2726,6 @@ button:hover {
       if (elem) {
         elem.tabIndex = elem.tabIndex >= 0 ? elem.tabIndex : -1;
         elem.focus();
-        debug$4.flag && debug$4.log(`[${count}][navigateContent][focus][   last]: ${lastFocusElem.tagName}`);
-        debug$4.flag && debug$4.log(`[${count}[navigateContent][focus][current]: ${getFocusElement().tagName} (${lastFocusElem === getFocusElement})`);
       }
       count += 1;
     }
@@ -2702,6 +2737,8 @@ button:hover {
       let info = elem.hasAttribute('data-skip-to-info') ?
                  elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
                 'unknown';
+
+      info = msgHeadingLevel.replace('#', info.substring(1));
 
       if (elem.hasAttribute('data-skip-to-acc-name')) {
         const name = elem.getAttribute('data-skip-to-acc-name').trim();
@@ -3919,67 +3956,67 @@ button:hover {
                 break;
 
               case this.config.shortcutRegionNext:
-                navigateContent('landmark', 'next');
+                navigateContent('landmark', 'next', this.config.msgHeadingLevel);
                 flag = true;
                 break;
 
               case this.config.shortcutRegionPrevious:
-                navigateContent('landmark', 'previous');
+                navigateContent('landmark', 'previous', this.config.msgHeadingLevel);
                 flag = true;
                 break;
 
               case this.config.shortcutRegionComplementary:
-                navigateContent('complementary', 'next', true);
+                navigateContent('complementary', 'next', this.config.msgHeadingLevel, true);
                 flag = true;
                 break;
 
               case this.config.shortcutRegionMain:
-                navigateContent('main', 'next', true);
+                navigateContent('main', 'next', this.config.msgHeadingLevel, true);
                 flag = true;
                 break;
 
               case this.config.shortcutRegionNavigation:
-                navigateContent('navigation', 'next', true);
+                navigateContent('navigation', 'next', this.config.msgHeadingLevel, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingNext:
-                navigateContent('heading', 'next');
+                navigateContent('heading', 'next', this.config.msgHeadingLevel);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingPrevious:
-                navigateContent('heading', 'previous');
+                navigateContent('heading', 'previous', this.config.msgHeadingLevel);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH1:
-                navigateContent('h1', 'next', true);
+                navigateContent('h1', 'next', this.config.msgHeadingLevel, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH2:
-                navigateContent('h2', 'next', true);
+                navigateContent('h2', 'next', this.config.msgHeadingLevel, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH3:
-                navigateContent('h3', 'next', true);
+                navigateContent('h3', 'next', this.config.msgHeadingLevel, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH4:
-                navigateContent('h4', 'next', true);
+                navigateContent('h4', 'next', this.config.msgHeadingLevel, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH5:
-                navigateContent('h5', 'next', true);
+                navigateContent('h5', 'next', this.config.msgHeadingLevel, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH6:
-                navigateContent('h6', 'next', true);
+                navigateContent('h6', 'next', this.config.msgHeadingLevel, true);
                 flag = true;
                 break;
             }
@@ -4305,6 +4342,7 @@ button:hover {
         msgNavigationRegions: 'Navigation regions',
         msgComplementaryRegions: 'Complementary regions',
 
+        msgHeadingLevel: 'Level #',
         msgH1Headings: 'Level 1 headings',
         msgH2Headings: 'Level 2 headings',
         msgH3Headings: 'Level 3 headings',

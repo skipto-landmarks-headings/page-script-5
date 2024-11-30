@@ -51,11 +51,7 @@ function monitorKeyboardFocus () {
  * @param {boolean} useFirst   - if item not found use first
  */
 
-function navigateContent (target, direction, useFirst=false) {
-
-  debug.flag && debug.log(`\n[navigateContent][   target]: ${target}`);
-  debug.flag && debug.log(`[navigateContent][direction]: ${direction}`);
-  debug.flag && debug.log(`[navigateContent][ useFirst]: ${useFirst}`);
+function navigateContent (target, direction, msgHeadingLevel, useFirst=false) {
 
   const lastFocusElem = getFocusElement();
   let elem = lastFocusElem;
@@ -67,8 +63,6 @@ function navigateContent (target, direction, useFirst=false) {
     if (elem) {
       elem.tabIndex = elem.tabIndex >= 0 ? elem.tabIndex : -1;
       elem.focus();
-      debug.flag && debug.log(`[${count}][navigateContent][focus][   last]: ${lastFocusElem.tagName}`);
-      debug.flag && debug.log(`[${count}[navigateContent][focus][current]: ${getFocusElement().tagName} (${lastFocusElem === getFocusElement})`);
     }
     count += 1;
   }
@@ -80,6 +74,8 @@ function navigateContent (target, direction, useFirst=false) {
     let info = elem.hasAttribute('data-skip-to-info') ?
                elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
               'unknown';
+
+    info = msgHeadingLevel.replace('#', info.substring(1));
 
     if (elem.hasAttribute('data-skip-to-acc-name')) {
       const name = elem.getAttribute('data-skip-to-acc-name').trim();

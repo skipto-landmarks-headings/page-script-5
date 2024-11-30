@@ -208,3 +208,20 @@ main li span.shortcut {
   width: 1.5em;
   font-weight: bold;
 }
+
+.hidden-small {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+.hidden-offscreen {
+  position: absolute;
+  top: -30em;
+  left: -300em;
+}

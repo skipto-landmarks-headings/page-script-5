@@ -958,67 +958,67 @@ export default class SkiptoMenuButton {
               break;
 
             case this.config.shortcutRegionNext:
-              navigateContent('landmark', 'next');
+              navigateContent('landmark', 'next', this.config.msgHeadingLevel);
               flag = true;
               break;
 
             case this.config.shortcutRegionPrevious:
-              navigateContent('landmark', 'previous');
+              navigateContent('landmark', 'previous', this.config.msgHeadingLevel);
               flag = true;
               break;
 
             case this.config.shortcutRegionComplementary:
-              navigateContent('complementary', 'next', true);
+              navigateContent('complementary', 'next', this.config.msgHeadingLevel, true);
               flag = true;
               break;
 
             case this.config.shortcutRegionMain:
-              navigateContent('main', 'next', true);
+              navigateContent('main', 'next', this.config.msgHeadingLevel, true);
               flag = true;
               break;
 
             case this.config.shortcutRegionNavigation:
-              navigateContent('navigation', 'next', true);
+              navigateContent('navigation', 'next', this.config.msgHeadingLevel, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingNext:
-              navigateContent('heading', 'next');
+              navigateContent('heading', 'next', this.config.msgHeadingLevel);
               flag = true;
               break;
 
             case this.config.shortcutHeadingPrevious:
-              navigateContent('heading', 'previous');
+              navigateContent('heading', 'previous', this.config.msgHeadingLevel);
               flag = true;
               break;
 
             case this.config.shortcutHeadingH1:
-              navigateContent('h1', 'next', true);
+              navigateContent('h1', 'next', this.config.msgHeadingLevel, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingH2:
-              navigateContent('h2', 'next', true);
+              navigateContent('h2', 'next', this.config.msgHeadingLevel, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingH3:
-              navigateContent('h3', 'next', true);
+              navigateContent('h3', 'next', this.config.msgHeadingLevel, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingH4:
-              navigateContent('h4', 'next', true);
+              navigateContent('h4', 'next', this.config.msgHeadingLevel, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingH5:
-              navigateContent('h5', 'next', true);
+              navigateContent('h5', 'next', this.config.msgHeadingLevel, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingH6:
-              navigateContent('h6', 'next', true);
+              navigateContent('h6', 'next', this.config.msgHeadingLevel, true);
               flag = true;
               break;
 

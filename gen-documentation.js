@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const nunjucks  = require('nunjucks');
 
-const version = "5.6";
+const version = "5.7";
 
 /* Constants */
 
@@ -36,8 +36,8 @@ function outputTemplate(fname, data) {
 }
 
 const pages = [
-  { template: './src-docs/templates/content-index.njk',
-    title: 'SkipTo.js for Bypass Blocks',
+  { template: './src-docs/templates/content-home.njk',
+    title: 'Three ways to use SkipTo.js for Bypass Blocks',
     link: 'Home',
     filename: 'index.html'
   },

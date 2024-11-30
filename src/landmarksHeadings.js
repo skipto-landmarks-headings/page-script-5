@@ -678,7 +678,9 @@ function getHeadings (config, headings) {
     let heading = headings[i];
 
     let role = heading.node.getAttribute('role');
-    if ((typeof role === 'string') && (role === 'presentation')) continue;
+    if ((typeof role === 'string') &&
+        ((role === 'presentation') || role === 'none')
+       ) continue;
     if (isVisible(heading.node) && isNotEmptyString(heading.node.textContent)) {
       if (heading.node.hasAttribute('data-skip-to-id')) {
         dataId = heading.node.getAttribute('data-skip-to-id');
@@ -828,7 +830,9 @@ function getLandmarks(config, landmarks) {
     }
     let role = landmark.node.getAttribute('role');
     let tagName = landmark.node.tagName.toLowerCase();
-    if ((typeof role === 'string') && (role === 'presentation')) continue;
+    if ((typeof role === 'string') &&
+        ((role === 'presentation') || (role === 'none'))
+       ) continue;
     if (isVisible(landmark.node)) {
       if (!role) role = tagName;
       // normalize tagNames

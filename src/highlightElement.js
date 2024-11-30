@@ -180,23 +180,60 @@ function updateOverlayElement (overlayElem, element, info) {
 
   let rect  = element.getBoundingClientRect();
 
-  const isHidden = (rect.height < 3) || (rect.width < 3);
+  let isHidden = false;
 
-  const left   = rect.left > offset ?
+
+  const rectLeft  = rect.left > offset ?
                   Math.round(rect.left - offset + window.scrollX) :
                   Math.round(rect.left + window.scrollX);
 
-  let   width  = rect.left > offset ?
+  let left = rectLeft;
+
+  const rectWidth  = rect.left > offset ?
                   Math.max(rect.width  + offset * 2, minWidth) :
                   Math.max(rect.width, minWidth);
 
-  const top    = rect.top > offset ?
+  let width = rectWidth;
+
+  const rectTop    = rect.top > offset ?
                   Math.round(rect.top  - offset + window.scrollY) :
                   Math.round(rect.top + window.scrollY);
 
-  let height   = rect.top > offset ?
+  let top = rectTop;
+
+  const rectHeight   = rect.top > offset ?
                   Math.max(rect.height + offset * 2, minHeight) :
                   Math.max(rect.height, minHeight);
+
+  let height = rectHeight;
+
+  if ((rect.height < 3) || (rect.width < 3)) {
+    isHidden = true;
+  }
+
+  if ((rectTop < 0) || (rectLeft < 0)) {
+    isHidden = true;
+    if (element.parentNode) {
+      const parentRect = element.parentNode.getBoundingClientRect();
+
+      if ((parentRect.top > 0) && (parentRect.left > 0)) {
+        top = parentRect.top > offset ?
+                  Math.round(parentRect.top  - offset + window.scrollY) :
+                  Math.round(parentRect.top + window.scrollY);
+        left = parentRect.left > offset ?
+                  Math.round(parentRect.left - offset + window.scrollX) :
+                  Math.round(parentRect.left + window.scrollX);
+      }
+      else {
+        left = offset;
+        top = offset;
+      }
+    }
+    else {
+      left = offset;
+      top = offset;
+    }
+  }
 
   overlayElem.style.left   = left   + 'px';
   overlayElem.style.top    = top    + 'px';
