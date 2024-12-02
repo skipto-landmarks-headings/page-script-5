@@ -538,8 +538,21 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
     }
 
     function checkForHeading(doc, node, inMain) {
-      const tagName = node.tagName.toLowerCase();
-      if (headingTags.includes(tagName)) {
+      const isHeadingRole = node.role ? node.role.toLowerCase() === 'heading' : false;
+      const hasAriaLevel = parseInt(node.ariaLevel) > 0;
+      const tagName = (isHeadingRole && hasAriaLevel) ?
+                      `h${node.ariaLevel}` :
+                      node.tagName.toLowerCase();
+      const level = (isHeadingRole && hasAriaLevel) ?
+                    node.ariaLevel :
+                    headingTags.includes(tagName) ?
+                    tagName.substring(1) :
+                    '';
+      if (isHeadingRole) {
+        debug.log(`${node.role} ${node.ariaLevel} ${isHeadingRole} ${hasAriaLevel} ${tagName} ${level}`);
+      }
+      if (headingTags.includes(tagName) ||
+         (isHeadingRole && hasAriaLevel)) {
         const accName = getAccessibleName(doc, node, true);
         node.setAttribute('data-skip-to-info', `heading ${tagName}`);
         node.setAttribute('data-skip-to-acc-name', accName);
@@ -547,6 +560,8 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
           if (!onlyInMain || inMain) {
             headingInfo.push({
               node: node,
+              tagName: tagName,
+              level: level,
               name: accName,
               inMain: inMain
             });
@@ -671,7 +686,7 @@ function getLandmarksAndHeadings (config, skiptoId) {
  * @returns see @desc
  */
 function getHeadings (config, headings) {
-  let dataId, level;
+  let dataId;
   let headingElementsArr = [];
 
   for (let i = 0, len = headings.length; i < len; i += 1) {
@@ -688,16 +703,15 @@ function getHeadings (config, headings) {
         dataId = getSkipToIdIndex();
         heading.node.setAttribute('data-skip-to-id', dataId);
       }
-      level = heading.node.tagName.substring(1);
       const headingItem = {};
       headingItem.dataId = dataId.toString();
       headingItem.class = 'heading';
       headingItem.name = heading.name;
       headingItem.ariaLabel = headingItem.name + ', ';
-      headingItem.ariaLabel += config.headingLevelLabel + ' ' + level;
-      headingItem.tagName = heading.node.tagName.toLowerCase();
+      headingItem.ariaLabel += config.headingLevelLabel + ' ' + heading.level;
+      headingItem.tagName = heading.tagName.toLowerCase();
       headingItem.role = 'heading';
-      headingItem.level = level;
+      headingItem.level = heading.level;
       headingItem.inMain = heading.inMain;
       headingElementsArr.push(headingItem);
       incSkipToIdIndex();

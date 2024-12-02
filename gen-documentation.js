@@ -179,6 +179,12 @@ const tests = [
     description: 'No headings on page',
     config: ``
   },
+  { template: './src-docs/templates/example/content-role-heading.njk',
+    title: 'Uses Role Heading',
+    filename: 'test-role-headings.html',
+    description: 'Heading role used on page',
+    config: ``
+  },
   { template: './src-docs/templates/example/content-text-input.njk',
     title: 'Input controls',
     filename: 'test-input-controls.html',
