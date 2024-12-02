@@ -75,7 +75,9 @@ function navigateContent (target, direction, msgHeadingLevel, useFirst=false) {
                elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
               'unknown';
 
-    info = msgHeadingLevel.replace('#', info.substring(1));
+    if (elem.getAttribute('data-skip-to-info').includes('heading')) {
+      info = msgHeadingLevel.replace('#', info.substring(1));
+    }
 
     if (elem.hasAttribute('data-skip-to-acc-name')) {
       const name = elem.getAttribute('data-skip-to-acc-name').trim();

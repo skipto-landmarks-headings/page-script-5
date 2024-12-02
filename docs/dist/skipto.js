@@ -516,6 +516,11 @@ $skipToId [role="menuitem"].hover .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }
+
+$skipToId [role="separator"].shortcuts-disabled,
+$skipToId [role="menuitem"].shortcuts-disabled {
+  display: none;
+}
 `;
 
   const cssHighlightTemplate = document.createElement('template');
@@ -2738,7 +2743,9 @@ button:hover {
                  elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
                 'unknown';
 
-      info = msgHeadingLevel.replace('#', info.substring(1));
+      if (elem.getAttribute('data-skip-to-info').includes('heading')) {
+        info = msgHeadingLevel.replace('#', info.substring(1));
+      }
 
       if (elem.hasAttribute('data-skip-to-acc-name')) {
         const name = elem.getAttribute('data-skip-to-acc-name').trim();
@@ -3133,24 +3140,22 @@ button:hover {
         this.headingGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-heading-group-label');
         this.menuNode.appendChild(this.headingGroupNode);
 
-        if (this.config.shortcutsSupported === 'true') {
-          this.shortcutsGroupLabelNode = document.createElement('div');
-          this.shortcutsGroupLabelNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group-label');
-          this.shortcutsGroupLabelNode.setAttribute('role', 'separator');
-          if (this.config.shortcuts === 'enabled') {
-            this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupEnabledLabel;
-          }
-          else {
-            this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
-          }
-          this.menuNode.appendChild(this.shortcutsGroupLabelNode);
-
-          this.shortcutsGroupNode = document.createElement('div');
-          this.shortcutsGroupNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group');
-          this.shortcutsGroupNode.setAttribute('role', 'group');
-          this.shortcutsGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-shortcutse-group-label');
-          this.menuNode.appendChild(this.shortcutsGroupNode);
+        this.shortcutsGroupLabelNode = document.createElement('div');
+        this.shortcutsGroupLabelNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group-label');
+        this.shortcutsGroupLabelNode.setAttribute('role', 'separator');
+        if (this.config.shortcuts === 'enabled') {
+          this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupEnabledLabel;
         }
+        else {
+          this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
+        }
+        this.menuNode.appendChild(this.shortcutsGroupLabelNode);
+
+        this.shortcutsGroupNode = document.createElement('div');
+        this.shortcutsGroupNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group');
+        this.shortcutsGroupNode.setAttribute('role', 'group');
+        this.shortcutsGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-shortcutse-group-label');
+        this.menuNode.appendChild(this.shortcutsGroupNode);
 
         window.customElements.define("shortcuts-info-dialog", ShortcutsInfoDialog);
         this.infoDialog = document.createElement('shortcuts-info-dialog');
@@ -3482,9 +3487,8 @@ button:hover {
 
         this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, config.msgNoLandmarksFound);
         this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, config.msgNoHeadingsFound);
-        if (config.shortcutsSupported === 'true') {
-          this.renderMenuitemsToShortcutsGroup(this.shortcutsGroupLabelNode, this.shortcutsGroupNode);
-        }
+        debug$2.log(`[shortcutsSupported]: ${config.shortcutsSupported}`);
+        this.renderMenuitemsToShortcutsGroup(this.shortcutsGroupLabelNode, this.shortcutsGroupNode);
 
         // Update list of menuitems
         this.updateMenuitems();
@@ -3514,45 +3518,59 @@ button:hover {
        */
       renderMenuitemsToShortcutsGroup (groupLabelNode, groupNode) {
 
+        debug$2.log(`[renderMenuitemsToShortcutsGroup]: ${this.config.shortcutsSupported}`);
+
         // remove page navigation menu items
         while (groupNode.lastElementChild) {
           groupNode.removeChild(groupNode.lastElementChild);
         }
 
-        const shortcutsToggleNode = document.createElement('div');
-        shortcutsToggleNode.setAttribute('role', 'menuitem');
-        shortcutsToggleNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
-        shortcutsToggleNode.setAttribute('tabindex', '-1');
-        groupNode.appendChild(shortcutsToggleNode);
+        if (this.config.shortcutsSupported === 'true') {
+          groupNode.classList.remove('shortcuts-disabled');
+          groupLabelNode.classList.remove('shortcuts-disabled');
 
-        const shortcutsToggleLabelNode = document.createElement('span');
-        shortcutsToggleLabelNode.className = 'label';
-        shortcutsToggleNode.appendChild(shortcutsToggleLabelNode);
+          const shortcutsToggleNode = document.createElement('div');
+          shortcutsToggleNode.setAttribute('role', 'menuitem');
+          shortcutsToggleNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
+          shortcutsToggleNode.setAttribute('tabindex', '-1');
+          groupNode.appendChild(shortcutsToggleNode);
 
-        if (this.skipToContentElem.config.shortcuts === 'enabled') {
-          groupLabelNode.textContent    = this.config.shortcutsGroupEnabledLabel;
-          shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'disable');
-          shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleDisableLabel;
+          const shortcutsToggleLabelNode = document.createElement('span');
+          shortcutsToggleLabelNode.className = 'label';
+          shortcutsToggleNode.appendChild(shortcutsToggleLabelNode);
+
+          if (this.config.shortcuts === 'enabled') {
+            groupLabelNode.textContent    = this.config.shortcutsGroupEnabledLabel;
+            shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'disable');
+            shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleDisableLabel;
+          }
+          else {
+            groupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
+            shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'enable');
+            shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleEnableLabel;
+          }
+          groupNode.appendChild(shortcutsToggleNode);
+
+
+          const shortcutsInfoNode = document.createElement('div');
+          shortcutsInfoNode.setAttribute('role', 'menuitem');
+          shortcutsInfoNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
+          shortcutsInfoNode.setAttribute('tabindex', '-1');
+          shortcutsInfoNode.setAttribute('data-shortcuts-info', '');
+          groupNode.appendChild(shortcutsInfoNode);
+
+          const shortcutsInfoLabelNode = document.createElement('span');
+          shortcutsInfoLabelNode.className = 'label';
+          shortcutsInfoLabelNode.textContent = this.config.shortcutsInfoLabel;
+          shortcutsInfoNode.appendChild(shortcutsInfoLabelNode);
+
+
         }
         else {
-          groupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
-          shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'enable');
-          shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleEnableLabel;
+          groupNode.classList.add('shortcuts-disabled');
+          groupLabelNode.classList.add('shortcuts-disabled');
         }
-        groupNode.appendChild(shortcutsToggleNode);
 
-
-        const shortcutsInfoNode = document.createElement('div');
-        shortcutsInfoNode.setAttribute('role', 'menuitem');
-        shortcutsInfoNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
-        shortcutsInfoNode.setAttribute('tabindex', '-1');
-        shortcutsInfoNode.setAttribute('data-shortcuts-info', '');
-        groupNode.appendChild(shortcutsInfoNode);
-
-        const shortcutsInfoLabelNode = document.createElement('span');
-        shortcutsInfoLabelNode.className = 'label';
-        shortcutsInfoLabelNode.textContent = this.config.shortcutsInfoLabel;
-        shortcutsInfoNode.appendChild(shortcutsInfoLabelNode);
 
 
       }
@@ -4310,8 +4328,8 @@ button:hover {
         buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
         // Page navigation flag and keys
-        shortcutsSupported: 'false', // options: true or false
-        shortcuts: 'disabled',  // options: disabled and enabled
+        shortcutsSupported: 'true', // options: true or false
+        shortcuts: 'enabled',  // options: disabled and enabled
         shortcutHeadingNext: 'h',
         shortcutHeadingPrevious: 'g',
         shortcutHeadingH1: '1',
@@ -4408,7 +4426,6 @@ button:hover {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-
 
       if (name === 'data-skipto') {
         this.config = this.setupConfigFromDataAttribute(this.config, newValue);
@@ -4579,6 +4596,23 @@ button:hover {
       return config;
     }
 
+      /*
+     * @method supportShortcuts
+     *
+     * @desc  Set suuportShortcuts configuration property
+     *
+     * @param  {Boolean}  value - If true support keyboard shortcuts, otherwise disable
+     */
+    supportShortcuts(value) {
+      if (value) {
+        this.config.shortcutsSupported = 'true';
+        this.config.shortcuts = 'enabled';
+      }
+      else {
+        this.config.shortcutsSupported = 'false';
+        this.config.shortcuts = 'disabled';
+      }
+    }
 
   }
 
@@ -4635,11 +4669,12 @@ button:hover {
         removeLegacySkipToJS();
       }
 
-      let skipToContentElem = document.querySelector(`skip-to-content`);
+      const elemName = `skip-to-content`;
 
+      let skipToContentElem = document.querySelector(elemName);
       if (!skipToContentElem) {
-        window.customElements.define("skip-to-content", SkipToContent);
-        skipToContentElem = document.createElement('skip-to-content');
+        window.customElements.define(elemName, SkipToContent);
+        skipToContentElem = document.createElement(elemName);
         skipToContentElem.setAttribute('version', skipToContentElem.version);
         skipToContentElem.setAttribute('type', type);
         // always attach SkipToContent element to body
@@ -4647,6 +4682,16 @@ button:hover {
           document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
         }
       }
+      else {
+        if (type !== 'pagescript') {
+          skipToContentElem.setAttribute('type', type);
+          skipToContentElem.supportShortcuts(true);
+        }
+        else {
+          return false;
+        }
+      }
+
       return skipToContentElem;
     }
 
@@ -4679,8 +4724,9 @@ button:hover {
           debug.flag && debug.log(`[onload][script]`);
           const skipToContentElem = getSkipToContentElement();
           if (skipToContentElem) {
+            skipToContentElem.supportShortcuts(false);
             debug.flag && debug.log(`[onload][script][elem]: ${skipToContentElem}`);
-            const initInfo = window.SkipToConfig ? window.SkipToConfig : true;
+            const initInfo = window.SkipToConfig ? window.SkipToConfig : {};
             skipToContentElem.init(initInfo);
           }
         });

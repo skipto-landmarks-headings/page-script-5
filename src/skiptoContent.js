@@ -55,8 +55,8 @@ export default class SkipToContent extends HTMLElement {
       buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
       // Page navigation flag and keys
-      shortcutsSupported: 'false', // options: true or false
-      shortcuts: 'disabled',  // options: disabled and enabled
+      shortcutsSupported: 'true', // options: true or false
+      shortcuts: 'enabled',  // options: disabled and enabled
       shortcutHeadingNext: 'h',
       shortcutHeadingPrevious: 'g',
       shortcutHeadingH1: '1',
@@ -153,7 +153,6 @@ export default class SkipToContent extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-
 
     if (name === 'data-skipto') {
       this.config = this.setupConfigFromDataAttribute(this.config, newValue);
@@ -324,5 +323,22 @@ export default class SkipToContent extends HTMLElement {
     return config;
   }
 
+    /*
+   * @method supportShortcuts
+   *
+   * @desc  Set suuportShortcuts configuration property
+   *
+   * @param  {Boolean}  value - If true support keyboard shortcuts, otherwise disable
+   */
+  supportShortcuts(value) {
+    if (value) {
+      this.config.shortcutsSupported = 'true';
+      this.config.shortcuts = 'enabled';
+    }
+    else {
+      this.config.shortcutsSupported = 'false';
+      this.config.shortcuts = 'disabled';
+    }
+  }
 
 }

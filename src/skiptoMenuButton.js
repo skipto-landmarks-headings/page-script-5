@@ -131,24 +131,22 @@ export default class SkiptoMenuButton {
       this.headingGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-heading-group-label');
       this.menuNode.appendChild(this.headingGroupNode);
 
-      if (this.config.shortcutsSupported === 'true') {
-        this.shortcutsGroupLabelNode = document.createElement('div');
-        this.shortcutsGroupLabelNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group-label');
-        this.shortcutsGroupLabelNode.setAttribute('role', 'separator');
-        if (this.config.shortcuts === 'enabled') {
-          this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupEnabledLabel;
-        }
-        else {
-          this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
-        }
-        this.menuNode.appendChild(this.shortcutsGroupLabelNode);
-
-        this.shortcutsGroupNode = document.createElement('div');
-        this.shortcutsGroupNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group');
-        this.shortcutsGroupNode.setAttribute('role', 'group');
-        this.shortcutsGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-shortcutse-group-label');
-        this.menuNode.appendChild(this.shortcutsGroupNode);
+      this.shortcutsGroupLabelNode = document.createElement('div');
+      this.shortcutsGroupLabelNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group-label');
+      this.shortcutsGroupLabelNode.setAttribute('role', 'separator');
+      if (this.config.shortcuts === 'enabled') {
+        this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupEnabledLabel;
       }
+      else {
+        this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
+      }
+      this.menuNode.appendChild(this.shortcutsGroupLabelNode);
+
+      this.shortcutsGroupNode = document.createElement('div');
+      this.shortcutsGroupNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group');
+      this.shortcutsGroupNode.setAttribute('role', 'group');
+      this.shortcutsGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-shortcutse-group-label');
+      this.menuNode.appendChild(this.shortcutsGroupNode);
 
       window.customElements.define("shortcuts-info-dialog", ShortcutsInfoDialog);
       this.infoDialog = document.createElement('shortcuts-info-dialog');
@@ -480,9 +478,8 @@ export default class SkiptoMenuButton {
 
       this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, config.msgNoLandmarksFound);
       this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, config.msgNoHeadingsFound);
-      if (config.shortcutsSupported === 'true') {
-        this.renderMenuitemsToShortcutsGroup(this.shortcutsGroupLabelNode, this.shortcutsGroupNode);
-      }
+      debug.log(`[shortcutsSupported]: ${config.shortcutsSupported}`);
+      this.renderMenuitemsToShortcutsGroup(this.shortcutsGroupLabelNode, this.shortcutsGroupNode);
 
       // Update list of menuitems
       this.updateMenuitems();
@@ -512,45 +509,59 @@ export default class SkiptoMenuButton {
      */
     renderMenuitemsToShortcutsGroup (groupLabelNode, groupNode) {
 
+      debug.log(`[renderMenuitemsToShortcutsGroup]: ${this.config.shortcutsSupported}`);
+
       // remove page navigation menu items
       while (groupNode.lastElementChild) {
         groupNode.removeChild(groupNode.lastElementChild);
       }
 
-      const shortcutsToggleNode = document.createElement('div');
-      shortcutsToggleNode.setAttribute('role', 'menuitem');
-      shortcutsToggleNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
-      shortcutsToggleNode.setAttribute('tabindex', '-1');
-      groupNode.appendChild(shortcutsToggleNode);
+      if (this.config.shortcutsSupported === 'true') {
+        groupNode.classList.remove('shortcuts-disabled');
+        groupLabelNode.classList.remove('shortcuts-disabled');
 
-      const shortcutsToggleLabelNode = document.createElement('span');
-      shortcutsToggleLabelNode.className = 'label';
-      shortcutsToggleNode.appendChild(shortcutsToggleLabelNode);
+        const shortcutsToggleNode = document.createElement('div');
+        shortcutsToggleNode.setAttribute('role', 'menuitem');
+        shortcutsToggleNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
+        shortcutsToggleNode.setAttribute('tabindex', '-1');
+        groupNode.appendChild(shortcutsToggleNode);
 
-      if (this.skipToContentElem.config.shortcuts === 'enabled') {
-        groupLabelNode.textContent    = this.config.shortcutsGroupEnabledLabel;
-        shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'disable');
-        shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleDisableLabel;
+        const shortcutsToggleLabelNode = document.createElement('span');
+        shortcutsToggleLabelNode.className = 'label';
+        shortcutsToggleNode.appendChild(shortcutsToggleLabelNode);
+
+        if (this.config.shortcuts === 'enabled') {
+          groupLabelNode.textContent    = this.config.shortcutsGroupEnabledLabel;
+          shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'disable');
+          shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleDisableLabel;
+        }
+        else {
+          groupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
+          shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'enable');
+          shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleEnableLabel;
+        }
+        groupNode.appendChild(shortcutsToggleNode);
+
+
+        const shortcutsInfoNode = document.createElement('div');
+        shortcutsInfoNode.setAttribute('role', 'menuitem');
+        shortcutsInfoNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
+        shortcutsInfoNode.setAttribute('tabindex', '-1');
+        shortcutsInfoNode.setAttribute('data-shortcuts-info', '');
+        groupNode.appendChild(shortcutsInfoNode);
+
+        const shortcutsInfoLabelNode = document.createElement('span');
+        shortcutsInfoLabelNode.className = 'label';
+        shortcutsInfoLabelNode.textContent = this.config.shortcutsInfoLabel;
+        shortcutsInfoNode.appendChild(shortcutsInfoLabelNode);
+
+
       }
       else {
-        groupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
-        shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'enable');
-        shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleEnableLabel;
+        groupNode.classList.add('shortcuts-disabled');
+        groupLabelNode.classList.add('shortcuts-disabled');
       }
-      groupNode.appendChild(shortcutsToggleNode);
 
-
-      const shortcutsInfoNode = document.createElement('div');
-      shortcutsInfoNode.setAttribute('role', 'menuitem');
-      shortcutsInfoNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
-      shortcutsInfoNode.setAttribute('tabindex', '-1');
-      shortcutsInfoNode.setAttribute('data-shortcuts-info', '');
-      groupNode.appendChild(shortcutsInfoNode);
-
-      const shortcutsInfoLabelNode = document.createElement('span');
-      shortcutsInfoLabelNode.className = 'label';
-      shortcutsInfoLabelNode.textContent = this.config.shortcutsInfoLabel;
-      shortcutsInfoNode.appendChild(shortcutsInfoLabelNode);
 
 
     }

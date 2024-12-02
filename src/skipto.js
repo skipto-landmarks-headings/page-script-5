@@ -54,11 +54,12 @@ debug.flag = false;
       removeLegacySkipToJS();
     }
 
-    let skipToContentElem = document.querySelector(`skip-to-content`);
+    const elemName = `skip-to-content`;
 
+    let skipToContentElem = document.querySelector(elemName);
     if (!skipToContentElem) {
-      window.customElements.define("skip-to-content", SkipToContent);
-      skipToContentElem = document.createElement('skip-to-content');
+      window.customElements.define(elemName, SkipToContent);
+      skipToContentElem = document.createElement(elemName);
       skipToContentElem.setAttribute('version', skipToContentElem.version);
       skipToContentElem.setAttribute('type', type);
       // always attach SkipToContent element to body
@@ -66,6 +67,16 @@ debug.flag = false;
         document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
       }
     }
+    else {
+      if (type !== 'pagescript') {
+        skipToContentElem.setAttribute('type', type);
+        skipToContentElem.supportShortcuts(true);
+      }
+      else {
+        return false;
+      }
+    }
+
     return skipToContentElem;
   }
 
@@ -98,8 +109,9 @@ debug.flag = false;
         debug.flag && debug.log(`[onload][script]`);
         const skipToContentElem = getSkipToContentElement();
         if (skipToContentElem) {
+          skipToContentElem.supportShortcuts(false);
           debug.flag && debug.log(`[onload][script][elem]: ${skipToContentElem}`);
-          const initInfo = window.SkipToConfig ? window.SkipToConfig : true;
+          const initInfo = window.SkipToConfig ? window.SkipToConfig : {};
           skipToContentElem.init(initInfo);
         }
       });

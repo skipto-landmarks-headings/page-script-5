@@ -298,6 +298,11 @@ $skipToId [role="menuitem"].hover .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }
+
+$skipToId [role="separator"].shortcuts-disabled,
+$skipToId [role="menuitem"].shortcuts-disabled {
+  display: none;
+}
 `;
 
 const cssHighlightTemplate = document.createElement('template');
