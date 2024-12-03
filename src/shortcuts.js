@@ -55,18 +55,22 @@ function navigateContent (target, direction, msgHeadingLevel, useFirst=false) {
 
   const lastFocusElem = getFocusElement();
   let elem = lastFocusElem;
-  let count = 1;  // never do more than 5
+  let lastElem;
+  let count = 0;
+
+  // Note: The counter is used as a safety mechanism for any endless loops
 
   do {
+    lastElem = elem;
     elem = queryDOMForSkipToNavigation(target, direction, elem, useFirst);
-    debug.flag && debug.log(`[${count}][navigateContent][     elem]: ${elem}`);
+    debug.flag && debug.log(`[navigateContent][elem]: ${elem} (${lastElem === elem})`);
     if (elem) {
       elem.tabIndex = elem.tabIndex >= 0 ? elem.tabIndex : -1;
       elem.focus();
     }
     count += 1;
   }
-  while ((count < 5) && elem && (lastFocusElem === getFocusElement()));
+  while (elem && (count < 100) && (lastElem !== elem) && (lastFocusElem === getFocusElement()));
 
   // Set highlight
   if (elem) {

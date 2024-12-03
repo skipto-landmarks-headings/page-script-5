@@ -47,7 +47,6 @@ dialog#info-dialog .header h2 {
   font-size: 1em;
 }
 
-
 dialog#info-dialog .header button {
   position: absolute;
   top: -0.25em;
@@ -59,41 +58,47 @@ dialog#info-dialog .header button {
 }
 
 dialog#info-dialog .content {
-  margin: 2em 2.5em 1em 2.5em;
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: 0;
+  margin-bottom: 2em;
 }
 
-dialog#info-dialog .content fieldset {
-  margin: 0;
-  padding: 0;
-  border: none;
+dialog#info-dialog .content table {
+  width: auto;
 }
 
-dialog#info-dialog .content legend {
+dialog#info-dialog .content caption {
   margin: 0;
   padding: 0;
-  font-size: 1em;
+  margin-top: 1em;
+  text-align: left;
   font-weight: bold;
+  font-size: 1.2em;
 }
 
-dialog#info-dialog .content ul {
+dialog#info-dialog .content th {
   margin: 0;
   padding: 0;
-  margin-bottom: 1em;
-  list-style: none;
+  text-align: left;
+  font-weight: bold;
+  font-size: 90%;
 }
 
-dialog#info-dialog .content li {
+dialog#info-dialog .content th.shortcut {
+  width: 2.5em;
+}
+
+dialog#info-dialog .content td {
   margin: 0;
   padding: 0;
-  margin-left:
+  text-align: left;
 }
 
 
-dialog#info-dialog .content span.shortcut {
-  display: inline-block;
-  width: 1.35em;
+dialog#info-dialog .content table tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
-
 
 dialog#info-dialog .buttons {
   float: right;
@@ -185,59 +190,92 @@ export default class ShortcutsInfoDialog extends HTMLElement {
 
   updateContent (config) {
 
-    function addItem(listElem, shortcut, desc) {
+      function addRow(tbodyElem, shortcut, desc) {
 
-      const liElem    = document.createElement('li');
-      listElem.appendChild(liElem);
-      const spanElem1 = document.createElement('span');
-      spanElem1.className = 'shortcut';
-      liElem.appendChild(spanElem1);
-      spanElem1.textContent = shortcut + `: `;
-      const spanElem2 = document.createElement('span');
-      spanElem2.className = 'desc';
-      spanElem2.textContent = desc;
-      liElem.appendChild(spanElem2);
-    }
+        const trElem = document.createElement('tr');
+        tbodyElem.appendChild(trElem);
 
-    while (this.contentElem.lastElementChild) {
-      this.contentElem.removeChild(this.contentElem.lastElementChild);
-    }
+        const tdElem1 = document.createElement('td');
+        tdElem1.className = 'shortcut';
+        tdElem1.textContent = shortcut;
+        trElem.appendChild(tdElem1);
 
-    const fieldsetElem1 = document.createElement('fieldset');
-    this.contentElem.appendChild(fieldsetElem1);
+        const tdElem2 = document.createElement('td');
+        tdElem2.className = 'desc';
+        tdElem2.textContent = desc;
+        trElem.appendChild(tdElem2);
+      }
 
-    const legendElem1 = document.createElement('legend');
-    legendElem1.textContent = config.landmarkGroupLabel;
-    fieldsetElem1.appendChild(legendElem1);
+      while (this.contentElem.lastElementChild) {
+        this.contentElem.removeChild(this.contentElem.lastElementChild);
+      }
 
-    const ulElem1 = document.createElement('ul');
-    fieldsetElem1.appendChild(ulElem1);
+      const tableElem1 = document.createElement('table');
+      this.contentElem.appendChild(tableElem1);
 
-    addItem(ulElem1, config.shortcutRegionNext,          `${config.msgNextRegion}`);
-    addItem(ulElem1, config.shortcutRegionPrevious,      `${config.msgPreviousRegion}`);
-    addItem(ulElem1, config.shortcutRegionMain,          `${config.msgMainRegions}`);
-    addItem(ulElem1, config.shortcutRegionNavigation,    `${config.msgNavigationRegions}`);
-    addItem(ulElem1, config.shortcutRegionComplementary, `${config.msgComplementaryRegions}`);
+      const captionElem1 = document.createElement('caption');
+      captionElem1.textContent = config.landmarkGroupLabel;
+      tableElem1.appendChild(captionElem1);
 
-    const fieldsetElem2 = document.createElement('fieldset');
-    this.contentElem.appendChild(fieldsetElem2);
+      const theadElem1 = document.createElement('thead');
+      tableElem1.appendChild(theadElem1);
 
-    const legendElem2 = document.createElement('legend');
-    legendElem2.textContent = config.headingGroupLabel;
-    fieldsetElem2.appendChild(legendElem2);
+      const trElem1 = document.createElement('tr');
+      theadElem1.appendChild(trElem1);
 
-    const ulElem2 = document.createElement('ul');
-    fieldsetElem2.appendChild(ulElem2);
+      const thElem1 = document.createElement('th');
+      thElem1.className = 'shortcut';
+      thElem1.textContent = 'Key';
+      trElem1.appendChild(thElem1);
 
-    addItem(ulElem2, config.shortcutHeadingNext, `${config.msgNextHeading}`);
-    addItem(ulElem2, config.shortcutHeadingPrevious, `${config.msgPreviousHeading}`);
+      const thElem2 = document.createElement('th');
+      thElem2.className = 'desc';
+      thElem2.textContent = 'Description';
+      trElem1.appendChild(thElem2);
 
-    addItem(ulElem2, config.shortcutHeadingH1, `${config.msgH1Headings}`);
-    addItem(ulElem2, config.shortcutHeadingH2, `${config.msgH2Headings}`);
-    addItem(ulElem2, config.shortcutHeadingH3, `${config.msgH3Headings}`);
-    addItem(ulElem2, config.shortcutHeadingH4, `${config.msgH4Headings}`);
-    addItem(ulElem2, config.shortcutHeadingH5, `${config.msgH5Headings}`);
-    addItem(ulElem2, config.shortcutHeadingH6, `${config.msgH6Headings}`);
+      const tbodyElem1 = document.createElement('tbody');
+      tableElem1.appendChild(tbodyElem1);
+
+      addRow(tbodyElem1, config.shortcutRegionNext,          config.msgNextRegion);
+      addRow(tbodyElem1, config.shortcutRegionPrevious,      config.msgPreviousRegion);
+      addRow(tbodyElem1, config.shortcutRegionMain,          config.msgMainRegions);
+      addRow(tbodyElem1, config.shortcutRegionNavigation,    config.msgNavigationRegions);
+      addRow(tbodyElem1, config.shortcutRegionComplementary, config.msgComplementaryRegions);
+
+      const tableElem2 = document.createElement('table');
+      this.contentElem.appendChild(tableElem2);
+
+      const captionElem2 = document.createElement('caption');
+      captionElem2.textContent = config.headingGroupLabel;
+      tableElem2.appendChild(captionElem2);
+
+      const theadElem2 = document.createElement('thead');
+      tableElem2.appendChild(theadElem2);
+
+      const trElem2 = document.createElement('tr');
+      theadElem2.appendChild(trElem2);
+
+      const thElem3 = document.createElement('th');
+      thElem3.className = 'shortcut';
+      thElem3.textContent = 'Key';
+      trElem2.appendChild(thElem3);
+
+      const thElem4 = document.createElement('th');
+      thElem4.className = 'desc';
+      thElem4.textContent = 'Description';
+      trElem2.appendChild(thElem4);
+
+      const tbodyElem2 = document.createElement('tbody');
+      tableElem2.appendChild(tbodyElem2);
+
+      addRow(tbodyElem2, config.shortcutHeadingNext, config.msgNextHeading);
+      addRow(tbodyElem2, config.shortcutHeadingPrevious, config.msgPreviousHeading);
+      addRow(tbodyElem2, config.shortcutHeadingH1, config.msgH1Headings);
+      addRow(tbodyElem2, config.shortcutHeadingH2, config.msgH2Headings);
+      addRow(tbodyElem2, config.shortcutHeadingH3, config.msgH3Headings);
+      addRow(tbodyElem2, config.shortcutHeadingH4, config.msgH4Headings);
+      addRow(tbodyElem2, config.shortcutHeadingH5, config.msgH5Headings);
+      addRow(tbodyElem2, config.shortcutHeadingH6, config.msgH6Headings);
 
   }
 

@@ -548,9 +548,6 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
                     headingTags.includes(tagName) ?
                     tagName.substring(1) :
                     '';
-      if (isHeadingRole) {
-        debug.log(`${node.role} ${node.ariaLevel} ${isHeadingRole} ${hasAriaLevel} ${tagName} ${level}`);
-      }
       if (headingTags.includes(tagName) ||
          (isHeadingRole && hasAriaLevel)) {
         const accName = getAccessibleName(doc, node, true);
@@ -709,7 +706,7 @@ function getHeadings (config, headings) {
       headingItem.name = heading.name;
       headingItem.ariaLabel = headingItem.name + ', ';
       headingItem.ariaLabel += config.headingLevelLabel + ' ' + heading.level;
-      headingItem.tagName = heading.tagName.toLowerCase();
+      headingItem.tagName = heading.tagName;
       headingItem.role = 'heading';
       headingItem.level = heading.level;
       headingItem.inMain = heading.inMain;

@@ -76,6 +76,9 @@ const i18nOptions = {
   formLabel: 'form',
   msgNoLandmarksFound: 'No landmarks found',
   msgNoHeadingsFound: 'No headings found'
+
+  // Shortcuts
+  levelLabel
 };
 
 const defaultOptions = Object.assign({}, defaultButtonOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions, defaultShortcutOptions);
