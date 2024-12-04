@@ -75,10 +75,31 @@ const i18nOptions = {
   headerLabel: 'banner',
   formLabel: 'form',
   msgNoLandmarksFound: 'No landmarks found',
-  msgNoHeadingsFound: 'No headings found'
+  msgNoHeadingsFound: 'No headings found',
 
   // Shortcuts
-  levelLabel
+  shortcutsGroupEnabledLabel:  'Navigation Shortcuts: Enabled',
+  shortcutsGroupDisabledLabel: 'Navigation Shortcuts: Disabled',
+  shortcutsToggleEnableLabel:  'Enable shortcuts',
+  shortcutsToggleDisableLabel: 'Disable shortcuts',
+  shortcutsInfoLabel:          'Shortcut Information',
+
+  msgHeadingLevel:    'Level #',
+  msgNextRegion:      'Next region',
+  msgPreviousRegion:  'Previous region',
+  msgNextHeading:     'Next heading',
+  msgPreviousHeading: 'Previous heading',
+
+  msgMainRegions:          'Main regions',
+  msgNavigationRegions:    'Navigation regions',
+  msgComplementaryRegions: 'Complementary regions',
+
+  msgH1Headings:   'Level 1 headings',
+  msgH2Headings:   'Level 2 headings',
+  msgH3Headings:   'Level 3 headings',
+  msgH4Headings:   'Level 4 headings',
+  msgH5Headings:   'Level 5 headings',
+  msgH6Headings:   'Level 6 headings'
 };
 
 const defaultOptions = Object.assign({}, defaultButtonOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions, defaultShortcutOptions);

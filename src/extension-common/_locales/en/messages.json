@@ -264,11 +264,11 @@
     "description" : "Label for form region name"
   },
   "options_msg_no_landmarks": {
-    "message" : "No landmarks found",
+    "message" : "No landmarks found message",
     "description" : "No landmarks found message"
   },
   "options_msg_no_headings": {
-    "message" : "No headings found",
+    "message" : "No headings found meassage",
     "description" : "No headings found message"
   },
   "options_button_button_content_reset" : {
@@ -315,60 +315,153 @@
     "message" : "Enable page navigation with shortcut keys",
     "description" : "Checkbox label"
   },
-  "region_legend": {
+  "options_region_legend": {
       "message" : "Landmark Regions",
       "description" : "Legend for region landmark navigation shortcuts"
   },
-  "region_next_label": {
+  "options_region_next_label": {
       "message" : "Next region",
       "description" : "Short cut for next region"
   },
-  "region_prev_label": {
+  "options_region_prev_label": {
       "message" : "Previous region",
       "description" : "Short cut for previous region"
   },
-  "region_main_label": {
+  "options_region_main_label": {
       "message" : "Main regions",
       "description" : "Shortcut for next main region"
   },
-  "region_nav_label": {
+  "options_region_nav_label": {
       "message" : "Navigation regions",
       "description" : "Shortcut for next navigation region"
   },
-  "heading_legend": {
+  "options_heading_legend": {
       "message" : "Headings",
       "description" : "Legend for heading navigation shortcuts"
   },
-  "heading_next_label": {
+  "options_heading_next_label": {
       "message" : "Next heading",
       "description" : "Short cut for next heading"
   },
-  "heading_prev_label": {
+  "options_heading_prev_label": {
       "message" : "Previous heading",
       "description" : "Short cut for previous headings"
   },
-  "heading_h1_label": {
+  "options_heading_h1_label": {
       "message" : "Level 1 headings",
       "description" : "Shortcut for h1 headings"
   },
-  "heading_h2_label": {
+  "options_heading_h2_label": {
       "message" : "Level 2 headings",
       "description" : "Shortcut for h2 headings"
   },
-  "heading_h3_label": {
+  "options_heading_h3_label": {
       "message" : "Level 3 headings",
       "description" : "Shortcut for h3 headings"
   },
-  "heading_h4_label": {
+  "options_heading_h4_label": {
       "message" : "Level 4 headings",
       "description" : "Shortcut for h4 headings"
   },
-  "heading_h5_label": {
+  "options_heading_h5_label": {
       "message" : "Level 5 headings",
       "description" : "Shortcut for h5 headings"
   },
-  "heading_h6_label": {
+  "options_heading_h6_label": {
       "message" : "Level 6 headings",
       "description" : "Shortcut for h6 headings"
+  },
+  "options_legend_shortcuts_menu_labels": {
+      "message" : "Shortcut Menu Labels",
+      "description" : "Legend for shortcut Menu Labels"
+  },
+  "options_shortcuts_enabled_label": {
+      "message" : "Shortcuts enabled menu item",
+      "description" : "Menuitem indicating the shortcuts are enabled"
+  },
+  "options_shortcuts_disabled_label": {
+      "message" : "Shortcuts disabled menu item",
+      "description" : "Menuitem indicating the shortcuts are disabled"
+  },
+  "options_toggle_enabled_label": {
+      "message" : "Toggle enabled menu item",
+      "description" : "Menu item to enable shortcuts"
+  },
+  "options_toggle_disabled_label": {
+      "message" : "Toggle diabled menu item",
+      "description" : "Menu item to disable shortcuts"
+  },
+  "options_shortcut_info_label": {
+      "message" : "Shortcut information menu item",
+      "description" : "Menu item to open a shortcut information dialog box"
+  },
+  "options_legend_region_shortcut_messages": {
+      "message" : "Region Shortcut Messages",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_next_region_label": {
+      "message" : "Next Region",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_previous_region_label": {
+      "message" : "Previous Region",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_main_regions_label": {
+      "message" : "Main Regions",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_navigation_regions_label": {
+      "message" : "Navigation Regions",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_complementary_regions_label": {
+      "message" : "Complementary Regions",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_legend_heading_shortcut_messages": {
+      "message" : "Heading Shortcut Messages",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_next_heading_label": {
+      "message" : "Next Heading",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_previous_heading_label": {
+      "message" : "Previous Heading",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_heading_level_label": {
+      "message" : "Heading level ",
+      "description" : "Message appears when navigating headings using the shortcut keys"
+  },
+  "options_heading_level_desc": {
+      "message" : "Includes # character for insertion of level value",
+      "description" : "Message appears when navigating headings using the shortcut keys"
+  },
+  "options_h1_headings_label": {
+      "message" : "Level 1 Headings",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_h2_headings_label": {
+      "message" : "Level 2 Headings",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_h3_headings_label": {
+      "message" : "Level 3 Headings",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_h4_headings_label": {
+      "message" : "Level 4 Headings",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_h5_headings_label": {
+      "message" : "Level 5 Headings",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_h6_headings_label": {
+      "message" : "Level 6 Headings",
+      "description" : "Message appears in shortcut information dialog box"
   }
+
 }

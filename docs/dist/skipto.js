@@ -4614,7 +4614,9 @@ button:hover {
       if (params) {
         const values = params.split(';');
         values.forEach( v => {
-          let [prop, value] = v.split(':');
+          const index = v.indexOf(':');
+          let prop  = v.substring(0,index);
+          let value = v.substring(index+1);
           if (prop) {
             prop = prop.trim();
           }
