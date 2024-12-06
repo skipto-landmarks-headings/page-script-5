@@ -1,6 +1,6 @@
 /* optionsMenu.js */
 
-const debug = true;
+const debug = false;
 
 // Define browser specific APIs for Opera, Firefox and Chrome
 
@@ -421,8 +421,6 @@ class OptionsMenu extends HTMLElement {
             options[option] = input.value;
           }
         }
-
-
       });
 
       saveOptions(options).then(

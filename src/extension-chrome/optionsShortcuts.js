@@ -1,6 +1,6 @@
 /* optionsShortcuts.js */
 
-const debug = true;
+const debug = false;
 
 // Define browser specific APIs for Opera, Firefox and Chrome
 
@@ -276,7 +276,7 @@ class OptionsShortcuts extends HTMLElement {
     getOptions().then( (options) => {
 
       formControls.forEach( input => {
-        debug.flag && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
+        debug && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
         const option = input.getAttribute('data-option');
         if (input.type === 'checkbox') {
           input.checked =  options[option] === input.getAttribute('data-checked');
@@ -322,7 +322,7 @@ class OptionsShortcuts extends HTMLElement {
     getOptions().then( (options) => {
 
       formControls.forEach( input => {
-        debug.flag && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
+        debug && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
         const option = input.getAttribute('data-option');
         if (input.type === 'checkbox') {
           if (input.checked) {

@@ -1040,9 +1040,9 @@ button:hover {
       headerElem.className = 'header';
       this.infoDialog.appendChild(headerElem);
 
-      const h2Elem  = document.createElement('h2');
-      h2Elem.textContent = 'Keyboard Shortcuts';
-      headerElem.appendChild(h2Elem);
+      this.h2Elem  = document.createElement('h2');
+      this.h2Elem.textContent = 'Keyboard Shortcuts';
+      headerElem.appendChild(this.h2Elem);
 
       this.closeButton1  = document.createElement('button');
       this.closeButton1.textContent = '✕';
@@ -1086,6 +1086,11 @@ button:hover {
 
     updateContent (config) {
 
+        this.h2Elem.textContent = config.shortcutsInfoLabel;
+        this.closeButton1.setAttribute('aria-label', config.msgClose);
+        this.closeButton2.textContent = config.msgClose;
+        this.moreInfoButton.textContent = config.msgMoreInfo;
+
         function addRow(tbodyElem, shortcut, desc) {
 
           const trElem = document.createElement('tr');
@@ -1121,12 +1126,12 @@ button:hover {
 
         const thElem1 = document.createElement('th');
         thElem1.className = 'shortcut';
-        thElem1.textContent = 'Key';
+        thElem1.textContent = config.msgKey;
         trElem1.appendChild(thElem1);
 
         const thElem2 = document.createElement('th');
         thElem2.className = 'desc';
-        thElem2.textContent = 'Description';
+        thElem2.textContent = config.msgDescription;
         trElem1.appendChild(thElem2);
 
         const tbodyElem1 = document.createElement('tbody');
@@ -1153,12 +1158,12 @@ button:hover {
 
         const thElem3 = document.createElement('th');
         thElem3.className = 'shortcut';
-        thElem3.textContent = 'Key';
+        thElem3.textContent = config.msgKey;
         trElem2.appendChild(thElem3);
 
         const thElem4 = document.createElement('th');
         thElem4.className = 'desc';
-        thElem4.textContent = 'Description';
+        thElem4.textContent = config.msgDescription;
         trElem2.appendChild(thElem4);
 
         const tbodyElem2 = document.createElement('tbody');
@@ -4403,6 +4408,11 @@ button:hover {
         shortcutsToggleEnableLabel:  'Enable shortcuts',
         shortcutsToggleDisableLabel: 'Disable shortcuts',
         shortcutsInfoLabel:          'Shortcut Information',
+
+        msgClose: 'Close',
+        msgKey: 'Key',
+        msgDescription: 'Description',
+        msgMoreInfo: 'More Information',
 
         msgNextRegion: 'Next region',
         msgPreviousRegion: 'Previous region',

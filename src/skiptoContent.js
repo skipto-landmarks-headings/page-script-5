@@ -78,6 +78,11 @@ export default class SkipToContent extends HTMLElement {
       shortcutsToggleDisableLabel: 'Disable shortcuts',
       shortcutsInfoLabel:          'Shortcut Information',
 
+      msgClose: 'Close',
+      msgKey: 'Key',
+      msgDescription: 'Description',
+      msgMoreInfo: 'More Information',
+
       msgNextRegion: 'Next region',
       msgPreviousRegion: 'Previous region',
       msgNextHeading: 'Next heading',

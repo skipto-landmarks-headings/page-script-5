@@ -40,14 +40,17 @@ optionsStyleTemplate.innerHTML = `
     <div>
 
       <fieldset>
-        <legend id="h2-font-options">Font Options</legend>
+        <legend data-i18n="options_font_options">
+          X
+        </legend>
 
         <div class="font">
-          <label id="select-font-family-label"
+          <label data-i18n="options_font_family"
                 for="select-font-family">
-             Font Family
+             X
           </label>
-          <select id="select-font-family">
+          <select id="select-font-family"
+                  data-option="fontFamily">
             <option value="sans-serif">Sans-serif</option>
             <option value="serif">Serif</option>
             <option value="monospace">Monospace</option>
@@ -55,9 +58,12 @@ optionsStyleTemplate.innerHTML = `
         </div>
 
         <div class="font">
-          <label id="select-font-size-label"
-              for="select-font-size">Font Size</label>
-          <select id="select-font-size">
+          <label data-i18n="options_font_size"
+              for="select-font-size">
+            Font Size
+          </label>
+          <select id="select-font-size"
+                  data-option="fontSize">
             <option value="9pt">9pt</option>
             <option value="10pt">10pt</option>
             <option value="11pt">11pt</option>
@@ -69,44 +75,51 @@ optionsStyleTemplate.innerHTML = `
       </fieldset>
 
       <fieldset>
-        <legend id="h2-color-options">Color Options</legend>
+        <legend data-i18n="options_color_options">
+          Color Options
+        </legend>
 
         <div class="color">
           <input id="button-text-color"
-            type="color"/>
-          <label id="button-text-color-label"
+                 type="color"
+                 data-option="buttonTextColor"/>
+          <label data-i18n="options_button_text_color"
                  for="button-text-color">
           </label>
         </div>
 
         <div class="color">
           <input id="button-background-color"
-            type="color"/>
-          <label id="button-background-color-label"
+                 type="color"
+                 data-option="buttonBackgroundColor"/>
+          <label data-i18n="options_button_background_color"
                  for="button-background-color">
           </label>
         </div>
 
         <div class="color">
           <input id="focus-border-color"
-            type="color"/>
-          <label id="focus-border-color-label"
+                 type="color"
+                 data-option="focusBorderColor"/>
+          <label data-i18n="options_focus_border_color"
                  for="focus-border-color">
           </label>
         </div>
 
         <div class="color">
           <input id="menu-text-color"
-            type="color"/>
-          <label id="menu-text-color-label"
+                 type="color"
+                 data-option="menuTextColor"/>
+          <label data-i18n="options_menu_text_color"
                  for="menu-text-color">
           </label>
         </div>
 
         <div class="color">
           <input id="menu-background-color"
-            type="color"/>
-          <label id="menu-background-color-label"
+                 type="color"
+                 data-option="menuBackgroundColor"/>
+          <label data-i18n="options_menu_background_color"
                  for="menu-background-color">
           </label>
         </div>
@@ -114,7 +127,11 @@ optionsStyleTemplate.innerHTML = `
 
      <options-style-viewer></options-style-viewer>
 
-     <button id="button-reset" type="reset">Reset Defaults</button>
+     <button id="button-reset"
+             type="reset"
+             data-i18n="options_button_style_reset">
+        X
+      </button>
 
    </div>
 </form>
@@ -147,45 +164,22 @@ class OptionsStyle extends HTMLElement {
 
     // Update labels with i18n information
 
-    const i18nLabels = [
-      { id: 'button-reset', label: 'options_button_style_reset'},
+    const i18nLabels =  Array.from(this.shadowRoot.querySelectorAll('[data-i18n]'));
 
-      { id: 'h2-font-options', label: 'options_font_options'},
-      { id: 'h2-color-options', label: 'options_color_options'},
-
-      { id: 'select-font-family-label', label: 'options_font_family'},
-      { id: 'select-font-size-label',   label: 'options_font_size'},
-
-      { id: 'button-text-color-label',         label: 'options_button_text_color'},
-      { id: 'button-background-color-label',   label: 'options_button_background_color'},
-      { id: 'focus-border-color-label',        label: 'options_focus_border_color'},
-      { id: 'menu-text-color-label',           label: 'options_menu_text_color'},
-      { id: 'menu-background-color-label',     label: 'options_menu_background_color'},
-    ];
-
-    i18nLabels.forEach( item => {
-      const node = getNode(item.id);
-      const label = browserI18n.getMessage(item.label);
-      if (node && label) {
+    i18nLabels.forEach( node => {
+      const label = browserI18n.getMessage(node.getAttribute('data-i18n'));
+      if (label) {
         node.textContent = label + (debug ? ' (i18n)' : '');
       }
       else {
-        node && console.error(`node not found for ${item.id}`);
-        label && console.error(`message not found for ${item.label}`);
+        console.error(`[node]: ${node.getAttribute('data-i18n')}`);
+        console.error(`[label]: ${label}`);
       }
     });
 
-    const form = {};
+    this.formControls =  Array.from(this.shadowRoot.querySelectorAll('[data-option]'));
 
-    form.selectFontFamily             = getNode('select-font-family');
-    form.selectFontSize               = getNode('select-font-size');
-    form.buttonTextColorInput         = getNode('button-text-color');
-    form.buttonBackgroundColorInput   = getNode('button-background-color');
-    form.focusBorderColorInput        = getNode('focus-border-color');
-    form.menuTextColorInput           = getNode('menu-text-color');
-    form.menuBackgroundColorInput     = getNode('menu-background-color');
-
-    this.form = form;
+    debug && console.log(`[formControls]: ${this.formControls.length}`);
 
     this.optionsStyleViewerNode = this.shadowRoot.querySelector('options-style-viewer');
 
@@ -208,35 +202,28 @@ class OptionsStyle extends HTMLElement {
   }
 
   updateOptions () {
-    const form = this.form;
-    let optionNodes, optionNode;
+    const formControls = this.formControls;
 
     getOptions().then( (options) => {
 
-      optionNodes = form.selectFontFamily.querySelectorAll('option');
-      for (let i = 0; i < optionNodes.length; i += 1) {
-        optionNode = optionNodes[i];
-        if (optionNode.value === options.fontFamily) {
-            optionNode.setAttribute('selected', '');
+      formControls.forEach( input => {
+        debug && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
+        const option = options[input.getAttribute('data-option')];
+
+        if (input.tagName.toLowerCase() === 'select') {
+          const optionNodes = input.querySelectorAll('option');
+          for (let i = 0; i < optionNodes.length; i += 1) {
+            const optionNode = optionNodes[i];
+            if (optionNode.value === option) {
+                optionNode.setAttribute('selected', '');
+            }
+          }
         }
-      }
-
-      optionNodes = form.selectFontSize.querySelectorAll('option');
-      for (let i = 0; i < optionNodes.length; i += 1) {
-        optionNode = optionNodes[i];
-        if (optionNode.value === options.fontSize) {
-          optionNode.setAttribute('selected', '');
+        else {
+          input.value = option;
         }
-      }
-
-      form.buttonTextColorInput.value         = options.buttonTextColor;
-      form.buttonBackgroundColorInput.value   = options.buttonBackgroundColor;
-      form.focusBorderColorInput.value        = options.focusBorderColor;
-      form.menuTextColorInput.value           = options.menuTextColor;
-      form.menuBackgroundColorInput.value     = options.menuBackgroundColor;
-
+      });
       this.syncOptionsWithSkipToScript (options);
-
       this.updateStyleViewer(options);
     });
   }
@@ -268,20 +255,14 @@ class OptionsStyle extends HTMLElement {
 
   saveStyleOptions () {
 
-    const form = this.form;
+    const formControls = this.formControls;
 
     getOptions().then( (options) => {
 
-      options.fontFamily = form.selectFontFamily.value;
-      options.fontSize   = form.selectFontSize.value;
-
-      options.buttonTextColor         = form.buttonTextColorInput.value;
-      options.buttonBackgroundColor   = form.buttonBackgroundColorInput.value;
-      options.focusBorderColor        = form.focusBorderColorInput.value;
-      options.menuTextColor           = form.menuTextColorInput.value;
-      options.menuBackgroundColor     = form.menuBackgroundColorInput.value;
-      options.menuitemFocusTextColor       = form.menuBackgroundColorInput.value;
-      options.menuitemFocusBackgroundColor = form.menuTextColorInput.value;
+      formControls.forEach( input => {
+        debug && console.log(`[save][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
+        options[input.getAttribute('data-option')] = input.value;
+      });
 
       this.updateStyleViewer(options);
 
