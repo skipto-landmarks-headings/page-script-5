@@ -1,6 +1,6 @@
 /* optionsMenu.js */
 
-const debug = false;
+const debug = true;
 
 // Define browser specific APIs for Opera, Firefox and Chrome
 
@@ -41,115 +41,231 @@ optionsMenuTemplate.innerHTML = `
     <div>
 
       <fieldset>
-        <legend id="highlight-legend">
+        <legend data-i18n="options_highlight_legend">
           Highlight Content when when navigating menu options
          </legend>
 
-        <label class="inline" for="highlight-disabled">
-          <input type="radio" name="highlight" value="disabled" id="highlight-disabled"/>
-          <span id="highlight-disabled-label">None</span>
+        <label class="inline"
+               for="highlight-disabled">
+          <input id="highlight-disabled"
+                 type="radio"
+                 name="highlight"
+                 value="disabled"
+                 data-option="highlightTarget"/>
+          <span data-i18n="options_highlight_disabled_label">
+            None
+          </span>
         </label>
 
-        <label class="inline" for="highlight-instant">
-          <input type="radio" name="highlight" value="instant" id="highlight-instant"/>
-          <span id="highlight-instant-label">Scroll <em>immediately</em> to menu target</span>
+        <label class="inline"
+               for="highlight-instant">
+          <input id="highlight-instant"
+                 type="radio"
+                 name="highlight"
+                 value="instant"
+                 data-option="highlightTarget"/>
+          <span data-i18n="options_highlight_instant_label">
+            Scroll immediately to menu target
+          </span>
         </label>
 
-        <label class="inline" for="highlight-smooth">
-          <input type="radio" name="highlight" value="smooth" id="highlight-smooth"/>
-          <span id="highlight-smooth-label">Scroll <em>immediately</em> to menu target</span>
+        <label class="inline"
+               for="highlight-smooth">
+          <input id="highlight-smooth"
+                 type="radio"
+                 name="highlight"
+                 value="smooth"
+                 data-option="highlightTarget"/>
+          <span data-i18n="options_highlight_smooth_label">
+            Scroll immediately to menu target
+          </span>
         </label>
 
       </fieldset>
 
       <fieldset>
-        <legend id="landmarks-legend">
+        <legend data-i18n="options_heading_legend">
           Landmark Regions
          </legend>
 
-        <label class="inline" for="landmarks-navigation">
-          <input type="checkbox" value="navigation" id="landmarks-navigation"/>
-          <span id="landmarks-navigation-label">Navigation</span>
+        <label class="inline"
+               for="landmarks-navigation">
+          <input id="landmarks-navigation"
+                 type="checkbox"
+                 value="navigation"
+                 data-option="landmarks"/>
+          <span data-i18n="options_landmark_navigation">
+            Navigation
+          </span>
         </label>
 
-        <label class="inline" for="landmarks-search">
-          <input type="checkbox" value="search" id="landmarks-search"/>
-          <span id="landmarks-search-label">Search</span>
+        <label class="inline"
+               for="landmarks-search">
+          <input id="landmarks-search"
+                 type="checkbox"
+                 value="search"
+                 data-option="landmarks"/>
+          <span data-i18n="options_landmark_search">
+            Search
+          </span>
         </label>
 
-        <label class="inline" for="landmarks-complementary">
-          <input type="checkbox" value="complementary" id="landmarks-complementary"/>
-          <span id="landmarks-complementary-label">Complementary</span>
+        <label class="inline"
+               for="landmarks-complementary">
+          <input id="landmarks-complementary"
+                 type="checkbox"
+                 value="complementary"
+                 data-option="landmarks"/>
+          <span data-i18n="options_landmark_complementary">
+            Complementary
+          </span>
         </label>
 
-        <label class="inline" for="landmarks-contentinfo">
-          <input type="checkbox" value="contentinfo" id="landmarks-contentinfo"/>
-          <span id="landmarks-contentinfo-label">Contentinfo</span>
+        <label class="inline"
+               for="landmarks-contentinfo">
+          <input id="landmarks-contentinfo"
+                 type="checkbox"
+                 value="contentinfo"
+                 data-option="landmarks"/>
+          <span data-i18n="options_landmark_contentinfo">
+            Contentinfo
+          </span>
         </label>
 
-        <label class="inline" for="landmarks-banner">
-          <input type="checkbox" value="banner" id="landmarks-banner"/>
-          <span id="landmarks-banner-label">Banner</span>
+        <label class="inline"
+               for="landmarks-banner">
+          <input id="landmarks-banner"
+                 type="checkbox"
+                 value="banner"
+                 data-option="landmarks"/>
+          <span data-i18n="options_landmark_banner">
+            Banner
+          </span>
         </label>
 
-        <label class="inline" for="landmarks-region">
-          <input type="checkbox" value="region" id="landmarks-region"/>
-          <span id="landmarks-region-label">Named region</span>
+        <label class="inline"
+               for="landmarks-region">
+          <input id="landmarks-region"
+                 type="checkbox"
+                 value="region"
+                 data-option="landmarks"/>
+          <span data-i18n="options_landmark_region">
+            Named region
+          </span>
         </label>
 
-        <label class="inline" style="margin-top: 2em"  for="landmarks-doc-order">
-          <input type="checkbox" value="doc-order" id="landmarks-doc-order"/>
-          <span id="landmarks-doc-order-label">Show landmarks in document order</span>
+        <label class="inline"
+               style="margin-top: 2em"
+               for="landmarks-doc-order">
+          <input id="landmarks-doc-order"
+                 type="checkbox"
+                 value="doc-order"
+                 data-option="landmarks"/>
+          <span data-i18n="options_landmark_doc_order">
+            Show landmarks in document order
+          </span>
         </label>
-
 
       </fieldset>
 
       <fieldset>
-        <legend id="headings-legend">
+        <legend data-i18n="options_heading_legend">
           Headings
          </legend>
 
-        <label class="inline" for="headings-1">
-          <input type="radio" name="headings" value="h1" id="headings-1"/>
-          <span id="headings-1-label">h1</span>
+        <label class="inline"
+               for="headings-1">
+          <input id="headings-1"
+                 type="radio"
+                 name="headings"
+                 value="h1"
+                 data-option="headings"/>
+          <span data-i18n="options_heading_h1">
+            h1
+          </span>
         </label>
 
-        <label class="inline" for="headings-2">
-          <input type="radio" name="headings" value="h1 h2" id="headings-2"/>
-          <span id="headings-2-label">h1, h2</span>
+        <label class="inline"
+               for="headings-2">
+          <input id="headings-2"
+                 type="radio"
+                 name="headings"
+                 value="h1 h2"
+                 data-option="headings"/>
+          <span data-i18n="options_heading_h2">
+            h2
+          </span>
         </label>
 
-        <label class="inline" for="headings-3">
-          <input type="radio" name="headings" value="h1 h2 h3" id="headings-3"/>
-          <span id="headings-3-label">h1, h2, h3</span>
+        <label class="inline"
+               for="headings-3">
+          <input id="headings-3"
+                 type="radio"
+                 name="headings"
+                 value="h1 h2 h3"
+                 data-option="headings"/>
+          <span data-i18n="options_heading_h3">
+            h3
+          </span>
         </label>
 
-        <label class="inline" for="headings-4">
-          <input type="radio" name="headings" value="h1 h2 h3 h4" id="headings-4"/>
-          <span id="headings-4-label">h1, h2, h3, h4</span>
+        <label class="inline"
+               for="headings-4">
+          <input id="headings-4"
+                 type="radio"
+                 name="headings"
+                 value="h1 h2 h3 h4"
+                 data-option="headings"/>
+          <span data-i18n="options_heading_h4">
+            h4
+          </span>
         </label>
 
-        <label class="inline" for="headings-5">
-          <input type="radio" name="headings" value="h1 h2 h3 h4 h5" id="headings-5"/>
-          <span id="headings-5-label">h1, h2, h3, h4, h5</span>
+        <label class="inline"
+               for="headings-5">
+          <input id="headings-5"
+                 type="radio"
+                 name="headings"
+                 value="h1 h2 h3 h4 h5"
+                 data-option="headings"/>
+          <span data-i18n="options_heading_h5">
+            h5
+          </span>
         </label>
 
-        <label class="inline" for="headings-6">
-          <input type="radio" name="headings" value="h1 h2 h3 h4 h5 h6" id="headings-6"/>
-          <span id="headings-6-label">h1, h2, h3, h4, h5, h6</span>
+        <label class="inline"
+               for="headings-6">
+          <input id="headings-6"
+                 type="radio"
+                 name="headings"
+                 value="h1 h2 h3 h4 h5 h6"
+                 data-option="headings"/>
+          <span data-i18n="options_heading_h6">
+            h6
+          </span>
         </label>
 
-        <label class="inline" style="margin-top: 2em"  for="headings-main-only">
-          <input type="checkbox" value="main-only" id="headings-main-only"/>
-          <span id="headings-main-only-label">Only show headings in main landmark region</span>
+        <label class="inline"
+               style="margin-top: 2em"
+               for="headings-main-only">
+          <input id="headings-main-only"
+                 type="checkbox"
+                 value="main-only"
+                 data-option="headings"/>
+          <span data-i18n="options_heading_main_only">
+            Only show headings in main landmark region
+          </span>
         </label>
 
       </fieldset>
 
     </div>
 
-    <button id="button-reset" type="reset">Reset Menu Content Defaults</button>
+    <button id="button-reset"
+            data-i18n="options_button_menu_content_reset"
+            type="reset">
+      Reset Menu Content Defaults
+      </button>
 
   </form>
 `;
@@ -182,73 +298,21 @@ class OptionsMenu extends HTMLElement {
 
     // Update labels with i18n information
 
-    const i18nLabels = [
-      { id: 'button-reset', label: 'options_button_menu_content_reset'},
+    const i18nLabels =  Array.from(this.shadowRoot.querySelectorAll('[data-i18n]'));
 
-      { id: 'highlight-legend',         label: 'options_highlight_legend'},
-      { id: 'highlight-disabled-label', label: 'options_highlight_disabled_label'},
-      { id: 'highlight-instant-label',  label: 'options_highlight_instant_label'},
-      { id: 'highlight-smooth-label',   label: 'options_highlight_smooth_label'},
-
-      { id: 'headings-legend', label: 'options_heading_legend'},
-
-      { id: 'headings-1-label', label: 'options_heading_h1'},
-      { id: 'headings-2-label', label: 'options_heading_h2'},
-      { id: 'headings-3-label', label: 'options_heading_h3'},
-      { id: 'headings-4-label', label: 'options_heading_h4'},
-      { id: 'headings-5-label', label: 'options_heading_h5'},
-      { id: 'headings-6-label', label: 'options_heading_h6'},
-
-      { id: 'headings-main-only-label', label: 'options_heading_main_only'},
-
-      { id: 'landmarks-legend',              label: 'options_landmark_legend'},
-      { id: 'landmarks-banner-label',        label: 'options_landmark_banner'},
-      { id: 'landmarks-complementary-label', label: 'options_landmark_complementary'},
-      { id: 'landmarks-contentinfo-label',   label: 'options_landmark_contentinfo'},
-      { id: 'landmarks-navigation-label',    label: 'options_landmark_navigation'},
-      { id: 'landmarks-search-label',        label: 'options_landmark_search'},
-      { id: 'landmarks-region-label',        label: 'options_landmark_region'},
-      { id: 'landmarks-doc-order',           label: 'options_landmark_doc_order'}
-
-    ];
-
-    i18nLabels.forEach( item => {
-      const node = getNode(item.id);
-      const label = browserI18n.getMessage(item.label);
-      if (node && label) {
+    i18nLabels.forEach( node => {
+      const label = browserI18n.getMessage(node.getAttribute('data-i18n'));
+      if (label) {
         node.textContent = label + (debug ? ' (i18n)' : '');
       }
       else {
-        node && console.error(`node not found for ${item.id}`);
-        label && console.error(`message not found for ${item.label}`);
+        console.error(`[node]: ${node.getAttribute('data-i18n')}`);
+        console.error(`[label]: ${label}`);
       }
     });
 
-    const form = {};
+    this.formControls =  Array.from(this.shadowRoot.querySelectorAll('[data-option]'));
 
-    form.highlightDisabled  = getNode('highlight-disabled');
-    form.highlightInstant   = getNode('highlight-instant');
-    form.highlightSmooth    = getNode('highlight-smooth');
-
-    form.landmarksNavigationInput    = getNode('landmarks-navigation');
-    form.landmarksSearchInput        = getNode('landmarks-search');
-    form.landmarksComplementaryInput = getNode('landmarks-complementary');
-    form.landmarksContentinfoInput   = getNode('landmarks-contentinfo');
-    form.landmarksBannerInput        = getNode('landmarks-banner');
-    form.landmarksRegionInput        = getNode('landmarks-region');
-
-    form.landmarksDocOrderInput      = getNode('landmarks-doc-order');
-
-    form.headings1Input = getNode('headings-1');
-    form.headings2Input = getNode('headings-2');
-    form.headings3Input = getNode('headings-3');
-    form.headings4Input = getNode('headings-4');
-    form.headings5Input = getNode('headings-5');
-    form.headings6Input = getNode('headings-6');
-
-    form.headingsMainOnlyInput = getNode('headings-main-only');
-
-    this.form = form;
 
     this.updateOptions();
 
@@ -264,31 +328,34 @@ class OptionsMenu extends HTMLElement {
   }
 
   updateOptions () {
-    const form = this.form;
+    const formControls = this.formControls;
 
     getOptions().then( (options) => {
 
-      form.highlightDisabled.checked = options.highlightTarget === 'disabled';
-      form.highlightInstant.checked  = options.highlightTarget === 'instant';
-      form.highlightSmooth.checked   = options.highlightTarget === 'smooth';
+      formControls.forEach( input => {
+        debug && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
+        const option = input.getAttribute('data-option');
+        if (input.type === 'checkbox') {
+          input.checked = options[option].includes(input.value);
+        }
+        else {
+          const value = option === 'headings' ?
+                        options[option].replace('main-only', '').trim() :
+                        options[option];
 
-      form.landmarksNavigationInput.checked    = options.landmarks.includes('nav');
-      form.landmarksSearchInput.checked        = options.landmarks.includes('search');
-      form.landmarksComplementaryInput.checked = options.landmarks.includes('complementary');
-      form.landmarksContentinfoInput.checked   = options.landmarks.includes('contentinfo');
-      form.landmarksBannerInput.checked        = options.landmarks.includes('banner');
-      form.landmarksRegionInput.checked        = options.landmarks.includes('region');
-
-      form.landmarksDocOrderInput.checked      = options.landmarks.includes('doc-order');
-
-      form.headings1Input.checked = options.headings.includes('h1');
-      form.headings2Input.checked = options.headings.includes('h2');
-      form.headings3Input.checked = options.headings.includes('h3');
-      form.headings4Input.checked = options.headings.includes('h4');
-      form.headings5Input.checked = options.headings.includes('h5');
-      form.headings6Input.checked = options.headings.includes('h6');
-
-      form.headingsMainOnlyInput.checked = options.headings.includes('main-only');
+          if (input.type === 'radio') {
+            if (input.value === 'main-only') {
+              input.checked = options[option].includes('main-only');
+            }
+            else {
+              input.checked = value === input.value;
+            }
+          }
+          else {
+            input.value = value;
+          }
+        }
+      });
 
       this.syncOptionsWithSkipToScript (options);
     });
@@ -321,72 +388,42 @@ class OptionsMenu extends HTMLElement {
 
   saveMenuContentOptions () {
 
-    const form = this.form;
+    const formControls = this.formControls;
 
     getOptions().then( (options) => {
 
-      options.highlightTarget = form.highlightSmooth.checked ?
-                              'smooth' :
-                              (form.highlightInstant.checked ?
-                              'instant' :
-                              'disabled'
-                              );
+      formControls.forEach( input => {
+        debug.flag && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
+        const option = input.getAttribute('data-option');
+        if (input.type === 'checkbox') {
+          if (input.checked) {
+            if (!options[option].includes(input.value)) {
+              options[option] += ' ' + input.value;
+            }
+          }
+          else {
+            options[option] = options[option].replace(input.value, '');
+          }
+          options[option] = options[option].trim();
+        }
+        else {
+          if (input.type === 'radio') {
+            if (input.checked) {
+              if (options[option].includes('main-only')) {
+                options[option] = 'main-only ' + input.value;
+              }
+              else {
+                options[option] = input.value;
+              }
+            }
+          }
+          else {
+            options[option] = input.value;
+          }
+        }
 
-      options.landmarks = 'main';
 
-      if (form.landmarksNavigationInput.checked) {
-        options.landmarks += ' nav';
-      }
-
-      if (form.landmarksSearchInput.checked) {
-        options.landmarks += ' search';
-      }
-
-      if (form.landmarksComplementaryInput.checked) {
-        options.landmarks += ' complementary';
-      }
-
-      if (form.landmarksContentinfoInput.checked) {
-        options.landmarks += ' contentinfo';
-      }
-
-      if (form.landmarksBannerInput.checked) {
-        options.landmarks += ' banner';
-      }
-
-      if (form.landmarksRegionInput.checked) {
-        options.landmarks += ' region';
-      }
-
-      if (form.landmarksDocOrderInput.checked) {
-        options.landmarks += ' doc-order';
-      }
-
-      options.headings = form.headingsMainOnlyInput.checked ? "main-only" : "";
-
-     if (form.headings1Input.checked) {
-        options.headings += " h1";
-      }
-
-      if (form.headings2Input.checked) {
-        options.headings += " h1 h2";
-      }
-
-      if (form.headings3Input.checked) {
-        options.headings += " h1 h2 h3";
-      }
-
-      if (form.headings4Input.checked) {
-        options.headings += " h1 h2 h3 h4";
-      }
-
-      if (form.headings5Input.checked) {
-        options.headings += "h1 h2 h3 h4 h5";
-      }
-
-      if (form.headings6Input.checked) {
-        options.headings += "h1 h2 h3 h4 h5 h6";
-      }
+      });
 
       saveOptions(options).then(
         this.syncOptionsWithSkipToScript(options));

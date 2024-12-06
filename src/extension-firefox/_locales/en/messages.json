@@ -323,7 +323,7 @@
       "message" : "Next region",
       "description" : "Short cut for next region"
   },
-  "options_region_prev_label": {
+  "options_region_previous_label": {
       "message" : "Previous region",
       "description" : "Short cut for previous region"
   },
@@ -343,7 +343,7 @@
       "message" : "Next heading",
       "description" : "Short cut for next heading"
   },
-  "options_heading_prev_label": {
+  "options_heading_previous_label": {
       "message" : "Previous heading",
       "description" : "Short cut for previous headings"
   },

@@ -1,6 +1,6 @@
 /* optionsShortcuts.js */
 
-const debug = false;
+const debug = true;
 
 // Define browser specific APIs for Opera, Firefox and Chrome
 
@@ -40,89 +40,171 @@ optionsShortcutsTemplate.innerHTML = `
   <form>
     <div>
 
-      <label class="inline" for="enable-shortcuts">
+      <label class="inline"
+             for="enable-shortcuts">
         <input id="enable-shortcuts"
-           type="checkbox"/>
-        <span id="enable-shortcuts-label">Enable page navigation with shortcut keys</span>
+              type="checkbox"
+              data-option="options.shortcuts"
+              data-checked="enabled"
+              data-unchecked="disabled"/>
+        <span data-i18n="options_enable_shortcuts_label">
+          Enable page navigation with shortcut keys
+        </span>
       </label>
 
       <fieldset>
-        <legend id="region-legend">
+        <legend data-i18n="options_landmark_legend">
           Landmark Regions
          </legend>
 
-        <label class="inline text" for="region-next">
-          <input type="text" size="1" value="x" id="region-next"/>
-          <span id="region-next-label">Next region</span>
+        <label class="inline text"
+               for="region-next">
+          <input id="region-next"
+                 type="text"
+                 size="1"
+                 value=""
+                 data-option="shortcutRegionNext"/>
+          <span data-i18n="options_next_region_label">Next region</span>
         </label>
 
-        <label class="inline text" for="region-prev">
-          <input type="text" size="1" value="x" id="region-prev"/>
-          <span id="region-prev-label">Previous region</span>
+        <label class="inline text"
+               for="region-prev">
+          <input id="region-prev"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutRegionPrevious"/>
+          <span data-i18n="options_region_previous_label">
+            Previous region
+          </span>
         </label>
 
-        <label class="inline text" for="region-main">
-          <input type="text" size="1" value="x" id="region-main"/>
-          <span id="region-main-label">Next Main region</span>
+        <label class="inline text"
+               for="region-main">
+          <input id="region-main"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutRegionMain"/>
+          <span data-i18n="options_region_main_label">
+            Next Main region
+          </span>
         </label>
 
-        <label class="inline text" for="region-nav">
-          <input type="text" size="1" value="x" id="region-nav"/>
-          <span id="region-nav-label">Next Navigation region</span>
+        <label class="inline text"
+               for="region-nav">
+          <input id="region-nav"
+                 type="text"
+                size="1"
+                value="x"
+                data-option="shortcutRegionNavigation"/>
+          <span data-i18n="options_region_nav_label">
+            Next Navigation region
+          </span>
         </label>
 
       </fieldset>
 
       <fieldset>
-        <legend id="heading-legend">
+        <legend data-i18n="options_heading_legend">
           Headings
          </legend>
 
-        <label class="inline text" for="heading-next">
-          <input type="text" size="1" value="x" id="heading-next"/>
-          <span id="heading-next-label">Next heading/span>
+        <label class="inline text"
+               for="heading-next">
+          <input id="heading-next"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingNext"/>
+          <span data-i18n="options_heading_next_label">
+            Next heading
+          </span>
         </label>
 
-        <label class="inline text" for="heading-prev">
-          <input type="text" size="1" value="x" id="heading-prev"/>
-          <span id="heading-prev-label">Next heading/span>
+        <label class="inline text"
+               for="heading-prev">
+          <input id="heading-prev"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingPrevious"/>
+          <span data-i18n="options_heading_previous_label">
+            Next heading
+          </span>
         </label>
 
-        <label class="inline text" for="heading-h1">
-          <input type="text" size="1" value="x" id="heading-h1"/>
-          <span id="heading-h1-label">H1 headings</span>
+        <label class="inline text"
+               for="heading-h1">
+          <input id="heading-h1"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingH1"/>
+          <span data-i18n="options_h1_headings_label">H1 headings</span>
         </label>
 
-        <label class="inline text" for="heading-h2">
-          <input type="text" size="1" value="x" id="heading-h2"/>
-          <span id="heading-h2-label">H2 headings</span>
+        <label class="inline text"
+               for="heading-h2">
+          <input id="heading-h2"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingH2"/>
+          <span data-i18n="options_h2_headings_label">H2 headings</span>
         </label>
 
-        <label class="inline text" for="heading-h3">
-          <input type="text" size="1" value="x" id="heading-h3"/>
-          <span id="heading-h3-label">H3 headings</span>
+        <label class="inline text"
+               for="heading-h3">
+          <input id="heading-h3"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingH3"/>
+          <span data-i18n="options_h3_headings_label">H3 headings</span>
         </label>
 
-        <label class="inline text" for="heading-h4">
-          <input type="text" size="1" value="x" id="heading-h4"/>
-          <span id="heading-h4-label">H4 headings</span>
+        <label class="inline text"
+               for="heading-h4">
+          <input id="heading-h4"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingH4"/>
+          <span data-i18n="options_h4_headings_label">H4 headings</span>
         </label>
 
-        <label class="inline text" for="heading-h5">
-          <input type="text" size="1" value="x" id="heading-h5"/>
-          <span id="heading-h5-label">H5 headings</span>
+
+        <label class="inline text"
+               for="heading-h5">
+          <input id="heading-h5"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingH5"/>
+          <span data-i18n="options_h5_headings_label">H5 headings</span>
         </label>
 
-        <label class="inline text" for="heading-h6">
-          <input type="text" size="1" value="x" id="heading-h6"/>
-          <span id="heading-h6-label">H6 headings</span>
+        <label class="inline text"
+               for="heading-h6">
+          <input id="heading-h6"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingH6"/>
+          <span data-i18n="options_h6_headings_label">H6 headings</span>
         </label>
 
       </fieldset>
 
     </div>
 
-    <button id="button-reset" type="reset">Reset Page Navigation Defaults</button>
+
+    <button id="button-reset"
+            data-i18n="options_button_shortcuts_reset"
+            type="reset">
+        Reset Page Navigation Defaults
+    </button>
 
   </form>
 `;
@@ -155,60 +237,20 @@ class OptionsShortcuts extends HTMLElement {
 
     // Update labels with i18n information
 
-    const i18nLabels = [
-      { id: 'button-reset', label: 'options_button_shortcuts_reset'},
+    const i18nLabels =  Array.from(this.shadowRoot.querySelectorAll('[data-i18n]'));
 
-      { id: 'enable-shortcuts-label',  label: 'options_enable_shortcuts_label'},
-
-      { id: 'region-legend',      label: 'region_legend'},
-      { id: 'region-next-label',  label: 'region_next_label'},
-      { id: 'region-prev-label',  label: 'region_prev_label'},
-      { id: 'region-main-label',  label: 'region_main_label'},,
-      { id: 'region-nav-label',   label: 'region_nav_label'},
-
-      { id: 'heading-legend',      label: 'heading_legend'},
-      { id: 'heading-next-label',  label: 'heading_next_label'},
-      { id: 'heading-prev-label',  label: 'heading_prev_label'},
-      { id: 'heading-h1-label',    label: 'heading_h1_label'},
-      { id: 'heading-h2-label',    label: 'heading_h2_label'},
-      { id: 'heading-h3-label',    label: 'heading_h3_label'},
-      { id: 'heading-h4-label',    label: 'heading_h4_label'},
-      { id: 'heading-h5-label',    label: 'heading_h5_label'},
-      { id: 'heading-h6-label',    label: 'heading_h6_label'}
-
-    ];
-
-    i18nLabels.forEach( item => {
-      const node = getNode(item.id);
-      const label = browserI18n.getMessage(item.label);
-      if (node && label) {
+    i18nLabels.forEach( node => {
+      const label = browserI18n.getMessage(node.getAttribute('data-i18n'));
+      if (label) {
         node.textContent = label + (debug ? ' (i18n)' : '');
       }
       else {
-        node && console.error(`node not found for ${item.id}`);
-        label && console.error(`message not found for ${item.label}`);
+        console.error(`[node]: ${node.getAttribute('data-i18n')}`);
+        console.error(`[label]: ${label}`);
       }
     });
 
-    const form = {};
-
-    form.checkboxEnableShortcutsInput    = getNode('enable-shortcuts');
-
-    form.textRegionNextInput  = getNode('region-next');
-    form.textRegionPrevInput  = getNode('region-prev');
-    form.textRegionMainInput  = getNode('region-main');
-    form.textRegionNavInput   = getNode('region-nav');
-
-    form.textHeadingNextInput  = getNode('heading-next');
-    form.textHeadingPrevInput  = getNode('heading-prev');
-    form.textHeadingH1Input    = getNode('heading-h1');
-    form.textHeadingH2Input    = getNode('heading-h2');
-    form.textHeadingH3Input    = getNode('heading-h3');
-    form.textHeadingH4Input    = getNode('heading-h4');
-    form.textHeadingH5Input    = getNode('heading-h5');
-    form.textHeadingH6Input    = getNode('heading-h6');
-
-    this.form = form;
+    this.formControls =  Array.from(this.shadowRoot.querySelectorAll('[data-option]'));
 
     this.updateOptions();
 
@@ -229,25 +271,20 @@ class OptionsShortcuts extends HTMLElement {
   }
 
   updateOptions () {
-    const form = this.form;
+    const formControls = this.formControls;
 
     getOptions().then( (options) => {
 
-      form.checkboxEnableShortcutsInput.checked = options.shortcuts === 'enabled';
-
-      form.textRegionNextInput.value = options.shortcutRegionNext;
-      form.textRegionPrevInput.value = options.shortcutRegionPrevious;
-      form.textRegionMainInput.value = options.shortcutRegionMain;
-      form.textRegionNavInput.value  = options.shortcutRegionNavigation;
-
-      form.textHeadingNextInput.value  = options.shortcutHeadingNext;
-      form.textHeadingPrevInput.value  = options.shortcutHeadingPrevious;
-      form.textHeadingH1Input.value    = options.shortcutHeadingH1;
-      form.textHeadingH2Input.value    = options.shortcutHeadingH2;
-      form.textHeadingH3Input.value    = options.shortcutHeadingH3;
-      form.textHeadingH4Input.value    = options.shortcutHeadingH4;
-      form.textHeadingH5Input.value    = options.shortcutHeadingH5;
-      form.textHeadingH6Input.value    = options.shortcutHeadingH6;
+      formControls.forEach( input => {
+        debug.flag && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
+        const option = input.getAttribute('data-option');
+        if (input.type === 'checkbox') {
+          input.checked =  options[option] === input.getAttribute('data-checked');
+        }
+        else {
+          input.value = options[option];
+        }
+      });
 
       this.syncOptionsWithSkipToScript (options);
     });
@@ -280,28 +317,27 @@ class OptionsShortcuts extends HTMLElement {
 
   saveButtonContentOptions () {
 
-    const form = this.form;
+    const formControls = this.formControls;
 
     getOptions().then( (options) => {
 
-      options.shortcuts = form.checkboxEnableShortcutsInput.checked ? 'enabled' : 'disabled';
+      formControls.forEach( input => {
+        debug.flag && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
+        const option = input.getAttribute('data-option');
+        if (input.type === 'checkbox') {
+          if (input.checked) {
+            options[option] === input.getAttribute('data-checked');
+          }
+          else {
+            options[option] === input.getAttribute('data-unchecked');
+          }
+        }
+        else {
+          options[option] = input.value;
+        }
+      });
 
-      options.shortcutRegionNext       = form.textRegionNextInput.value.trim().substring(0,1);
-      options.shortcutRegionPrevious   = form.textRegionPrevInput.value.trim().substring(0,1);
-      options.shortcutRegionMain       = form.textRegionMainInput.value.trim().substring(0,1);
-      options.shortcutRegionNavigation = form.textRegionNavInput.value.trim().substring(0,1);
-
-      options.shortcutHeadingNext     = form.textHeadingNextInput.value.trim().substring(0,1);
-      options.shortcutHeadingPrevious = form.textHeadingPrevInput.value.trim().substring(0,1);
-      options.shortcutHeadingH1       = form.textHeadingH1Input.value.trim().substring(0,1);
-      options.shortcutHeadingH2       = form.textHeadingH2Input.value.trim().substring(0,1);
-      options.shortcutHeadingH3       = form.textHeadingH3Input.value.trim().substring(0,1);
-      options.shortcutHeadingH4       = form.textHeadingH4Input.value.trim().substring(0,1);
-      options.shortcutHeadingH5       = form.textHeadingH5Input.value.trim().substring(0,1);
-      options.shortcutHeadingH6       = form.textHeadingH6Input.value.trim().substring(0,1);
-
-      saveOptions(options).then(
-        this.syncOptionsWithSkipToScript(options));
+      saveOptions(options).then(this.syncOptionsWithSkipToScript(options));
     });
   }
 
