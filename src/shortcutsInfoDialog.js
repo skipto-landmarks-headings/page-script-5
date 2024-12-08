@@ -7,7 +7,7 @@ import DebugLogging  from './debug.js';
 const debug = new DebugLogging('[shortcutsInfoDialog]', false);
 debug.flag = false;
 
-const MORE_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/';
+const MORE_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 
 const styleTemplate = document.createElement('template');
 styleTemplate.textContent = `

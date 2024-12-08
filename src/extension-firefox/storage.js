@@ -10,6 +10,10 @@ const browserStorage = typeof browser === 'object' ?
     browser.storage.local :
     chrome.storage.sync;
 
+const browserI18n = typeof browser === 'object' ?
+            browser.i18n :
+            chrome.i18n;
+
 const defaultButtonOptions = {
   displayOption: 'popup',
   focusOption: 'button'
@@ -52,54 +56,54 @@ const defaultStyleOptions = {
 
 const i18nOptions = {
   // Button labels and messages
-  buttonLabel: 'Skip To Content',
-  smallButtonLabel: 'SkipTo',
-  altLabel: 'Alt',
-  optionLabel: 'Option',
-  shortcutLabel: 'shortcut',
+  buttonLabel:      browserI18n.getMessage('init_button_label'),
+  smallButtonLabel: browserI18n.getMessage('init_small_button_label'),
+  altLabel:         browserI18n.getMessage('init_alt_label'),
+  optionLabel:      browserI18n.getMessage('init_option_label'),
+  shortcutLabel:    browserI18n.getMessage('init_shortcut_label'),
 
   // Menu labels and messages
-  menuLabel: 'Landmarks and Headings',
-  landmarkGroupLabel: 'Landmark Regions',
-  headingGroupLabel: 'Headings',
-  headingMainGroupLabel: 'Headings in Main Region',
-  headingLevelLabel: 'Heading level',
+  menuLabel:             browserI18n.getMessage('init_menu_label'),
+  landmarkGroupLabel:    browserI18n.getMessage('init_landmark_group_label'),
+  headingGroupLabel:     browserI18n.getMessage('init_heading_group_label'),
+  headingMainGroupLabel: browserI18n.getMessage('init_heading_main_group_label'),
+  headingLevelLabel:     browserI18n.getMessage('init_heading_level_label'),
 
   // Landmark names
-  mainLabel: 'main',
-  searchLabel: 'search',
-  navLabel: 'navigation',
-  regionLabel: 'region',
-  asideLabel: 'complementary',
-  footerLabel: 'contentinfo',
-  headerLabel: 'banner',
-  formLabel: 'form',
-  msgNoLandmarksFound: 'No landmarks found',
-  msgNoHeadingsFound: 'No headings found',
+  mainLabel:   browserI18n.getMessage('init_main_label'),
+  searchLabel: browserI18n.getMessage('init_search_label'),
+  navLabel:    browserI18n.getMessage('init_navigation_label'),
+  regionLabel: browserI18n.getMessage('init_region_label'),
+  asideLabel:  browserI18n.getMessage('init_aside_label'),
+  footerLabel: browserI18n.getMessage('init_header_label'),
+  headerLabel: browserI18n.getMessage('init_footer_label'),
+  formLabel:   browserI18n.getMessage('init_form_label'),
+  msgNoLandmarksFound: browserI18n.getMessage('init_msg_no_landmarks_found'),
+  msgNoHeadingsFound:  browserI18n.getMessage('init_msg_no_headings_found'),
 
   // Shortcuts
-  shortcutsGroupEnabledLabel:  'Navigation Shortcuts: Enabled',
-  shortcutsGroupDisabledLabel: 'Navigation Shortcuts: Disabled',
-  shortcutsToggleEnableLabel:  'Enable shortcuts',
-  shortcutsToggleDisableLabel: 'Disable shortcuts',
-  shortcutsInfoLabel:          'Shortcut Information',
+  shortcutsGroupEnabledLabel:  browserI18n.getMessage('init_shortcuts_group_enabled_label'),
+  shortcutsGroupDisabledLabel: browserI18n.getMessage('init_shortcuts_group_disabled_label'),
+  shortcutsToggleEnableLabel:  browserI18n.getMessage('init_shortcuts_toggle_enable_label'),
+  shortcutsToggleDisableLabel: browserI18n.getMessage('init_shortcuts_toggle_disable_label'),
+  shortcutsInfoLabel:          browserI18n.getMessage('init_shortcuts_info_label'),
 
-  msgHeadingLevel:    'Level #',
-  msgNextRegion:      'Next region',
-  msgPreviousRegion:  'Previous region',
-  msgNextHeading:     'Next heading',
-  msgPreviousHeading: 'Previous heading',
+  msgHeadingLevel:    browserI18n.getMessage('init_msg_heading_level'),
+  msgNextRegion:      browserI18n.getMessage('init_msg_next_region'),
+  msgPreviousRegion:  browserI18n.getMessage('init_msg_previous_region'),
+  msgNextHeading:     browserI18n.getMessage('init_msg_next_heading'),
+  msgPreviousHeading: browserI18n.getMessage('init_msg_previous_heading'),
 
-  msgMainRegions:          'Main regions',
-  msgNavigationRegions:    'Navigation regions',
-  msgComplementaryRegions: 'Complementary regions',
+  msgMainRegions:          browserI18n.getMessage('init_msg_main_regions'),
+  msgNavigationRegions:    browserI18n.getMessage('init_msg_navigation_regions'),
+  msgComplementaryRegions: browserI18n.getMessage('init_msg_complementary_regions'),
 
-  msgH1Headings:   'Level 1 headings',
-  msgH2Headings:   'Level 2 headings',
-  msgH3Headings:   'Level 3 headings',
-  msgH4Headings:   'Level 4 headings',
-  msgH5Headings:   'Level 5 headings',
-  msgH6Headings:   'Level 6 headings'
+  msgH1Headings: browserI18n.getMessage('init_msg_h1_headings'),
+  msgH2Headings: browserI18n.getMessage('init_msg_h2_headings'),
+  msgH3Headings: browserI18n.getMessage('init_msg_h3_headings'),
+  msgH4Headings: browserI18n.getMessage('init_msg_h4_headings'),
+  msgH5Headings: browserI18n.getMessage('init_msg_h5_headings'),
+  msgH6Headings: browserI18n.getMessage('init_msg_h6_headings'),
 };
 
 const defaultOptions = Object.assign({}, defaultButtonOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions, defaultShortcutOptions);

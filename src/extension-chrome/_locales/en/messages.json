@@ -15,6 +15,162 @@
     "message": "SkipTo.js provides keyboard navigation to landmark regions and headings to meet WCAG 2.4.1 Bypass Blocks requirement.",
     "description": "Extension description"
   },
+  "init_button_label": {
+    "message" : "Skip To Content",
+    "description" : "Initial value of button label"
+  },
+  "init_small_button_label": {
+    "message" : "SkipTo",
+    "description" : "Initial value of small button label"
+  },
+  "init_alt_label": {
+    "message" : "Alt",
+    "description" : "Initial value of ALT key label"
+  },
+  "init_option_label": {
+    "message" : "Option",
+    "description" : "Initial value of OPTION key label"
+  },
+  "init_shortcut_label": {
+    "message" : "shortcut",
+    "description" : "Initial value of shortcut label"
+  },
+  "init_menu_label": {
+    "message" : "Landmarks and Headings",
+    "description" : "Initial value of menu label"
+  },
+  "init_landmark_group_label": {
+    "message" : "Landmark Regions",
+    "description" : "Initial value of landmark regions label"
+  },
+  "init_heading_group_label": {
+    "message" : "Headings",
+    "description" : "Initial value of headings label"
+  },
+  "init_heading_main_group_label": {
+    "message" : "Headings in Main Region",
+    "description" : "Initial value of headings in main label"
+  },
+  "init_heading_level_label": {
+    "message" : "Heading level",
+    "description" : "Initial value of heading level label"
+  },
+  "init_main_label": {
+    "message" : "main",
+    "description" : "Initial value of main region label"
+  },
+  "init_search_label": {
+    "message" : "search",
+    "description" : "Initial value of search region label"
+  },
+  "init_navigation_label": {
+    "message" : "navigation",
+    "description" : "Initial value of navigation region label"
+  },
+  "init_region_label": {
+    "message" : "region",
+    "description" : "Initial value of region label"
+  },
+  "init_aside_label": {
+    "message" : "complementary",
+    "description" : "Initial value of complementary region label"
+  },
+  "init_footer_label": {
+    "message" : "contentinfo",
+    "description" : "Initial value of contentinfo region label"
+  },
+  "init_header_label": {
+    "message" : "banner",
+    "description" : "Initial value of banner region label"
+  },
+  "init_form_label": {
+    "message" : "form",
+    "description" : "Initial value of form region label"
+  },
+  "init_msg_no_landmarks_found": {
+    "message" : "No landmarks found",
+    "description" : "Initial value of No landmarks found message"
+  },
+  "init_msg_no_headings_found": {
+    "message" : "No headings found",
+    "description" : "Initial value of no headings found message"
+  },
+  "init_shortcuts_group_enabled_label": {
+    "message" : "Navigation Shortcuts: Enabled",
+    "description" : "Initial value of Navigation Shortcuts: Enabled message"
+  },
+  "init_shortcuts_group_disabled_label": {
+    "message" : "Navigation Shortcuts: Disabled",
+    "description" : "Initial value of Navigation Shortcuts: Disabled message"
+  },
+  "init_shortcuts_toggled_enable_label": {
+    "message" : "Enable shortcuts",
+    "description" : "Initial value of enable shortcuts menu item label"
+  },
+  "init_shortcuts_toggled_disable_label": {
+    "message" : "Disable shortcuts",
+    "description" : "Initial value of disable shortcuts menu item label"
+  },
+  "init_shortcuts_info_label": {
+    "message" : "Shortcut Information",
+    "description" : "Initial value of Shortcut Information menu item label"
+  },
+  "init_msg_heading_level": {
+    "message" : "Level #",
+    "description" : "Initial value of heading level # message"
+  },
+  "init_msg_next_region": {
+    "message" : "Next region",
+    "description" : "Initial value of next region message"
+  },
+  "init_msg_previous_region": {
+    "message" : "Previous region",
+    "description" : "Initial value of previous region message"
+  },
+  "init_msg_next_heading": {
+    "message" : "Next heading",
+    "description" : "Initial value of next heading message"
+  },
+  "init_msg_previous_heading": {
+    "message" : "Previous heading",
+    "description" : "Initial value of previous heading message"
+  },
+  "init_msg_main_regions": {
+    "message" : "Main regions",
+    "description" : "Initial value of main regions message"
+  },
+  "init_msg_navigation_regions": {
+    "message" : "Navigation regions",
+    "description" : "Initial value of navigation regions message"
+  },
+  "init_msg_complementary_regions": {
+    "message" : "Complementary regions",
+    "description" : "Initial value of complemnetary regions message"
+  },
+  "init_msg_h1_headings": {
+    "message" : "Level 1 headings",
+    "description" : "Initial value of h1 headings message"
+  },
+  "init_msg_h2_headings": {
+    "message" : "Level 2 headings",
+    "description" : "Initial value of h2 headings message"
+  },
+  "init_msg_h3_headings": {
+    "message" : "Level 3 headings",
+    "description" : "Initial value of h3 headings message"
+  },
+  "init_msg_h4_headings": {
+    "message" : "Level 4 headings",
+    "description" : "Initial value of h4 headings message"
+  },
+  "init_msg_h5_headings": {
+    "message" : "Level 5 headings",
+    "description" : "Initial value of h5 headings message"
+  },
+  "init_msg_h6_headings": {
+    "message" : "Level 6 headings",
+    "description" : "Initial value of h6 headings message"
+  },
   "options_h1_title": {
     "message" : "Preferences",
     "description" : "Title of options page"

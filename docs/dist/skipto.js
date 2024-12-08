@@ -903,7 +903,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
   const debug$9 = new DebugLogging('[shortcutsInfoDialog]', false);
   debug$9.flag = false;
 
-  const MORE_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/';
+  const MORE_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 
   const styleTemplate = document.createElement('template');
   styleTemplate.textContent = `
