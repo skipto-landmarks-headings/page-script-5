@@ -44,18 +44,129 @@ optionsShortcutsTemplate.innerHTML = `
              for="enable-shortcuts">
         <input id="enable-shortcuts"
               type="checkbox"
-              data-option="options.shortcuts"
+              data-option="shortcuts"
               data-checked="enabled"
               data-unchecked="disabled"/>
         <span data-i18n="options_enable_shortcuts_label">
-          Enable page navigation with shortcut keys
+          X
         </span>
       </label>
 
+
+      <fieldset>
+        <legend data-i18n="options_heading_legend">
+          X
+         </legend>
+
+        <div id="shortcut-key-desc-1" class="desc" data-i18n="options_shortcut_key_desc_headings"></div>
+
+        <label class="inline text"
+               for="heading-next">
+          <input id="heading-next"
+                 type="text"
+                 size="1"
+                 value="x"
+                 aria-describedby="shortcut-key-desc-1"
+                 data-option="shortcutHeadingNext"/>
+          <span data-i18n="options_heading_next_label">
+            X
+          </span>
+        </label>
+
+        <label class="inline text"
+               for="heading-prev">
+          <input id="heading-prev"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingPrevious"/>
+          <span data-i18n="options_heading_previous_label">
+            X
+          </span>
+        </label>
+
+        <label class="inline text"
+               for="heading-h1">
+          <input id="heading-h1"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingH1"/>
+          <span data-i18n="options_h1_headings_label">
+            X
+          </span>
+        </label>
+
+        <label class="inline text"
+               for="heading-h2">
+          <input id="heading-h2"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingH2"/>
+          <span data-i18n="options_h2_headings_label">
+            X
+          </span>
+        </label>
+
+        <label class="inline text"
+               for="heading-h3">
+          <input id="heading-h3"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingH3"/>
+          <span data-i18n="options_h3_headings_label">
+            X
+          </span>
+        </label>
+
+        <label class="inline text"
+               for="heading-h4">
+          <input id="heading-h4"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingH4"/>
+          <span data-i18n="options_h4_headings_label">
+            X
+          </span>
+        </label>
+
+
+        <label class="inline text"
+               for="heading-h5">
+          <input id="heading-h5"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingH5"/>
+          <span data-i18n="options_h5_headings_label">
+            X
+          </span>
+        </label>
+
+        <label class="inline text"
+               for="heading-h6">
+          <input id="heading-h6"
+                 type="text"
+                 size="1"
+                 value="x"
+                 data-option="shortcutHeadingH6"/>
+          <span data-i18n="options_h6_headings_label">
+            X
+          </span>
+        </label>
+
+      </fieldset>
+
       <fieldset>
         <legend data-i18n="options_landmark_legend">
-          Landmark Regions
+          X
          </legend>
+
+        <div id="shortcut-key-desc-2" class="desc" data-i18n="options_shortcut_key_desc_regions"></div>
+
 
         <label class="inline text"
                for="region-next">
@@ -63,6 +174,7 @@ optionsShortcutsTemplate.innerHTML = `
                  type="text"
                  size="1"
                  value=""
+                 aria-describedby="shortcut-key-desc-2"
                  data-option="shortcutRegionNext"/>
           <span data-i18n="options_next_region_label">Next region</span>
         </label>
@@ -75,7 +187,7 @@ optionsShortcutsTemplate.innerHTML = `
                  value="x"
                  data-option="shortcutRegionPrevious"/>
           <span data-i18n="options_region_previous_label">
-            Previous region
+            X
           </span>
         </label>
 
@@ -87,7 +199,7 @@ optionsShortcutsTemplate.innerHTML = `
                  value="x"
                  data-option="shortcutRegionMain"/>
           <span data-i18n="options_region_main_label">
-            Next Main region
+            X
           </span>
         </label>
 
@@ -103,99 +215,21 @@ optionsShortcutsTemplate.innerHTML = `
           </span>
         </label>
 
-      </fieldset>
-
-      <fieldset>
-        <legend data-i18n="options_heading_legend">
-          Headings
-         </legend>
-
         <label class="inline text"
-               for="heading-next">
-          <input id="heading-next"
+               for="region-complementary">
+          <input id="region-complementary"
                  type="text"
-                 size="1"
-                 value="x"
-                 data-option="shortcutHeadingNext"/>
-          <span data-i18n="options_heading_next_label">
-            Next heading
+                size="1"
+                value="x"
+                data-option="shortcutRegionComplementary"/>
+          <span data-i18n="options_region_complementary_label">
+            X
           </span>
         </label>
 
-        <label class="inline text"
-               for="heading-prev">
-          <input id="heading-prev"
-                 type="text"
-                 size="1"
-                 value="x"
-                 data-option="shortcutHeadingPrevious"/>
-          <span data-i18n="options_heading_previous_label">
-            Next heading
-          </span>
-        </label>
-
-        <label class="inline text"
-               for="heading-h1">
-          <input id="heading-h1"
-                 type="text"
-                 size="1"
-                 value="x"
-                 data-option="shortcutHeadingH1"/>
-          <span data-i18n="options_h1_headings_label">H1 headings</span>
-        </label>
-
-        <label class="inline text"
-               for="heading-h2">
-          <input id="heading-h2"
-                 type="text"
-                 size="1"
-                 value="x"
-                 data-option="shortcutHeadingH2"/>
-          <span data-i18n="options_h2_headings_label">H2 headings</span>
-        </label>
-
-        <label class="inline text"
-               for="heading-h3">
-          <input id="heading-h3"
-                 type="text"
-                 size="1"
-                 value="x"
-                 data-option="shortcutHeadingH3"/>
-          <span data-i18n="options_h3_headings_label">H3 headings</span>
-        </label>
-
-        <label class="inline text"
-               for="heading-h4">
-          <input id="heading-h4"
-                 type="text"
-                 size="1"
-                 value="x"
-                 data-option="shortcutHeadingH4"/>
-          <span data-i18n="options_h4_headings_label">H4 headings</span>
-        </label>
-
-
-        <label class="inline text"
-               for="heading-h5">
-          <input id="heading-h5"
-                 type="text"
-                 size="1"
-                 value="x"
-                 data-option="shortcutHeadingH5"/>
-          <span data-i18n="options_h5_headings_label">H5 headings</span>
-        </label>
-
-        <label class="inline text"
-               for="heading-h6">
-          <input id="heading-h6"
-                 type="text"
-                 size="1"
-                 value="x"
-                 data-option="shortcutHeadingH6"/>
-          <span data-i18n="options_h6_headings_label">H6 headings</span>
-        </label>
 
       </fieldset>
+
 
     </div>
 

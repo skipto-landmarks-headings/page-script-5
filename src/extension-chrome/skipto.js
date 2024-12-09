@@ -342,7 +342,7 @@ $skipToId.static {
 
 $skipToId [role="menu"] {
   position: absolute;
-  min-width: 17em;
+  min-width: 18em;
   display: none;
   margin: 0;
   padding: 0.25rem;
@@ -970,7 +970,7 @@ dialog#info-dialog .content caption {
   margin-top: 1em;
   text-align: left;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.1em;
 }
 
 dialog#info-dialog .content th {
@@ -993,7 +993,7 @@ dialog#info-dialog .content td {
 
 
 dialog#info-dialog .content table tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #eee;
 }
 
 dialog#info-dialog .buttons {
@@ -1087,9 +1087,9 @@ button:hover {
     updateContent (config) {
 
         this.h2Elem.textContent = config.shortcutsInfoLabel;
-        this.closeButton1.setAttribute('aria-label', config.msgClose);
-        this.closeButton2.textContent = config.msgClose;
-        this.moreInfoButton.textContent = config.msgMoreInfo;
+        this.closeButton1.setAttribute('aria-label', config.closeLabel);
+        this.closeButton2.textContent = config.closeLabel;
+        this.moreInfoButton.textContent = config.moreInfoLabel;
 
         function addRow(tbodyElem, shortcut, desc) {
 
@@ -1111,37 +1111,7 @@ button:hover {
           this.contentElem.removeChild(this.contentElem.lastElementChild);
         }
 
-        const tableElem1 = document.createElement('table');
-        this.contentElem.appendChild(tableElem1);
-
-        const captionElem1 = document.createElement('caption');
-        captionElem1.textContent = config.landmarkGroupLabel;
-        tableElem1.appendChild(captionElem1);
-
-        const theadElem1 = document.createElement('thead');
-        tableElem1.appendChild(theadElem1);
-
-        const trElem1 = document.createElement('tr');
-        theadElem1.appendChild(trElem1);
-
-        const thElem1 = document.createElement('th');
-        thElem1.className = 'shortcut';
-        thElem1.textContent = config.msgKey;
-        trElem1.appendChild(thElem1);
-
-        const thElem2 = document.createElement('th');
-        thElem2.className = 'desc';
-        thElem2.textContent = config.msgDescription;
-        trElem1.appendChild(thElem2);
-
-        const tbodyElem1 = document.createElement('tbody');
-        tableElem1.appendChild(tbodyElem1);
-
-        addRow(tbodyElem1, config.shortcutRegionNext,          config.msgNextRegion);
-        addRow(tbodyElem1, config.shortcutRegionPrevious,      config.msgPreviousRegion);
-        addRow(tbodyElem1, config.shortcutRegionMain,          config.msgMainRegions);
-        addRow(tbodyElem1, config.shortcutRegionNavigation,    config.msgNavigationRegions);
-        addRow(tbodyElem1, config.shortcutRegionComplementary, config.msgComplementaryRegions);
+        // Headings
 
         const tableElem2 = document.createElement('table');
         this.contentElem.appendChild(tableElem2);
@@ -1177,6 +1147,42 @@ button:hover {
         addRow(tbodyElem2, config.shortcutHeadingH4, config.msgH4Headings);
         addRow(tbodyElem2, config.shortcutHeadingH5, config.msgH5Headings);
         addRow(tbodyElem2, config.shortcutHeadingH6, config.msgH6Headings);
+
+
+        // Regions
+
+        const tableElem1 = document.createElement('table');
+        this.contentElem.appendChild(tableElem1);
+
+        const captionElem1 = document.createElement('caption');
+        captionElem1.textContent = config.landmarkGroupLabel;
+        tableElem1.appendChild(captionElem1);
+
+        const theadElem1 = document.createElement('thead');
+        tableElem1.appendChild(theadElem1);
+
+        const trElem1 = document.createElement('tr');
+        theadElem1.appendChild(trElem1);
+
+        const thElem1 = document.createElement('th');
+        thElem1.className = 'shortcut';
+        thElem1.textContent = config.msgKey;
+        trElem1.appendChild(thElem1);
+
+        const thElem2 = document.createElement('th');
+        thElem2.className = 'desc';
+        thElem2.textContent = config.msgDescription;
+        trElem1.appendChild(thElem2);
+
+        const tbodyElem1 = document.createElement('tbody');
+        tableElem1.appendChild(tbodyElem1);
+
+        addRow(tbodyElem1, config.shortcutRegionNext,          config.msgNextRegion);
+        addRow(tbodyElem1, config.shortcutRegionPrevious,      config.msgPreviousRegion);
+        addRow(tbodyElem1, config.shortcutRegionMain,          config.msgMainRegions);
+        addRow(tbodyElem1, config.shortcutRegionNavigation,    config.msgNavigationRegions);
+        addRow(tbodyElem1, config.shortcutRegionComplementary, config.msgComplementaryRegions);
+
 
     }
 
@@ -2768,12 +2774,13 @@ button:hover {
    *
    * @desc Returns DOM node associated with the id, if id not found returns null
    *
-   * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
-   * @param {String}  direction  - 'next' or 'previous'
-   * @param {boolean} useFirst   - if item not found use first
+   * @param {String}  target         - Feature to navigate (e.g. heading, landmark)
+   * @param {String}  direction      - 'next' or 'previous'
+   * @param {boolean} useFirst       - if item not found use first
+   * @param {boolean} nameRequired   - if true, item must have accessible name
    */
 
-  function navigateContent (target, direction, msgHeadingLevel, useFirst=false) {
+  function navigateContent (target, direction, msgHeadingLevel, useFirst=false, nameRequired=false) {
 
     const lastFocusElem = getFocusElement();
     let elem = lastFocusElem;
@@ -2784,7 +2791,7 @@ button:hover {
 
     do {
       lastElem = elem;
-      elem = queryDOMForSkipToNavigation(target, direction, elem, useFirst);
+      elem = queryDOMForSkipToNavigation(target, direction, elem, useFirst, nameRequired);
       debug$4.flag && debug$4.log(`[navigateContent][elem]: ${elem} (${lastElem === elem})`);
       if (elem) {
         elem.tabIndex = elem.tabIndex >= 0 ? elem.tabIndex : -1;
@@ -2823,14 +2830,15 @@ button:hover {
    *
    * @desc Returns DOM node associated with the id, if id not found returns null
    *
-   * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
-   * @param {String}  direction  - 'next' or 'previous'
-   * @param {Object}  elem       - Element the search needs to pass, if null used focused element
-   * @param {boolean} useFirst   - if item not found use first
+   * @param {String}  target       - Feature to navigate (e.g. heading, landmark)
+   * @param {String}  direction    - 'next' or 'previous'
+   * @param {Object}  elem         - Element the search needs to pass, if null used focused element
+   * @param {boolean} useFirst     - if true, if item not found use first
+   * @param {boolean} nameRequired - if true, accessible name is required to include in navigation
    *
    * @returns {Object} @desc
    */
-  function queryDOMForSkipToNavigation (target, direction, elem, useFirst=false) {
+  function queryDOMForSkipToNavigation (target, direction, elem, useFirst=false, nameRequired=false) {
 
     let lastNode = false;
     let firstNode = false;
@@ -2843,7 +2851,12 @@ button:hover {
       function checkForTarget (node) {
 
         if (node.hasAttribute('data-skip-to-info') &&
-            node.getAttribute('data-skip-to-info').includes(target)) {
+            node.getAttribute('data-skip-to-info').includes(target) &&
+            ( !nameRequired || (nameRequired &&
+              node.hasAttribute('data-skip-to-acc-name') &&
+              node.getAttribute('data-skip-to-acc-name').trim().length > 0))) {
+
+          if (target.includes('heading'))
 
           debug$4.flag && debug$4.log(`[checkForTarget][${node.tagName}]: ${node.textContent.trim().substring(0, 10)} (vis:${isVisible(node)} pf:${passFound})`);
 
@@ -3545,7 +3558,7 @@ button:hover {
 
         this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, config.msgNoLandmarksFound);
         this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, config.msgNoHeadingsFound);
-        debug$2.log(`[shortcutsSupported]: ${config.shortcutsSupported}`);
+        debug$2.flag && debug$2.log(`[shortcutsSupported]: ${config.shortcutsSupported}`);
         this.renderMenuitemsToShortcutsGroup(this.shortcutsGroupLabelNode, this.shortcutsGroupNode);
 
         // Update list of menuitems
@@ -3575,8 +3588,6 @@ button:hover {
        * @param  {Object}  groupLabelNode  -  DOM element node for the page navigation group
        */
       renderMenuitemsToShortcutsGroup (groupLabelNode, groupNode) {
-
-        debug$2.log(`[renderMenuitemsToShortcutsGroup]: ${this.config.shortcutsSupported}`);
 
         // remove page navigation menu items
         while (groupNode.lastElementChild) {
@@ -4057,42 +4068,42 @@ button:hover {
                 break;
 
               case this.config.shortcutHeadingNext:
-                navigateContent('heading', 'next', this.config.msgHeadingLevel);
+                navigateContent('heading', 'next', this.config.msgHeadingLevel, false, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingPrevious:
-                navigateContent('heading', 'previous', this.config.msgHeadingLevel);
+                navigateContent('heading', 'previous', this.config.msgHeadingLevel, false, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH1:
-                navigateContent('h1', 'next', this.config.msgHeadingLevel, true);
+                navigateContent('h1', 'next', this.config.msgHeadingLevel, true, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH2:
-                navigateContent('h2', 'next', this.config.msgHeadingLevel, true);
+                navigateContent('h2', 'next', this.config.msgHeadingLevel, true, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH3:
-                navigateContent('h3', 'next', this.config.msgHeadingLevel, true);
+                navigateContent('h3', 'next', this.config.msgHeadingLevel, true, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH4:
-                navigateContent('h4', 'next', this.config.msgHeadingLevel, true);
+                navigateContent('h4', 'next', this.config.msgHeadingLevel, true, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH5:
-                navigateContent('h5', 'next', this.config.msgHeadingLevel, true);
+                navigateContent('h5', 'next', this.config.msgHeadingLevel, true, true);
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH6:
-                navigateContent('h6', 'next', this.config.msgHeadingLevel, true);
+                navigateContent('h6', 'next', this.config.msgHeadingLevel, true, true);
                 flag = true;
                 break;
             }
@@ -4389,7 +4400,7 @@ button:hover {
         shortcutsSupported: 'true', // options: true or false
         shortcuts: 'enabled',  // options: disabled and enabled
         shortcutHeadingNext: 'h',
-        shortcutHeadingPrevious: 'g',
+        shortcutHeadingPrevious: 'H',
         shortcutHeadingH1: '1',
         shortcutHeadingH2: '2',
         shortcutHeadingH3: '3',
@@ -4398,7 +4409,7 @@ button:hover {
         shortcutHeadingH6: '6',
 
         shortcutRegionNext: 'r',
-        shortcutRegionPrevious: 'e',
+        shortcutRegionPrevious: 'R',
         shortcutRegionMain: 'm',
         shortcutRegionNavigation: 'n',
         shortcutRegionComplementary: 'c',
@@ -4409,10 +4420,10 @@ button:hover {
         shortcutsToggleDisableLabel: 'Disable shortcuts',
         shortcutsInfoLabel:          'Shortcut Information',
 
-        msgClose: 'Close',
+        closeLabel: 'Close',
+        moreInfoLabel: 'More Information',
         msgKey: 'Key',
         msgDescription: 'Description',
-        msgMoreInfo: 'More Information',
 
         msgNextRegion: 'Next region',
         msgPreviousRegion: 'Previous region',
