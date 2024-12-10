@@ -40,19 +40,6 @@ optionsShortcutsTemplate.innerHTML = `
   <form>
     <div>
 
-      <label class="inline"
-             for="enable-shortcuts">
-        <input id="enable-shortcuts"
-              type="checkbox"
-              data-option="shortcuts"
-              data-checked="enabled"
-              data-unchecked="disabled"/>
-        <span data-i18n="options_enable_shortcuts_label">
-          X
-        </span>
-      </label>
-
-
       <fieldset>
         <legend data-i18n="options_heading_legend">
           X

@@ -20,7 +20,6 @@ const defaultButtonOptions = {
 };
 
 const defaultShortcutOptions = {
-  shortcuts: 'enabled',
   shortcutHeadingNext:     browserI18n.getMessage('init_shortcut_next_heading'),
   shortcutHeadingPrevious: browserI18n.getMessage('init_shortcut_previous_heading'),
   shortcutHeadingH1:       browserI18n.getMessage('init_shortcut_h1_headings'),

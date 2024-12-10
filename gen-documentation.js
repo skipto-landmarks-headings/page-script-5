@@ -182,7 +182,7 @@ const tests = [
   { template: './src-docs/templates/example/content-role-heading.njk',
     title: 'Uses Role Heading',
     filename: 'test-role-headings.html',
-    description: 'Heading role used on page',
+    description: 'Heading role used on page and empty H2, h3 and H4 elements',
     config: ``
   },
   { template: './src-docs/templates/example/content-text-input.njk',

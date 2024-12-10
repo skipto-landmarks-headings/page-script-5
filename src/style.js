@@ -124,7 +124,7 @@ $skipToId.static {
 
 $skipToId [role="menu"] {
   position: absolute;
-  min-width: 17em;
+  min-width: 16em;
   display: none;
   margin: 0;
   padding: 0.25rem;
@@ -133,8 +133,6 @@ $skipToId [role="menu"] {
   border-style: solid;
   border-color: $focusBorderColor;
   border-radius: 5px;
-  overflow-x: hidden;
-  overflow-y: scroll;
   z-index: $zIndex !important;
   touch-action: none;
 }
@@ -143,6 +141,11 @@ $skipToId [role="group"] {
   display: grid;
   grid-auto-rows: min-content;
   grid-row-gap: 1px;
+}
+
+$skipToId [role="group"].overflow {
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 $skipToId [role="separator"]:first-child {

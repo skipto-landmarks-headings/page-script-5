@@ -74,15 +74,18 @@ dialog#info-dialog .content caption {
   margin-top: 1em;
   text-align: left;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 110%;
 }
 
 dialog#info-dialog .content th {
   margin: 0;
   padding: 0;
+  padding-top: 0.125em;
+  padding-buttom: 0.125em;
   text-align: left;
   font-weight: bold;
-  font-size: 90%;
+  font-size: 100%;
+  border-bottom: 1px solid #999;
 }
 
 dialog#info-dialog .content th.shortcut {
@@ -92,12 +95,15 @@ dialog#info-dialog .content th.shortcut {
 dialog#info-dialog .content td {
   margin: 0;
   padding: 0;
+  padding-top: 0.125em;
+  padding-buttom: 0.125em;
   text-align: left;
+  font-size: 100%;
 }
 
 
 dialog#info-dialog .content table tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #eee;
 }
 
 dialog#info-dialog .buttons {
@@ -191,9 +197,9 @@ export default class ShortcutsInfoDialog extends HTMLElement {
   updateContent (config) {
 
       this.h2Elem.textContent = config.shortcutsInfoLabel;
-      this.closeButton1.setAttribute('aria-label', config.msgClose);
-      this.closeButton2.textContent = config.msgClose;
-      this.moreInfoButton.textContent = config.msgMoreInfo;
+      this.closeButton1.setAttribute('aria-label', config.closeLabel);
+      this.closeButton2.textContent = config.closeLabel;
+      this.moreInfoButton.textContent = config.moreInfoLabel;
 
       function addRow(tbodyElem, shortcut, desc) {
 
@@ -215,11 +221,14 @@ export default class ShortcutsInfoDialog extends HTMLElement {
         this.contentElem.removeChild(this.contentElem.lastElementChild);
       }
 
+
+      // Regions
+
       const tableElem1 = document.createElement('table');
       this.contentElem.appendChild(tableElem1);
 
       const captionElem1 = document.createElement('caption');
-      captionElem1.textContent = config.landmarkGroupLabel;
+      captionElem1.textContent = config.landmarkGroupLabel.replace('#','');
       tableElem1.appendChild(captionElem1);
 
       const theadElem1 = document.createElement('thead');
@@ -247,11 +256,13 @@ export default class ShortcutsInfoDialog extends HTMLElement {
       addRow(tbodyElem1, config.shortcutRegionNavigation,    config.msgNavigationRegions);
       addRow(tbodyElem1, config.shortcutRegionComplementary, config.msgComplementaryRegions);
 
+      // Headings
+
       const tableElem2 = document.createElement('table');
       this.contentElem.appendChild(tableElem2);
 
       const captionElem2 = document.createElement('caption');
-      captionElem2.textContent = config.headingGroupLabel;
+      captionElem2.textContent = config.headingGroupLabel.replace('#','');
       tableElem2.appendChild(captionElem2);
 
       const theadElem2 = document.createElement('thead');

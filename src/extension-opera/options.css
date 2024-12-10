@@ -51,6 +51,7 @@ h2#h2-font-options {
 label {
   display:  block;
   margin: 0.25em;
+  margin-left: 0.5em;
   font-size: 12pt;
 }
 
@@ -58,6 +59,16 @@ select {
   font-size: 12pt;
   width: 10em;
   margin-bottom: 1em;
+}
+
+label.inline input {
+  display: inline-block;
+}
+
+label.inline input[type=radio],
+label.inline input[type=checkbox] {
+  position: relative;
+  top: 2px;
 }
 
 label.inline span {
@@ -69,24 +80,20 @@ label.inline span {
 .text,
 .font {
   margin-bottom: 0.5em;
-  margin-left: 1em;
+  margin-left: 0;
   padding: 0.25em;
 }
 
 .text {
-  width: 20em;
-  padding-bottom: 0.75em;
+  padding-bottom: 0.5em;
 }
+
 
 .text input {
   font-size: 12pt;
-}
-
-.color {
-  width: 27em;
-  padding: 0.5em;
-  padding-top: 0.75em;
-  padding-bottom: 0.75em;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
 .text label {
@@ -100,6 +107,10 @@ label.inline span {
 }
 
 .color {
+  width: 27em;
+  padding: 0.5em;
+  padding-top: 0.75em;
+  padding-bottom: 0.75em;
   margin-top: 0.25em;
   margin-bottom: 0.25em;
   padding-top: 0.125em;
@@ -129,9 +140,9 @@ button {
 .desc {
   margin:  0;
   padding: 0;
-  margin-top: 1em;
+  margin-top: .125em;
   margin-left:  0.5em;
-  margin-bottom: 1em;
+  margin-bottom: 0.125em;
   font-style: italic;
   max-width: 30em;
 }

@@ -58,7 +58,7 @@ export default class SkipToContent extends HTMLElement {
       shortcutsSupported: 'true', // options: true or false
       shortcuts: 'enabled',  // options: disabled and enabled
       shortcutHeadingNext: 'h',
-      shortcutHeadingPrevious: 'g',
+      shortcutHeadingPrevious: 'H',
       shortcutHeadingH1: '1',
       shortcutHeadingH2: '2',
       shortcutHeadingH3: '3',
@@ -67,21 +67,21 @@ export default class SkipToContent extends HTMLElement {
       shortcutHeadingH6: '6',
 
       shortcutRegionNext: 'r',
-      shortcutRegionPrevious: 'e',
+      shortcutRegionPrevious: 'R',
       shortcutRegionMain: 'm',
       shortcutRegionNavigation: 'n',
       shortcutRegionComplementary: 'c',
 
-      shortcutsGroupEnabledLabel:  'Navigation Shortcuts: Enabled',
-      shortcutsGroupDisabledLabel: 'Navigation Shortcuts: Disabled',
+      shortcutsGroupEnabledLabel:  'Shortcuts: Enabled',
+      shortcutsGroupDisabledLabel: 'Shortcuts: Disabled',
       shortcutsToggleEnableLabel:  'Enable shortcuts',
       shortcutsToggleDisableLabel: 'Disable shortcuts',
       shortcutsInfoLabel:          'Shortcut Information',
 
-      msgClose: 'Close',
+      closeLabel: 'Close',
+      moreInfoLabel: 'More Information',
       msgKey: 'Key',
       msgDescription: 'Description',
-      msgMoreInfo: 'More Information',
 
       msgNextRegion: 'Next region',
       msgPreviousRegion: 'Previous region',
@@ -102,9 +102,9 @@ export default class SkipToContent extends HTMLElement {
 
       // Menu labels and messages
       menuLabel: 'Landmarks and Headings',
-      landmarkGroupLabel: 'Landmark Regions',
-      headingGroupLabel: 'Headings',
-      headingMainGroupLabel: 'Headings in Main Region',
+      landmarkGroupLabel: 'Landmark Regions (#)',
+      headingGroupLabel: 'Headings (#)',
+      headingMainGroupLabel: 'Headings in Main Region (#)',
       headingLevelLabel: 'Heading level',
       mainLabel: 'main',
       searchLabel: 'search',

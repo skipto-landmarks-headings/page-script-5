@@ -20,20 +20,21 @@ const defaultButtonOptions = {
 };
 
 const defaultShortcutOptions = {
-  shortcuts: 'enabled',
-  shortcutHeadingNext: 'h',
-  shortcutHeadingPrevious: 'g',
-  shortcutHeadingH1: '1',
-  shortcutHeadingH2: '2',
-  shortcutHeadingH3: '3',
-  shortcutHeadingH4: '4',
-  shortcutHeadingH5: '5',
-  shortcutHeadingH6: '6',
+  shortcutHeadingNext:     browserI18n.getMessage('init_shortcut_next_heading'),
+  shortcutHeadingPrevious: browserI18n.getMessage('init_shortcut_previous_heading'),
+  shortcutHeadingH1:       browserI18n.getMessage('init_shortcut_h1_headings'),
+  shortcutHeadingH2:       browserI18n.getMessage('init_shortcut_h2_headings'),
+  shortcutHeadingH3:       browserI18n.getMessage('init_shortcut_h3_headings'),
+  shortcutHeadingH4:       browserI18n.getMessage('init_shortcut_h4_headings'),
+  shortcutHeadingH5:       browserI18n.getMessage('init_shortcut_h5_headings'),
+  shortcutHeadingH6:       browserI18n.getMessage('init_shortcut_h6_headings'),
 
-  shortcutRegionNext: 'r',
-  shortcutRegionPrevious: 'e',
-  shortcutRegionMain: 'm',
-  shortcutRegionNavigation: 'n'
+  shortcutRegionNext:          browserI18n.getMessage('init_shortcut_next_region'),
+  shortcutRegionPrevious:      browserI18n.getMessage('init_shortcut_previous_region'),
+  shortcutRegionMain:          browserI18n.getMessage('init_shortcut_main_regions'),
+  shortcutRegionNavigation:    browserI18n.getMessage('init_shortcut_navigation_regions'),
+  shortcutRegionComplementary: browserI18n.getMessage('init_shortcut_complemntary_regions'),
+
 };
 
 const defaultMenuOptions = {
@@ -104,6 +105,11 @@ const i18nOptions = {
   msgH4Headings: browserI18n.getMessage('init_msg_h4_headings'),
   msgH5Headings: browserI18n.getMessage('init_msg_h5_headings'),
   msgH6Headings: browserI18n.getMessage('init_msg_h6_headings'),
+
+  closeLabel:     browserI18n.getMessage('init_close_label'),
+  moreInfoLabel:  browserI18n.getMessage('init_more_info_label'),
+  msgKey:         browserI18n.getMessage('init_msg_key'),
+  msgDescription: browserI18n.getMessage('init_msg_description'),
 };
 
 const defaultOptions = Object.assign({}, defaultButtonOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions, defaultShortcutOptions);

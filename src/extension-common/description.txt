@@ -1,7 +1,9 @@
 Title
+-----
 SkipTo.js for XXXX
 
 Summary
+-------
 SkipTo.js for XXXX extension provides keyboard navigation to landmark regions and headings to support WCAG 2.4.1 Bypass Blocks requirement.
 
 Description
@@ -28,8 +30,18 @@ https://skipto-landmarks-headings.github.io/page-script-5/index.html
 Support URL:
 https://github.com/skipto-landmarks-headings/page-script-5/issues
 
-Questions
+Screenshot Sizes
+----------------
+Chrome: 1280x800 or 640x400 JPEG or 24-bit PNG (no alpha)
 
+Firefox: maximum size 2400x1800
+
+Opera: recommended 612×408, maximum 800x600
+
+
+
+Questions
+---------
 ActiveTab Justification
 The active table is used to toggle the SkipTo.js menu open and closed when the user clicks the extension icon in the toolbar.
 
@@ -41,4 +53,5 @@ User preferences on the items in the menu, styling and internationalization of m
 
 Host Permission Justification
 The menu provides keyboard page navigation for people with disabilities and therefore is needed on all web pages.
+
 

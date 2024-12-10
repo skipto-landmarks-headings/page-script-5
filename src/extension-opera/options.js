@@ -1,7 +1,6 @@
 /* optionsMenu.js */
 
-const debug = true;
-
+const debug = false
 // Define browser specific APIs for Opera, Firefox and Chrome
 
 const browserI18n = typeof browser === 'object' ?

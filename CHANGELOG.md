@@ -5,6 +5,7 @@
 * Fixed bug with 'main-only' option for headings
 * Updates headings group label when all headings are in the main region
 * Added hidden heading message when a heading gets focus but is not visible
+* Updated i18n in extensions to include initial values of labels and messsages
 
 ## Version 5.6.3
 * Changed default highlight option to be 'instant' instead of 'none'

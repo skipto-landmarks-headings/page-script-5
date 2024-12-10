@@ -342,7 +342,7 @@ $skipToId.static {
 
 $skipToId [role="menu"] {
   position: absolute;
-  min-width: 18em;
+  min-width: 16em;
   display: none;
   margin: 0;
   padding: 0.25rem;
@@ -351,8 +351,6 @@ $skipToId [role="menu"] {
   border-style: solid;
   border-color: $focusBorderColor;
   border-radius: 5px;
-  overflow-x: hidden;
-  overflow-y: scroll;
   z-index: $zIndex !important;
   touch-action: none;
 }
@@ -361,6 +359,11 @@ $skipToId [role="group"] {
   display: grid;
   grid-auto-rows: min-content;
   grid-row-gap: 1px;
+}
+
+$skipToId [role="group"].overflow {
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 $skipToId [role="separator"]:first-child {
@@ -970,15 +973,18 @@ dialog#info-dialog .content caption {
   margin-top: 1em;
   text-align: left;
   font-weight: bold;
-  font-size: 1.1em;
+  font-size: 110%;
 }
 
 dialog#info-dialog .content th {
   margin: 0;
   padding: 0;
+  padding-top: 0.125em;
+  padding-buttom: 0.125em;
   text-align: left;
   font-weight: bold;
-  font-size: 90%;
+  font-size: 100%;
+  border-bottom: 1px solid #888;
 }
 
 dialog#info-dialog .content th.shortcut {
@@ -988,7 +994,10 @@ dialog#info-dialog .content th.shortcut {
 dialog#info-dialog .content td {
   margin: 0;
   padding: 0;
+  padding-top: 0.125em;
+  padding-buttom: 0.125em;
   text-align: left;
+  font-size: 100%;
 }
 
 
@@ -1111,13 +1120,48 @@ button:hover {
           this.contentElem.removeChild(this.contentElem.lastElementChild);
         }
 
+
+        // Regions
+
+        const tableElem1 = document.createElement('table');
+        this.contentElem.appendChild(tableElem1);
+
+        const captionElem1 = document.createElement('caption');
+        captionElem1.textContent = config.landmarkGroupLabel.replace('#','');
+        tableElem1.appendChild(captionElem1);
+
+        const theadElem1 = document.createElement('thead');
+        tableElem1.appendChild(theadElem1);
+
+        const trElem1 = document.createElement('tr');
+        theadElem1.appendChild(trElem1);
+
+        const thElem1 = document.createElement('th');
+        thElem1.className = 'shortcut';
+        thElem1.textContent = config.msgKey;
+        trElem1.appendChild(thElem1);
+
+        const thElem2 = document.createElement('th');
+        thElem2.className = 'desc';
+        thElem2.textContent = config.msgDescription;
+        trElem1.appendChild(thElem2);
+
+        const tbodyElem1 = document.createElement('tbody');
+        tableElem1.appendChild(tbodyElem1);
+
+        addRow(tbodyElem1, config.shortcutRegionNext,          config.msgNextRegion);
+        addRow(tbodyElem1, config.shortcutRegionPrevious,      config.msgPreviousRegion);
+        addRow(tbodyElem1, config.shortcutRegionMain,          config.msgMainRegions);
+        addRow(tbodyElem1, config.shortcutRegionNavigation,    config.msgNavigationRegions);
+        addRow(tbodyElem1, config.shortcutRegionComplementary, config.msgComplementaryRegions);
+
         // Headings
 
         const tableElem2 = document.createElement('table');
         this.contentElem.appendChild(tableElem2);
 
         const captionElem2 = document.createElement('caption');
-        captionElem2.textContent = config.headingGroupLabel;
+        captionElem2.textContent = config.headingGroupLabel.replace('#','');
         tableElem2.appendChild(captionElem2);
 
         const theadElem2 = document.createElement('thead');
@@ -1147,42 +1191,6 @@ button:hover {
         addRow(tbodyElem2, config.shortcutHeadingH4, config.msgH4Headings);
         addRow(tbodyElem2, config.shortcutHeadingH5, config.msgH5Headings);
         addRow(tbodyElem2, config.shortcutHeadingH6, config.msgH6Headings);
-
-
-        // Regions
-
-        const tableElem1 = document.createElement('table');
-        this.contentElem.appendChild(tableElem1);
-
-        const captionElem1 = document.createElement('caption');
-        captionElem1.textContent = config.landmarkGroupLabel;
-        tableElem1.appendChild(captionElem1);
-
-        const theadElem1 = document.createElement('thead');
-        tableElem1.appendChild(theadElem1);
-
-        const trElem1 = document.createElement('tr');
-        theadElem1.appendChild(trElem1);
-
-        const thElem1 = document.createElement('th');
-        thElem1.className = 'shortcut';
-        thElem1.textContent = config.msgKey;
-        trElem1.appendChild(thElem1);
-
-        const thElem2 = document.createElement('th');
-        thElem2.className = 'desc';
-        thElem2.textContent = config.msgDescription;
-        trElem1.appendChild(thElem2);
-
-        const tbodyElem1 = document.createElement('tbody');
-        tableElem1.appendChild(tbodyElem1);
-
-        addRow(tbodyElem1, config.shortcutRegionNext,          config.msgNextRegion);
-        addRow(tbodyElem1, config.shortcutRegionPrevious,      config.msgPreviousRegion);
-        addRow(tbodyElem1, config.shortcutRegionMain,          config.msgMainRegions);
-        addRow(tbodyElem1, config.shortcutRegionNavigation,    config.msgNavigationRegions);
-        addRow(tbodyElem1, config.shortcutRegionComplementary, config.msgComplementaryRegions);
-
 
     }
 
@@ -3190,24 +3198,26 @@ button:hover {
         this.landmarkGroupLabelNode = document.createElement('div');
         this.landmarkGroupLabelNode.setAttribute('id', 'id-skip-to-menu-landmark-group-label');
         this.landmarkGroupLabelNode.setAttribute('role', 'separator');
-        this.landmarkGroupLabelNode.textContent = this.config.landmarkGroupLabel;
+        this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.landmarkGroupLabel);
         this.menuNode.appendChild(this.landmarkGroupLabelNode);
 
         this.landmarkGroupNode = document.createElement('div');
         this.landmarkGroupNode.setAttribute('id', 'id-skip-to-menu-landmark-group');
         this.landmarkGroupNode.setAttribute('role', 'group');
+        this.landmarkGroupNode.className = 'overflow';
         this.landmarkGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-landmark-group-label');
         this.menuNode.appendChild(this.landmarkGroupNode);
 
         this.headingGroupLabelNode = document.createElement('div');
         this.headingGroupLabelNode.setAttribute('id', 'id-skip-to-menu-heading-group-label');
         this.headingGroupLabelNode.setAttribute('role', 'separator');
-        this.headingGroupLabelNode.textContent = this.config.headingGroupLabel;
+        this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.headingGroupLabel);
         this.menuNode.appendChild(this.headingGroupLabelNode);
 
         this.headingGroupNode = document.createElement('div');
         this.headingGroupNode.setAttribute('id', 'id-skip-to-menu-heading-group');
         this.headingGroupNode.setAttribute('role', 'group');
+        this.headingGroupNode.className = 'overflow';
         this.headingGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-heading-group-label');
         this.menuNode.appendChild(this.headingGroupNode);
 
@@ -3278,6 +3288,24 @@ button:hover {
         this.skipToContentElem.setAttribute('focus', 'button');
       }
 
+      /*
+       * @method addNumberToGroupLabel
+       *
+       * @desc Updates group label with the number of items in group,
+       *       The '#' character in the string is replaced with the number
+       *       if number is not provided, just remove number
+       *
+       * @param  {String}  label  -  Label to include number,
+       * @param  {Number}  num    -  Number to add to label
+       *
+       * @return {String}  see @desc
+       */
+      addNumberToGroupLabel(label, num=0) {
+        if (num > 0) {
+          return label.replace('#', num).trim();
+        }
+        return label.replace('(','').replace(')','').replace('#', ' ').trim();
+      }
 
       /*
        * @method updateLabels
@@ -3298,8 +3326,8 @@ button:hover {
         this.mediumButtonNode.textContent = config.buttonLabel;
 
         this.menuNode.setAttribute('aria-label', config.menuLabel);
-        this.landmarkGroupLabelNode.textContent = config.landmarkGroupLabel;
-        this.headingGroupLabelNode.textContent = config.headingGroupLabel;
+        this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel);
+        this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel);
       }
 
       /*
@@ -3571,11 +3599,12 @@ button:hover {
               }, true) :
               false;
 
+        this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel, landmarkElements.length);
         if (config.headings.includes('main') && allInMain) {
-          this.headingGroupLabelNode.textContent = config.headingMainGroupLabel;
+          this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingMainGroupLabel, headingElements.length);
         }
         else {
-          this.headingGroupLabelNode.textContent = config.headingGroupLabel;
+          this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel, headingElements.length);
         }
       }
 
@@ -3798,10 +3827,14 @@ button:hover {
       openPopup() {
         debug$2.flag && debug$2.log(`[openPopup]`);
         this.menuNode.setAttribute('aria-busy', 'true');
-        const h = (80 * window.innerHeight) / 100;
-        this.menuNode.style.maxHeight = h + 'px';
+        // Compute height of menu to not exceed about 80% of screen height
+        const h = (30 * window.innerHeight) / 100;
+        this.landmarkGroupNode.style.maxHeight = h + 'px';
+        this.headingGroupNode.style.maxHeight = h + 'px';
         this.renderMenu(this.config, this.skipToId);
         this.menuNode.style.display = 'block';
+
+        // make sure menu is on screen and not clipped in the right edge of the window
         const buttonRect = this.buttonNode.getBoundingClientRect();
         const menuRect = this.menuNode.getBoundingClientRect();
         const diff = window.innerWidth - buttonRect.left - menuRect.width - 8;
@@ -3812,8 +3845,10 @@ button:hover {
             this.menuNode.style.left = diff + 'px';
           }
         }
+
         this.menuNode.removeAttribute('aria-busy');
         this.buttonNode.setAttribute('aria-expanded', 'true');
+        // use custom element attribute to set focus to the menu
         this.skipToContentElem.setAttribute('focus', 'menu');
       }
 
@@ -4414,8 +4449,8 @@ button:hover {
         shortcutRegionNavigation: 'n',
         shortcutRegionComplementary: 'c',
 
-        shortcutsGroupEnabledLabel:  'Navigation Shortcuts: Enabled',
-        shortcutsGroupDisabledLabel: 'Navigation Shortcuts: Disabled',
+        shortcutsGroupEnabledLabel:  'Shortcuts: Enabled',
+        shortcutsGroupDisabledLabel: 'Shortcuts: Disabled',
         shortcutsToggleEnableLabel:  'Enable shortcuts',
         shortcutsToggleDisableLabel: 'Disable shortcuts',
         shortcutsInfoLabel:          'Shortcut Information',
@@ -4444,9 +4479,9 @@ button:hover {
 
         // Menu labels and messages
         menuLabel: 'Landmarks and Headings',
-        landmarkGroupLabel: 'Landmark Regions',
-        headingGroupLabel: 'Headings',
-        headingMainGroupLabel: 'Headings in Main Region',
+        landmarkGroupLabel: 'Landmark Regions (#)',
+        headingGroupLabel: 'Headings (#)',
+        headingMainGroupLabel: 'Headings in Main Region (#)',
         headingLevelLabel: 'Heading level',
         mainLabel: 'main',
         searchLabel: 'search',

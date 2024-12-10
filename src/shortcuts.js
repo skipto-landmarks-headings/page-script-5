@@ -46,12 +46,13 @@ function monitorKeyboardFocus () {
  *
  * @desc Returns DOM node associated with the id, if id not found returns null
  *
- * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
- * @param {String}  direction  - 'next' or 'previous'
- * @param {boolean} useFirst   - if item not found use first
+ * @param {String}  target         - Feature to navigate (e.g. heading, landmark)
+ * @param {String}  direction      - 'next' or 'previous'
+ * @param {boolean} useFirst       - if item not found use first
+ * @param {boolean} nameRequired   - if true, item must have accessible name
  */
 
-function navigateContent (target, direction, msgHeadingLevel, useFirst=false) {
+function navigateContent (target, direction, msgHeadingLevel, useFirst=false, nameRequired=false) {
 
   const lastFocusElem = getFocusElement();
   let elem = lastFocusElem;
@@ -62,7 +63,7 @@ function navigateContent (target, direction, msgHeadingLevel, useFirst=false) {
 
   do {
     lastElem = elem;
-    elem = queryDOMForSkipToNavigation(target, direction, elem, useFirst);
+    elem = queryDOMForSkipToNavigation(target, direction, elem, useFirst, nameRequired);
     debug.flag && debug.log(`[navigateContent][elem]: ${elem} (${lastElem === elem})`);
     if (elem) {
       elem.tabIndex = elem.tabIndex >= 0 ? elem.tabIndex : -1;
@@ -101,14 +102,15 @@ function navigateContent (target, direction, msgHeadingLevel, useFirst=false) {
  *
  * @desc Returns DOM node associated with the id, if id not found returns null
  *
- * @param {String}  target     - Feature to navigate (e.g. heading, landmark)
- * @param {String}  direction  - 'next' or 'previous'
- * @param {Object}  elem       - Element the search needs to pass, if null used focused element
- * @param {boolean} useFirst   - if item not found use first
+ * @param {String}  target       - Feature to navigate (e.g. heading, landmark)
+ * @param {String}  direction    - 'next' or 'previous'
+ * @param {Object}  elem         - Element the search needs to pass, if null used focused element
+ * @param {boolean} useFirst     - if true, if item not found use first
+ * @param {boolean} nameRequired - if true, accessible name is required to include in navigation
  *
  * @returns {Object} @desc
  */
-function queryDOMForSkipToNavigation (target, direction, elem, useFirst=false) {
+function queryDOMForSkipToNavigation (target, direction, elem, useFirst=false, nameRequired=false) {
 
   let lastNode = false;
   let firstNode = false;
@@ -121,7 +123,12 @@ function queryDOMForSkipToNavigation (target, direction, elem, useFirst=false) {
     function checkForTarget (node) {
 
       if (node.hasAttribute('data-skip-to-info') &&
-          node.getAttribute('data-skip-to-info').includes(target)) {
+          node.getAttribute('data-skip-to-info').includes(target) &&
+          ( !nameRequired || (nameRequired &&
+            node.hasAttribute('data-skip-to-acc-name') &&
+            node.getAttribute('data-skip-to-acc-name').trim().length > 0))) {
+
+        if (target.includes('heading'))
 
         debug.flag && debug.log(`[checkForTarget][${node.tagName}]: ${node.textContent.trim().substring(0, 10)} (vis:${isVisible(node)} pf:${passFound})`);
 

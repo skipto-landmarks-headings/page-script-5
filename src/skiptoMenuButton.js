@@ -110,24 +110,26 @@ export default class SkiptoMenuButton {
       this.landmarkGroupLabelNode = document.createElement('div');
       this.landmarkGroupLabelNode.setAttribute('id', 'id-skip-to-menu-landmark-group-label');
       this.landmarkGroupLabelNode.setAttribute('role', 'separator');
-      this.landmarkGroupLabelNode.textContent = this.config.landmarkGroupLabel;
+      this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.landmarkGroupLabel);
       this.menuNode.appendChild(this.landmarkGroupLabelNode);
 
       this.landmarkGroupNode = document.createElement('div');
       this.landmarkGroupNode.setAttribute('id', 'id-skip-to-menu-landmark-group');
       this.landmarkGroupNode.setAttribute('role', 'group');
+      this.landmarkGroupNode.className = 'overflow';
       this.landmarkGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-landmark-group-label');
       this.menuNode.appendChild(this.landmarkGroupNode);
 
       this.headingGroupLabelNode = document.createElement('div');
       this.headingGroupLabelNode.setAttribute('id', 'id-skip-to-menu-heading-group-label');
       this.headingGroupLabelNode.setAttribute('role', 'separator');
-      this.headingGroupLabelNode.textContent = this.config.headingGroupLabel;
+      this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.headingGroupLabel);
       this.menuNode.appendChild(this.headingGroupLabelNode);
 
       this.headingGroupNode = document.createElement('div');
       this.headingGroupNode.setAttribute('id', 'id-skip-to-menu-heading-group');
       this.headingGroupNode.setAttribute('role', 'group');
+      this.headingGroupNode.className = 'overflow';
       this.headingGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-heading-group-label');
       this.menuNode.appendChild(this.headingGroupNode);
 
@@ -198,6 +200,24 @@ export default class SkiptoMenuButton {
       this.skipToContentElem.setAttribute('focus', 'button');
     }
 
+    /*
+     * @method addNumberToGroupLabel
+     *
+     * @desc Updates group label with the number of items in group,
+     *       The '#' character in the string is replaced with the number
+     *       if number is not provided, just remove number
+     *
+     * @param  {String}  label  -  Label to include number,
+     * @param  {Number}  num    -  Number to add to label
+     *
+     * @return {String}  see @desc
+     */
+    addNumberToGroupLabel(label, num=0) {
+      if (num > 0) {
+        return label.replace('#', num).trim();
+      }
+      return label.replace('(','').replace(')','').replace('#', ' ').trim();
+    }
 
     /*
      * @method updateLabels
@@ -218,8 +238,8 @@ export default class SkiptoMenuButton {
       this.mediumButtonNode.textContent = config.buttonLabel;
 
       this.menuNode.setAttribute('aria-label', config.menuLabel);
-      this.landmarkGroupLabelNode.textContent = config.landmarkGroupLabel;
-      this.headingGroupLabelNode.textContent = config.headingGroupLabel;
+      this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel);
+      this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel);
     }
 
     /*
@@ -478,7 +498,7 @@ export default class SkiptoMenuButton {
 
       this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, config.msgNoLandmarksFound);
       this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, config.msgNoHeadingsFound);
-      debug.log(`[shortcutsSupported]: ${config.shortcutsSupported}`);
+      debug.flag && debug.log(`[shortcutsSupported]: ${config.shortcutsSupported}`);
       this.renderMenuitemsToShortcutsGroup(this.shortcutsGroupLabelNode, this.shortcutsGroupNode);
 
       // Update list of menuitems
@@ -491,11 +511,12 @@ export default class SkiptoMenuButton {
             }, true) :
             false;
 
+      this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel, landmarkElements.length);
       if (config.headings.includes('main') && allInMain) {
-        this.headingGroupLabelNode.textContent = config.headingMainGroupLabel;
+        this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingMainGroupLabel, headingElements.length);
       }
       else {
-        this.headingGroupLabelNode.textContent = config.headingGroupLabel;
+        this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel, headingElements.length);
       }
     }
 
@@ -508,8 +529,6 @@ export default class SkiptoMenuButton {
      * @param  {Object}  groupLabelNode  -  DOM element node for the page navigation group
      */
     renderMenuitemsToShortcutsGroup (groupLabelNode, groupNode) {
-
-      debug.log(`[renderMenuitemsToShortcutsGroup]: ${this.config.shortcutsSupported}`);
 
       // remove page navigation menu items
       while (groupNode.lastElementChild) {
@@ -720,10 +739,14 @@ export default class SkiptoMenuButton {
     openPopup() {
       debug.flag && debug.log(`[openPopup]`);
       this.menuNode.setAttribute('aria-busy', 'true');
-      const h = (80 * window.innerHeight) / 100;
-      this.menuNode.style.maxHeight = h + 'px';
+      // Compute height of menu to not exceed about 80% of screen height
+      const h = (30 * window.innerHeight) / 100;
+      this.landmarkGroupNode.style.maxHeight = h + 'px';
+      this.headingGroupNode.style.maxHeight = h + 'px';
       this.renderMenu(this.config, this.skipToId);
       this.menuNode.style.display = 'block';
+
+      // make sure menu is on screen and not clipped in the right edge of the window
       const buttonRect = this.buttonNode.getBoundingClientRect();
       const menuRect = this.menuNode.getBoundingClientRect();
       const diff = window.innerWidth - buttonRect.left - menuRect.width - 8;
@@ -734,8 +757,10 @@ export default class SkiptoMenuButton {
           this.menuNode.style.left = diff + 'px';
         }
       }
+
       this.menuNode.removeAttribute('aria-busy');
       this.buttonNode.setAttribute('aria-expanded', 'true');
+      // use custom element attribute to set focus to the menu
       this.skipToContentElem.setAttribute('focus', 'menu');
     }
 
@@ -994,42 +1019,42 @@ export default class SkiptoMenuButton {
               break;
 
             case this.config.shortcutHeadingNext:
-              navigateContent('heading', 'next', this.config.msgHeadingLevel);
+              navigateContent('heading', 'next', this.config.msgHeadingLevel, false, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingPrevious:
-              navigateContent('heading', 'previous', this.config.msgHeadingLevel);
+              navigateContent('heading', 'previous', this.config.msgHeadingLevel, false, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingH1:
-              navigateContent('h1', 'next', this.config.msgHeadingLevel, true);
+              navigateContent('h1', 'next', this.config.msgHeadingLevel, true, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingH2:
-              navigateContent('h2', 'next', this.config.msgHeadingLevel, true);
+              navigateContent('h2', 'next', this.config.msgHeadingLevel, true, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingH3:
-              navigateContent('h3', 'next', this.config.msgHeadingLevel, true);
+              navigateContent('h3', 'next', this.config.msgHeadingLevel, true, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingH4:
-              navigateContent('h4', 'next', this.config.msgHeadingLevel, true);
+              navigateContent('h4', 'next', this.config.msgHeadingLevel, true, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingH5:
-              navigateContent('h5', 'next', this.config.msgHeadingLevel, true);
+              navigateContent('h5', 'next', this.config.msgHeadingLevel, true, true);
               flag = true;
               break;
 
             case this.config.shortcutHeadingH6:
-              navigateContent('h6', 'next', this.config.msgHeadingLevel, true);
+              navigateContent('h6', 'next', this.config.msgHeadingLevel, true, true);
               flag = true;
               break;
 

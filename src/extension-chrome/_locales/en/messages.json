@@ -92,15 +92,15 @@
     "description" : "Initial value of menu label"
   },
   "init_landmark_group_label": {
-    "message" : "Landmark Regions",
+    "message" : "Landmark Regions (#)",
     "description" : "Initial value of landmark regions label"
   },
   "init_heading_group_label": {
-    "message" : "Headings",
+    "message" : "Headings (#)",
     "description" : "Initial value of headings label"
   },
   "init_heading_main_group_label": {
-    "message" : "Headings in Main Region",
+    "message" : "Headings in Main Region (#)",
     "description" : "Initial value of headings in main label"
   },
   "init_heading_level_label": {
@@ -148,11 +148,11 @@
     "description" : "Initial value of no headings found message"
   },
   "init_shortcuts_group_enabled_label": {
-    "message" : "Navigation Shortcuts: Enabled",
+    "message" : "Shortcuts: Enabled",
     "description" : "Initial value of Navigation Shortcuts: Enabled message"
   },
   "init_shortcuts_group_disabled_label": {
-    "message" : "Navigation Shortcuts: Disabled",
+    "message" : "Shortcuts: Disabled",
     "description" : "Initial value of Navigation Shortcuts: Disabled message"
   },
   "init_shortcuts_toggled_enable_label": {

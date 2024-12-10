@@ -31,6 +31,58 @@
     "message" : "Option",
     "description" : "Initial value of OPTION key label"
   },
+  "init_shortcut_next_heading": {
+    "message" : "h",
+    "description" : "Default shortcut for next heading"
+  },
+  "init_shortcut_previous_heading": {
+    "message" : "H",
+    "description" : "Default shortcut for previous heading"
+  },
+  "init_shortcut_h1_headings": {
+    "message" : "1",
+    "description" : "Default shortcut for next h1 heading"
+  },
+  "init_shortcut_h2_headings": {
+    "message" : "2",
+    "description" : "Default shortcut for next h2 heading"
+  },
+  "init_shortcut_h3_headings": {
+    "message" : "3",
+    "description" : "Default shortcut for next h3 heading"
+  },
+  "init_shortcut_h4_headings": {
+    "message" : "4",
+    "description" : "Default shortcut for next h4 heading"
+  },
+  "init_shortcut_h5_headings": {
+    "message" : "5",
+    "description" : "Default shortcut for next h5 heading"
+  },
+  "init_shortcut_h6_headings": {
+    "message" : "6",
+    "description" : "Default shortcut for next h6 heading"
+  },
+  "init_shortcut_next_region": {
+    "message" : "r",
+    "description" : "Default shortcut for next region"
+  },
+  "init_shortcut_previous_region": {
+    "message" : "R",
+    "description" : "Default shortcut for previous region"
+  },
+  "init_shortcut_main_regions": {
+    "message" : "m",
+    "description" : "Default shortcut for moving to main regions"
+  },
+  "init_shortcut_navigation_regions": {
+    "message" : "n",
+    "description" : "Default shortcut for moving to navigation regions"
+  },
+  "init_shortcut_complemntary_regions": {
+    "message" : "c",
+    "description" : "Default shortcut for moving to complementary regions"
+  },
   "init_shortcut_label": {
     "message" : "shortcut",
     "description" : "Initial value of shortcut label"
@@ -40,15 +92,15 @@
     "description" : "Initial value of menu label"
   },
   "init_landmark_group_label": {
-    "message" : "Landmark Regions",
+    "message" : "Landmark Regions (#)",
     "description" : "Initial value of landmark regions label"
   },
   "init_heading_group_label": {
-    "message" : "Headings",
+    "message" : "Headings (#)",
     "description" : "Initial value of headings label"
   },
   "init_heading_main_group_label": {
-    "message" : "Headings in Main Region",
+    "message" : "Headings in Main Region (#)",
     "description" : "Initial value of headings in main label"
   },
   "init_heading_level_label": {
@@ -96,11 +148,11 @@
     "description" : "Initial value of no headings found message"
   },
   "init_shortcuts_group_enabled_label": {
-    "message" : "Navigation Shortcuts: Enabled",
+    "message" : "Shortcuts: Enabled",
     "description" : "Initial value of Navigation Shortcuts: Enabled message"
   },
   "init_shortcuts_group_disabled_label": {
-    "message" : "Navigation Shortcuts: Disabled",
+    "message" : "Shortcuts: Disabled",
     "description" : "Initial value of Navigation Shortcuts: Disabled message"
   },
   "init_shortcuts_toggled_enable_label": {
@@ -170,6 +222,22 @@
   "init_msg_h6_headings": {
     "message" : "Level 6 headings",
     "description" : "Initial value of h6 headings message"
+  },
+  "init_close_label": {
+    "message" : "Close",
+    "description" : "Initial value of close button label"
+  },
+  "init_more_info_label": {
+    "message" : "More Information",
+    "description" : "Initial value of More Information label"
+  },
+  "init_msg_key": {
+    "message" : "Key",
+    "description" : "Initial value of key table header"
+  },
+  "init_msg_description": {
+    "message" : "Description",
+    "description" : "Initial value of description table header"
   },
   "options_h1_title": {
     "message" : "Preferences",
@@ -471,6 +539,14 @@
     "message" : "Enable page navigation with shortcut keys",
     "description" : "Checkbox label"
   },
+  "options_shortcut_key_desc_headings": {
+    "message" : "Shortcut keys are case sensitive, for example lowercase 'h' is a different command than uppercase 'H'.  Some users may want to only use lowercase characters for navigation commands.",
+    "description" : "Describes how values are case sensitive"
+  },
+  "options_shortcut_key_desc_regions": {
+    "message" : "Shortcut keys are case sensitive, for example lowercase 'r' is a different command than uppercase 'R'.  Some users may want to only use lowercase characters for navigation commands.",
+    "description" : "Describes how values are case sensitive"
+  },
   "options_region_legend": {
       "message" : "Landmark Regions",
       "description" : "Legend for region landmark navigation shortcuts"
@@ -485,11 +561,15 @@
   },
   "options_region_main_label": {
       "message" : "Main regions",
-      "description" : "Shortcut for next main region"
+      "description" : "Shortcut for next main regions"
   },
   "options_region_nav_label": {
       "message" : "Navigation regions",
-      "description" : "Shortcut for next navigation region"
+      "description" : "Shortcut for next navigation regions"
+  },
+  "options_region_complementary_label": {
+      "message" : "Complementary regions",
+      "description" : "Shortcut for next complemntary regions"
   },
   "options_heading_legend": {
       "message" : "Headings",
@@ -618,6 +698,27 @@
   "options_h6_headings_label": {
       "message" : "Level 6 Headings",
       "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_shortcut_info_dialog_messages": {
+      "message" : "Shortcut Information Dialog",
+      "description" : "Message appears in Shortcut Information Dialog dialog box"
+  },
+  "options_close_label": {
+      "message" : "Close Button",
+      "description" : "Close button appears in Shortcut Information Dialog dialog box"
+  },
+  "options_msg_key": {
+      "message" : "Key Table Header",
+      "description" : "Key Table Header appears in Shortcut Information Dialog dialog box"
+  },
+  "options_msg_description": {
+      "message" : "Description Table Header",
+      "description" : "Description Table Header appears in Shortcut Information Dialog dialog box"
+  },
+  "options_more_info_label": {
+      "message" : "More information button label",
+      "description" : "More information button label appears in Shortcut Information Dialog dialog box"
   }
+
 
 }

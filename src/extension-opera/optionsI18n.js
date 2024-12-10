@@ -113,7 +113,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-menu"
           data-option="menuLabel"
           type="text"
-          size="15"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -124,7 +124,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-landmark-group"
           data-option="landmarkGroupLabel"
           type="text"
-          size="15"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -135,7 +135,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-heading-group"
           data-option="headingGroupLabel"
           type="text"
-          size="15"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -157,7 +157,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-heading-level"
           data-option="headingLevelLabel"
           type="text"
-          size="15"/>
+          size="25"/>
       </div>
 
     </fieldset>
@@ -176,7 +176,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-main-region-name"
           data-option="mainLabel"
           type="text"
-          size="15"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -187,7 +187,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-search-region-name"
           data-option="searchLabel"
           type="text"
-          size="15"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -198,7 +198,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-navigation-region-name"
           data-option="navLabel"
           type="text"
-          size="15"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -209,7 +209,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-complementary-region-name"
           data-option="asideLabel"
           type="text"
-          size="15"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -220,7 +220,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-contentinfo-region-name"
           data-option="footerLabel"
           type="text"
-          size="15"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -231,7 +231,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-banner-region-name"
           data-option="headerLabel"
           type="text"
-          size="15"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -293,7 +293,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-toggle-enabled"
           data-option="shortcutsToggleEnableLabel"
           type="text"
-          size="20"/>
+          size="30"/>
       </div>
 
       <div class="text">
@@ -304,7 +304,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-toggle-disabled"
           data-option="shortcutsToggleDisableLabel"
           type="text"
-          size="20"/>
+          size="30"/>
       </div>
 
       <div class="text">
@@ -315,7 +315,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-shortcut-info"
           data-option="shortcutsInfoLabel"
           type="text"
-          size="20"/>
+          size="30"/>
       </div>
 
     </fieldset>
@@ -333,7 +333,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-next-region"
           data-option="msgNextRegion"
           type="text"
-          size="20"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -344,7 +344,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-previous-region"
           data-option="msgPreviousRegion"
           type="text"
-          size="20"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -355,7 +355,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-main-regions"
           data-option="msgMainRegions"
           type="text"
-          size="20"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -366,7 +366,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-navigation-regions"
           data-option="msgNavigationRegions"
           type="text"
-          size="20"/>
+          size="25"/>
       </div>
 
       <div class="text">
@@ -377,7 +377,7 @@ optionsI18nTemplate.innerHTML = `
         <input id="input-complementary-regions"
           data-option="msgComplementaryRegions"
           type="text"
-          size="20"/>
+          size="25"/>
       </div>
 
     </fieldset>
@@ -489,6 +489,57 @@ optionsI18nTemplate.innerHTML = `
           size="20"/>
       </div>
 
+
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="options_shortcut_info_dialog_messages">
+        X
+      </legend>
+
+      <div class="text">
+        <label data-i18n="options_close_label"
+               for="input-close-label">
+            Heading Level
+        </label>
+        <input id="input-close-label"
+          data-option="closeLabel"
+          type="text"
+          size="20"/>
+      </div>
+
+      <div class="text">
+        <label data-i18n="options_more_info_label"
+               for="input-more-info-label">
+            Heading Level
+        </label>
+        <input id="input-more-info-label"
+          data-option="moreInfoLabel"
+          type="text"
+          size="20"/>
+      </div>
+
+      <div class="text">
+        <label data-i18n="options_msg_key"
+               for="input-msg-key">
+            Heading Level
+        </label>
+        <input id="input-msg-key"
+          data-option="msgKey"
+          type="text"
+          size="20"/>
+      </div>
+
+      <div class="text">
+        <label data-i18n="options_msg_description"
+               for="input-msg-desc">
+            Heading Level
+        </label>
+        <input id="input-msg-desc"
+          data-option="msgDescription"
+          type="text"
+          size="20"/>
+      </div>
 
     </fieldset>
 
