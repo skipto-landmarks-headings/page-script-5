@@ -7,47 +7,60 @@ import DebugLogging  from './debug.js';
 const debug = new DebugLogging('[shortcutsInfoDialog]', false);
 debug.flag = false;
 
+const defaultStyleOptions = {
+  fontFamily: 'sans-serif',
+  fontSize: '12pt',
+  focusBorderColor: '#c5050c',
+  menuTextColor: '#13294b',
+  menuBackgroundColor: '#dddddd',
+};
+
 const MORE_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 
 const styleTemplate = document.createElement('template');
 styleTemplate.textContent = `
 /* infoDialog.css */
 
-button#open-button {
-  display: inline;
-  background: transparent;
-  border: none;
-}
+dialog#skip-to-info-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 
-dialog#info-dialog {
+  font-family: $fontFamily;
+  font-size: $fontSize;
   max-width: 70%;
+  margin: 0;
   padding: 0;
   background-color: white;
-  border: 2px solid #aaa;
+  border: 2px solid $focusBorderColor;
   border-radius: 5px;
   color: black;
+  z-index: 2000001;
+
 }
 
-dialog#info-dialog .header {
+dialog#skip-to-info-dialog .header {
+  margin: 0;
   margin-bottom: 0.5em;
   padding: 4px;
-  padding-left: 1em;
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid $focusBorderColor;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   font-weight:  bold;
-  background-color: #eee;
+  background-color: $menuBackgroundColor;
+  color $menuTextColor:
   position: relative;
-  font-size: 1em;
+  font-size: 100%;
 }
 
-dialog#info-dialog .header h2 {
+dialog#skip-to-info-dialog .header h2 {
   margin: 0;
   padding: 0;
   font-size: 1em;
 }
 
-dialog#info-dialog .header button {
+dialog#skip-to-info-dialog .header button {
   position: absolute;
   top: -0.25em;
   right: 0;
@@ -57,18 +70,18 @@ dialog#info-dialog .header button {
   color: black;
 }
 
-dialog#info-dialog .content {
+dialog#skip-to-info-dialog .content {
   margin-left: 2em;
   margin-right: 2em;
   margin-top: 0;
   margin-bottom: 2em;
 }
 
-dialog#info-dialog .content table {
+dialog#skip-to-info-dialog .content table {
   width: auto;
 }
 
-dialog#info-dialog .content caption {
+dialog#skip-to-info-dialog .content caption {
   margin: 0;
   padding: 0;
   margin-top: 1em;
@@ -77,7 +90,7 @@ dialog#info-dialog .content caption {
   font-size: 110%;
 }
 
-dialog#info-dialog .content th {
+dialog#skip-to-info-dialog .content th {
   margin: 0;
   padding: 0;
   padding-top: 0.125em;
@@ -88,11 +101,11 @@ dialog#info-dialog .content th {
   border-bottom: 1px solid #999;
 }
 
-dialog#info-dialog .content th.shortcut {
+dialog#skip-to-info-dialog .content th.shortcut {
   width: 2.5em;
 }
 
-dialog#info-dialog .content td {
+dialog#skip-to-info-dialog .content td {
   margin: 0;
   padding: 0;
   padding-top: 0.125em;
@@ -102,21 +115,21 @@ dialog#info-dialog .content td {
 }
 
 
-dialog#info-dialog .content table tr:nth-child(even) {
+dialog#skip-to-info-dialog .content table tr:nth-child(even) {
   background-color: #eee;
 }
 
-dialog#info-dialog .buttons {
+dialog#skip-to-info-dialog .buttons {
   float: right;
   margin-right: 0.5em;
   margin-bottom: 0.5em;
 }
 
-dialog#info-dialog button {
+dialog#skip-to-info-dialog button {
   margin: 6px;
 }
 
-dialog#info-dialog .buttons button {
+dialog#skip-to-info-dialog .buttons button {
   min-width: 5em;
 }
 
@@ -136,14 +149,10 @@ export default class ShortcutsInfoDialog extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
 
-    const styleNode = document.createElement('style');
-    styleNode.textContent = styleTemplate.textContent;
-    this.shadowRoot.appendChild(styleNode);
-
     // Get references
 
     this.infoDialog  = document.createElement('dialog');
-    this.infoDialog.id = 'info-dialog';
+    this.infoDialog.id = 'skip-to-info-dialog';
     this.shadowRoot.appendChild(this.infoDialog);
 
     const headerElem  = document.createElement('div');
@@ -194,7 +203,64 @@ export default class ShortcutsInfoDialog extends HTMLElement {
     window.open(MORE_INFO_URL, '_blank').focus();
   }
 
+  configureStyle(config={}) {
+
+    function updateOption(style, option, configOption, defaultOption) {
+      debug.log(`[updateOption][${option}] ${configOption} ${defaultOption}`);
+      if (configOption) {
+        return style.replaceAll(option, configOption);
+      }
+      else {
+        return style.replaceAll(option, defaultOption);
+      }
+    }
+
+    // make a copy of the template
+    let style = styleTemplate.textContent.slice(0);
+
+    style = updateOption(style,
+                         '$fontFamily',
+                         config.fontFamily,
+                         defaultStyleOptions.fontFamily);
+
+    style = updateOption(style,
+                         '$fontSize',
+                         config.fontSize,
+                         defaultStyleOptions.fontSize);
+
+    style = updateOption(style,
+                         '$focusBorderColor',
+                         config.focusBorderColor,
+                         defaultStyleOptions.focusBorderColor);
+
+    style = updateOption(style,
+                         '$menuTextColor',
+                         config.menuTextColor,
+                         defaultStyleOptions.menuTextColor);
+
+    style = updateOption(style,
+                         '$menuBackgroundColor',
+                         config.menuBackgroundColor,
+                         defaultStyleOptions.menuBackgroundColor);
+
+    let styleNode = this.shadowRoot.querySelector('style');
+
+    if (styleNode) {
+      styleNode.remove();
+    }
+
+    styleNode = document.createElement('style');
+    styleNode.textContent = style;
+    this.shadowRoot.appendChild(styleNode);
+
+  }
+
+
   updateContent (config) {
+
+      while (this.contentElem.lastElementChild) {
+        this.contentElem.removeChild(this.contentElem.lastElementChild);
+      }
 
       this.h2Elem.textContent = config.shortcutsInfoLabel;
       this.closeButton1.setAttribute('aria-label', config.closeLabel);
@@ -217,18 +283,13 @@ export default class ShortcutsInfoDialog extends HTMLElement {
         trElem.appendChild(tdElem2);
       }
 
-      while (this.contentElem.lastElementChild) {
-        this.contentElem.removeChild(this.contentElem.lastElementChild);
-      }
-
-
       // Regions
 
       const tableElem1 = document.createElement('table');
       this.contentElem.appendChild(tableElem1);
 
       const captionElem1 = document.createElement('caption');
-      captionElem1.textContent = config.landmarkGroupLabel.replace('#','');
+      captionElem1.textContent = config.landmarkGroupLabel;
       tableElem1.appendChild(captionElem1);
 
       const theadElem1 = document.createElement('thead');

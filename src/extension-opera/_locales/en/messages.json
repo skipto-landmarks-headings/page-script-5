@@ -92,15 +92,15 @@
     "description" : "Initial value of menu label"
   },
   "init_landmark_group_label": {
-    "message" : "Landmark Regions (#)",
+    "message" : "Landmark Regions",
     "description" : "Initial value of landmark regions label"
   },
   "init_heading_group_label": {
-    "message" : "Headings (#)",
+    "message" : "Headings",
     "description" : "Initial value of headings label"
   },
   "init_heading_main_group_label": {
-    "message" : "Headings in Main Region (#)",
+    "message" : "Headings in Main Region",
     "description" : "Initial value of headings in main label"
   },
   "init_heading_level_label": {

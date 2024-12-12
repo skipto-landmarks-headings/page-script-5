@@ -102,9 +102,9 @@ export default class SkipToContent extends HTMLElement {
 
       // Menu labels and messages
       menuLabel: 'Landmarks and Headings',
-      landmarkGroupLabel: 'Landmark Regions (#)',
-      headingGroupLabel: 'Headings (#)',
-      headingMainGroupLabel: 'Headings in Main Region (#)',
+      landmarkGroupLabel: 'Landmark Regions',
+      headingGroupLabel: 'Headings',
+      headingMainGroupLabel: 'Headings in Main Region',
       headingLevelLabel: 'Heading level',
       mainLabel: 'main',
       searchLabel: 'search',
@@ -325,6 +325,16 @@ export default class SkipToContent extends HTMLElement {
     if (this.buttonSkipTo) {
       this.buttonSkipTo.updateLabels(config);
       this.buttonSkipTo.setDisplayOption(config['displayOption']);
+    }
+
+    const infoDialog = document.querySelector('skip-to-shortcuts-info-dialog');
+    if (infoDialog) {
+      infoDialog.configureStyle(config);
+    }
+
+    const shortcutsMessage = document.querySelector('skip-to-shortcuts-message');
+    if (shortcutsMessage) {
+      shortcutsMessage.configureStyle(config);
     }
 
     return config;

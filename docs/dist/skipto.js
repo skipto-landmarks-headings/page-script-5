@@ -223,8 +223,8 @@
   /* style.js */
 
   /* Constants */
-  const debug$b = new DebugLogging('style', false);
-  debug$b.flag = false;
+  const debug$c = new DebugLogging('style', false);
+  debug$c.flag = false;
 
   const cssMenuTemplate = document.createElement('template');
   cssMenuTemplate.textContent = `
@@ -816,8 +816,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
   /* utils.js */
 
   /* Constants */
-  const debug$a = new DebugLogging('Utils', false);
-  debug$a.flag = false;
+  const debug$b = new DebugLogging('Utils', false);
+  debug$b.flag = false;
 
 
   /*
@@ -903,50 +903,63 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
   /* shortcutInfoDialog.js */
 
   /* Constants */
-  const debug$9 = new DebugLogging('[shortcutsInfoDialog]', false);
-  debug$9.flag = false;
+  const debug$a = new DebugLogging('[shortcutsInfoDialog]', false);
+  debug$a.flag = false;
+
+  const defaultStyleOptions$1 = {
+    fontFamily: 'sans-serif',
+    fontSize: '12pt',
+    focusBorderColor: '#c5050c',
+    menuTextColor: '#13294b',
+    menuBackgroundColor: '#dddddd',
+  };
 
   const MORE_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 
-  const styleTemplate = document.createElement('template');
-  styleTemplate.textContent = `
+  const styleTemplate$1 = document.createElement('template');
+  styleTemplate$1.textContent = `
 /* infoDialog.css */
 
-button#open-button {
-  display: inline;
-  background: transparent;
-  border: none;
-}
+dialog#skip-to-info-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 
-dialog#info-dialog {
+  font-family: $fontFamily;
+  font-size: $fontSize;
   max-width: 70%;
+  margin: 0;
   padding: 0;
   background-color: white;
-  border: 2px solid #aaa;
+  border: 2px solid $focusBorderColor;
   border-radius: 5px;
   color: black;
+  z-index: 2000001;
+
 }
 
-dialog#info-dialog .header {
+dialog#skip-to-info-dialog .header {
+  margin: 0;
   margin-bottom: 0.5em;
   padding: 4px;
-  padding-left: 1em;
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid $focusBorderColor;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   font-weight:  bold;
-  background-color: #eee;
+  background-color: $menuBackgroundColor;
+  color $menuTextColor:
   position: relative;
-  font-size: 1em;
+  font-size: 100%;
 }
 
-dialog#info-dialog .header h2 {
+dialog#skip-to-info-dialog .header h2 {
   margin: 0;
   padding: 0;
   font-size: 1em;
 }
 
-dialog#info-dialog .header button {
+dialog#skip-to-info-dialog .header button {
   position: absolute;
   top: -0.25em;
   right: 0;
@@ -956,18 +969,18 @@ dialog#info-dialog .header button {
   color: black;
 }
 
-dialog#info-dialog .content {
+dialog#skip-to-info-dialog .content {
   margin-left: 2em;
   margin-right: 2em;
   margin-top: 0;
   margin-bottom: 2em;
 }
 
-dialog#info-dialog .content table {
+dialog#skip-to-info-dialog .content table {
   width: auto;
 }
 
-dialog#info-dialog .content caption {
+dialog#skip-to-info-dialog .content caption {
   margin: 0;
   padding: 0;
   margin-top: 1em;
@@ -976,7 +989,7 @@ dialog#info-dialog .content caption {
   font-size: 110%;
 }
 
-dialog#info-dialog .content th {
+dialog#skip-to-info-dialog .content th {
   margin: 0;
   padding: 0;
   padding-top: 0.125em;
@@ -984,14 +997,14 @@ dialog#info-dialog .content th {
   text-align: left;
   font-weight: bold;
   font-size: 100%;
-  border-bottom: 1px solid #888;
+  border-bottom: 1px solid #999;
 }
 
-dialog#info-dialog .content th.shortcut {
+dialog#skip-to-info-dialog .content th.shortcut {
   width: 2.5em;
 }
 
-dialog#info-dialog .content td {
+dialog#skip-to-info-dialog .content td {
   margin: 0;
   padding: 0;
   padding-top: 0.125em;
@@ -1001,21 +1014,21 @@ dialog#info-dialog .content td {
 }
 
 
-dialog#info-dialog .content table tr:nth-child(even) {
+dialog#skip-to-info-dialog .content table tr:nth-child(even) {
   background-color: #eee;
 }
 
-dialog#info-dialog .buttons {
+dialog#skip-to-info-dialog .buttons {
   float: right;
   margin-right: 0.5em;
   margin-bottom: 0.5em;
 }
 
-dialog#info-dialog button {
+dialog#skip-to-info-dialog button {
   margin: 6px;
 }
 
-dialog#info-dialog .buttons button {
+dialog#skip-to-info-dialog .buttons button {
   min-width: 5em;
 }
 
@@ -1035,14 +1048,10 @@ button:hover {
       super();
       this.attachShadow({ mode: 'open' });
 
-      const styleNode = document.createElement('style');
-      styleNode.textContent = styleTemplate.textContent;
-      this.shadowRoot.appendChild(styleNode);
-
       // Get references
 
       this.infoDialog  = document.createElement('dialog');
-      this.infoDialog.id = 'info-dialog';
+      this.infoDialog.id = 'skip-to-info-dialog';
       this.shadowRoot.appendChild(this.infoDialog);
 
       const headerElem  = document.createElement('div');
@@ -1093,7 +1102,64 @@ button:hover {
       window.open(MORE_INFO_URL, '_blank').focus();
     }
 
+    configureStyle(config={}) {
+
+      function updateOption(style, option, configOption, defaultOption) {
+        debug$a.log(`[updateOption][${option}] ${configOption} ${defaultOption}`);
+        if (configOption) {
+          return style.replaceAll(option, configOption);
+        }
+        else {
+          return style.replaceAll(option, defaultOption);
+        }
+      }
+
+      // make a copy of the template
+      let style = styleTemplate$1.textContent.slice(0);
+
+      style = updateOption(style,
+                           '$fontFamily',
+                           config.fontFamily,
+                           defaultStyleOptions$1.fontFamily);
+
+      style = updateOption(style,
+                           '$fontSize',
+                           config.fontSize,
+                           defaultStyleOptions$1.fontSize);
+
+      style = updateOption(style,
+                           '$focusBorderColor',
+                           config.focusBorderColor,
+                           defaultStyleOptions$1.focusBorderColor);
+
+      style = updateOption(style,
+                           '$menuTextColor',
+                           config.menuTextColor,
+                           defaultStyleOptions$1.menuTextColor);
+
+      style = updateOption(style,
+                           '$menuBackgroundColor',
+                           config.menuBackgroundColor,
+                           defaultStyleOptions$1.menuBackgroundColor);
+
+      let styleNode = this.shadowRoot.querySelector('style');
+
+      if (styleNode) {
+        styleNode.remove();
+      }
+
+      styleNode = document.createElement('style');
+      styleNode.textContent = style;
+      this.shadowRoot.appendChild(styleNode);
+
+    }
+
+
     updateContent (config) {
+
+        while (this.contentElem.lastElementChild) {
+          this.contentElem.removeChild(this.contentElem.lastElementChild);
+        }
 
         this.h2Elem.textContent = config.shortcutsInfoLabel;
         this.closeButton1.setAttribute('aria-label', config.closeLabel);
@@ -1116,18 +1182,13 @@ button:hover {
           trElem.appendChild(tdElem2);
         }
 
-        while (this.contentElem.lastElementChild) {
-          this.contentElem.removeChild(this.contentElem.lastElementChild);
-        }
-
-
         // Regions
 
         const tableElem1 = document.createElement('table');
         this.contentElem.appendChild(tableElem1);
 
         const captionElem1 = document.createElement('caption');
-        captionElem1.textContent = config.landmarkGroupLabel.replace('#','');
+        captionElem1.textContent = config.landmarkGroupLabel;
         tableElem1.appendChild(captionElem1);
 
         const theadElem1 = document.createElement('thead');
@@ -1216,6 +1277,165 @@ button:hover {
         }
       }
     }
+  }
+
+  /* shortcutsMessage.js */
+
+  /* Constants */
+  const debug$9 = new DebugLogging('[shortcutsMessage]', false);
+  debug$9.flag = false;
+
+  const defaultStyleOptions = {
+    fontFamily: 'sans-serif',
+    fontSize: '12pt',
+    focusBorderColor: '#c5050c',
+    menuTextColor: '#13294b',
+    menuBackgroundColor: '#dddddd',
+  };
+
+  const styleTemplate = document.createElement('template');
+  styleTemplate.textContent = `
+/* shortcutsMessage.css */
+
+div#skip-to-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+
+  font-family: $fontFamily;
+  font-size: $fontSize;
+  max-width: 70%;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  border: 2px solid $focusBorderColor;
+  border-radius: 5px;
+  color: black;
+  z-index: 2000001;
+}
+
+div#skip-to-message .header {
+  margin: 0;
+  padding: 4px;
+  border-bottom: 1px solid $focusBorderColor;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-weight:  bold;
+  background-color: $menuBackgroundColor;
+  color $menuTextColor:
+  font-size: 100%;
+}
+
+div#skip-to-message .content {
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  background-color: #fff;
+  color: #000;
+  font-size: 110%;
+  text-algin: center;
+}
+
+`;
+
+  class ShortcutsMessage extends HTMLElement {
+    constructor () {
+
+      super();
+      this.attachShadow({ mode: 'open' });
+
+      // Get references
+
+      this.messageDialog  = document.createElement('div');
+      this.messageDialog.id = 'skip-to-message';
+      this.messageDialog.setAttribute('hidden', '');
+      this.shadowRoot.appendChild(this.messageDialog);
+
+      const headerElem  = document.createElement('div');
+      headerElem.className = 'header';
+      headerElem.textContent = 'SkipTo.js Message';
+      this.messageDialog.appendChild(headerElem);
+
+      this.contentElem  = document.createElement('div');
+      this.contentElem.className = 'content';
+      this.messageDialog.appendChild(this.contentElem);
+
+      this.timeoutID = false;
+
+    }
+
+    configureStyle(config={}) {
+
+      function updateOption(style, option, configOption, defaultOption) {
+        debug$9.log(`[updateOption][${option}] ${configOption} ${defaultOption}`);
+        if (configOption) {
+          return style.replaceAll(option, configOption);
+        }
+        else {
+          return style.replaceAll(option, defaultOption);
+        }
+      }
+
+      // make a copy of the template
+      let style = styleTemplate.textContent.slice(0);
+
+      style = updateOption(style,
+                           '$fontFamily',
+                           config.fontFamily,
+                           defaultStyleOptions.fontFamily);
+
+      style = updateOption(style,
+                           '$fontSize',
+                           config.fontSize,
+                           defaultStyleOptions.fontSize);
+
+      style = updateOption(style,
+                           '$focusBorderColor',
+                           config.focusBorderColor,
+                           defaultStyleOptions.focusBorderColor);
+
+      style = updateOption(style,
+                           '$menuTextColor',
+                           config.menuTextColor,
+                           defaultStyleOptions.menuTextColor);
+
+      style = updateOption(style,
+                           '$menuBackgroundColor',
+                           config.menuBackgroundColor,
+                           defaultStyleOptions.menuBackgroundColor);
+
+      let styleNode = this.shadowRoot.querySelector('style');
+
+      if (styleNode) {
+        styleNode.remove();
+      }
+
+      styleNode = document.createElement('style');
+      styleNode.textContent = style;
+      this.shadowRoot.appendChild(styleNode);
+
+    }
+
+    close() {
+      this.messageDialog.setAttribute('hidden', '');
+    }
+
+    open(message) {
+      this.messageDialog.removeAttribute('hidden');
+      this.contentElem.textContent = message;
+      const messageDialog = this.messageDialog;
+
+      if (this.timeoutID) {
+        clearTimeout(this.timeoutID);
+      }
+
+      this.timeoutID = setTimeout(() => {
+        messageDialog.setAttribute('hidden', '');
+      }, 4000);
+    }
+
   }
 
   /*
@@ -3238,9 +3458,15 @@ button:hover {
         this.shortcutsGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-shortcutse-group-label');
         this.menuNode.appendChild(this.shortcutsGroupNode);
 
-        window.customElements.define("shortcuts-info-dialog", ShortcutsInfoDialog);
-        this.infoDialog = document.createElement('shortcuts-info-dialog');
+        window.customElements.define("skip-to-shortcuts-info-dialog", ShortcutsInfoDialog);
+        this.infoDialog = document.createElement('skip-to-shortcuts-info-dialog');
+        this.infoDialog.configureStyle(this.config);
         document.body.appendChild(this.infoDialog);
+
+        window.customElements.define("skip-to-shortcuts-message", ShortcutsMessage);
+        this.shortcutsMessage = document.createElement('skip-to-shortcuts-message');
+        this.shortcutsMessage.configureStyle(this.config);
+        document.body.appendChild(this.shortcutsMessage);
 
         this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
         this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -3302,9 +3528,9 @@ button:hover {
        */
       addNumberToGroupLabel(label, num=0) {
         if (num > 0) {
-          return label.replace('#', num).trim();
+          return `label (${num})`;
         }
-        return label.replace('(','').replace(')','').replace('#', ' ').trim();
+        return label;
       }
 
       /*
@@ -4050,7 +4276,10 @@ button:hover {
 
       handleDocumentKeydown (event) {
 
+        this.shortcutsMessage.close();
+
         let flag = false;
+        let elem;
         const focusElem = getFocusElement();
         debug$2.flag && debug$2.log(`[handleDocumentKeydown][elementTakesText][${event.target.tagName}]: ${elementTakesText(focusElem)}`);
         if (!elementTakesText(focusElem)) {
@@ -4078,67 +4307,106 @@ button:hover {
                 break;
 
               case this.config.shortcutRegionNext:
-                navigateContent('landmark', 'next', this.config.msgHeadingLevel);
+                elem = navigateContent('landmark', 'next', this.config.msgHeadingLevel);
+                if (!elem) {
+                  this.shortcutsMessage.open('No more landmark regions');
+                }
                 flag = true;
                 break;
 
               case this.config.shortcutRegionPrevious:
-                navigateContent('landmark', 'previous', this.config.msgHeadingLevel);
+                elem = navigateContent('landmark', 'previous', this.config.msgHeadingLevel);
+                if (!elem) {
+                  this.shortcutsMessage.open('No more landmark regions');
+                }
                 flag = true;
                 break;
 
               case this.config.shortcutRegionComplementary:
-                navigateContent('complementary', 'next', this.config.msgHeadingLevel, true);
+                elem = navigateContent('complementary', 'next', this.config.msgHeadingLevel, true);
+                if (!elem) {
+                  this.shortcutsMessage.open('No complementary regions');
+                }
                 flag = true;
                 break;
 
               case this.config.shortcutRegionMain:
-                navigateContent('main', 'next', this.config.msgHeadingLevel, true);
+                elem = navigateContent('main', 'next', this.config.msgHeadingLevel, true);
+                if (!elem) {
+                  this.shortcutsMessage.open('No main regions');
+                }
                 flag = true;
                 break;
 
               case this.config.shortcutRegionNavigation:
-                navigateContent('navigation', 'next', this.config.msgHeadingLevel, true);
+                elem = navigateContent('navigation', 'next', this.config.msgHeadingLevel, true);
+                if (!elem) {
+                  this.shortcutsMessage.open('No navigation regions');
+                }
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingNext:
-                navigateContent('heading', 'next', this.config.msgHeadingLevel, false, true);
+                elem = navigateContent('heading', 'next', this.config.msgHeadingLevel, false, true);
+                if (!elem) {
+                  this.shortcutsMessage.open('No more headings');
+                }
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingPrevious:
-                navigateContent('heading', 'previous', this.config.msgHeadingLevel, false, true);
+                elem = navigateContent('heading', 'previous', this.config.msgHeadingLevel, false, true);
+                if (!elem) {
+                  this.shortcutsMessage.open('No more headings');
+                }
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH1:
-                navigateContent('h1', 'next', this.config.msgHeadingLevel, true, true);
+                elem = navigateContent('h1', 'next', this.config.msgHeadingLevel, true, true);
+                if (!elem) {
+                  this.shortcutsMessage.open('No level 1 headings found');
+                }
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH2:
-                navigateContent('h2', 'next', this.config.msgHeadingLevel, true, true);
+                elem = navigateContent('h2', 'next', this.config.msgHeadingLevel, true, true);
+                if (!elem) {
+                  this.shortcutsMessage.open('No level 2 headings found');
+                }
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH3:
-                navigateContent('h3', 'next', this.config.msgHeadingLevel, true, true);
+                elem = navigateContent('h3', 'next', this.config.msgHeadingLevel, true, true);
+                if (!elem) {
+                  this.shortcutsMessage.open('No level 3 headings found');
+                }
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH4:
-                navigateContent('h4', 'next', this.config.msgHeadingLevel, true, true);
+                elem = navigateContent('h4', 'next', this.config.msgHeadingLevel, true, true);
+                if (!elem) {
+                  this.shortcutsMessage.open('No level 4 headings found');
+                }
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH5:
-                navigateContent('h5', 'next', this.config.msgHeadingLevel, true, true);
+                elem = navigateContent('h5', 'next', this.config.msgHeadingLevel, true, true);
+                if (!elem) {
+                  this.shortcutsMessage.open('No level 5 headings found');
+                }
                 flag = true;
                 break;
 
               case this.config.shortcutHeadingH6:
-                navigateContent('h6', 'next', this.config.msgHeadingLevel, true, true);
+                elem = navigateContent('h6', 'next', this.config.msgHeadingLevel, true, true);
+                if (!elem) {
+                  this.shortcutsMessage.open('No level 6 headings found');
+                }
                 flag = true;
                 break;
             }
@@ -4479,9 +4747,9 @@ button:hover {
 
         // Menu labels and messages
         menuLabel: 'Landmarks and Headings',
-        landmarkGroupLabel: 'Landmark Regions (#)',
-        headingGroupLabel: 'Headings (#)',
-        headingMainGroupLabel: 'Headings in Main Region (#)',
+        landmarkGroupLabel: 'Landmark Regions',
+        headingGroupLabel: 'Headings',
+        headingMainGroupLabel: 'Headings in Main Region',
         headingLevelLabel: 'Heading level',
         mainLabel: 'main',
         searchLabel: 'search',
@@ -4702,6 +4970,16 @@ button:hover {
       if (this.buttonSkipTo) {
         this.buttonSkipTo.updateLabels(config);
         this.buttonSkipTo.setDisplayOption(config['displayOption']);
+      }
+
+      const infoDialog = document.querySelector('skip-to-shortcuts-info-dialog');
+      if (infoDialog) {
+        infoDialog.configureStyle(config);
+      }
+
+      const shortcutsMessage = document.querySelector('skip-to-shortcuts-message');
+      if (shortcutsMessage) {
+        shortcutsMessage.configureStyle(config);
       }
 
       return config;
