@@ -110,6 +110,12 @@ const i18nOptions = {
   moreInfoLabel:  browserI18n.getMessage('init_more_info_label'),
   msgKey:         browserI18n.getMessage('init_msg_key'),
   msgDescription: browserI18n.getMessage('init_msg_description'),
+
+  msgNoMoreRegions:   browserI18n.getMessage('options_msg_no_more_regions'),
+  msgNoRegionsFound:  browserI18n.getMessage('options_msg_no_regions_found'),
+  msgNoMoreHeadings:  browserI18n.getMessage('options_msg_no_more_headings'),
+  msgNoHeadingsLevelFound: browserI18n.getMessage('options_msg_no_headings_found'),
+
 };
 
 const defaultOptions = Object.assign({}, defaultButtonOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions, defaultShortcutOptions);

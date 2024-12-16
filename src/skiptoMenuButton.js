@@ -221,7 +221,7 @@ export default class SkiptoMenuButton {
      */
     addNumberToGroupLabel(label, num=0) {
       if (num > 0) {
-        return `label (${num})`;
+        return `${label} (${num})`;
       }
       return label;
     }
@@ -1006,7 +1006,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutRegionNext:
               elem = navigateContent('landmark', 'next', this.config.msgHeadingLevel);
               if (!elem) {
-                this.shortcutsMessage.open('No more landmark regions');
+                this.shortcutsMessage.open(this.config.msgNoMoreRegions);
               }
               flag = true;
               break;
@@ -1014,7 +1014,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutRegionPrevious:
               elem = navigateContent('landmark', 'previous', this.config.msgHeadingLevel);
               if (!elem) {
-                this.shortcutsMessage.open('No more landmark regions');
+                this.shortcutsMessage.open(this.config.msgNoMoreRegions);
               }
               flag = true;
               break;
@@ -1022,7 +1022,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutRegionComplementary:
               elem = navigateContent('complementary', 'next', this.config.msgHeadingLevel, true);
               if (!elem) {
-                this.shortcutsMessage.open('No complementary regions');
+                this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'complementary'));
               }
               flag = true;
               break;
@@ -1030,7 +1030,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutRegionMain:
               elem = navigateContent('main', 'next', this.config.msgHeadingLevel, true);
               if (!elem) {
-                this.shortcutsMessage.open('No main regions');
+                this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'main'));
               }
               flag = true;
               break;
@@ -1038,7 +1038,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutRegionNavigation:
               elem = navigateContent('navigation', 'next', this.config.msgHeadingLevel, true);
               if (!elem) {
-                this.shortcutsMessage.open('No navigation regions');
+                this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'navigation'));
               }
               flag = true;
               break;
@@ -1046,7 +1046,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutHeadingNext:
               elem = navigateContent('heading', 'next', this.config.msgHeadingLevel, false, true);
               if (!elem) {
-                this.shortcutsMessage.open('No more headings');
+                this.shortcutsMessage.open(this.config.msgNoMoreHeadings);
               }
               flag = true;
               break;
@@ -1054,7 +1054,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutHeadingPrevious:
               elem = navigateContent('heading', 'previous', this.config.msgHeadingLevel, false, true);
               if (!elem) {
-                this.shortcutsMessage.open('No more headings');
+                this.shortcutsMessage.open(this.config.msgNoMoreHeadings);
               }
               flag = true;
               break;
@@ -1062,7 +1062,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutHeadingH1:
               elem = navigateContent('h1', 'next', this.config.msgHeadingLevel, true, true);
               if (!elem) {
-                this.shortcutsMessage.open('No level 1 headings found');
+                this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '1'));
               }
               flag = true;
               break;
@@ -1070,7 +1070,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutHeadingH2:
               elem = navigateContent('h2', 'next', this.config.msgHeadingLevel, true, true);
               if (!elem) {
-                this.shortcutsMessage.open('No level 2 headings found');
+                this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '2'));
               }
               flag = true;
               break;
@@ -1078,7 +1078,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutHeadingH3:
               elem = navigateContent('h3', 'next', this.config.msgHeadingLevel, true, true);
               if (!elem) {
-                this.shortcutsMessage.open('No level 3 headings found');
+                this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '3'));
               }
               flag = true;
               break;
@@ -1086,7 +1086,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutHeadingH4:
               elem = navigateContent('h4', 'next', this.config.msgHeadingLevel, true, true);
               if (!elem) {
-                this.shortcutsMessage.open('No level 4 headings found');
+                this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '4'));
               }
               flag = true;
               break;
@@ -1094,7 +1094,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutHeadingH5:
               elem = navigateContent('h5', 'next', this.config.msgHeadingLevel, true, true);
               if (!elem) {
-                this.shortcutsMessage.open('No level 5 headings found');
+                this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '5'));
               }
               flag = true;
               break;
@@ -1102,7 +1102,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutHeadingH6:
               elem = navigateContent('h6', 'next', this.config.msgHeadingLevel, true, true);
               if (!elem) {
-                this.shortcutsMessage.open('No level 6 headings found');
+                this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '6'));
               }
               flag = true;
               break;

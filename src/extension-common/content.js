@@ -44,7 +44,21 @@ browserRuntime.onMessage.addListener(
   }
 );
 
+// update icon if in dark mode
+/*
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    const iconVariant = e.matches ? "-white" : "";
 
+    browser.browserAction.setIcon({
+        path: {
+            16: `icons/icon${iconVariant}-16.png`,
+            32: `icons/icon${iconVariant}-32.png`,
+            48: `icons/icon${iconVariant}-48.png`,
+            128: `icons/icon${iconVariant}-128.png`
+        },
+    });
+});
+*/
 
 /*
  *   @function getFocusOption

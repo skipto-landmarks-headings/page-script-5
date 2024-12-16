@@ -35,6 +35,7 @@ div#skip-to-message {
   border-radius: 5px;
   color: black;
   z-index: 2000001;
+  opacity: 1;
 }
 
 div#skip-to-message .header {
@@ -60,6 +61,13 @@ div#skip-to-message .content {
   text-algin: center;
 }
 
+div#skip-to-message.hidden {
+  display: none;
+}
+
+div#skip-to-message.show {
+  display: block;
+}
 `;
 
 export default class ShortcutsMessage extends HTMLElement {
@@ -72,7 +80,7 @@ export default class ShortcutsMessage extends HTMLElement {
 
     this.messageDialog  = document.createElement('div');
     this.messageDialog.id = 'skip-to-message';
-    this.messageDialog.setAttribute('hidden', '');
+    this.messageDialog.classList.add('hidden');
     this.shadowRoot.appendChild(this.messageDialog);
 
     const headerElem  = document.createElement('div');
@@ -141,21 +149,22 @@ export default class ShortcutsMessage extends HTMLElement {
   }
 
   close() {
-    this.messageDialog.setAttribute('hidden', '');
+    this.messageDialog.classList.remove('show');
+    this.messageDialog.classList.add('hidden');
   }
 
   open(message) {
-    this.messageDialog.removeAttribute('hidden');
+    clearInterval(this.timeoutID);
+    this.messageDialog.classList.remove('hidden');
+    this.messageDialog.classList.add('show');
     this.contentElem.textContent = message;
-    const messageDialog = this.messageDialog;
 
-    if (this.timeoutID) {
-      clearTimeout(this.timeoutID);
-    }
+    const msg = this;
 
-    this.timeoutID = setTimeout(() => {
-      messageDialog.setAttribute('hidden', '');
+    this.timeoutID = setTimeout( () => {
+      msg.close();
     }, 4000);
+
   }
 
 }

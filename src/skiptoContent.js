@@ -100,6 +100,13 @@ export default class SkipToContent extends HTMLElement {
       msgH5Headings: 'Level 5 headings',
       msgH6Headings: 'Level 6 headings',
 
+      // Messages for navigation
+
+      msgNoMoreRegions: 'No more regions',
+      msgNoRegionsFound: 'No %r regions found',
+      msgNoMoreHeadings: 'No more headings',
+      msgNoHeadingsLevelFound: 'No level %h headings found',
+
       // Menu labels and messages
       menuLabel: 'Landmarks and Headings',
       landmarkGroupLabel: 'Landmark Regions',

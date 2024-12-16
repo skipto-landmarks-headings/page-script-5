@@ -718,7 +718,21 @@
   "options_more_info_label": {
       "message" : "More information button label",
       "description" : "More information button label appears in Shortcut Information Dialog dialog box"
+  },
+  "options_msg_no_more_regions": {
+      "message" : "No more regions",
+      "description" : "Message if previous or next command does not find a new region"
+  },
+  "options_msg_no_regions_found": {
+      "message" : "No %r regions found",
+      "description" : "Message if next region command does not find a any region"
+  },
+  "options_msg_no_more_headings": {
+      "message" : "No more headings",
+      "description" : "Message if previous or next command does not find any heading"
+  },
+  "options_msg_no_headings_found": {
+      "message" : "No level %h headings  found",
+      "description" : "Message if next header level X command does not find any headings"
   }
-
-
 }

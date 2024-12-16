@@ -323,7 +323,7 @@ export default class ShortcutsInfoDialog extends HTMLElement {
       this.contentElem.appendChild(tableElem2);
 
       const captionElem2 = document.createElement('caption');
-      captionElem2.textContent = config.headingGroupLabel.replace('#','');
+      captionElem2.textContent = config.headingGroupLabel;
       tableElem2.appendChild(captionElem2);
 
       const theadElem2 = document.createElement('thead');

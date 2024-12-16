@@ -1222,7 +1222,7 @@ button:hover {
         this.contentElem.appendChild(tableElem2);
 
         const captionElem2 = document.createElement('caption');
-        captionElem2.textContent = config.headingGroupLabel.replace('#','');
+        captionElem2.textContent = config.headingGroupLabel;
         tableElem2.appendChild(captionElem2);
 
         const theadElem2 = document.createElement('thead');
@@ -1313,6 +1313,7 @@ div#skip-to-message {
   border-radius: 5px;
   color: black;
   z-index: 2000001;
+  opacity: 1;
 }
 
 div#skip-to-message .header {
@@ -1338,6 +1339,13 @@ div#skip-to-message .content {
   text-algin: center;
 }
 
+div#skip-to-message.hidden {
+  display: none;
+}
+
+div#skip-to-message.show {
+  display: block;
+}
 `;
 
   class ShortcutsMessage extends HTMLElement {
@@ -1350,7 +1358,7 @@ div#skip-to-message .content {
 
       this.messageDialog  = document.createElement('div');
       this.messageDialog.id = 'skip-to-message';
-      this.messageDialog.setAttribute('hidden', '');
+      this.messageDialog.classList.add('hidden');
       this.shadowRoot.appendChild(this.messageDialog);
 
       const headerElem  = document.createElement('div');
@@ -1419,21 +1427,22 @@ div#skip-to-message .content {
     }
 
     close() {
-      this.messageDialog.setAttribute('hidden', '');
+      this.messageDialog.classList.remove('show');
+      this.messageDialog.classList.add('hidden');
     }
 
     open(message) {
-      this.messageDialog.removeAttribute('hidden');
+      clearInterval(this.timeoutID);
+      this.messageDialog.classList.remove('hidden');
+      this.messageDialog.classList.add('show');
       this.contentElem.textContent = message;
-      const messageDialog = this.messageDialog;
 
-      if (this.timeoutID) {
-        clearTimeout(this.timeoutID);
-      }
+      const msg = this;
 
-      this.timeoutID = setTimeout(() => {
-        messageDialog.setAttribute('hidden', '');
+      this.timeoutID = setTimeout( () => {
+        msg.close();
       }, 4000);
+
     }
 
   }
@@ -3528,7 +3537,7 @@ div#skip-to-message .content {
        */
       addNumberToGroupLabel(label, num=0) {
         if (num > 0) {
-          return `label (${num})`;
+          return `${label} (${num})`;
         }
         return label;
       }
@@ -4309,7 +4318,7 @@ div#skip-to-message .content {
               case this.config.shortcutRegionNext:
                 elem = navigateContent('landmark', 'next', this.config.msgHeadingLevel);
                 if (!elem) {
-                  this.shortcutsMessage.open('No more landmark regions');
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions);
                 }
                 flag = true;
                 break;
@@ -4317,7 +4326,7 @@ div#skip-to-message .content {
               case this.config.shortcutRegionPrevious:
                 elem = navigateContent('landmark', 'previous', this.config.msgHeadingLevel);
                 if (!elem) {
-                  this.shortcutsMessage.open('No more landmark regions');
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions);
                 }
                 flag = true;
                 break;
@@ -4325,7 +4334,7 @@ div#skip-to-message .content {
               case this.config.shortcutRegionComplementary:
                 elem = navigateContent('complementary', 'next', this.config.msgHeadingLevel, true);
                 if (!elem) {
-                  this.shortcutsMessage.open('No complementary regions');
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'complementary'));
                 }
                 flag = true;
                 break;
@@ -4333,7 +4342,7 @@ div#skip-to-message .content {
               case this.config.shortcutRegionMain:
                 elem = navigateContent('main', 'next', this.config.msgHeadingLevel, true);
                 if (!elem) {
-                  this.shortcutsMessage.open('No main regions');
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'main'));
                 }
                 flag = true;
                 break;
@@ -4341,7 +4350,7 @@ div#skip-to-message .content {
               case this.config.shortcutRegionNavigation:
                 elem = navigateContent('navigation', 'next', this.config.msgHeadingLevel, true);
                 if (!elem) {
-                  this.shortcutsMessage.open('No navigation regions');
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'navigation'));
                 }
                 flag = true;
                 break;
@@ -4349,7 +4358,7 @@ div#skip-to-message .content {
               case this.config.shortcutHeadingNext:
                 elem = navigateContent('heading', 'next', this.config.msgHeadingLevel, false, true);
                 if (!elem) {
-                  this.shortcutsMessage.open('No more headings');
+                  this.shortcutsMessage.open(this.config.msgNoMoreHeadings);
                 }
                 flag = true;
                 break;
@@ -4357,7 +4366,7 @@ div#skip-to-message .content {
               case this.config.shortcutHeadingPrevious:
                 elem = navigateContent('heading', 'previous', this.config.msgHeadingLevel, false, true);
                 if (!elem) {
-                  this.shortcutsMessage.open('No more headings');
+                  this.shortcutsMessage.open(this.config.msgNoMoreHeadings);
                 }
                 flag = true;
                 break;
@@ -4365,7 +4374,7 @@ div#skip-to-message .content {
               case this.config.shortcutHeadingH1:
                 elem = navigateContent('h1', 'next', this.config.msgHeadingLevel, true, true);
                 if (!elem) {
-                  this.shortcutsMessage.open('No level 1 headings found');
+                  this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '1'));
                 }
                 flag = true;
                 break;
@@ -4373,7 +4382,7 @@ div#skip-to-message .content {
               case this.config.shortcutHeadingH2:
                 elem = navigateContent('h2', 'next', this.config.msgHeadingLevel, true, true);
                 if (!elem) {
-                  this.shortcutsMessage.open('No level 2 headings found');
+                  this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '2'));
                 }
                 flag = true;
                 break;
@@ -4381,7 +4390,7 @@ div#skip-to-message .content {
               case this.config.shortcutHeadingH3:
                 elem = navigateContent('h3', 'next', this.config.msgHeadingLevel, true, true);
                 if (!elem) {
-                  this.shortcutsMessage.open('No level 3 headings found');
+                  this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '3'));
                 }
                 flag = true;
                 break;
@@ -4389,7 +4398,7 @@ div#skip-to-message .content {
               case this.config.shortcutHeadingH4:
                 elem = navigateContent('h4', 'next', this.config.msgHeadingLevel, true, true);
                 if (!elem) {
-                  this.shortcutsMessage.open('No level 4 headings found');
+                  this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '4'));
                 }
                 flag = true;
                 break;
@@ -4397,7 +4406,7 @@ div#skip-to-message .content {
               case this.config.shortcutHeadingH5:
                 elem = navigateContent('h5', 'next', this.config.msgHeadingLevel, true, true);
                 if (!elem) {
-                  this.shortcutsMessage.open('No level 5 headings found');
+                  this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '5'));
                 }
                 flag = true;
                 break;
@@ -4405,7 +4414,7 @@ div#skip-to-message .content {
               case this.config.shortcutHeadingH6:
                 elem = navigateContent('h6', 'next', this.config.msgHeadingLevel, true, true);
                 if (!elem) {
-                  this.shortcutsMessage.open('No level 6 headings found');
+                  this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '6'));
                 }
                 flag = true;
                 break;
@@ -4744,6 +4753,13 @@ div#skip-to-message .content {
         msgH4Headings: 'Level 4 headings',
         msgH5Headings: 'Level 5 headings',
         msgH6Headings: 'Level 6 headings',
+
+        // Messages for navigation
+
+        msgNoMoreRegions: 'No more regions',
+        msgNoRegionsFound: 'No %r regions found',
+        msgNoMoreHeadings: 'No more headings',
+        msgNoHeadingsLevelFound: 'No level %h headings found',
 
         // Menu labels and messages
         menuLabel: 'Landmarks and Headings',

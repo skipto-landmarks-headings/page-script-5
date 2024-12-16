@@ -11,11 +11,11 @@
   "homepage_url": "https://skipto-landmarks-headings.github.io/page-script-5/",
   "default_locale": "en",
   "icons": {
-    "16": "./images/skipto-icon-16.png",
-    "32": "./images/skipto-icon-32.png",
-    "48": "./images/skipto-icon-48.png",
-    "64": "./images/skipto-icon-64.png",
-    "128": "./images/skipto-icon-128.png"
+    "16": "./icons/skipto-icon-16.png",
+    "32": "./icons/skipto-icon-32.png",
+    "48": "./icons/skipto-icon-48.png",
+    "64": "./icons/skipto-icon-64.png",
+    "128": "./icons/skipto-icon-128.png"
   },
   "browser_action": {
     "default_title": "Toggle Menu"
