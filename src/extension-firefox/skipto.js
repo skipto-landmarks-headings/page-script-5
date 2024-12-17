@@ -1105,7 +1105,6 @@ button:hover {
     configureStyle(config={}) {
 
       function updateOption(style, option, configOption, defaultOption) {
-        debug$a.log(`[updateOption][${option}] ${configOption} ${defaultOption}`);
         if (configOption) {
           return style.replaceAll(option, configOption);
         }
@@ -1377,7 +1376,6 @@ div#skip-to-message.show {
     configureStyle(config={}) {
 
       function updateOption(style, option, configOption, defaultOption) {
-        debug$9.log(`[updateOption][${option}] ${configOption} ${defaultOption}`);
         if (configOption) {
           return style.replaceAll(option, configOption);
         }

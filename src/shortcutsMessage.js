@@ -99,7 +99,6 @@ export default class ShortcutsMessage extends HTMLElement {
   configureStyle(config={}) {
 
     function updateOption(style, option, configOption, defaultOption) {
-      debug.log(`[updateOption][${option}] ${configOption} ${defaultOption}`);
       if (configOption) {
         return style.replaceAll(option, configOption);
       }

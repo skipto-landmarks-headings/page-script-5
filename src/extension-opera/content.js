@@ -8,6 +8,10 @@ const browserRuntime = typeof browser === 'object' ?
               browser.runtime :
               chrome.runtime;
 
+const browserAction = typeof browser === 'object' ?
+              browser.browserAction :
+              chrome.action;
+
 // Add SkipTo.js script to page
 const scriptNode = document.createElement('script');
 scriptNode.type = 'text/javascript';
@@ -44,22 +48,6 @@ browserRuntime.onMessage.addListener(
   }
 );
 
-// update icon if in dark mode
-/*
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    const iconVariant = e.matches ? "-white" : "";
-
-    browser.browserAction.setIcon({
-        path: {
-            16: `icons/icon${iconVariant}-16.png`,
-            32: `icons/icon${iconVariant}-32.png`,
-            48: `icons/icon${iconVariant}-48.png`,
-            128: `icons/icon${iconVariant}-128.png`
-        },
-    });
-});
-*/
-
 /*
  *   @function getFocusOption
  *
@@ -82,4 +70,15 @@ function getFocusOption(params) {
 }
 
 
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+    console.log(`[color scheme change]: ${event.matches}`);
+    const newColorScheme = event.matches ? "color-theme-dark" : "color-theme-light";
+    browserRuntime.sendMessage({skiptoMessage: newColorScheme});
+});
+
+const colorScheme = window.matchMedia("(prefers-color-scheme: dark)").matches ?
+                    "color-theme-dark" :
+                    "color-theme-light";
+
+browserRuntime.sendMessage({skiptoMessage: colorScheme});
 
