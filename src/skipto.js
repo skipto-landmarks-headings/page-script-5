@@ -23,7 +23,7 @@ import DebugLogging  from './debug.js';
 
 /* constants */
 const debug = new DebugLogging('skipto', false);
-debug.flag = false;
+debug.flag = true;
 
 (function() {
 
@@ -37,16 +37,27 @@ const SkipToExtensionElmName   = 'skip-to-content-extension';
   *  @desc Removes legacy and duplicate versions of SkipTo.js
   */
   function removeLegacySkipToJS() {
-    const node = document.getElementById('id-skip-to');
-    debug.flag && debug.log(`[removeLegacySkipToJS]: ${node}`);
-    if (node !== null) {
-      // remove legacy SkipTo.js
-      node.remove();
-      const cssNode = document.getElementById('id-skip-to-css');
-      if (cssNode) {
-        cssNode.remove();
+
+    function removeElementsWithId(id) {
+      let node = document.getElementById(id);
+      // do more than once in case of duplicates
+      while (node) {
+        console.warn(`[SkipTo.js]: Removing legacy 5.x component: ${id}`);
+        node.remove();
+        node = document.getElementById(id);
       }
-      console.warn('[skipTo.js] legacy version removed, using SkipTo.js extension');
+    }
+
+    // Remove 5.x
+    removeElementsWithId('id-skip-to');
+    removeElementsWithId('id-skip-to-css');
+
+    // Remove 4.x
+    const nodes = document.querySelectorAll('div.skip-to');
+    debug.flag && debug.log(`[removeLegacySkipToJS]: ${nodes.length}`);
+    for(let i = 0; i < nodes.length; i += 1) {
+      nodes[i].remove();
+      console.warn(`[SkipTo.js]: Removing legacy 4.x component`);
     }
   }
 
@@ -89,9 +100,7 @@ const SkipToExtensionElmName   = 'skip-to-content-extension';
   */
   function getSkipToContentElement(type="pagescript") {
 
-    if (document.getElementById('id-skip-to')) {
-      removeLegacySkipToJS();
-    }
+    removeLegacySkipToJS();
 
     const isExtensionLoaded   = document.querySelector(SkipToExtensionElmName);
     const isBookmarkletLoaded = document.querySelector(SkipToBookmarkletElmName);
