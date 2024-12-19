@@ -18,7 +18,7 @@ const debug = new DebugLogging('skiptoContent', false);
 debug.flag = false;
 
 
-export default class SkipToContent extends HTMLElement {
+export default class SkipToContent570 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
@@ -364,5 +364,4 @@ export default class SkipToContent extends HTMLElement {
       this.config.shortcuts = 'disabled';
     }
   }
-
 }

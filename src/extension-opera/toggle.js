@@ -1,12 +1,14 @@
 /* toggle.js */
 
+const SkipToExtensionElmName   = 'skip-to-content-extension';
+
 (function () {
 
   const debug = false;
 
   debug && console.log(`[toggle.js][onclick]`);
 
-  let skipToContentElem = document.querySelector('skip-to-content');
+  let skipToContentElem = document.querySelector(SkipToExtensionElmName);
 
   debug && console.log(`[toggle.js]: ${skipToContentElem} ${skipToContentElem.checked}`);
 

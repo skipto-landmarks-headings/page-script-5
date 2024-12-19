@@ -5,7 +5,7 @@ import {
   optionsToParams
 } from './storage.js';
 
-const debug = true;
+const debug = false;
 
 // Define browser specific APIs for Opera, Firefox and Chrome
 

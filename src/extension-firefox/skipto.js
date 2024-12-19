@@ -1344,6 +1344,12 @@ div#skip-to-message.hidden {
 
 div#skip-to-message.show {
   display: block;
+  opacity: 1;
+}
+
+div#skip-to-message.fade {
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 1s linear;
 }
 `;
 
@@ -1369,7 +1375,8 @@ div#skip-to-message.show {
       this.contentElem.className = 'content';
       this.messageDialog.appendChild(this.contentElem);
 
-      this.timeoutID = false;
+      this.timeoutShowID = false;
+      this.timeoutFadeID = false;
 
     }
 
@@ -1426,18 +1433,26 @@ div#skip-to-message.show {
 
     close() {
       this.messageDialog.classList.remove('show');
+      this.messageDialog.classList.remove('fade');
       this.messageDialog.classList.add('hidden');
     }
 
     open(message) {
-      clearInterval(this.timeoutID);
+      clearInterval(this.timeoutFadeID);
+      clearInterval(this.timeoutShowID);
       this.messageDialog.classList.remove('hidden');
+      this.messageDialog.classList.remove('fade');
       this.messageDialog.classList.add('show');
       this.contentElem.textContent = message;
 
       const msg = this;
 
-      this.timeoutID = setTimeout( () => {
+      this.timeoutFadeID = setTimeout( () => {
+        msg.messageDialog.classList.add('fade');
+        msg.messageDialog.classList.remove('show');
+      }, 3000);
+
+      this.timeoutShowID = setTimeout( () => {
         msg.close();
       }, 4000);
 
@@ -4670,7 +4685,7 @@ div#skip-to-message.show {
   debug$1.flag = false;
 
 
-  class SkipToContent extends HTMLElement {
+  class SkipToContent570 extends HTMLElement {
 
     constructor() {
       // Always call super first in constructor
@@ -5016,7 +5031,6 @@ div#skip-to-message.show {
         this.config.shortcuts = 'disabled';
       }
     }
-
   }
 
   /* skipto.js */
@@ -5027,13 +5041,16 @@ div#skip-to-message.show {
 
   (function() {
 
+  const SkipToPageElmName        = 'skip-to-content';
+  const SkipToBookmarkletElmName = 'skip-to-content-bookmarklet';
+  const SkipToExtensionElmName   = 'skip-to-content-extension';
+
     /*
     *  @function removeLegacySkipToJS
     *
     *  @desc Removes legacy and duplicate versions of SkipTo.js
     */
-
-    function removeLegacySkipToJS(skipToContentElem = null) {
+    function removeLegacySkipToJS() {
       const node = document.getElementById('id-skip-to');
       debug.flag && debug.log(`[removeLegacySkipToJS]: ${node}`);
       if (node !== null) {
@@ -5045,18 +5062,36 @@ div#skip-to-message.show {
         }
         console.warn('[skipTo.js] legacy version removed, using SkipTo.js extension');
       }
-      const nodes = document.querySelectorAll('skip-to-content');
-      if (nodes && nodes.length > 1) {
-        debug.flag && debug.log(`[removeLegacySkipToJS][${nodes.length}]: Removing duplicate copy of SkipTo.js`);
-        for (let i = 0; i <nodes.length; i += 1) {
-          const stcNode = nodes[i];
-          if (stcNode !== skipToContentElem) {
-            stcNode.remove();
-            console.warn('[skipTo.js] duplicate version removed');
-          }
-        }
+    }
+
+    /*
+    *  @function removePageSkipTo
+    *
+    *  @desc Removes duplicate versions of SkipTo.js
+    */
+    function removePageSkipTo() {
+      const nodes = document.querySelectorAll(SkipToPageElmName);
+      debug.flag && debug.log(`[removePageSkipTo]: ${nodes.length}`);
+      for (let i = 0; i < nodes.length; i += 1) {
+        nodes[i].remove();
+        console.warn(`[SkipTo.js]: Removing ${nodes[i].tagName}`);
       }
     }
+
+    /*
+    *  @function removeBookmarkletSkipTo
+    *
+    *  @desc Removes duplicate versions of SkipTo.js
+    */
+    function removeBookmarkletSkipTo() {
+      const nodes = document.querySelectorAll(SkipToBookmarkletElmName);
+      debug.flag && debug.log(`[removeBookmarkletSkipTo]: ${nodes.length}`);
+      for (let i = 0; i < nodes.length; i += 1) {
+        nodes[i].remove();
+        console.warn(`[SkipTo.js]: Removing ${nodes[i].tagName}`);
+      }
+    }
+
 
     /*
     *. @function getSkipToContentElement
@@ -5072,27 +5107,56 @@ div#skip-to-message.show {
         removeLegacySkipToJS();
       }
 
-      const elemName = `skip-to-content`;
+      const isExtensionLoaded   = document.querySelector(SkipToExtensionElmName);
+      const isBookmarkletLoaded = document.querySelector(SkipToBookmarkletElmName);
+      const isPageLoaded        = document.querySelector(SkipToPageElmName);
 
-      let skipToContentElem = document.querySelector(elemName);
-      if (!skipToContentElem) {
-        window.customElements.define(elemName, SkipToContent);
-        skipToContentElem = document.createElement(elemName);
-        skipToContentElem.setAttribute('version', skipToContentElem.version);
-        skipToContentElem.setAttribute('type', type);
-        // always attach SkipToContent element to body
-        if (document.body) {
-          document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
-        }
-      }
-      else {
-        if (type !== 'pagescript') {
-          skipToContentElem.setAttribute('type', type);
-          skipToContentElem.supportShortcuts(true);
-        }
-        else {
-          return false;
-        }
+      let skipToContentElem = false;
+
+      switch (type) {
+        case 'bookmarklet':
+          if (!isExtensionLoaded) {
+            if (!isBookmarkletLoaded) {
+              removePageSkipTo();
+              window.customElements.define(SkipToBookmarkletElmName, SkipToContent570);
+              skipToContentElem = document.createElement(SkipToBookmarkletElmName);
+              skipToContentElem.setAttribute('version', skipToContentElem.version);
+              skipToContentElem.setAttribute('type', type);
+              // always attach SkipToContent element to body
+              if (document.body) {
+                document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
+              }
+            }
+          }
+          break;
+
+        case 'extension':
+          if (!isExtensionLoaded) {
+            removePageSkipTo();
+            removeBookmarkletSkipTo();
+            window.customElements.define(SkipToExtensionElmName, SkipToContent570);
+            skipToContentElem = document.createElement(SkipToExtensionElmName);
+            skipToContentElem.setAttribute('version', skipToContentElem.version);
+            skipToContentElem.setAttribute('type', type);
+            // always attach SkipToContent element to body
+            if (document.body) {
+              document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
+            }
+          }
+          break;
+
+        default:
+          if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
+            window.customElements.define(SkipToPageElmName, SkipToContent570);
+            skipToContentElem = document.createElement(SkipToPageElmName);
+            skipToContentElem.setAttribute('version', skipToContentElem.version);
+            skipToContentElem.setAttribute('type', type);
+            // always attach SkipToContent element to body
+            if (document.body) {
+              document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
+            }
+          }
+          break;
       }
 
       return skipToContentElem;
@@ -5101,23 +5165,24 @@ div#skip-to-message.show {
     // Check for SkipTo.js bookmarklet script, if it is initialize it immediately
     if (document.getElementById(`id-skip-to-bookmarklet`)) {
       debug.flag && debug.log(`[bookmarklet]`);
-      const skipToContentElem = getSkipToContentElement('bookmarklet');
-      if (skipToContentElem) {
-        skipToContentElem.init();
-        skipToContentElem.buttonSkipTo.openPopup();
-        skipToContentElem.buttonSkipTo.setFocusToFirstMenuitem();
+      const skipToContentBookmarkletElem = getSkipToContentElement('bookmarklet');
+      if (skipToContentBookmarkletElem) {
+        skipToContentBookmarkletElem.init();
+        skipToContentBookmarkletElem.buttonSkipTo.openPopup();
+        skipToContentBookmarkletElem.buttonSkipTo.setFocusToFirstMenuitem();
       }
     }
     else {
       // Check for SkipTo.js extension script, if it is initialize it immediately
       if (document.getElementById(`id-skip-to-extension`)) {
         debug.flag && debug.log(`[extension]`);
-        const skipToContentElem = getSkipToContentElement('extension');
-        if (skipToContentElem) {
-          skipToContentElem.init();
+        const skipToContentExtensionElem = getSkipToContentElement('extension');
+        if (skipToContentExtensionElem) {
+          skipToContentExtensionElem.init();
           window.addEventListener('load', function() {
-            debug.flag && debug.log(`[onload][extension][elem]: ${skipToContentElem}`);
-            removeLegacySkipToJS(skipToContentElem);
+            debug.flag && debug.log(`[onload][extension][elem]: ${skipToContentExtensionElem}`);
+            removeLegacySkipToJS();
+            removePageSkipTo();
           });
         }
       }
@@ -5125,12 +5190,12 @@ div#skip-to-message.show {
         // Initialize SkipTo.js menu button with onload event
         window.addEventListener('load', function() {
           debug.flag && debug.log(`[onload][script]`);
-          const skipToContentElem = getSkipToContentElement();
-          if (skipToContentElem) {
-            skipToContentElem.supportShortcuts(false);
-            debug.flag && debug.log(`[onload][script][elem]: ${skipToContentElem}`);
+          const skipToContentPageElem = getSkipToContentElement();
+          if (skipToContentPageElem) {
+            skipToContentPageElem.supportShortcuts(false);
+            debug.flag && debug.log(`[onload][script][elem]: ${skipToContentPageElem}`);
             const initInfo = window.SkipToConfig ? window.SkipToConfig : {};
-            skipToContentElem.init(initInfo);
+            skipToContentPageElem.init(initInfo);
           }
         });
       }
