@@ -144,7 +144,6 @@ const SkipToExtensionElmName   = 'skip-to-content-extension';
         }
         break;
     }
-
     return skipToContentElem;
   }
 

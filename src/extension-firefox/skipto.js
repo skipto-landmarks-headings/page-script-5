@@ -5158,7 +5158,6 @@ div#skip-to-message.fade {
           }
           break;
       }
-
       return skipToContentElem;
     }
 

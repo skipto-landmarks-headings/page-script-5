@@ -84,7 +84,7 @@ optionsMenuTemplate.innerHTML = `
       </fieldset>
 
       <fieldset>
-        <legend data-i18n="options_heading_legend">
+        <legend data-i18n="options_landmark_legend">
           Landmark Regions
          </legend>
 
