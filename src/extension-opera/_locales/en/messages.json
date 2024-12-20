@@ -239,6 +239,22 @@
     "message" : "Description",
     "description" : "Initial value of description table header"
   },
+  "init_msg_no_more_regions": {
+      "message" : "No more regions",
+      "description" : "Message if previous or next command does not find a new region"
+  },
+  "init_msg_no_regions_found": {
+      "message" : "No %r regions found",
+      "description" : "Message if next region command does not find a any region"
+  },
+  "init_msg_no_more_headings": {
+      "message" : "No more headings",
+      "description" : "Message if previous or next command does not find any heading"
+  },
+  "init_msg_no_headings_found": {
+      "message" : "No level %h headings  found",
+      "description" : "Message if next header level X command does not find any headings"
+  },
   "options_h1_title": {
     "message" : "Preferences",
     "description" : "Title of options page"
@@ -532,7 +548,7 @@
     "description" : "Description of focus options. "
   },
   "options_button_shortcuts_reset": {
-    "message" : "Reset Page Navigation Defaults",
+    "message" : "Reset Shortcut Defaults",
     "description" : "Label for reset page navigation defaults button"
   },
   "options_enable_shortcuts_label": {
@@ -719,20 +735,24 @@
       "message" : "More information button label",
       "description" : "More information button label appears in Shortcut Information Dialog dialog box"
   },
-  "options_msg_no_more_regions": {
-      "message" : "No more regions",
-      "description" : "Message if previous or next command does not find a new region"
+  "options_navigation_messages_legend": {
+      "message" : "Shortcut Navigation Messages",
+      "description" : "Group label for messages related to navigating regions and headings"
   },
-  "options_msg_no_regions_found": {
-      "message" : "No %r regions found",
-      "description" : "Message if next region command does not find a any region"
+  "options_msg_no_more_regions_label": {
+      "message" : "Message for no more regions found",
+      "description" : "Label for message if previous or next command does not find a new region"
   },
-  "options_msg_no_more_headings": {
-      "message" : "No more headings",
-      "description" : "Message if previous or next command does not find any heading"
+  "options_msg_no_regions_found_label": {
+      "message" : "Message for a no region of a specific type found",
+      "description" : "Label for message if next region command does not find a any region"
   },
-  "options_msg_no_headings_found": {
-      "message" : "No level %h headings  found",
-      "description" : "Message if next header level X command does not find any headings"
+  "options_msg_no_more_headings_label": {
+      "message" : "Message for no more headings found",
+      "description" : "Label for message if previous or next command does not find any heading"
+  },
+  "options_msg_no_headings_found_label": {
+      "message" : "Message for no level headings of level N found",
+      "description" : "Label for message if next header level X command does not find any headings"
   }
 }

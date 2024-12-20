@@ -226,6 +226,9 @@
   const debug$c = new DebugLogging('style', false);
   debug$c.flag = false;
 
+  const skipToMenuStyleID     = 'id-skip-to-menu-style';
+  const skipToHighlightStyleID = 'id-skip-to-highlight-style';
+
   const cssMenuTemplate = document.createElement('template');
   cssMenuTemplate.textContent = `
 $skipToId.popup {
@@ -792,21 +795,21 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     [cssMenu, cssHighlight] = addCSSColors(cssMenu, cssHighlight, config, useURLTheme);
 
 
-    let styleNode = attachNode.querySelector('#id-skip-to-style');
+    let styleNode = attachNode.querySelector(`#${skipToMenuStyleID}`);
     if (!styleNode) {
       styleNode = document.createElement('style');
       attachNode.appendChild(styleNode);
-      styleNode.setAttribute('id', 'id-skip-to-style');
+      styleNode.setAttribute('id', `${skipToMenuStyleID}`);
     }
     styleNode.textContent = cssMenu;
 
     const headNode = document.querySelector('head');
     if (headNode) {
-      let highlightStyleNode = headNode.querySelector('#id-skip-to-highlight-style');
+      let highlightStyleNode = headNode.querySelector(`#${skipToHighlightStyleID}`);
       if (!highlightStyleNode) {
         highlightStyleNode = document.createElement('style');
         headNode.appendChild(highlightStyleNode);
-        highlightStyleNode.setAttribute('id', 'id-skip-to-highlight-style');
+        highlightStyleNode.setAttribute('id', `${skipToHighlightStyleID}`);
       }
       highlightStyleNode.textContent = cssHighlight;
     }
@@ -5057,14 +5060,15 @@ div#skip-to-message.fade {
         // do more than once in case of duplicates
         while (node) {
           console.warn(`[SkipTo.js]: Removing legacy 5.x component: ${id}`);
-          node.remove();
+          node.remove ();
           node = document.getElementById(id);
         }
       }
 
-      // Remove 5.x
+      // Remove 5.x legacy code
       removeElementsWithId('id-skip-to');
       removeElementsWithId('id-skip-to-css');
+      removeElementsWithId('id-skip-to-highlight');
 
       // Remove 4.x
       const nodes = document.querySelectorAll('div.skip-to');

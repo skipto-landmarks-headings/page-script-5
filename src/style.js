@@ -8,6 +8,9 @@ import DebugLogging  from './debug.js';
 const debug = new DebugLogging('style', false);
 debug.flag = false;
 
+const skipToMenuStyleID     = 'id-skip-to-menu-style';
+const skipToHighlightStyleID = 'id-skip-to-highlight-style';
+
 const cssMenuTemplate = document.createElement('template');
 cssMenuTemplate.textContent = `
 $skipToId.popup {
@@ -574,21 +577,21 @@ export default function renderStyleElement (attachNode, config, skipToId, useURL
   [cssMenu, cssHighlight] = addCSSColors(cssMenu, cssHighlight, config, useURLTheme);
 
 
-  let styleNode = attachNode.querySelector('#id-skip-to-style');
+  let styleNode = attachNode.querySelector(`#${skipToMenuStyleID}`);
   if (!styleNode) {
     styleNode = document.createElement('style');
     attachNode.appendChild(styleNode);
-    styleNode.setAttribute('id', 'id-skip-to-style');
+    styleNode.setAttribute('id', `${skipToMenuStyleID}`);
   }
   styleNode.textContent = cssMenu;
 
   const headNode = document.querySelector('head');
   if (headNode) {
-    let highlightStyleNode = headNode.querySelector('#id-skip-to-highlight-style');
+    let highlightStyleNode = headNode.querySelector(`#${skipToHighlightStyleID}`);
     if (!highlightStyleNode) {
       highlightStyleNode = document.createElement('style');
       headNode.appendChild(highlightStyleNode);
-      highlightStyleNode.setAttribute('id', 'id-skip-to-highlight-style');
+      highlightStyleNode.setAttribute('id', `${skipToHighlightStyleID}`);
     }
     highlightStyleNode.textContent = cssHighlight;
   }

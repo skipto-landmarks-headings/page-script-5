@@ -111,10 +111,10 @@ const i18nOptions = {
   msgKey:         browserI18n.getMessage('init_msg_key'),
   msgDescription: browserI18n.getMessage('init_msg_description'),
 
-  msgNoMoreRegions:   browserI18n.getMessage('options_msg_no_more_regions'),
-  msgNoRegionsFound:  browserI18n.getMessage('options_msg_no_regions_found'),
-  msgNoMoreHeadings:  browserI18n.getMessage('options_msg_no_more_headings'),
-  msgNoHeadingsLevelFound: browserI18n.getMessage('options_msg_no_headings_found'),
+  msgNoMoreRegions:   browserI18n.getMessage('init_msg_no_more_regions'),
+  msgNoRegionsFound:  browserI18n.getMessage('init_msg_no_regions_found'),
+  msgNoMoreHeadings:  browserI18n.getMessage('init_msg_no_more_headings'),
+  msgNoHeadingsLevelFound: browserI18n.getMessage('init_msg_no_headings_found'),
 
 };
 

@@ -43,14 +43,15 @@ const SkipToExtensionElmName   = 'skip-to-content-extension';
       // do more than once in case of duplicates
       while (node) {
         console.warn(`[SkipTo.js]: Removing legacy 5.x component: ${id}`);
-        node.remove();
+        node.remove ();
         node = document.getElementById(id);
       }
     }
 
-    // Remove 5.x
+    // Remove 5.x legacy code
     removeElementsWithId('id-skip-to');
     removeElementsWithId('id-skip-to-css');
+    removeElementsWithId('id-skip-to-highlight');
 
     // Remove 4.x
     const nodes = document.querySelectorAll('div.skip-to');

@@ -541,11 +541,61 @@ optionsI18nTemplate.innerHTML = `
           size="20"/>
       </div>
 
+  </fieldset>
+
+    <fieldset>
+      <legend data-i18n="options_navigation_messages_legend">
+        X
+      </legend>
+
+      <div class="text">
+        <label data-i18n="options_msg_no_more_regions_label"
+               for="input-no-more-regions">
+            Heading Level
+        </label>
+        <input id="input-no-more-regions"
+          data-option="msgNoMoreRegions"
+          type="text"
+          size="20"/>
+      </div>
+
+      <div class="text">
+        <label data-i18n="options_msg_no_regions_found_label"
+               for="input-no-regions">
+            Heading Level
+        </label>
+        <input id="input-no-regions"
+          data-option="msgNoRegionsFound"
+          type="text"
+          size="20"/>
+      </div>
+
+      <div class="text">
+        <label data-i18n="options_msg_no_more_headings_label"
+               for="input-no-more-headings">
+            Heading Level
+        </label>
+        <input id="input-no-more-headings"
+          data-option="msgNoMoreHeadings"
+          type="text"
+          size="20"/>
+      </div>
+
+      <div class="text">
+        <label data-i18n="options_msg_no_headings_found_label"
+               for="input-no-headings">
+            Heading Level
+        </label>
+        <input id="input-no-headings"
+          data-option="msgNoHeadingsLevelFound"
+          type="text"
+          size="20"/>
+      </div>
     </fieldset>
 
     <button id="button-reset"
             type="reset"
-            data-i18n="options_legend_button_labels">
+            data-i18n="options_button_i18n_reset">
         Reset to English Defaults
     </button>
 
