@@ -51,14 +51,14 @@ const pages = [
     link: 'Bookmarklets',
     filename: 'bookmarklets.html'
   },
-  { template: './src-docs/templates/content-browsers.njk',
+  { template: './src-docs/templates/content-extensions.njk',
     title: 'SkipTo.js Web Browser Extensions',
     link: 'Extensions',
     filename: 'extensions.html'
   },
   { template: './src-docs/templates/content-shortcuts.njk',
     title: 'Page Navigation Shortcut Keys',
-    link: 'Shortcut Keys',
+    link: 'Shortcuts',
     filename: 'shortcuts.html'
   },
   { template: './src-docs/templates/content-config.njk',

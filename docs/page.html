@@ -67,7 +67,7 @@
                     
                       
                         <li class="nav-item">
-                          <a class="nav-link" href="shortcuts.html">Shortcut Keys</a>
+                          <a class="nav-link" href="shortcuts.html">Shortcuts</a>
                         </li>
                       
                     
@@ -114,13 +114,59 @@
 
             
 
-              <h2>Why Use Page Script?</h2>
-
+            <h2 id="page-benefits">Benefits of Page Script</h2>
             <ul>
-              <li>Make your website comply with <a href="https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html">WCAG 2.4.1 Bypass Blocks requirement</a>.</li>
+               <li>Easy and powerful way to conform to the “<a href="https://www.w3.org/TR/WCAG/#bypass-blocks">Bypass Blocks</a>” requirement of the <a href="https://www.w3.org/TR/WCAG/">Web Content Accessibility Guidelines</a>.</li>
+               <li>Screen reader users can get a higher level navigation menu without having to use the screen reader landmark and header navigation commands which typically include longer lists of lower level headings and less used landmarks.</li>
+               <li>Keyboard only users can more efficiently navigate to content on a page.</li>
+               <li>Speech recognition users can use the menu to more efficiently navigate to content on a page.</li>
+               <li>When the “Skip To Content” menu button is visible when the page is loaded everyone can use it to identify and navigate to important regions on a page.</li>
+               <li>Authors can configure SkipTo.js to identify the most important regions, ideally about 7-12 items to make it easier for people to read the list and choose an option.  Remember the more items, the longer it will take for the user to identify which item they want to choose.</li>
             </ul>
 
-            <h2>Features</h2>
+            <h2 id="websites-using-skipto">Websites using SkipTo.js Page Script</h2>
+
+            <p>There are two main ways to use the menu button for SkipTo.js in a page.  In the default configuration the menu button is always visible making it useful to everyone to easily find and navigate to the important content regions identified by the author.  This is similar to how curb cuts help more than just people using wheelchairs.  It is also easier for people using voice recognition to activate the button using the “click skip to content” command and use similar voice commands to activate SkipTo.js menu items.  The “popup” option is the more traditional approach to fulfilling the “<a href="https://www.w3.org/TR/WCAG/#bypass-blocks">bypass bocks</a>” requirement of the <a href="https://www.w3.org/TR/WCAG/">Web Content Accessibility Guidelines</a>, but this option makes the feature less visible to people who might benefit.</p>
+
+            <h3 id="visible-menu-button-default">Visible Menu Button (default)</h3>
+
+            <ul>
+               <li><a href="https://openweba11y.com/">Open Web Accessibility Services</a></li>
+               <li><a href="https://opena11y.github.io/evaluation-library/">OpenA11y Evaluation Library</a></li>
+               <li><a href="https://accessibleit.disability.illinois.edu/">DRES Accessible IT Group</a></li>
+               <li><a href="https://ainspector.disability.illinois.edu/">AInspector for Firefox</a></li>
+               <li><a href="https://ahs.illinois.edu/">College of Applied Health Sciences</a></li>
+               <li><a href="https://housing.illinois.edu/">University Housing</a></li>
+            </ul>
+
+            <h3 id="popup-menu-button">Popup Menu Button</h3>
+
+            <ul>
+               <li><a href="https://w3.org/WAI/ARIA/apg">ARIA Authoring Practices Guide</a></li>
+               <li><a href="https://admissions.illinois.edu/">Admissions at the University of Illinois</a></li>
+               <li><a href="http://cpanel.web.illinois.edu">cPanel Web Hosting Service @ Illinois</a></li>
+               <li><a href="https://education.illinois.edu/">College of Education</a> (Web components)</li>
+            </ul>
+            <p>NOTE: Popup menu button option is available through configuration of SkipTo.js when it is loaded.</p>
+
+            <h2 id="how-it-works">How it works</h2>
+
+            <ol>
+               <li>The SkipTo.js menu button should be the first tabable element (e.g. <kbd>Tab</kbd> key)on the page, and by default the button is visible, but can be configured to “popup” when the button becomes receives focus.</li>
+               <li>Once focus is on the menu button, pressing the <kbd>Enter</kbd>, <kbd>Space</kbd>, <kbd>Down Arrow</kbd> or <kbd>Up Arrow</kbd> keys will pull down the list of important landmarks and headings on the page.  The button is based on the ARIA Authoring Practice <a href="https://w3c.github.io/aria-practices/#menubutton">design pattern for menu button</a>.</li>
+               <li>Use arrow keys to select your choice and press <kbd>Enter</kbd> to move focus to the section of the page.</li>
+            </ol>
+
+            <h2 id="shortcut-key">Menu Shortcut key</h2>
+
+            <p>A shortcut key can be used to open the SkipTo.js menu from anywhere on the page.  Version 5 changes the shortcut key operation from using the HTML <code class="language-plaintext highlighter-rouge">accesskey</code> attribute to use a scripted method to improve consistency of the shortcut keys between browsers and to support screen reader users, since some screen readers do not support accesskeys.</p>
+            <p>To use the “SkipTo.js” shortcut key, you would press either <kbd>alt + 0</kbd> (Windows/Unix/Linux) or <kbd>Option + 0</kbd> (macOS).  Apple keyboards do not have an <kbd>Alt</kbd> key, so the <kbd>Option</kbd> key is used as the modifier for the shortcut.  The shortcut key is the same for Firefox, Chrome and Safari on the same operating system.</p>
+            <ul>
+               <li><kbd>Alt+0</kbd> : Windows, Unix and Linux.</li>
+               <li><kbd>Option+0</kbd> : macOS.</li>
+            </ul>
+
+           <h2>Features</h2>
             <ul>
               <li>The "Skip To Content" button can be visible or hidden after the page completes loading.</li>
               <li>If the "Skip To Content" button is hidden it becomes visible when it receives keyboard focus when the user uses the <kbd>tab</kbd> key.</li>
@@ -131,7 +177,7 @@
               <li>The menu can be reopened at any time by using the short cut key, <kbd>option</kbd> + <kbd>0</kbd> on the macOS or <kbd>alt</kbd> + <kbd>0</kbd> on Windows and Linux.</li>
             </ul>
 
-              <h2>What You Need To dDo</h2>
+              <h2>What You Need To do</h2>
               <p>All you need are either <code>skipto.js</code> or <code>skipto.min.js</code> from the “<a href="https://github.com/skipto-landmarks-headings/page-script-5/tree/main/docs/dist">/dist/</a>” directory of this repository. The <code>skipto.min.js</code> script is a minified (a lighter version) of <code>skipto.js</code> script.</p>
 
               <p>
