@@ -92,7 +92,7 @@ optionsMenuTemplate.innerHTML = `
                for="landmarks-navigation">
           <input id="landmarks-navigation"
                  type="checkbox"
-                 value="nav"
+                 value="navigation"
                  data-option="landmarks"/>
           <span data-i18n="options_landmark_navigation">
             Navigation

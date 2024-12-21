@@ -2580,7 +2580,8 @@ div#skip-to-message.fade {
     if (targets.includes('search')) {
       targetLandmarks.push('search');
     }
-    if (targets.includes('nav')) {
+    if (targets.includes('nav') ||
+        targets.includes('navigation')) {
       targetLandmarks.push('navigation');
     }
     if (targets.includes('complementary') || 
