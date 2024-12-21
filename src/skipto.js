@@ -23,13 +23,16 @@ import DebugLogging  from './debug.js';
 
 /* constants */
 const debug = new DebugLogging('skipto', false);
-debug.flag = true;
+debug.flag = false;
 
 (function() {
 
 const SkipToPageElmName        = 'skip-to-content';
 const SkipToBookmarkletElmName = 'skip-to-content-bookmarklet';
 const SkipToExtensionElmName   = 'skip-to-content-extension';
+
+const SkipToExtensionID   = `id-skip-to-extension`;
+const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
 
   /*
   *  @function removeLegacySkipToJS
@@ -158,7 +161,7 @@ const SkipToExtensionElmName   = 'skip-to-content-extension';
   }
 
   // Check for SkipTo.js bookmarklet script, if it is initialize it immediately
-  if (document.getElementById(`id-skip-to-bookmarklet`)) {
+  if (document.getElementById(SkipToBookmarkletID)) {
     debug.flag && debug.log(`[bookmarklet]`);
     const skipToContentBookmarkletElem = getSkipToContentElement('bookmarklet');
     if (skipToContentBookmarkletElem) {
@@ -169,7 +172,7 @@ const SkipToExtensionElmName   = 'skip-to-content-extension';
   }
   else {
     // Check for SkipTo.js extension script, if it is initialize it immediately
-    if (document.getElementById(`id-skip-to-extension`)) {
+    if (document.getElementById(SkipToExtensionID)) {
       debug.flag && debug.log(`[extension]`);
       const skipToContentExtensionElem = getSkipToContentElement('extension');
       if (skipToContentExtensionElem) {

@@ -155,11 +155,11 @@
     "message" : "Shortcuts: Disabled",
     "description" : "Initial value of Navigation Shortcuts: Disabled message"
   },
-  "init_shortcuts_toggled_enable_label": {
+  "init_shortcuts_toggle_enable_label": {
     "message" : "Enable shortcuts",
     "description" : "Initial value of enable shortcuts menu item label"
   },
-  "init_shortcuts_toggled_disable_label": {
+  "init_shortcuts_toggle_disable_label": {
     "message" : "Disable shortcuts",
     "description" : "Initial value of disable shortcuts menu item label"
   },
@@ -522,6 +522,10 @@
   "options_button_border_label": {
     "message" : "Bottom border of button always visible",
     "description" : "Checkbox label"
+  },
+  "options_button_border_desc": {
+    "message" : "By making the bottom border always visible the pointer can be used to expose the button.",
+    "description" : "Checkbox Description"
   },
   "options_button_border_desc": {
     "message" : "Making the bottom border visible at the top of the page allows user to use the pointer to easily expose the button.",

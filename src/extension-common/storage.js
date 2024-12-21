@@ -1,4 +1,4 @@
-/* storage.js */
+ /* storage.js */
 
 const debug = false;
 

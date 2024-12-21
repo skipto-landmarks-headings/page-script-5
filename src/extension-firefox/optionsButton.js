@@ -58,8 +58,11 @@ optionsButtonTemplate.innerHTML = `
           </span>
         </label>
 
-         <p id="button-border-desc" class="desc">By making the bottom border always visible
-           the pointer can be used to expose the button when is mostly hidden.</p>
+         <p id="button-border-desc"
+            class="desc"
+            data-i18n="options_button_border_desc">
+            X
+          </p>
 
       </fieldset>
 
@@ -75,7 +78,7 @@ optionsButtonTemplate.innerHTML = `
             name="focus"
             value="none"
             data-option="focusOption"/>
-          <span data-i18n="options_button_focus_button_label">
+          <span data-i18n="options_button_focus_none_label">
             X
           </span>
         </label>
@@ -105,9 +108,10 @@ optionsButtonTemplate.innerHTML = `
           </span>
         </label>
 
-         <div data-i18n="options_button_focus_desc"
-            class="desc">When a new page loads some users may not want the button visible since it obscures some content and others
-         may want the menu to be open to more efficiently navigate to page content.</div>
+         <div id="button-focus-desc" data-i18n="options_button_focus_desc"
+            class="desc">
+          X
+          </div>
 
       </fieldset>
 

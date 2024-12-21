@@ -1834,7 +1834,10 @@ div#skip-to-message.fade {
     'style',
     'template',
     'shadow',
-    'title'
+    'title',
+    'skip-to-content',
+    'skip-to-content-bookmarklet',
+    'skip-to-content-extension'
   ];
 
   const allowedLandmarkSelectors = [
@@ -5040,13 +5043,16 @@ div#skip-to-message.fade {
 
   /* constants */
   const debug = new DebugLogging('skipto', false);
-  debug.flag = true;
+  debug.flag = false;
 
   (function() {
 
   const SkipToPageElmName        = 'skip-to-content';
   const SkipToBookmarkletElmName = 'skip-to-content-bookmarklet';
   const SkipToExtensionElmName   = 'skip-to-content-extension';
+
+  const SkipToExtensionID   = `id-skip-to-extension`;
+  const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
 
     /*
     *  @function removeLegacySkipToJS
@@ -5175,7 +5181,7 @@ div#skip-to-message.fade {
     }
 
     // Check for SkipTo.js bookmarklet script, if it is initialize it immediately
-    if (document.getElementById(`id-skip-to-bookmarklet`)) {
+    if (document.getElementById(SkipToBookmarkletID)) {
       debug.flag && debug.log(`[bookmarklet]`);
       const skipToContentBookmarkletElem = getSkipToContentElement('bookmarklet');
       if (skipToContentBookmarkletElem) {
@@ -5186,7 +5192,7 @@ div#skip-to-message.fade {
     }
     else {
       // Check for SkipTo.js extension script, if it is initialize it immediately
-      if (document.getElementById(`id-skip-to-extension`)) {
+      if (document.getElementById(SkipToExtensionID)) {
         debug.flag && debug.log(`[extension]`);
         const skipToContentExtensionElem = getSkipToContentElement('extension');
         if (skipToContentExtensionElem) {
