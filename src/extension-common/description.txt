@@ -12,15 +12,33 @@ SkipTo.js extension fills a void in browsers to provide the navigation features 
 
 NOTE: This extension does not collect any user data.
 
-Keyboard Shortcuts
+Keyboard Shortcuts to Open Menu
 
 * ALT+0:  Windows and Linux
 * Option+0:  macOS
+
+Keyboard Shortcuts for Landmark Region Navigation
+* r: next landmark region
+* R: previous landmark region
+* m: next main region
+* n: next navigation region
+* c: next complementary region
+
+Keyboard Shortcuts for Heading Navigation
+* h: next heading
+* H: previous heading
+* 1: Next heading level 1
+* 2: Next heading level 2
+* 3: Next heading level 3
+* 4: Next heading level 4
+* 5: Next heading level 5
+* 6: Next heading level 6
 
 Options Page
 
 * Define button behavior
 * Customize the landmark regions and headings shown in the menu.
+* Customize the keys used for shortcut navigation.
 * Customize fonts and colors used to style the button and menu
 * Internationalization
 

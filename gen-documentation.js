@@ -37,7 +37,7 @@ function outputTemplate(fname, data) {
 
 const pages = [
   { template: './src-docs/templates/content-home.njk',
-    title: 'Three ways to use SkipTo.js for Bypass Blocks',
+    title: 'SkipTo.js for Bypass Blocks',
     link: 'Home',
     filename: 'index.html'
   },
@@ -57,7 +57,7 @@ const pages = [
     filename: 'extensions.html'
   },
   { template: './src-docs/templates/content-shortcuts.njk',
-    title: 'Page Navigation Shortcut Keys',
+    title: 'Shortcut Keys',
     link: 'Shortcuts',
     filename: 'shortcuts.html'
   },
@@ -70,6 +70,11 @@ const pages = [
     title: 'Example Configurations',
     link: 'Examples',
     filename: 'examples.html'
+  },
+  { template: './src-docs/templates/content-faq.njk',
+    title: 'Frequently Asked Questions',
+    link: 'FAQ',
+    filename: 'faq.html'
   },
   { template: './src-docs/templates/content-about.njk',
     title: 'About',

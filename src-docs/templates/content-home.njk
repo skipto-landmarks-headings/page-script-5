@@ -28,7 +28,7 @@
             Once the page script is installed and configured, the menu and shortcuts make it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.
             </p>
 
-            <h2 id="features">Features</h2>
+            <h2 id="features">Three Ways to Use Skipto.js</h2>
             <table class="table table-striped" aria-labelledby="features">
               <thead>
                 <tr>
@@ -36,6 +36,7 @@
                   <th rowspan="2">Menu Button</th>
                   <th colspan="2" style="text-align: center">Navigation Shortcuts</th>
                   <th rowspan="2">Configuration</th>
+                  <th rowspan="2">Benefits</th>
                 </tr>
                 <tr>
                   <th>Landmark Regions</th>
@@ -48,21 +49,45 @@
                   <td>Yes</td>
                   <td class="no">no</td>
                   <td class="no">no</td>
-                  <td>Page author</td>
+                  <td>
+                    Authors can use:
+                    <ul>
+                      <li>Use the <code>data-skipto</code> attribute to customize the features of SkipTo.js (<em>preferred</em>). </li>
+                      <li>Global configuration object (<em>legacy support</em>).</li>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      <li>Authors can use it to replace the simple "Skip To Main" link on the pages.</li>
+                      <li>Provides a powerful and reliable way to navigate the structure of a web page for people with disabilities.</li>
+                    </ul>
+                  </td>
                 </tr>
                 <tr>
                   <th><a href="bookmarklets.html">Bookmarklets</a></th>
                   <td>Yes</td>
                   <td>Yes</td>
                   <td>Yes</td>
-                  <td><code>data-attribute</code> in link</td>
+                  <td>Use the <code>data-skipto</code> attribute of the <code>script</code> tag in the link to customize the features of SkipTo.js.</td>
+                  <td>
+                    <ul>
+                      <li>Try out SkipTo.js on any web page to learn how it works.</li>
+                      <li>A testing tool to examine the landmark regions and headings on any web page.</li>
+                    </ul>
+                  </td>
                 </tr>
                 <tr>
                   <th><a href="extensions.html">Browser Extensions</a></th>
                   <td>Yes</td>
                   <td>Yes</td>
                   <td>Yes</td>
-                  <td>Extension user options</td>
+                  <td>Extension options panel.</td>
+                  <td>
+                    <ul>
+                      <li>An assistive technology for keyboard only users to navigate the landmark regions and headings on any web page.</li>
+                      <li>A testing tool to examine the landmark regions and headings on any web page.</li>
+                    </ul>
+                  </td>
                 </tr>
               </tbody>
             </table>

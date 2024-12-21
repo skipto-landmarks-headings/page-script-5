@@ -233,4 +233,37 @@ main li span.shortcut {
 .no {
   text-transform: lowercase;
   font-style: italic;
+  font-weight: bold;
+  font-size: 90%;
+}
+
+table.table tbody th a[href] {
+  font-weight: normal;
+}
+
+table.table tbody td ul {
+  margin: 0;
+  padding: 0;
+}
+
+table.table tbody td li {
+  margin: 0;
+  padding: 0;
+  margin-left: 1em;
+}
+
+main dt {
+  font-size: 120%;
+  margin: 0;
+  padding: 0;
+  margin-top: 1em;
+  line-height: 1.2em;
+}
+
+main dd {
+  font-size: 110%;
+  margin: 0;
+  padding: 0;
+  margin-left: 0.5em;
+  line-height: 1.2em;
 }
