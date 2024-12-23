@@ -25,6 +25,6 @@ See [Using Skipto](https://skipto-landmarks-headings.github.io/page-script-5/usi
 
 ## Copyright and license
 
-Copyright 2022, 2023, 2024 Jon Gunderson under the [BSD license](LICENSE.md).
+Copyright 2022, 2023, 2024, 2025 Jon Gunderson under the [BSD license](LICENSE.md).
 
 Copyright 2021 University of Illinois and PayPal under the [BSD license](LICENSE.md).
