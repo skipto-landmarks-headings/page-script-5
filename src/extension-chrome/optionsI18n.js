@@ -388,7 +388,7 @@ optionsI18nTemplate.innerHTML = `
       </legend>
 
       <div class="text">
-        <label data-i18n="options_heading_level_label"
+        <label data-i18n="options_msg_heading_level_label"
                for="input-heading-msg-level">
             X
         </label>

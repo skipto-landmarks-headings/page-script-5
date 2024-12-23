@@ -251,7 +251,7 @@
       "message" : "No more headings",
       "description" : "Message if previous or next command does not find any heading"
   },
-  "init_msg_no_headings_found": {
+  "init_msg_no_headings_of_level_found": {
       "message" : "No level %h headings  found",
       "description" : "Message if next header level X command does not find any headings"
   },
@@ -459,7 +459,7 @@
     "message" : "Headings in Main Region Group Label",
     "description" : "Legend for i18n for heading main group label"
   },
-  "options_heading_level_label": {
+  "options_msg_heading_level_label": {
     "message" : "Heading Level Label",
     "description" : "Legend for i18n for heading level label"
   },
@@ -527,10 +527,6 @@
     "message" : "By making the bottom border always visible the pointer can be used to expose the button.",
     "description" : "Checkbox Description"
   },
-  "options_button_border_desc": {
-    "message" : "Making the bottom border visible at the top of the page allows user to use the pointer to easily expose the button.",
-    "description" : "Button visibility description"
-  },
   "options_button_focus_legend": {
     "message" : "Button Focus",
     "description" : "Button focus options legend"
@@ -590,10 +586,6 @@
   "options_region_complementary_label": {
       "message" : "Complementary regions",
       "description" : "Shortcut for next complemntary regions"
-  },
-  "options_heading_legend": {
-      "message" : "Headings",
-      "description" : "Legend for heading navigation shortcuts"
   },
   "options_heading_next_label": {
       "message" : "Next heading",
