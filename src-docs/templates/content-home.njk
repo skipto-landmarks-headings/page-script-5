@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {% include "./head.njk" %}
+  </head>
+  <body>
+    {% include "./header.njk" %}
+
+    <!-- Main section-->
+    <main class="container px-4">
+      <div class="row gx-4 justify-content-center">
+        <div class="col-lg-10">
+          {% block content %}
+            <div class="image">
+               <img src="images/example_screen_shot.png"
+                    alt="Example Screen Shot"
+                    style="width: 80%" />
+            </div>
+
+            <h1>{{title}}</h1>
+
+            <p>SkipTo.js is more than a just replacement for your old classic “Skip To Main Content” link for implementing the <a href="https://www.w3.org/TR/WCAG/#bypass-blocks">WCAG 2.4.1 Bypass Blocks</a> requirement.
+
+            The <a href="page.html">page script</a>, <a href="bookmarklets.html">bookmarkets</a> and <a href="extensions.html">browser extensions</a> create a drop-down menu consisting of the links to important landmarks and headings on a given web page.  The bookmarklets and browser extensions include powerful keyboard shortcuts for navigating landmark regions and headings on web pages, similar to the feature available in screen readers.
+            </p>
+
+            <p>
+            Once the page script is installed and configured, the menu and shortcuts make it easier for keyboard and screen reader users to quickly jump to the desired region of a page by simply choosing it from the list of options.
+            </p>
+
+            <h2 id="features">Three Ways to Use Skipto.js</h2>
+            <table class="table table-striped" aria-labelledby="features">
+              <thead>
+                <tr>
+                  <td rowspan="2"></td>
+                  <th rowspan="2">Menu Button</th>
+                  <th colspan="2" style="text-align: center">Navigation Shortcuts</th>
+                  <th rowspan="2">Configuration</th>
+                  <th rowspan="2">Benefits</th>
+                </tr>
+                <tr>
+                  <th>Landmark Regions</th>
+                  <th>Headings</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th><a href="page.html">Page Script</a></th>
+                  <td>Yes</td>
+                  <td class="no">no</td>
+                  <td class="no">no</td>
+                  <td>
+                    Authors can use:
+                    <ul>
+                      <li>Use the <code>data-skipto</code> attribute to customize the features of SkipTo.js (<em>preferred</em>). </li>
+                      <li>Global configuration object (<em>legacy support</em>).</li>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      <li>Authors can use it to replace the simple "Skip To Main" link on the pages.</li>
+                      <li>Provides a powerful and reliable way to navigate the structure of a web page for people with disabilities.</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th><a href="bookmarklets.html">Bookmarklets</a></th>
+                  <td>Yes</td>
+                  <td>Yes</td>
+                  <td>Yes</td>
+                  <td>Use the <code>data-skipto</code> attribute of the <code>script</code> tag in the link to customize the features of SkipTo.js.</td>
+                  <td>
+                    <ul>
+                      <li>Try out SkipTo.js on any web page to learn how it works.</li>
+                      <li>A testing tool to examine the landmark regions and headings on any web page.</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th><a href="extensions.html">Browser Extensions</a></th>
+                  <td>Yes</td>
+                  <td>Yes</td>
+                  <td>Yes</td>
+                  <td>Extension options panel.</td>
+                  <td>
+                    <ul>
+                      <li>An assistive technology for keyboard only users to navigate the landmark regions and headings on any web page.</li>
+                      <li>A testing tool to examine the landmark regions and headings on any web page.</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+
+            {% include "./feedback.njk" %}
+
+          {% endblock %}
+        </div>
+      </div>
+    </main>
+    {% include "./footer.njk" %}
+    {% include "./scripts.njk" %}
+
+  </body>
+</html>

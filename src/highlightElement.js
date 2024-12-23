@@ -3,10 +3,6 @@
 /* Imports */
 import DebugLogging  from './debug.js';
 
-import {
-  queryDOMForSkipToId
-} from './landmarksHeadings.js';
-
 /*Exports */
 export {
   highlightElement,
@@ -22,7 +18,7 @@ const minHeight = 27;
 const offset = 6;
 const borderWidth = 2;
 
-const overlayId = 'id-skip-to-overlay';
+const OVERLAY_ID = 'id-skip-to-overlay';
 
 /*
  *   @function getOverlayElement
@@ -34,17 +30,25 @@ const overlayId = 'id-skip-to-overlay';
 
 function getOverlayElement() {
 
-  let overlayElem = document.getElementById(overlayId);
+  let overlayElem = document.getElementById(OVERLAY_ID);
 
-  if (overlayElem === null) {
+  if (!overlayElem) {
     overlayElem = document.createElement('div');
     overlayElem.style.display = 'none';
-    overlayElem.id = overlayId;
+    overlayElem.id = OVERLAY_ID;
     document.body.appendChild(overlayElem);
 
     const overlayElemChild = document.createElement('div');
     overlayElemChild.className = 'overlay-border';
     overlayElem.appendChild(overlayElemChild);
+  }
+
+  const infoElem = overlayElem.querySelector('.overlay-info');
+
+  if (infoElem === null) {
+    const overlayInfoChild = document.createElement('div');
+    overlayInfoChild.className = 'overlay-info';
+    overlayElem.appendChild(overlayInfoChild);
   }
 
   return overlayElem;
@@ -77,7 +81,7 @@ function isElementInViewport(element) {
  *   @function isElementStartInViewport
  *
  *   @desc  Returns true if start of the element is already visible in view port,
- *          otheriwse false
+ *          otherwise false
  *
  *   @param {Object} element : DOM node of element to highlight
  *
@@ -119,29 +123,30 @@ function isElementInHeightLarge(element) {
  *   @desc  Highlights the element with the id on a page when highlighting
  *          is enabled (NOTE: Highlight is enabled by default)
  *
- *   @param {String} id               : id of the element to highlight
- *   @param {String} ihighlightTarget : value of highlight target
+ *   @param {Object}  elem            : DOM node of element to highlight
+ *   @param {String}  highlightTarget : value of highlight target
+ *   @param {String}  info            : Information about target
+ *   @param {Boolean} force           : If true override isRduced
  */
-function highlightElement(id, highlightTarget) {
+function highlightElement(elem, highlightTarget, info='', force=false) {
   const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
   const isReduced = !mediaQuery || mediaQuery.matches;
-  const element = queryDOMForSkipToId(id);
 
-  if (element && highlightTarget) {
+  if (elem && highlightTarget) {
 
-    if (isElementInHeightLarge(element)) {
-      if (!isElementStartInViewport(element)  && !isReduced) {
-        element.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
+    const overlayElem = getOverlayElement();
+    const scrollElement = updateOverlayElement(overlayElem, elem, info);
+
+    if (isElementInHeightLarge(elem)) {
+      if (!isElementStartInViewport(elem) && (!isReduced || force)) {
+        scrollElement.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
       }
     }
     else {
-      if (!isElementInViewport(element)  && !isReduced) {
-        element.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
+      if (!isElementInViewport(elem)  && (!isReduced || force)) {
+        scrollElement.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
       }
     }
-
-    const overlayElement = getOverlayElement();
-    updateOverlayElement(overlayElement, element);
   }
 }
 
@@ -152,7 +157,9 @@ function highlightElement(id, highlightTarget) {
  */
 function removeHighlight() {
   const overlayElement = getOverlayElement();
-  overlayElement.style.display = 'none';
+  if (overlayElement) {
+    overlayElement.style.display = 'none';
+  }
 }
 
 /*
@@ -162,40 +169,127 @@ function removeHighlight() {
  *
  *  @param  {Object}  overlayElem      -  DOM element for overlay
  *  @param  {Object}  element          -  DOM element node to highlight
+ *  @param  {String}  info             -  Description of the element
  *
  */
 
-function updateOverlayElement (overlayElem, element) {
+function updateOverlayElement (overlayElem, element, info) {
 
   const childElem = overlayElem.firstElementChild;
+  const infoElem  = overlayElem.querySelector('.overlay-info');
 
-  const rect = element.getBoundingClientRect();
+  let rect  = element.getBoundingClientRect();
 
-  const left   = rect.left > offset ?
+  let isHidden = false;
+
+
+  const rectLeft  = rect.left > offset ?
                   Math.round(rect.left - offset + window.scrollX) :
                   Math.round(rect.left + window.scrollX);
 
-  const width  = rect.left > offset ?
+  let left = rectLeft;
+
+  const rectWidth  = rect.left > offset ?
                   Math.max(rect.width  + offset * 2, minWidth) :
                   Math.max(rect.width, minWidth);
 
-  const top    = rect.top > offset ?
+  let width = rectWidth;
+
+  const rectTop    = rect.top > offset ?
                   Math.round(rect.top  - offset + window.scrollY) :
                   Math.round(rect.top + window.scrollY);
 
-  const height = rect.top > offset ?
+  let top = rectTop;
+
+  const rectHeight   = rect.top > offset ?
                   Math.max(rect.height + offset * 2, minHeight) :
                   Math.max(rect.height, minHeight);
 
+  let height = rectHeight;
+
+  if ((rect.height < 3) || (rect.width < 3)) {
+    isHidden = true;
+  }
+
+  if ((rectTop < 0) || (rectLeft < 0)) {
+    isHidden = true;
+    if (element.parentNode) {
+      const parentRect = element.parentNode.getBoundingClientRect();
+
+      if ((parentRect.top > 0) && (parentRect.left > 0)) {
+        top = parentRect.top > offset ?
+                  Math.round(parentRect.top  - offset + window.scrollY) :
+                  Math.round(parentRect.top + window.scrollY);
+        left = parentRect.left > offset ?
+                  Math.round(parentRect.left - offset + window.scrollX) :
+                  Math.round(parentRect.left + window.scrollX);
+      }
+      else {
+        left = offset;
+        top = offset;
+      }
+    }
+    else {
+      left = offset;
+      top = offset;
+    }
+  }
+
   overlayElem.style.left   = left   + 'px';
-  overlayElem.style.width  = width  + 'px';
   overlayElem.style.top    = top    + 'px';
-  overlayElem.style.height = height + 'px';
 
-  childElem.style.width  = (width  - 2 * borderWidth) + 'px';
-  childElem.style.height = (height - 2 * borderWidth) + 'px';
-
+  if (isHidden) {
+    childElem.textContent = 'Heading is hidden';
+    childElem.classList.add('skip-to-hidden');
+    overlayElem.style.width  = 'auto';
+    overlayElem.style.height = 'auto';
+    childElem.style.width  = 'auto';
+    childElem.style.height = 'auto';
+    height = childElem.getBoundingClientRect().height;
+    width  = childElem.getBoundingClientRect().width;
+    if (rect.top > offset) {
+      height += offset + 2;
+      width += offset + 2;
+    }
+  }
+  else {
+    childElem.textContent = '';
+    childElem.classList.remove('skip-to-hidden');
+    overlayElem.style.width  = width  + 'px';
+    overlayElem.style.height = height + 'px';
+    childElem.style.width  = (width  - 2 * borderWidth) + 'px';
+    childElem.style.height = (height - 2 * borderWidth) + 'px';
+  }
 
   overlayElem.style.display = 'block';
-}
 
+  if (info) {
+    infoElem.style.display = 'inline-block';
+    infoElem.textContent = info;
+    if (top >= infoElem.getBoundingClientRect().height) {
+      childElem.classList.remove('hasInfoBottom');
+      infoElem.classList.remove('hasInfoBottom');
+      childElem.classList.add('hasInfoTop');
+      infoElem.classList.add('hasInfoTop');
+      if (!isHidden) {
+        infoElem.style.top = (-1 * (height + infoElem.getBoundingClientRect().height - 2 * borderWidth)) + 'px';
+      }
+      else {
+        infoElem.style.top = (-1 * (infoElem.getBoundingClientRect().height + childElem.getBoundingClientRect().height)) + 'px';
+      }
+    }
+    else {
+      childElem.classList.remove('hasInfoTop');
+      infoElem.classList.remove('hasInfoTop');
+      childElem.classList.add('hasInfoBottom');
+      infoElem.classList.add('hasInfoBottom');
+      infoElem.style.top = -2 + 'px';
+    }
+    return infoElem;
+  }
+  else {
+    childElem.classList.remove('hasInfo');
+    infoElem.style.display = 'none';
+    return overlayElem;
+  }
+}

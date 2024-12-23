@@ -7,15 +7,32 @@ import {
   isNotEmptyString
 } from './utils.js';
 
+import ShortcutsInfoDialog  from './shortcutsInfoDialog.js';
+import ShortcutsMessage     from './shortcutsMessage.js';
+
 import {
   getLandmarksAndHeadings,
-  skipToElement
+  skipToElement,
+  queryDOMForSkipToId
 } from './landmarksHeadings.js';
 
 import {
   highlightElement,
   removeHighlight
 } from './highlightElement.js';
+
+import {
+  getFocusElement,
+  navigateContent
+} from './shortcuts.js';
+
+import {
+  elementTakesText,
+  onlyShiftPressed,
+  noModifierPressed,
+  onlyAltPressed,
+  onlyOptionPressed
+} from './keyboardHelpers.js';
 
 /* Constants */
 const debug = new DebugLogging('SkipToButton', false);
@@ -94,26 +111,55 @@ export default class SkiptoMenuButton {
       this.landmarkGroupLabelNode = document.createElement('div');
       this.landmarkGroupLabelNode.setAttribute('id', 'id-skip-to-menu-landmark-group-label');
       this.landmarkGroupLabelNode.setAttribute('role', 'separator');
-      this.landmarkGroupLabelNode.textContent = this.config.landmarkGroupLabel;
+      this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.landmarkGroupLabel);
       this.menuNode.appendChild(this.landmarkGroupLabelNode);
 
       this.landmarkGroupNode = document.createElement('div');
       this.landmarkGroupNode.setAttribute('id', 'id-skip-to-menu-landmark-group');
       this.landmarkGroupNode.setAttribute('role', 'group');
+      this.landmarkGroupNode.className = 'overflow';
       this.landmarkGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-landmark-group-label');
       this.menuNode.appendChild(this.landmarkGroupNode);
 
       this.headingGroupLabelNode = document.createElement('div');
       this.headingGroupLabelNode.setAttribute('id', 'id-skip-to-menu-heading-group-label');
       this.headingGroupLabelNode.setAttribute('role', 'separator');
-      this.headingGroupLabelNode.textContent = this.config.headingGroupLabel;
+      this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.headingGroupLabel);
       this.menuNode.appendChild(this.headingGroupLabelNode);
 
       this.headingGroupNode = document.createElement('div');
       this.headingGroupNode.setAttribute('id', 'id-skip-to-menu-heading-group');
       this.headingGroupNode.setAttribute('role', 'group');
+      this.headingGroupNode.className = 'overflow';
       this.headingGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-heading-group-label');
       this.menuNode.appendChild(this.headingGroupNode);
+
+      this.shortcutsGroupLabelNode = document.createElement('div');
+      this.shortcutsGroupLabelNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group-label');
+      this.shortcutsGroupLabelNode.setAttribute('role', 'separator');
+      if (this.config.shortcuts === 'enabled') {
+        this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupEnabledLabel;
+      }
+      else {
+        this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
+      }
+      this.menuNode.appendChild(this.shortcutsGroupLabelNode);
+
+      this.shortcutsGroupNode = document.createElement('div');
+      this.shortcutsGroupNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group');
+      this.shortcutsGroupNode.setAttribute('role', 'group');
+      this.shortcutsGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-shortcutse-group-label');
+      this.menuNode.appendChild(this.shortcutsGroupNode);
+
+      window.customElements.define("skip-to-shortcuts-info-dialog", ShortcutsInfoDialog);
+      this.infoDialog = document.createElement('skip-to-shortcuts-info-dialog');
+      this.infoDialog.configureStyle(this.config);
+      document.body.appendChild(this.infoDialog);
+
+      window.customElements.define("skip-to-shortcuts-message", ShortcutsMessage);
+      this.shortcutsMessage = document.createElement('skip-to-shortcuts-message');
+      this.shortcutsMessage.configureStyle(this.config);
+      document.body.appendChild(this.shortcutsMessage);
 
       this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
       this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -161,6 +207,24 @@ export default class SkiptoMenuButton {
       this.skipToContentElem.setAttribute('focus', 'button');
     }
 
+    /*
+     * @method addNumberToGroupLabel
+     *
+     * @desc Updates group label with the number of items in group,
+     *       The '#' character in the string is replaced with the number
+     *       if number is not provided, just remove number
+     *
+     * @param  {String}  label  -  Label to include number,
+     * @param  {Number}  num    -  Number to add to label
+     *
+     * @return {String}  see @desc
+     */
+    addNumberToGroupLabel(label, num=0) {
+      if (num > 0) {
+        return `${label} (${num})`;
+      }
+      return label;
+    }
 
     /*
      * @method updateLabels
@@ -181,8 +245,8 @@ export default class SkiptoMenuButton {
       this.mediumButtonNode.textContent = config.buttonLabel;
 
       this.menuNode.setAttribute('aria-label', config.menuLabel);
-      this.landmarkGroupLabelNode.textContent = config.landmarkGroupLabel;
-      this.headingGroupLabelNode.textContent = config.headingGroupLabel;
+      this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel);
+      this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel);
     }
 
     /*
@@ -301,14 +365,20 @@ export default class SkiptoMenuButton {
      * @method updateMenuitems
      *
      * @desc  Updates the menu information with the current menu items
-     *        used for menu navigation commands
+     *        used for menu navigation commands and adds event handlers
      */
     updateMenuitems () {
       let menuitemNodes = this.menuNode.querySelectorAll('[role=menuitem');
 
       this.menuitemNodes = [];
       for(let i = 0; i < menuitemNodes.length; i += 1) {
-        this.menuitemNodes.push(menuitemNodes[i]);
+        const menuitemNode = menuitemNodes[i];
+        menuitemNode.addEventListener('keydown', this.handleMenuitemKeydown.bind(this));
+        menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
+        menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
+        menuitemNode.addEventListener('pointerleave', this.handleMenuitemPointerleave.bind(this));
+        menuitemNode.addEventListener('pointerover', this.handleMenuitemPointerover.bind(this));
+        this.menuitemNodes.push(menuitemNode);
       }
 
       this.firstMenuitem = this.menuitemNodes[0];
@@ -341,11 +411,6 @@ export default class SkiptoMenuButton {
       }
 
       // add event handlers
-      menuitemNode.addEventListener('keydown', this.handleMenuitemKeydown.bind(this));
-      menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
-      menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
-      menuitemNode.addEventListener('pointerleave', this.handleMenuitemPointerleave.bind(this));
-      menuitemNode.addEventListener('pointerover', this.handleMenuitemPointerover.bind(this));
       groupNode.appendChild(menuitemNode);
 
       // add heading level and label
@@ -440,9 +505,91 @@ export default class SkiptoMenuButton {
 
       this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, config.msgNoLandmarksFound);
       this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, config.msgNoHeadingsFound);
+      debug.flag && debug.log(`[shortcutsSupported]: ${config.shortcutsSupported}`);
+      this.renderMenuitemsToShortcutsGroup(this.shortcutsGroupLabelNode, this.shortcutsGroupNode);
 
       // Update list of menuitems
       this.updateMenuitems();
+
+      // Are all headings in the main region
+      const allInMain = headingElements.length > 0 ?
+            headingElements.reduce( (flag, item) => {
+              return flag && item.inMain;
+            }, true) :
+            false;
+
+      this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel, landmarkElements.length);
+      if (config.headings.includes('main') && allInMain) {
+        this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingMainGroupLabel, headingElements.length);
+      }
+      else {
+        this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel, headingElements.length);
+      }
+    }
+
+    /*
+     * @method renderMenuitemsToShortcutsGroup
+     *
+     * @desc Updates separator and menuitems related to page navigation
+     *
+     * @param  {Object}  groupLabelNode  -  DOM element node for the label for page navigation group
+     * @param  {Object}  groupLabelNode  -  DOM element node for the page navigation group
+     */
+    renderMenuitemsToShortcutsGroup (groupLabelNode, groupNode) {
+
+      // remove page navigation menu items
+      while (groupNode.lastElementChild) {
+        groupNode.removeChild(groupNode.lastElementChild);
+      }
+
+      if (this.config.shortcutsSupported === 'true') {
+        groupNode.classList.remove('shortcuts-disabled');
+        groupLabelNode.classList.remove('shortcuts-disabled');
+
+        const shortcutsToggleNode = document.createElement('div');
+        shortcutsToggleNode.setAttribute('role', 'menuitem');
+        shortcutsToggleNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
+        shortcutsToggleNode.setAttribute('tabindex', '-1');
+        groupNode.appendChild(shortcutsToggleNode);
+
+        const shortcutsToggleLabelNode = document.createElement('span');
+        shortcutsToggleLabelNode.className = 'label';
+        shortcutsToggleNode.appendChild(shortcutsToggleLabelNode);
+
+        if (this.config.shortcuts === 'enabled') {
+          groupLabelNode.textContent    = this.config.shortcutsGroupEnabledLabel;
+          shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'disable');
+          shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleDisableLabel;
+        }
+        else {
+          groupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
+          shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'enable');
+          shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleEnableLabel;
+        }
+        groupNode.appendChild(shortcutsToggleNode);
+
+
+        const shortcutsInfoNode = document.createElement('div');
+        shortcutsInfoNode.setAttribute('role', 'menuitem');
+        shortcutsInfoNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
+        shortcutsInfoNode.setAttribute('tabindex', '-1');
+        shortcutsInfoNode.setAttribute('data-shortcuts-info', '');
+        groupNode.appendChild(shortcutsInfoNode);
+
+        const shortcutsInfoLabelNode = document.createElement('span');
+        shortcutsInfoLabelNode.className = 'label';
+        shortcutsInfoLabelNode.textContent = this.config.shortcutsInfoLabel;
+        shortcutsInfoNode.appendChild(shortcutsInfoLabelNode);
+
+
+      }
+      else {
+        groupNode.classList.add('shortcuts-disabled');
+        groupLabelNode.classList.add('shortcuts-disabled');
+      }
+
+
+
     }
 
 //
@@ -463,7 +610,13 @@ export default class SkiptoMenuButton {
         menuitem.focus();
         this.skipToContentElem.setAttribute('focus', 'menu');
         this.focusMenuitem = menuitem;
-        highlightElement(menuitem.getAttribute('data-id'), this.highlightTarget);
+        if (menuitem.hasAttribute('data-id')) {
+          const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
+          highlightElement(elem, this.highlightTarget);
+        }
+        else {
+          removeHighlight();
+        }
       }
     }
 
@@ -593,10 +746,14 @@ export default class SkiptoMenuButton {
     openPopup() {
       debug.flag && debug.log(`[openPopup]`);
       this.menuNode.setAttribute('aria-busy', 'true');
-      const h = (80 * window.innerHeight) / 100;
-      this.menuNode.style.maxHeight = h + 'px';
+      // Compute height of menu to not exceed about 80% of screen height
+      const h = (30 * window.innerHeight) / 100;
+      this.landmarkGroupNode.style.maxHeight = h + 'px';
+      this.headingGroupNode.style.maxHeight = h + 'px';
       this.renderMenu(this.config, this.skipToId);
       this.menuNode.style.display = 'block';
+
+      // make sure menu is on screen and not clipped in the right edge of the window
       const buttonRect = this.buttonNode.getBoundingClientRect();
       const menuRect = this.menuNode.getBoundingClientRect();
       const diff = window.innerWidth - buttonRect.left - menuRect.width - 8;
@@ -607,8 +764,10 @@ export default class SkiptoMenuButton {
           this.menuNode.style.left = diff + 'px';
         }
       }
+
       this.menuNode.removeAttribute('aria-busy');
       this.buttonNode.setAttribute('aria-expanded', 'true');
+      // use custom element attribute to set focus to the menu
       this.skipToContentElem.setAttribute('focus', 'menu');
     }
 
@@ -752,7 +911,6 @@ export default class SkiptoMenuButton {
       }
     }
 
-
     // Menu event handlers
     
     handleFocusin() {
@@ -815,40 +973,16 @@ export default class SkiptoMenuButton {
 
     handleDocumentKeydown (event) {
 
-      const enabledInputTypes = [
-        'button',
-        'checkbox',
-        'color',
-        'file',
-        'image',
-        'radio',
-        'range',
-        'reset',
-        'submit'
-      ];
+      this.shortcutsMessage.close();
 
-      const target = event.target;
-      const tagName = target.tagName ? target.tagName.toLowerCase() : '';
-      const type = tagName === 'input' ? target.type.toLowerCase() : '';
+      let flag = false;
+      let elem;
+      const focusElem = getFocusElement();
+      debug.flag && debug.log(`[handleDocumentKeydown][elementTakesText][${event.target.tagName}]: ${elementTakesText(focusElem)}`);
+      if (!elementTakesText(focusElem)) {
 
-      if ((tagName !== 'textarea') &&
-          ((tagName !== 'input') ||
-           ((tagName === 'input') && enabledInputTypes.includes(type))
-          )) {
-
-        const altPressed =
-          this.usesAltKey &&
-          event.altKey &&
-          !event.ctrlKey &&
-          !event.shiftKey &&
-          !event.metaKey;
-
-        const optionPressed =
-          this.usesOptionKey &&
-          event.altKey &&
-          !event.ctrlKey &&
-          !event.shiftKey &&
-          !event.metaKey;
+        const altPressed = this.usesAltKey && onlyAltPressed(event);
+        const optionPressed = this.usesOptionKey && onlyOptionPressed(event);
 
         if ((optionPressed && this.config.optionShortcut === event.key) ||
             (altPressed && this.config.altShortcut === event.key) ||
@@ -856,6 +990,129 @@ export default class SkiptoMenuButton {
         ) {
           this.openPopup();
           this.setFocusToFirstMenuitem();
+          flag = true;
+        }
+
+        // Check for navigation keys
+        if ((this.config.shortcuts === 'enabled') &&
+            (onlyShiftPressed(event) || noModifierPressed(event))) {
+
+          switch (event.key) {
+            // ignore and space characters
+            case ' ':
+            case '':
+              break;
+
+            case this.config.shortcutRegionNext:
+              elem = navigateContent('landmark', 'next', this.config.msgHeadingLevel);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoMoreRegions);
+              }
+              flag = true;
+              break;
+
+            case this.config.shortcutRegionPrevious:
+              elem = navigateContent('landmark', 'previous', this.config.msgHeadingLevel);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoMoreRegions);
+              }
+              flag = true;
+              break;
+
+            case this.config.shortcutRegionComplementary:
+              elem = navigateContent('complementary', 'next', this.config.msgHeadingLevel, true);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'complementary'));
+              }
+              flag = true;
+              break;
+
+            case this.config.shortcutRegionMain:
+              elem = navigateContent('main', 'next', this.config.msgHeadingLevel, true);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'main'));
+              }
+              flag = true;
+              break;
+
+            case this.config.shortcutRegionNavigation:
+              elem = navigateContent('navigation', 'next', this.config.msgHeadingLevel, true);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'navigation'));
+              }
+              flag = true;
+              break;
+
+            case this.config.shortcutHeadingNext:
+              elem = navigateContent('heading', 'next', this.config.msgHeadingLevel, false, true);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoMoreHeadings);
+              }
+              flag = true;
+              break;
+
+            case this.config.shortcutHeadingPrevious:
+              elem = navigateContent('heading', 'previous', this.config.msgHeadingLevel, false, true);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoMoreHeadings);
+              }
+              flag = true;
+              break;
+
+            case this.config.shortcutHeadingH1:
+              elem = navigateContent('h1', 'next', this.config.msgHeadingLevel, true, true);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '1'));
+              }
+              flag = true;
+              break;
+
+            case this.config.shortcutHeadingH2:
+              elem = navigateContent('h2', 'next', this.config.msgHeadingLevel, true, true);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '2'));
+              }
+              flag = true;
+              break;
+
+            case this.config.shortcutHeadingH3:
+              elem = navigateContent('h3', 'next', this.config.msgHeadingLevel, true, true);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '3'));
+              }
+              flag = true;
+              break;
+
+            case this.config.shortcutHeadingH4:
+              elem = navigateContent('h4', 'next', this.config.msgHeadingLevel, true, true);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '4'));
+              }
+              flag = true;
+              break;
+
+            case this.config.shortcutHeadingH5:
+              elem = navigateContent('h5', 'next', this.config.msgHeadingLevel, true, true);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '5'));
+              }
+              flag = true;
+              break;
+
+            case this.config.shortcutHeadingH6:
+              elem = navigateContent('h6', 'next', this.config.msgHeadingLevel, true, true);
+              if (!elem) {
+                this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '6'));
+              }
+              flag = true;
+              break;
+
+            default:
+              break;
+          }
+        }
+
+        if (flag) {
           event.stopPropagation();
           event.preventDefault();
         }
@@ -863,15 +1120,33 @@ export default class SkiptoMenuButton {
     }    
 
     handleMenuitemAction(tgt) {
-      switch (tgt.getAttribute('data-id')) {
-        case '':
-          // this means there were no headings or landmarks in the list
-          break;
+      if (tgt.hasAttribute('data-id')) {
+        switch (tgt.getAttribute('data-id')) {
+          case '':
+            // this means there were no headings or landmarks in the list
+            break;
 
-        default:
-          this.closePopup();
-          skipToElement(tgt);
-          break;
+          default:
+            this.closePopup();
+            skipToElement(tgt);
+            break;
+        }
+      }
+
+      if (tgt.hasAttribute('data-shortcuts-toggle')) {
+        if (tgt.getAttribute('data-shortcuts-toggle') === 'enable') {
+          this.skipToContentElem.setAttribute('shortcuts', 'enable');
+        }
+        else {
+          this.skipToContentElem.setAttribute('shortcuts', 'disable');
+        }
+        this.closePopup();
+      }
+
+      if (tgt.hasAttribute('data-shortcuts-info')) {
+        this.infoDialog.updateContent(this.skipToContentElem.config);
+        this.infoDialog.openDialog();
+        this.closePopup();
       }
     }
 
@@ -958,7 +1233,13 @@ export default class SkiptoMenuButton {
       debug.flag && debug.log(`[enter]`);
       let tgt = event.currentTarget;
       tgt.classList.add('hover');
-      highlightElement(tgt.getAttribute('data-id'), this.highlightTarget);
+      if (tgt.hasAttribute('data-id')) {
+        const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
+        highlightElement(elem, this.highlightTarget);
+      }
+      else {
+        removeHighlight();
+      }
       event.stopPropagation();
       event.preventDefault();
     }
@@ -966,7 +1247,13 @@ export default class SkiptoMenuButton {
    handleMenuitemPointerover(event) {
       debug.flag && debug.log(`[over]`);
       let tgt = event.currentTarget;
-      highlightElement(tgt.getAttribute('data-id'), this.highlightTarget);
+      if (tgt.hasAttribute('data-id')) {
+        const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
+        highlightElement(elem, this.highlightTarget);
+      }
+      else {
+        removeHighlight();
+      }
       event.stopPropagation();
       event.preventDefault();
     }
@@ -1017,7 +1304,13 @@ export default class SkiptoMenuButton {
       if (mi) {
         this.removeHoverClass(mi);
         mi.classList.add('hover');
-        highlightElement(mi.getAttribute('data-id'), this.highlightTarget);
+        if (mi.hasAttribute('data-id')) {
+          const elem = queryDOMForSkipToId(mi.getAttribute('data-id'));
+          highlightElement(elem, this.highlightTarget);
+        }
+        else {
+          removeHighlight();
+        }
       }
 
       event.stopPropagation();
@@ -1061,6 +1354,4 @@ export default class SkiptoMenuButton {
         this.closePopup();
       }
     }
-
-
 }

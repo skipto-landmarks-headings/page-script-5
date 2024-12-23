@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {% include "./head.njk" %}
+  </head>
+  <body>
+    {% include "./header.njk" %}
+
+    <!-- Main section-->
+    <div id="main-section" class="container px-4">
+      <nav aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">{{title | safe}}</li>
+        </ol>
+      </nav>
+      <main class="row gx-4 justify-content-center">
+        <div class="col-lg-10">
+          {% block title %}
+          <h1>{{title}}</h1>
+          {% endblock %}
+
+          <div id="faq">
+
+            <dl>
+              <dt>What happens with the bookmarklets or the extension are used on pages using the SkipTo.js?</dt>
+              <dd>The extension and bookmarlets automatically unload any existing copies of SkipTo.js.</dd>
+
+              <dt>Can the auto-scrolling feature be disabled?</dt>
+              <dd>The auto-scolling feature is disabled if the operating reduced motion setting is enabled.</dd>
+              <dd>The is a condiguration ooption in the extension to disable auto-scrolling.</dd>
+
+
+            </dl>
+
+        </div>
+      </main>
+    </nav>
+    {% include "./footer.njk" %}
+    {% include "./scripts.njk" %}
+
+  </body>
+</html>

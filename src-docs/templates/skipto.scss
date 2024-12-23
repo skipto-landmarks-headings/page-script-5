@@ -191,3 +191,79 @@ div.params {
   color: darkgreen;
 }
 
+p.happy {
+  font-family: fantasy, cursive;
+  font-size: 1.5em;
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+main ul.shortcuts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+main ul.shortcuts li {
+  margin: 0;
+  padding: 0;
+}
+
+main li span.shortcut {
+  display: inline-block;
+  width: 1.5em;
+  font-weight: bold;
+}
+
+.hidden-small {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px; width: 1px;
+  margin: -1px; padding: 0; border: 0;
+}
+
+.hidden-offscreen {
+  position: absolute;
+  top: -30em;
+  left: -300em;
+}
+
+.no {
+  text-transform: lowercase;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 90%;
+}
+
+table.table tbody th a[href] {
+  font-weight: normal;
+}
+
+table.table tbody td ul {
+  margin: 0;
+  padding: 0;
+}
+
+table.table tbody td li {
+  margin: 0;
+  padding: 0;
+  margin-left: 1em;
+}
+
+main dt {
+  font-size: 120%;
+  margin: 0;
+  padding: 0;
+  margin-top: 1em;
+  line-height: 1.2em;
+}
+
+main dd {
+  font-size: 110%;
+  margin: 0;
+  padding: 0;
+  margin-left: 0.5em;
+  line-height: 1.2em;
+}

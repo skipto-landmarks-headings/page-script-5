@@ -15,9 +15,253 @@
     "message": "SkipTo.js provides keyboard navigation to landmark regions and headings to meet WCAG 2.4.1 Bypass Blocks requirement.",
     "description": "Extension description"
   },
+  "init_button_label": {
+    "message" : "Skip To Content",
+    "description" : "Initial value of button label"
+  },
+  "init_small_button_label": {
+    "message" : "SkipTo",
+    "description" : "Initial value of small button label"
+  },
+  "init_alt_label": {
+    "message" : "Alt",
+    "description" : "Initial value of ALT key label"
+  },
+  "init_option_label": {
+    "message" : "Option",
+    "description" : "Initial value of OPTION key label"
+  },
+  "init_shortcut_next_heading": {
+    "message" : "h",
+    "description" : "Default shortcut for next heading"
+  },
+  "init_shortcut_previous_heading": {
+    "message" : "H",
+    "description" : "Default shortcut for previous heading"
+  },
+  "init_shortcut_h1_headings": {
+    "message" : "1",
+    "description" : "Default shortcut for next h1 heading"
+  },
+  "init_shortcut_h2_headings": {
+    "message" : "2",
+    "description" : "Default shortcut for next h2 heading"
+  },
+  "init_shortcut_h3_headings": {
+    "message" : "3",
+    "description" : "Default shortcut for next h3 heading"
+  },
+  "init_shortcut_h4_headings": {
+    "message" : "4",
+    "description" : "Default shortcut for next h4 heading"
+  },
+  "init_shortcut_h5_headings": {
+    "message" : "5",
+    "description" : "Default shortcut for next h5 heading"
+  },
+  "init_shortcut_h6_headings": {
+    "message" : "6",
+    "description" : "Default shortcut for next h6 heading"
+  },
+  "init_shortcut_next_region": {
+    "message" : "r",
+    "description" : "Default shortcut for next region"
+  },
+  "init_shortcut_previous_region": {
+    "message" : "R",
+    "description" : "Default shortcut for previous region"
+  },
+  "init_shortcut_main_regions": {
+    "message" : "m",
+    "description" : "Default shortcut for moving to main regions"
+  },
+  "init_shortcut_navigation_regions": {
+    "message" : "n",
+    "description" : "Default shortcut for moving to navigation regions"
+  },
+  "init_shortcut_complemntary_regions": {
+    "message" : "c",
+    "description" : "Default shortcut for moving to complementary regions"
+  },
+  "init_shortcut_label": {
+    "message" : "shortcut",
+    "description" : "Initial value of shortcut label"
+  },
+  "init_menu_label": {
+    "message" : "Landmarks and Headings",
+    "description" : "Initial value of menu label"
+  },
+  "init_landmark_group_label": {
+    "message" : "Landmark Regions",
+    "description" : "Initial value of landmark regions label"
+  },
+  "init_heading_group_label": {
+    "message" : "Headings",
+    "description" : "Initial value of headings label"
+  },
+  "init_heading_main_group_label": {
+    "message" : "Headings in Main Region",
+    "description" : "Initial value of headings in main label"
+  },
+  "init_heading_level_label": {
+    "message" : "Heading level",
+    "description" : "Initial value of heading level label"
+  },
+  "init_main_label": {
+    "message" : "main",
+    "description" : "Initial value of main region label"
+  },
+  "init_search_label": {
+    "message" : "search",
+    "description" : "Initial value of search region label"
+  },
+  "init_navigation_label": {
+    "message" : "navigation",
+    "description" : "Initial value of navigation region label"
+  },
+  "init_region_label": {
+    "message" : "region",
+    "description" : "Initial value of region label"
+  },
+  "init_aside_label": {
+    "message" : "complementary",
+    "description" : "Initial value of complementary region label"
+  },
+  "init_footer_label": {
+    "message" : "contentinfo",
+    "description" : "Initial value of contentinfo region label"
+  },
+  "init_header_label": {
+    "message" : "banner",
+    "description" : "Initial value of banner region label"
+  },
+  "init_form_label": {
+    "message" : "form",
+    "description" : "Initial value of form region label"
+  },
+  "init_msg_no_landmarks_found": {
+    "message" : "No landmarks found",
+    "description" : "Initial value of No landmarks found message"
+  },
+  "init_msg_no_headings_found": {
+    "message" : "No headings found",
+    "description" : "Initial value of no headings found message"
+  },
+  "init_shortcuts_group_enabled_label": {
+    "message" : "Shortcuts: Enabled",
+    "description" : "Initial value of Navigation Shortcuts: Enabled message"
+  },
+  "init_shortcuts_group_disabled_label": {
+    "message" : "Shortcuts: Disabled",
+    "description" : "Initial value of Navigation Shortcuts: Disabled message"
+  },
+  "init_shortcuts_toggle_enable_label": {
+    "message" : "Enable shortcuts",
+    "description" : "Initial value of enable shortcuts menu item label"
+  },
+  "init_shortcuts_toggle_disable_label": {
+    "message" : "Disable shortcuts",
+    "description" : "Initial value of disable shortcuts menu item label"
+  },
+  "init_shortcuts_info_label": {
+    "message" : "Shortcut Information",
+    "description" : "Initial value of Shortcut Information menu item label"
+  },
+  "init_msg_heading_level": {
+    "message" : "Level #",
+    "description" : "Initial value of heading level # message"
+  },
+  "init_msg_next_region": {
+    "message" : "Next region",
+    "description" : "Initial value of next region message"
+  },
+  "init_msg_previous_region": {
+    "message" : "Previous region",
+    "description" : "Initial value of previous region message"
+  },
+  "init_msg_next_heading": {
+    "message" : "Next heading",
+    "description" : "Initial value of next heading message"
+  },
+  "init_msg_previous_heading": {
+    "message" : "Previous heading",
+    "description" : "Initial value of previous heading message"
+  },
+  "init_msg_main_regions": {
+    "message" : "Main regions",
+    "description" : "Initial value of main regions message"
+  },
+  "init_msg_navigation_regions": {
+    "message" : "Navigation regions",
+    "description" : "Initial value of navigation regions message"
+  },
+  "init_msg_complementary_regions": {
+    "message" : "Complementary regions",
+    "description" : "Initial value of complemnetary regions message"
+  },
+  "init_msg_h1_headings": {
+    "message" : "Level 1 headings",
+    "description" : "Initial value of h1 headings message"
+  },
+  "init_msg_h2_headings": {
+    "message" : "Level 2 headings",
+    "description" : "Initial value of h2 headings message"
+  },
+  "init_msg_h3_headings": {
+    "message" : "Level 3 headings",
+    "description" : "Initial value of h3 headings message"
+  },
+  "init_msg_h4_headings": {
+    "message" : "Level 4 headings",
+    "description" : "Initial value of h4 headings message"
+  },
+  "init_msg_h5_headings": {
+    "message" : "Level 5 headings",
+    "description" : "Initial value of h5 headings message"
+  },
+  "init_msg_h6_headings": {
+    "message" : "Level 6 headings",
+    "description" : "Initial value of h6 headings message"
+  },
+  "init_close_label": {
+    "message" : "Close",
+    "description" : "Initial value of close button label"
+  },
+  "init_more_info_label": {
+    "message" : "More Information",
+    "description" : "Initial value of More Information label"
+  },
+  "init_msg_key": {
+    "message" : "Key",
+    "description" : "Initial value of key table header"
+  },
+  "init_msg_description": {
+    "message" : "Description",
+    "description" : "Initial value of description table header"
+  },
+  "init_msg_no_more_regions": {
+      "message" : "No more regions",
+      "description" : "Message if previous or next command does not find a new region"
+  },
+  "init_msg_no_regions_found": {
+      "message" : "No %r regions found",
+      "description" : "Message if next region command does not find a any region"
+  },
+  "init_msg_no_more_headings": {
+      "message" : "No more headings",
+      "description" : "Message if previous or next command does not find any heading"
+  },
+  "init_msg_no_headings_of_level_found": {
+      "message" : "No level %h headings  found",
+      "description" : "Message if next header level X command does not find any headings"
+  },
   "options_h1_title": {
     "message" : "Preferences",
     "description" : "Title of options page"
+  },
+  "options_tab_shortcuts": {
+    "message" : "Shortcuts",
+    "description" : "Title of shortcuts tab"
   },
   "options_tab_button": {
     "message" : "Button",
@@ -60,27 +304,27 @@
     "description" : "Label for headings radio group"
   },
   "options_heading_h1": {
-    "message" : "h1 ",
+    "message" : "Level 1 ",
     "description" : "Include only h1 headings from page in menu"
   },
   "options_heading_h2": {
-    "message" : "h1, h2 ",
+    "message" : "Level 1 and 2 ",
     "description" : "Include h1 and h2 headings from page in menu"
   },
   "options_heading_h3": {
-    "message" : "h1, h2, h3",
+    "message" : "Level 1, 2 and 3",
     "description" : "Include h1, h2 and h3 headings from page in menu"
   },
   "options_heading_h4": {
-    "message" : "h1, h2, h3, h4",
+    "message" : "Level 1, 2 3 and 4",
     "description" : "Include h1, h2, h3 and h4 headings from page in menu"
   },
   "options_heading_h5": {
-    "message" : "h1, h2, h3, h4, h5",
+    "message" : "Level 1,2 ,3 ,4 and 5",
     "description" : "Include h1, h2, h3, h4 and h5 headings from page in menu"
   },
   "options_heading_h6": {
-    "message" : "h1, h2, h3, h4, h5, h6",
+    "message" : "Level 1,2 ,3 ,4, 5 and 6",
     "description" : "Include h1, h2, h3, h4, h5 and h6 headings from page in menu"
   },
   "options_heading_main_only": {
@@ -204,14 +448,18 @@
     "description" : "Label for i18n for menu of  landmarks and headings"
   },
   "options_landmark_group_label": {
-    "message" : "Landmark Group Label",
+    "message" : "Landmark Regions Group Label",
     "description" : "Legend for i18n for landmark group label"
   },
   "options_heading_group_label": {
-    "message" : "Heading Group Label",
+    "message" : "Headings Group Label",
     "description" : "Legend for i18n for heading group label"
   },
-  "options_heading_level_label": {
+  "options_heading_main_group_label": {
+    "message" : "Headings in Main Region Group Label",
+    "description" : "Legend for i18n for heading main group label"
+  },
+  "options_msg_heading_level_label": {
     "message" : "Heading Level Label",
     "description" : "Legend for i18n for heading level label"
   },
@@ -256,11 +504,11 @@
     "description" : "Label for form region name"
   },
   "options_msg_no_landmarks": {
-    "message" : "No landmarks found",
+    "message" : "No landmarks found message",
     "description" : "No landmarks found message"
   },
   "options_msg_no_headings": {
-    "message" : "No headings found",
+    "message" : "No headings found meassage",
     "description" : "No headings found message"
   },
   "options_button_button_content_reset" : {
@@ -276,8 +524,8 @@
     "description" : "Checkbox label"
   },
   "options_button_border_desc": {
-    "message" : "Making the bottom border visible at the top of the page allows user to use the pointer to easily expose the button.",
-    "description" : "Button visibility description"
+    "message" : "By making the bottom border always visible the pointer can be used to expose the button.",
+    "description" : "Checkbox Description"
   },
   "options_button_focus_legend": {
     "message" : "Button Focus",
@@ -298,6 +546,209 @@
   "options_button_focus_desc": {
     "message" : "When a new page loads some users may not want the button visible since it obscures some content or may be distracting visually.  Others may want the menu to be open when the page loads to eliminate the extra keystrokes needed to open the menu.",
     "description" : "Description of focus options. "
+  },
+  "options_button_shortcuts_reset": {
+    "message" : "Reset Shortcut Defaults",
+    "description" : "Label for reset page navigation defaults button"
+  },
+  "options_enable_shortcuts_label": {
+    "message" : "Enable page navigation with shortcut keys",
+    "description" : "Checkbox label"
+  },
+  "options_shortcut_key_desc_headings": {
+    "message" : "Shortcut keys are case sensitive, for example lowercase 'h' is a different command than uppercase 'H'.  Some users may want to only use lowercase characters for navigation commands.",
+    "description" : "Describes how values are case sensitive"
+  },
+  "options_shortcut_key_desc_regions": {
+    "message" : "Shortcut keys are case sensitive, for example lowercase 'r' is a different command than uppercase 'R'.  Some users may want to only use lowercase characters for navigation commands.",
+    "description" : "Describes how values are case sensitive"
+  },
+  "options_region_legend": {
+      "message" : "Landmark Regions",
+      "description" : "Legend for region landmark navigation shortcuts"
+  },
+  "options_region_next_label": {
+      "message" : "Next region",
+      "description" : "Short cut for next region"
+  },
+  "options_region_previous_label": {
+      "message" : "Previous region",
+      "description" : "Short cut for previous region"
+  },
+  "options_region_main_label": {
+      "message" : "Main regions",
+      "description" : "Shortcut for next main regions"
+  },
+  "options_region_nav_label": {
+      "message" : "Navigation regions",
+      "description" : "Shortcut for next navigation regions"
+  },
+  "options_region_complementary_label": {
+      "message" : "Complementary regions",
+      "description" : "Shortcut for next complemntary regions"
+  },
+  "options_heading_next_label": {
+      "message" : "Next heading",
+      "description" : "Short cut for next heading"
+  },
+  "options_heading_previous_label": {
+      "message" : "Previous heading",
+      "description" : "Short cut for previous headings"
+  },
+  "options_heading_h1_label": {
+      "message" : "Level 1 headings",
+      "description" : "Shortcut for h1 headings"
+  },
+  "options_heading_h2_label": {
+      "message" : "Level 2 headings",
+      "description" : "Shortcut for h2 headings"
+  },
+  "options_heading_h3_label": {
+      "message" : "Level 3 headings",
+      "description" : "Shortcut for h3 headings"
+  },
+  "options_heading_h4_label": {
+      "message" : "Level 4 headings",
+      "description" : "Shortcut for h4 headings"
+  },
+  "options_heading_h5_label": {
+      "message" : "Level 5 headings",
+      "description" : "Shortcut for h5 headings"
+  },
+  "options_heading_h6_label": {
+      "message" : "Level 6 headings",
+      "description" : "Shortcut for h6 headings"
+  },
+  "options_legend_shortcuts_menu_labels": {
+      "message" : "Shortcut Menu Labels",
+      "description" : "Legend for shortcut Menu Labels"
+  },
+  "options_shortcuts_enabled_label": {
+      "message" : "Shortcuts enabled menu item",
+      "description" : "Menuitem indicating the shortcuts are enabled"
+  },
+  "options_shortcuts_disabled_label": {
+      "message" : "Shortcuts disabled menu item",
+      "description" : "Menuitem indicating the shortcuts are disabled"
+  },
+  "options_toggle_enabled_label": {
+      "message" : "Toggle enabled menu item",
+      "description" : "Menu item to enable shortcuts"
+  },
+  "options_toggle_disabled_label": {
+      "message" : "Toggle diabled menu item",
+      "description" : "Menu item to disable shortcuts"
+  },
+  "options_shortcut_info_label": {
+      "message" : "Shortcut information menu item",
+      "description" : "Menu item to open a shortcut information dialog box"
+  },
+  "options_legend_region_shortcut_messages": {
+      "message" : "Region Shortcut Messages",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_next_region_label": {
+      "message" : "Next Region",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_previous_region_label": {
+      "message" : "Previous Region",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_main_regions_label": {
+      "message" : "Main Regions",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_navigation_regions_label": {
+      "message" : "Navigation Regions",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_complementary_regions_label": {
+      "message" : "Complementary Regions",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_legend_heading_shortcut_messages": {
+      "message" : "Heading Shortcut Messages",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_next_heading_label": {
+      "message" : "Next Heading",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_previous_heading_label": {
+      "message" : "Previous Heading",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_heading_level_label": {
+      "message" : "Heading level ",
+      "description" : "Message appears when navigating headings using the shortcut keys"
+  },
+  "options_heading_level_desc": {
+      "message" : "Includes # character for insertion of level value",
+      "description" : "Message appears when navigating headings using the shortcut keys"
+  },
+  "options_h1_headings_label": {
+      "message" : "Level 1 Headings",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_h2_headings_label": {
+      "message" : "Level 2 Headings",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_h3_headings_label": {
+      "message" : "Level 3 Headings",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_h4_headings_label": {
+      "message" : "Level 4 Headings",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_h5_headings_label": {
+      "message" : "Level 5 Headings",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_h6_headings_label": {
+      "message" : "Level 6 Headings",
+      "description" : "Message appears in shortcut information dialog box"
+  },
+  "options_shortcut_info_dialog_messages": {
+      "message" : "Shortcut Information Dialog",
+      "description" : "Message appears in Shortcut Information Dialog dialog box"
+  },
+  "options_close_label": {
+      "message" : "Close Button",
+      "description" : "Close button appears in Shortcut Information Dialog dialog box"
+  },
+  "options_msg_key": {
+      "message" : "Key Table Header",
+      "description" : "Key Table Header appears in Shortcut Information Dialog dialog box"
+  },
+  "options_msg_description": {
+      "message" : "Description Table Header",
+      "description" : "Description Table Header appears in Shortcut Information Dialog dialog box"
+  },
+  "options_more_info_label": {
+      "message" : "More information button label",
+      "description" : "More information button label appears in Shortcut Information Dialog dialog box"
+  },
+  "options_navigation_messages_legend": {
+      "message" : "Shortcut Navigation Messages",
+      "description" : "Group label for messages related to navigating regions and headings"
+  },
+  "options_msg_no_more_regions_label": {
+      "message" : "Message for no more regions found",
+      "description" : "Label for message if previous or next command does not find a new region"
+  },
+  "options_msg_no_regions_found_label": {
+      "message" : "Message for a no region of a specific type found",
+      "description" : "Label for message if next region command does not find a any region"
+  },
+  "options_msg_no_more_headings_label": {
+      "message" : "Message for no more headings found",
+      "description" : "Label for message if previous or next command does not find any heading"
+  },
+  "options_msg_no_headings_found_label": {
+      "message" : "Message for no level headings of level N found",
+      "description" : "Label for message if next header level X command does not find any headings"
   }
-
 }

@@ -50,6 +50,16 @@ browserRuntime.onMessage.addListener((request, sender, sendResponse) => {
     });
   }
 
+  if (request.skiptoMessage === "color-theme-dark") {
+      debug && console.log(`[onMessage][color-theme-dark]`);
+      setIcons('dark');
+  }
+
+  if (request.skiptoMessage === "color-theme-light") {
+      debug && console.log(`[onMessage][color-theme-light]`);
+      setIcons('light');
+  }
+
 });
 
 
@@ -60,5 +70,22 @@ browserAction.onClicked.addListener((tab) => {
     files: ['toggle.js']
   });
 });
+
+
+
+// Set SkipTo.js toolbar icons for light or dark color theme
+function setIcons(scheme='light') {
+  debug.flag && debug.log(`[setIcons]: ${scheme}`)
+  if (['light', 'dark'].includes(scheme)) {
+    browserAction.setIcon({
+      path: {
+        32: `icons/${scheme}-skipto-32.png`,
+        48: `icons/${scheme}-skipto-48.png`,
+        64: `icons/${scheme}-skipto-64.png`,
+        128: `icons/${scheme}-skipto-128.png`
+      },
+    });
+  }
+}
 
 

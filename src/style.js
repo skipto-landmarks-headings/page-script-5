@@ -8,6 +8,9 @@ import DebugLogging  from './debug.js';
 const debug = new DebugLogging('style', false);
 debug.flag = false;
 
+const skipToMenuStyleID     = 'id-skip-to-menu-style';
+const skipToHighlightStyleID = 'id-skip-to-highlight-style';
+
 const cssMenuTemplate = document.createElement('template');
 cssMenuTemplate.textContent = `
 $skipToId.popup {
@@ -124,7 +127,7 @@ $skipToId.static {
 
 $skipToId [role="menu"] {
   position: absolute;
-  min-width: 17em;
+  min-width: 16em;
   display: none;
   margin: 0;
   padding: 0.25rem;
@@ -133,8 +136,6 @@ $skipToId [role="menu"] {
   border-style: solid;
   border-color: $focusBorderColor;
   border-radius: 5px;
-  overflow-x: hidden;
-  overflow-y: scroll;
   z-index: $zIndex !important;
   touch-action: none;
 }
@@ -143,6 +144,11 @@ $skipToId [role="group"] {
   display: grid;
   grid-auto-rows: min-content;
   grid-row-gap: 1px;
+}
+
+$skipToId [role="group"].overflow {
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 $skipToId [role="separator"]:first-child {
@@ -298,6 +304,11 @@ $skipToId [role="menuitem"].hover .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }
+
+$skipToId [role="separator"].shortcuts-disabled,
+$skipToId [role="menuitem"].shortcuts-disabled {
+  display: none;
+}
 `;
 
 const cssHighlightTemplate = document.createElement('template');
@@ -309,18 +320,66 @@ $skipToId-overlay {
   border-radius: 3px;
   border: 4px solid $buttonBackgroundColor;
   box-sizing: border-box;
+  pointer-events:none;
 }
 
-$skipToId-overlay div.overlay-border {
+$skipToId-overlay .overlay-border {
   margin: 0;
   padding: 0;
   position: relative;
   top: -2px;
   left: -2px;
-  border-radius: 3px;
+  border-radius: 3px 3px 3px 3px;
   border: 2px solid $focusBorderColor;
   z-index: $zHighlight;
   box-sizing: border-box;
+  pointer-events:none;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+$skipToId-overlay .overlay-border.skip-to-hidden {
+  background-color: $hiddenHeadingBackgroundColor;
+  color: $hiddenHeadingColor;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 0.9em;
+  text-align: center;
+  padding: .25em;
+  animation: fadeIn 1.5s;
+}
+
+$skipToId-overlay .overlay-border.hasInfoBottom {
+  border-radius: 3px 3px 3px 0;
+}
+
+$skipToId-overlay .overlay-border.hasInfoTop {
+  border-radius: 0 3px 3px 3px;
+}
+
+$skipToId-overlay .overlay-info {
+  position: relative;
+  text-align: left;
+  left: -2px;
+  padding: 1px 4px;
+  border: 2px solid $focusBorderColor;
+  background-color: $menuitemFocusBackgroundColor;
+  color: $menuitemFocusTextColor;
+  z-index: $zHighlight;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events:none;
+}
+
+$skipToId-overlay .overlay-info.hasInfoTop {
+  border-radius: 3px 3px 0 0;
+}
+
+$skipToId-overlay .overlay-info.hasInfoBottom {
+  border-radius: 0 0 3px 3px;
 }
 `;
 
@@ -440,11 +499,12 @@ function updateStyle(cssContent, stylePlaceholder, configValue, themeValue, defa
  * @param  {String}  cssMenu       -  CSS template for the button and menu
  * @param  {String}  cssHighlight  -  CSS template for the highlighting
  * @param  {Object}  config        -  SkipTo.js configuration information object
+ * @param  {Boolean} useURLTheme   -  When true use the theme associated with the URL
  *
  * @returns. see @desc
  */
-function addCSSColors (cssMenu, cssHighlight, config) {
-  const theme = getTheme(config.colorTheme);
+function addCSSColors (cssMenu, cssHighlight, config, useURLTheme=false) {
+  const theme = useURLTheme ? getTheme(config.colorTheme) : {};
   const defaultTheme = getTheme('default');
 
   // Check for display option in theme
@@ -483,6 +543,10 @@ function addCSSColors (cssMenu, cssHighlight, config) {
   cssHighlight = updateStyle(cssHighlight, '$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
   cssHighlight = updateStyle(cssHighlight, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
   cssHighlight = updateStyle(cssHighlight, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
+  cssHighlight = updateStyle(cssHighlight, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
+  cssHighlight = updateStyle(cssHighlight, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
+  cssHighlight = updateStyle(cssHighlight, '$hiddenHeadingColor', config.hiddenHeadingColor, theme.hiddenHeadingColor, defaultTheme.hiddenHeadingColor);
+  cssHighlight = updateStyle(cssHighlight, '$hiddenHeadingBackgroundColor', config.hiddenHeadingBackgroundColor, theme.hiddenHeadingBackgroundColor, defaultTheme.hiddenHeadingBackgroundColor);
 
   // Special case for theme configuration used in Illinois theme
   if (typeof theme.highlightTarget === 'string') {
@@ -498,35 +562,36 @@ function addCSSColors (cssMenu, cssHighlight, config) {
  *
  *   @desc  Updates the style sheet template and then attaches it to the document
  *
- * @param {Object}  attachNode      - DOM element node to attach button and menu container element
+ * @param  {Object}  attachNode      - DOM element node to attach button and menu container element
  * @param  {Object}  config          -  Configuration information object
  * @param  {String}  skipYToStyleId  -  Id used for the skipto container element
+ * @param  {Boolean} useURLTheme     - When true use the theme associated with the URL
  */
-export default function renderStyleElement (attachNode, config, skipToId) {
+export default function renderStyleElement (attachNode, config, skipToId, useURLTheme=false) {
   let cssMenu = cssMenuTemplate.textContent.slice(0);
   cssMenu = cssMenu.replaceAll('$skipToId', '#' + skipToId);
 
   let cssHighlight = cssHighlightTemplate.textContent.slice(0);
   cssHighlight = cssHighlight.replaceAll('$skipToId', '#' + skipToId);
 
-  [cssMenu, cssHighlight] = addCSSColors(cssMenu, cssHighlight, config);
+  [cssMenu, cssHighlight] = addCSSColors(cssMenu, cssHighlight, config, useURLTheme);
 
 
-  let styleNode = attachNode.querySelector('#id-skip-to-style');
+  let styleNode = attachNode.querySelector(`#${skipToMenuStyleID}`);
   if (!styleNode) {
     styleNode = document.createElement('style');
     attachNode.appendChild(styleNode);
-    styleNode.setAttribute('id', 'id-skip-to-style');
+    styleNode.setAttribute('id', `${skipToMenuStyleID}`);
   }
   styleNode.textContent = cssMenu;
 
   const headNode = document.querySelector('head');
   if (headNode) {
-    let highlightStyleNode = headNode.querySelector('#id-skip-to-highlight');
+    let highlightStyleNode = headNode.querySelector(`#${skipToHighlightStyleID}`);
     if (!highlightStyleNode) {
       highlightStyleNode = document.createElement('style');
       headNode.appendChild(highlightStyleNode);
-      highlightStyleNode.setAttribute('id', 'id-skip-to-highlight');
+      highlightStyleNode.setAttribute('id', `${skipToHighlightStyleID}`);
     }
     highlightStyleNode.textContent = cssHighlight;
   }

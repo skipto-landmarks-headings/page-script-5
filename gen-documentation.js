@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const nunjucks  = require('nunjucks');
 
-const version = "5.6";
+const version = "5.7";
 
 /* Constants */
 
@@ -36,7 +36,7 @@ function outputTemplate(fname, data) {
 }
 
 const pages = [
-  { template: './src-docs/templates/content-index.njk',
+  { template: './src-docs/templates/content-home.njk',
     title: 'SkipTo.js for Bypass Blocks',
     link: 'Home',
     filename: 'index.html'
@@ -51,10 +51,15 @@ const pages = [
     link: 'Bookmarklets',
     filename: 'bookmarklets.html'
   },
-  { template: './src-docs/templates/content-browsers.njk',
+  { template: './src-docs/templates/content-extensions.njk',
     title: 'SkipTo.js Web Browser Extensions',
-    link: 'Web Browsers',
-    filename: 'browsers.html'
+    link: 'Extensions',
+    filename: 'extensions.html'
+  },
+  { template: './src-docs/templates/content-shortcuts.njk',
+    title: 'Shortcut Keys',
+    link: 'Shortcuts',
+    filename: 'shortcuts.html'
   },
   { template: './src-docs/templates/content-config.njk',
     title: 'Configuration Options',
@@ -65,6 +70,11 @@ const pages = [
     title: 'Example Configurations',
     link: 'Examples',
     filename: 'examples.html'
+  },
+  { template: './src-docs/templates/content-faq.njk',
+    title: 'Frequently Asked Questions',
+    link: 'FAQ',
+    filename: 'faq.html'
   },
   { template: './src-docs/templates/content-about.njk',
     title: 'About',
@@ -174,10 +184,22 @@ const tests = [
     description: 'No headings on page',
     config: ``
   },
+  { template: './src-docs/templates/example/content-role-heading.njk',
+    title: 'Uses Role Heading',
+    filename: 'test-role-headings.html',
+    description: 'Heading role used on page and empty H2, h3 and H4 elements',
+    config: ``
+  },
   { template: './src-docs/templates/example/content-text-input.njk',
     title: 'Input controls',
     filename: 'test-input-controls.html',
     description: 'Shortcut keys is disabled when focus is a text input.',
+    config: ``
+  },
+  { template: './src-docs/templates/example/content-init-object.njk',
+    title: 'Initialization Object',
+    filename: 'test-init-object.html',
+    description: 'Uses the SkipToConfig configuration object',
     config: ``
   }
   ]

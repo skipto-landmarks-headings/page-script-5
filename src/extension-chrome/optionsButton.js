@@ -41,60 +41,87 @@ optionsButtonTemplate.innerHTML = `
     <div>
 
       <fieldset>
-        <legend id="button-border-legend">
-          Border Visibility
+        <legend data-i18n="options_button_border_legend">
+          X
          </legend>
 
-        <label class="inline" for="button-border">
+        <label class="inline"
+              for="button-border">
           <input id="button-border"
              type="checkbox"
-             aria-describedby="button-border-desc"/>
-          <span id="button-border-label">Bottom border of button always visible</span>
+             aria-describedby="button-border-desc"
+             data-option="displayOption"
+             data-checked="popup-border"
+             data-unchecked="popup"/>
+          <span data-i18n="options_button_border_label">
+            X
+          </span>
         </label>
 
-         <p id="button-border-desc" class="desc">By making the bottom border always visible
-           the pointer can be used to expose the button when is mostly hidden.</p>
+         <p id="button-border-desc"
+            class="desc"
+            data-i18n="options_button_border_desc">
+            X
+          </p>
 
       </fieldset>
 
       <fieldset>
-        <legend id="button-focus-legend">
-          Button Focus
+        <legend data-i18n="options_button_focus_legend">
+          X
          </legend>
 
-        <label class="inline" for="button-focus-none">
+        <label class="inline"
+               for="button-focus-none">
           <input id="button-focus-none"
             type="radio"
             name="focus"
-            value="none" />
-          <span id="button-focus-none-label">None</span>
+            value="none"
+            data-option="focusOption"/>
+          <span data-i18n="options_button_focus_none_label">
+            X
+          </span>
         </label>
 
-        <label class="inline" for="button-focus-button">
+        <label class="inline"
+               for="button-focus-button">
           <input id="button-focus-button"
              type="radio"
              name="focus"
              value="button"
-            aria-describedby="button-focus-desc" />
-          <span id="button-focus-button-label">Button</span>
+             aria-describedby="button-focus-desc"
+             data-option="focusOption"/>
+          <span data-i18n="options_button_focus_button_label">
+            X
+          </span>
         </label>
 
-        <label class="inline" for="button-focus-menu">
+        <label class="inline"
+               for="button-focus-menu">
           <input id="button-focus-menu"
             type="radio"
             name="focus"
-            value="menu"/>
-          <span id="button-focus-menu-label">Menu</span>
+            value="menu"
+            data-option="focusOption"/>
+          <span data-i18n="options_button_focus_menu_label">
+            X
+          </span>
         </label>
 
-         <p id="button-focus-desc" class="desc">When a new page loads some users may not want the button visible since it obscures some content and others
-         may want the menu to be open to more efficiently navigate to page content.</p>
+         <div id="button-focus-desc" data-i18n="options_button_focus_desc"
+            class="desc">
+          X
+          </div>
 
       </fieldset>
 
     </div>
 
-    <button id="button-reset" type="reset">Reset Button Defaults</button>
+    <button id="button-reset"
+            type="reset"
+            data-i18n="options_button_button_content_reset">
+            X
+    </button>
 
   </form>
 `;
@@ -127,41 +154,20 @@ class OptionsButton extends HTMLElement {
 
     // Update labels with i18n information
 
-    const i18nLabels = [
-      { id: 'button-reset', label: 'options_button_button_content_reset'},
+    const i18nLabels =  Array.from(this.shadowRoot.querySelectorAll('[data-i18n]'));
 
-      { id: 'button-border-legend', label: 'options_button_border_legend'},
-      { id: 'button-border-label',  label: 'options_button_border_label'},
-      { id: 'button-border-desc',   label: 'options_button_border_desc'},
-
-      { id: 'button-focus-legend',       label: 'options_button_focus_legend'},
-      { id: 'button-focus-none-label',   label: 'options_button_focus_none_label'},
-      { id: 'button-focus-button-label', label: 'options_button_focus_button_label'},
-      { id: 'button-focus-menu-label',   label: 'options_button_focus_menu_label'},
-      { id: 'button-focus-desc',         label: 'options_button_focus_desc'}
-    ];
-
-    i18nLabels.forEach( item => {
-      const node = getNode(item.id);
-      const label = browserI18n.getMessage(item.label);
-      if (node && label) {
+    i18nLabels.forEach( node => {
+      const label = browserI18n.getMessage(node.getAttribute('data-i18n'));
+      if (label) {
         node.textContent = label + (debug ? ' (i18n)' : '');
       }
       else {
-        node && console.error(`node not found for ${item.id}`);
-        label && console.error(`message not found for ${item.label}`);
+        console.error(`[node]: ${node.getAttribute('data-i18n')}`);
+        console.error(`[label]: ${label}`);
       }
     });
 
-    const form = {};
-
-    form.showBorder  = getNode('button-border');
-
-    form.buttonFocusNoneInput    = getNode('button-focus-none');
-    form.buttonFocusButtonInput  = getNode('button-focus-button');
-    form.buttonFocusMenuInput    = getNode('button-focus-menu');
-
-    this.form = form;
+    this.formControls =  Array.from(this.shadowRoot.querySelectorAll('[data-option]'));
 
     this.updateOptions();
 
@@ -177,15 +183,25 @@ class OptionsButton extends HTMLElement {
   }
 
   updateOptions () {
-    const form = this.form;
+    const formControls = this.formControls;
 
     getOptions().then( (options) => {
 
-      form.showBorder.checked = options.displayOption === 'popup-border';
+      formControls.forEach( input => {
+        debug.flag && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
 
-      form.buttonFocusNoneInput.checked    = options.focusOption === 'none';
-      form.buttonFocusButtonInput.checked  = options.focusOption === 'button';
-      form.buttonFocusMenuInput.checked    = options.focusOption === 'menu';
+        if (input.type === 'checkbox') {
+          input.checked = options.displayOption === 'popup-border';
+        }
+        else {
+          if (input.type === 'radio') {
+            input.checked = input.value === options[input.getAttribute('data-option')];
+          }
+          else {
+            input.value = options[input.getAttribute('data-option')];
+          }
+        }
+      });
 
       this.syncOptionsWithSkipToScript (options);
     });
@@ -217,23 +233,34 @@ class OptionsButton extends HTMLElement {
   }
 
   saveButtonContentOptions () {
-
-    const form = this.form;
+   const formControls = this.formControls;
 
     getOptions().then( (options) => {
 
-
-      options.displayOption = form.showBorder.checked ? 'popup-border' : 'popup';
-
-      options.focusOption = 'none';
-
-      if (form.buttonFocusButtonInput.checked) {
-        options.focusOption = 'button';
-      }
-
-      if (form.buttonFocusMenuInput.checked) {
-        options.focusOption = 'menu';
-      }
+      formControls.forEach( input => {
+        debug.flag && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
+        const option = input.getAttribute('data-option');
+        if (input.type === 'checkbox') {
+          options[option] = input.checked ?
+                            input.getAttribute('data-checked') :
+                            input.getAttribute('data-unchecked');
+        }
+        else {
+          if (input.type === 'radio') {
+            if (input.checked) {
+              if (options[option].includes('main-only')) {
+                options[option] = 'main-only ' + input.value;
+              }
+              else {
+                options[option] = input.value;
+              }
+            }
+          }
+          else {
+            options[option] = input.value;
+          }
+        }
+      });
 
       saveOptions(options).then(
         this.syncOptionsWithSkipToScript(options));

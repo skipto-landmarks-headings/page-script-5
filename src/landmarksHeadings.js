@@ -18,7 +18,11 @@ import {
 export {
   getLandmarksAndHeadings,
   queryDOMForSkipToId,
-  skipToElement
+  skipToElement,
+  isSkipableElement,
+  isSlotElement,
+  isCustomElement,
+  setItemFocus
 };
 
 /* Constants */
@@ -39,7 +43,9 @@ const skipableElements = [
   'template',
   'shadow',
   'title',
-  'skip-to-content'
+  'skip-to-content',
+  'skip-to-content-bookmarklet',
+  'skip-to-content-extension'
 ];
 
 const allowedLandmarkSelectors = [
@@ -64,6 +70,14 @@ const higherLevelElements = [
 'section'
 ];
 
+const headingTags = [
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6'
+];
 
 let idIndex = 0;
 
@@ -165,16 +179,16 @@ function isTopLevel (node) {
 }  
 
 /*
- *   @function checkForLandmark
+ *   @function checkForLandmarkRole
  *
- *   @desc  Re=trns the lamdnark name if a landmark, otherwise an
- *          empty string
+ *   @desc  Returns the type of landmark region,
+ *          otherwise an empty string
  *
  *   @param  {Object}  element  - DOM element node
  *
  *   @returns {String}  see @desc
  */ 
-function checkForLandmark (element) {
+function checkForLandmarkRole (element) {
   if (element.hasAttribute('role')) {
     const role = element.getAttribute('role').toLowerCase();
     if (allowedLandmarkSelectors.indexOf(role) >= 0) {
@@ -302,6 +316,7 @@ function findVisibleElement (startingNode, tagNames) {
     var targetNode = null;
     for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
       if (node.nodeType === Node.ELEMENT_NODE) {
+
         if (!isSkipableElement(node)) {
           // check for slotted content
           if (isSlotElement(node)) {
@@ -378,19 +393,36 @@ function findVisibleElement (startingNode, tagNames) {
  */ 
 function skipToElement(menuitem) {
 
-  let focusNode = false;
-  let scrollNode = false;
   let elem;
-
-  const searchSelectors = ['input', 'button', 'a'];
-  const navigationSelectors = ['a', 'input', 'button'];
-  const landmarkSelectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'section', 'article', 'p', 'li', 'a'];
 
   const isLandmark = menuitem.classList.contains('landmark');
   const isSearch = menuitem.classList.contains('skip-to-search');
   const isNav = menuitem.classList.contains('skip-to-nav');
 
   elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
+
+  setItemFocus(elem, isLandmark, isSearch, isNav);
+
+}
+
+/*
+ *   @function setItemFocus
+ *
+ *   @desc  Sets focus on the appropriate element
+ *
+ *   @param {Object}   elem        -  A target element
+ *   @param {Boolean}  isLandmark  -  True if item is a landmark, otherwise false
+ *   @param {Boolean}  isSearch    -  True if item is a search landmark, otherwise false
+ *   @param {Boolean}  isNav       -  True if item is a navigation landmark, otherwise false
+ */
+function setItemFocus(elem, isLandmark, isSearch, isNav) {
+
+  let focusNode = false;
+  let scrollNode = false;
+
+  const searchSelectors = ['input', 'button', 'a'];
+  const navigationSelectors = ['a', 'input', 'button'];
+  const landmarkSelectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'section', 'article', 'p', 'li', 'a'];
 
   if (elem) {
     if (isSearch) {
@@ -426,6 +458,8 @@ function skipToElement(menuitem) {
       elem.scrollIntoView({block: 'center'});
     }
   }
+
+
 }
 
 /*
@@ -462,6 +496,9 @@ function getHeadingTargets(targets) {
 function isMain (element) {
   const tagName = element.tagName.toLowerCase();
   const role = element.hasAttribute('role') ? element.getAttribute('role').toLowerCase() : '';
+  if ((role === 'presentation') || (role === 'none')) {
+    return false;
+  }
   return (tagName === 'main') || (role === 'main');
 }
 
@@ -478,6 +515,7 @@ function isMain (element) {
  *   @returns {Array}  @see @desc
  */ 
 function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skiptoId) {
+
   let headingInfo = [];
   let landmarkInfo = [];
   let targetLandmarks = getLandmarkTargets(landmarkTargets.toLowerCase());
@@ -485,22 +523,61 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
   let onlyInMain = headingTargets.includes('main') || headingTargets.includes('main-only');
 
   function transverseDOM(startingNode, doc, parentDoc=null, inMain = false) {
-    for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        const tagName = node.tagName.toLowerCase();
-        if ((targetLandmarks.indexOf(checkForLandmark(node)) >= 0) &&
-            (node.id !== skiptoId)) {
-          landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
+
+    function checkForLandmark(doc, node) {
+      const landmark = checkForLandmarkRole(node);
+      if (landmark && (node.id !== skiptoId)) {
+        const accName = getAccessibleName(doc, node);
+        node.setAttribute('data-skip-to-info', `landmark ${landmark}`);
+        node.setAttribute('data-skip-to-acc-name', accName);
+
+        if ((targetLandmarks.indexOf(landmark) >= 0) ) {
+          landmarkInfo.push({
+            node: node,
+            name: accName
+          });
         }
+      }
+    }
+
+    function checkForHeading(doc, node, inMain) {
+      const isHeadingRole = node.role ? node.role.toLowerCase() === 'heading' : false;
+      const hasAriaLevel = parseInt(node.ariaLevel) > 0;
+      const tagName = (isHeadingRole && hasAriaLevel) ?
+                      `h${node.ariaLevel}` :
+                      node.tagName.toLowerCase();
+      const level = (isHeadingRole && hasAriaLevel) ?
+                    node.ariaLevel :
+                    headingTags.includes(tagName) ?
+                    tagName.substring(1) :
+                    '';
+      if (headingTags.includes(tagName) ||
+         (isHeadingRole && hasAriaLevel)) {
+        const accName = getAccessibleName(doc, node, true);
+        node.setAttribute('data-skip-to-info', `heading ${tagName}`);
+        node.setAttribute('data-skip-to-acc-name', accName);
         if (targetHeadings.indexOf(tagName) >= 0) {
           if (!onlyInMain || inMain) {
-            headingInfo.push({ node: node, name: getAccessibleName(doc, node, true)});
+            headingInfo.push({
+              node: node,
+              tagName: tagName,
+              level: level,
+              name: accName,
+              inMain: inMain
+            });
           }
         }
+      }
+    }
 
-        if (isMain(node)) {
-          inMain = true;
-        }
+    for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+
+        debug.flag && debug.log(`[transverseDOM][node]: ${node.tagName} isSlot:${isSlotElement(node)} isCustom:${isCustomElement(node)}`);
+
+        checkForLandmark(doc, node);
+        checkForHeading(doc, node, inMain);
+        inMain = isMain(node) || inMain;
 
         if (!isSkipableElement(node)) {
           // check for slotted content
@@ -516,16 +593,8 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
             for (let i = 0; i < assignedNodes.length; i += 1) {
               const assignedNode = assignedNodes[i];
               if (assignedNode.nodeType === Node.ELEMENT_NODE) {
-                const tagName = assignedNodes[i].tagName.toLowerCase();
-                if (targetLandmarks.indexOf(checkForLandmark(assignedNode)) >= 0) {
-                  landmarkInfo.push({ node: assignedNode, name: getAccessibleName(nameDoc, assignedNode)});
-                }
-
-                if (targetHeadings.indexOf(tagName) >= 0) {
-                  if (!onlyInMain || inMain) {
-                    headingInfo.push({ node: assignedNode, name: getAccessibleName(nameDoc, assignedNode, true)});
-                  }
-                }
+                checkForLandmark(nameDoc, assignedNode);
+                checkForHeading(nameDoc, assignedNode, inMain);
                 if (slotContent) {
                   transverseDOM(assignedNode, parentDoc, null, inMain);
                 } else {
@@ -570,7 +639,6 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
   if (landmarkInfo.length === 0) {
      console.warn(`[skipTo.js]: no landmarks found on page`);
   }
-
 
   return [landmarkInfo, headingInfo];
 }
@@ -618,13 +686,16 @@ function getLandmarksAndHeadings (config, skiptoId) {
  * @returns see @desc
  */
 function getHeadings (config, headings) {
-  let dataId, level;
+  let dataId;
   let headingElementsArr = [];
 
   for (let i = 0, len = headings.length; i < len; i += 1) {
     let heading = headings[i];
+
     let role = heading.node.getAttribute('role');
-    if ((typeof role === 'string') && (role === 'presentation')) continue;
+    if ((typeof role === 'string') &&
+        ((role === 'presentation') || role === 'none')
+       ) continue;
     if (isVisible(heading.node) && isNotEmptyString(heading.node.textContent)) {
       if (heading.node.hasAttribute('data-skip-to-id')) {
         dataId = heading.node.getAttribute('data-skip-to-id');
@@ -632,16 +703,16 @@ function getHeadings (config, headings) {
         dataId = getSkipToIdIndex();
         heading.node.setAttribute('data-skip-to-id', dataId);
       }
-      level = heading.node.tagName.substring(1);
       const headingItem = {};
       headingItem.dataId = dataId.toString();
       headingItem.class = 'heading';
       headingItem.name = heading.name;
       headingItem.ariaLabel = headingItem.name + ', ';
-      headingItem.ariaLabel += config.headingLevelLabel + ' ' + level;
-      headingItem.tagName = heading.node.tagName.toLowerCase();
+      headingItem.ariaLabel += config.headingLevelLabel + ' ' + heading.level;
+      headingItem.tagName = heading.tagName;
       headingItem.role = 'heading';
-      headingItem.level = level;
+      headingItem.level = heading.level;
+      headingItem.inMain = heading.inMain;
       headingElementsArr.push(headingItem);
       incSkipToIdIndex();
     }
@@ -720,7 +791,8 @@ function getLandmarkTargets (targets) {
   if (targets.includes('search')) {
     targetLandmarks.push('search');
   }
-  if (targets.includes('nav')) {
+  if (targets.includes('nav') ||
+      targets.includes('navigation')) {
     targetLandmarks.push('navigation');
   }
   if (targets.includes('complementary') || 
@@ -773,7 +845,9 @@ function getLandmarks(config, landmarks) {
     }
     let role = landmark.node.getAttribute('role');
     let tagName = landmark.node.tagName.toLowerCase();
-    if ((typeof role === 'string') && (role === 'presentation')) continue;
+    if ((typeof role === 'string') &&
+        ((role === 'presentation') || (role === 'none'))
+       ) continue;
     if (isVisible(landmark.node)) {
       if (!role) role = tagName;
       // normalize tagNames
@@ -804,10 +878,6 @@ function getLandmarks(config, landmarks) {
           break;
         default:
           break;
-      }
-      // if using ID for selectQuery give tagName as main
-      if (['aside', 'footer', 'form', 'header', 'main', 'nav', 'section', 'search'].indexOf(tagName) < 0) {
-        tagName = 'main';
       }
       if (landmark.node.hasAttribute('aria-roledescription')) {
         tagName = landmark.node.getAttribute('aria-roledescription').trim().replace(' ', '-');

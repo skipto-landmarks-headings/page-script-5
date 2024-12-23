@@ -5,19 +5,27 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
 
 import DebugLogging  from './debug.js';
 
+import {
+  getLandmarksAndHeadings
+} from './landmarksHeadings.js';
+
+import {
+  monitorKeyboardFocus
+} from './shortcuts.js';
+
 /* constants */
 const debug = new DebugLogging('skiptoContent', false);
 debug.flag = false;
 
 
-export default class SkipToContent extends HTMLElement {
+export default class SkipToContent570 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
     this.skipToId = 'id-skip-to';
-    this.version = "5.6.3";
+    this.version = "5.7";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -46,10 +54,64 @@ export default class SkipToContent extends HTMLElement {
       buttonShortcut: ' ($modifier+$key)',
       buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
+      // Page navigation flag and keys
+      shortcutsSupported: 'true', // options: true or false
+      shortcuts: 'enabled',  // options: disabled and enabled
+      shortcutHeadingNext: 'h',
+      shortcutHeadingPrevious: 'H',
+      shortcutHeadingH1: '1',
+      shortcutHeadingH2: '2',
+      shortcutHeadingH3: '3',
+      shortcutHeadingH4: '4',
+      shortcutHeadingH5: '5',
+      shortcutHeadingH6: '6',
+
+      shortcutRegionNext: 'r',
+      shortcutRegionPrevious: 'R',
+      shortcutRegionMain: 'm',
+      shortcutRegionNavigation: 'n',
+      shortcutRegionComplementary: 'c',
+
+      shortcutsGroupEnabledLabel:  'Shortcuts: Enabled',
+      shortcutsGroupDisabledLabel: 'Shortcuts: Disabled',
+      shortcutsToggleEnableLabel:  'Enable shortcuts',
+      shortcutsToggleDisableLabel: 'Disable shortcuts',
+      shortcutsInfoLabel:          'Shortcut Information',
+
+      closeLabel: 'Close',
+      moreInfoLabel: 'More Information',
+      msgKey: 'Key',
+      msgDescription: 'Description',
+
+      msgNextRegion: 'Next region',
+      msgPreviousRegion: 'Previous region',
+      msgNextHeading: 'Next heading',
+      msgPreviousHeading: 'Previous heading',
+
+      msgMainRegions: 'Main regions',
+      msgNavigationRegions: 'Navigation regions',
+      msgComplementaryRegions: 'Complementary regions',
+
+      msgHeadingLevel: 'Level #',
+      msgH1Headings: 'Level 1 headings',
+      msgH2Headings: 'Level 2 headings',
+      msgH3Headings: 'Level 3 headings',
+      msgH4Headings: 'Level 4 headings',
+      msgH5Headings: 'Level 5 headings',
+      msgH6Headings: 'Level 6 headings',
+
+      // Messages for navigation
+
+      msgNoMoreRegions: 'No more regions',
+      msgNoRegionsFound: 'No %r regions found',
+      msgNoMoreHeadings: 'No more headings',
+      msgNoHeadingsLevelFound: 'No level %h headings found',
+
       // Menu labels and messages
       menuLabel: 'Landmarks and Headings',
       landmarkGroupLabel: 'Landmark Regions',
       headingGroupLabel: 'Headings',
+      headingMainGroupLabel: 'Headings in Main Region',
       headingLevelLabel: 'Heading level',
       mainLabel: 'main',
       searchLabel: 'search',
@@ -68,6 +130,11 @@ export default class SkipToContent extends HTMLElement {
 
       // Highlight options
       highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
+
+      // Hidden heading when highlighting
+      msgHidden: 'Heading is hidden',
+      hiddenHeadingColor: '#000000',
+      hiddenHeadingBackgroundColor: '#ffcc00',
 
       // Place holders for configuration
       colorTheme: '',
@@ -91,13 +158,31 @@ export default class SkipToContent extends HTMLElement {
   static get observedAttributes() {
     return [
       "data-skipto",
-      "setfocus"
+      "setfocus",
+      "type",
+      "shortcuts"
       ];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
+
     if (name === 'data-skipto') {
       this.config = this.setupConfigFromDataAttribute(this.config, newValue);
+    }
+
+    if (name === 'type') {
+      if (newValue === 'extension') {
+        this.config.shortcuts = 'enabled';
+      }
+    }
+
+    if (name === 'shortcuts') {
+      if (newValue.trim().toLowerCase() === 'enable') {
+        this.config.shortcuts = 'enabled';
+      }
+      else {
+        this.config.shortcuts = 'disabled';
+      }
     }
 
     if (name === 'setfocus') {
@@ -144,8 +229,16 @@ export default class SkipToContent extends HTMLElement {
       }
 
       // Add skipto style sheet to document
-      renderStyleElement(this.shadowRoot, this.config, this.skipToId);
+      renderStyleElement(this.shadowRoot, this.config, this.skipToId, globalConfig);
       this.buttonSkipTo = new SkiptoMenuButton(this);
+
+      // Add landmark and heading info to DOM elements for keyboard navigation
+      // if using bookmarklet or extension
+      if (!globalConfig) {
+        getLandmarksAndHeadings(this.config, this.skipToId);
+        monitorKeyboardFocus();
+      }
+
     }
 
     this.setAttribute('focus', 'none');
@@ -207,7 +300,9 @@ export default class SkipToContent extends HTMLElement {
     if (params) {
       const values = params.split(';');
       values.forEach( v => {
-        let [prop, value] = v.split(':');
+        const index = v.indexOf(':');
+        let prop  = v.substring(0,index);
+        let value = v.substring(index+1);
         if (prop) {
           prop = prop.trim();
         }
@@ -239,8 +334,34 @@ export default class SkipToContent extends HTMLElement {
       this.buttonSkipTo.setDisplayOption(config['displayOption']);
     }
 
+    const infoDialog = document.querySelector('skip-to-shortcuts-info-dialog');
+    if (infoDialog) {
+      infoDialog.configureStyle(config);
+    }
+
+    const shortcutsMessage = document.querySelector('skip-to-shortcuts-message');
+    if (shortcutsMessage) {
+      shortcutsMessage.configureStyle(config);
+    }
+
     return config;
   }
 
-
+    /*
+   * @method supportShortcuts
+   *
+   * @desc  Set suuportShortcuts configuration property
+   *
+   * @param  {Boolean}  value - If true support keyboard shortcuts, otherwise disable
+   */
+  supportShortcuts(value) {
+    if (value) {
+      this.config.shortcutsSupported = 'true';
+      this.config.shortcuts = 'enabled';
+    }
+    else {
+      this.config.shortcutsSupported = 'false';
+      this.config.shortcuts = 'disabled';
+    }
+  }
 }

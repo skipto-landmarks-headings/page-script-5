@@ -6,7 +6,7 @@
 
   debug && console.log(`[toggle.js][onclick]`);
 
-  let skipToContentElem = document.querySelector('skip-to-content');
+  let skipToContentElem = document.querySelector('skip-to-content-extension');
 
   debug && console.log(`[toggle.js]: ${skipToContentElem} ${skipToContentElem.checked}`);
 

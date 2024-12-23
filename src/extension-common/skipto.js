@@ -1,6 +1,6 @@
 /* ========================================================================
- * Version: 5.6.3
- * Copyright (c) 2022, 2023, 2024 Jon Gunderson; Licensed BSD
+ * Version: 5.7
+ * Copyright (c) 2022, 2023, 2024, 2025 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -223,8 +223,11 @@
   /* style.js */
 
   /* Constants */
-  const debug$8 = new DebugLogging('style', false);
-  debug$8.flag = false;
+  const debug$c = new DebugLogging('style', false);
+  debug$c.flag = false;
+
+  const skipToMenuStyleID     = 'id-skip-to-menu-style';
+  const skipToHighlightStyleID = 'id-skip-to-highlight-style';
 
   const cssMenuTemplate = document.createElement('template');
   cssMenuTemplate.textContent = `
@@ -342,7 +345,7 @@ $skipToId.static {
 
 $skipToId [role="menu"] {
   position: absolute;
-  min-width: 17em;
+  min-width: 16em;
   display: none;
   margin: 0;
   padding: 0.25rem;
@@ -351,8 +354,6 @@ $skipToId [role="menu"] {
   border-style: solid;
   border-color: $focusBorderColor;
   border-radius: 5px;
-  overflow-x: hidden;
-  overflow-y: scroll;
   z-index: $zIndex !important;
   touch-action: none;
 }
@@ -361,6 +362,11 @@ $skipToId [role="group"] {
   display: grid;
   grid-auto-rows: min-content;
   grid-row-gap: 1px;
+}
+
+$skipToId [role="group"].overflow {
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 $skipToId [role="separator"]:first-child {
@@ -516,6 +522,11 @@ $skipToId [role="menuitem"].hover .label {
   background-color: $menuitemFocusBackgroundColor;
   color: $menuitemFocusTextColor;
 }
+
+$skipToId [role="separator"].shortcuts-disabled,
+$skipToId [role="menuitem"].shortcuts-disabled {
+  display: none;
+}
 `;
 
   const cssHighlightTemplate = document.createElement('template');
@@ -527,18 +538,66 @@ $skipToId-overlay {
   border-radius: 3px;
   border: 4px solid $buttonBackgroundColor;
   box-sizing: border-box;
+  pointer-events:none;
 }
 
-$skipToId-overlay div.overlay-border {
+$skipToId-overlay .overlay-border {
   margin: 0;
   padding: 0;
   position: relative;
   top: -2px;
   left: -2px;
-  border-radius: 3px;
+  border-radius: 3px 3px 3px 3px;
   border: 2px solid $focusBorderColor;
   z-index: $zHighlight;
   box-sizing: border-box;
+  pointer-events:none;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+$skipToId-overlay .overlay-border.skip-to-hidden {
+  background-color: $hiddenHeadingBackgroundColor;
+  color: $hiddenHeadingColor;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 0.9em;
+  text-align: center;
+  padding: .25em;
+  animation: fadeIn 1.5s;
+}
+
+$skipToId-overlay .overlay-border.hasInfoBottom {
+  border-radius: 3px 3px 3px 0;
+}
+
+$skipToId-overlay .overlay-border.hasInfoTop {
+  border-radius: 0 3px 3px 3px;
+}
+
+$skipToId-overlay .overlay-info {
+  position: relative;
+  text-align: left;
+  left: -2px;
+  padding: 1px 4px;
+  border: 2px solid $focusBorderColor;
+  background-color: $menuitemFocusBackgroundColor;
+  color: $menuitemFocusTextColor;
+  z-index: $zHighlight;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events:none;
+}
+
+$skipToId-overlay .overlay-info.hasInfoTop {
+  border-radius: 3px 3px 0 0;
+}
+
+$skipToId-overlay .overlay-info.hasInfoBottom {
+  border-radius: 0 0 3px 3px;
 }
 `;
 
@@ -658,11 +717,12 @@ $skipToId-overlay div.overlay-border {
    * @param  {String}  cssMenu       -  CSS template for the button and menu
    * @param  {String}  cssHighlight  -  CSS template for the highlighting
    * @param  {Object}  config        -  SkipTo.js configuration information object
+   * @param  {Boolean} useURLTheme   -  When true use the theme associated with the URL
    *
    * @returns. see @desc
    */
-  function addCSSColors (cssMenu, cssHighlight, config) {
-    const theme = getTheme(config.colorTheme);
+  function addCSSColors (cssMenu, cssHighlight, config, useURLTheme=false) {
+    const theme = useURLTheme ? getTheme(config.colorTheme) : {};
     const defaultTheme = getTheme('default');
 
     // Check for display option in theme
@@ -701,6 +761,10 @@ $skipToId-overlay div.overlay-border {
     cssHighlight = updateStyle(cssHighlight, '$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
     cssHighlight = updateStyle(cssHighlight, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
     cssHighlight = updateStyle(cssHighlight, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
+    cssHighlight = updateStyle(cssHighlight, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
+    cssHighlight = updateStyle(cssHighlight, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
+    cssHighlight = updateStyle(cssHighlight, '$hiddenHeadingColor', config.hiddenHeadingColor, theme.hiddenHeadingColor, defaultTheme.hiddenHeadingColor);
+    cssHighlight = updateStyle(cssHighlight, '$hiddenHeadingBackgroundColor', config.hiddenHeadingBackgroundColor, theme.hiddenHeadingBackgroundColor, defaultTheme.hiddenHeadingBackgroundColor);
 
     // Special case for theme configuration used in Illinois theme
     if (typeof theme.highlightTarget === 'string') {
@@ -716,35 +780,36 @@ $skipToId-overlay div.overlay-border {
    *
    *   @desc  Updates the style sheet template and then attaches it to the document
    *
-   * @param {Object}  attachNode      - DOM element node to attach button and menu container element
+   * @param  {Object}  attachNode      - DOM element node to attach button and menu container element
    * @param  {Object}  config          -  Configuration information object
    * @param  {String}  skipYToStyleId  -  Id used for the skipto container element
+   * @param  {Boolean} useURLTheme     - When true use the theme associated with the URL
    */
-  function renderStyleElement (attachNode, config, skipToId) {
+  function renderStyleElement (attachNode, config, skipToId, useURLTheme=false) {
     let cssMenu = cssMenuTemplate.textContent.slice(0);
     cssMenu = cssMenu.replaceAll('$skipToId', '#' + skipToId);
 
     let cssHighlight = cssHighlightTemplate.textContent.slice(0);
     cssHighlight = cssHighlight.replaceAll('$skipToId', '#' + skipToId);
 
-    [cssMenu, cssHighlight] = addCSSColors(cssMenu, cssHighlight, config);
+    [cssMenu, cssHighlight] = addCSSColors(cssMenu, cssHighlight, config, useURLTheme);
 
 
-    let styleNode = attachNode.querySelector('#id-skip-to-style');
+    let styleNode = attachNode.querySelector(`#${skipToMenuStyleID}`);
     if (!styleNode) {
       styleNode = document.createElement('style');
       attachNode.appendChild(styleNode);
-      styleNode.setAttribute('id', 'id-skip-to-style');
+      styleNode.setAttribute('id', `${skipToMenuStyleID}`);
     }
     styleNode.textContent = cssMenu;
 
     const headNode = document.querySelector('head');
     if (headNode) {
-      let highlightStyleNode = headNode.querySelector('#id-skip-to-highlight');
+      let highlightStyleNode = headNode.querySelector(`#${skipToHighlightStyleID}`);
       if (!highlightStyleNode) {
         highlightStyleNode = document.createElement('style');
         headNode.appendChild(highlightStyleNode);
-        highlightStyleNode.setAttribute('id', 'id-skip-to-highlight');
+        highlightStyleNode.setAttribute('id', `${skipToHighlightStyleID}`);
       }
       highlightStyleNode.textContent = cssHighlight;
     }
@@ -754,8 +819,8 @@ $skipToId-overlay div.overlay-border {
   /* utils.js */
 
   /* Constants */
-  const debug$7 = new DebugLogging('Utils', false);
-  debug$7.flag = false;
+  const debug$b = new DebugLogging('Utils', false);
+  debug$b.flag = false;
 
 
   /*
@@ -838,14 +903,574 @@ $skipToId-overlay div.overlay-border {
     return !isDisplayNone(element);
   }
 
+  /* shortcutInfoDialog.js */
+
+  /* Constants */
+  const debug$a = new DebugLogging('[shortcutsInfoDialog]', false);
+  debug$a.flag = false;
+
+  const defaultStyleOptions$1 = {
+    fontFamily: 'sans-serif',
+    fontSize: '12pt',
+    focusBorderColor: '#c5050c',
+    menuTextColor: '#13294b',
+    menuBackgroundColor: '#dddddd',
+  };
+
+  const MORE_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
+
+  const styleTemplate$1 = document.createElement('template');
+  styleTemplate$1.textContent = `
+/* infoDialog.css */
+
+dialog#skip-to-info-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+
+  font-family: $fontFamily;
+  font-size: $fontSize;
+  max-width: 70%;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  border: 2px solid $focusBorderColor;
+  border-radius: 5px;
+  color: black;
+  z-index: 2000001;
+
+}
+
+dialog#skip-to-info-dialog .header {
+  margin: 0;
+  margin-bottom: 0.5em;
+  padding: 4px;
+  border-bottom: 1px solid $focusBorderColor;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-weight:  bold;
+  background-color: $menuBackgroundColor;
+  color $menuTextColor:
+  position: relative;
+  font-size: 100%;
+}
+
+dialog#skip-to-info-dialog .header h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+}
+
+dialog#skip-to-info-dialog .header button {
+  position: absolute;
+  top: -0.25em;
+  right: 0;
+  border: none;
+  background: transparent;
+  font-weight: bold;
+  color: black;
+}
+
+dialog#skip-to-info-dialog .content {
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: 0;
+  margin-bottom: 2em;
+}
+
+dialog#skip-to-info-dialog .content table {
+  width: auto;
+}
+
+dialog#skip-to-info-dialog .content caption {
+  margin: 0;
+  padding: 0;
+  margin-top: 1em;
+  text-align: left;
+  font-weight: bold;
+  font-size: 110%;
+}
+
+dialog#skip-to-info-dialog .content th {
+  margin: 0;
+  padding: 0;
+  padding-top: 0.125em;
+  padding-buttom: 0.125em;
+  text-align: left;
+  font-weight: bold;
+  font-size: 100%;
+  border-bottom: 1px solid #999;
+}
+
+dialog#skip-to-info-dialog .content th.shortcut {
+  width: 2.5em;
+}
+
+dialog#skip-to-info-dialog .content td {
+  margin: 0;
+  padding: 0;
+  padding-top: 0.125em;
+  padding-buttom: 0.125em;
+  text-align: left;
+  font-size: 100%;
+}
+
+
+dialog#skip-to-info-dialog .content table tr:nth-child(even) {
+  background-color: #eee;
+}
+
+dialog#skip-to-info-dialog .buttons {
+  float: right;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+dialog#skip-to-info-dialog button {
+  margin: 6px;
+}
+
+dialog#skip-to-info-dialog .buttons button {
+  min-width: 5em;
+}
+
+button:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+`;
+
+  class ShortcutsInfoDialog extends HTMLElement {
+    constructor () {
+
+      super();
+      this.attachShadow({ mode: 'open' });
+
+      // Get references
+
+      this.infoDialog  = document.createElement('dialog');
+      this.infoDialog.id = 'skip-to-info-dialog';
+      this.shadowRoot.appendChild(this.infoDialog);
+
+      const headerElem  = document.createElement('div');
+      headerElem.className = 'header';
+      this.infoDialog.appendChild(headerElem);
+
+      this.h2Elem  = document.createElement('h2');
+      this.h2Elem.textContent = 'Keyboard Shortcuts';
+      headerElem.appendChild(this.h2Elem);
+
+      this.closeButton1  = document.createElement('button');
+      this.closeButton1.textContent = '✕';
+      headerElem.appendChild(this.closeButton1);
+      this.closeButton1.addEventListener('click', this.onCloseButtonClick.bind(this));
+      this.closeButton1.addEventListener('keydown', this.onKeyDown.bind(this));
+
+      this.contentElem  = document.createElement('div');
+      this.contentElem.className = 'content';
+      this.infoDialog.appendChild(this.contentElem);
+
+      const buttonsElem  = document.createElement('div');
+      buttonsElem.className = 'buttons';
+      this.infoDialog.appendChild(buttonsElem);
+
+      this.moreInfoButton  = document.createElement('button');
+      this.moreInfoButton.textContent = 'More Information';
+      buttonsElem.appendChild(this.moreInfoButton);
+      this.moreInfoButton.addEventListener('click', this.onMoreInfoClick.bind(this));
+
+      this.closeButton2  = document.createElement('button');
+      this.closeButton2.textContent  = 'Close';
+      buttonsElem.appendChild(this.closeButton2);
+      this.closeButton2.addEventListener('click', this.onCloseButtonClick.bind(this));
+      this.closeButton2.addEventListener('keydown', this.onKeyDown.bind(this));
+
+    }
+
+    onCloseButtonClick () {
+      this.infoDialog.close();
+    }
+
+    openDialog () {
+      this.infoDialog.showModal();
+      this.closeButton2.focus();
+    }
+
+    onMoreInfoClick () {
+      window.open(MORE_INFO_URL, '_blank').focus();
+    }
+
+    configureStyle(config={}) {
+
+      function updateOption(style, option, configOption, defaultOption) {
+        if (configOption) {
+          return style.replaceAll(option, configOption);
+        }
+        else {
+          return style.replaceAll(option, defaultOption);
+        }
+      }
+
+      // make a copy of the template
+      let style = styleTemplate$1.textContent.slice(0);
+
+      style = updateOption(style,
+                           '$fontFamily',
+                           config.fontFamily,
+                           defaultStyleOptions$1.fontFamily);
+
+      style = updateOption(style,
+                           '$fontSize',
+                           config.fontSize,
+                           defaultStyleOptions$1.fontSize);
+
+      style = updateOption(style,
+                           '$focusBorderColor',
+                           config.focusBorderColor,
+                           defaultStyleOptions$1.focusBorderColor);
+
+      style = updateOption(style,
+                           '$menuTextColor',
+                           config.menuTextColor,
+                           defaultStyleOptions$1.menuTextColor);
+
+      style = updateOption(style,
+                           '$menuBackgroundColor',
+                           config.menuBackgroundColor,
+                           defaultStyleOptions$1.menuBackgroundColor);
+
+      let styleNode = this.shadowRoot.querySelector('style');
+
+      if (styleNode) {
+        styleNode.remove();
+      }
+
+      styleNode = document.createElement('style');
+      styleNode.textContent = style;
+      this.shadowRoot.appendChild(styleNode);
+
+    }
+
+
+    updateContent (config) {
+
+        while (this.contentElem.lastElementChild) {
+          this.contentElem.removeChild(this.contentElem.lastElementChild);
+        }
+
+        this.h2Elem.textContent = config.shortcutsInfoLabel;
+        this.closeButton1.setAttribute('aria-label', config.closeLabel);
+        this.closeButton2.textContent = config.closeLabel;
+        this.moreInfoButton.textContent = config.moreInfoLabel;
+
+        function addRow(tbodyElem, shortcut, desc) {
+
+          const trElem = document.createElement('tr');
+          tbodyElem.appendChild(trElem);
+
+          const tdElem1 = document.createElement('td');
+          tdElem1.className = 'shortcut';
+          tdElem1.textContent = shortcut;
+          trElem.appendChild(tdElem1);
+
+          const tdElem2 = document.createElement('td');
+          tdElem2.className = 'desc';
+          tdElem2.textContent = desc;
+          trElem.appendChild(tdElem2);
+        }
+
+        // Regions
+
+        const tableElem1 = document.createElement('table');
+        this.contentElem.appendChild(tableElem1);
+
+        const captionElem1 = document.createElement('caption');
+        captionElem1.textContent = config.landmarkGroupLabel;
+        tableElem1.appendChild(captionElem1);
+
+        const theadElem1 = document.createElement('thead');
+        tableElem1.appendChild(theadElem1);
+
+        const trElem1 = document.createElement('tr');
+        theadElem1.appendChild(trElem1);
+
+        const thElem1 = document.createElement('th');
+        thElem1.className = 'shortcut';
+        thElem1.textContent = config.msgKey;
+        trElem1.appendChild(thElem1);
+
+        const thElem2 = document.createElement('th');
+        thElem2.className = 'desc';
+        thElem2.textContent = config.msgDescription;
+        trElem1.appendChild(thElem2);
+
+        const tbodyElem1 = document.createElement('tbody');
+        tableElem1.appendChild(tbodyElem1);
+
+        addRow(tbodyElem1, config.shortcutRegionNext,          config.msgNextRegion);
+        addRow(tbodyElem1, config.shortcutRegionPrevious,      config.msgPreviousRegion);
+        addRow(tbodyElem1, config.shortcutRegionMain,          config.msgMainRegions);
+        addRow(tbodyElem1, config.shortcutRegionNavigation,    config.msgNavigationRegions);
+        addRow(tbodyElem1, config.shortcutRegionComplementary, config.msgComplementaryRegions);
+
+        // Headings
+
+        const tableElem2 = document.createElement('table');
+        this.contentElem.appendChild(tableElem2);
+
+        const captionElem2 = document.createElement('caption');
+        captionElem2.textContent = config.headingGroupLabel;
+        tableElem2.appendChild(captionElem2);
+
+        const theadElem2 = document.createElement('thead');
+        tableElem2.appendChild(theadElem2);
+
+        const trElem2 = document.createElement('tr');
+        theadElem2.appendChild(trElem2);
+
+        const thElem3 = document.createElement('th');
+        thElem3.className = 'shortcut';
+        thElem3.textContent = config.msgKey;
+        trElem2.appendChild(thElem3);
+
+        const thElem4 = document.createElement('th');
+        thElem4.className = 'desc';
+        thElem4.textContent = config.msgDescription;
+        trElem2.appendChild(thElem4);
+
+        const tbodyElem2 = document.createElement('tbody');
+        tableElem2.appendChild(tbodyElem2);
+
+        addRow(tbodyElem2, config.shortcutHeadingNext, config.msgNextHeading);
+        addRow(tbodyElem2, config.shortcutHeadingPrevious, config.msgPreviousHeading);
+        addRow(tbodyElem2, config.shortcutHeadingH1, config.msgH1Headings);
+        addRow(tbodyElem2, config.shortcutHeadingH2, config.msgH2Headings);
+        addRow(tbodyElem2, config.shortcutHeadingH3, config.msgH3Headings);
+        addRow(tbodyElem2, config.shortcutHeadingH4, config.msgH4Headings);
+        addRow(tbodyElem2, config.shortcutHeadingH5, config.msgH5Headings);
+        addRow(tbodyElem2, config.shortcutHeadingH6, config.msgH6Headings);
+
+    }
+
+    onKeyDown (event) {
+
+      if ((event.key === "Tab") &&
+          !event.altKey &&
+          !event.ctlKey &&
+          !event.metaKey) {
+
+        if (event.shiftKey &&
+            (event.currentTarget === this.closeButton1)) {
+          this.closeButton2.focus();
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        if (!event.shiftKey &&
+            (event.currentTarget === this.closeButton2)) {
+          this.closeButton1.focus();
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }
+    }
+  }
+
+  /* shortcutsMessage.js */
+
+  /* Constants */
+  const debug$9 = new DebugLogging('[shortcutsMessage]', false);
+  debug$9.flag = false;
+
+  const defaultStyleOptions = {
+    fontFamily: 'sans-serif',
+    fontSize: '12pt',
+    focusBorderColor: '#c5050c',
+    menuTextColor: '#13294b',
+    menuBackgroundColor: '#dddddd',
+  };
+
+  const styleTemplate = document.createElement('template');
+  styleTemplate.textContent = `
+/* shortcutsMessage.css */
+
+div#skip-to-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+
+  font-family: $fontFamily;
+  font-size: $fontSize;
+  max-width: 70%;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  border: 2px solid $focusBorderColor;
+  border-radius: 5px;
+  color: black;
+  z-index: 2000001;
+  opacity: 1;
+}
+
+div#skip-to-message .header {
+  margin: 0;
+  padding: 4px;
+  border-bottom: 1px solid $focusBorderColor;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-weight:  bold;
+  background-color: $menuBackgroundColor;
+  color $menuTextColor:
+  font-size: 100%;
+}
+
+div#skip-to-message .content {
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  background-color: #fff;
+  color: #000;
+  font-size: 110%;
+  text-algin: center;
+}
+
+div#skip-to-message.hidden {
+  display: none;
+}
+
+div#skip-to-message.show {
+  display: block;
+  opacity: 1;
+}
+
+div#skip-to-message.fade {
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 1s linear;
+}
+`;
+
+  class ShortcutsMessage extends HTMLElement {
+    constructor () {
+
+      super();
+      this.attachShadow({ mode: 'open' });
+
+      // Get references
+
+      this.messageDialog  = document.createElement('div');
+      this.messageDialog.id = 'skip-to-message';
+      this.messageDialog.classList.add('hidden');
+      this.shadowRoot.appendChild(this.messageDialog);
+
+      const headerElem  = document.createElement('div');
+      headerElem.className = 'header';
+      headerElem.textContent = 'SkipTo.js Message';
+      this.messageDialog.appendChild(headerElem);
+
+      this.contentElem  = document.createElement('div');
+      this.contentElem.className = 'content';
+      this.messageDialog.appendChild(this.contentElem);
+
+      this.timeoutShowID = false;
+      this.timeoutFadeID = false;
+
+    }
+
+    configureStyle(config={}) {
+
+      function updateOption(style, option, configOption, defaultOption) {
+        if (configOption) {
+          return style.replaceAll(option, configOption);
+        }
+        else {
+          return style.replaceAll(option, defaultOption);
+        }
+      }
+
+      // make a copy of the template
+      let style = styleTemplate.textContent.slice(0);
+
+      style = updateOption(style,
+                           '$fontFamily',
+                           config.fontFamily,
+                           defaultStyleOptions.fontFamily);
+
+      style = updateOption(style,
+                           '$fontSize',
+                           config.fontSize,
+                           defaultStyleOptions.fontSize);
+
+      style = updateOption(style,
+                           '$focusBorderColor',
+                           config.focusBorderColor,
+                           defaultStyleOptions.focusBorderColor);
+
+      style = updateOption(style,
+                           '$menuTextColor',
+                           config.menuTextColor,
+                           defaultStyleOptions.menuTextColor);
+
+      style = updateOption(style,
+                           '$menuBackgroundColor',
+                           config.menuBackgroundColor,
+                           defaultStyleOptions.menuBackgroundColor);
+
+      let styleNode = this.shadowRoot.querySelector('style');
+
+      if (styleNode) {
+        styleNode.remove();
+      }
+
+      styleNode = document.createElement('style');
+      styleNode.textContent = style;
+      this.shadowRoot.appendChild(styleNode);
+
+    }
+
+    close() {
+      this.messageDialog.classList.remove('show');
+      this.messageDialog.classList.remove('fade');
+      this.messageDialog.classList.add('hidden');
+    }
+
+    open(message) {
+      clearInterval(this.timeoutFadeID);
+      clearInterval(this.timeoutShowID);
+      this.messageDialog.classList.remove('hidden');
+      this.messageDialog.classList.remove('fade');
+      this.messageDialog.classList.add('show');
+      this.contentElem.textContent = message;
+
+      const msg = this;
+
+      this.timeoutFadeID = setTimeout( () => {
+        msg.messageDialog.classList.add('fade');
+        msg.messageDialog.classList.remove('show');
+      }, 3000);
+
+      this.timeoutShowID = setTimeout( () => {
+        msg.close();
+      }, 4000);
+
+    }
+
+  }
+
   /*
   *   namefrom.js
   */
 
   /* constants */
 
-  const debug$6 = new DebugLogging('nameFrom', false);
-  debug$6.flag = false;
+  const debug$8 = new DebugLogging('nameFrom', false);
+  debug$8.flag = false;
 
   //
   // LOW-LEVEL HELPER FUNCTIONS (NOT EXPORTED)
@@ -1114,8 +1739,8 @@ $skipToId-overlay div.overlay-border {
   /* accName.js */
 
   /* Constants */
-  const debug$5 = new DebugLogging('accName', false);
-  debug$5.flag = false;
+  const debug$7 = new DebugLogging('accName', false);
+  debug$7.flag = false;
 
   /**
    *   @fuction getAccessibleName
@@ -1193,8 +1818,8 @@ $skipToId-overlay div.overlay-border {
   /* landmarksHeadings.js */
 
   /* Constants */
-  const debug$4 = new DebugLogging('landmarksHeadings', false);
-  debug$4.flag = false;
+  const debug$6 = new DebugLogging('landmarksHeadings', false);
+  debug$6.flag = false;
 
   const skipableElements = [
     'base',
@@ -1210,7 +1835,9 @@ $skipToId-overlay div.overlay-border {
     'template',
     'shadow',
     'title',
-    'skip-to-content'
+    'skip-to-content',
+    'skip-to-content-bookmarklet',
+    'skip-to-content-extension'
   ];
 
   const allowedLandmarkSelectors = [
@@ -1235,6 +1862,14 @@ $skipToId-overlay div.overlay-border {
   'section'
   ];
 
+  const headingTags = [
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6'
+  ];
 
   let idIndex = 0;
 
@@ -1336,16 +1971,16 @@ $skipToId-overlay div.overlay-border {
   }  
 
   /*
-   *   @function checkForLandmark
+   *   @function checkForLandmarkRole
    *
-   *   @desc  Re=trns the lamdnark name if a landmark, otherwise an
-   *          empty string
+   *   @desc  Returns the type of landmark region,
+   *          otherwise an empty string
    *
    *   @param  {Object}  element  - DOM element node
    *
    *   @returns {String}  see @desc
    */ 
-  function checkForLandmark (element) {
+  function checkForLandmarkRole (element) {
     if (element.hasAttribute('role')) {
       const role = element.getAttribute('role').toLowerCase();
       if (allowedLandmarkSelectors.indexOf(role) >= 0) {
@@ -1470,6 +2105,7 @@ $skipToId-overlay div.overlay-border {
       var targetNode = null;
       for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
         if (node.nodeType === Node.ELEMENT_NODE) {
+
           if (!isSkipableElement(node)) {
             // check for slotted content
             if (isSlotElement(node)) {
@@ -1546,19 +2182,36 @@ $skipToId-overlay div.overlay-border {
    */ 
   function skipToElement(menuitem) {
 
-    let focusNode = false;
-    let scrollNode = false;
     let elem;
-
-    const searchSelectors = ['input', 'button', 'a'];
-    const navigationSelectors = ['a', 'input', 'button'];
-    const landmarkSelectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'section', 'article', 'p', 'li', 'a'];
 
     const isLandmark = menuitem.classList.contains('landmark');
     const isSearch = menuitem.classList.contains('skip-to-search');
     const isNav = menuitem.classList.contains('skip-to-nav');
 
     elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
+
+    setItemFocus(elem, isLandmark, isSearch, isNav);
+
+  }
+
+  /*
+   *   @function setItemFocus
+   *
+   *   @desc  Sets focus on the appropriate element
+   *
+   *   @param {Object}   elem        -  A target element
+   *   @param {Boolean}  isLandmark  -  True if item is a landmark, otherwise false
+   *   @param {Boolean}  isSearch    -  True if item is a search landmark, otherwise false
+   *   @param {Boolean}  isNav       -  True if item is a navigation landmark, otherwise false
+   */
+  function setItemFocus(elem, isLandmark, isSearch, isNav) {
+
+    let focusNode = false;
+    let scrollNode = false;
+
+    const searchSelectors = ['input', 'button', 'a'];
+    const navigationSelectors = ['a', 'input', 'button'];
+    const landmarkSelectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'section', 'article', 'p', 'li', 'a'];
 
     if (elem) {
       if (isSearch) {
@@ -1594,6 +2247,8 @@ $skipToId-overlay div.overlay-border {
         elem.scrollIntoView({block: 'center'});
       }
     }
+
+
   }
 
   /*
@@ -1630,6 +2285,9 @@ $skipToId-overlay div.overlay-border {
   function isMain (element) {
     const tagName = element.tagName.toLowerCase();
     const role = element.hasAttribute('role') ? element.getAttribute('role').toLowerCase() : '';
+    if ((role === 'presentation') || (role === 'none')) {
+      return false;
+    }
     return (tagName === 'main') || (role === 'main');
   }
 
@@ -1646,6 +2304,7 @@ $skipToId-overlay div.overlay-border {
    *   @returns {Array}  @see @desc
    */ 
   function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skiptoId) {
+
     let headingInfo = [];
     let landmarkInfo = [];
     let targetLandmarks = getLandmarkTargets(landmarkTargets.toLowerCase());
@@ -1653,22 +2312,61 @@ $skipToId-overlay div.overlay-border {
     let onlyInMain = headingTargets.includes('main') || headingTargets.includes('main-only');
 
     function transverseDOM(startingNode, doc, parentDoc=null, inMain = false) {
-      for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const tagName = node.tagName.toLowerCase();
-          if ((targetLandmarks.indexOf(checkForLandmark(node)) >= 0) &&
-              (node.id !== skiptoId)) {
-            landmarkInfo.push({ node: node, name: getAccessibleName(doc, node)});
+
+      function checkForLandmark(doc, node) {
+        const landmark = checkForLandmarkRole(node);
+        if (landmark && (node.id !== skiptoId)) {
+          const accName = getAccessibleName(doc, node);
+          node.setAttribute('data-skip-to-info', `landmark ${landmark}`);
+          node.setAttribute('data-skip-to-acc-name', accName);
+
+          if ((targetLandmarks.indexOf(landmark) >= 0) ) {
+            landmarkInfo.push({
+              node: node,
+              name: accName
+            });
           }
+        }
+      }
+
+      function checkForHeading(doc, node, inMain) {
+        const isHeadingRole = node.role ? node.role.toLowerCase() === 'heading' : false;
+        const hasAriaLevel = parseInt(node.ariaLevel) > 0;
+        const tagName = (isHeadingRole && hasAriaLevel) ?
+                        `h${node.ariaLevel}` :
+                        node.tagName.toLowerCase();
+        const level = (isHeadingRole && hasAriaLevel) ?
+                      node.ariaLevel :
+                      headingTags.includes(tagName) ?
+                      tagName.substring(1) :
+                      '';
+        if (headingTags.includes(tagName) ||
+           (isHeadingRole && hasAriaLevel)) {
+          const accName = getAccessibleName(doc, node, true);
+          node.setAttribute('data-skip-to-info', `heading ${tagName}`);
+          node.setAttribute('data-skip-to-acc-name', accName);
           if (targetHeadings.indexOf(tagName) >= 0) {
             if (!onlyInMain || inMain) {
-              headingInfo.push({ node: node, name: getAccessibleName(doc, node, true)});
+              headingInfo.push({
+                node: node,
+                tagName: tagName,
+                level: level,
+                name: accName,
+                inMain: inMain
+              });
             }
           }
+        }
+      }
 
-          if (isMain(node)) {
-            inMain = true;
-          }
+      for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+
+          debug$6.flag && debug$6.log(`[transverseDOM][node]: ${node.tagName} isSlot:${isSlotElement(node)} isCustom:${isCustomElement(node)}`);
+
+          checkForLandmark(doc, node);
+          checkForHeading(doc, node, inMain);
+          inMain = isMain(node) || inMain;
 
           if (!isSkipableElement(node)) {
             // check for slotted content
@@ -1684,16 +2382,8 @@ $skipToId-overlay div.overlay-border {
               for (let i = 0; i < assignedNodes.length; i += 1) {
                 const assignedNode = assignedNodes[i];
                 if (assignedNode.nodeType === Node.ELEMENT_NODE) {
-                  const tagName = assignedNodes[i].tagName.toLowerCase();
-                  if (targetLandmarks.indexOf(checkForLandmark(assignedNode)) >= 0) {
-                    landmarkInfo.push({ node: assignedNode, name: getAccessibleName(nameDoc, assignedNode)});
-                  }
-
-                  if (targetHeadings.indexOf(tagName) >= 0) {
-                    if (!onlyInMain || inMain) {
-                      headingInfo.push({ node: assignedNode, name: getAccessibleName(nameDoc, assignedNode, true)});
-                    }
-                  }
+                  checkForLandmark(nameDoc, assignedNode);
+                  checkForHeading(nameDoc, assignedNode, inMain);
                   if (slotContent) {
                     transverseDOM(assignedNode, parentDoc, null, inMain);
                   } else {
@@ -1738,7 +2428,6 @@ $skipToId-overlay div.overlay-border {
     if (landmarkInfo.length === 0) {
        console.warn(`[skipTo.js]: no landmarks found on page`);
     }
-
 
     return [landmarkInfo, headingInfo];
   }
@@ -1786,13 +2475,16 @@ $skipToId-overlay div.overlay-border {
    * @returns see @desc
    */
   function getHeadings (config, headings) {
-    let dataId, level;
+    let dataId;
     let headingElementsArr = [];
 
     for (let i = 0, len = headings.length; i < len; i += 1) {
       let heading = headings[i];
+
       let role = heading.node.getAttribute('role');
-      if ((typeof role === 'string') && (role === 'presentation')) continue;
+      if ((typeof role === 'string') &&
+          ((role === 'presentation') || role === 'none')
+         ) continue;
       if (isVisible(heading.node) && isNotEmptyString(heading.node.textContent)) {
         if (heading.node.hasAttribute('data-skip-to-id')) {
           dataId = heading.node.getAttribute('data-skip-to-id');
@@ -1800,16 +2492,16 @@ $skipToId-overlay div.overlay-border {
           dataId = getSkipToIdIndex();
           heading.node.setAttribute('data-skip-to-id', dataId);
         }
-        level = heading.node.tagName.substring(1);
         const headingItem = {};
         headingItem.dataId = dataId.toString();
         headingItem.class = 'heading';
         headingItem.name = heading.name;
         headingItem.ariaLabel = headingItem.name + ', ';
-        headingItem.ariaLabel += config.headingLevelLabel + ' ' + level;
-        headingItem.tagName = heading.node.tagName.toLowerCase();
+        headingItem.ariaLabel += config.headingLevelLabel + ' ' + heading.level;
+        headingItem.tagName = heading.tagName;
         headingItem.role = 'heading';
-        headingItem.level = level;
+        headingItem.level = heading.level;
+        headingItem.inMain = heading.inMain;
         headingElementsArr.push(headingItem);
         incSkipToIdIndex();
       }
@@ -1888,7 +2580,8 @@ $skipToId-overlay div.overlay-border {
     if (targets.includes('search')) {
       targetLandmarks.push('search');
     }
-    if (targets.includes('nav')) {
+    if (targets.includes('nav') ||
+        targets.includes('navigation')) {
       targetLandmarks.push('navigation');
     }
     if (targets.includes('complementary') || 
@@ -1941,7 +2634,9 @@ $skipToId-overlay div.overlay-border {
       }
       let role = landmark.node.getAttribute('role');
       let tagName = landmark.node.tagName.toLowerCase();
-      if ((typeof role === 'string') && (role === 'presentation')) continue;
+      if ((typeof role === 'string') &&
+          ((role === 'presentation') || (role === 'none'))
+         ) continue;
       if (isVisible(landmark.node)) {
         if (!role) role = tagName;
         // normalize tagNames
@@ -1970,10 +2665,6 @@ $skipToId-overlay div.overlay-border {
           case 'search':
             tagName = 'search';
             break;
-        }
-        // if using ID for selectQuery give tagName as main
-        if (['aside', 'footer', 'form', 'header', 'main', 'nav', 'section', 'search'].indexOf(tagName) < 0) {
-          tagName = 'main';
         }
         if (landmark.node.hasAttribute('aria-roledescription')) {
           tagName = landmark.node.getAttribute('aria-roledescription').trim().replace(' ', '-');
@@ -2033,15 +2724,15 @@ $skipToId-overlay div.overlay-border {
   /* highlight.js */
 
   /* Constants */
-  const debug$3 = new DebugLogging('highlight', false);
-  debug$3.flag = false;
+  const debug$5 = new DebugLogging('highlight', false);
+  debug$5.flag = false;
 
   const minWidth = 68;
   const minHeight = 27;
   const offset = 6;
   const borderWidth = 2;
 
-  const overlayId = 'id-skip-to-overlay';
+  const OVERLAY_ID = 'id-skip-to-overlay';
 
   /*
    *   @function getOverlayElement
@@ -2053,17 +2744,25 @@ $skipToId-overlay div.overlay-border {
 
   function getOverlayElement() {
 
-    let overlayElem = document.getElementById(overlayId);
+    let overlayElem = document.getElementById(OVERLAY_ID);
 
-    if (overlayElem === null) {
+    if (!overlayElem) {
       overlayElem = document.createElement('div');
       overlayElem.style.display = 'none';
-      overlayElem.id = overlayId;
+      overlayElem.id = OVERLAY_ID;
       document.body.appendChild(overlayElem);
 
       const overlayElemChild = document.createElement('div');
       overlayElemChild.className = 'overlay-border';
       overlayElem.appendChild(overlayElemChild);
+    }
+
+    const infoElem = overlayElem.querySelector('.overlay-info');
+
+    if (infoElem === null) {
+      const overlayInfoChild = document.createElement('div');
+      overlayInfoChild.className = 'overlay-info';
+      overlayElem.appendChild(overlayInfoChild);
     }
 
     return overlayElem;
@@ -2096,7 +2795,7 @@ $skipToId-overlay div.overlay-border {
    *   @function isElementStartInViewport
    *
    *   @desc  Returns true if start of the element is already visible in view port,
-   *          otheriwse false
+   *          otherwise false
    *
    *   @param {Object} element : DOM node of element to highlight
    *
@@ -2138,29 +2837,30 @@ $skipToId-overlay div.overlay-border {
    *   @desc  Highlights the element with the id on a page when highlighting
    *          is enabled (NOTE: Highlight is enabled by default)
    *
-   *   @param {String} id               : id of the element to highlight
-   *   @param {String} ihighlightTarget : value of highlight target
+   *   @param {Object}  elem            : DOM node of element to highlight
+   *   @param {String}  highlightTarget : value of highlight target
+   *   @param {String}  info            : Information about target
+   *   @param {Boolean} force           : If true override isRduced
    */
-  function highlightElement(id, highlightTarget) {
+  function highlightElement(elem, highlightTarget, info='', force=false) {
     const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
     const isReduced = !mediaQuery || mediaQuery.matches;
-    const element = queryDOMForSkipToId(id);
 
-    if (element && highlightTarget) {
+    if (elem && highlightTarget) {
 
-      if (isElementInHeightLarge(element)) {
-        if (!isElementStartInViewport(element)  && !isReduced) {
-          element.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
+      const overlayElem = getOverlayElement();
+      const scrollElement = updateOverlayElement(overlayElem, elem, info);
+
+      if (isElementInHeightLarge(elem)) {
+        if (!isElementStartInViewport(elem) && (!isReduced || force)) {
+          scrollElement.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
         }
       }
       else {
-        if (!isElementInViewport(element)  && !isReduced) {
-          element.scrollIntoView({ behavior: highlightTarget, block: 'start', inline: 'nearest' });
+        if (!isElementInViewport(elem)  && (!isReduced || force)) {
+          scrollElement.scrollIntoView({ behavior: highlightTarget, block: 'center', inline: 'nearest' });
         }
       }
-
-      const overlayElement = getOverlayElement();
-      updateOverlayElement(overlayElement, element);
     }
   }
 
@@ -2171,7 +2871,9 @@ $skipToId-overlay div.overlay-border {
    */
   function removeHighlight() {
     const overlayElement = getOverlayElement();
-    overlayElement.style.display = 'none';
+    if (overlayElement) {
+      overlayElement.style.display = 'none';
+    }
   }
 
   /*
@@ -2181,41 +2883,489 @@ $skipToId-overlay div.overlay-border {
    *
    *  @param  {Object}  overlayElem      -  DOM element for overlay
    *  @param  {Object}  element          -  DOM element node to highlight
+   *  @param  {String}  info             -  Description of the element
    *
    */
 
-  function updateOverlayElement (overlayElem, element) {
+  function updateOverlayElement (overlayElem, element, info) {
 
     const childElem = overlayElem.firstElementChild;
+    const infoElem  = overlayElem.querySelector('.overlay-info');
 
-    const rect = element.getBoundingClientRect();
+    let rect  = element.getBoundingClientRect();
 
-    const left   = rect.left > offset ?
+    let isHidden = false;
+
+
+    const rectLeft  = rect.left > offset ?
                     Math.round(rect.left - offset + window.scrollX) :
                     Math.round(rect.left + window.scrollX);
 
-    const width  = rect.left > offset ?
+    let left = rectLeft;
+
+    const rectWidth  = rect.left > offset ?
                     Math.max(rect.width  + offset * 2, minWidth) :
                     Math.max(rect.width, minWidth);
 
-    const top    = rect.top > offset ?
+    let width = rectWidth;
+
+    const rectTop    = rect.top > offset ?
                     Math.round(rect.top  - offset + window.scrollY) :
                     Math.round(rect.top + window.scrollY);
 
-    const height = rect.top > offset ?
+    let top = rectTop;
+
+    const rectHeight   = rect.top > offset ?
                     Math.max(rect.height + offset * 2, minHeight) :
                     Math.max(rect.height, minHeight);
 
+    let height = rectHeight;
+
+    if ((rect.height < 3) || (rect.width < 3)) {
+      isHidden = true;
+    }
+
+    if ((rectTop < 0) || (rectLeft < 0)) {
+      isHidden = true;
+      if (element.parentNode) {
+        const parentRect = element.parentNode.getBoundingClientRect();
+
+        if ((parentRect.top > 0) && (parentRect.left > 0)) {
+          top = parentRect.top > offset ?
+                    Math.round(parentRect.top  - offset + window.scrollY) :
+                    Math.round(parentRect.top + window.scrollY);
+          left = parentRect.left > offset ?
+                    Math.round(parentRect.left - offset + window.scrollX) :
+                    Math.round(parentRect.left + window.scrollX);
+        }
+        else {
+          left = offset;
+          top = offset;
+        }
+      }
+      else {
+        left = offset;
+        top = offset;
+      }
+    }
+
     overlayElem.style.left   = left   + 'px';
-    overlayElem.style.width  = width  + 'px';
     overlayElem.style.top    = top    + 'px';
-    overlayElem.style.height = height + 'px';
 
-    childElem.style.width  = (width  - 2 * borderWidth) + 'px';
-    childElem.style.height = (height - 2 * borderWidth) + 'px';
-
+    if (isHidden) {
+      childElem.textContent = 'Heading is hidden';
+      childElem.classList.add('skip-to-hidden');
+      overlayElem.style.width  = 'auto';
+      overlayElem.style.height = 'auto';
+      childElem.style.width  = 'auto';
+      childElem.style.height = 'auto';
+      height = childElem.getBoundingClientRect().height;
+      width  = childElem.getBoundingClientRect().width;
+      if (rect.top > offset) {
+        height += offset + 2;
+        width += offset + 2;
+      }
+    }
+    else {
+      childElem.textContent = '';
+      childElem.classList.remove('skip-to-hidden');
+      overlayElem.style.width  = width  + 'px';
+      overlayElem.style.height = height + 'px';
+      childElem.style.width  = (width  - 2 * borderWidth) + 'px';
+      childElem.style.height = (height - 2 * borderWidth) + 'px';
+    }
 
     overlayElem.style.display = 'block';
+
+    if (info) {
+      infoElem.style.display = 'inline-block';
+      infoElem.textContent = info;
+      if (top >= infoElem.getBoundingClientRect().height) {
+        childElem.classList.remove('hasInfoBottom');
+        infoElem.classList.remove('hasInfoBottom');
+        childElem.classList.add('hasInfoTop');
+        infoElem.classList.add('hasInfoTop');
+        if (!isHidden) {
+          infoElem.style.top = (-1 * (height + infoElem.getBoundingClientRect().height - 2 * borderWidth)) + 'px';
+        }
+        else {
+          infoElem.style.top = (-1 * (infoElem.getBoundingClientRect().height + childElem.getBoundingClientRect().height)) + 'px';
+        }
+      }
+      else {
+        childElem.classList.remove('hasInfoTop');
+        infoElem.classList.remove('hasInfoTop');
+        childElem.classList.add('hasInfoBottom');
+        infoElem.classList.add('hasInfoBottom');
+        infoElem.style.top = -2 + 'px';
+      }
+      return infoElem;
+    }
+    else {
+      childElem.classList.remove('hasInfo');
+      infoElem.style.display = 'none';
+      return overlayElem;
+    }
+  }
+
+  /* shortcuts.js */
+
+  /* Constants */
+  const debug$4 = new DebugLogging('shortcuts', false);
+  debug$4.flag = false;
+
+
+  /**
+   * @function monitorKeyboardFocus
+   *
+   * @desc Removes highlighting when keyboard focus changes
+   */
+  function monitorKeyboardFocus () {
+    document.addEventListener('focusin', () => {
+      removeHighlight();
+    });
+  }
+
+  /**
+   * @function navigateContent
+   *
+   * @desc Returns DOM node associated with the id, if id not found returns null
+   *
+   * @param {String}  target         - Feature to navigate (e.g. heading, landmark)
+   * @param {String}  direction      - 'next' or 'previous'
+   * @param {boolean} useFirst       - if item not found use first
+   * @param {boolean} nameRequired   - if true, item must have accessible name
+   */
+
+  function navigateContent (target, direction, msgHeadingLevel, useFirst=false, nameRequired=false) {
+
+    const lastFocusElem = getFocusElement();
+    let elem = lastFocusElem;
+    let lastElem;
+    let count = 0;
+
+    // Note: The counter is used as a safety mechanism for any endless loops
+
+    do {
+      lastElem = elem;
+      elem = queryDOMForSkipToNavigation(target, direction, elem, useFirst, nameRequired);
+      debug$4.flag && debug$4.log(`[navigateContent][elem]: ${elem} (${lastElem === elem})`);
+      if (elem) {
+        elem.tabIndex = elem.tabIndex >= 0 ? elem.tabIndex : -1;
+        elem.focus();
+      }
+      count += 1;
+    }
+    while (elem && (count < 100) && (lastElem !== elem) && (lastFocusElem === getFocusElement()));
+
+    // Set highlight
+    if (elem) {
+
+      let info = elem.hasAttribute('data-skip-to-info') ?
+                 elem.getAttribute('data-skip-to-info').replace('heading', '').replace('landmark', '').trim() :
+                'unknown';
+
+      if (elem.getAttribute('data-skip-to-info').includes('heading')) {
+        info = msgHeadingLevel.replace('#', info.substring(1));
+      }
+
+      if (elem.hasAttribute('data-skip-to-acc-name')) {
+        const name = elem.getAttribute('data-skip-to-acc-name').trim();
+        if (name) {
+          info += `: ${name}`;
+        }
+      }
+
+      highlightElement(elem, 'instant', info, true);  // force highlight since navigation
+    }
+
+    return elem;
+  }
+
+  /**
+   * @function queryDOMForSkipToNavigation
+   *
+   * @desc Returns DOM node associated with the id, if id not found returns null
+   *
+   * @param {String}  target       - Feature to navigate (e.g. heading, landmark)
+   * @param {String}  direction    - 'next' or 'previous'
+   * @param {Object}  elem         - Element the search needs to pass, if null used focused element
+   * @param {boolean} useFirst     - if true, if item not found use first
+   * @param {boolean} nameRequired - if true, accessible name is required to include in navigation
+   *
+   * @returns {Object} @desc
+   */
+  function queryDOMForSkipToNavigation (target, direction, elem, useFirst=false, nameRequired=false) {
+
+    let lastNode = false;
+    let firstNode = false;
+    let passFound = false;
+
+    const passElem = elem ? elem : getFocusElement();
+
+    function transverseDOMForElement(startingNode) {
+
+      function checkForTarget (node) {
+
+        if (node.hasAttribute('data-skip-to-info') &&
+            node.getAttribute('data-skip-to-info').includes(target) &&
+            ( !nameRequired || (nameRequired &&
+              node.hasAttribute('data-skip-to-acc-name') &&
+              node.getAttribute('data-skip-to-acc-name').trim().length > 0))) {
+
+          if (target.includes('heading'))
+
+          debug$4.flag && debug$4.log(`[checkForTarget][${node.tagName}]: ${node.textContent.trim().substring(0, 10)} (vis:${isVisible(node)} pf:${passFound})`);
+
+          if (!firstNode &&
+              isVisible(node)) {
+            debug$4.flag && debug$4.log(`[checkForTarget][firstNode]`);
+            firstNode = node;
+          }
+
+          if ((node !== passElem) &&
+              isVisible(node)) {
+            debug$4.flag && debug$4.log(`[checkForTarget][lastNode]`);
+            lastNode = node;
+          }
+
+          if (passFound &&
+             (direction === 'next') &&
+              isVisible(node)) {
+            debug$4.flag && debug$4.log(`[checkForTarget][found]`);
+            return node;
+          }
+        }
+
+        if (node === passElem) {
+          passFound = true;
+          debug$4.flag && debug$4.log(`[checkForTarget][passFound]: ${node.tagName}`);
+          if (direction === 'previous') {
+            return lastNode;
+          }
+        }
+
+        return false;
+      }
+
+      let targetNode = null;
+      for (let node = startingNode.firstChild; node !== null; node = node.nextSibling ) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+
+          targetNode = checkForTarget(node);
+          if (targetNode) {
+            return targetNode;
+          }
+
+          if (!isSkipableElement(node)) {
+            // check for slotted content
+            if (isSlotElement(node)) {
+                // if no slotted elements, check for default slotted content
+              const assignedNodes = node.assignedNodes().length ?
+                                    node.assignedNodes() :
+                                    node.assignedNodes({ flatten: true });
+              for (let i = 0; i < assignedNodes.length; i += 1) {
+                const assignedNode = assignedNodes[i];
+                if (assignedNode.nodeType === Node.ELEMENT_NODE) {
+
+                  targetNode = checkForTarget(assignedNode);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+
+                  targetNode = transverseDOMForElement(assignedNode);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+              }
+            } else {
+              // check for custom elements
+              if (isCustomElement(node)) {
+                if (node.shadowRoot) {
+                  targetNode = transverseDOMForElement(node.shadowRoot);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+                else {
+                  targetNode = transverseDOMForElement(node);
+                  if (targetNode) {
+                    return targetNode;
+                  }
+                }
+              } else {
+                targetNode = transverseDOMForElement(node);
+                if (targetNode) {
+                  return targetNode;
+                }
+              }
+            }
+          }
+        } // end if
+      } // end for
+      return false;
+    } // end function
+
+    passFound = passElem === document.body;
+    let node = transverseDOMForElement(document.body);
+
+    if (!node && useFirst && firstNode) {
+      node = firstNode;
+    }
+
+    return node;
+  }
+
+  /**
+   * @function getFocusElement
+   *
+   * @desc Returns DOM element node that has focus, if no DOM node
+   *       has focus returns null
+   *
+   * @returns {Object} @desc
+   */
+  function getFocusElement() {
+
+    let elem = document.activeElement;
+
+    while (elem.shadowRoot && elem.shadowRoot.activeElement) {
+      elem = elem.shadowRoot.activeElement;
+    }
+    return elem;
+  }
+
+  /* keyboardHelper.js */
+
+  /* Constants */
+  const debug$3 = new DebugLogging('[kbdHelpers]', false);
+  debug$3.flag = false;
+
+  /*
+   * @method isInteractiveElement
+   *
+   * @desc  Returns true if the element can use key presses, otherwise false
+   *
+   * @param  {object} elem - DOM node element
+   *
+   * @returns {Boolean}  see @desc
+   */
+
+  function elementTakesText (elem) {
+
+    const enabledInputTypes = [
+      'button',
+      'checkbox',
+      'color',
+      'image',
+      'radio',
+      'range',
+      'reset',
+      'submit'
+    ];
+
+    const tagName = elem.tagName ? elem.tagName.toLowerCase() : '';
+    const type =  tagName === 'input' ?
+                  (elem.type ? elem.type.toLowerCase() : 'text') :
+                  '';
+
+    debug$3.flag && debug$3.log(`[elementTakesText][type]: ${type} (${enabledInputTypes.includes(type)})`);
+
+    return (tagName === 'select') ||
+           (tagName === 'textarea') ||
+           ((tagName === 'input') &&
+            !enabledInputTypes.includes(type)) ||
+          inContentEditable(elem);
+  }
+
+  /*
+   * @function inContentEditable
+   *
+   * @desc Returns false if node is not in a content editable element,
+   *       otherwise true if it does
+   *
+   * @param  {Object}  elem - DOM node
+   *
+   * @returns {Boolean} see @desc
+   */
+  function inContentEditable (elem) {
+    let n = elem;
+    while (n.hasAttribute) {
+      if (n.hasAttribute('contenteditable') &&
+          (n.getAttribute('contenteditable').toLowerCase().trim() !== 'false')) {
+        return true;
+      }
+      n = n.parentNode;
+    }
+    return false;
+  }
+
+  /*
+   * @function noModifierPressed
+   *
+   * @desc Returns true if no modifier key is pressed, other false
+   *
+   * @param  {Object}  event - Event object
+   *
+   * @returns {Boolean} see @desc
+   */
+
+  function noModifierPressed (event) {
+    return !event.altKey &&
+          !event.ctrlKey &&
+          !event.shiftKey &&
+          !event.metaKey;
+  }
+
+  /*
+   * @function onlyShiftPressed
+   *
+   * @desc Returns true if only the shift modifier key is pressed, other false
+   *
+   * @param  {Object}  event - Event object
+   *
+   * @returns {Boolean} see @desc
+   */
+
+  function onlyShiftPressed (event) {
+    return !event.altKey &&
+          !event.ctrlKey &&
+          event.shiftKey &&
+          !event.metaKey;
+  }
+
+  /*
+   * @function onlyAltPressed
+   *
+   * @desc Returns true if only the alt modifier key is pressed, other false
+   *
+   * @param  {Object}  event - Event object
+   *
+   * @returns {Boolean} see @desc
+   */
+
+  function onlyAltPressed (event) {
+    return event.altKey &&
+          !event.ctrlKey &&
+          !event.shiftKey &&
+          !event.metaKey;
+  }
+
+  /*
+   * @function onlyOptionPressed
+   *
+   * @desc Returns true if only the option modifier key is pressed, other false
+   *
+   * @param  {Object}  event - Event object
+   *
+   * @returns {Boolean} see @desc
+   */
+
+  function onlyOptionPressed (event) {
+    return event.altKey &&
+          !event.ctrlKey &&
+          !event.shiftKey &&
+          !event.metaKey;
   }
 
   /* skiptoMenuButton.js */
@@ -2297,26 +3447,55 @@ $skipToId-overlay div.overlay-border {
         this.landmarkGroupLabelNode = document.createElement('div');
         this.landmarkGroupLabelNode.setAttribute('id', 'id-skip-to-menu-landmark-group-label');
         this.landmarkGroupLabelNode.setAttribute('role', 'separator');
-        this.landmarkGroupLabelNode.textContent = this.config.landmarkGroupLabel;
+        this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.landmarkGroupLabel);
         this.menuNode.appendChild(this.landmarkGroupLabelNode);
 
         this.landmarkGroupNode = document.createElement('div');
         this.landmarkGroupNode.setAttribute('id', 'id-skip-to-menu-landmark-group');
         this.landmarkGroupNode.setAttribute('role', 'group');
+        this.landmarkGroupNode.className = 'overflow';
         this.landmarkGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-landmark-group-label');
         this.menuNode.appendChild(this.landmarkGroupNode);
 
         this.headingGroupLabelNode = document.createElement('div');
         this.headingGroupLabelNode.setAttribute('id', 'id-skip-to-menu-heading-group-label');
         this.headingGroupLabelNode.setAttribute('role', 'separator');
-        this.headingGroupLabelNode.textContent = this.config.headingGroupLabel;
+        this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.headingGroupLabel);
         this.menuNode.appendChild(this.headingGroupLabelNode);
 
         this.headingGroupNode = document.createElement('div');
         this.headingGroupNode.setAttribute('id', 'id-skip-to-menu-heading-group');
         this.headingGroupNode.setAttribute('role', 'group');
+        this.headingGroupNode.className = 'overflow';
         this.headingGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-heading-group-label');
         this.menuNode.appendChild(this.headingGroupNode);
+
+        this.shortcutsGroupLabelNode = document.createElement('div');
+        this.shortcutsGroupLabelNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group-label');
+        this.shortcutsGroupLabelNode.setAttribute('role', 'separator');
+        if (this.config.shortcuts === 'enabled') {
+          this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupEnabledLabel;
+        }
+        else {
+          this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
+        }
+        this.menuNode.appendChild(this.shortcutsGroupLabelNode);
+
+        this.shortcutsGroupNode = document.createElement('div');
+        this.shortcutsGroupNode.setAttribute('id', 'id-skip-to-menu-shortcuts-group');
+        this.shortcutsGroupNode.setAttribute('role', 'group');
+        this.shortcutsGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-shortcutse-group-label');
+        this.menuNode.appendChild(this.shortcutsGroupNode);
+
+        window.customElements.define("skip-to-shortcuts-info-dialog", ShortcutsInfoDialog);
+        this.infoDialog = document.createElement('skip-to-shortcuts-info-dialog');
+        this.infoDialog.configureStyle(this.config);
+        document.body.appendChild(this.infoDialog);
+
+        window.customElements.define("skip-to-shortcuts-message", ShortcutsMessage);
+        this.shortcutsMessage = document.createElement('skip-to-shortcuts-message');
+        this.shortcutsMessage.configureStyle(this.config);
+        document.body.appendChild(this.shortcutsMessage);
 
         this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
         this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -2364,6 +3543,24 @@ $skipToId-overlay div.overlay-border {
         this.skipToContentElem.setAttribute('focus', 'button');
       }
 
+      /*
+       * @method addNumberToGroupLabel
+       *
+       * @desc Updates group label with the number of items in group,
+       *       The '#' character in the string is replaced with the number
+       *       if number is not provided, just remove number
+       *
+       * @param  {String}  label  -  Label to include number,
+       * @param  {Number}  num    -  Number to add to label
+       *
+       * @return {String}  see @desc
+       */
+      addNumberToGroupLabel(label, num=0) {
+        if (num > 0) {
+          return `${label} (${num})`;
+        }
+        return label;
+      }
 
       /*
        * @method updateLabels
@@ -2384,8 +3581,8 @@ $skipToId-overlay div.overlay-border {
         this.mediumButtonNode.textContent = config.buttonLabel;
 
         this.menuNode.setAttribute('aria-label', config.menuLabel);
-        this.landmarkGroupLabelNode.textContent = config.landmarkGroupLabel;
-        this.headingGroupLabelNode.textContent = config.headingGroupLabel;
+        this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel);
+        this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel);
       }
 
       /*
@@ -2504,14 +3701,20 @@ $skipToId-overlay div.overlay-border {
        * @method updateMenuitems
        *
        * @desc  Updates the menu information with the current menu items
-       *        used for menu navigation commands
+       *        used for menu navigation commands and adds event handlers
        */
       updateMenuitems () {
         let menuitemNodes = this.menuNode.querySelectorAll('[role=menuitem');
 
         this.menuitemNodes = [];
         for(let i = 0; i < menuitemNodes.length; i += 1) {
-          this.menuitemNodes.push(menuitemNodes[i]);
+          const menuitemNode = menuitemNodes[i];
+          menuitemNode.addEventListener('keydown', this.handleMenuitemKeydown.bind(this));
+          menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
+          menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
+          menuitemNode.addEventListener('pointerleave', this.handleMenuitemPointerleave.bind(this));
+          menuitemNode.addEventListener('pointerover', this.handleMenuitemPointerover.bind(this));
+          this.menuitemNodes.push(menuitemNode);
         }
 
         this.firstMenuitem = this.menuitemNodes[0];
@@ -2544,11 +3747,6 @@ $skipToId-overlay div.overlay-border {
         }
 
         // add event handlers
-        menuitemNode.addEventListener('keydown', this.handleMenuitemKeydown.bind(this));
-        menuitemNode.addEventListener('click', this.handleMenuitemClick.bind(this));
-        menuitemNode.addEventListener('pointerenter', this.handleMenuitemPointerenter.bind(this));
-        menuitemNode.addEventListener('pointerleave', this.handleMenuitemPointerleave.bind(this));
-        menuitemNode.addEventListener('pointerover', this.handleMenuitemPointerover.bind(this));
         groupNode.appendChild(menuitemNode);
 
         // add heading level and label
@@ -2643,9 +3841,91 @@ $skipToId-overlay div.overlay-border {
 
         this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, config.msgNoLandmarksFound);
         this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, config.msgNoHeadingsFound);
+        debug$2.flag && debug$2.log(`[shortcutsSupported]: ${config.shortcutsSupported}`);
+        this.renderMenuitemsToShortcutsGroup(this.shortcutsGroupLabelNode, this.shortcutsGroupNode);
 
         // Update list of menuitems
         this.updateMenuitems();
+
+        // Are all headings in the main region
+        const allInMain = headingElements.length > 0 ?
+              headingElements.reduce( (flag, item) => {
+                return flag && item.inMain;
+              }, true) :
+              false;
+
+        this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel, landmarkElements.length);
+        if (config.headings.includes('main') && allInMain) {
+          this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingMainGroupLabel, headingElements.length);
+        }
+        else {
+          this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel, headingElements.length);
+        }
+      }
+
+      /*
+       * @method renderMenuitemsToShortcutsGroup
+       *
+       * @desc Updates separator and menuitems related to page navigation
+       *
+       * @param  {Object}  groupLabelNode  -  DOM element node for the label for page navigation group
+       * @param  {Object}  groupLabelNode  -  DOM element node for the page navigation group
+       */
+      renderMenuitemsToShortcutsGroup (groupLabelNode, groupNode) {
+
+        // remove page navigation menu items
+        while (groupNode.lastElementChild) {
+          groupNode.removeChild(groupNode.lastElementChild);
+        }
+
+        if (this.config.shortcutsSupported === 'true') {
+          groupNode.classList.remove('shortcuts-disabled');
+          groupLabelNode.classList.remove('shortcuts-disabled');
+
+          const shortcutsToggleNode = document.createElement('div');
+          shortcutsToggleNode.setAttribute('role', 'menuitem');
+          shortcutsToggleNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
+          shortcutsToggleNode.setAttribute('tabindex', '-1');
+          groupNode.appendChild(shortcutsToggleNode);
+
+          const shortcutsToggleLabelNode = document.createElement('span');
+          shortcutsToggleLabelNode.className = 'label';
+          shortcutsToggleNode.appendChild(shortcutsToggleLabelNode);
+
+          if (this.config.shortcuts === 'enabled') {
+            groupLabelNode.textContent    = this.config.shortcutsGroupEnabledLabel;
+            shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'disable');
+            shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleDisableLabel;
+          }
+          else {
+            groupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
+            shortcutsToggleNode.setAttribute('data-shortcuts-toggle', 'enable');
+            shortcutsToggleLabelNode.textContent = this.config.shortcutsToggleEnableLabel;
+          }
+          groupNode.appendChild(shortcutsToggleNode);
+
+
+          const shortcutsInfoNode = document.createElement('div');
+          shortcutsInfoNode.setAttribute('role', 'menuitem');
+          shortcutsInfoNode.className = 'shortcuts skip-to-nav skip-to-nesting-level-0';
+          shortcutsInfoNode.setAttribute('tabindex', '-1');
+          shortcutsInfoNode.setAttribute('data-shortcuts-info', '');
+          groupNode.appendChild(shortcutsInfoNode);
+
+          const shortcutsInfoLabelNode = document.createElement('span');
+          shortcutsInfoLabelNode.className = 'label';
+          shortcutsInfoLabelNode.textContent = this.config.shortcutsInfoLabel;
+          shortcutsInfoNode.appendChild(shortcutsInfoLabelNode);
+
+
+        }
+        else {
+          groupNode.classList.add('shortcuts-disabled');
+          groupLabelNode.classList.add('shortcuts-disabled');
+        }
+
+
+
       }
 
   //
@@ -2666,7 +3946,13 @@ $skipToId-overlay div.overlay-border {
           menuitem.focus();
           this.skipToContentElem.setAttribute('focus', 'menu');
           this.focusMenuitem = menuitem;
-          highlightElement(menuitem.getAttribute('data-id'), this.highlightTarget);
+          if (menuitem.hasAttribute('data-id')) {
+            const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
+            highlightElement(elem, this.highlightTarget);
+          }
+          else {
+            removeHighlight();
+          }
         }
       }
 
@@ -2796,10 +4082,14 @@ $skipToId-overlay div.overlay-border {
       openPopup() {
         debug$2.flag && debug$2.log(`[openPopup]`);
         this.menuNode.setAttribute('aria-busy', 'true');
-        const h = (80 * window.innerHeight) / 100;
-        this.menuNode.style.maxHeight = h + 'px';
+        // Compute height of menu to not exceed about 80% of screen height
+        const h = (30 * window.innerHeight) / 100;
+        this.landmarkGroupNode.style.maxHeight = h + 'px';
+        this.headingGroupNode.style.maxHeight = h + 'px';
         this.renderMenu(this.config, this.skipToId);
         this.menuNode.style.display = 'block';
+
+        // make sure menu is on screen and not clipped in the right edge of the window
         const buttonRect = this.buttonNode.getBoundingClientRect();
         const menuRect = this.menuNode.getBoundingClientRect();
         const diff = window.innerWidth - buttonRect.left - menuRect.width - 8;
@@ -2810,8 +4100,10 @@ $skipToId-overlay div.overlay-border {
             this.menuNode.style.left = diff + 'px';
           }
         }
+
         this.menuNode.removeAttribute('aria-busy');
         this.buttonNode.setAttribute('aria-expanded', 'true');
+        // use custom element attribute to set focus to the menu
         this.skipToContentElem.setAttribute('focus', 'menu');
       }
 
@@ -2953,7 +4245,6 @@ $skipToId-overlay div.overlay-border {
         }
       }
 
-
       // Menu event handlers
       
       handleFocusin() {
@@ -3014,40 +4305,16 @@ $skipToId-overlay div.overlay-border {
 
       handleDocumentKeydown (event) {
 
-        const enabledInputTypes = [
-          'button',
-          'checkbox',
-          'color',
-          'file',
-          'image',
-          'radio',
-          'range',
-          'reset',
-          'submit'
-        ];
+        this.shortcutsMessage.close();
 
-        const target = event.target;
-        const tagName = target.tagName ? target.tagName.toLowerCase() : '';
-        const type = tagName === 'input' ? target.type.toLowerCase() : '';
+        let flag = false;
+        let elem;
+        const focusElem = getFocusElement();
+        debug$2.flag && debug$2.log(`[handleDocumentKeydown][elementTakesText][${event.target.tagName}]: ${elementTakesText(focusElem)}`);
+        if (!elementTakesText(focusElem)) {
 
-        if ((tagName !== 'textarea') &&
-            ((tagName !== 'input') ||
-             ((tagName === 'input') && enabledInputTypes.includes(type))
-            )) {
-
-          const altPressed =
-            this.usesAltKey &&
-            event.altKey &&
-            !event.ctrlKey &&
-            !event.shiftKey &&
-            !event.metaKey;
-
-          const optionPressed =
-            this.usesOptionKey &&
-            event.altKey &&
-            !event.ctrlKey &&
-            !event.shiftKey &&
-            !event.metaKey;
+          const altPressed = this.usesAltKey && onlyAltPressed(event);
+          const optionPressed = this.usesOptionKey && onlyOptionPressed(event);
 
           if ((optionPressed && this.config.optionShortcut === event.key) ||
               (altPressed && this.config.altShortcut === event.key) ||
@@ -3055,6 +4322,126 @@ $skipToId-overlay div.overlay-border {
           ) {
             this.openPopup();
             this.setFocusToFirstMenuitem();
+            flag = true;
+          }
+
+          // Check for navigation keys
+          if ((this.config.shortcuts === 'enabled') &&
+              (onlyShiftPressed(event) || noModifierPressed(event))) {
+
+            switch (event.key) {
+              // ignore and space characters
+              case ' ':
+              case '':
+                break;
+
+              case this.config.shortcutRegionNext:
+                elem = navigateContent('landmark', 'next', this.config.msgHeadingLevel);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions);
+                }
+                flag = true;
+                break;
+
+              case this.config.shortcutRegionPrevious:
+                elem = navigateContent('landmark', 'previous', this.config.msgHeadingLevel);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions);
+                }
+                flag = true;
+                break;
+
+              case this.config.shortcutRegionComplementary:
+                elem = navigateContent('complementary', 'next', this.config.msgHeadingLevel, true);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'complementary'));
+                }
+                flag = true;
+                break;
+
+              case this.config.shortcutRegionMain:
+                elem = navigateContent('main', 'next', this.config.msgHeadingLevel, true);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'main'));
+                }
+                flag = true;
+                break;
+
+              case this.config.shortcutRegionNavigation:
+                elem = navigateContent('navigation', 'next', this.config.msgHeadingLevel, true);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'navigation'));
+                }
+                flag = true;
+                break;
+
+              case this.config.shortcutHeadingNext:
+                elem = navigateContent('heading', 'next', this.config.msgHeadingLevel, false, true);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoMoreHeadings);
+                }
+                flag = true;
+                break;
+
+              case this.config.shortcutHeadingPrevious:
+                elem = navigateContent('heading', 'previous', this.config.msgHeadingLevel, false, true);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoMoreHeadings);
+                }
+                flag = true;
+                break;
+
+              case this.config.shortcutHeadingH1:
+                elem = navigateContent('h1', 'next', this.config.msgHeadingLevel, true, true);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '1'));
+                }
+                flag = true;
+                break;
+
+              case this.config.shortcutHeadingH2:
+                elem = navigateContent('h2', 'next', this.config.msgHeadingLevel, true, true);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '2'));
+                }
+                flag = true;
+                break;
+
+              case this.config.shortcutHeadingH3:
+                elem = navigateContent('h3', 'next', this.config.msgHeadingLevel, true, true);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '3'));
+                }
+                flag = true;
+                break;
+
+              case this.config.shortcutHeadingH4:
+                elem = navigateContent('h4', 'next', this.config.msgHeadingLevel, true, true);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '4'));
+                }
+                flag = true;
+                break;
+
+              case this.config.shortcutHeadingH5:
+                elem = navigateContent('h5', 'next', this.config.msgHeadingLevel, true, true);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '5'));
+                }
+                flag = true;
+                break;
+
+              case this.config.shortcutHeadingH6:
+                elem = navigateContent('h6', 'next', this.config.msgHeadingLevel, true, true);
+                if (!elem) {
+                  this.shortcutsMessage.open(this.config.msgNoHeadingsLevelFound.replace('%h', '6'));
+                }
+                flag = true;
+                break;
+            }
+          }
+
+          if (flag) {
             event.stopPropagation();
             event.preventDefault();
           }
@@ -3062,15 +4449,33 @@ $skipToId-overlay div.overlay-border {
       }    
 
       handleMenuitemAction(tgt) {
-        switch (tgt.getAttribute('data-id')) {
-          case '':
-            // this means there were no headings or landmarks in the list
-            break;
+        if (tgt.hasAttribute('data-id')) {
+          switch (tgt.getAttribute('data-id')) {
+            case '':
+              // this means there were no headings or landmarks in the list
+              break;
 
-          default:
-            this.closePopup();
-            skipToElement(tgt);
-            break;
+            default:
+              this.closePopup();
+              skipToElement(tgt);
+              break;
+          }
+        }
+
+        if (tgt.hasAttribute('data-shortcuts-toggle')) {
+          if (tgt.getAttribute('data-shortcuts-toggle') === 'enable') {
+            this.skipToContentElem.setAttribute('shortcuts', 'enable');
+          }
+          else {
+            this.skipToContentElem.setAttribute('shortcuts', 'disable');
+          }
+          this.closePopup();
+        }
+
+        if (tgt.hasAttribute('data-shortcuts-info')) {
+          this.infoDialog.updateContent(this.skipToContentElem.config);
+          this.infoDialog.openDialog();
+          this.closePopup();
         }
       }
 
@@ -3157,7 +4562,13 @@ $skipToId-overlay div.overlay-border {
         debug$2.flag && debug$2.log(`[enter]`);
         let tgt = event.currentTarget;
         tgt.classList.add('hover');
-        highlightElement(tgt.getAttribute('data-id'), this.highlightTarget);
+        if (tgt.hasAttribute('data-id')) {
+          const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
+          highlightElement(elem, this.highlightTarget);
+        }
+        else {
+          removeHighlight();
+        }
         event.stopPropagation();
         event.preventDefault();
       }
@@ -3165,7 +4576,13 @@ $skipToId-overlay div.overlay-border {
      handleMenuitemPointerover(event) {
         debug$2.flag && debug$2.log(`[over]`);
         let tgt = event.currentTarget;
-        highlightElement(tgt.getAttribute('data-id'), this.highlightTarget);
+        if (tgt.hasAttribute('data-id')) {
+          const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
+          highlightElement(elem, this.highlightTarget);
+        }
+        else {
+          removeHighlight();
+        }
         event.stopPropagation();
         event.preventDefault();
       }
@@ -3216,7 +4633,13 @@ $skipToId-overlay div.overlay-border {
         if (mi) {
           this.removeHoverClass(mi);
           mi.classList.add('hover');
-          highlightElement(mi.getAttribute('data-id'), this.highlightTarget);
+          if (mi.hasAttribute('data-id')) {
+            const elem = queryDOMForSkipToId(mi.getAttribute('data-id'));
+            highlightElement(elem, this.highlightTarget);
+          }
+          else {
+            removeHighlight();
+          }
         }
 
         event.stopPropagation();
@@ -3260,8 +4683,6 @@ $skipToId-overlay div.overlay-border {
           this.closePopup();
         }
       }
-
-
   }
 
   /* skiptoContent.js */
@@ -3271,14 +4692,14 @@ $skipToId-overlay div.overlay-border {
   debug$1.flag = false;
 
 
-  class SkipToContent extends HTMLElement {
+  class SkipToContent570 extends HTMLElement {
 
     constructor() {
       // Always call super first in constructor
       super();
       this.attachShadow({ mode: 'open' });
       this.skipToId = 'id-skip-to';
-      this.version = "5.6.3";
+      this.version = "5.7";
       this.buttonSkipTo = false;
       this.initialized = false;
 
@@ -3307,10 +4728,64 @@ $skipToId-overlay div.overlay-border {
         buttonShortcut: ' ($modifier+$key)',
         buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
 
+        // Page navigation flag and keys
+        shortcutsSupported: 'true', // options: true or false
+        shortcuts: 'enabled',  // options: disabled and enabled
+        shortcutHeadingNext: 'h',
+        shortcutHeadingPrevious: 'H',
+        shortcutHeadingH1: '1',
+        shortcutHeadingH2: '2',
+        shortcutHeadingH3: '3',
+        shortcutHeadingH4: '4',
+        shortcutHeadingH5: '5',
+        shortcutHeadingH6: '6',
+
+        shortcutRegionNext: 'r',
+        shortcutRegionPrevious: 'R',
+        shortcutRegionMain: 'm',
+        shortcutRegionNavigation: 'n',
+        shortcutRegionComplementary: 'c',
+
+        shortcutsGroupEnabledLabel:  'Shortcuts: Enabled',
+        shortcutsGroupDisabledLabel: 'Shortcuts: Disabled',
+        shortcutsToggleEnableLabel:  'Enable shortcuts',
+        shortcutsToggleDisableLabel: 'Disable shortcuts',
+        shortcutsInfoLabel:          'Shortcut Information',
+
+        closeLabel: 'Close',
+        moreInfoLabel: 'More Information',
+        msgKey: 'Key',
+        msgDescription: 'Description',
+
+        msgNextRegion: 'Next region',
+        msgPreviousRegion: 'Previous region',
+        msgNextHeading: 'Next heading',
+        msgPreviousHeading: 'Previous heading',
+
+        msgMainRegions: 'Main regions',
+        msgNavigationRegions: 'Navigation regions',
+        msgComplementaryRegions: 'Complementary regions',
+
+        msgHeadingLevel: 'Level #',
+        msgH1Headings: 'Level 1 headings',
+        msgH2Headings: 'Level 2 headings',
+        msgH3Headings: 'Level 3 headings',
+        msgH4Headings: 'Level 4 headings',
+        msgH5Headings: 'Level 5 headings',
+        msgH6Headings: 'Level 6 headings',
+
+        // Messages for navigation
+
+        msgNoMoreRegions: 'No more regions',
+        msgNoRegionsFound: 'No %r regions found',
+        msgNoMoreHeadings: 'No more headings',
+        msgNoHeadingsLevelFound: 'No level %h headings found',
+
         // Menu labels and messages
         menuLabel: 'Landmarks and Headings',
         landmarkGroupLabel: 'Landmark Regions',
         headingGroupLabel: 'Headings',
+        headingMainGroupLabel: 'Headings in Main Region',
         headingLevelLabel: 'Heading level',
         mainLabel: 'main',
         searchLabel: 'search',
@@ -3329,6 +4804,11 @@ $skipToId-overlay div.overlay-border {
 
         // Highlight options
         highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
+
+        // Hidden heading when highlighting
+        msgHidden: 'Heading is hidden',
+        hiddenHeadingColor: '#000000',
+        hiddenHeadingBackgroundColor: '#ffcc00',
 
         // Place holders for configuration
         colorTheme: '',
@@ -3352,13 +4832,31 @@ $skipToId-overlay div.overlay-border {
     static get observedAttributes() {
       return [
         "data-skipto",
-        "setfocus"
+        "setfocus",
+        "type",
+        "shortcuts"
         ];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
+
       if (name === 'data-skipto') {
         this.config = this.setupConfigFromDataAttribute(this.config, newValue);
+      }
+
+      if (name === 'type') {
+        if (newValue === 'extension') {
+          this.config.shortcuts = 'enabled';
+        }
+      }
+
+      if (name === 'shortcuts') {
+        if (newValue.trim().toLowerCase() === 'enable') {
+          this.config.shortcuts = 'enabled';
+        }
+        else {
+          this.config.shortcuts = 'disabled';
+        }
       }
 
       if (name === 'setfocus') {
@@ -3405,8 +4903,16 @@ $skipToId-overlay div.overlay-border {
         }
 
         // Add skipto style sheet to document
-        renderStyleElement(this.shadowRoot, this.config, this.skipToId);
+        renderStyleElement(this.shadowRoot, this.config, this.skipToId, globalConfig);
         this.buttonSkipTo = new SkiptoMenuButton(this);
+
+        // Add landmark and heading info to DOM elements for keyboard navigation
+        // if using bookmarklet or extension
+        if (!globalConfig) {
+          getLandmarksAndHeadings(this.config, this.skipToId);
+          monitorKeyboardFocus();
+        }
+
       }
 
       this.setAttribute('focus', 'none');
@@ -3468,7 +4974,9 @@ $skipToId-overlay div.overlay-border {
       if (params) {
         const values = params.split(';');
         values.forEach( v => {
-          let [prop, value] = v.split(':');
+          const index = v.indexOf(':');
+          let prop  = v.substring(0,index);
+          let value = v.substring(index+1);
           if (prop) {
             prop = prop.trim();
           }
@@ -3500,10 +5008,36 @@ $skipToId-overlay div.overlay-border {
         this.buttonSkipTo.setDisplayOption(config['displayOption']);
       }
 
+      const infoDialog = document.querySelector('skip-to-shortcuts-info-dialog');
+      if (infoDialog) {
+        infoDialog.configureStyle(config);
+      }
+
+      const shortcutsMessage = document.querySelector('skip-to-shortcuts-message');
+      if (shortcutsMessage) {
+        shortcutsMessage.configureStyle(config);
+      }
+
       return config;
     }
 
-
+      /*
+     * @method supportShortcuts
+     *
+     * @desc  Set suuportShortcuts configuration property
+     *
+     * @param  {Boolean}  value - If true support keyboard shortcuts, otherwise disable
+     */
+    supportShortcuts(value) {
+      if (value) {
+        this.config.shortcutsSupported = 'true';
+        this.config.shortcuts = 'enabled';
+      }
+      else {
+        this.config.shortcutsSupported = 'false';
+        this.config.shortcuts = 'disabled';
+      }
+    }
   }
 
   /* skipto.js */
@@ -3514,36 +5048,72 @@ $skipToId-overlay div.overlay-border {
 
   (function() {
 
+  const SkipToPageElmName        = 'skip-to-content';
+  const SkipToBookmarkletElmName = 'skip-to-content-bookmarklet';
+  const SkipToExtensionElmName   = 'skip-to-content-extension';
+
+  const SkipToExtensionID   = `id-skip-to-extension`;
+  const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
+
     /*
     *  @function removeLegacySkipToJS
     *
     *  @desc Removes legacy and duplicate versions of SkipTo.js
     */
+    function removeLegacySkipToJS() {
 
-    function removeLegacySkipToJS(skipToContentElem = null) {
-      const node = document.getElementById('id-skip-to');
-      debug.flag && debug.log(`[removeLegacySkipToJS]: ${node}`);
-      if (node !== null) {
-        // remove legacy SkipTo.js
-        node.remove();
-        const cssNode = document.getElementById('id-skip-to-css');
-        if (cssNode) {
-          cssNode.remove();
+      function removeElementsWithId(id) {
+        let node = document.getElementById(id);
+        // do more than once in case of duplicates
+        while (node) {
+          console.warn(`[SkipTo.js]: Removing legacy 5.x component: ${id}`);
+          node.remove ();
+          node = document.getElementById(id);
         }
-        console.warn('[skipTo.js] legacy version removed, using SkipTo.js extension');
       }
-      const nodes = document.querySelectorAll('skip-to-content');
-      if (nodes && nodes.length > 1) {
-        debug.flag && debug.log(`[removeLegacySkipToJS][${nodes.length}]: Removing duplicate copy of SkipTo.js`);
-        for (let i = 0; i <nodes.length; i += 1) {
-          const stcNode = nodes[i];
-          if (stcNode !== skipToContentElem) {
-            stcNode.remove();
-            console.warn('[skipTo.js] duplicate version removed');
-          }
-        }
+
+      // Remove 5.x legacy code
+      removeElementsWithId('id-skip-to');
+      removeElementsWithId('id-skip-to-css');
+      removeElementsWithId('id-skip-to-highlight');
+
+      // Remove 4.x
+      const nodes = document.querySelectorAll('div.skip-to');
+      debug.flag && debug.log(`[removeLegacySkipToJS]: ${nodes.length}`);
+      for(let i = 0; i < nodes.length; i += 1) {
+        nodes[i].remove();
+        console.warn(`[SkipTo.js]: Removing legacy 4.x component`);
       }
     }
+
+    /*
+    *  @function removePageSkipTo
+    *
+    *  @desc Removes duplicate versions of SkipTo.js
+    */
+    function removePageSkipTo() {
+      const nodes = document.querySelectorAll(SkipToPageElmName);
+      debug.flag && debug.log(`[removePageSkipTo]: ${nodes.length}`);
+      for (let i = 0; i < nodes.length; i += 1) {
+        nodes[i].remove();
+        console.warn(`[SkipTo.js]: Removing ${nodes[i].tagName}`);
+      }
+    }
+
+    /*
+    *  @function removeBookmarkletSkipTo
+    *
+    *  @desc Removes duplicate versions of SkipTo.js
+    */
+    function removeBookmarkletSkipTo() {
+      const nodes = document.querySelectorAll(SkipToBookmarkletElmName);
+      debug.flag && debug.log(`[removeBookmarkletSkipTo]: ${nodes.length}`);
+      for (let i = 0; i < nodes.length; i += 1) {
+        nodes[i].remove();
+        console.warn(`[SkipTo.js]: Removing ${nodes[i].tagName}`);
+      }
+    }
+
 
     /*
     *. @function getSkipToContentElement
@@ -3553,45 +5123,85 @@ $skipToId-overlay div.overlay-border {
     * @returns  Returns dom node of new element or false if the page
     *           has a legacy SkipTo.js
     */
-    function getSkipToContentElement() {
+    function getSkipToContentElement(type="pagescript") {
 
-      if (document.getElementById('id-skip-to')) {
-        removeLegacySkipToJS();
-      }
+      removeLegacySkipToJS();
 
-      let skipToContentElem = document.querySelector(`skip-to-content`);
+      const isExtensionLoaded   = document.querySelector(SkipToExtensionElmName);
+      const isBookmarkletLoaded = document.querySelector(SkipToBookmarkletElmName);
+      const isPageLoaded        = document.querySelector(SkipToPageElmName);
 
-      if (!skipToContentElem) {
-        window.customElements.define("skip-to-content", SkipToContent);
-        skipToContentElem = document.createElement('skip-to-content');
-        skipToContentElem.setAttribute('version', skipToContentElem.version);
-        // always attach SkipToContent element to body
-        if (document.body) {
-          document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
-        }
+      let skipToContentElem = false;
+
+      switch (type) {
+        case 'bookmarklet':
+          if (!isExtensionLoaded) {
+            if (!isBookmarkletLoaded) {
+              removePageSkipTo();
+              window.customElements.define(SkipToBookmarkletElmName, SkipToContent570);
+              skipToContentElem = document.createElement(SkipToBookmarkletElmName);
+              skipToContentElem.setAttribute('version', skipToContentElem.version);
+              skipToContentElem.setAttribute('type', type);
+              // always attach SkipToContent element to body
+              if (document.body) {
+                document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
+              }
+            }
+          }
+          break;
+
+        case 'extension':
+          if (!isExtensionLoaded) {
+            removePageSkipTo();
+            removeBookmarkletSkipTo();
+            window.customElements.define(SkipToExtensionElmName, SkipToContent570);
+            skipToContentElem = document.createElement(SkipToExtensionElmName);
+            skipToContentElem.setAttribute('version', skipToContentElem.version);
+            skipToContentElem.setAttribute('type', type);
+            // always attach SkipToContent element to body
+            if (document.body) {
+              document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
+            }
+          }
+          break;
+
+        default:
+          if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
+            window.customElements.define(SkipToPageElmName, SkipToContent570);
+            skipToContentElem = document.createElement(SkipToPageElmName);
+            skipToContentElem.setAttribute('version', skipToContentElem.version);
+            skipToContentElem.setAttribute('type', type);
+            // always attach SkipToContent element to body
+            if (document.body) {
+              document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
+            }
+          }
+          break;
       }
       return skipToContentElem;
     }
 
     // Check for SkipTo.js bookmarklet script, if it is initialize it immediately
-    if (document.getElementById(`id-skip-to-bookmarklet`)) {
+    if (document.getElementById(SkipToBookmarkletID)) {
       debug.flag && debug.log(`[bookmarklet]`);
-      const skipToContentElem = getSkipToContentElement();
-      if (skipToContentElem) {
-        skipToContentElem.init();
-        skipToContentElem.buttonSkipTo.openPopup();
-        skipToContentElem.buttonSkipTo.setFocusToFirstMenuitem();
+      const skipToContentBookmarkletElem = getSkipToContentElement('bookmarklet');
+      if (skipToContentBookmarkletElem) {
+        skipToContentBookmarkletElem.init();
+        skipToContentBookmarkletElem.buttonSkipTo.openPopup();
+        skipToContentBookmarkletElem.buttonSkipTo.setFocusToFirstMenuitem();
       }
     }
     else {
-      if (document.getElementById(`id-skip-to-extension`)) {
+      // Check for SkipTo.js extension script, if it is initialize it immediately
+      if (document.getElementById(SkipToExtensionID)) {
         debug.flag && debug.log(`[extension]`);
-        const skipToContentElem = getSkipToContentElement();
-        if (skipToContentElem) {
-          skipToContentElem.init();
+        const skipToContentExtensionElem = getSkipToContentElement('extension');
+        if (skipToContentExtensionElem) {
+          skipToContentExtensionElem.init();
           window.addEventListener('load', function() {
-            debug.flag && debug.log(`[onload][extension][elem]: ${skipToContentElem}`);
-            removeLegacySkipToJS(skipToContentElem);
+            debug.flag && debug.log(`[onload][extension][elem]: ${skipToContentExtensionElem}`);
+            removeLegacySkipToJS();
+            removePageSkipTo();
           });
         }
       }
@@ -3599,10 +5209,12 @@ $skipToId-overlay div.overlay-border {
         // Initialize SkipTo.js menu button with onload event
         window.addEventListener('load', function() {
           debug.flag && debug.log(`[onload][script]`);
-          const skipToContentElem = getSkipToContentElement();
-          if (skipToContentElem) {
-            debug.flag && debug.log(`[onload][script][elem]: ${skipToContentElem}`);
-            skipToContentElem.init(window.SkipToConfig);
+          const skipToContentPageElem = getSkipToContentElement();
+          if (skipToContentPageElem) {
+            skipToContentPageElem.supportShortcuts(false);
+            debug.flag && debug.log(`[onload][script][elem]: ${skipToContentPageElem}`);
+            const initInfo = window.SkipToConfig ? window.SkipToConfig : {};
+            skipToContentPageElem.init(initInfo);
           }
         });
       }

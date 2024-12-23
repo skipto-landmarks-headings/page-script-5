@@ -1,4 +1,12 @@
-# Version history for Skipto.js
+# Version history for SkipTo.js
+
+## Version 5.7
+* Added keyboard shortcuts for navigation to landmark regions and headings
+* Fixed bug with 'main-only' option for headings
+* Updates headings group label when all headings are in the main region
+* Added information on the number of landmark regions and headings into the group label
+* Added hidden heading message when a heading gets focus but is not visible
+* Updated i18n in extensions to include initial values of labels and messsages
 
 ## Version 5.6.3
 * Changed default highlight option to be 'instant' instead of 'none'

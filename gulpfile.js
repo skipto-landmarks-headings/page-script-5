@@ -92,16 +92,6 @@ gulp.task('extensionsLocales', () => {
     .pipe(dest('src/extension-firefox/_locales/en'));
 });
 
-gulp.task('extensionsImages', () => {
-  return src([
-    'src/extension-common/images',
-  ])
-    .pipe(dest('src/extension-chrome/images'))
-    .pipe(dest('src/extension-opera/images'))
-    .pipe(dest('src/extension-firefox/images'));
-});
-
-
 gulp.task('documentation', function (cb) {
   exec('node ./gen-documentation.js', function (err, stdout, stderr) {
     console.log(stdout);
@@ -120,7 +110,6 @@ const build             = task('build');
 const compress          = task('compress');
 const extensionsCode    = task('extensionsCode');
 const extensionsLocales = task('extensionsLocales');
-const extensionsImages  = task('extensionsImages');
 const copyright         = task('copyright');
 const copyrightMin      = task('copyrightMin');
 const documentation     = task('documentation');
@@ -131,7 +120,7 @@ exports.default = series(
   build,
   compress,
   copyright,
-  parallel(extensionsCode, extensionsLocales, extensionsImages),
+  parallel(extensionsCode, extensionsLocales),
   copyrightMin,
   documentation,
   style);

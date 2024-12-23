@@ -8,6 +8,12 @@ const browserRuntime = typeof browser === 'object' ?
               browser.runtime :
               chrome.runtime;
 
+const browserAction = typeof browser === 'object' ?
+              browser.browserAction :
+              chrome.action;
+
+const SkipToExtensionElmName   = 'skip-to-content-extension';
+
 // Add SkipTo.js script to page
 const scriptNode = document.createElement('script');
 scriptNode.type = 'text/javascript';
@@ -22,7 +28,7 @@ window.addEventListener('load', function() {
 
   browserRuntime.sendMessage({skiptoMessage: "get-options"}, (params) => {
     debug && console.log(`[load][params]: ${params}`);
-    const skipToContentElem = document.querySelector('skip-to-content');
+    const skipToContentElem = document.querySelector(SkipToExtensionElmName);
     debug && console.log(`[load][skipToContentElem]: ${skipToContentElem}`);
     if (skipToContentElem) {
       skipToContentElem.setAttribute('data-skipto', params);
@@ -36,7 +42,7 @@ browserRuntime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.skiptoParams !== undefined) {
       debug && console.log(`[onMessage][params]: ${request.skiptoParams}`);
-      const skipToContentElem = document.querySelector('skip-to-content');
+      const skipToContentElem = document.querySelector(SkipToExtensionElmName);
       if (skipToContentElem) {
         skipToContentElem.setAttribute('data-skipto', request.skiptoParams);
       }
@@ -44,8 +50,17 @@ browserRuntime.onMessage.addListener(
   }
 );
 
-function getFocusOption(params) {
+/*
+ *   @function getFocusOption
+ *
+ *   @desc  Returns the value of the focusOption from a SkipTo.js parameter string
+ *
+ *   @param {Object} params :
+ *
+ *   @returns see @desc
+ */
 
+function getFocusOption(params) {
   let focusOption = 'none';
 
   const parts = params.split('focusOption:');
@@ -55,3 +70,17 @@ function getFocusOption(params) {
   debug && console.log(`[getFocusOption]: ${focusOption}`);
   return focusOption;
 }
+
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+    console.log(`[color scheme change]: ${event.matches}`);
+    const newColorScheme = event.matches ? "color-theme-dark" : "color-theme-light";
+    browserRuntime.sendMessage({skiptoMessage: newColorScheme});
+});
+
+const colorScheme = window.matchMedia("(prefers-color-scheme: dark)").matches ?
+                    "color-theme-dark" :
+                    "color-theme-light";
+
+browserRuntime.sendMessage({skiptoMessage: colorScheme});
+
