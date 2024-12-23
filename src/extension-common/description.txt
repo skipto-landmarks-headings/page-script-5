@@ -7,7 +7,7 @@ Summary
 SkipTo.js for XXXX extension provides keyboard navigation to landmark regions and headings to support WCAG 2.4.1 Bypass Blocks requirement.
 
 Description
-SkipTo.js extension fills a void in browsers to provide the navigation features to meet WCAG 2.4.1 Bypass Blocks requirement. The extension creates a drop-down menu of the landmark regions and headings on the current web page. Selecting an option in the menu moves keyboard focus to the landmark region or heading and scrolls the content into view.  The menu also provides a convenient table of contents of what is on the page for ALL users.  An example of a digital curb cut benefiting everyone in the information age.
+SkipTo.js extension fills a void in browsers to provide the navigation features to meet WCAG 2.4.1 Bypass Blocks requirement and keyboard shortcuts to navigate to landmark regions and headings. The extension creates a drop-down menu of the landmark regions and headings on the current web page. Selecting an option in the menu or using a shortcut key moves keyboard focus to the landmark region or heading and scrolls the content into view.  The menu also provides a convenient table of contents of what is on the page for ALL users.  An example of a digital curb cut benefiting everyone in the information age.
 
 
 NOTE: This extension does not collect any user data.
@@ -56,7 +56,10 @@ Firefox: maximum size 2400x1800
 
 Opera: recommended 612×408, maximum 800x600
 
-
+Creating Zip Files
+------------------
+zip -r ../../docs/dist/skipto-for-firefox-1.1.0.zip . -x ".*" -x "__MACOSX"
+zip -r ../../docs/dist/skipto-for-chrome-1.1.0.zip . -x ".*" -x "__MACOSX"
 
 Questions
 ---------
@@ -70,6 +73,6 @@ Storage Justification
 User preferences on the items in the menu, styling and internationalization of menu labels.
 
 Host Permission Justification
-The menu provides keyboard page navigation for people with disabilities and therefore is needed on all web pages.
+The menu provides keyboard navigation to the landmark regions and headings of web pages to support people with disabilities and therefore is needed on all web pages.
 
 

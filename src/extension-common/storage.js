@@ -114,7 +114,7 @@ const i18nOptions = {
   msgNoMoreRegions:   browserI18n.getMessage('init_msg_no_more_regions'),
   msgNoRegionsFound:  browserI18n.getMessage('init_msg_no_regions_found'),
   msgNoMoreHeadings:  browserI18n.getMessage('init_msg_no_more_headings'),
-  msgNoHeadingsLevelFound: browserI18n.getMessage('init_msg_no_headings_found'),
+  msgNoHeadingsLevelFound: browserI18n.getMessage('init_msg_no_headings_of_level_found'),
 
 };
 
