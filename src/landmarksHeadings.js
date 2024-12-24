@@ -42,10 +42,7 @@ const skipableElements = [
   'style',
   'template',
   'shadow',
-  'title',
-  'skip-to-content',
-  'skip-to-content-bookmarklet',
-  'skip-to-content-extension'
+  'title'
 ];
 
 const allowedLandmarkSelectors = [

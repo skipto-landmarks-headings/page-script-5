@@ -18,14 +18,14 @@ const debug = new DebugLogging('skiptoContent', false);
 debug.flag = false;
 
 
-export default class SkipToContent570 extends HTMLElement {
+export default class SkipToContent571 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
     this.skipToId = 'id-skip-to';
-    this.version = "5.7";
+    this.version = "5.7.1";
     this.buttonSkipTo = false;
     this.initialized = false;
 

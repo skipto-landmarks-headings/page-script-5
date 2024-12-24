@@ -1834,10 +1834,7 @@ div#skip-to-message.fade {
     'style',
     'template',
     'shadow',
-    'title',
-    'skip-to-content',
-    'skip-to-content-bookmarklet',
-    'skip-to-content-extension'
+    'title'
   ];
 
   const allowedLandmarkSelectors = [
@@ -4692,14 +4689,14 @@ div#skip-to-message.fade {
   debug$1.flag = false;
 
 
-  class SkipToContent570 extends HTMLElement {
+  class SkipToContent571 extends HTMLElement {
 
     constructor() {
       // Always call super first in constructor
       super();
       this.attachShadow({ mode: 'open' });
       this.skipToId = 'id-skip-to';
-      this.version = "5.7";
+      this.version = "5.7.1";
       this.buttonSkipTo = false;
       this.initialized = false;
 
@@ -5138,7 +5135,7 @@ div#skip-to-message.fade {
           if (!isExtensionLoaded) {
             if (!isBookmarkletLoaded) {
               removePageSkipTo();
-              window.customElements.define(SkipToBookmarkletElmName, SkipToContent570);
+              window.customElements.define(SkipToBookmarkletElmName, SkipToContent571);
               skipToContentElem = document.createElement(SkipToBookmarkletElmName);
               skipToContentElem.setAttribute('version', skipToContentElem.version);
               skipToContentElem.setAttribute('type', type);
@@ -5154,7 +5151,7 @@ div#skip-to-message.fade {
           if (!isExtensionLoaded) {
             removePageSkipTo();
             removeBookmarkletSkipTo();
-            window.customElements.define(SkipToExtensionElmName, SkipToContent570);
+            window.customElements.define(SkipToExtensionElmName, SkipToContent571);
             skipToContentElem = document.createElement(SkipToExtensionElmName);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
@@ -5167,7 +5164,7 @@ div#skip-to-message.fade {
 
         default:
           if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
-            window.customElements.define(SkipToPageElmName, SkipToContent570);
+            window.customElements.define(SkipToPageElmName, SkipToContent571);
             skipToContentElem = document.createElement(SkipToPageElmName);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);

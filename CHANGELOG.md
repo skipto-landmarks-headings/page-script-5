@@ -1,5 +1,8 @@
 # Version history for SkipTo.js
 
+## Version 5.7.1
+* Fixed bug with shortcut navigation getting stuck in "Skip To Content" button
+
 ## Version 5.7
 * Added keyboard shortcuts for navigation to landmark regions and headings
 * Fixed bug with 'main-only' option for headings
