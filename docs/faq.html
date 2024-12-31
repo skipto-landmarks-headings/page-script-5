@@ -8,6 +8,9 @@
     <title>Frequently Asked Questions | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
+    <!-- Choose Light or Dark Theme -->
+    <script src="./js/light-dark-scheme.js"></script>
+
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="./css/skipto.css" rel="stylesheet" />
 
@@ -119,18 +122,29 @@
           <div id="faq">
 
             <dl>
-              <dt>Does the "Skip To Content" button always have to visible when a web page opens?</dt>
-              <dd>The page script and extension have configuration options for the button to not be visible when the page loads.  The <a href="bookmarklets.html">bookmarklets</a> have separate links to demonstrate the configuration options.</dd>
+              <dt>Does the "Skip To Content" button always have to be visible when a web page opens?</dt>
+              <dd>The page-script and extension have configuration options to hide the hidden when the page loads.</dd>
+              <dd>The <a href="bookmarklets.html">bookmarklets</a> have separate link to demonstrate the configuration option for hiding the button.</dd>
+              <dd>When the button is initially hidden it will be the first <kbd>tab</kbd> stop on the page, or can be opened at any time using the shortcut key (<kbd>Alt+0</kbd> or <kbd>Option+0</kbd>).</dd>
 
-              <dt>What happens with the bookmarklets or the extension are used on pages using the SkipTo.js?</dt>
+              <dt>What happens with the bookmarklets or the extension are used on pages using the SkipTo.js page-script?</dt>
               <dd>The extension and bookmarlets automatically unload any existing copies of SkipTo.js.</dd>
 
               <dt>Can the auto-scrolling feature be disabled?</dt>
-              <dd>The auto-scolling feature is disabled if the operating reduced motion setting is enabled.</dd>
-              <dd>The is a condiguration ooption in the extension to disable auto-scrolling.</dd>
+              <dd>The auto-scrolling feature is disabled if the operating system reduced motion setting is enabled by the <em>user</em>.</dd>
+              <dd>There are configuration options for the page-script to disable auto-scrolling on any website though <em>author</em> configuration or in the extensions through <em>user</em> options.</dd>
 
 
             </dl>
+
+                         <hr style="margin-top: 5em;"/>
+
+            <h2 id="of-course-we-want-feedback">Feedback and Reporting Issues</h2>
+
+            <p>We welcome your feedback!  Please do not hesitate to <a href="https://github.com/skipto-landmarks-headings/page-script-5/issues">raise issues and comment on Github</a> if something doesn’t work or you have ideas on how to improve SkipTo.js.</p>
+
+            <p class="happy">Happy skipping!</p>
+
 
         </div>
       </main>

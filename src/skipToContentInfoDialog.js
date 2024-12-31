@@ -15,7 +15,8 @@ const defaultStyleOptions = {
   menuBackgroundColor: '#dddddd',
 };
 
-const MORE_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
+const MORE_PAGE_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/page.html';
+const MORE_SHORTCUT_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 
 const styleTemplate = document.createElement('template');
 styleTemplate.textContent = `
@@ -75,6 +76,29 @@ dialog#skip-to-info-dialog .content {
   margin-right: 2em;
   margin-top: 0;
   margin-bottom: 2em;
+}
+
+dialog#skip-to-info-dialog .content .desc {
+  max-width: 20em;
+}
+
+dialog#skip-to-info-dialog .content .happy {
+  margin-top: 0.5em;
+  text-align: center;
+  font-family: fantasy, cursive;
+  font-size: 1.25em;
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+
+dialog#skip-to-info-dialog .content .version,
+dialog#skip-to-info-dialog .content .copyright {
+  margin-top: 0.5em;
+  text-align: center;
+  font-weight: bold;
+  font-size: 90%;
 }
 
 dialog#skip-to-info-dialog .content table {
@@ -143,7 +167,7 @@ button:hover {
 }
 `;
 
-export default class ShortcutsInfoDialog extends HTMLElement {
+export default class SkipToContentInfoDialog extends HTMLElement {
   constructor () {
 
     super();
@@ -188,6 +212,8 @@ export default class ShortcutsInfoDialog extends HTMLElement {
     this.closeButton2.addEventListener('click', this.onCloseButtonClick.bind(this));
     this.closeButton2.addEventListener('keydown', this.onKeyDown.bind(this));
 
+    this.moreInfoURL = '';
+
   }
 
   onCloseButtonClick () {
@@ -200,7 +226,9 @@ export default class ShortcutsInfoDialog extends HTMLElement {
   }
 
   onMoreInfoClick () {
-    window.open(MORE_INFO_URL, '_blank').focus();
+    if (this.moreInfoURL) {
+      window.open(this.moreInfoURL, '_blank').focus();
+    }
   }
 
   configureStyle(config={}) {
@@ -255,11 +283,13 @@ export default class ShortcutsInfoDialog extends HTMLElement {
   }
 
 
-  updateContent (config) {
+  updateShortcutContent (config) {
 
       while (this.contentElem.lastElementChild) {
         this.contentElem.removeChild(this.contentElem.lastElementChild);
       }
+
+      this.moreInfoURL = MORE_SHORTCUT_INFO_URL;
 
       this.h2Elem.textContent = config.shortcutsInfoLabel;
       this.closeButton1.setAttribute('aria-label', config.closeLabel);
@@ -352,6 +382,41 @@ export default class ShortcutsInfoDialog extends HTMLElement {
       addRow(tbodyElem2, config.shortcutHeadingH4, config.msgH4Headings);
       addRow(tbodyElem2, config.shortcutHeadingH5, config.msgH5Headings);
       addRow(tbodyElem2, config.shortcutHeadingH6, config.msgH6Headings);
+
+  }
+
+  updateAboutContent (config) {
+
+    while (this.contentElem.lastElementChild) {
+      this.contentElem.removeChild(this.contentElem.lastElementChild);
+    }
+
+    this.moreInfoURL = MORE_PAGE_INFO_URL;
+
+    this.h2Elem.textContent = config.aboutInfoLabel;
+    this.closeButton1.setAttribute('aria-label', config.closeLabel);
+    this.closeButton2.textContent = config.closeLabel;
+    this.moreInfoButton.textContent = config.moreInfoLabel;
+
+    let divElem = document.createElement('div');
+    divElem.className = 'desc';
+    divElem.textContent = config.aboutDesc;
+    this.contentElem.appendChild(divElem);
+
+    divElem = document.createElement('div');
+    divElem.className = 'happy';
+    divElem.textContent = config.aboutHappy;
+    this.contentElem.appendChild(divElem);
+
+    divElem = document.createElement('div');
+    divElem.className = 'version';
+    divElem.textContent = config.aboutVersion;
+    this.contentElem.appendChild(divElem);
+
+    divElem = document.createElement('div');
+    divElem.className = 'copyright';
+    divElem.textContent = config.aboutCopyright;
+    this.contentElem.appendChild(divElem);
 
   }
 

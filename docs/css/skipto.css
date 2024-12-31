@@ -1,4 +1,8 @@
 /* Define standard variables and values for website */
+:root {
+  color-scheme: light dark;
+}
+
 .brand {
   display: block;
   font-family: "Fjalla One", sans-serif;
@@ -39,15 +43,15 @@ a[href]:hover {
 .navbar-nav .nav-link,
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link:focus {
-  color: #005797;
-  outline-color: #005797;
+  color: light-dark(#005797, rgb(110, 168, 254));
+  outline-color: light-dark(#005797, rgb(110, 168, 254));
 }
 
 .breadcrumb a[aria-current],
 .navbar-nav .nav-link[aria-current],
 .navbar-nav .nav-link:hover[aria-current],
 .navbar-nav .nav-link:focus {
-  color: #000000;
+  color: light-dark(#000000, #888);
 }
 
 .tab-pane {

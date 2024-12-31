@@ -18,14 +18,14 @@ const debug = new DebugLogging('skiptoContent', false);
 debug.flag = false;
 
 
-export default class SkipToContent571 extends HTMLElement {
+export default class SkipToContent572 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
     this.skipToId = 'id-skip-to';
-    this.version = "5.7.1";
+    this.version = "5.7.2";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -77,6 +77,13 @@ export default class SkipToContent571 extends HTMLElement {
       shortcutsToggleEnableLabel:  'Enable shortcuts',
       shortcutsToggleDisableLabel: 'Disable shortcuts',
       shortcutsInfoLabel:          'Shortcut Information',
+
+      aboutSupported: 'true',
+      aboutInfoLabel: `About SkipTo.js`,
+      aboutHappy: `Happy Skipping!`,
+      aboutVersion: `Version ${this.version}`,
+      aboutCopyright: 'BSD License, Copyright 2021-2025',
+      aboutDesc: 'SkipTo.js is a free and open source utility to support authors in implementing the WCAG 4.2.1 Bypass Block requirement on their websites.',
 
       closeLabel: 'Close',
       moreInfoLabel: 'More Information',
@@ -160,7 +167,8 @@ export default class SkipToContent571 extends HTMLElement {
       "data-skipto",
       "setfocus",
       "type",
-      "shortcuts"
+      "shortcuts",
+      "about"
       ];
   }
 
@@ -182,6 +190,15 @@ export default class SkipToContent571 extends HTMLElement {
       }
       else {
         this.config.shortcuts = 'disabled';
+      }
+    }
+
+    if (name === 'about') {
+      if (newValue.trim().toLowerCase() === 'true') {
+        this.config.aboutSupported = 'true';
+      }
+      else {
+        this.config.aboutSupported = 'false';
       }
     }
 

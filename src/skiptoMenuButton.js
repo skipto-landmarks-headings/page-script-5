@@ -7,7 +7,7 @@ import {
   isNotEmptyString
 } from './utils.js';
 
-import ShortcutsInfoDialog  from './shortcutsInfoDialog.js';
+import SkipToContentInfoDialog  from './skipToContentInfoDialog.js';
 import ShortcutsMessage     from './shortcutsMessage.js';
 
 import {
@@ -151,8 +151,12 @@ export default class SkiptoMenuButton {
       this.shortcutsGroupNode.setAttribute('aria-labelledby', 'id-skip-to-menu-shortcutse-group-label');
       this.menuNode.appendChild(this.shortcutsGroupNode);
 
-      window.customElements.define("skip-to-shortcuts-info-dialog", ShortcutsInfoDialog);
-      this.infoDialog = document.createElement('skip-to-shortcuts-info-dialog');
+      if (this.config.aboutSupported === 'true') {
+        this.renderAboutToMenu(this.menuNode, this.config);
+      }
+
+      window.customElements.define("skip-to-content-info-dialog", SkipToContentInfoDialog);
+      this.infoDialog = document.createElement('skip-to-content-info-dialog');
       this.infoDialog.configureStyle(this.config);
       document.body.appendChild(this.infoDialog);
 
@@ -388,6 +392,33 @@ export default class SkiptoMenuButton {
     }
 
     /*
+     * @method renderAboutToMenu
+     *
+     * @desc Render the about menuitem
+     *
+     * @param  {Object}  menuNode   -  DOM element node for the menu
+     */
+    renderAboutToMenu (menuNode, config) {
+
+      const separatorNode = document.createElement('div');
+      separatorNode.setAttribute('role', 'separator');
+
+      const menuitemNode = document.createElement('div');
+      menuitemNode.setAttribute('role', 'menuitem');
+      menuitemNode.setAttribute('data-about-info', '');
+      menuitemNode.className = 'skip-to-nav skip-to-nesting-level-0';
+      menuitemNode.tabIndex = -1;
+
+      const labelNode = document.createElement('span');
+      labelNode.classList.add('label');
+      labelNode.textContent = config.aboutInfoLabel;
+      menuitemNode.appendChild(labelNode);
+
+      menuNode.appendChild(separatorNode);
+      menuNode.appendChild(menuitemNode);
+    }
+
+    /*
      * @method renderMenuitemToGroup
      *
      * @desc Renders a menuitem using an information object about the menuitem
@@ -410,7 +441,7 @@ export default class SkiptoMenuButton {
         menuitemNode.setAttribute('aria-label', mi.ariaLabel);
       }
 
-      // add event handlers
+      // add to group
       groupNode.appendChild(menuitemNode);
 
       // add heading level and label
@@ -1144,10 +1175,17 @@ export default class SkiptoMenuButton {
       }
 
       if (tgt.hasAttribute('data-shortcuts-info')) {
-        this.infoDialog.updateContent(this.skipToContentElem.config);
+        this.infoDialog.updateShortcutContent(this.skipToContentElem.config);
         this.infoDialog.openDialog();
         this.closePopup();
       }
+
+      if (tgt.hasAttribute('data-about-info')) {
+        this.infoDialog.updateAboutContent(this.skipToContentElem.config);
+        this.infoDialog.openDialog();
+        this.closePopup();
+      }
+
     }
 
     handleMenuitemKeydown(event) {

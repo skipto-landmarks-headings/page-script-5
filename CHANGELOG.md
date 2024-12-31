@@ -1,5 +1,9 @@
 # Version history for SkipTo.js
 
+## Version 5.7.2
+* Added about SkipTo.js button and dialog to menu
+* Added support for night scheme
+
 ## Version 5.7.1
 * Fixed bug with shortcut navigation getting stuck in "Skip To Content" button
 
