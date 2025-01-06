@@ -18,10 +18,10 @@ export const colorThemes = {
     menuTextDarkColor: '#ffffff',
     menuBackgroundDarkColor: '#000000',
     menuitemFocusTextDarkColor: '#ffffff',
-    menuitemFocusBackgroundDarkColor: '#806000',
+    menuitemFocusBackgroundDarkColor: '#013c93',
     focusBorderDarkColor: '#ffffff',
     buttonTextDarkColor: '#ffffff',
-    buttonBackgroundDarkColor: '#806000',
+    buttonBackgroundDarkColor: '#013c93',
     zIndex: '2000000',
     zHighlight: '1999900',
     displayOption: 'fixed'

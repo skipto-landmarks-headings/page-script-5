@@ -155,15 +155,23 @@ export default class SkiptoMenuButton {
         this.renderAboutToMenu(this.menuNode, this.config);
       }
 
-      window.customElements.define("skip-to-content-info-dialog", SkipToContentInfoDialog);
-      this.infoDialog = document.createElement('skip-to-content-info-dialog');
-      this.infoDialog.configureStyle(this.config);
-      document.body.appendChild(this.infoDialog);
+      this.infoDialog = document.querySelector("skip-to-content-info-dialog");
 
-      window.customElements.define("skip-to-shortcuts-message", ShortcutsMessage);
-      this.shortcutsMessage = document.createElement('skip-to-shortcuts-message');
-      this.shortcutsMessage.configureStyle(this.config);
-      document.body.appendChild(this.shortcutsMessage);
+      if (!this.infoDialog) {
+        window.customElements.define("skip-to-content-info-dialog", SkipToContentInfoDialog);
+        this.infoDialog = document.createElement('skip-to-content-info-dialog');
+        this.infoDialog.configureStyle(this.config);
+        document.body.appendChild(this.infoDialog);
+      }
+
+      this.shortcutsMessage = document.querySelector("skip-to-shortcuts-message");
+
+      if (!this.shortcutsMessage) {
+        window.customElements.define("skip-to-shortcuts-message", ShortcutsMessage);
+        this.shortcutsMessage = document.createElement('skip-to-shortcuts-message');
+        this.shortcutsMessage.configureStyle(this.config);
+        document.body.appendChild(this.shortcutsMessage);
+      }
 
       this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
       this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));

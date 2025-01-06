@@ -313,6 +313,60 @@ $skipToId [role="separator"].shortcuts-disabled,
 $skipToId [role="menuitem"].shortcuts-disabled {
   display: none;
 }
+
+@media (forced-colors: active) {
+
+  $skipToId button {
+    border-color: ButtonBorder;
+    color: ButtonText;
+    background-color: ButtonFace;
+  }
+
+  $skipToId [role="menu"] {
+    background-color: ButtonFace;
+    border-color: ButtonText;
+  }
+
+  $skipToId [role="menuitem"] {
+    color: ButtonText;
+    background-color: ButtonFace;
+  }
+
+  $skipToId [role="menuitem"] .level,
+  $skipToId [role="menuitem"] .label {
+    color: ButtonText;
+    background-color: ButtonFace;
+  }
+
+  $skipToId [role="separator"] {
+    border-bottom-color: ButtonBorder;
+    background-color: ButtonFace;
+    color: ButtonText;
+    z-index: $zIndex !important;
+  }
+
+  $skipToId button:focus,
+  $skipToId button:hover {
+    background-color: ButtonFace;
+    color: ButtonText;
+    border-color: ButtonBorder;
+  }
+
+  $skipToId [role="menuitem"]:focus {
+    background-color: ButtonText;
+    color: ButtonFace;
+    border-color: ButtonBorder;
+  }
+
+  $skipToId [role="menuitem"].hover,
+  $skipToId [role="menuitem"].hover .level,
+  $skipToId [role="menuitem"].hover .label {
+    background-color: ButtonText;
+    color: ButtonFace;
+  }
+
+}
+
 `;
 
 const cssHighlightTemplate = document.createElement('template');
@@ -389,6 +443,30 @@ $skipToId-overlay .overlay-info.hasInfoTop {
 $skipToId-overlay .overlay-info.hasInfoBottom {
   border-radius: 0 0 3px 3px;
 }
+
+@media (forced-colors: active) {
+
+  $skipToId-overlay {
+    border-color: ButtonBorder;
+  }
+
+  $skipToId-overlay .overlay-border {
+    border-color: ButtonBorder;
+  }
+
+  $skipToId-overlay .overlay-border.skip-to-hidden {
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+
+  $skipToId-overlay .overlay-info {
+    border-color: ButtonBorder;
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+
+}
+
 `;
 
 /*

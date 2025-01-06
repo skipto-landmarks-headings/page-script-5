@@ -19,7 +19,7 @@ const defaultStyleOptions = {
   dialogBackgroundColor: '#ffffff',
   dialogBackgroundDarkColor: '#000000',
   dialogBackgroundTitleColor: '#eeeeee',
-  dialogBackgroundTitleDarkColor: '#806000',
+  dialogBackgroundTitleDarkColor: '#013c93',
 
 };
 
@@ -85,6 +85,26 @@ div#skip-to-message.fade {
   opacity: 0;
   transition: visibility 0s 1s, opacity 1s linear;
 }
+
+@media (forced-colors: active) {
+
+  div#skip-to-message {
+    background-color: Canvas;
+    color CanvasText;
+    border-color: AccentColor;
+  }
+
+  div#skip-to-message .header {
+    background-color: Canvas;
+    color CanvasText;
+  }
+
+  div#skip-to-message .content {
+    background-color: Canvas;
+    color: CanvasText;
+  }
+}
+
 `;
 
 export default class ShortcutsMessage extends HTMLElement {

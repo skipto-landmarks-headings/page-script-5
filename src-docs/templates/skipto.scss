@@ -62,6 +62,7 @@ a[href]:hover {
   text-decoration: underline;
 }
 
+.bg-light a,
 .breadcrumb a,
 .navbar-nav .nav-link,
 .navbar-nav .nav-link:hover,
@@ -84,7 +85,7 @@ a[href]:hover {
 div.language-html {
   font-family: monospace courier;
   padding: 0.5em;
-  color: rgb(36, 41, 46);
+  color: light-dark(#24292E, #cad0d5);
   display: flex;
 }
 
@@ -116,7 +117,7 @@ div.language-html pre {
   overflow:auto;
   font-size:85%;
   line-height:1.45;
-  background-color:#f6f8fa;
+  background-color: light-dark(#f6f8fa, #0a0804);
   border-radius:3px;
   overflow-y: scroll;
 }
@@ -135,23 +136,23 @@ div.language-html pre tt {
 }
 
 div.language-html pre .nt /* entity.name.tag, markup.quote */ {
-  color:  darkgreen;
+  color:  light-dark(darkgreen, lightgreen);
 }
 
 div.language-html pre .kd,
 div.language-html pre .nx {
-  color:  rgb(149, 56, 0);
+  color:  light-dark(#953800, #ff985a);
 }
 
 div.language-html pre .na {
-  color:  #005cc5;
+  color:  light-dark(#005cc5, #63acff);
 }
 
 div.language-html pre .c1 /* entity.name.tag, markup.quote */ {
-  color:  #005cc5;
+  color:  light-dark(#005cc5, #63acff);
 }
 div.language-html pre .k /* keyword, storage, storage.type */ {
-  color:  #d73a49;
+  color:  light-dark(#d73a49, #c22736);
 }
 
 div.image {
@@ -159,7 +160,7 @@ div.image {
 }
 
 div.image img {
-  border: 2px solid #dddddd;
+  border: 2px solid light-dark(#dddddd, #333333);
 }
 
 div.container h1,
@@ -199,16 +200,13 @@ div.params {
   padding: 0.5em;
 }
 
-.bg-light a {
-  color: darkblue;
-}
 
 .bg-light code {
-  color: darkred;
+  color: light-dark(darkred, lightred);
 }
 
 .bg-light span.nt {
-  color: darkgreen;
+  color: light-dark(darkgreen, lightgreen);
 }
 
 p.happy {

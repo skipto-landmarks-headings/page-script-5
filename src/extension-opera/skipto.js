@@ -38,10 +38,10 @@
       menuTextDarkColor: '#ffffff',
       menuBackgroundDarkColor: '#000000',
       menuitemFocusTextDarkColor: '#ffffff',
-      menuitemFocusBackgroundDarkColor: '#806000',
+      menuitemFocusBackgroundDarkColor: '#013c93',
       focusBorderDarkColor: '#ffffff',
       buttonTextDarkColor: '#ffffff',
-      buttonBackgroundDarkColor: '#806000',
+      buttonBackgroundDarkColor: '#013c93',
       zIndex: '2000000',
       zHighlight: '1999900',
       displayOption: 'fixed'
@@ -538,6 +538,60 @@ $skipToId [role="separator"].shortcuts-disabled,
 $skipToId [role="menuitem"].shortcuts-disabled {
   display: none;
 }
+
+@media (forced-colors: active) {
+
+  $skipToId button {
+    border-color: ButtonBorder;
+    color: ButtonText;
+    background-color: ButtonFace;
+  }
+
+  $skipToId [role="menu"] {
+    background-color: ButtonFace;
+    border-color: ButtonText;
+  }
+
+  $skipToId [role="menuitem"] {
+    color: ButtonText;
+    background-color: ButtonFace;
+  }
+
+  $skipToId [role="menuitem"] .level,
+  $skipToId [role="menuitem"] .label {
+    color: ButtonText;
+    background-color: ButtonFace;
+  }
+
+  $skipToId [role="separator"] {
+    border-bottom-color: ButtonBorder;
+    background-color: ButtonFace;
+    color: ButtonText;
+    z-index: $zIndex !important;
+  }
+
+  $skipToId button:focus,
+  $skipToId button:hover {
+    background-color: ButtonFace;
+    color: ButtonText;
+    border-color: ButtonBorder;
+  }
+
+  $skipToId [role="menuitem"]:focus {
+    background-color: ButtonText;
+    color: ButtonFace;
+    border-color: ButtonBorder;
+  }
+
+  $skipToId [role="menuitem"].hover,
+  $skipToId [role="menuitem"].hover .level,
+  $skipToId [role="menuitem"].hover .label {
+    background-color: ButtonText;
+    color: ButtonFace;
+  }
+
+}
+
 `;
 
   const cssHighlightTemplate = document.createElement('template');
@@ -614,6 +668,30 @@ $skipToId-overlay .overlay-info.hasInfoTop {
 $skipToId-overlay .overlay-info.hasInfoBottom {
   border-radius: 0 0 3px 3px;
 }
+
+@media (forced-colors: active) {
+
+  $skipToId-overlay {
+    border-color: ButtonBorder;
+  }
+
+  $skipToId-overlay .overlay-border {
+    border-color: ButtonBorder;
+  }
+
+  $skipToId-overlay .overlay-border.skip-to-hidden {
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+
+  $skipToId-overlay .overlay-info {
+    border-color: ButtonBorder;
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+
+}
+
 `;
 
   /*
@@ -953,7 +1031,7 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     dialogBackgroundColor: '#ffffff',
     dialogBackgroundDarkColor: '#000000',
     dialogBackgroundTitleColor: '#eeeeee',
-    dialogBackgroundTitleDarkColor: '#806000',
+    dialogBackgroundTitleDarkColor: '#013c93',
 
   };
 
@@ -1440,7 +1518,7 @@ button:hover {
     dialogBackgroundColor: '#ffffff',
     dialogBackgroundDarkColor: '#000000',
     dialogBackgroundTitleColor: '#eeeeee',
-    dialogBackgroundTitleDarkColor: '#806000',
+    dialogBackgroundTitleDarkColor: '#013c93',
 
   };
 
@@ -1506,6 +1584,26 @@ div#skip-to-message.fade {
   opacity: 0;
   transition: visibility 0s 1s, opacity 1s linear;
 }
+
+@media (forced-colors: active) {
+
+  div#skip-to-message {
+    background-color: Canvas;
+    color CanvasText;
+    border-color: AccentColor;
+  }
+
+  div#skip-to-message .header {
+    background-color: Canvas;
+    color CanvasText;
+  }
+
+  div#skip-to-message .content {
+    background-color: Canvas;
+    color: CanvasText;
+  }
+}
+
 `;
 
   class ShortcutsMessage extends HTMLElement {
@@ -3666,15 +3764,23 @@ div#skip-to-message.fade {
           this.renderAboutToMenu(this.menuNode, this.config);
         }
 
-        window.customElements.define("skip-to-content-info-dialog", SkipToContentInfoDialog);
-        this.infoDialog = document.createElement('skip-to-content-info-dialog');
-        this.infoDialog.configureStyle(this.config);
-        document.body.appendChild(this.infoDialog);
+        this.infoDialog = document.querySelector("skip-to-content-info-dialog");
 
-        window.customElements.define("skip-to-shortcuts-message", ShortcutsMessage);
-        this.shortcutsMessage = document.createElement('skip-to-shortcuts-message');
-        this.shortcutsMessage.configureStyle(this.config);
-        document.body.appendChild(this.shortcutsMessage);
+        if (!this.infoDialog) {
+          window.customElements.define("skip-to-content-info-dialog", SkipToContentInfoDialog);
+          this.infoDialog = document.createElement('skip-to-content-info-dialog');
+          this.infoDialog.configureStyle(this.config);
+          document.body.appendChild(this.infoDialog);
+        }
+
+        this.shortcutsMessage = document.querySelector("skip-to-shortcuts-message");
+
+        if (!this.shortcutsMessage) {
+          window.customElements.define("skip-to-shortcuts-message", ShortcutsMessage);
+          this.shortcutsMessage = document.createElement('skip-to-shortcuts-message');
+          this.shortcutsMessage.configureStyle(this.config);
+          document.body.appendChild(this.shortcutsMessage);
+        }
 
         this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
         this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -5038,7 +5144,7 @@ div#skip-to-message.fade {
         dialogBackgroundColor: '#ffffff',
         dialogBackgroundDarkColor: '#000000',
         dialogBackgroundTitleColor: '#eeeeee',
-        dialogBackgroundTitleDarkColor: '#806000',
+        dialogBackgroundTitleDarkColor: '#013c93',
 
         // Place holders for configuration
         colorTheme: '',

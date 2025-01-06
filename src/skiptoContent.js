@@ -151,7 +151,7 @@ export default class SkipToContent572 extends HTMLElement {
       dialogBackgroundColor: '#ffffff',
       dialogBackgroundDarkColor: '#000000',
       dialogBackgroundTitleColor: '#eeeeee',
-      dialogBackgroundTitleDarkColor: '#806000',
+      dialogBackgroundTitleDarkColor: '#013c93',
 
       // Place holders for configuration
       colorTheme: '',

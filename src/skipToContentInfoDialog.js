@@ -19,7 +19,7 @@ const defaultStyleOptions = {
   dialogBackgroundColor: '#ffffff',
   dialogBackgroundDarkColor: '#000000',
   dialogBackgroundTitleColor: '#eeeeee',
-  dialogBackgroundTitleDarkColor: '#806000',
+  dialogBackgroundTitleDarkColor: '#013c93',
 
 };
 
