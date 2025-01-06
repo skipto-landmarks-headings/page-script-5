@@ -2,7 +2,8 @@
 
 ## Version 5.7.2
 * Added about SkipTo.js button and dialog to menu
-* Added support for night scheme
+* Added support for night color scheme
+* Added support for forced-colors: active media query
 
 ## Version 5.7.1
 * Fixed bug with shortcut navigation getting stuck in "Skip To Content" button
