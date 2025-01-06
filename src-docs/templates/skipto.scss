@@ -6,11 +6,24 @@ $iconWhite: #ffffff;
 $contentBlue: #005797;
 $linkCurrent: #000000;
 
+$navBackground: #eeeeee;
+$navBackgroundDark: #101010;
+
 $contentBlueDark: rgb(110, 168, 254);
 $linkCurrentDark: #888;
 
 :root {
   color-scheme: light dark;
+}
+
+nav.navbar.bg-light {
+  background-color: light-dark($navBackground, $navBackgroundDark) !important;
+  border-bottom: 1px solid light-dark(transparent, $navBackground);
+}
+
+footer.bg-light {
+  background-color: light-dark($navBackground, $navBackgroundDark) !important;
+  border-top: 1px solid light-dark(transparent, $navBackground);
 }
 
 .brand {

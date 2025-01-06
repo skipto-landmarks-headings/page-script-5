@@ -13,6 +13,10 @@ const skipToHighlightStyleID = 'id-skip-to-highlight-style';
 
 const cssMenuTemplate = document.createElement('template');
 cssMenuTemplate.textContent = `
+:root {
+  color-scheme: light dark;
+}
+
 $skipToId.popup {
   top: -36px;
   transition: top 0.35s ease;
@@ -62,9 +66,9 @@ $skipToId button {
   border-width: 0px 1px 1px 1px;
   border-style: solid;
   border-radius: 0px 0px 6px 6px;
-  border-color: $buttonBackgroundColor;
-  color: $buttonTextColor;
-  background-color: $buttonBackgroundColor;
+  border-color: light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
+  color: light-dark($buttonTextColor, $buttonTextDarkColor);
+  background-color: light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
   z-index: 100000 !important;
   font-family: $fontFamily;
   font-size: $fontSize;
@@ -131,10 +135,10 @@ $skipToId [role="menu"] {
   display: none;
   margin: 0;
   padding: 0.25rem;
-  background-color: $menuBackgroundColor;
+  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
   border-width: 2px;
   border-style: solid;
-  border-color: $focusBorderColor;
+  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
   border-radius: 5px;
   z-index: $zIndex !important;
   touch-action: none;
@@ -160,8 +164,8 @@ $skipToId [role="menuitem"] {
   width: auto;
   border-width: 0px;
   border-style: solid;
-  color: $menuTextColor;
-  background-color: $menuBackgroundColor;
+  color: light-dark($menuTextColor, $menuTextDarkColor);
+  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
   display: grid;
   overflow-y: clip;
   grid-template-columns: repeat(6, 1.2rem) 1fr;
@@ -174,8 +178,8 @@ $skipToId [role="menuitem"] .level,
 $skipToId [role="menuitem"] .label {
   font-size: 100%;
   font-weight: normal;
-  color: $menuTextColor;
-  background-color: $menuBackgroundColor;
+  color: light-dark($menuTextColor, $menuTextDarkColor);
+  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
   display: inline-block;
   line-height: inherit;
   display: inline-block;
@@ -246,9 +250,9 @@ $skipToId [role="separator"] {
   font-weight: bold;
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-bottom-color: $menuTextColor;
-  background-color: $menuBackgroundColor;
-  color: $menuTextColor;
+  border-bottom-color: light-dark($menuTextColor, $menuTextDarkColor);
+  background-color: light-dark($menuBackgroundColor, $menuBackgroundColor);
+  color: light-dark($menuTextColor, $menuTextDarkColor);
   z-index: $zIndex !important;
 }
 
@@ -273,11 +277,11 @@ $skipToId.focus {
 
 $skipToId button:focus,
 $skipToId button:hover {
-  background-color: $menuBackgroundColor;
-  color: $menuTextColor;
+  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
+  color: light-dark($menuTextColor, $menuTextDarkColor);
   outline: none;
   border-width: 0px 2px 2px 2px;
-  border-color: $focusBorderColor;
+  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
 }
 
 
@@ -294,15 +298,15 @@ $skipToId [role="menuitem"]:focus {
   padding: 1px;
   border-width: 2px;
   border-style: solid;
-  border-color: $focusBorderColor;
+  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
   outline: none;
 }
 
 $skipToId [role="menuitem"].hover,
 $skipToId [role="menuitem"].hover .level,
 $skipToId [role="menuitem"].hover .label {
-  background-color: $menuitemFocusBackgroundColor;
-  color: $menuitemFocusTextColor;
+  background-color: light-dark($menuitemFocusBackgroundColor, $menuitemFocusBackgroundDarkColor);
+  color: light-dark($menuitemFocusTextColor, $menuitemFocusTextDarkColor);
 }
 
 $skipToId [role="separator"].shortcuts-disabled,
@@ -313,12 +317,16 @@ $skipToId [role="menuitem"].shortcuts-disabled {
 
 const cssHighlightTemplate = document.createElement('template');
 cssHighlightTemplate.textContent = `
+:root {
+  color-scheme: light dark;
+}
+
 $skipToId-overlay {
   margin: 0;
   padding: 0;
   position: absolute;
   border-radius: 3px;
-  border: 4px solid $buttonBackgroundColor;
+  border: 4px solid light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
   box-sizing: border-box;
   pointer-events:none;
 }
@@ -330,7 +338,7 @@ $skipToId-overlay .overlay-border {
   top: -2px;
   left: -2px;
   border-radius: 3px 3px 3px 3px;
-  border: 2px solid $focusBorderColor;
+  border: 2px solid light-dark($focusBorderColor, $focusBorderDarkColor);
   z-index: $zHighlight;
   box-sizing: border-box;
   pointer-events:none;
@@ -342,8 +350,8 @@ $skipToId-overlay .overlay-border {
 }
 
 $skipToId-overlay .overlay-border.skip-to-hidden {
-  background-color: $hiddenHeadingBackgroundColor;
-  color: $hiddenHeadingColor;
+  background-color: light-dark($hiddenHeadingBackgroundColor, $hiddenHeadingBackgroundDarkColor);
+  color: light-dark($hiddenHeadingColor, $hiddenHeadingDarkColor);
   font-style: italic;
   font-weight: bold;
   font-size: 0.9em;
@@ -365,9 +373,9 @@ $skipToId-overlay .overlay-info {
   text-align: left;
   left: -2px;
   padding: 1px 4px;
-  border: 2px solid $focusBorderColor;
-  background-color: $menuitemFocusBackgroundColor;
-  color: $menuitemFocusTextColor;
+  border: 2px solid light-dark($focusBorderColor, $focusBorderDarkColor);
+  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
+  color: light-dark($menuTextColor, $menuTextDarkColor);
   z-index: $zHighlight;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -528,25 +536,42 @@ function addCSSColors (cssMenu, cssHighlight, config, useURLTheme=false) {
   cssMenu = updateStyle(cssMenu, '$mediumBreakPoint', config.mediumBreakPoint, theme.mediumBreakPoint, defaultTheme.mediumBreakPoint);
 
   cssMenu = updateStyle(cssMenu, '$menuTextColor', config.menuTextColor, theme.menuTextColor, defaultTheme.menuTextColor);
+  cssMenu = updateStyle(cssMenu, '$menuTextDarkColor', config.menuTextDarkColor, theme.menuTextDarkColor, defaultTheme.menuTextDarkColor);
   cssMenu = updateStyle(cssMenu, '$menuBackgroundColor', config.menuBackgroundColor, theme.menuBackgroundColor, defaultTheme.menuBackgroundColor);
+  cssMenu = updateStyle(cssMenu, '$menuBackgroundDarkColor', config.menuBackgroundDarkColor, theme.menuBackgroundDarkColor, defaultTheme.menuBackgroundDarkColor);
 
   cssMenu = updateStyle(cssMenu, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
+  cssMenu = updateStyle(cssMenu, '$menuitemFocusTextDarkColor', config.menuitemFocusTextDarkColor, theme.menuitemFocusTextDarkColor, defaultTheme.menuitemFocusTextDarkColor);
   cssMenu = updateStyle(cssMenu, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
+  cssMenu = updateStyle(cssMenu, '$menuitemFocusBackgroundDarkColor', config.menuitemFocusBackgroundDarkColor, theme.menuitemFocusBackgroundDarkColor, defaultTheme.menuitemFocusBackgroundDarkColor);
 
   cssMenu = updateStyle(cssMenu, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
+  cssMenu = updateStyle(cssMenu, '$focusBorderDarkColor', config.focusBorderDarkColor, theme.focusBorderDarkColor, defaultTheme.focusBorderDarkColor);
 
   cssMenu = updateStyle(cssMenu, '$buttonTextColor', config.buttonTextColor, theme.buttonTextColor, defaultTheme.buttonTextColor);
+  cssMenu = updateStyle(cssMenu, '$buttonTextDarkColor', config.buttonTextDarkColor, theme.buttonTextDarkColor, defaultTheme.buttonTextDarkColor);
   cssMenu = updateStyle(cssMenu, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
+  cssMenu = updateStyle(cssMenu, '$buttonBackgroundDarkColor', config.buttonBackgroundDarkColor, theme.buttonBackgroundDarkColor, defaultTheme.buttonBackgroundDarkColor);
 
   cssMenu = updateStyle(cssMenu, '$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
 
   cssHighlight = updateStyle(cssHighlight, '$zHighlight', config.zHighlight, theme.zHighlight, defaultTheme.zHighlight);
   cssHighlight = updateStyle(cssHighlight, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
+  cssHighlight = updateStyle(cssHighlight, '$buttonBackgroundDarkColor', config.buttonBackgroundDarkColor, theme.buttonBackgroundDarkColor, defaultTheme.buttonBackgroundDarkColor);
   cssHighlight = updateStyle(cssHighlight, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
+  cssHighlight = updateStyle(cssHighlight, '$focusBorderDarkColor', config.focusBorderDarkColor, theme.focusBorderDarkColor, defaultTheme.focusBorderDarkColor);
+  cssHighlight = updateStyle(cssHighlight, '$menuTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
+  cssHighlight = updateStyle(cssHighlight, '$menuTextDarkColor', config.menuitemFocusTextDarkColor, theme.menuitemFocusTextDarkColor, defaultTheme.menuitemFocusTextDarkColor);
+  cssHighlight = updateStyle(cssHighlight, '$menuBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
+  cssHighlight = updateStyle(cssHighlight, '$menuBackgroundDarkColor', config.menuitemFocusBackgroundDarkColor, theme.menuitemFocusBackgroundDarkColor, defaultTheme.menuitemFocusBackgroundDarkColor);
   cssHighlight = updateStyle(cssHighlight, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
+  cssHighlight = updateStyle(cssHighlight, '$menuitemFocusTextDarkColor', config.menuitemFocusTextDarkColor, theme.menuitemFocusTextDarkColor, defaultTheme.menuitemFocusTextDarkColor);
   cssHighlight = updateStyle(cssHighlight, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
+  cssHighlight = updateStyle(cssHighlight, '$menuitemFocusBackgroundDarkColor', config.menuitemFocusBackgroundDarkColor, theme.menuitemFocusBackgroundDarkColor, defaultTheme.menuitemFocusBackgroundDarkColor);
   cssHighlight = updateStyle(cssHighlight, '$hiddenHeadingColor', config.hiddenHeadingColor, theme.hiddenHeadingColor, defaultTheme.hiddenHeadingColor);
+  cssHighlight = updateStyle(cssHighlight, '$hiddenHeadingDarkColor', config.hiddenHeadingDarkColor, theme.hiddenHeadingDarkColor, defaultTheme.hiddenHeadingDarkColor);
   cssHighlight = updateStyle(cssHighlight, '$hiddenHeadingBackgroundColor', config.hiddenHeadingBackgroundColor, theme.hiddenHeadingBackgroundColor, defaultTheme.hiddenHeadingBackgroundColor);
+  cssHighlight = updateStyle(cssHighlight, '$hiddenHeadingBackgroundDarkColor', config.hiddenHeadingBackgroundDarkColor, theme.hiddenHeadingBackgroundDarkColor, defaultTheme.hiddenHeadingBackgroundDarkColor);
 
   // Special case for theme configuration used in Illinois theme
   if (typeof theme.highlightTarget === 'string') {

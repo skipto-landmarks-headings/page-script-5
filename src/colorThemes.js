@@ -15,6 +15,13 @@ export const colorThemes = {
     menuBackgroundColor: '#dddddd',
     menuitemFocusTextColor: '#dddddd',
     menuitemFocusBackgroundColor: '#13294b',
+    menuTextDarkColor: '#ffffff',
+    menuBackgroundDarkColor: '#000000',
+    menuitemFocusTextDarkColor: '#ffffff',
+    menuitemFocusBackgroundDarkColor: '#806000',
+    focusBorderDarkColor: '#ffffff',
+    buttonTextDarkColor: '#ffffff',
+    buttonBackgroundDarkColor: '#806000',
     zIndex: '2000000',
     zHighlight: '1999900',
     displayOption: 'fixed'

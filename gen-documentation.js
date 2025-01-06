@@ -1,4 +1,4 @@
-/*  gen-documentation.js */
+  /*  gen-documentation.js */
 
 /* Requirements */
 

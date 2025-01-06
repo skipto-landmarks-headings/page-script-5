@@ -11,9 +11,18 @@ const defaultStyleOptions = {
   fontFamily: 'sans-serif',
   fontSize: '12pt',
   focusBorderColor: '#c5050c',
-  menuTextColor: '#13294b',
-  menuBackgroundColor: '#dddddd',
+  focusBorderDarkColor: '#ffffff',
+
+  // Dialog styling defaults
+  dialogTextColor: '#000000',
+  dialogTextDarkColor: '#ffffff',
+  dialogBackgroundColor: '#ffffff',
+  dialogBackgroundDarkColor: '#000000',
+  dialogBackgroundTitleColor: '#eeeeee',
+  dialogBackgroundTitleDarkColor: '#806000',
+
 };
+
 
 const MORE_PAGE_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/page.html';
 const MORE_SHORTCUT_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
@@ -27,16 +36,17 @@ dialog#skip-to-info-dialog {
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-
   font-family: $fontFamily;
   font-size: $fontSize;
   max-width: 70%;
   margin: 0;
   padding: 0;
-  background-color: white;
-  border: 2px solid $focusBorderColor;
+  background-color: light-dark($dialogBackgroundColor, $dialogBackgroundDarkColor);
+  color: light-dark($dialogTextColor, $dialogTextDarkColor);
+  border-width: 2px;
+  border-style: solid;
+  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
   border-radius: 5px;
-  color: black;
   z-index: 2000001;
 
 }
@@ -45,12 +55,15 @@ dialog#skip-to-info-dialog .header {
   margin: 0;
   margin-bottom: 0.5em;
   padding: 4px;
-  border-bottom: 1px solid $focusBorderColor;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-style: solid;
+  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   font-weight:  bold;
-  background-color: $menuBackgroundColor;
-  color $menuTextColor:
+  background-color: light-dark($dialogBackgroundTitleColor, $dialogBackgroundTitleDarkColor);
+  color: light-dark($dialogTextColor, $dialogTextDarkColor);
   position: relative;
   font-size: 100%;
 }
@@ -68,7 +81,7 @@ dialog#skip-to-info-dialog .header button {
   border: none;
   background: transparent;
   font-weight: bold;
-  color: black;
+  color: light-dark(black, white);
 }
 
 dialog#skip-to-info-dialog .content {
@@ -122,7 +135,12 @@ dialog#skip-to-info-dialog .content th {
   text-align: left;
   font-weight: bold;
   font-size: 100%;
-  border-bottom: 1px solid #999;
+}
+
+dialog#skip-to-info-dialog .content th {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: light-dark(#999999, #777777);
 }
 
 dialog#skip-to-info-dialog .content th.shortcut {
@@ -140,7 +158,7 @@ dialog#skip-to-info-dialog .content td {
 
 
 dialog#skip-to-info-dialog .content table tr:nth-child(even) {
-  background-color: #eee;
+  background-color: light-dark(#eeeeee, #111111);
 }
 
 dialog#skip-to-info-dialog .buttons {
@@ -261,14 +279,40 @@ export default class SkipToContentInfoDialog extends HTMLElement {
                          defaultStyleOptions.focusBorderColor);
 
     style = updateOption(style,
-                         '$menuTextColor',
-                         config.menuTextColor,
-                         defaultStyleOptions.menuTextColor);
+                         '$focusBorderDarkColor',
+                         config.focusBorderDarkColor,
+                         defaultStyleOptions.focusBorderDarkColor);
 
     style = updateOption(style,
-                         '$menuBackgroundColor',
-                         config.menuBackgroundColor,
-                         defaultStyleOptions.menuBackgroundColor);
+                         '$dialogTextColor',
+                         config.dialogTextColor,
+                         defaultStyleOptions.dialogTextColor);
+
+    style = updateOption(style,
+                         '$dialogextDarkColor',
+                         config.dialogextDarkColor,
+                         defaultStyleOptions.dialogextDarkColor);
+
+    style = updateOption(style,
+                         '$dialogBackgroundColor',
+                         config.dialogBackgroundColor,
+                         defaultStyleOptions.dialogBackgroundColor);
+
+    style = updateOption(style,
+                         '$dialogBackgroundDarkColor',
+                         config.dialogBackgroundDarkColor,
+                         defaultStyleOptions.dialogBackgroundDarkColor);
+
+    style = updateOption(style,
+                         '$dialogBackgroundTitleColor',
+                         config.dialogBackgroundTitleColor,
+                         defaultStyleOptions.dialogBackgroundTitleColor);
+
+    style = updateOption(style,
+                         '$dialogBackgroundTitleDarkColor',
+                         config.dialogBackgroundTitleDarkColor,
+                         defaultStyleOptions.dialogBackgroundTitleDarkColor);
+
 
     let styleNode = this.shadowRoot.querySelector('style');
 

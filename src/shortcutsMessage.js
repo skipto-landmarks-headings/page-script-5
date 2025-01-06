@@ -11,13 +11,24 @@ const defaultStyleOptions = {
   fontFamily: 'sans-serif',
   fontSize: '12pt',
   focusBorderColor: '#c5050c',
-  menuTextColor: '#13294b',
-  menuBackgroundColor: '#dddddd',
+  focusBorderDarkColor: '#ffffff',
+
+  // Dialog styling defaults
+  dialogTextColor: '#000000',
+  dialogTextDarkColor: '#ffffff',
+  dialogBackgroundColor: '#ffffff',
+  dialogBackgroundDarkColor: '#000000',
+  dialogBackgroundTitleColor: '#eeeeee',
+  dialogBackgroundTitleDarkColor: '#806000',
+
 };
 
 const styleTemplate = document.createElement('template');
 styleTemplate.textContent = `
 /* shortcutsMessage.css */
+:root {
+  color-scheme: light dark;
+}
 
 div#skip-to-message {
   position: fixed;
@@ -30,10 +41,10 @@ div#skip-to-message {
   max-width: 70%;
   margin: 0;
   padding: 0;
-  background-color: white;
-  border: 2px solid $focusBorderColor;
+  background-color: light-dark($dialogBackgroundColor, $dialogBackgroundDarkColor);
+  border: 2px solid light-dark($focusBorderColor, $focusBorderDarkColor);
   border-radius: 5px;
-  color: black;
+  color: light-dark($dialogTextColor, $dialogTextDarkColor);
   z-index: 2000001;
   opacity: 1;
 }
@@ -41,12 +52,12 @@ div#skip-to-message {
 div#skip-to-message .header {
   margin: 0;
   padding: 4px;
-  border-bottom: 1px solid $focusBorderColor;
+  border-bottom: 1px solid light-dark($focusBorderColor, $focusBorderDarkColor);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   font-weight:  bold;
-  background-color: $menuBackgroundColor;
-  color $menuTextColor:
+  background-color: light-dark($dialogBackgroundTitleColor, $dialogBackgroundTitleDarkColor);
+  color light-dark($dialogTextColor, $dialogTextDarkColor);
   font-size: 100%;
 }
 
@@ -55,8 +66,8 @@ div#skip-to-message .content {
   margin-right: 2em;
   margin-top: 2em;
   margin-bottom: 2em;
-  background-color: #fff;
-  color: #000;
+  background-color: light-dark($dialogBackgroundColor, $dialogBackgroundDarkColor);
+  color: light-dark($dialogTextColor, $dialogTextDarkColor);
   font-size: 110%;
   text-algin: center;
 }
@@ -133,14 +144,40 @@ export default class ShortcutsMessage extends HTMLElement {
                          defaultStyleOptions.focusBorderColor);
 
     style = updateOption(style,
-                         '$menuTextColor',
-                         config.menuTextColor,
-                         defaultStyleOptions.menuTextColor);
+                         '$focusBorderDarkColor',
+                         config.focusBorderDarkColor,
+                         defaultStyleOptions.focusBorderDarkColor);
+
 
     style = updateOption(style,
-                         '$menuBackgroundColor',
-                         config.menuBackgroundColor,
-                         defaultStyleOptions.menuBackgroundColor);
+                         '$dialogTextColor',
+                         config.dialogTextColor,
+                         defaultStyleOptions.dialogTextColor);
+
+    style = updateOption(style,
+                         '$dialogTextDarkColor',
+                         config.dialogTextDarkColor,
+                         defaultStyleOptions.dialogTextDarkColor);
+
+    style = updateOption(style,
+                         '$dialogBackgroundColor',
+                         config.dialogBackgroundColor,
+                         defaultStyleOptions.dialogBackgroundColor);
+
+    style = updateOption(style,
+                         '$dialogBackgroundDarkColor',
+                         config.dialogBackgroundDarkColor,
+                         defaultStyleOptions.dialogBackgroundDarkColor);
+
+    style = updateOption(style,
+                         '$dialogBackgroundTitleColor',
+                         config.dialogBackgroundTitleColor,
+                         defaultStyleOptions.dialogBackgroundTitleColor);
+
+    style = updateOption(style,
+                         '$dialogBackgroundTitleDarkColor',
+                         config.dialogBackgroundTitleDarkColor,
+                         defaultStyleOptions.dialogBackgroundTitleDarkColor);
 
     let styleNode = this.shadowRoot.querySelector('style');
 

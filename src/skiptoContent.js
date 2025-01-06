@@ -141,7 +141,17 @@ export default class SkipToContent572 extends HTMLElement {
       // Hidden heading when highlighting
       msgHidden: 'Heading is hidden',
       hiddenHeadingColor: '#000000',
+      hiddenHeadingDarkColor: '#000000',
       hiddenHeadingBackgroundColor: '#ffcc00',
+      hiddenHeadingBackgroundDarkColor: '#ffcc00',
+
+      //Dialog styling
+      dialogTextColor: '#000000',
+      dialogTextDarkColor: '#ffffff',
+      dialogBackgroundColor: '#ffffff',
+      dialogBackgroundDarkColor: '#000000',
+      dialogBackgroundTitleColor: '#eeeeee',
+      dialogBackgroundTitleDarkColor: '#806000',
 
       // Place holders for configuration
       colorTheme: '',
@@ -157,6 +167,13 @@ export default class SkipToContent572 extends HTMLElement {
       focusBorderColor: '',
       buttonTextColor: '',
       buttonBackgroundColor: '',
+      menuTextDarkColor: '',
+      menuBackgroundDarkColor: '',
+      menuitemFocusTextDarkColor: '',
+      menuitemFocusBackgroundDarkColor: '',
+      focusBorderDarkColor: '',
+      buttonTextDarkColor: '',
+      buttonBackgroundDarkColor: '',
       zIndex: '',
       zHighlight: ''
     };

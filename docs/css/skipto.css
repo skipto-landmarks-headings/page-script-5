@@ -3,6 +3,16 @@
   color-scheme: light dark;
 }
 
+nav.navbar.bg-light {
+  background-color: light-dark(#eeeeee, #101010) !important;
+  border-bottom: 1px solid light-dark(transparent, #eeeeee);
+}
+
+footer.bg-light {
+  background-color: light-dark(#eeeeee, #101010) !important;
+  border-top: 1px solid light-dark(transparent, #eeeeee);
+}
+
 .brand {
   display: block;
   font-family: "Fjalla One", sans-serif;
