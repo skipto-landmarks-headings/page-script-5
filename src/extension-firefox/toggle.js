@@ -8,7 +8,7 @@
 
   let skipToContentElem = document.querySelector('skip-to-content-extension');
 
-  debug && console.log(`[toggle.js]: ${skipToContentElem} ${skipToContentElem.checked}`);
+  debug && skipToContentElem &&console.log(`[toggle.js]: ${skipToContentElem} ${skipToContentElem.getAttribute('focus')}`);
 
   if (skipToContentElem) {
     const focus = skipToContentElem.getAttribute('focus');

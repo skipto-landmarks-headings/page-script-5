@@ -8,10 +8,6 @@ const browserRuntime = typeof browser === 'object' ?
               browser.runtime :
               chrome.runtime;
 
-const browserAction = typeof browser === 'object' ?
-              browser.browserAction :
-              chrome.action;
-
 const SkipToExtensionElmName   = 'skip-to-content-extension';
 
 // Add SkipTo.js script to page
@@ -63,6 +59,9 @@ browserRuntime.onMessage.addListener(
 function getFocusOption(params) {
   let focusOption = 'none';
 
+  if (!params) {
+    params='';
+  }
   const parts = params.split('focusOption:');
   if (parts.length === 2) {
     focusOption = parts[1].substring(0, parts[1].indexOf(';')).trim();

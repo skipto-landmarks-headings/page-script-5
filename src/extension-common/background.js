@@ -14,7 +14,7 @@ const browserRuntime = typeof browser === 'object' ?
               chrome.runtime;
 
 const browserAction = typeof browser === 'object' ?
-              browser.browserAction :
+              browser.action :
               chrome.action;
 
 const browserScripting = typeof browser === 'object' ?
@@ -62,7 +62,14 @@ browserRuntime.onMessage.addListener((request, sender, sendResponse) => {
 
 });
 
-
+/*
+if (browser) {
+  browser.tabs.onCreated.addListener(() => {
+    debug && console.log(`[tabs][onCreated]`);
+    browser.browserAction.enable();
+  });
+}
+*/
 browserAction.onClicked.addListener((tab) => {
   debug && console.log(`[action][onclick]: ${tab.id}`);
   browserScripting.executeScript({

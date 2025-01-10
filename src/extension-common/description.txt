@@ -7,7 +7,9 @@ Summary
 SkipTo.js for XXXX extension provides keyboard navigation to landmark regions and headings to support WCAG 2.4.1 Bypass Blocks requirement.
 
 Description
-SkipTo.js extension fills a void in browsers to provide the navigation features to meet WCAG 2.4.1 Bypass Blocks requirement and keyboard shortcuts to navigate to landmark regions and headings. The extension creates a drop-down menu of the landmark regions and headings on the current web page. Selecting an option in the menu or using a shortcut key moves keyboard focus to the landmark region or heading and scrolls the content into view.  The menu also provides a convenient table of contents of what is on the page for ALL users.  An example of a digital curb cut benefiting everyone in the information age.
+SkipTo.js extension fills a void in browsers to provide the navigation features to meet WCAG 2.4.1 Bypass Blocks requirement and keyboard shortcuts to navigate to landmark regions and headings. The extension creates a drop-down menu of the landmark regions and headings on the current web page. Selecting an option in the menu or using a shortcut key moves keyboard focus to the landmark region or heading and scrolls the content into view.  The menu also provides a convenient table of contents of what is on the page for ALL users.  Additional keyboard shortcuts provide sequential navigation to landmark regions and headings.  Similar to how the TAB sequentially navigates for contorols and links.
+
+SkipTo.js is an example of a digital curb cut benefiting everyone in the information age.
 
 
 NOTE: This extension does not collect any user data.
