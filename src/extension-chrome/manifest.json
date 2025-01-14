@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extension_name_chrome__",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "__MSG_extension_description__",
   "homepage_url": "https://skipto-landmarks-headings.github.io/page-script-5/",
   "default_locale": "en",
@@ -12,7 +12,30 @@
     "128": "icons/light-skipto-128.png"
   },
   "action": {
-    "default_title": "__MSG_toggle_menu__"
+    "default_icon": {
+      "32":  "icons/light-skipto-32.png",
+      "48":  "icons/light-skipto-48.png",
+      "64":  "icons/light-skipto-64.png",
+      "128": "icons/light-skipto-128.png"
+    },
+    "default_title": "__MSG_toggle_menu__",
+    "theme_icons": [{
+      "light": "icons/light-skipto-32.png",
+      "dark": "icons/dark-skipto-32.png",
+      "size": 32
+    }, {
+      "light": "icons/light-skipto-48.png",
+      "dark": "icons/dark-skipto-48.png",
+      "size": 48
+    }, {
+      "light": "icons/light-skipto-64.png",
+      "dark": "icons/dark-skipto-64.png",
+      "size": 64
+    }, {
+      "light": "icons/light-skipto-128.png",
+      "dark": "icons/dark-skipto-128.png",
+      "size": 128
+    }]
   },
   "background": {
     "service_worker": "background.js",

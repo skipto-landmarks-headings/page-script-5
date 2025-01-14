@@ -1232,11 +1232,15 @@ export default class SkiptoMenuButton {
             this.skipToContentElem.setAttribute('focus', 'button');
             flag = true;
             break;
+          case 'Left':
+          case 'ArrowLeft':
           case 'Up':
           case 'ArrowUp':
             this.setFocusToPreviousMenuitem(tgt);
             flag = true;
             break;
+          case 'ArrowRight':
+          case 'Right':
           case 'ArrowDown':
           case 'Down':
             this.setFocusToNextMenuitem(tgt);
