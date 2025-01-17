@@ -20,6 +20,27 @@
 
 
 
+
+    <style>
+      #faq h2 {
+        border-bottom: 1px solid light-dark(#444, #ccc);
+      }
+      #faq dl {
+        margin-bottom: 2em;
+      }
+
+      #faq dt {
+        background-color: light-dark(#eee, #484848);
+        padding: 0.25em;
+      }
+
+      #faq dd {
+        padding: 0.25em;
+        margin: 0.25em;
+        margin-left: .75em;
+      }
+
+    </style>
   </head>
   <body>
             <!-- Navigation-->
@@ -121,19 +142,115 @@
 
           <div id="faq">
 
+            <h2>"Skip To Content" Button and Menu</h2>
+
             <dl>
-              <dt>Does the "Skip To Content" button always have to be visible when a web page opens?</dt>
-              <dd>The page-script and extension have configuration options to hide the hidden when the page loads.</dd>
-              <dd>The <a href="bookmarklets.html">bookmarklets</a> have separate link to demonstrate the configuration option for hiding the button.</dd>
-              <dd>When the button is initially hidden it will be the first <kbd>tab</kbd> stop on the page, or can be opened at any time using the shortcut key (<kbd>Alt+0</kbd> or <kbd>Option+0</kbd>).</dd>
+              <dt>
+                Does the "Skip To Content" button always have to be visible when a web page opens?
+              </dt>
+              <dd>
+                The page-script and extension versions have configuration options to hide the button when the page loads.
+              </dd>
+              <dd>
+                The <a href="bookmarklets.html">bookmarklets</a> have separate link to demonstrate the configuration option for hiding the button when the page loads.
+              </dd>
+              <dd>
+                When the button is initially hidden it will be the first <kbd>tab</kbd> stop on the page, or can be opened at any time using the shortcut key (<kbd>Alt+0</kbd> or <kbd>Option+0</kbd>).
+              </dd>
+
+              <dt>
+                Can the auto-scrolling feature be disabled?
+              </dt>
+              <dd>
+                The auto-scrolling feature is disabled if the operating system reduced motion setting is enabled by the <em>user</em>.
+              </dd>
+              <dd>
+                <em>Authors</em>can use configuration options for the page-script to disable auto-scrolling for a web page.
+              </dd>
+              <dd>
+                 <em>Users</em> can use configuration options for the browser extensions to disable auto-scrolling.
+              </dd>
+
+              <dt>
+                Which headings and landmark regions are includes in the menu?
+              </dt>
+              <dd>
+                The default setting include first and second level headings (e.g. <code>h1</code> and <code>h2</code> elements) within the main landmark region, and the complementary, main, navigation and search landmark regions.
+              </dd>
+
+              <dd>
+                <em>Authors</em> can use configuration options in the page-script for setting the headings and landmark regions in the menu.
+              </dd>
+              <dd>
+                 <em>Users</em> can use configuration options for the browser extensions to adjust the headings and landmark regions in the menu.
+              </dd>
+
+
+              <dt>
+                What does <em>"Headings in Main</em> mean?
+              </dt>
+              <dd>
+                The list of headings in the menu can be from the entire web page or limited to the headings within the main landamrk.
+              </dd>
+              <dd>
+                When the list of headings is limited to headings within the main landmark, the heading group label is <em>"Headings in Main</em>.
+              </dd>
+              <dd>
+                When there are no headings found in the main landmark, any headings found in the web page will be included in the menu.
+              </dd>
+              <dd>
+                When using a browser extension, <em>users</em> can choose to use the only in main option.
+              </dd>
+
+              <dt>
+                What do the numbers before heading names mean?
+              </dt>
+              <dd>
+                The numbers before the heading name identify the level of the heading.
+              </dd>
+              <dd>
+                Web pages can have up to six levels of headings (e.g. <code>h1</code>-<code>h6</code> elements).  Level 2 headings should be used as sub-sections of level 1 headings, level 3 headings should be used as sub-sections of level 2 headings and so on for the remaining heading levels.
+              </dd>
+
+
+            </dl>
+
+            <h2>Shortcuts</h2>
+
+            <dl>
+
+              <dt>
+                What does the <em>hidden heading</em> message mean in sequential navigation?
+              </dt>
+              <dd>
+                Some section headings (i.e. <code>h1</code>-<code>h6</code> elements) are added to web pages in a way that only people using screen readers can "see" them.
+              </dd>
+              <dd>
+                Hidden headings are not visible in the graphical rendering of the page, but are visible to people using screen readers.
+              </dd>
+
+              <dt>
+                Why when I am in a search box or other text form control the sequential navigation keys don't work?
+              </dt>
+              <dd>
+                When keyboard focus is in a search box or other area of a web page that can accept text input the sequential shortcut keys are disabled.
+              </dd>
+              <dd>
+                The shortcuts are disabled to ensure the user can complete any forms or input associated with the web page.
+              </dd>
+              <dd>
+                Use the <kbd>Tab</kbd> key to move focus to a link or button and the shortcuts will again be enabled.
+              </dd>
+
+            </dl>
+
+
+            <h2>Other Issues</h2>
+
+            <dl>
 
               <dt>What happens with the bookmarklets or the extension are used on pages using the SkipTo.js page-script?</dt>
-              <dd>The extension and bookmarlets automatically unload any existing copies of SkipTo.js.</dd>
-
-              <dt>Can the auto-scrolling feature be disabled?</dt>
-              <dd>The auto-scrolling feature is disabled if the operating system reduced motion setting is enabled by the <em>user</em>.</dd>
-              <dd>There are configuration options for the page-script to disable auto-scrolling on any website though <em>author</em> configuration or in the extensions through <em>user</em> options.</dd>
-
+              <dd>The extension and bookmarklets automatically unload any existing copies of SkipTo.js.</dd>
 
             </dl>
 
