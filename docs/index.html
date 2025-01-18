@@ -20,6 +20,24 @@
 
 
 
+    <style>
+      main h3 {
+        font-size: 125%;
+      }
+      #anatomy {
+        margin-top: 2em;
+        margin-bottom: 1em;
+      }
+      figure img {
+        width: 90%;
+        border: 2px solid #888;
+      }
+      figcaption {
+        font-size: 150%;
+        text-align: center;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
             <!-- Navigation-->
@@ -191,7 +209,85 @@
               </tbody>
             </table>
 
+            <h2 id="anatomy">Anatomy of the SkipTo.js Menu</h2>
 
+            <figure>
+                <img src="images/skipto-menu-anatomy.png"
+                     alt="Screen shot of SkipTo.js menu features with call out pointers">
+                <figcaption>Features of the SkipTo.js Menu</figcaption>
+            </figure>
+
+            <h3 id="details-menu">Detailed Information on SkipTo.js Menu</h3>
+            <table class="table table-striped" aria-labelledby="details-menu">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>
+                    "Skip To Content" Button
+                  </th>
+                  <td>
+                    <ul>
+                      <li>Opens and closes the menu of landmark regions and headings.</li>
+                      <li>Button can initially be hidden or visible on the web page.</li>
+                      <li>A shortcut key is used to activate the button (e.g. <kbd>Option+0</kbd> or <kbd>Alt+0</kbd>).</li>
+                      <li>Button is first tab stop on the web page.</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Landmark Regions
+                  </th>
+                  <td>
+                    <ul>
+                      <li>Landmark regions are the first section of the menu.</li>
+                      <li>First menu item is the group label "Landmark Regions" and the number indicates how many landmarks are in the menu.</li>
+                      <li>By default the landmarks are listed in order of importance on the page:
+                        <ol>
+                          <li>Main</li>
+                          <li>Search</li>
+                          <li>Navigation</li>
+                          <li>Complementary</li>
+                          <li>Contentinfo</li>
+                        </ol>
+                      </li>
+                      <li>When a landmark region has an accessible name, it is included in the menu item after the region type.</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Headings
+                  </th>
+                  <td>
+                    <ul>
+                      <li>Heading are the second section of the menu.</li>
+                      <li>The section includes a group label "Headings" and the number indicates how many headings are in the menu.</li>
+                      <li>The headings are listed in document order.</li>
+                      <li>The number before the heading name indicates the level of the sub-section heading.  Level 2 headings are sub-sections of level 1 headings, level 3 headings are subsections of level 2 headings and so on up to heading leel 6.</li>
+                      <il>The accessible name is after the heading level.</il>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Shortcuts
+                  </th>
+                  <td>
+                    <ul>
+                      <li>The Shortcuts group label indicates whether the shortcuts are currently enabled or disabled.</li>
+                      <li>The first menu item is used to change the state of the shortcuts.</li>
+                      <li>The second menu item opens a dialog box showing the current keyboard shortcuts.</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
                         <hr style="margin-top: 5em;"/>
 
             <h2 id="of-course-we-want-feedback">Feedback and Reporting Issues</h2>
