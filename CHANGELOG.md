@@ -1,5 +1,8 @@
 # Version history for SkipTo.js
 
+## Version 5.7.3
+* Disabled support for dark mode in overlays
+
 ## Version 5.7.2
 * Added about SkipTo.js button and dialog to menu
 * Added support for night color scheme

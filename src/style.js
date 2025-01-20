@@ -371,6 +371,101 @@ $skipToId [role="menuitem"].shortcuts-disabled {
 
 const cssHighlightTemplate = document.createElement('template');
 cssHighlightTemplate.textContent = `
+$skipToId-overlay {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  border-radius: 3px;
+  border: 4px solid $buttonBackgroundColor;
+  box-sizing: border-box;
+  pointer-events:none;
+}
+
+$skipToId-overlay .overlay-border {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: -2px;
+  left: -2px;
+  border-radius: 3px 3px 3px 3px;
+  border: 2px solid $focusBorderColor;
+  z-index: $zHighlight;
+  box-sizing: border-box;
+  pointer-events:none;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+$skipToId-overlay .overlay-border.skip-to-hidden {
+  background-color: $hiddenHeadingBackgroundColor;
+  color: $hiddenHeadingColor;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 0.9em;
+  text-align: center;
+  padding: .25em;
+  animation: fadeIn 1.5s;
+}
+
+$skipToId-overlay .overlay-border.hasInfoBottom {
+  border-radius: 3px 3px 3px 0;
+}
+
+$skipToId-overlay .overlay-border.hasInfoTop {
+  border-radius: 0 3px 3px 3px;
+}
+
+$skipToId-overlay .overlay-info {
+  position: relative;
+  text-align: left;
+  left: -2px;
+  padding: 1px 4px;
+  border: 2px solid $focusBorderColor;
+  background-color: $menuBackgroundColor;
+  color: $menuTextColor;
+  z-index: $zHighlight;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events:none;
+}
+
+$skipToId-overlay .overlay-info.hasInfoTop {
+  border-radius: 3px 3px 0 0;
+}
+
+$skipToId-overlay .overlay-info.hasInfoBottom {
+  border-radius: 0 0 3px 3px;
+}
+
+@media (forced-colors: active) {
+
+  $skipToId-overlay {
+    border-color: ButtonBorder;
+  }
+
+  $skipToId-overlay .overlay-border {
+    border-color: ButtonBorder;
+  }
+
+  $skipToId-overlay .overlay-border.skip-to-hidden {
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+
+  $skipToId-overlay .overlay-info {
+    border-color: ButtonBorder;
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+
+}
+`;
+
+const cssHighlightTemplateLightDark = document.createElement('template');
+cssHighlightTemplateLightDark.textContent = `
 :root {
   color-scheme: light dark;
 }
@@ -466,8 +561,8 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
   }
 
 }
-
 `;
+
 
 /*
  *   @function getTheme
@@ -674,7 +769,14 @@ export default function renderStyleElement (attachNode, config, skipToId, useURL
   let cssMenu = cssMenuTemplate.textContent.slice(0);
   cssMenu = cssMenu.replaceAll('$skipToId', '#' + skipToId);
 
-  let cssHighlight = cssHighlightTemplate.textContent.slice(0);
+  debug.log(`[lightDarkSupported]: ${config.lightDarkSupported} ${typeof config.lightDarkSupported} ${config.lightDarkSupported === 'true'}`);
+
+  let cssHighlight = config.lightDarkSupported === 'true' ?
+                     cssHighlightTemplateLightDark.textContent.slice(0) :
+                     cssHighlightTemplate.textContent.slice(0);
+
+  debug.log(`[cssHighlight]: ${cssHighlight}`);
+
   cssHighlight = cssHighlight.replaceAll('$skipToId', '#' + skipToId);
 
   [cssMenu, cssHighlight] = addCSSColors(cssMenu, cssHighlight, config, useURLTheme);

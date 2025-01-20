@@ -18,14 +18,14 @@ const debug = new DebugLogging('skiptoContent', false);
 debug.flag = false;
 
 
-export default class SkipToContent572 extends HTMLElement {
+export default class SkipToContent573 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
     this.skipToId = 'id-skip-to';
-    this.version = "5.7.2";
+    this.version = "5.7.3";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -33,6 +33,7 @@ export default class SkipToContent572 extends HTMLElement {
     this.config = {
       // Feature switches
       enableHeadingLevelShortcuts: true,
+      lightDarkSupported: 'false',
 
       focusOption: 'none',  // used by extensions only
 

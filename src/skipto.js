@@ -18,7 +18,7 @@
  * page or a bookmarlet will be ignored.
  */
 
-import SkipToContent572 from './skiptoContent.js';
+import SkipToContent573 from './skiptoContent.js';
 import DebugLogging  from './debug.js';
 
 /* constants */
@@ -117,7 +117,7 @@ const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
         if (!isExtensionLoaded) {
           if (!isBookmarkletLoaded) {
             removePageSkipTo();
-            window.customElements.define(SkipToBookmarkletElmName, SkipToContent572);
+            window.customElements.define(SkipToBookmarkletElmName, SkipToContent573);
             skipToContentElem = document.createElement(SkipToBookmarkletElmName);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
@@ -133,7 +133,7 @@ const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
         if (!isExtensionLoaded) {
           removePageSkipTo();
           removeBookmarkletSkipTo();
-          window.customElements.define(SkipToExtensionElmName, SkipToContent572);
+          window.customElements.define(SkipToExtensionElmName, SkipToContent573);
           skipToContentElem = document.createElement(SkipToExtensionElmName);
           skipToContentElem.setAttribute('version', skipToContentElem.version);
           skipToContentElem.setAttribute('type', type);
@@ -147,7 +147,7 @@ const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
 
       default:
         if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
-          window.customElements.define(SkipToPageElmName, SkipToContent572);
+          window.customElements.define(SkipToPageElmName, SkipToContent573);
           skipToContentElem = document.createElement(SkipToPageElmName);
           skipToContentElem.setAttribute('version', skipToContentElem.version);
           skipToContentElem.setAttribute('type', type);
