@@ -1,16 +1,103 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    {% include "./head.njk" %}
+        <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Adding SkipTo.js to a Web Page | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+    <!-- Choose Light or Dark Theme -->
+    <script src="./js/light-dark-scheme.js"></script>
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="./css/skipto.css" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+
+
+
   </head>
   <body>
-    {% include "./header.njk" %}
+            <!-- Navigation-->
+        <nav class="navbar
+             navbar-expand-lg navbar-light bg-light"
+             aria-label="Primary"
+             id="mainNav">
+            <div class="container px-4">
+                <span class="brand">
+                  <span class="skipto">SkipTo.js 5.7</span>
+                </span>
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar"
+                        aria-expanded="false" a
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                  <ul class="navbar-nav ms-auto">
+                    
+                      
+                        <li class="nav-item">
+                          <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                      
+                    
+                      
+                        <li class="nav-item">
+                          <a class="nav-link" href="page-script.html">Page Script</a>
+                        </li>
+                      
+                    
+                      
+                        <li class="nav-item">
+                          <a class="nav-link" href="bookmarklets.html">Bookmarklets</a>
+                        </li>
+                      
+                    
+                      
+                        <li class="nav-item">
+                          <a class="nav-link" href="extensions.html">Extensions</a>
+                        </li>
+                      
+                    
+                      
+                        <li class="nav-item">
+                          <a class="nav-link" href="shortcuts.html">Shortcuts</a>
+                        </li>
+                      
+                    
+                      
+                        <li class="nav-item">
+                          <a class="nav-link" href="faq.html">FAQ</a>
+                        </li>
+                      
+                    
+                      
+                        <li class="nav-item">
+                          <a class="nav-link" href="about.html">About</a>
+                        </li>
+                      
+                    
+                  </ul>
+                </div>
+            </div>
+        </nav>
+
+
 
     <div id="main-section" class="container px-4">
       <nav aria-label="Breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">{{title | safe}}</li>
+          <li class="breadcrumb-item active">Adding SkipTo.js to a Web Page</li>
         </ol>
       </nav>
 
@@ -18,11 +105,21 @@
       <main class="container px-4">
         <div class="row gx-4 justify-content-center">
           <div class="col-lg-10">
-            {% block title %}
-            <h1>{{title}}</h1>
-            {% endblock %}
 
-            {% block content %}
+            <nav class="second-level" aria-label="Page Script Features">
+
+  <a href="./page-script.html">Adding SkipTo.js</a>
+  <a href="./config.html">Configuration</a>
+  <a href="./examples.html">Examples</a>
+
+</nav>
+
+
+            
+            <h1>Adding SkipTo.js to a Web Page</h1>
+            
+
+            
 
             <h2 id="page-benefits">Benefits of Page Script</h2>
             <ul>
@@ -119,18 +216,95 @@
                  </div>
               </div>
 
-              {% include "./warnings.njk" %}
+                          <h2 id="warning-messages">Warning Messages</h2>
+            <p>The following warning messages may be rendered to the console:</p>
+            <table class="table table-striped" aria-labelledby="warning-messages">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Message</th>
+                     <th style="text-align: left">Action</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td style="text-align: left">Skipto is already loaded</td>
+                     <td style="text-align: left">Additional SkipTo’s are ignored</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left">No headings found in main</td>
+                     <td style="text-align: left">Searches for headings anywhere on the page</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left">No headings found on page</td>
+                     <td style="text-align: left">SkipTo menu reports no headings on the page</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left">No landmarks found on page</td>
+                     <td style="text-align: left">SkipTo menu reports no landmarks on the page</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left">Error in heading configuration</td>
+                     <td style="text-align: left">Sets configuration to look for any <code class="language-plaintext highlighter-rouge">h1</code> of <code class="language-plaintext highlighter-rouge">h2</code> headings</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left">Error in landmark configuration</td>
+                     <td style="text-align: left">Sets configuration to look for <code class="language-plaintext highlighter-rouge">main search</code> and <code class="language-plaintext highlighter-rouge">navigation</code> landmarks</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left">Unsuported or deprecated configuration option “abc”</td>
+                     <td style="text-align: left">“abc” option is ignored and/or default setting is used</td>
+                  </tr>
+               </tbody>
+            </table>
 
-              {% include "./feedback.njk" %}
+
+                          <hr style="margin-top: 5em;"/>
+
+            <h2 id="of-course-we-want-feedback">Feedback and Reporting Issues</h2>
+
+            <p>We welcome your feedback!  Please do not hesitate to <a href="https://github.com/skipto-landmarks-headings/page-script-5/issues">raise issues and comment on Github</a> if something doesn’t work or you have ideas on how to improve SkipTo.js.</p>
+
+            <p class="happy">Happy skipping!</p>
 
 
-            {% endblock %}
+
+            
           </div>
         </div>
       </main>
     </div>
-    {% include "./footer.njk" %}
-    {% include "./scripts.njk" %}
+            <!-- Footer-->
+        <footer class="py-5 bg-light">
+
+            <div class="fst-italic text-center" style="margin-bottom: 1em">The <code>SkipTo.js</code> script is the modern way to implement the <a href="https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html">WCAG 2.4.1 Bypass Blocks</a> requirement.</div>
+
+            <div class="container px-4 text-center">SkipTo.js Copyright (c) 2022, 2023, 2024, 2025 Jon Gunderson; Licensed BSD, All rights reserved</div>
+
+            <div class="container px-4 text-center">SkipTo.js Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD, All rights reserved.</div>
+
+            <div class="container px-4 text-center">BSD License allows for the SkipTo.js code to be freely used (e.g. no cost), copied or modified as long as the copyright notice is included.</div>
+
+            <div class="container px-4 text-center">Website conformance to <a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a> requirements supported using <a href="https://ainspector.disability.illinois.edu">AInspector browser addon</a>.</div>
+
+        </footer>
+
+
+
+            <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+
+        <!-- Bookmarklets-->
+        <script src="js/createBookmarklets.js"></script>
+
+        <!-- SkipTo.js -->
+        <script data-skipto="positionLeft: 18%"
+                src="./dist/skipto.js">
+        </script>
+
+
 
   </body>
 </html>

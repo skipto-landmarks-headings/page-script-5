@@ -41,10 +41,10 @@ const pages = [
     link: 'Home',
     filename: 'index.html'
   },
-  { template: './src-docs/templates/content-using.njk',
+  { template: './src-docs/templates/content-page-script.njk',
     title: 'Adding SkipTo.js to a Web Page',
     link: 'Page Script',
-    filename: 'page.html'
+    filename: 'page-script.html'
   },
   { template: './src-docs/templates/content-bookmarklets.njk',
     title: 'SkipTo.js Bookmarklets',
@@ -61,16 +61,6 @@ const pages = [
     link: 'Shortcuts',
     filename: 'shortcuts.html'
   },
-  { template: './src-docs/templates/content-config.njk',
-    title: 'Configuration Options',
-    link: 'Configuration',
-    filename: 'config.html'
-  },
-  { template: './src-docs/templates/content-examples.njk',
-    title: 'Example Configurations',
-    link: 'Examples',
-    filename: 'examples.html'
-  },
   { template: './src-docs/templates/content-faq.njk',
     title: 'Frequently Asked Questions',
     link: 'FAQ',
@@ -81,6 +71,19 @@ const pages = [
     link: 'About',
     filename: 'about.html'
   }
+  ];
+
+const secondLevelPages = [
+  { template: './src-docs/templates/content-config.njk',
+    title: 'Configuration Options',
+    link: 'Configuration',
+    filename: 'config.html'
+  },
+  { template: './src-docs/templates/content-examples.njk',
+    title: 'Example Configurations',
+    link: 'Examples',
+    filename: 'examples.html'
+  },
   ];
 
 
@@ -228,6 +231,17 @@ tests.forEach( f => {
     description: f.description,
     config: f.config,
     pages: pages,
+    tests: tests
+  }));
+})
+
+secondLevelPages.forEach( p => {
+  console.log(`[secondLevelPages]: ${p.filename}`);
+  outputFile(p.filename, nunjucks.render(p.template,{
+    version: version,
+    title: p.title,
+    pages: pages,
+    examples: examples,
     tests: tests
   }));
 })

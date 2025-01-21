@@ -16,9 +16,13 @@
       </nav>
       <main class="row gx-4 justify-content-center">
         <div class="col-lg-10">
+
+          {% include "./content-page-script-nav.njk" %}
+
           {% block title %}
           <h1>{{title}}</h1>
           {% endblock %}
+
           <div id="config">
 
             <p>All settings have a default value, a <code>data-skipto</code> attribute on the <code>script</code> element or a global configuration object (e.g. <code>SkipToConfig</code>) can be used to change the default values and to localize the menu text to a specific language.</p>

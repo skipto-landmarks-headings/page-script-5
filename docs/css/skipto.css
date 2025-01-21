@@ -3,6 +3,7 @@
   color-scheme: light dark;
 }
 
+nav.second-level,
 nav.navbar.bg-light {
   background-color: light-dark(#eeeeee, #101010) !important;
   border-bottom: 1px solid light-dark(transparent, #eeeeee);
@@ -41,6 +42,26 @@ nav ol.breadcrumb {
   padding-left: 0;
 }
 
+nav.second-level {
+  margin: 0;
+  margin-bottom: 1em;
+}
+
+nav.second-level a {
+  display: inline-block;
+  padding: 0.125em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  margin: 0.5em;
+  margin-left: 0;
+  margin-right: 0;
+  font-size: 110%;
+}
+
+nav.second-level a[aria-current] {
+  text-decoration: none;
+}
+
 footer {
   margin-top: 40px;
 }
@@ -51,6 +72,9 @@ a[href]:hover {
 
 .bg-light a,
 .breadcrumb a,
+nav.second-level a,
+nav.second-level a:hover,
+nav.second-level a:focus,
 .navbar-nav .nav-link,
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link:focus {
@@ -59,6 +83,7 @@ a[href]:hover {
 }
 
 .breadcrumb a[aria-current],
+nav.second-level a[aria-current],
 .navbar-nav .nav-link[aria-current],
 .navbar-nav .nav-link:hover[aria-current],
 .navbar-nav .nav-link:focus {

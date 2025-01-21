@@ -16,9 +16,14 @@
       </nav>
       <main class="row gx-4 justify-content-center">
         <div class="col-lg-10">
+
+          {% include "./content-page-script-nav.njk" %}
+
           {% block title %}
           <h1 id="id-title">{{title}}</h1>
           {% endblock %}
+
+
           <div id="examples">
 
            <table class="table table-striped" aria-labelledby="id-title">

@@ -34,7 +34,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
 // Set aria-current=page
 window.addEventListener('load', function () {
-  const links = document.querySelectorAll('#mainNav a');
+  const links = document.querySelectorAll('#mainNav a, nav.second-level a');
   const href = window.location.href;
 
   for (let i = 0; i < links.length; i += 1) {

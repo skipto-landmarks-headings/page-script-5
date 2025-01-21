@@ -71,40 +71,72 @@
 
             <p>There are five options the <em>user</em> can configure in the browser extensions for rendering the SkipTo.js menu.</p>
 
-            <ol>
-              <li>Highlight content when navigating menu items:
-                <ul>
-                  <li>None</li>
-                  <li>Scroll immediately to menu target (default)</li>
-                  <li>Scroll smoothly to menu target</li>
-                </ul>
-              </li>
-              <li>Landmark Regions:
-                <ul>
-                  <li>Navigation (default)</li>
-                  <li>Search (default)</li>
-                  <li>Complementary</li>
-                  <li>Contentinfo</li>
-                  <li>Banner</li>
-                  <li>Region</li>
-                </ul>
-                <div><em>Note:</em> The <code>main</code> landmark is always included in the menu.</div>
-              </li>
-
-              <li>Show landmark regions in document order.</li>
-             <li>Headings:
-                <ul>
-                  <li>Level 1</li>
-                  <li>Level 1 and 2 (default)</li>
-                  <li>Level 1, 2 and 3</li>
-                  <li>Level 1, 2, 3 and 4</li>
-                  <li>Level 1, 2, 3, 4 and 5</li>
-                  <li>Level 1, 2, 3, 4, 5 and 6</li>
-                </ul>
-              </li>
-              <li>Only show headings in main landmark.</li>
-
-            </ol>
+            <table class="table table-striped" aria-labelledby="option-menu">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Default</th>
+                  <th>Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Highlight content when navigating menu items</td>
+                  <td>Immediate</td>
+                  <td>
+                    <ul>
+                      <li>None</li>
+                      <li>Scroll immediately to menu target (default)</li>
+                      <li>Scroll smoothly to menu target</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Landmark Regions</td>
+                  <td>Navigation and Search</td>
+                  <td>
+                    <ul>
+                      <li>Navigation</li>
+                      <li>Search</li>
+                      <li>Complementary</li>
+                      <li>Contentinfo</li>
+                      <li>Banner</li>
+                      <li>Region</li>
+                    </ul>
+                    <div><em>Note:</em> The <code>main</code> landmark is always included in the menu.</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Show landmark regions in document order</td>
+                  <td>Disabled</td>
+                  <td>Enabled or Disabled</td>
+                </tr>
+                <tr>
+                  <td>Headings</td>
+                  <td>Level 1 and 2</td>
+                  <td>
+                    <ul>
+                      <li>Level 1</li>
+                      <li>Level 1 and 2</li>
+                      <li>Level 1, 2 and 3</li>
+                      <li>Level 1, 2, 3 and 4</li>
+                      <li>Level 1, 2, 3, 4 and 5</li>
+                      <li>Level 1, 2, 3, 4, 5 and 6</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Only show headings in main landmark</td>
+                  <td>Enabled</td>
+                  <td>Enable or Disabled</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
 
             <figure class="image">
               <figcaption>Screen Shot of SkipTo.js options for what is included in the menu</figcaption>
@@ -118,16 +150,36 @@
 
             <p>There are two options the <em>user</em> can configure in the browser extensions for rendering the button and keyboard focus when the page loads.</p>
 
-            <ol>
-              <li>Bottom border of button always visible, so it can be made visible by pointing.</li>
-              <li>"Skip To Content" Button Focus after the page loads:
-                <ul>
-                  <li><strong>None:</strong> Default focus is on the page, typically at the beginning of the document.</li>
-                  <li><strong>Botton:</strong> On the button. (default)</li>
-                  <li><strong>Menu:</strong> The button is open and on th first element in the menu.</li>
-                </ul>
-              </li>
-            </ol>
+           <table class="table table-striped" aria-labelledby="option-button">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Default</th>
+                  <th>Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Bottom border of button always visible, so it can be made visible by pointing.</td>
+                  <td>Disabled</td>
+                  <td>
+                    Disabled and Enabled
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>"Skip To Content" Button Focus after the page loads.</td>
+                  <td>Button</td>
+                  <td>
+                    <ul>
+                      <li><strong>None:</strong> Default focus is on the page, typically at the beginning of the document.</li>
+                      <li><strong>Botton:</strong> On the button. (default)</li>
+                      <li><strong>Menu:</strong> The button is open and on th first element in the menu.</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
 
             <figure class="image">
@@ -141,29 +193,68 @@
 
             <p>There are 13 shortcuts the <em>user</em> can configure in the browser extensions for sequential navigation of landmark regions and headings.</p>
 
-            <ul>
-              <li>Landmark Regions:
-                <ul>
-                  <li>Next Region (Default: <kbd>r</kbd>)</li>
-                  <li>Previous Region (Default: <kbd>R</kbd>)</li>
-                  <li>Main Region (Default: <kbd>m</kbd>)</li>
-                  <li>Navigation Region (Default: <kbd>n</kbd>)</li>
-                  <li>Complementary Region (Default: <kbd>c</kbd>)</li>
-                </ul>
-              </li>
-              <li>Headings:
-                <ul>
-                  <li>Next Heading (Default: <kbd>h</kbd>)</li>
-                  <li>Previous Heading (Default: <kbd>H</kbd>)</li>
-                  <li>Level 1 Headings (Default: <kbd>1</kbd>)</li>
-                  <li>Level 2 Headings (Default: <kbd>2</kbd>)</li>
-                  <li>Level 3 Headings (Default: <kbd>3</kbd>)</li>
-                  <li>Level 4 Headings (Default: <kbd>4</kbd>)</li>
-                  <li>Level 5 Headings (Default: <kbd>5</kbd>)</li>
-                  <li>Level 6 Headings (Default: <kbd>6</kbd>)</li>
-                </ul>
-              </li>
-            </ul>
+           <table class="table table-striped" aria-labelledby="option-shortcuts" style="width: 380px">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Default Shortcut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Next Region</td>
+                  <td><kbd>r</kbd></td>
+                </tr>
+                <tr>
+                  <td>Previous Region</td>
+                  <td><kbd>R</kbd></td>
+                </tr>
+                <tr>
+                  <td>Main Region</td>
+                  <td><kbd>m</kbd></td>
+                </tr>
+                <tr>
+                  <td>Navigation Region</td>
+                  <td><kbd>n</kbd></td>
+                </tr>
+                <tr>
+                  <td>Complementary Region</td>
+                  <td><kbd>c</kbd></td>
+                </tr>
+                <tr>
+                  <td>Next Heading</td>
+                  <td><kbd>h</kbd></td>
+                </tr>
+                <tr>
+                  <td>Previous Heading</td>
+                  <td><kbd>H</kbd></td>
+                </tr>
+                <tr>
+                  <td>Level 1 Heading</td>
+                  <td><kbd>1</kbd></td>
+                </tr>
+                <tr>
+                  <td>Level 2 Heading</td>
+                  <td><kbd>2</kbd></td>
+                </tr>
+                <tr>
+                  <td>Level 3 Heading</td>
+                  <td><kbd>3</kbd></td>
+                </tr>
+                <tr>
+                  <td>Level 4 Heading</td>
+                  <td><kbd>4</kbd></td>
+                </tr>
+                <tr>
+                  <td>Level 5 Heading</td>
+                  <td><kbd>5</kbd></td>
+                </tr>
+                <tr>
+                  <td>Level 6 Heading</td>
+                  <td><kbd>6</kbd></td>
+                </tr>
+              </tbody>
+            </table>
 
             <figure class="image">
                      <figcaption>Screen Shot of SkipTo.js options for the shortcut keys</figcaption>
