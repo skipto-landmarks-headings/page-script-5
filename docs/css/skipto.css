@@ -143,12 +143,24 @@ div.language-html pre .k {
   color: light-dark(#d73a49, #c22736);
 }
 
-div.image {
+figure.image {
   margin: 0.5em;
+  margin-top: 2em;
+  margin-bottom: 4em;
 }
 
-div.image img {
+figure.image img {
   border: 2px solid light-dark(#dddddd, #333333);
+}
+
+figure.image figcaption {
+  margin: 0;
+  padding: 0.25em;
+  font-weight: bold;
+  font-size: 110%;
+  background-color: light-dark(#dddddd, #333333);
+  width: 100%;
+  text-align: center;
 }
 
 div.container h1,

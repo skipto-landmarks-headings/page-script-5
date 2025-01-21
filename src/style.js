@@ -769,13 +769,9 @@ export default function renderStyleElement (attachNode, config, skipToId, useURL
   let cssMenu = cssMenuTemplate.textContent.slice(0);
   cssMenu = cssMenu.replaceAll('$skipToId', '#' + skipToId);
 
-  debug.log(`[lightDarkSupported]: ${config.lightDarkSupported} ${typeof config.lightDarkSupported} ${config.lightDarkSupported === 'true'}`);
-
   let cssHighlight = config.lightDarkSupported === 'true' ?
                      cssHighlightTemplateLightDark.textContent.slice(0) :
                      cssHighlightTemplate.textContent.slice(0);
-
-  debug.log(`[cssHighlight]: ${cssHighlight}`);
 
   cssHighlight = cssHighlight.replaceAll('$skipToId', '#' + skipToId);
 

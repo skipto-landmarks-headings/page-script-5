@@ -43,3 +43,20 @@ window.addEventListener('load', function () {
     }
   }
 });
+
+
+// Set figure widths
+window.addEventListener('load', function () {
+  const figures = Array.from(document.querySelectorAll('figure.image'));
+
+  figures.forEach( (fig) => {
+    console.log(`[fig]: ${fig}`);
+    const imgElem = fig.querySelector('img');
+    if (imgElem) {
+        const width = imgElem.getBoundingClientRect().width;
+        console.log(`[imgElem]:  ${width} ${imgElem.src}`);
+        fig.style.width = width + 'px';
+    }
+  });
+
+});

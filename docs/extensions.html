@@ -20,6 +20,11 @@
 
 
 
+    <style>
+      h3 {
+        border-bottom: 1px solid light-dark(#444, #aaa);
+      }
+    </style>
   </head>
   <body>
             <!-- Navigation-->
@@ -143,14 +148,6 @@
               <li>The menu can be reopened at any time by using the short cut key, <kbd>option</kbd> + <kbd>0</kbd> on the macOS or <kbd>alt</kbd> + <kbd>0</kbd> on Windows and Linux.</li>
             </ul>
 
-            <h2>Configuration Options</h2>
-            <ul>
-              <li>Button visibility and focus when a page loads.</li>
-              <li>The landmarks and headings included in the menu.</li>
-              <li>Colors used for tht button and menu.</li>
-              <li>Internationalization of button and menu labels.</li>
-            </ul>
-
             <h2>Get SkipTo.js Extensions</h2>
             <ul>
               <li><a href="https://chromewebstore.google.com/detail/skiptojs-for-chrome/mgmnhfooeifhicajoeoamlchoadbioof">SkipTo.js for Chrome</a> and should also work with <a href="https://brave.com">Brave</a> and <a href="https://vivaldi.com">Vivaldi</a> web browsers</li>
@@ -159,6 +156,144 @@
             </ul>
 
             <p><strong>Note: </strong>The menu can be reopened at any time by using the short cut key, <kbd>option</kbd> + <kbd>0</kbd> on the macOS or <kbd>alt</kbd> + <kbd>0</kbd> on Windows and Linux.</p>
+
+            <h2>Configuration Options</h2>
+            <ul>
+              <li><a href="#option-menu">The landmarks and headings included in the menu.</a></li>
+              <li><a href="#option-button">Button visibility and focus when a page loads.</a></li>
+              <li><a href="#option-shortcuts">Shortcuts for sequential navigation to landmark regions and headings.</a></li>
+              <li><a href="#option-style">Fonts and colors used for tht button and menu.</a></li>
+              <li><a href="#option-i18n">Internationalization of button and menu labels.</a></li>
+            </ul>
+
+            <h3 id="option-menu">Landmark Regions and Headings in the Menu</h3>
+
+            <p>There are five options the <em>user</em> can configure in the browser extensions for rendering the SkipTo.js menu.</p>
+
+            <ol>
+              <li>Highlight content when navigating menu items:
+                <ul>
+                  <li>None</li>
+                  <li>Scroll immediately to menu target (default)</li>
+                  <li>Scroll smoothly to menu target</li>
+                </ul>
+              </li>
+              <li>Landmark Regions:
+                <ul>
+                  <li>Navigation (default)</li>
+                  <li>Search (default)</li>
+                  <li>Complementary</li>
+                  <li>Contentinfo</li>
+                  <li>Banner</li>
+                  <li>Region</li>
+                </ul>
+                <div><em>Note:</em> The <code>main</code> landmark is always included in the menu.</div>
+              </li>
+
+              <li>Show landmark regions in document order.</li>
+             <li>Headings:
+                <ul>
+                  <li>Level 1</li>
+                  <li>Level 1 and 2 (default)</li>
+                  <li>Level 1, 2 and 3</li>
+                  <li>Level 1, 2, 3 and 4</li>
+                  <li>Level 1, 2, 3, 4 and 5</li>
+                  <li>Level 1, 2, 3, 4, 5 and 6</li>
+                </ul>
+              </li>
+              <li>Only show headings in main landmark.</li>
+
+            </ol>
+
+            <figure class="image">
+              <figcaption>Screen Shot of SkipTo.js options for what is included in the menu</figcaption>
+               <img src="images/firefox-options-menu.png"
+                    alt=""
+                     />
+            </figure>
+
+
+            <h3 id="option-button">Button Visibility when the Page Loads</h3>
+
+            <p>There are two options the <em>user</em> can configure in the browser extensions for rendering the button and keyboard focus when the page loads.</p>
+
+            <ol>
+              <li>Bottom border of button always visible, so it can be made visible by pointing.</li>
+              <li>"Skip To Content" Button Focus after the page loads:
+                <ul>
+                  <li><strong>None:</strong> Default focus is on the page, typically at the beginning of the document.</li>
+                  <li><strong>Botton:</strong> On the button. (default)</li>
+                  <li><strong>Menu:</strong> The button is open and on th first element in the menu.</li>
+                </ul>
+              </li>
+            </ol>
+
+
+            <figure class="image">
+                <figcaption>Screen Shot of SkipTo.js options for how the skip to content button is rendered</figcaption>
+                <img src="images/firefox-options-button.png"
+                    alt=""
+                     />
+            </figure>
+
+            <h3 id="option-shortcuts">Shortcuts for sequential navigation to landmark regions and headings</h3>
+
+            <p>There are 13 shortcuts the <em>user</em> can configure in the browser extensions for sequential navigation of landmark regions and headings.</p>
+
+            <ul>
+              <li>Landmark Regions:
+                <ul>
+                  <li>Next Region (Default: <kbd>r</kbd>)</li>
+                  <li>Previous Region (Default: <kbd>R</kbd>)</li>
+                  <li>Main Region (Default: <kbd>m</kbd>)</li>
+                  <li>Navigation Region (Default: <kbd>n</kbd>)</li>
+                  <li>Complementary Region (Default: <kbd>c</kbd>)</li>
+                </ul>
+              </li>
+              <li>Headings:
+                <ul>
+                  <li>Next Heading (Default: <kbd>h</kbd>)</li>
+                  <li>Previous Heading (Default: <kbd>H</kbd>)</li>
+                  <li>Level 1 Headings (Default: <kbd>1</kbd>)</li>
+                  <li>Level 2 Headings (Default: <kbd>2</kbd>)</li>
+                  <li>Level 3 Headings (Default: <kbd>3</kbd>)</li>
+                  <li>Level 4 Headings (Default: <kbd>4</kbd>)</li>
+                  <li>Level 5 Headings (Default: <kbd>5</kbd>)</li>
+                  <li>Level 6 Headings (Default: <kbd>6</kbd>)</li>
+                </ul>
+              </li>
+            </ul>
+
+            <figure class="image">
+                     <figcaption>Screen Shot of SkipTo.js options for the shortcut keys</figcaption>
+               <img src="images/firefox-options-shortcuts.png"
+                    alt=""
+                     />
+            </figure>
+
+            <h3 id="option-style">Fonts and Colors used to render the button and menu</h3>
+
+            <p>The <em>user</em> can configure in the browser extensions the fonts and colors used for rendering the button and menu.</p>
+
+            <figure class="image">
+                     <figcaption>Screen Shot of SkipTo.js options for the fonts and colors used to render the skip to content button and menu</figcaption>
+               <img src="images/firefox-options-style.png"
+                    alt=""
+                     />
+            </figure>
+
+
+            <h3 id="option-i18n">Internationalization of button and menu labels.</h3>
+
+            <p>The <em>user</em> can configure in the browser extensions labels used for rendering the button, menu, dialogs and messages.</p>
+
+            <figure class="image">
+                    <figcaption>Screen Shot of SkipTo.js options for internationalizing the labels used in the skip to content button and menu</figcaption>
+               <img src="images/firefox-options-i18n.png"
+                    alt=""
+                    />
+            </figure>
+
 
           </div>
 

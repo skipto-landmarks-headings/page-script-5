@@ -994,13 +994,9 @@ $skipToId-overlay .overlay-info.hasInfoBottom {
     let cssMenu = cssMenuTemplate.textContent.slice(0);
     cssMenu = cssMenu.replaceAll('$skipToId', '#' + skipToId);
 
-    debug$c.log(`[lightDarkSupported]: ${config.lightDarkSupported} ${typeof config.lightDarkSupported} ${config.lightDarkSupported === 'true'}`);
-
     let cssHighlight = config.lightDarkSupported === 'true' ?
                        cssHighlightTemplateLightDark.textContent.slice(0) :
                        cssHighlightTemplate.textContent.slice(0);
-
-    debug$c.log(`[cssHighlight]: ${cssHighlight}`);
 
     cssHighlight = cssHighlight.replaceAll('$skipToId', '#' + skipToId);
 
