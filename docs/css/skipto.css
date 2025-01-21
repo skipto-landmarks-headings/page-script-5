@@ -172,6 +172,7 @@ figure.image {
   margin: 0.5em;
   margin-top: 2em;
   margin-bottom: 4em;
+  max-width: 90%;
 }
 
 figure.image img {

@@ -41,25 +41,25 @@ const pages = [
     link: 'Home',
     filename: 'index.html'
   },
-  { template: './src-docs/templates/content-page-script.njk',
-    title: 'Adding SkipTo.js to a Web Page',
-    link: 'Page Script',
-    filename: 'page-script.html'
-  },
-  { template: './src-docs/templates/content-bookmarklets.njk',
-    title: 'SkipTo.js Bookmarklets',
-    link: 'Bookmarklets',
-    filename: 'bookmarklets.html'
+  { template: './src-docs/templates/content-shortcuts.njk',
+    title: 'Shortcut Keys',
+    link: 'Shortcuts',
+    filename: 'shortcuts.html'
   },
   { template: './src-docs/templates/content-extensions.njk',
     title: 'SkipTo.js Web Browser Extensions',
     link: 'Extensions',
     filename: 'extensions.html'
   },
-  { template: './src-docs/templates/content-shortcuts.njk',
-    title: 'Shortcut Keys',
-    link: 'Shortcuts',
-    filename: 'shortcuts.html'
+  { template: './src-docs/templates/content-bookmarklets.njk',
+    title: 'SkipTo.js Bookmarklets',
+    link: 'Bookmarklets',
+    filename: 'bookmarklets.html'
+  },
+  { template: './src-docs/templates/content-page-script.njk',
+    title: 'Adding SkipTo.js to a Web Page',
+    link: 'Page Script',
+    filename: 'page-script.html'
   },
   { template: './src-docs/templates/content-faq.njk',
     title: 'Frequently Asked Questions',
