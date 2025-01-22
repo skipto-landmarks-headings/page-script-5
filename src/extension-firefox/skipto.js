@@ -5120,7 +5120,7 @@ div#skip-to-message.fade {
       super();
       this.attachShadow({ mode: 'open' });
       this.skipToId = 'id-skip-to';
-      this.version = "5.7.3";
+      this.version = "5.7.4";
       this.buttonSkipTo = false;
       this.initialized = false;
 
