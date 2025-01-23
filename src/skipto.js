@@ -18,21 +18,22 @@
  * page or a bookmarlet will be ignored.
  */
 
-import SkipToContent573 from './skiptoContent.js';
+import SkipToContent574 from './skiptoContent.js';
 import DebugLogging  from './debug.js';
+
+import {
+  PAGE_SCRIPT_ELEMENT_NAME,
+  BOOKMARKLET_ELEMENT_NAME,
+  EXTENSION_ELEMENT_NAME,
+  SCRIPT_EXTENSION_ID,
+  SCRIPT_BOOKMARKLET_ID
+} from './constants.js';
 
 /* constants */
 const debug = new DebugLogging('skipto', false);
 debug.flag = false;
 
 (function() {
-
-const SkipToPageElmName        = 'skip-to-content';
-const SkipToBookmarkletElmName = 'skip-to-content-bookmarklet';
-const SkipToExtensionElmName   = 'skip-to-content-extension';
-
-const SkipToExtensionID   = `id-skip-to-extension`;
-const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
 
   /*
   *  @function removeLegacySkipToJS
@@ -71,7 +72,7 @@ const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
   *  @desc Removes duplicate versions of SkipTo.js
   */
   function removePageSkipTo() {
-    const nodes = document.querySelectorAll(SkipToPageElmName);
+    const nodes = document.querySelectorAll(PAGE_SCRIPT_ELEMENT_NAME);
     debug.flag && debug.log(`[removePageSkipTo]: ${nodes.length}`);
     for (let i = 0; i < nodes.length; i += 1) {
       nodes[i].remove();
@@ -85,7 +86,7 @@ const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
   *  @desc Removes duplicate versions of SkipTo.js
   */
   function removeBookmarkletSkipTo() {
-    const nodes = document.querySelectorAll(SkipToBookmarkletElmName);
+    const nodes = document.querySelectorAll(BOOKMARKLET_ELEMENT_NAME);
     debug.flag && debug.log(`[removeBookmarkletSkipTo]: ${nodes.length}`);
     for (let i = 0; i < nodes.length; i += 1) {
       nodes[i].remove();
@@ -106,9 +107,9 @@ const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
 
     removeLegacySkipToJS();
 
-    const isExtensionLoaded   = document.querySelector(SkipToExtensionElmName);
-    const isBookmarkletLoaded = document.querySelector(SkipToBookmarkletElmName);
-    const isPageLoaded        = document.querySelector(SkipToPageElmName);
+    const isExtensionLoaded   = document.querySelector(EXTENSION_ELEMENT_NAME);
+    const isBookmarkletLoaded = document.querySelector(BOOKMARKLET_ELEMENT_NAME);
+    const isPageLoaded        = document.querySelector(PAGE_SCRIPT_ELEMENT_NAME);
 
     let skipToContentElem = false;
 
@@ -117,8 +118,8 @@ const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
         if (!isExtensionLoaded) {
           if (!isBookmarkletLoaded) {
             removePageSkipTo();
-            window.customElements.define(SkipToBookmarkletElmName, SkipToContent573);
-            skipToContentElem = document.createElement(SkipToBookmarkletElmName);
+            window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent574);
+            skipToContentElem = document.createElement(BOOKMARKLET_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
             // always attach SkipToContent element to body
@@ -133,8 +134,8 @@ const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
         if (!isExtensionLoaded) {
           removePageSkipTo();
           removeBookmarkletSkipTo();
-          window.customElements.define(SkipToExtensionElmName, SkipToContent573);
-          skipToContentElem = document.createElement(SkipToExtensionElmName);
+          window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent574);
+          skipToContentElem = document.createElement(EXTENSION_ELEMENT_NAME);
           skipToContentElem.setAttribute('version', skipToContentElem.version);
           skipToContentElem.setAttribute('type', type);
           skipToContentElem.setAttribute('about', 'false');
@@ -147,8 +148,8 @@ const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
 
       default:
         if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
-          window.customElements.define(SkipToPageElmName, SkipToContent573);
-          skipToContentElem = document.createElement(SkipToPageElmName);
+          window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent574);
+          skipToContentElem = document.createElement(PAGE_SCRIPT_ELEMENT_NAME);
           skipToContentElem.setAttribute('version', skipToContentElem.version);
           skipToContentElem.setAttribute('type', type);
           // always attach SkipToContent element to body
@@ -162,7 +163,7 @@ const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
   }
 
   // Check for SkipTo.js bookmarklet script, if it is initialize it immediately
-  if (document.getElementById(SkipToBookmarkletID)) {
+  if (document.getElementById(SCRIPT_BOOKMARKLET_ID)) {
     debug.flag && debug.log(`[bookmarklet]`);
     const skipToContentBookmarkletElem = getSkipToContentElement('bookmarklet');
     if (skipToContentBookmarkletElem) {
@@ -173,7 +174,7 @@ const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
   }
   else {
     // Check for SkipTo.js extension script, if it is initialize it immediately
-    if (document.getElementById(SkipToExtensionID)) {
+    if (document.getElementById(SCRIPT_EXTENSION_ID)) {
       debug.flag && debug.log(`[extension]`);
       const skipToContentExtensionElem = getSkipToContentElement('extension');
       if (skipToContentExtensionElem) {
@@ -191,7 +192,7 @@ const SkipToBookmarkletID = `id-skip-to-bookmarklet`;
         debug.flag && debug.log(`[onload][script]`);
         const skipToContentPageElem = getSkipToContentElement();
         if (skipToContentPageElem) {
-          skipToContentPageElem.supportShortcuts(false);
+//          skipToContentPageElem.supportShortcuts(false);
           debug.flag && debug.log(`[onload][script][elem]: ${skipToContentPageElem}`);
           const initInfo = window.SkipToConfig ? window.SkipToConfig : {};
           skipToContentPageElem.init(initInfo);

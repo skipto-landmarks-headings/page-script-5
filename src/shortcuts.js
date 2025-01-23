@@ -4,6 +4,10 @@
 import DebugLogging  from './debug.js';
 
 import {
+  HIGHLIGHT_ELEMENT_NAME
+} from './constants.js';
+
+import {
   isVisible
 } from './utils.js';
 
@@ -12,11 +16,6 @@ import {
   isSlotElement,
   isCustomElement
 } from './landmarksHeadings.js';
-
-import {
-  highlightElement,
-  removeHighlight
-} from './highlightElement.js';
 
 /*Exports */
 export {
@@ -37,7 +36,10 @@ debug.flag = false;
  */
 function monitorKeyboardFocus () {
   document.addEventListener('focusin', () => {
-    removeHighlight();
+    const highlightElem = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
+    if (highlightElem) {
+      highlightElem.removeHighlight();
+    }
   });
 }
 
@@ -91,7 +93,11 @@ function navigateContent (target, direction, msgHeadingLevel, useFirst=false, na
       }
     }
 
-    highlightElement(elem, 'instant', info, true);  // force highlight since navigation
+    const highlightElem = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
+    if (highlightElem) {
+      highlightElem.highlight(elem, 'instant', info, true);  // force highlight
+    }
+
   }
 
   return elem;

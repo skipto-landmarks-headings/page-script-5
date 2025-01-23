@@ -3,25 +3,17 @@
 /* Imports */
 import DebugLogging  from './debug.js';
 
+import {
+  MESSAGE_ID
+} from './constants.js';
+
+import {colorThemes} from './colorThemes.js';
+
 /* Constants */
 const debug = new DebugLogging('[shortcutsMessage]', false);
 debug.flag = false;
 
-const defaultStyleOptions = {
-  fontFamily: 'sans-serif',
-  fontSize: '12pt',
-  focusBorderColor: '#c5050c',
-  focusBorderDarkColor: '#ffffff',
-
-  // Dialog styling defaults
-  dialogTextColor: '#000000',
-  dialogTextDarkColor: '#ffffff',
-  dialogBackgroundColor: '#ffffff',
-  dialogBackgroundDarkColor: '#000000',
-  dialogBackgroundTitleColor: '#eeeeee',
-  dialogBackgroundTitleDarkColor: '#013c93',
-
-};
+const defaultStyleOptions = colorThemes['default'];
 
 const styleTemplate = document.createElement('template');
 styleTemplate.textContent = `
@@ -30,7 +22,7 @@ styleTemplate.textContent = `
   color-scheme: light dark;
 }
 
-div#skip-to-message {
+#${MESSAGE_ID} {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -49,7 +41,7 @@ div#skip-to-message {
   opacity: 1;
 }
 
-div#skip-to-message .header {
+#${MESSAGE_ID} .header {
   margin: 0;
   padding: 4px;
   border-bottom: 1px solid light-dark($focusBorderColor, $focusBorderDarkColor);
@@ -61,7 +53,7 @@ div#skip-to-message .header {
   font-size: 100%;
 }
 
-div#skip-to-message .content {
+#${MESSAGE_ID} .content {
   margin-left: 2em;
   margin-right: 2em;
   margin-top: 2em;
@@ -72,34 +64,34 @@ div#skip-to-message .content {
   text-algin: center;
 }
 
-div#skip-to-message.hidden {
+#${MESSAGE_ID}.hidden {
   display: none;
 }
 
-div#skip-to-message.show {
+#${MESSAGE_ID}.show {
   display: block;
   opacity: 1;
 }
 
-div#skip-to-message.fade {
+#${MESSAGE_ID}.fade {
   opacity: 0;
   transition: visibility 0s 1s, opacity 1s linear;
 }
 
 @media (forced-colors: active) {
 
-  div#skip-to-message {
+  #${MESSAGE_ID} {
     background-color: Canvas;
     color CanvasText;
     border-color: AccentColor;
   }
 
-  div#skip-to-message .header {
+  #${MESSAGE_ID} .header {
     background-color: Canvas;
     color CanvasText;
   }
 
-  div#skip-to-message .content {
+  #${MESSAGE_ID} .content {
     background-color: Canvas;
     color: CanvasText;
   }
@@ -116,7 +108,7 @@ export default class ShortcutsMessage extends HTMLElement {
     // Get references
 
     this.messageDialog  = document.createElement('div');
-    this.messageDialog.id = 'skip-to-message';
+    this.messageDialog.id = MESSAGE_ID;
     this.messageDialog.classList.add('hidden');
     this.shadowRoot.appendChild(this.messageDialog);
 

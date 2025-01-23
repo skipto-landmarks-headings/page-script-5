@@ -6,6 +6,10 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
 import DebugLogging  from './debug.js';
 
 import {
+  ATTR_SKIP_TO_DATA
+} from './constants.js';
+
+import {
   getLandmarksAndHeadings
 } from './landmarksHeadings.js';
 
@@ -17,14 +21,16 @@ import {
 const debug = new DebugLogging('skiptoContent', false);
 debug.flag = false;
 
+/* @class SkipToContent574
+ *
+ */
 
-export default class SkipToContent573 extends HTMLElement {
+export default class SkipToContent574 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
-    this.skipToId = 'id-skip-to';
     this.version = "5.7.4";
     this.buttonSkipTo = false;
     this.initialized = false;
@@ -182,7 +188,7 @@ export default class SkipToContent573 extends HTMLElement {
 
   static get observedAttributes() {
     return [
-      "data-skipto",
+      ATTR_SKIP_TO_DATA,
       "setfocus",
       "type",
       "shortcuts",
@@ -192,7 +198,7 @@ export default class SkipToContent573 extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
 
-    if (name === 'data-skipto') {
+    if (name === ATTR_SKIP_TO_DATA) {
       this.config = this.setupConfigFromDataAttribute(this.config, newValue);
     }
 
@@ -257,9 +263,9 @@ export default class SkipToContent573 extends HTMLElement {
       }
 
       // Check for data-skipto attribute values for configuration
-      const configElem = document.querySelector('[data-skipto]');
+      const configElem = document.querySelector(`[${ATTR_SKIP_TO_DATA}]`);
       if (configElem) {
-        const params = configElem.getAttribute('data-skipto');
+        const params = configElem.getAttribute(ATTR_SKIP_TO_DATA);
         this.config  = this.setupConfigFromDataAttribute(this.config, params);
       }
 
