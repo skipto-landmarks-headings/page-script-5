@@ -2,9 +2,8 @@
 
 const debug = false;
 
-import {
-  EXTENSION_ELEMENT_NAME
-} from '../constants.js';
+const EXTENSION_ELEMENT_NAME = 'skip-to-content';
+const ATTR_SKIP_TO_DATA      = 'data-skipto';
 
 // Define browser specific APIs for Opera, Firefox and Chrome
 
@@ -16,7 +15,7 @@ const browserRuntime = typeof browser === 'object' ?
 const scriptNode = document.createElement('script');
 scriptNode.type = 'text/javascript';
 scriptNode.id = 'id-skip-to-extension';
-scriptNode.setAttribute('data-skipto', 'displayOption: popup');
+scriptNode.setAttribute(ATTR_SKIP_TO_DATA, 'displayOption: popup');
 scriptNode.src = browserRuntime.getURL('skipto.js');
 document.body.appendChild(scriptNode);
 
@@ -29,7 +28,7 @@ window.addEventListener('load', function() {
     const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME);
     debug && console.log(`[load][skipToContentElem]: ${skipToContentElem}`);
     if (skipToContentElem) {
-      skipToContentElem.setAttribute('data-skipto', params);
+      skipToContentElem.setAttribute(ATTR_SKIP_TO_DATA, params);
       skipToContentElem.setAttribute('setfocus', getFocusOption(params));
     }
   })
@@ -42,7 +41,7 @@ browserRuntime.onMessage.addListener(
       debug && console.log(`[onMessage][params]: ${request.skiptoParams}`);
       const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME);
       if (skipToContentElem) {
-        skipToContentElem.setAttribute('data-skipto', request.skiptoParams);
+        skipToContentElem.setAttribute(ATTR_SKIP_TO_DATA, request.skiptoParams);
       }
     }
   }

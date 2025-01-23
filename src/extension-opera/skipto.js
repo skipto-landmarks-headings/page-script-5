@@ -5679,7 +5679,7 @@ button:hover {
           debug.flag && debug.log(`[onload][script]`);
           const skipToContentPageElem = getSkipToContentElement();
           if (skipToContentPageElem) {
-  //          skipToContentPageElem.supportShortcuts(false);
+            skipToContentPageElem.supportShortcuts(false);
             debug.flag && debug.log(`[onload][script][elem]: ${skipToContentPageElem}`);
             const initInfo = window.SkipToConfig ? window.SkipToConfig : {};
             skipToContentPageElem.init(initInfo);
