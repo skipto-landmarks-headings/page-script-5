@@ -2,6 +2,7 @@
 
 const debug = false;
 
+// These constants are defined in '../constants.js'
 const EXTENSION_ELEMENT_NAME = 'skip-to-content';
 const ATTR_SKIP_TO_DATA      = 'data-skipto';
 
