@@ -150,7 +150,6 @@ debug.flag = false;
           skipToContentElem = document.createElement(EXTENSION_ELEMENT_NAME);
           skipToContentElem.setAttribute('version', skipToContentElem.version);
           skipToContentElem.setAttribute('type', type);
-          skipToContentElem.setAttribute('about', 'false');
           // always attach SkipToContent element to body
           if (document.body) {
             document.body.insertBefore(skipToContentElem, document.body.firstElementChild);
