@@ -6,7 +6,9 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
 import DebugLogging  from './debug.js';
 
 import {
-  ATTR_SKIP_TO_DATA
+  ATTR_SKIP_TO_DATA,
+  INFO_DIALOG_ELEMENT_NAME,
+  MESSAGE_ELEMENT_NAME
 } from './constants.js';
 
 import {
@@ -375,12 +377,12 @@ export default class SkipToContent574 extends HTMLElement {
       this.buttonSkipTo.setDisplayOption(config['displayOption']);
     }
 
-    const infoDialog = document.querySelector('skip-to-shortcuts-info-dialog');
+    const infoDialog = document.querySelector(INFO_DIALOG_ELEMENT_NAME);
     if (infoDialog) {
       infoDialog.configureStyle(config);
     }
 
-    const shortcutsMessage = document.querySelector('skip-to-shortcuts-message');
+    const shortcutsMessage = document.querySelector( MESSAGE_ELEMENT_NAME);
     if (shortcutsMessage) {
       shortcutsMessage.configureStyle(config);
     }

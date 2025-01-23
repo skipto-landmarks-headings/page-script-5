@@ -2,13 +2,15 @@
 
 const debug = false;
 
+import {
+  EXTENSION_ELEMENT_NAME
+} from '../constants.js';
+
 // Define browser specific APIs for Opera, Firefox and Chrome
 
 const browserRuntime = typeof browser === 'object' ?
               browser.runtime :
               chrome.runtime;
-
-const SkipToExtensionElmName   = 'skip-to-content-extension';
 
 // Add SkipTo.js script to page
 const scriptNode = document.createElement('script');
@@ -24,7 +26,7 @@ window.addEventListener('load', function() {
 
   browserRuntime.sendMessage({skiptoMessage: "get-options"}, (params) => {
     debug && console.log(`[load][params]: ${params}`);
-    const skipToContentElem = document.querySelector(SkipToExtensionElmName);
+    const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME);
     debug && console.log(`[load][skipToContentElem]: ${skipToContentElem}`);
     if (skipToContentElem) {
       skipToContentElem.setAttribute('data-skipto', params);
@@ -38,7 +40,7 @@ browserRuntime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.skiptoParams !== undefined) {
       debug && console.log(`[onMessage][params]: ${request.skiptoParams}`);
-      const skipToContentElem = document.querySelector(SkipToExtensionElmName);
+      const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME);
       if (skipToContentElem) {
         skipToContentElem.setAttribute('data-skipto', request.skiptoParams);
       }

@@ -259,6 +259,7 @@
   const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
 
   const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog';
+  const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element';
   const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element';
 
   // Attributes
@@ -5469,12 +5470,12 @@ button:hover {
         this.buttonSkipTo.setDisplayOption(config['displayOption']);
       }
 
-      const infoDialog = document.querySelector('skip-to-shortcuts-info-dialog');
+      const infoDialog = document.querySelector(INFO_DIALOG_ELEMENT_NAME);
       if (infoDialog) {
         infoDialog.configureStyle(config);
       }
 
-      const shortcutsMessage = document.querySelector('skip-to-shortcuts-message');
+      const shortcutsMessage = document.querySelector( MESSAGE_ELEMENT_NAME);
       if (shortcutsMessage) {
         shortcutsMessage.configureStyle(config);
       }
@@ -5526,10 +5527,22 @@ button:hover {
         }
       }
 
+      function removeElementsWithName(name) {
+        let nodes = document.getElementsByTagName(name);
+        // do more than once in case of duplicates
+        for(let i = 0; i < nodes.length; i += 1) {
+          const node = nodes[i];
+          console.warn(`[SkipTo.js]: Removing legacy 5.x component: ${name}`);
+          node.remove();
+        }
+      }
+
       // Remove 5.x legacy code
       removeElementsWithId('id-skip-to');
       removeElementsWithId('id-skip-to-css');
       removeElementsWithId('id-skip-to-highlight');
+
+      removeElementsWithName('skip-to-shortcuts-message');
 
       // Remove 4.x
       const nodes = document.querySelectorAll('div.skip-to');

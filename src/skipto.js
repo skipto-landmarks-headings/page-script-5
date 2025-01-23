@@ -52,10 +52,22 @@ debug.flag = false;
       }
     }
 
+    function removeElementsWithName(name) {
+      let nodes = document.getElementsByTagName(name);
+      // do more than once in case of duplicates
+      for(let i = 0; i < nodes.length; i += 1) {
+        const node = nodes[i];
+        console.warn(`[SkipTo.js]: Removing legacy 5.x component: ${name}`);
+        node.remove();
+      }
+    }
+
     // Remove 5.x legacy code
     removeElementsWithId('id-skip-to');
     removeElementsWithId('id-skip-to-css');
     removeElementsWithId('id-skip-to-highlight');
+
+    removeElementsWithName('skip-to-shortcuts-message');
 
     // Remove 4.x
     const nodes = document.querySelectorAll('div.skip-to');
@@ -192,7 +204,7 @@ debug.flag = false;
         debug.flag && debug.log(`[onload][script]`);
         const skipToContentPageElem = getSkipToContentElement();
         if (skipToContentPageElem) {
-//          skipToContentPageElem.supportShortcuts(false);
+          skipToContentPageElem.supportShortcuts(false);
           debug.flag && debug.log(`[onload][script][elem]: ${skipToContentPageElem}`);
           const initInfo = window.SkipToConfig ? window.SkipToConfig : {};
           skipToContentPageElem.init(initInfo);
