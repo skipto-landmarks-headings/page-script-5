@@ -2,6 +2,7 @@
 
 ## Version 1.1.6
 * Support version 5.7.4 of SkipTo.js that does removes support for dark more for overlay
+* Uses custom element for highlighting
 
 ## Version 1.1.5
 * Support version 5.7.3 of SkipTo.js that does removes support for dark more for overlay
