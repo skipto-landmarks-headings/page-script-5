@@ -258,9 +258,9 @@
   const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
   const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
 
-  const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog';
-  const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element';
-  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element';
+  const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-574';
+  const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-574';
+  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-574';
 
   // Attributes
 
