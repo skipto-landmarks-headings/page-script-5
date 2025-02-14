@@ -57,9 +57,10 @@ styleHighlightTemplate.textContent = `
 #${HIGHLIGHT_ID} .overlay-border.skip-to-hidden {
   background-color: light-dark($hiddenHeadingBackgroundColor, $hiddenHeadingBackgroundDarkColor);
   color: light-dark($hiddenHeadingColor, $hiddenHeadingDarkColor);
+  font-family: $fontFamily;
+  font-size: $fontSize;
   font-style: italic;
   font-weight: bold;
-  font-size: 0.9em;
   text-align: center;
   padding: .25em;
   animation: fadeIn 1.5s;
@@ -78,6 +79,8 @@ styleHighlightTemplate.textContent = `
   text-align: left;
   left: -2px;
   padding: 1px 4px;
+  font-size: $fontSize;
+  font-family: $fontFamily;
   border: 2px solid light-dark($focusBorderColor, $focusBorderDarkColor);
   background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
   color: light-dark($menuTextColor, $menuTextDarkColor);

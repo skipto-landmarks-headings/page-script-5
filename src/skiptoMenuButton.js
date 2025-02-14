@@ -20,7 +20,9 @@ import {
   MENU_HEADINGS_GROUP_ID,
   MENU_HEADINGS_GROUP_LABEL_ID,
   MENU_SHORTCUTS_GROUP_ID,
-  MENU_SHORTCUTS_GROUP_LABEL_ID
+  MENU_SHORTCUTS_GROUP_LABEL_ID,
+  HIGHLIGHT_ELEMENT_NAME,
+  MESSAGE_ELEMENT_NAME
 } from './constants.js';
 
 import {
@@ -175,22 +177,22 @@ export default class SkiptoMenuButton {
 
       // Highlight element
 
-      this.highlightElem = document.querySelector("skip-to-content-highlight-element");
+      this.highlightElem = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
 
       if (!this.highlightElem) {
-        window.customElements.define("skip-to-content-highlight-element", HighlightElement);
-        this.highlightElem = document.createElement('skip-to-content-highlight-element');
+        window.customElements.define(HIGHLIGHT_ELEMENT_NAME, HighlightElement);
+        this.highlightElem = document.createElement(HIGHLIGHT_ELEMENT_NAME);
         this.highlightElem.configureStyle(this.config);
         document.body.appendChild(this.highlightElem);
       }
 
       // Shortcut messages
 
-      this.shortcutsMessage = document.querySelector("skip-to-content-shortcuts-message");
+      this.shortcutsMessage = document.querySelector(MESSAGE_ELEMENT_NAME);
 
       if (!this.shortcutsMessage) {
-        window.customElements.define("skip-to-content-shortcuts-message", ShortcutsMessage);
-        this.shortcutsMessage = document.createElement('skip-to-content-shortcuts-message');
+        window.customElements.define(MESSAGE_ELEMENT_NAME, ShortcutsMessage);
+        this.shortcutsMessage = document.createElement(MESSAGE_ELEMENT_NAME);
         this.shortcutsMessage.configureStyle(this.config);
         document.body.appendChild(this.shortcutsMessage);
       }

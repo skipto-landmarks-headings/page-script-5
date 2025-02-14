@@ -1445,9 +1445,10 @@ button:hover {
 #${HIGHLIGHT_ID} .overlay-border.skip-to-hidden {
   background-color: light-dark($hiddenHeadingBackgroundColor, $hiddenHeadingBackgroundDarkColor);
   color: light-dark($hiddenHeadingColor, $hiddenHeadingDarkColor);
+  font-family: $fontFamily;
+  font-size: $fontSize;
   font-style: italic;
   font-weight: bold;
-  font-size: 0.9em;
   text-align: center;
   padding: .25em;
   animation: fadeIn 1.5s;
@@ -1466,6 +1467,8 @@ button:hover {
   text-align: left;
   left: -2px;
   padding: 1px 4px;
+  font-size: $fontSize;
+  font-family: $fontFamily;
   border: 2px solid light-dark($focusBorderColor, $focusBorderDarkColor);
   background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
   color: light-dark($menuTextColor, $menuTextDarkColor);
@@ -3864,22 +3867,22 @@ button:hover {
 
         // Highlight element
 
-        this.highlightElem = document.querySelector("skip-to-content-highlight-element");
+        this.highlightElem = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
 
         if (!this.highlightElem) {
-          window.customElements.define("skip-to-content-highlight-element", HighlightElement);
-          this.highlightElem = document.createElement('skip-to-content-highlight-element');
+          window.customElements.define(HIGHLIGHT_ELEMENT_NAME, HighlightElement);
+          this.highlightElem = document.createElement(HIGHLIGHT_ELEMENT_NAME);
           this.highlightElem.configureStyle(this.config);
           document.body.appendChild(this.highlightElem);
         }
 
         // Shortcut messages
 
-        this.shortcutsMessage = document.querySelector("skip-to-content-shortcuts-message");
+        this.shortcutsMessage = document.querySelector(MESSAGE_ELEMENT_NAME);
 
         if (!this.shortcutsMessage) {
-          window.customElements.define("skip-to-content-shortcuts-message", ShortcutsMessage);
-          this.shortcutsMessage = document.createElement('skip-to-content-shortcuts-message');
+          window.customElements.define(MESSAGE_ELEMENT_NAME, ShortcutsMessage);
+          this.shortcutsMessage = document.createElement(MESSAGE_ELEMENT_NAME);
           this.shortcutsMessage.configureStyle(this.config);
           document.body.appendChild(this.shortcutsMessage);
         }
@@ -5465,19 +5468,28 @@ button:hover {
       }
 
       renderStyleElement(this.shadowRoot, config, this.skipToId);
+
       if (this.buttonSkipTo) {
         this.buttonSkipTo.updateLabels(config);
         this.buttonSkipTo.setDisplayOption(config['displayOption']);
       }
 
       const infoDialog = document.querySelector(INFO_DIALOG_ELEMENT_NAME);
+      debug$1.flag && debug$1.log(`[infoDialog]: ${infoDialog}`);
       if (infoDialog) {
         infoDialog.configureStyle(config);
       }
 
-      const shortcutsMessage = document.querySelector( MESSAGE_ELEMENT_NAME);
+      const shortcutsMessage = document.querySelector(MESSAGE_ELEMENT_NAME);
+      debug$1.flag && debug$1.log(`[shortcutMessage]: ${shortcutsMessage}`);
       if (shortcutsMessage) {
         shortcutsMessage.configureStyle(config);
+      }
+
+      const highlight = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
+      debug$1.flag && debug$1.log(`[highlight]: ${highlight}`);
+      if (highlight) {
+        highlight.configureStyle(config);
       }
 
       return config;

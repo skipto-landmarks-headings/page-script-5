@@ -8,7 +8,8 @@ import DebugLogging  from './debug.js';
 import {
   ATTR_SKIP_TO_DATA,
   INFO_DIALOG_ELEMENT_NAME,
-  MESSAGE_ELEMENT_NAME
+  MESSAGE_ELEMENT_NAME,
+  HIGHLIGHT_ELEMENT_NAME
 } from './constants.js';
 
 import {
@@ -372,19 +373,28 @@ export default class SkipToContent574 extends HTMLElement {
     }
 
     renderStyleElement(this.shadowRoot, config, this.skipToId);
+
     if (this.buttonSkipTo) {
       this.buttonSkipTo.updateLabels(config);
       this.buttonSkipTo.setDisplayOption(config['displayOption']);
     }
 
     const infoDialog = document.querySelector(INFO_DIALOG_ELEMENT_NAME);
+    debug.flag && debug.log(`[infoDialog]: ${infoDialog}`);
     if (infoDialog) {
       infoDialog.configureStyle(config);
     }
 
-    const shortcutsMessage = document.querySelector( MESSAGE_ELEMENT_NAME);
+    const shortcutsMessage = document.querySelector(MESSAGE_ELEMENT_NAME);
+    debug.flag && debug.log(`[shortcutMessage]: ${shortcutsMessage}`);
     if (shortcutsMessage) {
       shortcutsMessage.configureStyle(config);
+    }
+
+    const highlight = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
+    debug.flag && debug.log(`[highlight]: ${highlight}`);
+    if (highlight) {
+      highlight.configureStyle(config);
     }
 
     return config;
