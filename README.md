@@ -16,8 +16,10 @@ gulp
 
 You should now have a directory called `docs/dist` with the necessary files in it.
 
-See [Using Skipto](https://skipto-landmarks-headings.github.io/page-script-5/using.html) and the [Configuration](https://skipto-landmarks-headings.github.io/page-script-5/config.html) pages to get the SkipTo script running on your web site.
-
+## SkipTo.js Information
+* [Browser Extension Information](https://skipto-landmarks-headings.github.io/page-script-5/extensions.html)
+* [Bookmarklets](https://skipto-landmarks-headings.github.io/page-script-5/bookmarklets.html)
+* [Page Script](https://skipto-landmarks-headings.github.io/page-script-5/page-script.html) ([Configuration](https://skipto-landmarks-headings.github.io/page-script-5/config.html) and [Examples](https://skipto-landmarks-headings.github.io/page-script-5/examples.html))
 
 ## Version History
 
