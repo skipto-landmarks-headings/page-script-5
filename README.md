@@ -21,8 +21,8 @@ See [Using Skipto](https://skipto-landmarks-headings.github.io/page-script-5/usi
 
 ## Version History
 
-[CHANGELOG.md](CHANGELOG.md) for Page Script
-[CHANGELOG-EXTENSION.md](CHANGELOG.md) for Browser Extensions
+* [CHANGELOG.md](CHANGELOG.md) for Page Script
+* [CHANGELOG-EXTENSION.md](CHANGELOG.md) for Browser Extensions
 
 ## Copyright and license
 
