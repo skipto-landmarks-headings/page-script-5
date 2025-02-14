@@ -3,29 +3,19 @@
 /* Imports */
 import DebugLogging  from './debug.js';
 
+import {
+  MORE_PAGE_SCRIPT_INFO_URL,
+  MORE_SHORTCUT_INFO_URL
+} from './constants.js';
+
+import {colorThemes} from './colorThemes.js';
+
 /* Constants */
 const debug = new DebugLogging('[shortcutsInfoDialog]', false);
 debug.flag = false;
 
-const defaultStyleOptions = {
-  fontFamily: 'sans-serif',
-  fontSize: '12pt',
-  focusBorderColor: '#c5050c',
-  focusBorderDarkColor: '#ffffff',
+const defaultStyleOptions = colorThemes['default'];
 
-  // Dialog styling defaults
-  dialogTextColor: '#000000',
-  dialogTextDarkColor: '#ffffff',
-  dialogBackgroundColor: '#ffffff',
-  dialogBackgroundDarkColor: '#000000',
-  dialogBackgroundTitleColor: '#eeeeee',
-  dialogBackgroundTitleDarkColor: '#013c93',
-
-};
-
-
-const MORE_PAGE_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/page.html';
-const MORE_SHORTCUT_INFO_URL='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 
 const styleTemplate = document.createElement('template');
 styleTemplate.textContent = `
@@ -184,6 +174,11 @@ button:hover {
   cursor: pointer;
 }
 `;
+
+/*
+ *
+ *
+ */
 
 export default class SkipToContentInfoDialog extends HTMLElement {
   constructor () {
@@ -435,7 +430,7 @@ export default class SkipToContentInfoDialog extends HTMLElement {
       this.contentElem.removeChild(this.contentElem.lastElementChild);
     }
 
-    this.moreInfoURL = MORE_PAGE_INFO_URL;
+    this.moreInfoURL = MORE_PAGE_SCRIPT_INFO_URL;
 
     this.h2Elem.textContent = config.aboutInfoLabel;
     this.closeButton1.setAttribute('aria-label', config.closeLabel);

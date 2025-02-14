@@ -2,19 +2,21 @@
 
 const debug = false;
 
+// These constants are defined in '../constants.js'
+const EXTENSION_ELEMENT_NAME = 'skip-to-content-extension';
+const ATTR_SKIP_TO_DATA      = 'data-skipto';
+
 // Define browser specific APIs for Opera, Firefox and Chrome
 
 const browserRuntime = typeof browser === 'object' ?
               browser.runtime :
               chrome.runtime;
 
-const SkipToExtensionElmName   = 'skip-to-content-extension';
-
 // Add SkipTo.js script to page
 const scriptNode = document.createElement('script');
 scriptNode.type = 'text/javascript';
 scriptNode.id = 'id-skip-to-extension';
-scriptNode.setAttribute('data-skipto', 'displayOption: popup');
+scriptNode.setAttribute(ATTR_SKIP_TO_DATA, 'displayOption: popup');
 scriptNode.src = browserRuntime.getURL('skipto.js');
 document.body.appendChild(scriptNode);
 
@@ -24,10 +26,10 @@ window.addEventListener('load', function() {
 
   browserRuntime.sendMessage({skiptoMessage: "get-options"}, (params) => {
     debug && console.log(`[load][params]: ${params}`);
-    const skipToContentElem = document.querySelector(SkipToExtensionElmName);
+    const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME);
     debug && console.log(`[load][skipToContentElem]: ${skipToContentElem}`);
     if (skipToContentElem) {
-      skipToContentElem.setAttribute('data-skipto', params);
+      skipToContentElem.setAttribute(ATTR_SKIP_TO_DATA, params);
       skipToContentElem.setAttribute('setfocus', getFocusOption(params));
     }
   })
@@ -38,9 +40,9 @@ browserRuntime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.skiptoParams !== undefined) {
       debug && console.log(`[onMessage][params]: ${request.skiptoParams}`);
-      const skipToContentElem = document.querySelector(SkipToExtensionElmName);
+      const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME);
       if (skipToContentElem) {
-        skipToContentElem.setAttribute('data-skipto', request.skiptoParams);
+        skipToContentElem.setAttribute(ATTR_SKIP_TO_DATA, request.skiptoParams);
       }
     }
   }

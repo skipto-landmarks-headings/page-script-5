@@ -1,5 +1,11 @@
 # Version history for SkipTo.js
 
+## Version 5.7.4
+* Added support for dark mode in highlight overlay
+* Improved programmatic constant management in source code
+* Updated some of the custom element names
+* Updated FAQ and home page
+
 ## Version 5.7.3
 * Disabled support for dark mode in overlays
 

@@ -50,12 +50,10 @@ browserRuntime.onMessage.addListener((request, sender, sendResponse) => {
     });
   }
 
-
   if (request.skiptoMessage === "color-theme-dark") {
       debug && console.log(`[onMessage][color-theme-dark]`);
       setIcons('dark');
   }
-
 
   if (request.skiptoMessage === "color-theme-light") {
       debug && console.log(`[onMessage][color-theme-light]`);
