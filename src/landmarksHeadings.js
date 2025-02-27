@@ -832,6 +832,7 @@ function getLandmarks(config, landmarks) {
   let navElements = [];
   let asideElements = [];
   let footerElements = [];
+  let headerElements = [];
   let regionElements = [];
   let otherElements = [];
   let dataId = '';
@@ -913,10 +914,19 @@ function getLandmarks(config, landmarks) {
         case 'footer':
           footerElements.push(landmarkItem);
           break;
+        case 'header':
+          headerElements.push(landmarkItem);
+          break;
         case 'section':
           // Regions must have accessible name to be included
           if (landmarkItem.hasName) {
             regionElements.push(landmarkItem);
+          }
+          break;
+        case 'form':
+          // Forms must have accessible name to be included
+          if (landmarkItem.hasName) {
+            otherElements.push(landmarkItem);
           }
           break;
         default:
@@ -928,6 +938,6 @@ function getLandmarks(config, landmarks) {
   if (config.landmarks.includes('doc-order')) {
     return allElements;
   }
-  return [].concat(mainElements, searchElements, navElements, asideElements, regionElements, footerElements, otherElements);
+  return [].concat(mainElements, searchElements, navElements, asideElements, regionElements, footerElements, headerElements, otherElements);
 }
 

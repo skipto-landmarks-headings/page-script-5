@@ -13,6 +13,10 @@ import {
 } from './constants.js';
 
 import {
+  colorThemes
+} from './colorThemes.js';
+
+import {
   getLandmarksAndHeadings
 } from './landmarksHeadings.js';
 
@@ -24,17 +28,19 @@ import {
 const debug = new DebugLogging('skiptoContent', false);
 debug.flag = false;
 
-/* @class SkipToContent574
+const defaultStyleOptions = colorThemes['default'];
+
+/* @class SkipToContent575
  *
  */
 
-export default class SkipToContent574 extends HTMLElement {
+export default class SkipToContent575 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
-    this.version = "5.7.4";
+    this.version = "5.7.5";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -147,6 +153,8 @@ export default class SkipToContent574 extends HTMLElement {
 
       // Highlight options
       highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
+      highlightBorderWidth : defaultStyleOptions.highlightBorderWidth,
+      highlightOffset: defaultStyleOptions.highlightOffset,
 
       // Hidden heading when highlighting
       msgHidden: 'Heading is hidden',

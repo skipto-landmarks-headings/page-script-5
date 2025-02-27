@@ -11,8 +11,6 @@ debug.flag = false;
 
 const minWidth = 68;
 const minHeight = 27;
-const offset = 6;
-const borderWidth = 2;
 
 import {
   HIGHLIGHT_ID
@@ -31,22 +29,22 @@ styleHighlightTemplate.textContent = `
   padding: 0;
   position: absolute;
   border-radius: 3px;
-  border: 4px solid light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
+  border: $borderContainerWidthpx solid light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
   box-sizing: border-box;
   pointer-events:none;
+  background: transparent;
 }
 
 #${HIGHLIGHT_ID} .overlay-border {
   margin: 0;
   padding: 0;
   position: relative;
-  top: -2px;
-  left: -2px;
   border-radius: 3px 3px 3px 3px;
-  border: 2px solid light-dark($focusBorderColor, $focusBorderDarkColor);
+  border: $borderWidthpx solid light-dark($focusBorderColor, $focusBorderDarkColor);
   z-index: $zHighlight;
   box-sizing: border-box;
   pointer-events:none;
+  background: transparent;
 }
 
 @keyframes fadeIn {
@@ -75,13 +73,14 @@ styleHighlightTemplate.textContent = `
 }
 
 #${HIGHLIGHT_ID} .overlay-info {
+  margin: 0;
+  padding: 2px 4px;
   position: relative;
+  left: -$highlightOffsetpx;
   text-align: left;
-  left: -2px;
-  padding: 1px 4px;
   font-size: $fontSize;
   font-family: $fontFamily;
-  border: 2px solid light-dark($focusBorderColor, $focusBorderDarkColor);
+  border: $borderWidthpx solid light-dark($focusBorderColor, $focusBorderDarkColor);
   background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
   color: light-dark($menuTextColor, $menuTextDarkColor);
   z-index: $zHighlight;
@@ -147,6 +146,11 @@ export default class HighlightElement extends HTMLElement {
     this.infoElem = document.createElement('div');
     this.infoElem.className = 'overlay-info';
     this.overlayElem.appendChild(this.infoElem);
+
+    this.borderWidth = 0;
+    this.offset = 0;
+
+    this.msgHeadingIsHidden = 'Heading is hidden';
 
     this.configureStyle();
 
@@ -250,6 +254,28 @@ export default class HighlightElement extends HTMLElement {
                          config.zHighlight,
                          defaultStyleOptions.zHighlight);
 
+    this.borderWidth = config.highlightBorderWidth ?
+                       parseInt(config.highlightBorderWidth) :
+                       parseInt(defaultStyleOptions.highlightBorderWidth);
+
+    this.offset      = config.highlightOffset ?
+                       parseInt(config.highlightOffset) :
+                       parseInt(defaultStyleOptions.highlightOffset);
+
+    style = updateOption(style,
+                         '$highlightOffset',
+                         this.offset + this.borderWidth,
+                         this.offset + this.borderWidth);
+
+    style = updateOption(style,
+                         '$borderWidth',
+                         this.borderWidth,
+                         this.borderWidth);
+
+    style = updateOption(style,
+                         '$borderContainerWidth',
+                         2 * this.borderWidth,
+                         2 * this.borderWidth);
 
     let styleNode = this.shadowRoot.querySelector('style');
 
@@ -385,26 +411,28 @@ export default class HighlightElement extends HTMLElement {
 
     let isHidden = false;
 
-    const rectLeft  = rect.left > offset ?
-                    Math.round(rect.left - offset + window.scrollX) :
+    const offsetBorder = this.offset + 2 * this.borderWidth;
+
+    const rectLeft  = rect.left > this.offset ?
+                    Math.round(rect.left + (-1 * offsetBorder) + window.scrollX) :
                     Math.round(rect.left + window.scrollX);
 
     let left = rectLeft;
 
-    const rectWidth  = rect.left > offset ?
-                    Math.max(rect.width  + offset * 2, minWidth) :
+    const rectWidth  = rect.left > this.offset ?
+                    Math.max(rect.width  + (2 * offsetBorder), minWidth) :
                     Math.max(rect.width, minWidth);
 
     let width = rectWidth;
 
-    const rectTop    = rect.top > offset ?
-                    Math.round(rect.top  - offset + window.scrollY) :
+    const rectTop    = rect.top > this.offset ?
+                    Math.round(rect.top  + (-1 * offsetBorder) + window.scrollY) :
                     Math.round(rect.top + window.scrollY);
 
     let top = rectTop;
 
-    const rectHeight   = rect.top > offset ?
-                    Math.max(rect.height + offset * 2, minHeight) :
+    const rectHeight   = rect.top > this.offset ?
+                    Math.max(rect.height + (2 * offsetBorder), minHeight) :
                     Math.max(rect.height, minHeight);
 
     let height = rectHeight;
@@ -419,29 +447,33 @@ export default class HighlightElement extends HTMLElement {
         const parentRect = element.parentNode.getBoundingClientRect();
 
         if ((parentRect.top > 0) && (parentRect.left > 0)) {
-          top = parentRect.top > offset ?
-                    Math.round(parentRect.top  - offset + window.scrollY) :
+          top = parentRect.top > this.offset ?
+                    Math.round(parentRect.top  - this.offset + window.scrollY) :
                     Math.round(parentRect.top + window.scrollY);
-          left = parentRect.left > offset ?
-                    Math.round(parentRect.left - offset + window.scrollX) :
+          left = parentRect.left > this.offset ?
+                    Math.round(parentRect.left - this.offset + window.scrollX) :
                     Math.round(parentRect.left + window.scrollX);
         }
         else {
-          left = offset;
-          top = offset;
+          left = this.offset;
+          top = this.offset;
         }
       }
       else {
-        left = offset;
-        top = offset;
+        left = this.offset;
+        top = this.offset;
       }
     }
 
+    const borderElemOffset = -2 * this.borderWidth;
+
     this.overlayElem.style.left   = left   + 'px';
     this.overlayElem.style.top    = top    + 'px';
+    this.borderElem.style.left   = borderElemOffset + 'px';
+    this.borderElem.style.top    = borderElemOffset + 'px';
 
     if (isHidden) {
-      this.borderElem.textContent = 'Heading is hidden';
+      this.borderElem.textContent = this.msgHeadingIsHidden;
       this.borderElem.classList.add('skip-to-hidden');
       this.overlayElem.style.width  = 'auto';
       this.overlayElem.style.height = 'auto';
@@ -449,9 +481,9 @@ export default class HighlightElement extends HTMLElement {
       this.borderElem.style.height = 'auto';
       height = this.borderElem.getBoundingClientRect().height;
       width  = this.borderElem.getBoundingClientRect().width;
-      if (rect.top > offset) {
-        height += offset + 2;
-        width += offset + 2;
+      if (rect.top > this.offset) {
+        height += this.offset + this.borderWidth;
+        width += this.offset + this.borderWidth;
       }
     }
     else {
@@ -459,8 +491,8 @@ export default class HighlightElement extends HTMLElement {
       this.borderElem.classList.remove('skip-to-hidden');
       this.overlayElem.style.width  = width  + 'px';
       this.overlayElem.style.height = height + 'px';
-      this.borderElem.style.width  = (width  - 2 * borderWidth) + 'px';
-      this.borderElem.style.height = (height - 2 * borderWidth) + 'px';
+      this.borderElem.style.width  = width  + 'px';
+      this.borderElem.style.height = height + 'px';
     }
 
     this.overlayElem.style.display = 'block';
@@ -474,7 +506,8 @@ export default class HighlightElement extends HTMLElement {
         this.borderElem.classList.add('hasInfoTop');
         this.infoElem.classList.add('hasInfoTop');
         if (!isHidden) {
-          this.infoElem.style.top = (-1 * (height + this.infoElem.getBoundingClientRect().height - 2 * borderWidth)) + 'px';
+          this.infoElem.style.top = (-1 * (height + this.infoElem.getBoundingClientRect().height + this.borderWidth))  + 'px';
+          this.infoElem.style.left = -2 * this.borderWidth + 'px';
         }
         else {
           this.infoElem.style.top = (-1 * (this.infoElem.getBoundingClientRect().height + this.borderElem.getBoundingClientRect().height)) + 'px';
@@ -485,7 +518,8 @@ export default class HighlightElement extends HTMLElement {
         this.infoElem.classList.remove('hasInfoTop');
         this.borderElem.classList.add('hasInfoBottom');
         this.infoElem.classList.add('hasInfoBottom');
-        this.infoElem.style.top = -2 + 'px';
+        this.infoElem.style.top  = -3 * this.borderWidth + 'px';
+        this.infoElem.style.left = -2 * this.borderWidth + 'px';
       }
       return this.infoElem;
     }

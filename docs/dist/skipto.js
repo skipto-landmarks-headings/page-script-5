@@ -44,7 +44,9 @@
       buttonBackgroundDarkColor: '#013c93',
       zIndex: '2000000',
       zHighlight: '1999900',
-      displayOption: 'fixed'
+      displayOption: 'fixed',
+      highlightBorderWidth: '2',
+      highlightOffset: '6'
     },
     'aria': {
       hostnameSelector: 'w3.org',
@@ -258,9 +260,9 @@
   const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
   const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
 
-  const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-574';
-  const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-574';
-  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-574';
+  const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-575';
+  const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-575';
+  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-575';
 
   // Attributes
 
@@ -926,7 +928,7 @@
   const debug$a = new DebugLogging('[shortcutsInfoDialog]', false);
   debug$a.flag = false;
 
-  const defaultStyleOptions$2 = colorThemes['default'];
+  const defaultStyleOptions$3 = colorThemes['default'];
 
 
   const styleTemplate$1 = document.createElement('template');
@@ -1173,52 +1175,52 @@ button:hover {
       style = updateOption(style,
                            '$fontFamily',
                            config.fontFamily,
-                           defaultStyleOptions$2.fontFamily);
+                           defaultStyleOptions$3.fontFamily);
 
       style = updateOption(style,
                            '$fontSize',
                            config.fontSize,
-                           defaultStyleOptions$2.fontSize);
+                           defaultStyleOptions$3.fontSize);
 
       style = updateOption(style,
                            '$focusBorderColor',
                            config.focusBorderColor,
-                           defaultStyleOptions$2.focusBorderColor);
+                           defaultStyleOptions$3.focusBorderColor);
 
       style = updateOption(style,
                            '$focusBorderDarkColor',
                            config.focusBorderDarkColor,
-                           defaultStyleOptions$2.focusBorderDarkColor);
+                           defaultStyleOptions$3.focusBorderDarkColor);
 
       style = updateOption(style,
                            '$dialogTextColor',
                            config.dialogTextColor,
-                           defaultStyleOptions$2.dialogTextColor);
+                           defaultStyleOptions$3.dialogTextColor);
 
       style = updateOption(style,
                            '$dialogextDarkColor',
                            config.dialogextDarkColor,
-                           defaultStyleOptions$2.dialogextDarkColor);
+                           defaultStyleOptions$3.dialogextDarkColor);
 
       style = updateOption(style,
                            '$dialogBackgroundColor',
                            config.dialogBackgroundColor,
-                           defaultStyleOptions$2.dialogBackgroundColor);
+                           defaultStyleOptions$3.dialogBackgroundColor);
 
       style = updateOption(style,
                            '$dialogBackgroundDarkColor',
                            config.dialogBackgroundDarkColor,
-                           defaultStyleOptions$2.dialogBackgroundDarkColor);
+                           defaultStyleOptions$3.dialogBackgroundDarkColor);
 
       style = updateOption(style,
                            '$dialogBackgroundTitleColor',
                            config.dialogBackgroundTitleColor,
-                           defaultStyleOptions$2.dialogBackgroundTitleColor);
+                           defaultStyleOptions$3.dialogBackgroundTitleColor);
 
       style = updateOption(style,
                            '$dialogBackgroundTitleDarkColor',
                            config.dialogBackgroundTitleDarkColor,
-                           defaultStyleOptions$2.dialogBackgroundTitleDarkColor);
+                           defaultStyleOptions$3.dialogBackgroundTitleDarkColor);
 
 
       let styleNode = this.shadowRoot.querySelector('style');
@@ -1403,10 +1405,8 @@ button:hover {
 
   const minWidth = 68;
   const minHeight = 27;
-  const offset = 6;
-  const borderWidth = 2;
 
-  const defaultStyleOptions$1 = colorThemes['default'];
+  const defaultStyleOptions$2 = colorThemes['default'];
 
   const styleHighlightTemplate = document.createElement('template');
   styleHighlightTemplate.textContent = `
@@ -1419,22 +1419,22 @@ button:hover {
   padding: 0;
   position: absolute;
   border-radius: 3px;
-  border: 4px solid light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
+  border: $borderContainerWidthpx solid light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
   box-sizing: border-box;
   pointer-events:none;
+  background: transparent;
 }
 
 #${HIGHLIGHT_ID} .overlay-border {
   margin: 0;
   padding: 0;
   position: relative;
-  top: -2px;
-  left: -2px;
   border-radius: 3px 3px 3px 3px;
-  border: 2px solid light-dark($focusBorderColor, $focusBorderDarkColor);
+  border: $borderWidthpx solid light-dark($focusBorderColor, $focusBorderDarkColor);
   z-index: $zHighlight;
   box-sizing: border-box;
   pointer-events:none;
+  background: transparent;
 }
 
 @keyframes fadeIn {
@@ -1463,13 +1463,14 @@ button:hover {
 }
 
 #${HIGHLIGHT_ID} .overlay-info {
+  margin: 0;
+  padding: 2px 4px;
   position: relative;
+  left: -$highlightOffsetpx;
   text-align: left;
-  left: -2px;
-  padding: 1px 4px;
   font-size: $fontSize;
   font-family: $fontFamily;
-  border: 2px solid light-dark($focusBorderColor, $focusBorderDarkColor);
+  border: $borderWidthpx solid light-dark($focusBorderColor, $focusBorderDarkColor);
   background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
   color: light-dark($menuTextColor, $menuTextDarkColor);
   z-index: $zHighlight;
@@ -1536,6 +1537,11 @@ button:hover {
       this.infoElem.className = 'overlay-info';
       this.overlayElem.appendChild(this.infoElem);
 
+      this.borderWidth = 0;
+      this.offset = 0;
+
+      this.msgHeadingIsHidden = 'Heading is hidden';
+
       this.configureStyle();
 
     }
@@ -1566,78 +1572,100 @@ button:hover {
       style = updateOption(style,
                            '$fontFamily',
                            config.fontFamily,
-                           defaultStyleOptions$1.fontFamily);
+                           defaultStyleOptions$2.fontFamily);
 
       style = updateOption(style,
                            '$fontSize',
                            config.fontSize,
-                           defaultStyleOptions$1.fontSize);
+                           defaultStyleOptions$2.fontSize);
 
       style = updateOption(style,
                            '$buttonBackgroundColor',
                            config.buttonBackgroundColor,
-                           defaultStyleOptions$1.buttonBackgroundColor);
+                           defaultStyleOptions$2.buttonBackgroundColor);
 
       style = updateOption(style,
                            '$buttonBackgroundDarkColor',
                            config.buttonBackgroundDarkColor,
-                           defaultStyleOptions$1.buttonBackgroundDarkColor);
+                           defaultStyleOptions$2.buttonBackgroundDarkColor);
 
       style = updateOption(style,
                            '$focusBorderColor',
                            config.focusBorderColor,
-                           defaultStyleOptions$1.focusBorderColor);
+                           defaultStyleOptions$2.focusBorderColor);
 
       style = updateOption(style,
                            '$focusBorderDarkColor',
                            config.focusBorderDarkColor,
-                           defaultStyleOptions$1.focusBorderDarkColor);
+                           defaultStyleOptions$2.focusBorderDarkColor);
 
       style = updateOption(style,
                            '$menuBackgroundColor',
                            config.menuBackgroundColor,
-                           defaultStyleOptions$1.menuBackgroundColor);
+                           defaultStyleOptions$2.menuBackgroundColor);
 
       style = updateOption(style,
                            '$menuBackgroundDarkColor',
                            config.menuBackgroundDarkColor,
-                           defaultStyleOptions$1.menuBackgroundDarkColor);
+                           defaultStyleOptions$2.menuBackgroundDarkColor);
 
       style = updateOption(style,
                            '$menuTextColor',
                            config.menuTextColor,
-                           defaultStyleOptions$1.menuTextColor);
+                           defaultStyleOptions$2.menuTextColor);
 
       style = updateOption(style,
                            '$menuTextDarkColor',
                            config.menuTextDarkColor,
-                           defaultStyleOptions$1.menuTextDarkColor);
+                           defaultStyleOptions$2.menuTextDarkColor);
 
       style = updateOption(style,
                            '$hiddenHeadingColor',
                            config.hiddenHeadingColor,
-                           defaultStyleOptions$1.hiddenHeadingColor);
+                           defaultStyleOptions$2.hiddenHeadingColor);
 
       style = updateOption(style,
                            '$hiddenHeadingDarkColor',
                            config.hiddenHeadingDarkColor,
-                           defaultStyleOptions$1.hiddenHeadingDarkColor);
+                           defaultStyleOptions$2.hiddenHeadingDarkColor);
 
       style = updateOption(style,
                            '$hiddenHeadingBackgroundColor',
                            config.hiddenHeadingBackgroundColor,
-                           defaultStyleOptions$1.hiddenHeadingBackgroundColor);
+                           defaultStyleOptions$2.hiddenHeadingBackgroundColor);
 
       style = updateOption(style,
                            '$hiddenHeadingBackgroundDarkColor',
                            config.hiddenHeadingBackgroundDarkColor,
-                           defaultStyleOptions$1.hiddenHeadingBackgroundDarkColor);
+                           defaultStyleOptions$2.hiddenHeadingBackgroundDarkColor);
 
       style = updateOption(style,
                            '$zHighlight',
                            config.zHighlight,
-                           defaultStyleOptions$1.zHighlight);
+                           defaultStyleOptions$2.zHighlight);
 
+      this.borderWidth = config.highlightBorderWidth ?
+                         parseInt(config.highlightBorderWidth) :
+                         parseInt(defaultStyleOptions$2.highlightBorderWidth);
+
+      this.offset      = config.highlightOffset ?
+                         parseInt(config.highlightOffset) :
+                         parseInt(defaultStyleOptions$2.highlightOffset);
+
+      style = updateOption(style,
+                           '$highlightOffset',
+                           this.offset + this.borderWidth,
+                           this.offset + this.borderWidth);
+
+      style = updateOption(style,
+                           '$borderWidth',
+                           this.borderWidth,
+                           this.borderWidth);
+
+      style = updateOption(style,
+                           '$borderContainerWidth',
+                           2 * this.borderWidth,
+                           2 * this.borderWidth);
 
       let styleNode = this.shadowRoot.querySelector('style');
 
@@ -1773,26 +1801,28 @@ button:hover {
 
       let isHidden = false;
 
-      const rectLeft  = rect.left > offset ?
-                      Math.round(rect.left - offset + window.scrollX) :
+      const offsetBorder = this.offset + 2 * this.borderWidth;
+
+      const rectLeft  = rect.left > this.offset ?
+                      Math.round(rect.left + (-1 * offsetBorder) + window.scrollX) :
                       Math.round(rect.left + window.scrollX);
 
       let left = rectLeft;
 
-      const rectWidth  = rect.left > offset ?
-                      Math.max(rect.width  + offset * 2, minWidth) :
+      const rectWidth  = rect.left > this.offset ?
+                      Math.max(rect.width  + (2 * offsetBorder), minWidth) :
                       Math.max(rect.width, minWidth);
 
       let width = rectWidth;
 
-      const rectTop    = rect.top > offset ?
-                      Math.round(rect.top  - offset + window.scrollY) :
+      const rectTop    = rect.top > this.offset ?
+                      Math.round(rect.top  + (-1 * offsetBorder) + window.scrollY) :
                       Math.round(rect.top + window.scrollY);
 
       let top = rectTop;
 
-      const rectHeight   = rect.top > offset ?
-                      Math.max(rect.height + offset * 2, minHeight) :
+      const rectHeight   = rect.top > this.offset ?
+                      Math.max(rect.height + (2 * offsetBorder), minHeight) :
                       Math.max(rect.height, minHeight);
 
       let height = rectHeight;
@@ -1807,29 +1837,33 @@ button:hover {
           const parentRect = element.parentNode.getBoundingClientRect();
 
           if ((parentRect.top > 0) && (parentRect.left > 0)) {
-            top = parentRect.top > offset ?
-                      Math.round(parentRect.top  - offset + window.scrollY) :
+            top = parentRect.top > this.offset ?
+                      Math.round(parentRect.top  - this.offset + window.scrollY) :
                       Math.round(parentRect.top + window.scrollY);
-            left = parentRect.left > offset ?
-                      Math.round(parentRect.left - offset + window.scrollX) :
+            left = parentRect.left > this.offset ?
+                      Math.round(parentRect.left - this.offset + window.scrollX) :
                       Math.round(parentRect.left + window.scrollX);
           }
           else {
-            left = offset;
-            top = offset;
+            left = this.offset;
+            top = this.offset;
           }
         }
         else {
-          left = offset;
-          top = offset;
+          left = this.offset;
+          top = this.offset;
         }
       }
 
+      const borderElemOffset = -2 * this.borderWidth;
+
       this.overlayElem.style.left   = left   + 'px';
       this.overlayElem.style.top    = top    + 'px';
+      this.borderElem.style.left   = borderElemOffset + 'px';
+      this.borderElem.style.top    = borderElemOffset + 'px';
 
       if (isHidden) {
-        this.borderElem.textContent = 'Heading is hidden';
+        this.borderElem.textContent = this.msgHeadingIsHidden;
         this.borderElem.classList.add('skip-to-hidden');
         this.overlayElem.style.width  = 'auto';
         this.overlayElem.style.height = 'auto';
@@ -1837,9 +1871,9 @@ button:hover {
         this.borderElem.style.height = 'auto';
         height = this.borderElem.getBoundingClientRect().height;
         width  = this.borderElem.getBoundingClientRect().width;
-        if (rect.top > offset) {
-          height += offset + 2;
-          width += offset + 2;
+        if (rect.top > this.offset) {
+          height += this.offset + this.borderWidth;
+          width += this.offset + this.borderWidth;
         }
       }
       else {
@@ -1847,8 +1881,8 @@ button:hover {
         this.borderElem.classList.remove('skip-to-hidden');
         this.overlayElem.style.width  = width  + 'px';
         this.overlayElem.style.height = height + 'px';
-        this.borderElem.style.width  = (width  - 2 * borderWidth) + 'px';
-        this.borderElem.style.height = (height - 2 * borderWidth) + 'px';
+        this.borderElem.style.width  = width  + 'px';
+        this.borderElem.style.height = height + 'px';
       }
 
       this.overlayElem.style.display = 'block';
@@ -1862,7 +1896,8 @@ button:hover {
           this.borderElem.classList.add('hasInfoTop');
           this.infoElem.classList.add('hasInfoTop');
           if (!isHidden) {
-            this.infoElem.style.top = (-1 * (height + this.infoElem.getBoundingClientRect().height - 2 * borderWidth)) + 'px';
+            this.infoElem.style.top = (-1 * (height + this.infoElem.getBoundingClientRect().height + this.borderWidth))  + 'px';
+            this.infoElem.style.left = -2 * this.borderWidth + 'px';
           }
           else {
             this.infoElem.style.top = (-1 * (this.infoElem.getBoundingClientRect().height + this.borderElem.getBoundingClientRect().height)) + 'px';
@@ -1873,7 +1908,8 @@ button:hover {
           this.infoElem.classList.remove('hasInfoTop');
           this.borderElem.classList.add('hasInfoBottom');
           this.infoElem.classList.add('hasInfoBottom');
-          this.infoElem.style.top = -2 + 'px';
+          this.infoElem.style.top  = -3 * this.borderWidth + 'px';
+          this.infoElem.style.left = -2 * this.borderWidth + 'px';
         }
         return this.infoElem;
       }
@@ -1891,7 +1927,7 @@ button:hover {
   const debug$8 = new DebugLogging('[shortcutsMessage]', false);
   debug$8.flag = false;
 
-  const defaultStyleOptions = colorThemes['default'];
+  const defaultStyleOptions$1 = colorThemes['default'];
 
   const styleTemplate = document.createElement('template');
   styleTemplate.textContent = `
@@ -2021,53 +2057,53 @@ button:hover {
       style = updateOption(style,
                            '$fontFamily',
                            config.fontFamily,
-                           defaultStyleOptions.fontFamily);
+                           defaultStyleOptions$1.fontFamily);
 
       style = updateOption(style,
                            '$fontSize',
                            config.fontSize,
-                           defaultStyleOptions.fontSize);
+                           defaultStyleOptions$1.fontSize);
 
       style = updateOption(style,
                            '$focusBorderColor',
                            config.focusBorderColor,
-                           defaultStyleOptions.focusBorderColor);
+                           defaultStyleOptions$1.focusBorderColor);
 
       style = updateOption(style,
                            '$focusBorderDarkColor',
                            config.focusBorderDarkColor,
-                           defaultStyleOptions.focusBorderDarkColor);
+                           defaultStyleOptions$1.focusBorderDarkColor);
 
 
       style = updateOption(style,
                            '$dialogTextColor',
                            config.dialogTextColor,
-                           defaultStyleOptions.dialogTextColor);
+                           defaultStyleOptions$1.dialogTextColor);
 
       style = updateOption(style,
                            '$dialogTextDarkColor',
                            config.dialogTextDarkColor,
-                           defaultStyleOptions.dialogTextDarkColor);
+                           defaultStyleOptions$1.dialogTextDarkColor);
 
       style = updateOption(style,
                            '$dialogBackgroundColor',
                            config.dialogBackgroundColor,
-                           defaultStyleOptions.dialogBackgroundColor);
+                           defaultStyleOptions$1.dialogBackgroundColor);
 
       style = updateOption(style,
                            '$dialogBackgroundDarkColor',
                            config.dialogBackgroundDarkColor,
-                           defaultStyleOptions.dialogBackgroundDarkColor);
+                           defaultStyleOptions$1.dialogBackgroundDarkColor);
 
       style = updateOption(style,
                            '$dialogBackgroundTitleColor',
                            config.dialogBackgroundTitleColor,
-                           defaultStyleOptions.dialogBackgroundTitleColor);
+                           defaultStyleOptions$1.dialogBackgroundTitleColor);
 
       style = updateOption(style,
                            '$dialogBackgroundTitleDarkColor',
                            config.dialogBackgroundTitleDarkColor,
-                           defaultStyleOptions.dialogBackgroundTitleDarkColor);
+                           defaultStyleOptions$1.dialogBackgroundTitleDarkColor);
 
       let styleNode = this.shadowRoot.querySelector('style');
 
@@ -3268,6 +3304,7 @@ button:hover {
     let navElements = [];
     let asideElements = [];
     let footerElements = [];
+    let headerElements = [];
     let regionElements = [];
     let otherElements = [];
     let dataId = '';
@@ -3347,10 +3384,19 @@ button:hover {
           case 'footer':
             footerElements.push(landmarkItem);
             break;
+          case 'header':
+            headerElements.push(landmarkItem);
+            break;
           case 'section':
             // Regions must have accessible name to be included
             if (landmarkItem.hasName) {
               regionElements.push(landmarkItem);
+            }
+            break;
+          case 'form':
+            // Forms must have accessible name to be included
+            if (landmarkItem.hasName) {
+              otherElements.push(landmarkItem);
             }
             break;
           default:
@@ -3362,7 +3408,7 @@ button:hover {
     if (config.landmarks.includes('doc-order')) {
       return allElements;
     }
-    return [].concat(mainElements, searchElements, navElements, asideElements, regionElements, footerElements, otherElements);
+    return [].concat(mainElements, searchElements, navElements, asideElements, regionElements, footerElements, headerElements, otherElements);
   }
 
   /* shortcuts.js */
@@ -5119,17 +5165,19 @@ button:hover {
   const debug$1 = new DebugLogging('skiptoContent', false);
   debug$1.flag = false;
 
-  /* @class SkipToContent574
+  const defaultStyleOptions = colorThemes['default'];
+
+  /* @class SkipToContent575
    *
    */
 
-  class SkipToContent574 extends HTMLElement {
+  class SkipToContent575 extends HTMLElement {
 
     constructor() {
       // Always call super first in constructor
       super();
       this.attachShadow({ mode: 'open' });
-      this.version = "5.7.4";
+      this.version = "5.7.5";
       this.buttonSkipTo = false;
       this.initialized = false;
 
@@ -5242,6 +5290,8 @@ button:hover {
 
         // Highlight options
         highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
+        highlightBorderWidth : defaultStyleOptions.highlightBorderWidth,
+        highlightOffset: defaultStyleOptions.highlightOffset,
 
         // Hidden heading when highlighting
         msgHidden: 'Heading is hidden',
@@ -5617,7 +5667,7 @@ button:hover {
           if (!isExtensionLoaded) {
             if (!isBookmarkletLoaded) {
               removePageSkipTo();
-              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent574);
+              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent575);
               skipToContentElem = document.createElement(BOOKMARKLET_ELEMENT_NAME);
               skipToContentElem.setAttribute('version', skipToContentElem.version);
               skipToContentElem.setAttribute('type', type);
@@ -5633,7 +5683,7 @@ button:hover {
           if (!isExtensionLoaded) {
             removePageSkipTo();
             removeBookmarkletSkipTo();
-            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent574);
+            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent575);
             skipToContentElem = document.createElement(EXTENSION_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
@@ -5646,7 +5696,7 @@ button:hover {
 
         default:
           if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
-            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent574);
+            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent575);
             skipToContentElem = document.createElement(PAGE_SCRIPT_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
