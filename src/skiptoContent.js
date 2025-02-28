@@ -110,6 +110,7 @@ export default class SkipToContent575 extends HTMLElement {
       msgPreviousRegion: 'Previous region',
       msgNextHeading: 'Next heading',
       msgPreviousHeading: 'Previous heading',
+      msgHeadingIsHidden: 'Heading is hidden Config',
 
       msgMainRegions: 'Main regions',
       msgNavigationRegions: 'Navigation regions',
@@ -157,7 +158,6 @@ export default class SkipToContent575 extends HTMLElement {
       highlightOffset: defaultStyleOptions.highlightOffset,
 
       // Hidden heading when highlighting
-      msgHidden: 'Heading is hidden',
       hiddenHeadingColor: '#000000',
       hiddenHeadingDarkColor: '#000000',
       hiddenHeadingBackgroundColor: '#ffcc00',

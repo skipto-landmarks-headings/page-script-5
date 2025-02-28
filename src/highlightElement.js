@@ -28,7 +28,7 @@ styleHighlightTemplate.textContent = `
   margin: 0;
   padding: 0;
   position: absolute;
-  border-radius: 3px;
+  border-radius: $highlightOffsetpx;
   border: $borderContainerWidthpx solid light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
   box-sizing: border-box;
   pointer-events:none;
@@ -39,7 +39,7 @@ styleHighlightTemplate.textContent = `
   margin: 0;
   padding: 0;
   position: relative;
-  border-radius: 3px 3px 3px 3px;
+  border-radius: $highlightOffsetpx;
   border: $borderWidthpx solid light-dark($focusBorderColor, $focusBorderDarkColor);
   z-index: $zHighlight;
   box-sizing: border-box;
@@ -65,18 +65,17 @@ styleHighlightTemplate.textContent = `
 }
 
 #${HIGHLIGHT_ID} .overlay-border.hasInfoBottom {
-  border-radius: 3px 3px 3px 0;
+  border-radius: $highlightOffsetpx $highlightOffsetpx $highlightOffsetpx 0;
 }
 
 #${HIGHLIGHT_ID} .overlay-border.hasInfoTop {
-  border-radius: 0 3px 3px 3px;
+  border-radius: 0 $highlightOffsetpx $highlightOffsetpx $highlightOffsetpx;
 }
 
 #${HIGHLIGHT_ID} .overlay-info {
   margin: 0;
   padding: 2px 4px;
   position: relative;
-  left: -$highlightOffsetpx;
   text-align: left;
   font-size: $fontSize;
   font-family: $fontFamily;
@@ -90,11 +89,11 @@ styleHighlightTemplate.textContent = `
 }
 
 #${HIGHLIGHT_ID} .overlay-info.hasInfoTop {
-  border-radius: 3px 3px 0 0;
+  border-radius: $highlightOffsetpx $highlightOffsetpx 0 0;
 }
 
 #${HIGHLIGHT_ID} .overlay-info.hasInfoBottom {
-  border-radius: 0 0 3px 3px;
+  border-radius: 0 0 $highlightOffsetpx $highlightOffsetpx;
 }
 
 @media (forced-colors: active) {
@@ -150,7 +149,7 @@ export default class HighlightElement extends HTMLElement {
     this.borderWidth = 0;
     this.offset = 0;
 
-    this.msgHeadingIsHidden = 'Heading is hidden';
+    this.msgHeadingIsHidden = '';
 
     this.configureStyle();
 
@@ -175,6 +174,12 @@ export default class HighlightElement extends HTMLElement {
         return style.replaceAll(option, defaultOption);
       }
     }
+
+    // Get i18n Messages
+
+    this.msgHeadingIsHidden = typeof config.msgHeadingIsHidden === 'string' ?
+                            config.msgHeadingIsHidden :
+                            'Heading is hidden';
 
     // make a copy of the template
     let style = styleHighlightTemplate.textContent.slice(0);
@@ -264,8 +269,8 @@ export default class HighlightElement extends HTMLElement {
 
     style = updateOption(style,
                          '$highlightOffset',
-                         this.offset + this.borderWidth,
-                         this.offset + this.borderWidth);
+                         this.offset,
+                         this.offset);
 
     style = updateOption(style,
                          '$borderWidth',

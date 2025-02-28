@@ -94,6 +94,7 @@ const i18nOptions = {
   msgPreviousRegion:  browserI18n.getMessage('init_msg_previous_region'),
   msgNextHeading:     browserI18n.getMessage('init_msg_next_heading'),
   msgPreviousHeading: browserI18n.getMessage('init_msg_previous_heading'),
+  msgHeadingIsHidden: browserI18n.getMessage('init_msg_heading_is_hidden'),
 
   msgMainRegions:          browserI18n.getMessage('init_msg_main_regions'),
   msgNavigationRegions:    browserI18n.getMessage('init_msg_navigation_regions'),

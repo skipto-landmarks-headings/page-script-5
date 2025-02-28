@@ -45,8 +45,8 @@
       zIndex: '2000000',
       zHighlight: '1999900',
       displayOption: 'fixed',
-      highlightBorderWidth: '2',
-      highlightOffset: '6'
+      highlightBorderWidth: '4',
+      highlightOffset: '4'
     },
     'aria': {
       hostnameSelector: 'w3.org',
@@ -1418,7 +1418,7 @@ button:hover {
   margin: 0;
   padding: 0;
   position: absolute;
-  border-radius: 3px;
+  border-radius: $highlightOffsetpx;
   border: $borderContainerWidthpx solid light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
   box-sizing: border-box;
   pointer-events:none;
@@ -1429,7 +1429,7 @@ button:hover {
   margin: 0;
   padding: 0;
   position: relative;
-  border-radius: 3px 3px 3px 3px;
+  border-radius: $highlightOffsetpx;
   border: $borderWidthpx solid light-dark($focusBorderColor, $focusBorderDarkColor);
   z-index: $zHighlight;
   box-sizing: border-box;
@@ -1455,18 +1455,17 @@ button:hover {
 }
 
 #${HIGHLIGHT_ID} .overlay-border.hasInfoBottom {
-  border-radius: 3px 3px 3px 0;
+  border-radius: $highlightOffsetpx $highlightOffsetpx $highlightOffsetpx 0;
 }
 
 #${HIGHLIGHT_ID} .overlay-border.hasInfoTop {
-  border-radius: 0 3px 3px 3px;
+  border-radius: 0 $highlightOffsetpx $highlightOffsetpx $highlightOffsetpx;
 }
 
 #${HIGHLIGHT_ID} .overlay-info {
   margin: 0;
   padding: 2px 4px;
   position: relative;
-  left: -$highlightOffsetpx;
   text-align: left;
   font-size: $fontSize;
   font-family: $fontFamily;
@@ -1480,11 +1479,11 @@ button:hover {
 }
 
 #${HIGHLIGHT_ID} .overlay-info.hasInfoTop {
-  border-radius: 3px 3px 0 0;
+  border-radius: $highlightOffsetpx $highlightOffsetpx 0 0;
 }
 
 #${HIGHLIGHT_ID} .overlay-info.hasInfoBottom {
-  border-radius: 0 0 3px 3px;
+  border-radius: 0 0 $highlightOffsetpx $highlightOffsetpx;
 }
 
 @media (forced-colors: active) {
@@ -1540,7 +1539,7 @@ button:hover {
       this.borderWidth = 0;
       this.offset = 0;
 
-      this.msgHeadingIsHidden = 'Heading is hidden';
+      this.msgHeadingIsHidden = '';
 
       this.configureStyle();
 
@@ -1565,6 +1564,12 @@ button:hover {
           return style.replaceAll(option, defaultOption);
         }
       }
+
+      // Get i18n Messages
+
+      this.msgHeadingIsHidden = typeof config.msgHeadingIsHidden === 'string' ?
+                              config.msgHeadingIsHidden :
+                              'Heading is hidden';
 
       // make a copy of the template
       let style = styleHighlightTemplate.textContent.slice(0);
@@ -1654,8 +1659,8 @@ button:hover {
 
       style = updateOption(style,
                            '$highlightOffset',
-                           this.offset + this.borderWidth,
-                           this.offset + this.borderWidth);
+                           this.offset,
+                           this.offset);
 
       style = updateOption(style,
                            '$borderWidth',
@@ -5247,6 +5252,7 @@ button:hover {
         msgPreviousRegion: 'Previous region',
         msgNextHeading: 'Next heading',
         msgPreviousHeading: 'Previous heading',
+        msgHeadingIsHidden: 'Heading is hidden Config',
 
         msgMainRegions: 'Main regions',
         msgNavigationRegions: 'Navigation regions',
@@ -5294,7 +5300,6 @@ button:hover {
         highlightOffset: defaultStyleOptions.highlightOffset,
 
         // Hidden heading when highlighting
-        msgHidden: 'Heading is hidden',
         hiddenHeadingColor: '#000000',
         hiddenHeadingDarkColor: '#000000',
         hiddenHeadingBackgroundColor: '#ffcc00',
