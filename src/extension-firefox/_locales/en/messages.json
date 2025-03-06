@@ -192,7 +192,7 @@
     "description" : "Initial value of previous heading message"
   },
   "init_msg_heading_is_hidden": {
-    "message" : "Heading is hidden i18n",
+    "message" : "Heading is hidden",
     "description" : "Initial value of heading is missing message"
   },
   "init_msg_main_regions": {
