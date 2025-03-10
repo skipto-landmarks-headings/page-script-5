@@ -40,7 +40,14 @@ const defaultShortcutOptions = {
 const defaultMenuOptions = {
   headings: 'main-only h1 h2',
   landmarks: 'main search navigation complementary',
-  highlightTarget: 'instant'
+};
+
+const defaultHighlightOptions = {
+  highlightTarget: 'instant',
+  highlightBorder: 'small',
+  highlightBorderWidth: '2',
+  highlightBorderContrast: '1',
+  highlightOffset: '4'
 };
 
 const defaultStyleOptions = {
@@ -52,7 +59,7 @@ const defaultStyleOptions = {
   menuTextColor: '#13294b',
   menuBackgroundColor: '#dddddd',
   menuitemFocusTextColor: '#dddddd',
-  menuitemFocusBackgroundColor: '#13294b'
+  menuitemFocusBackgroundColor: '#13294b',
 };
 
 const i18nOptions = {
@@ -119,7 +126,7 @@ const i18nOptions = {
 
 };
 
-const defaultOptions = Object.assign({}, defaultButtonOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions, defaultShortcutOptions);
+const defaultOptions = Object.assign({}, defaultButtonOptions, defaultHighlightOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions, defaultShortcutOptions);
 
 function hasAllProperties (refObj, srcObj) {
   for (const key of Object.keys(refObj)) {
@@ -197,6 +204,17 @@ export function resetDefaultOptions () {
 export function resetDefaultButtonOptions () {
   return new Promise (function (resolve, reject) {
     browserStorage.set(defaultButtonOptions, function () {
+      if (notLastError()) { resolve() }
+    });
+  });
+}
+
+/*
+** resetDefaultHighlightOptions
+*/
+export function resetDefaultHighlightOptions () {
+  return new Promise (function (resolve, reject) {
+    browserStorage.set(defaultHighlightOptions, function () {
       if (notLastError()) { resolve() }
     });
   });

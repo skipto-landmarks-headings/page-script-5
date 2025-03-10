@@ -45,8 +45,8 @@
       zIndex: '2000000',
       zHighlight: '1999900',
       displayOption: 'fixed',
-      highlightBorderWidth: '2',
-      highlightBorderContrast: '1',
+      highlightBorderWidth: '1',
+      highlightBorderContrast: '0',
       highlightOffset: '4'
     },
     'aria': {
@@ -1426,11 +1426,13 @@ button:hover {
   z-index: $zHighlight;
 }
 
-#${HIGHLIGHT_ID}.hasInfoBottom {
+#${HIGHLIGHT_ID}.hasInfoBottom,
+#${HIGHLIGHT_ID} .overlay-border.hasInfoBottom {
   border-radius: $highlightOffsetpx $highlightOffsetpx $highlightOffsetpx 0;
 }
 
-#${HIGHLIGHT_ID}.hasInfoTop {
+#${HIGHLIGHT_ID}.hasInfoTop,
+#${HIGHLIGHT_ID} .overlay-border.hasInfoTop {
   border-radius: 0 $highlightOffsetpx $highlightOffsetpx $highlightOffsetpx;
 }
 
@@ -1814,13 +1816,14 @@ button:hover {
         if (adjRect.top >= infoElemRect.height) {
           // Info is displayed above the highlighted element (e.g. most of the time)
           this.overlayElem.classList.remove('hasInfoBottom');
+          this.borderElem.classList.remove('hasInfoBottom');
           this.infoElem.classList.remove('hasInfoBottom');
           this.overlayElem.classList.add('hasInfoTop');
+          this.borderElem.classList.add('hasInfoTop');
           this.infoElem.classList.add('hasInfoTop');
           this.infoElem.style.top =  (-1 * (adjRect.height +
                                            infoElemRect.height +
                                            borderWidth))  + 'px';
-          this.infoElem.style.left = -2 * borderWidth + 'px';
         }
         else {
           // Info is displayed below the highlighted element when it is at the top of
@@ -1829,8 +1832,10 @@ button:hover {
           const infoElemOffsetTop  = -1 * (borderWidth + borderContrast);
 
           this.overlayElem.classList.remove('hasInfoTop');
+          this.borderElem.classList.remove('hasInfoTop');
           this.infoElem.classList.remove('hasInfoTop');
           this.overlayElem.classList.add('hasInfoBottom');
+          this.borderElem.classList.add('hasInfoBottom');
           this.infoElem.classList.add('hasInfoBottom');
           this.infoElem.style.top  = infoElemOffsetTop + 'px';
         }
@@ -1839,6 +1844,8 @@ button:hover {
       else {
         this.overlayElem.classList.remove('hasInfoTop');
         this.overlayElem.classList.remove('hasInfoBottom');
+        this.borderElem.classList.remove('hasInfoTop');
+        this.borderElem.classList.remove('hasInfoBottom');
         this.infoElem.style.display = 'none';
         return this.overlayElem;
       }

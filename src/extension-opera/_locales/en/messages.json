@@ -275,6 +275,10 @@
     "message" : "Button",
     "description" : "Title of button tab"
   },
+  "options_tab_highlight": {
+    "message" : "Highlight",
+    "description" : "Title of highlight tab"
+  },
   "options_tab_menu": {
     "message" : "Menu",
     "description" : "Title of menu tab"
@@ -419,6 +423,10 @@
     "message" : "Highlight Content when navigating menu options",
     "description" : "Fieldset label for highlight content"
   },
+  "options_highlight_border_legend": {
+    "message" : "Highlight border size",
+    "description" : "Fieldset label for highlight border size"
+  },
   "options_highlight_disabled_label": {
     "message" : "None",
     "description" : "Checkbox label for disabling highlight"
@@ -430,6 +438,22 @@
   "options_highlight_smooth_label": {
     "message" : "Scroll smoothly to menu target",
     "description" : "Checkbox label for smooth highlight option"
+  },
+  "options_highlight_border_small_label": {
+    "message" : "Small",
+    "description" : "Highlight border small option"
+  },
+  "options_highlight_border_medium_label": {
+    "message" : "Medium",
+    "description" : "Highlight border medium option"
+  },
+  "options_highlight_border_large_label": {
+    "message" : "Large",
+    "description" : "Highlight border large option"
+  },
+  "options_highlight_border_x_large_label": {
+    "message" : "Extra Large",
+    "description" : "Highlight border extra large option"
   },
   "options_legend_button_labels": {
     "message" : "Button Labels",
@@ -522,6 +546,10 @@
   "options_button_button_content_reset" : {
     "message" : "Reset Button Defaults",
     "description" : "Label for reset button defaults button"
+  },
+  "options_highlight_button_content_reset" : {
+    "message" : "Reset Highlight Defaults",
+    "description" : "Label for reset button defaults highlighting"
   },
   "options_button_border_legend": {
     "message" : "Button Visibility",

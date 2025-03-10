@@ -25,8 +25,8 @@ export const colorThemes = {
     zIndex: '2000000',
     zHighlight: '1999900',
     displayOption: 'fixed',
-    highlightBorderWidth: '2',
-    highlightBorderContrast: '1',
+    highlightBorderWidth: '1',
+    highlightBorderContrast: '0',
     highlightOffset: '4'
   },
   'aria': {

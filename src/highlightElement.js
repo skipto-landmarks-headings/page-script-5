@@ -35,11 +35,13 @@ styleHighlightTemplate.textContent = `
   z-index: $zHighlight;
 }
 
-#${HIGHLIGHT_ID}.hasInfoBottom {
+#${HIGHLIGHT_ID}.hasInfoBottom,
+#${HIGHLIGHT_ID} .overlay-border.hasInfoBottom {
   border-radius: $highlightOffsetpx $highlightOffsetpx $highlightOffsetpx 0;
 }
 
-#${HIGHLIGHT_ID}.hasInfoTop {
+#${HIGHLIGHT_ID}.hasInfoTop,
+#${HIGHLIGHT_ID} .overlay-border.hasInfoTop {
   border-radius: 0 $highlightOffsetpx $highlightOffsetpx $highlightOffsetpx;
 }
 
@@ -423,13 +425,14 @@ export default class HighlightElement extends HTMLElement {
       if (adjRect.top >= infoElemRect.height) {
         // Info is displayed above the highlighted element (e.g. most of the time)
         this.overlayElem.classList.remove('hasInfoBottom');
+        this.borderElem.classList.remove('hasInfoBottom');
         this.infoElem.classList.remove('hasInfoBottom');
         this.overlayElem.classList.add('hasInfoTop');
+        this.borderElem.classList.add('hasInfoTop');
         this.infoElem.classList.add('hasInfoTop');
         this.infoElem.style.top =  (-1 * (adjRect.height +
                                          infoElemRect.height +
                                          borderWidth))  + 'px';
-        this.infoElem.style.left = -2 * borderWidth + 'px';
       }
       else {
         // Info is displayed below the highlighted element when it is at the top of
@@ -438,8 +441,10 @@ export default class HighlightElement extends HTMLElement {
         const infoElemOffsetTop  = -1 * (borderWidth + borderContrast);
 
         this.overlayElem.classList.remove('hasInfoTop');
+        this.borderElem.classList.remove('hasInfoTop');
         this.infoElem.classList.remove('hasInfoTop');
         this.overlayElem.classList.add('hasInfoBottom');
+        this.borderElem.classList.add('hasInfoBottom');
         this.infoElem.classList.add('hasInfoBottom');
         this.infoElem.style.top  = infoElemOffsetTop + 'px';
       }
@@ -448,6 +453,8 @@ export default class HighlightElement extends HTMLElement {
     else {
       this.overlayElem.classList.remove('hasInfoTop');
       this.overlayElem.classList.remove('hasInfoBottom');
+      this.borderElem.classList.remove('hasInfoTop');
+      this.borderElem.classList.remove('hasInfoBottom');
       this.infoElem.style.display = 'none';
       return this.overlayElem;
     }
