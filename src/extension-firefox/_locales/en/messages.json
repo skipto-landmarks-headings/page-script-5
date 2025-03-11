@@ -288,7 +288,7 @@
     "description" : "Title of style tab"
   },
   "options_tab_i18n": {
-    "message" : "Internationalization",
+    "message" : "i18n",
     "description" : "Title of internationalization tab"
   },
   "options_button_save" : {
