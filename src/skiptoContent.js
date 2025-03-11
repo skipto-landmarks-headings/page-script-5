@@ -154,9 +154,7 @@ export default class SkipToContent575 extends HTMLElement {
 
       // Highlight options
       highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
-      highlightBorderWidth: defaultStyleOptions.highlightBorderWidth,
-      highlightBorderContrast: defaultStyleOptions.highlightBorderContrast,
-      highlightOffset: defaultStyleOptions.highlightOffset,
+      highlightBorderSize: defaultStyleOptions.highlightBorderSize, // options: 'small', 'medium', 'large', 'x-large'
 
       // Hidden heading when highlighting
       hiddenHeadingColor: '#000000',

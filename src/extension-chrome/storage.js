@@ -44,10 +44,7 @@ const defaultMenuOptions = {
 
 const defaultHighlightOptions = {
   highlightTarget: 'instant',
-  highlightBorder: 'small',
-  highlightBorderWidth: '2',
-  highlightBorderContrast: '1',
-  highlightOffset: '4'
+  highlightBorderSize: 'small',
 };
 
 const defaultStyleOptions = {

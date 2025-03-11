@@ -3,7 +3,6 @@
 ## Version 5.7.5
 * Fixing bug in banner and contentinfo navigation in menu
 * Configuration option for changing the border and offset for highlighting elements
-* Updates to highlight styling
 
 ## Version 5.7.4
 * Added support for dark mode in highlight overlay

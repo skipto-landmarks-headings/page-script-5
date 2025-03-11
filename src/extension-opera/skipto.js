@@ -45,9 +45,7 @@
       zIndex: '2000000',
       zHighlight: '1999900',
       displayOption: 'fixed',
-      highlightBorderWidth: '1',
-      highlightBorderContrast: '0',
-      highlightOffset: '4'
+      highlightBorderSize: 'small'
     },
     'aria': {
       hostnameSelector: 'w3.org',
@@ -1592,11 +1590,6 @@ button:hover {
                            defaultStyleOptions$2.fontFamily);
 
       style = updateOption(style,
-                           '$fontSize',
-                           config.fontSize,
-                           defaultStyleOptions$2.fontSize);
-
-      style = updateOption(style,
                            '$buttonBackgroundColor',
                            config.buttonBackgroundColor,
                            defaultStyleOptions$2.buttonBackgroundColor);
@@ -1661,18 +1654,51 @@ button:hover {
                            config.zHighlight,
                            defaultStyleOptions$2.zHighlight);
 
-      this.borderWidth = config.highlightBorderWidth ?
-                         parseInt(config.highlightBorderWidth) :
-                         parseInt(defaultStyleOptions$2.highlightBorderWidth);
+      const highlightBorderSize =  config.highlightBorderSize ?
+                                   config.highlightBorderSize :
+                                   defaultStyleOptions$2.highlightBorderSize;
 
-      this.borderContrast = config.highlightBorderContrast ?
-                         parseInt(config.highlightBorderContrast) :
-                         parseInt(defaultStyleOptions$2.highlightBorderContrast);
+      switch (highlightBorderSize) {
+        case 'small':
+          this.borderWidth = 2;
+          this.borderContrast = 1;
+          this.offset = 4;
+          this.fontSize = '12pt';
+          break;
 
+        case 'medium':
+          this.borderWidth = 3;
+          this.borderContrast = 2;
+          this.offset = 4;
+          this.fontSize = '13pt';
+          break;
 
-      this.offset      = config.highlightOffset ?
-                         parseInt(config.highlightOffset) :
-                         parseInt(defaultStyleOptions$2.highlightOffset);
+        case 'large':
+          this.borderWidth = 4;
+          this.borderContrast = 3;
+          this.offset = 6;
+           this.fontSize = '14pt';
+         break;
+
+        case 'x-large':
+          this.borderWidth = 6;
+          this.borderContrast = 3;
+          this.offset = 8;
+          this.fontSize = '16pt';
+          break;
+
+        default:
+          this.borderWidth = 2;
+          this.borderContrast = 1;
+          this.offset = 4;
+          this.fontSize = '12pt';
+          break;
+      }
+
+      style = updateOption(style,
+                           '$fontSize',
+                           this.fontSize,
+                           defaultStyleOptions$2.fontSize);
 
       style = updateOption(style,
                            '$highlightOffset',
@@ -5366,9 +5392,7 @@ button:hover {
 
         // Highlight options
         highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
-        highlightBorderWidth: defaultStyleOptions.highlightBorderWidth,
-        highlightBorderContrast: defaultStyleOptions.highlightBorderContrast,
-        highlightOffset: defaultStyleOptions.highlightOffset,
+        highlightBorderSize: defaultStyleOptions.highlightBorderSize, // options: 'small', 'medium', 'large', 'x-large'
 
         // Hidden heading when highlighting
         hiddenHeadingColor: '#000000',

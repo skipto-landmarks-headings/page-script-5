@@ -201,11 +201,6 @@ export default class HighlightElement extends HTMLElement {
                          defaultStyleOptions.fontFamily);
 
     style = updateOption(style,
-                         '$fontSize',
-                         config.fontSize,
-                         defaultStyleOptions.fontSize);
-
-    style = updateOption(style,
                          '$buttonBackgroundColor',
                          config.buttonBackgroundColor,
                          defaultStyleOptions.buttonBackgroundColor);
@@ -270,18 +265,51 @@ export default class HighlightElement extends HTMLElement {
                          config.zHighlight,
                          defaultStyleOptions.zHighlight);
 
-    this.borderWidth = config.highlightBorderWidth ?
-                       parseInt(config.highlightBorderWidth) :
-                       parseInt(defaultStyleOptions.highlightBorderWidth);
+    const highlightBorderSize =  config.highlightBorderSize ?
+                                 config.highlightBorderSize :
+                                 defaultStyleOptions.highlightBorderSize;
 
-    this.borderContrast = config.highlightBorderContrast ?
-                       parseInt(config.highlightBorderContrast) :
-                       parseInt(defaultStyleOptions.highlightBorderContrast);
+    switch (highlightBorderSize) {
+      case 'small':
+        this.borderWidth = 2;
+        this.borderContrast = 1;
+        this.offset = 4;
+        this.fontSize = '12pt';
+        break;
 
+      case 'medium':
+        this.borderWidth = 3;
+        this.borderContrast = 2;
+        this.offset = 4;
+        this.fontSize = '13pt';
+        break;
 
-    this.offset      = config.highlightOffset ?
-                       parseInt(config.highlightOffset) :
-                       parseInt(defaultStyleOptions.highlightOffset);
+      case 'large':
+        this.borderWidth = 4;
+        this.borderContrast = 3;
+        this.offset = 6;
+         this.fontSize = '14pt';
+       break;
+
+      case 'x-large':
+        this.borderWidth = 6;
+        this.borderContrast = 3;
+        this.offset = 8;
+        this.fontSize = '16pt';
+        break;
+
+      default:
+        this.borderWidth = 2;
+        this.borderContrast = 1;
+        this.offset = 4;
+        this.fontSize = '12pt';
+        break;
+    }
+
+    style = updateOption(style,
+                         '$fontSize',
+                         this.fontSize,
+                         defaultStyleOptions.fontSize);
 
     style = updateOption(style,
                          '$highlightOffset',

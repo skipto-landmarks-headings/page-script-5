@@ -96,7 +96,7 @@ optionsHighlightTemplate.innerHTML = `
                  type="radio"
                  name="border"
                  value="small"
-                 data-option="highlightBorder"/>
+                 data-option="highlightBorderSize"/>
           <span data-i18n="options_highlight_border_small_label">
             X
           </span>
@@ -108,7 +108,7 @@ optionsHighlightTemplate.innerHTML = `
                  type="radio"
                  name="border"
                  value="medium"
-                 data-option="highlightBorder"/>
+                 data-option="highlightBorderSize"/>
           <span data-i18n="options_highlight_border_medium_label">
             X
           </span>
@@ -120,7 +120,7 @@ optionsHighlightTemplate.innerHTML = `
                  type="radio"
                  name="border"
                  value="large"
-                 data-option="highlightBorder"/>
+                 data-option="highlightBorderSize"/>
           <span data-i18n="options_highlight_border_large_label">
             X
           </span>
@@ -132,7 +132,7 @@ optionsHighlightTemplate.innerHTML = `
                  type="radio"
                  name="border"
                  value="x-large"
-                 data-option="highlightBorder"/>
+                 data-option="highlightBorderSize"/>
           <span data-i18n="options_highlight_border_x_large_label">
             X
           </span>
@@ -259,39 +259,6 @@ class OptionsHighlight extends HTMLElement {
         const option = input.getAttribute('data-option');
         if (input.type === 'radio' && input.checked) {
           options[option] = input.value;
-
-          if ((option === 'highlightBorder') && input.checked) {
-            debug && console.log(`['highlightBorder']: ${input.value}`);
-            switch (input.value) {
-              case 'small':
-                options['highlightBorderWidth'] = '2';
-                options['highlightBorderContrast'] = '1';
-                options['highlightOffset'] = '4';
-                break;
-
-              case 'medium':
-                options['highlightBorderWidth'] = '3';
-                options['highlightBorderContrast'] = '2';
-                options['highlightOffset'] = '4';
-                break;
-
-              case 'large':
-                options['highlightBorderWidth'] = '4';
-                options['highlightBorderContrast'] = '3';
-                options['highlightOffset'] = '4';
-                break;
-
-              case 'x-large':
-                options['highlightBorderWidth'] = '6';
-                options['highlightBorderContrast'] = '3';
-                options['highlightOffset'] = '4';
-                break;
-
-              default:
-                break;
-
-            }
-          }
         }
 
       });
