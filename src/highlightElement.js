@@ -50,7 +50,7 @@ styleHighlightTemplate.textContent = `
   padding: 0;
   position: relative;
   border-radius: $highlightOffsetpx;
-  border: $overlayBorderWidthpx solid light-dark($focusBorderColor, $focusBorderDarkColor);
+  border: $overlayBorderWidthpx $highlightBorderStyle light-dark($focusBorderColor, $focusBorderDarkColor);
   z-index: $zHighlight;
   box-sizing: border-box;
   pointer-events:none;
@@ -264,6 +264,11 @@ export default class HighlightElement extends HTMLElement {
                          '$zHighlight',
                          config.zHighlight,
                          defaultStyleOptions.zHighlight);
+
+    style = updateOption(style,
+                         '$highlightBorderStyle',
+                         config.highlightBorderStyle,
+                         defaultStyleOptions.highlightBorderStyle);
 
     const highlightBorderSize =  config.highlightBorderSize ?
                                  config.highlightBorderSize :

@@ -45,7 +45,9 @@
       zIndex: '2000000',
       zHighlight: '1999900',
       displayOption: 'fixed',
-      highlightBorderSize: 'small'
+      highlightTarget: 'instant',
+      highlightBorderSize: 'small',
+      highlightBorderStyle: 'solid'
     },
     'aria': {
       hostnameSelector: 'w3.org',
@@ -1439,7 +1441,7 @@ button:hover {
   padding: 0;
   position: relative;
   border-radius: $highlightOffsetpx;
-  border: $overlayBorderWidthpx solid light-dark($focusBorderColor, $focusBorderDarkColor);
+  border: $overlayBorderWidthpx $highlightBorderStyle light-dark($focusBorderColor, $focusBorderDarkColor);
   z-index: $zHighlight;
   box-sizing: border-box;
   pointer-events:none;
@@ -1653,6 +1655,11 @@ button:hover {
                            '$zHighlight',
                            config.zHighlight,
                            defaultStyleOptions$2.zHighlight);
+
+      style = updateOption(style,
+                           '$highlightBorderStyle',
+                           config.highlightBorderStyle,
+                           defaultStyleOptions$2.highlightBorderStyle);
 
       const highlightBorderSize =  config.highlightBorderSize ?
                                    config.highlightBorderSize :
@@ -5344,9 +5351,13 @@ button:hover {
         msgKey: 'Key',
         msgDescription: 'Description',
 
-        msgNextRegion: 'Next region',
+        msgElementHidden: 'Element is hidden',
+
+        msgNextRegion:     'Next region',
         msgPreviousRegion: 'Previous region',
-        msgNextHeading: 'Next heading',
+        msgRegionIsHidden: 'Region is hidden',
+
+        msgNextHeading:     'Next heading',
         msgPreviousHeading: 'Previous heading',
         msgHeadingIsHidden: 'Heading is hidden',
 
@@ -5391,8 +5402,12 @@ button:hover {
         headings: 'main-only h1 h2',
 
         // Highlight options
-        highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
-        highlightBorderSize: defaultStyleOptions.highlightBorderSize, // options: 'small', 'medium', 'large', 'x-large'
+        highlightTarget:      defaultStyleOptions.highlightTarget,
+                              // options: 'instant' (default), 'smooth' and 'auto'
+        highlightBorderSize:  defaultStyleOptions.highlightBorderSize,
+                              // options: 'small' (default), 'medium', 'large', 'x-large'
+        highlightBorderStyle: defaultStyleOptions.highlightBorderStyle,
+                              // options: 'solid' (default), 'dotted', 'dashed'
 
         // Hidden heading when highlighting
         hiddenHeadingColor: '#000000',

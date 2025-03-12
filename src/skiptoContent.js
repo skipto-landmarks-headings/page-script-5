@@ -106,9 +106,13 @@ export default class SkipToContent575 extends HTMLElement {
       msgKey: 'Key',
       msgDescription: 'Description',
 
-      msgNextRegion: 'Next region',
+      msgElementHidden: 'Element is hidden',
+
+      msgNextRegion:     'Next region',
       msgPreviousRegion: 'Previous region',
-      msgNextHeading: 'Next heading',
+      msgRegionIsHidden: 'Region is hidden',
+
+      msgNextHeading:     'Next heading',
       msgPreviousHeading: 'Previous heading',
       msgHeadingIsHidden: 'Heading is hidden',
 
@@ -153,8 +157,12 @@ export default class SkipToContent575 extends HTMLElement {
       headings: 'main-only h1 h2',
 
       // Highlight options
-      highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
-      highlightBorderSize: defaultStyleOptions.highlightBorderSize, // options: 'small', 'medium', 'large', 'x-large'
+      highlightTarget:      defaultStyleOptions.highlightTarget,
+                            // options: 'instant' (default), 'smooth' and 'auto'
+      highlightBorderSize:  defaultStyleOptions.highlightBorderSize,
+                            // options: 'small' (default), 'medium', 'large', 'x-large'
+      highlightBorderStyle: defaultStyleOptions.highlightBorderStyle,
+                            // options: 'solid' (default), 'dotted', 'dashed'
 
       // Hidden heading when highlighting
       hiddenHeadingColor: '#000000',

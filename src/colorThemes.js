@@ -25,7 +25,9 @@ export const colorThemes = {
     zIndex: '2000000',
     zHighlight: '1999900',
     displayOption: 'fixed',
-    highlightBorderSize: 'small'
+    highlightTarget: 'instant',
+    highlightBorderSize: 'small',
+    highlightBorderStyle: 'solid'
   },
   'aria': {
     hostnameSelector: 'w3.org',

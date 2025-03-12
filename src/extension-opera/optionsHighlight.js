@@ -83,62 +83,106 @@ optionsHighlightTemplate.innerHTML = `
 
       </fieldset>
 
-    </div>
-
       <fieldset>
-        <legend data-i18n="options_highlight_border_legend">
+        <legend data-i18n="options_highlight_border_size_legend">
           X
          </legend>
 
         <label class="inline"
-               for="highlight-border-small">
-          <input id="highlight-border-small"
+               for="highlight-border-size-small">
+          <input id="highlight-border-size-small"
                  type="radio"
-                 name="border"
+                 name="size"
                  value="small"
                  data-option="highlightBorderSize"/>
-          <span data-i18n="options_highlight_border_small_label">
+          <span data-i18n="options_highlight_border_size_small_label">
             X
           </span>
         </label>
 
         <label class="inline"
-               for="highlight-border-medium">
-          <input id="highlight-border-medium"
+               for="highlight-border-size-medium">
+          <input id="highlight-border-size-medium"
                  type="radio"
-                 name="border"
+                 name="size"
                  value="medium"
                  data-option="highlightBorderSize"/>
-          <span data-i18n="options_highlight_border_medium_label">
+          <span data-i18n="options_highlight_border_size_medium_label">
             X
           </span>
         </label>
 
         <label class="inline"
-               for="highlight-border-large">
-          <input id="highlight-border-large"
+               for="highlight-border-size-large">
+          <input id="highlight-border-size-large"
                  type="radio"
-                 name="border"
+                 name="size"
                  value="large"
                  data-option="highlightBorderSize"/>
-          <span data-i18n="options_highlight_border_large_label">
+          <span data-i18n="options_highlight_border_size_large_label">
             X
           </span>
         </label>
 
         <label class="inline"
-               for="highlight-border-x-large">
-          <input id="highlight-border-x-large"
+               for="highlight-border-size-x-large">
+          <input id="highlight-border-size-x-large"
                  type="radio"
-                 name="border"
+                 name="size"
                  value="x-large"
                  data-option="highlightBorderSize"/>
-          <span data-i18n="options_highlight_border_x_large_label">
+          <span data-i18n="options_highlight_border_size_x_large_label">
             X
           </span>
         </label>
 
       </fieldset>
+
+
+      <fieldset>
+        <legend data-i18n="options_highlight_border_style_legend">
+          X
+         </legend>
+
+        <label class="inline"
+               for="highlight-border-style-solid">
+          <input id="highlight-border-style-solid"
+                 type="radio"
+                 name="style"
+                 value="solid"
+                 data-option="highlightBorderStyle"/>
+          <span data-i18n="options_highlight_border_style_solid_label">
+            X
+          </span>
+        </label>
+
+        <label class="inline"
+               for="highlight-border-style-dashed">
+          <input id="highlight-border-style-dashed"
+                 type="radio"
+                 name="style"
+                 value="dashed"
+                 data-option="highlightBorderStyle"/>
+          <span data-i18n="options_highlight_border_style_dashed_label">
+            X
+          </span>
+        </label>
+
+        <label class="inline"
+               for="highlight-border-style-dotted">
+          <input id="highlight-border-style-dotted"
+                 type="radio"
+                 name="style"
+                 value="dotted"
+                 data-option="highlightBorderStyle"/>
+          <span data-i18n="options_highlight_border_style_dotted_label">
+            X
+          </span>
+        </label>
+
+      </fieldset>
+
+
 
     </div>
 

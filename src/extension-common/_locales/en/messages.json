@@ -423,9 +423,13 @@
     "message" : "Highlight Content when navigating menu options",
     "description" : "Fieldset label for highlight content"
   },
-  "options_highlight_border_legend": {
+  "options_highlight_border_size_legend": {
     "message" : "Highlight border size",
     "description" : "Fieldset label for highlight border size"
+  },
+  "options_highlight_border_style_legend": {
+    "message" : "Highlight border style",
+    "description" : "Fieldset label for highlight border style"
   },
   "options_highlight_disabled_label": {
     "message" : "None",
@@ -439,21 +443,33 @@
     "message" : "Scroll smoothly to menu target",
     "description" : "Checkbox label for smooth highlight option"
   },
-  "options_highlight_border_small_label": {
+  "options_highlight_border_size_small_label": {
     "message" : "Small",
     "description" : "Highlight border small option"
   },
-  "options_highlight_border_medium_label": {
+  "options_highlight_border_size_medium_label": {
     "message" : "Medium",
     "description" : "Highlight border medium option"
   },
-  "options_highlight_border_large_label": {
+  "options_highlight_border_size_large_label": {
     "message" : "Large",
     "description" : "Highlight border large option"
   },
-  "options_highlight_border_x_large_label": {
+  "options_highlight_border_size_x_large_label": {
     "message" : "Extra Large",
     "description" : "Highlight border extra large option"
+  },
+  "options_highlight_border_style_solid_label": {
+    "message" : "Solid",
+    "description" : "Highlight border style solid option"
+  },
+  "options_highlight_border_style_dashed_label": {
+    "message" : "Dashed",
+    "description" : "Highlight border style dashed option"
+  },
+  "options_highlight_border_style_dotted_label": {
+    "message" : "Dotted",
+    "description" : "Highlight border style dotted option"
   },
   "options_legend_button_labels": {
     "message" : "Button Labels",
