@@ -2022,8 +2022,8 @@ button:hover {
      *   @desc  Hides the highlight element on the page
      */
     removeHighlight() {
-      if (this.overlayElement) {
-        this.overlayElement.style.display = 'none';
+      if (this.overlayElem) {
+        this.overlayElem.style.display = 'none';
       }
     }
 
