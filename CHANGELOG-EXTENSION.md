@@ -3,6 +3,8 @@
 ## Version 1.1.7
 * Support version 5.7.5 of SkipTo.js that fixes bug in banner and contentinfo menu navigation
 * Configuration of border and offset for highlighting elements
+* Added border style configuration to highlighting elements
+
 
 ## Version 1.1.6
 * Support version 5.7.4 of SkipTo.js that supports dark more for overlay using custom element for highlighting
