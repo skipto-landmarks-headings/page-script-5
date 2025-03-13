@@ -1583,6 +1583,15 @@ button:hover {
                               config.msgHeadingIsHidden :
                               'Heading is hidden';
 
+      this.msgRegionIsHidden = typeof config.msgRegionIsHidden === 'string' ?
+                              config.msgRegionIsHidden :
+                              'Region is hidden';
+
+      this.msgElementIsHidden = typeof config.msgElementIsHidden === 'string' ?
+                              config.msgElemenIsHidden :
+                              'Element is hidden';
+
+
       // make a copy of the template
       let style = styleHighlightTemplate.textContent.slice(0);
 
@@ -1768,7 +1777,7 @@ button:hover {
         if (this.isElementHidden(elem)) {
           // If element is hidden make hidden element message visible
           // and use for highlighing
-          this.hiddenElem.textContent = this.msgHeadingIsHidden;
+          this.hiddenElem.textContent = this.getHiddenMessage(elem);
           this.hiddenElem.style.display = 'block';
 
           const left = rect.left > 0 ? rect.left + window.scrollX : this.offset;
@@ -1988,13 +1997,13 @@ button:hover {
      *   @desc  Returns true if element client height is larger than clientHeight,
      *          otheriwse false
      *
-     *   @param {Object} element : DOM node of element to highlight
+     *   @param {Object} elem : DOM node of element to highlight
      *
      *   @returns see @desc
      */
 
-    isElementInHeightLarge(element) {
-      var rect = element.getBoundingClientRect();
+    isElementInHeightLarge(elem) {
+      var rect = elem.getBoundingClientRect();
       return (1.2 * rect.height) > (window.innerHeight || document.documentElement.clientHeight);
     }
 
@@ -2014,6 +2023,31 @@ button:hover {
              (rect.width  < 3) ||
              ((rect.left + rect.width)  < (rect.width / 2)) ||
              ((rect.top  + rect.height) < (rect.height / 2));
+    }
+
+    /*
+     *   @method getHiddenMessage
+     *
+     *   @desc  Returns string describing the hidden element
+     *
+     *   @param  {Object}  elem   : DOM node
+     *
+     *   @returns see @desc
+     */
+    getHiddenMessage(elem) {
+      if (elem.hasAttribute('data-skip-to-info')) {
+        const info = elem.getAttribute('data-skip-to-info');
+
+        if (info.includes('heading')) {
+          return this.msgHeadingIsHidden;
+        }
+
+        if (info.includes('landmark')) {
+          return this.msgRegionIsHidden;
+        }
+      }
+
+      return this.msgElementIsHidden;
     }
 
     /*
