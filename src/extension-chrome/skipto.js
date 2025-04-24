@@ -437,7 +437,7 @@
   grid-template-columns: repeat(6, 1.2rem) 1fr;
   grid-column-gap: 2px;
   font-size: 1em;
-  z-index: $zIndex !important;  
+  z-index: $zIndex !important;
 }
 
 #${SKIP_TO_ID} [role="menuitem"] .level,
@@ -641,7 +641,7 @@
    *
    *   @desc Returns
    *
-   *   @param  {String}  colorTheme   -  A string identifying a color theme  
+   *   @param  {String}  colorTheme   -  A string identifying a color theme
    *
    *   @returns {Object}  see @desc
    */
@@ -661,15 +661,15 @@
     for (let item in colorThemes) {
       const hostnameSelector = colorThemes[item].hostnameSelector;
       const pathnameSelector = colorThemes[item].pathnameSelector;
-      let hostnameFlag = false; 
-      let pathnameFlag = false; 
+      let hostnameFlag = false;
+      let pathnameFlag = false;
 
       if (hostnameSelector) {
         if (hostname.indexOf(hostnameSelector) >= 0) {
-          if (!hostnameMatch || 
+          if (!hostnameMatch ||
               (colorThemes[hostnameMatch].hostnameSelector.length < hostnameSelector.length)) {
             hostnameMatch = item;
-            hostnameFlag = true; 
+            hostnameFlag = true;
             pathnameMatch = '';
           }
           else {
@@ -684,10 +684,10 @@
 
       if (pathnameSelector) {
         if (pathname.indexOf(pathnameSelector) >= 0) {
-          if (!pathnameMatch || 
+          if (!pathnameMatch ||
               (colorThemes[pathnameMatch].pathnameSelector.length < pathnameSelector.length)) {
             pathnameMatch = item;
-            pathnameFlag = true; 
+            pathnameFlag = true;
           }
         }
       }
@@ -698,14 +698,14 @@
     }
 
     if (hostandpathnameMatch) {
-      return colorThemes[hostandpathnameMatch];      
+      return colorThemes[hostandpathnameMatch];
     }
     else {
       if (hostnameMatch) {
-        return colorThemes[hostnameMatch];      
+        return colorThemes[hostnameMatch];
       } else {
         if (pathnameMatch) {
-          return colorThemes[pathnameMatch];      
+          return colorThemes[pathnameMatch];
         }
       }
     }
@@ -717,11 +717,11 @@
   /*
    *   @function updateStyle
    *
-   *   @desc  
+   *   @desc
    *
-   *   @param 
+   *   @param
    *
-   *   @returns 
+   *   @returns
    */
   function updateStyle(cssContent, stylePlaceholder, configValue, themeValue, defaultValue) {
     let value = defaultValue;
@@ -842,7 +842,7 @@
 
   /*
    * @function getAttributeValue
-   * 
+   *
    * @desc Return attribute value if present on element,
    *       otherwise return empty string.
    *
@@ -882,7 +882,7 @@
   /**
    * @fuction isVisible
    *
-   * @desc Returns true if the element is visible in the graphical rendering 
+   * @desc Returns true if the element is visible in the graphical rendering
    *
    * @param {node}  elem  - DOM element node of a labelable element
    */
@@ -899,7 +899,7 @@
 
       const style = window.getComputedStyle(el, null);
       const display = style.getPropertyValue("display");
-      if (display === 'none') { 
+      if (display === 'none') {
         return true;
       }
 
@@ -2123,7 +2123,7 @@ button:hover {
   // LOW-LEVEL HELPER FUNCTIONS (NOT EXPORTED)
 
   /*
-  *   @function  isDisplayNone 
+  *   @function  isDisplayNone
   *
   *   @desc Returns true if the element or parent element has set the CSS
   *         display property to none or has the hidden attribute,
@@ -2131,7 +2131,7 @@ button:hover {
   *
   *   @param  {Object}  node  - a DOM node
   *
-  *   @returns  {Boolean} see @desc 
+  *   @returns  {Boolean} see @desc
   */
 
   function isDisplayNone (node) {
@@ -2150,7 +2150,7 @@ button:hover {
         return true;
       }
 
-      // aria-hidden attribute with the value "true" is an same as 
+      // aria-hidden attribute with the value "true" is an same as
       // setting the hidden attribute for name calcuation
       if (node.hasAttribute('aria-hidden')) {
         if (node.getAttribute('aria-hidden').toLowerCase()  === 'true') {
@@ -2170,9 +2170,9 @@ button:hover {
   }
 
   /*
-  *   @function isVisibilityHidden 
-  *   
-  *   @desc Returns true if the node (or it's parrent) has the CSS visibility 
+  *   @function isVisibilityHidden
+  *
+  *   @desc Returns true if the node (or it's parrent) has the CSS visibility
   *         property set to "hidden" or "collapse", otherwise false
   *
   *   @param  {Object}   node  -  DOM node
@@ -2202,13 +2202,13 @@ button:hover {
   }
 
   /*
-  *   @function isAriaHiddenFalse 
-  *   
+  *   @function isAriaHiddenFalse
+  *
   *   @desc Returns true if the node has the aria-hidden property set to
-  *         "false", otherwise false.  
-  *         NOTE: This function is important in the accessible namce 
-  *               calculation, since content hidden with a CSS technique 
-  *               can be included in the accessible name calculation when 
+  *         "false", otherwise false.
+  *         NOTE: This function is important in the accessible namce
+  *               calculation, since content hidden with a CSS technique
+  *               can be included in the accessible name calculation when
   *               aria-hidden is set to false
   *
   *   @param  {Object}   node  -  DOM node
@@ -2227,7 +2227,7 @@ button:hover {
     }
 
     if (node.nodeType === Node.ELEMENT_NODE) {
-      return (node.hasAttribute('aria-hidden') && 
+      return (node.hasAttribute('aria-hidden') &&
           (node.getAttribute('aria-hidden').toLowerCase() === 'false'));
     }
 
@@ -2235,12 +2235,12 @@ button:hover {
   }
 
   /*
-  *   @function includeContentInName 
-  *   
+  *   @function includeContentInName
+  *
   *   @desc Checks the CSS display and hidden properties, and
   *         the aria-hidden property to see if the content
   *         should be included in the accessible name
-  *        calculation.  Returns true if it should be 
+  *        calculation.  Returns true if it should be
   *         included, otherwise false
   *
   *   @param  {Object}   node  -  DOM node
@@ -2249,8 +2249,8 @@ button:hover {
   */
 
   function includeContentInName(node) {
-    const flag = isAriaHIddenFalse(node) || 
-      (!isVisibilityHidden(node) && 
+    const flag = isAriaHIddenFalse(node) ||
+      (!isVisibilityHidden(node) &&
       !isDisplayNone(node));
     return flag;
   }
@@ -2262,11 +2262,11 @@ button:hover {
   *          their text values for an ARIA accessible name or description
   *          calculation.
   *
-  *          NOTE: This includes special handling of elements with 'alt' 
+  *          NOTE: This includes special handling of elements with 'alt'
   *                text and embedded controls.
-  *  
+  *
   *  @param {Object}  node  - A DOM node
-  * 
+  *
   *  @return {String}  The text content for an accessible name or description
   */
   function getNodeContents (node) {
@@ -2324,11 +2324,11 @@ button:hover {
 
   /*
   *   @function couldHaveAltText
-  *   
-  *   @desc  Based on HTML5 specification, returns true if 
+  *
+  *   @desc  Based on HTML5 specification, returns true if
   *          the element could have an 'alt' attribute,
   *          otherwise false.
-  * 
+  *
   *   @param  {Object}  element  - DOM eleemnt node
   *
   *   @return {Boolean}  see @desc
@@ -2351,12 +2351,12 @@ button:hover {
   *   @function addCssGeneratedContent
   *
   *   @desc Adds CSS-generated content for pseudo-elements
-  *         :before and :after. According to the CSS spec, test that content 
+  *         :before and :after. According to the CSS spec, test that content
   *         value is other than the default computed value of 'none'.
-  * 
-  *         Note: Even if an author specifies content: 'none', because browsers 
-  *               add the double-quote character to the beginning and end of 
-  *               computed string values, the result cannot and will not be 
+  *
+  *         Note: Even if an author specifies content: 'none', because browsers
+  *               add the double-quote character to the beginning and end of
+  *               computed string values, the result cannot and will not be
   *               equal to 'none'.
   *
   *
@@ -2392,13 +2392,13 @@ button:hover {
   /**
    *   @fuction getAccessibleName
    *
-   *   @desc Returns the accessible name for an heading or landamrk 
+   *   @desc Returns the accessible name for an heading or landamrk
    *
    *   @paramn {Object}   dom      - Document of the current element
    *   @param  {node}     element  - DOM element node for either a heading or
    *                               landmark
    *   @param  {Boolean}  fromContent  - if true will compute name from content
-   * 
+   *
    *   @return {String} The accessible name for the landmark or heading element
    */
 
@@ -2437,7 +2437,7 @@ button:hover {
   *   @param {String}  attribute -  Attribute name (e.g. "aria-labelledby", "aria-describedby",
   *                                 or "aria-errormessage")
   *
-  *   @returns {String} see @desc 
+  *   @returns {String} see @desc
   */
   function nameFromAttributeIdRefs (doc, element, attribute) {
     const value = getAttributeValue(element, attribute);
@@ -2524,7 +2524,7 @@ button:hover {
    *          id for target elements
    *
    *   @returns  {Number} see @desc
-   */ 
+   */
   function getSkipToIdIndex () {
     return idIndex;
   }
@@ -2533,7 +2533,7 @@ button:hover {
    *   @function incSkipToIdIndex
    *
    *   @desc  Adds one to the skipto index
-   */ 
+   */
   function incSkipToIdIndex () {
     idIndex += 1;
   }
@@ -2546,11 +2546,11 @@ button:hover {
    *   @param  {Object}  element  - DOM element node
    *
    *   @returns {Boolean}  see @desc
-   */ 
+   */
   function isSkipableElement(element) {
       const tagName = element.tagName.toLowerCase();
       const type    = element.hasAttribute('type') ? element.getAttribute('type') : '';
-      const elemSelector = (tagName === 'input') && type.length ? 
+      const elemSelector = (tagName === 'input') && type.length ?
                               `${tagName}[type=${type}]` :
                               tagName;
       return skipableElements.includes(elemSelector);
@@ -2565,7 +2565,7 @@ button:hover {
    *   @param  {Object}  element  - DOM element node
    *
    *   @returns {Boolean}  see @desc
-   */ 
+   */
   function isCustomElement(element) {
     return element.tagName.indexOf('-') >= 0;
   }
@@ -2579,7 +2579,7 @@ button:hover {
    *   @param  {Object}  element  - DOM element node
    *
    *   @returns {Boolean}  see @desc
-   */ 
+   */
   function isSlotElement(node) {
     return (node instanceof HTMLSlotElement);
   }
@@ -2592,7 +2592,7 @@ button:hover {
   *         of an element with a defined landmark role
   *
   *   @param  {Object}  node  - Element node from a berowser DOM
-  * 
+  *
   *   @reutrn {Boolean} Returns true if top level landmark, otherwise false
   */
 
@@ -2612,7 +2612,7 @@ button:hover {
       node = node.parentNode;
     }
     return true;
-  }  
+  }
 
   /*
    *   @function checkForLandmarkRole
@@ -2623,7 +2623,7 @@ button:hover {
    *   @param  {Object}  element  - DOM element node
    *
    *   @returns {String}  see @desc
-   */ 
+   */
   function checkForLandmarkRole (element) {
     if (element.hasAttribute('role')) {
       const role = element.getAttribute('role').toLowerCase();
@@ -2673,7 +2673,7 @@ button:hover {
    * @desc Returns DOM node associated with the id, if id not found returns null
    *
    * @param {String}  targetId  - dom node element to attach button and menu
-   * 
+   *
    * @returns (Object) @desc
    */
   function queryDOMForSkipToId (targetId) {
@@ -2697,7 +2697,7 @@ button:hover {
                   if (assignedNode.getAttribute('data-skip-to-id') === targetId) {
                     return assignedNode;
                   }
-                  targetNode = transverseDOMForSkipToId(assignedNode);                    
+                  targetNode = transverseDOMForSkipToId(assignedNode);
                   if (targetNode) {
                     return targetNode;
                   }
@@ -2737,10 +2737,10 @@ button:hover {
    * @function findVisibleElement
    *
    * @desc Returns the first visible descendant DOM node that matches a set of element tag names
-   * 
+   *
    * @param {node}   startingNode  - dom node to start search for element
    * @param {Array}  tagNames      - Array of tag names
-   * 
+   *
    * @returns (node} Returns first descendant element, if not found returns false
    */
   function findVisibleElement (startingNode, tagNames) {
@@ -2766,7 +2766,7 @@ button:hover {
                       return assignedNode;
                     }
                   }
-                  targetNode = transverseDOMForVisibleElement(assignedNode, targetTagName);  
+                  targetNode = transverseDOMForVisibleElement(assignedNode, targetTagName);
                   if (targetNode) {
                     return targetNode;
                   }
@@ -2823,7 +2823,7 @@ button:hover {
    *   @desc Moves focus to the element identified by the memu item
    *
    *   @param {Object}  menutim  -  DOM element in the menu identifying the target element.
-   */ 
+   */
   function skipToElement(menuitem) {
 
     let elem;
@@ -2900,13 +2900,13 @@ button:hover {
    *
    *   @desc  Returns an array of heading tag names to include in menu
    *          NOTE: It uses "includes" method to maximimze compatibility with
-   *          previous versions of SkipTo which used CSS selectors for 
+   *          previous versions of SkipTo which used CSS selectors for
    *          identifying targets.
    *
    *   @param {String}  targets  -  A space with the heading tags to inclucde
    *
    *   @returns {Array}  Array of heading element tag names to include in menu
-   */ 
+   */
   function getHeadingTargets(targets) {
     let targetHeadings = [];
     ['h1','h2','h3','h4','h5','h6'].forEach( h => {
@@ -2925,7 +2925,7 @@ button:hover {
    *   @param  {Object}  element  -  DOM element node
    *
    *   @returns {Boolean}  see @desc
-   */ 
+   */
   function isMain (element) {
     const tagName = element.tagName.toLowerCase();
     const role = element.hasAttribute('role') ? element.getAttribute('role').toLowerCase() : '';
@@ -2938,15 +2938,15 @@ button:hover {
   /*
    *   @function queryDOMForLandmarksAndHeadings
    *
-   *   @desc  Recursive function to return two arrays, one an array of the DOM element nodes for 
-   *          landmarks and the other an array of DOM element ndoes for headings  
+   *   @desc  Recursive function to return two arrays, one an array of the DOM element nodes for
+   *          landmarks and the other an array of DOM element ndoes for headings
    *
    *   @param  {Array}   landamrkTargets  -  An array of strings representing landmark regions
    *   @param  {Array}   headingTargets  -  An array of strings representing headings
    *   @param  {String}  skiptoId        -  An array of strings representing headings
    *
    *   @returns {Array}  @see @desc
-   */ 
+   */
   function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skiptoId) {
 
     let headingInfo = [];
@@ -3031,7 +3031,7 @@ button:hover {
                   if (slotContent) {
                     transverseDOM(assignedNode, parentDoc, null, inMain);
                   } else {
-                    transverseDOM(assignedNode, doc, parentDoc, inMain);                  
+                    transverseDOM(assignedNode, doc, parentDoc, inMain);
                   }
                 }
               }
@@ -3055,7 +3055,7 @@ button:hover {
 
     transverseDOM(document.body, document);
 
-    // If no elements found when onlyInMain is set, try 
+    // If no elements found when onlyInMain is set, try
     // to find any headings
     if ((headingInfo.length === 0) && onlyInMain) {
       onlyInMain = false;
@@ -3079,7 +3079,7 @@ button:hover {
   /*
    * @function getLandmarksAndHeadings
    *
-   * @desc Returns two arrays of of DOM node elements with, one for landmark regions 
+   * @desc Returns two arrays of of DOM node elements with, one for landmark regions
    *       the other for headings with additional information needed to create
    *       menuitems
    *
@@ -3228,19 +3228,19 @@ button:hover {
         targets.includes('navigation')) {
       targetLandmarks.push('navigation');
     }
-    if (targets.includes('complementary') || 
+    if (targets.includes('complementary') ||
         targets.includes('aside')) {
       targetLandmarks.push('complementary');
     }
-    if (targets.includes('banner') || 
+    if (targets.includes('banner') ||
         targets.includes('header')) {
       targetLandmarks.push('banner');
     }
-    if (targets.includes('contentinfo') || 
+    if (targets.includes('contentinfo') ||
         targets.includes('footer')) {
       targetLandmarks.push('contentinfo');
     }
-    if (targets.includes('region') || 
+    if (targets.includes('region') ||
         targets.includes('section')) {
       targetLandmarks.push('region');
     }
@@ -3251,12 +3251,12 @@ button:hover {
   /*
    * @function getLandmarks
    *
-   * @desc Returns an array of objects with information to build the 
+   * @desc Returns an array of objects with information to build the
    *       the landmarks menu, ordering in the array by the type of landmark
-   *       region 
+   *       region
    *
    * @param {Object} config     - Object with configuration information
-   * @param {Array}  landmarks  - Array of objects containing the DOM node and 
+   * @param {Array}  landmarks  - Array of objects containing the DOM node and
    *                              accessible name for landmarks
    *
    * @returns {Array}  see @desc
@@ -3741,11 +3741,11 @@ button:hover {
   /**
    * @class SkiptoMenuButton
    *
-   * @desc Constructor for creating a button to open a menu of headings and landmarks on 
+   * @desc Constructor for creating a button to open a menu of headings and landmarks on
    *       a web page
    *
    * @param {Object}  skipToContentElem  -  The skip-to-content objecy
-   * 
+   *
    * @returns {Object}  DOM element node that is the container for the button and the menu
    */
   class SkiptoMenuButton {
@@ -3978,9 +3978,9 @@ button:hover {
       /*
        * @method getBrowserSpecificShortcut
        *
-       * @desc Identifies the operating system and updates labels for 
+       * @desc Identifies the operating system and updates labels for
        *       shortcut key to use either the "alt" or the "option"
-       *       label  
+       *       label
        *
        * @param {Object}  - SkipTp configure object
        *
@@ -4041,7 +4041,7 @@ button:hover {
        * @method getFirstChar
        *
        * @desc Gets the first character in a menuitem to use as a shortcut key
-       * 
+       *
        * @param  {Object}  menuitem  - DOM element node
        *
        * @returns {String} see @desc
@@ -4058,7 +4058,7 @@ button:hover {
        * @method getHeadingLevelFromAttribute
        *
        * @desc Returns the the heading level of the menu item
-       * 
+       *
        * @param  {Object}  menuitem  - DOM element node
        *
        * @returns {String} see @desc
@@ -4210,7 +4210,7 @@ button:hover {
        * @method renderMenuitemsToGroup
        *
        * @desc Renders either the landmark region or headings menu group
-       * 
+       *
        * @param  {Object}  groupNode       -  DOM element node for the menu group
        * @param  {Array}   menuitems       -  Array of objects with menu item information
        * @param  {String}  msgNoItesmFound -  Message to render if there are no menu items
@@ -4241,7 +4241,7 @@ button:hover {
       /*
        * @method renderMenu
        *
-       * @desc 
+       * @desc
        */
       renderMenu(config, skipToId) {
         // remove landmark menu items
@@ -4396,7 +4396,7 @@ button:hover {
        *
        * @desc Moves focus to previous menu item
        *
-       * @param {Object}  menuItem  - DOM element node 
+       * @param {Object}  menuItem  - DOM element node
        */
       setFocusToPreviousMenuitem(menuitem) {
         let newMenuitem, index;
@@ -4415,7 +4415,7 @@ button:hover {
        *
        * @desc Moves focus to next menu item
        *
-       * @param {Object}  menuItem  - DOM element node 
+       * @param {Object}  menuItem  - DOM element node
        */
       setFocusToNextMenuitem(menuitem) {
         let newMenuitem, index;
@@ -4434,9 +4434,9 @@ button:hover {
        *
        * @desc Moves focus to next menu item based on shortcut key
        *
-       * @param {Object}  menuItem  - Starting DOM element node 
+       * @param {Object}  menuItem  - Starting DOM element node
        * @param {String}  char      - Shortcut key to identify the
-       *                              next menu item  
+       *                              next menu item
        */
       setFocusByFirstCharacter(menuitem, char) {
         let start, index;
@@ -4478,9 +4478,9 @@ button:hover {
       /*
        * @method getIndexFirstChars
        *
-       * @desc  
+       * @desc
        *
-       * @returns {Number} 
+       * @returns {Number}
        */
       getIndexFirstChars(startIndex, char) {
         for (let i = startIndex; i < this.firstChars.length; i += 1) {
@@ -4625,7 +4625,7 @@ button:hover {
                (rect.right >= x) &&
                (rect.top <= y) &&
                (rect.bottom >= y);
-      }    
+      }
 
       /*
        * @method setDisplayOption
@@ -4663,17 +4663,17 @@ button:hover {
       }
 
       // Menu event handlers
-      
+
       handleFocusin() {
         this.containerNode.classList.add('focus');
         this.skipToContentElem.setAttribute('focus', 'button');
       }
-      
+
       handleFocusout() {
         this.containerNode.classList.remove('focus');
         this.skipToContentElem.setAttribute('focus', 'none');
       }
-      
+
       handleButtonKeydown(event) {
         let key = event.key,
           flag = false;
@@ -4863,7 +4863,7 @@ button:hover {
             event.preventDefault();
           }
         }
-      }    
+      }
 
       handleMenuitemAction(tgt) {
         if (tgt.hasAttribute('data-id')) {
@@ -5045,7 +5045,7 @@ button:hover {
             }
             else {
               debug$2.flag && debug$2.log(`[down][open]`);
-              this.openPopup();          
+              this.openPopup();
               this.setFocusToFirstMenuitem();
             }
 
@@ -5056,7 +5056,7 @@ button:hover {
         event.preventDefault();
       }
 
-      handleContinerPointermove(event) {
+      handleContainerPointermove(event) {
         const mi = this.getMenuitem(event.clientX, event.clientY);
         if (mi) {
           this.removeHoverClass(mi);
@@ -5085,7 +5085,7 @@ button:hover {
         debug$2.flag && debug$2.log(`[up] isOverButton: ${omb} getMenuitem: ${mi} id: ${event.pointerId}`);
 
         if (mi) {
-          this.handleMenuitemAction(mi);          
+          this.handleMenuitemAction(mi);
         }
         else {
           if (!omb) {
@@ -5095,7 +5095,7 @@ button:hover {
               this.closePopup();
               this.buttonNode.focus();
               this.skipToContentElem.setAttribute('focus', 'button');
-            }        
+            }
           }
         }
 

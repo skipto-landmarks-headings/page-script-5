@@ -51,11 +51,11 @@ debug.flag = false;
 /**
  * @class SkiptoMenuButton
  *
- * @desc Constructor for creating a button to open a menu of headings and landmarks on 
+ * @desc Constructor for creating a button to open a menu of headings and landmarks on
  *       a web page
  *
  * @param {Object}  skipToContentElem  -  The skip-to-content objecy
- * 
+ *
  * @returns {Object}  DOM element node that is the container for the button and the menu
  */
 export default class SkiptoMenuButton {
@@ -288,9 +288,9 @@ export default class SkiptoMenuButton {
     /*
      * @method getBrowserSpecificShortcut
      *
-     * @desc Identifies the operating system and updates labels for 
+     * @desc Identifies the operating system and updates labels for
      *       shortcut key to use either the "alt" or the "option"
-     *       label  
+     *       label
      *
      * @param {Object}  - SkipTp configure object
      *
@@ -351,7 +351,7 @@ export default class SkiptoMenuButton {
      * @method getFirstChar
      *
      * @desc Gets the first character in a menuitem to use as a shortcut key
-     * 
+     *
      * @param  {Object}  menuitem  - DOM element node
      *
      * @returns {String} see @desc
@@ -368,7 +368,7 @@ export default class SkiptoMenuButton {
      * @method getHeadingLevelFromAttribute
      *
      * @desc Returns the the heading level of the menu item
-     * 
+     *
      * @param  {Object}  menuitem  - DOM element node
      *
      * @returns {String} see @desc
@@ -520,7 +520,7 @@ export default class SkiptoMenuButton {
      * @method renderMenuitemsToGroup
      *
      * @desc Renders either the landmark region or headings menu group
-     * 
+     *
      * @param  {Object}  groupNode       -  DOM element node for the menu group
      * @param  {Array}   menuitems       -  Array of objects with menu item information
      * @param  {String}  msgNoItesmFound -  Message to render if there are no menu items
@@ -551,7 +551,7 @@ export default class SkiptoMenuButton {
     /*
      * @method renderMenu
      *
-     * @desc 
+     * @desc
      */
     renderMenu(config, skipToId) {
       // remove landmark menu items
@@ -706,7 +706,7 @@ export default class SkiptoMenuButton {
      *
      * @desc Moves focus to previous menu item
      *
-     * @param {Object}  menuItem  - DOM element node 
+     * @param {Object}  menuItem  - DOM element node
      */
     setFocusToPreviousMenuitem(menuitem) {
       let newMenuitem, index;
@@ -725,7 +725,7 @@ export default class SkiptoMenuButton {
      *
      * @desc Moves focus to next menu item
      *
-     * @param {Object}  menuItem  - DOM element node 
+     * @param {Object}  menuItem  - DOM element node
      */
     setFocusToNextMenuitem(menuitem) {
       let newMenuitem, index;
@@ -744,9 +744,9 @@ export default class SkiptoMenuButton {
      *
      * @desc Moves focus to next menu item based on shortcut key
      *
-     * @param {Object}  menuItem  - Starting DOM element node 
+     * @param {Object}  menuItem  - Starting DOM element node
      * @param {String}  char      - Shortcut key to identify the
-     *                              next menu item  
+     *                              next menu item
      */
     setFocusByFirstCharacter(menuitem, char) {
       let start, index;
@@ -788,9 +788,9 @@ export default class SkiptoMenuButton {
     /*
      * @method getIndexFirstChars
      *
-     * @desc  
+     * @desc
      *
-     * @returns {Number} 
+     * @returns {Number}
      */
     getIndexFirstChars(startIndex, char) {
       for (let i = startIndex; i < this.firstChars.length; i += 1) {
@@ -935,7 +935,7 @@ export default class SkiptoMenuButton {
              (rect.right >= x) &&
              (rect.top <= y) &&
              (rect.bottom >= y);
-    }    
+    }
 
     /*
      * @method setDisplayOption
@@ -975,17 +975,17 @@ export default class SkiptoMenuButton {
     }
 
     // Menu event handlers
-    
+
     handleFocusin() {
       this.containerNode.classList.add('focus');
       this.skipToContentElem.setAttribute('focus', 'button');
     }
-    
+
     handleFocusout() {
       this.containerNode.classList.remove('focus');
       this.skipToContentElem.setAttribute('focus', 'none');
     }
-    
+
     handleButtonKeydown(event) {
       let key = event.key,
         flag = false;
@@ -1180,7 +1180,7 @@ export default class SkiptoMenuButton {
           event.preventDefault();
         }
       }
-    }    
+    }
 
     handleMenuitemAction(tgt) {
       if (tgt.hasAttribute('data-id')) {
@@ -1362,7 +1362,7 @@ export default class SkiptoMenuButton {
           }
           else {
             debug.flag && debug.log(`[down][open]`);
-            this.openPopup();          
+            this.openPopup();
             this.setFocusToFirstMenuitem();
           }
 
@@ -1373,7 +1373,7 @@ export default class SkiptoMenuButton {
       event.preventDefault();
     }
 
-    handleContinerPointermove(event) {
+    handleContainerPointermove(event) {
       const mi = this.getMenuitem(event.clientX, event.clientY);
       if (mi) {
         this.removeHoverClass(mi);
@@ -1402,7 +1402,7 @@ export default class SkiptoMenuButton {
       debug.flag && debug.log(`[up] isOverButton: ${omb} getMenuitem: ${mi} id: ${event.pointerId}`);
 
       if (mi) {
-        this.handleMenuitemAction(mi);          
+        this.handleMenuitemAction(mi);
       }
       else {
         if (!omb) {
@@ -1412,7 +1412,7 @@ export default class SkiptoMenuButton {
             this.closePopup();
             this.buttonNode.focus();
             this.skipToContentElem.setAttribute('focus', 'button');
-          }        
+          }
         }
       }
 
