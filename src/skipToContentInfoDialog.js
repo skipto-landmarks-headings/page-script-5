@@ -121,7 +121,7 @@ dialog#skip-to-info-dialog .content th {
   margin: 0;
   padding: 0;
   padding-top: 0.125em;
-  padding-buttom: 0.125em;
+  padding-bottom: 0.125em;
   text-align: left;
   font-weight: bold;
   font-size: 100%;
@@ -141,7 +141,7 @@ dialog#skip-to-info-dialog .content td {
   margin: 0;
   padding: 0;
   padding-top: 0.125em;
-  padding-buttom: 0.125em;
+  padding-bottom: 0.125em;
   text-align: left;
   font-size: 100%;
 }
