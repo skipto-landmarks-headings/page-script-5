@@ -40,6 +40,7 @@ Options Page
 
 * Define button behavior
 * Customize the landmark regions and headings shown in the menu.
+* Customize the size and style of highlighting elements.
 * Customize the keys used for shortcut navigation.
 * Customize fonts and colors used to style the button and menu
 * Internationalization
