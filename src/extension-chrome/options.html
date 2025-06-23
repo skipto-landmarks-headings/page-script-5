@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="optionsTablist.css"/>
 
     <script type="module" src="options.js"></script>
-    <script type="module" src="optionsShortcuts.js"></script>
-    <script type="module" src="optionsButton.js"></script>
     <script type="module" src="optionsMenu.js"></script>
+    <script type="module" src="optionsButton.js"></script>
+    <script type="module" src="optionsHighlight.js"></script>
+    <script type="module" src="optionsShortcuts.js"></script>
     <script type="module" src="optionsStyle.js"></script>
     <script type="module" src="optionsStyleViewer.js"></script>
     <script type="module" src="optionsI18n.js"></script>
@@ -34,6 +35,13 @@
              aria-controls="tabpanel-options-button"
              data-i18n="options_tab_button">
           Button
+        </div>
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-highlight"
+             aria-controls="tabpanel-options-highlight"
+             data-i18n="options_tab_highlight">
+          Highlight
         </div>
         <div class="tab"
              role="tab"
@@ -67,7 +75,6 @@
 
       </div>
 
-
       <div class="tabpanel"
            role="tabpanel"
            id="tabpanel-options-button"
@@ -77,6 +84,14 @@
 
       </div>
 
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-highlight"
+           aria-labelledby="tablist-tab-highlight">
+
+        <options-highlight></options-highlight>
+
+      </div>
 
       <div class="tabpanel"
            role="tabpanel"

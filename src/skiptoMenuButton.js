@@ -131,7 +131,7 @@ export default class SkiptoMenuButton {
       this.menuNode.appendChild(this.landmarkGroupNode);
 
       this.headingGroupLabelNode = document.createElement('div');
-      this.headingGroupLabelNode.setAttribute('id', MENU_HEADINGS_GROUP_ID);
+      this.headingGroupLabelNode.setAttribute('id', MENU_HEADINGS_GROUP_LABEL_ID);
       this.headingGroupLabelNode.setAttribute('role', 'separator');
       this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.headingGroupLabel);
       this.menuNode.appendChild(this.headingGroupLabelNode);

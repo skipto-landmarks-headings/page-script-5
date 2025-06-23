@@ -24,7 +24,10 @@ export const colorThemes = {
     buttonBackgroundDarkColor: '#013c93',
     zIndex: '2000000',
     zHighlight: '1999900',
-    displayOption: 'fixed'
+    displayOption: 'fixed',
+    highlightTarget: 'instant',
+    highlightBorderSize: 'small',
+    highlightBorderStyle: 'solid'
   },
   'aria': {
     hostnameSelector: 'w3.org',

@@ -13,6 +13,10 @@ import {
 } from './constants.js';
 
 import {
+  colorThemes
+} from './colorThemes.js';
+
+import {
   getLandmarksAndHeadings
 } from './landmarksHeadings.js';
 
@@ -24,17 +28,19 @@ import {
 const debug = new DebugLogging('skiptoContent', false);
 debug.flag = false;
 
-/* @class SkipToContent574
+const defaultStyleOptions = colorThemes['default'];
+
+/* @class SkipToContent575
  *
  */
 
-export default class SkipToContent574 extends HTMLElement {
+export default class SkipToContent575 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
-    this.version = "5.7.4";
+    this.version = "5.7.5";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -100,10 +106,15 @@ export default class SkipToContent574 extends HTMLElement {
       msgKey: 'Key',
       msgDescription: 'Description',
 
-      msgNextRegion: 'Next region',
+      msgElementHidden: 'Element is hidden',
+
+      msgNextRegion:     'Next region',
       msgPreviousRegion: 'Previous region',
-      msgNextHeading: 'Next heading',
+      msgRegionIsHidden: 'Region is hidden',
+
+      msgNextHeading:     'Next heading',
       msgPreviousHeading: 'Previous heading',
+      msgHeadingIsHidden: 'Heading is hidden',
 
       msgMainRegions: 'Main regions',
       msgNavigationRegions: 'Navigation regions',
@@ -146,10 +157,14 @@ export default class SkipToContent574 extends HTMLElement {
       headings: 'main-only h1 h2',
 
       // Highlight options
-      highlightTarget: 'instant', // options: 'instant' (default), 'smooth' and 'auto'
+      highlightTarget:      defaultStyleOptions.highlightTarget,
+                            // options: 'instant' (default), 'smooth' and 'auto'
+      highlightBorderSize:  defaultStyleOptions.highlightBorderSize,
+                            // options: 'small' (default), 'medium', 'large', 'x-large'
+      highlightBorderStyle: defaultStyleOptions.highlightBorderStyle,
+                            // options: 'solid' (default), 'dotted', 'dashed'
 
       // Hidden heading when highlighting
-      msgHidden: 'Heading is hidden',
       hiddenHeadingColor: '#000000',
       hiddenHeadingDarkColor: '#000000',
       hiddenHeadingBackgroundColor: '#ffcc00',

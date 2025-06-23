@@ -40,6 +40,7 @@ Options Page
 
 * Define button behavior
 * Customize the landmark regions and headings shown in the menu.
+* Customize the size and style of highlighting elements.
 * Customize the keys used for shortcut navigation.
 * Customize fonts and colors used to style the button and menu
 * Internationalization
@@ -60,8 +61,8 @@ Opera: recommended 612×408, maximum 800x600
 
 Creating Zip Files
 ------------------
-zip -r ../../docs/dist/skipto-for-firefox-1.1.6.zip . -x ".*" -x "__MACOSX"
-zip -r ../../docs/dist/skipto-for-chrome-1.1.6.zip . -x ".*" -x "__MACOSX"
+zip -r ../../docs/dist/skipto-for-firefox-1.1.7.zip . -x ".*" -x "__MACOSX"
+zip -r ../../docs/dist/skipto-for-chrome-1.1.7.zip . -x ".*" -x "__MACOSX"
 
 Questions
 ---------

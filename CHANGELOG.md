@@ -1,5 +1,11 @@
 # Version history for SkipTo.js
 
+## Version 5.7.5
+* Fixing bug in banner and contentinfo navigation in menu
+* Configuration option for changing the border and offset for highlighting elements
+* Added border style configuration to highlighting elements
+* Fixed ID bug in menu
+
 ## Version 5.7.4
 * Added support for dark mode in highlight overlay
 * Improved programmatic constant management in source code

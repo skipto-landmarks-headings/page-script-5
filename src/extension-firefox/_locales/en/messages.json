@@ -191,6 +191,10 @@
     "message" : "Previous heading",
     "description" : "Initial value of previous heading message"
   },
+  "init_msg_heading_is_hidden": {
+    "message" : "Heading is hidden",
+    "description" : "Initial value of heading is missing message"
+  },
   "init_msg_main_regions": {
     "message" : "Main regions",
     "description" : "Initial value of main regions message"
@@ -271,6 +275,10 @@
     "message" : "Button",
     "description" : "Title of button tab"
   },
+  "options_tab_highlight": {
+    "message" : "Highlight",
+    "description" : "Title of highlight tab"
+  },
   "options_tab_menu": {
     "message" : "Menu",
     "description" : "Title of menu tab"
@@ -280,7 +288,7 @@
     "description" : "Title of style tab"
   },
   "options_tab_i18n": {
-    "message" : "Internationalization",
+    "message" : "i18n",
     "description" : "Title of internationalization tab"
   },
   "options_button_save" : {
@@ -415,6 +423,14 @@
     "message" : "Highlight Content when navigating menu options",
     "description" : "Fieldset label for highlight content"
   },
+  "options_highlight_border_size_legend": {
+    "message" : "Highlight border size",
+    "description" : "Fieldset label for highlight border size"
+  },
+  "options_highlight_border_style_legend": {
+    "message" : "Highlight border style",
+    "description" : "Fieldset label for highlight border style"
+  },
   "options_highlight_disabled_label": {
     "message" : "None",
     "description" : "Checkbox label for disabling highlight"
@@ -426,6 +442,34 @@
   "options_highlight_smooth_label": {
     "message" : "Scroll smoothly to menu target",
     "description" : "Checkbox label for smooth highlight option"
+  },
+  "options_highlight_border_size_small_label": {
+    "message" : "Small",
+    "description" : "Highlight border small option"
+  },
+  "options_highlight_border_size_medium_label": {
+    "message" : "Medium",
+    "description" : "Highlight border medium option"
+  },
+  "options_highlight_border_size_large_label": {
+    "message" : "Large",
+    "description" : "Highlight border large option"
+  },
+  "options_highlight_border_size_x_large_label": {
+    "message" : "Extra Large",
+    "description" : "Highlight border extra large option"
+  },
+  "options_highlight_border_style_solid_label": {
+    "message" : "Solid",
+    "description" : "Highlight border style solid option"
+  },
+  "options_highlight_border_style_dashed_label": {
+    "message" : "Dashed",
+    "description" : "Highlight border style dashed option"
+  },
+  "options_highlight_border_style_dotted_label": {
+    "message" : "Dotted",
+    "description" : "Highlight border style dotted option"
   },
   "options_legend_button_labels": {
     "message" : "Button Labels",
@@ -518,6 +562,10 @@
   "options_button_button_content_reset" : {
     "message" : "Reset Button Defaults",
     "description" : "Label for reset button defaults button"
+  },
+  "options_highlight_button_content_reset" : {
+    "message" : "Reset Highlight Defaults",
+    "description" : "Label for reset button defaults highlighting"
   },
   "options_button_border_legend": {
     "message" : "Button Visibility",

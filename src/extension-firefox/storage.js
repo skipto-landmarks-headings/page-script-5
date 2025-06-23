@@ -40,7 +40,12 @@ const defaultShortcutOptions = {
 const defaultMenuOptions = {
   headings: 'main-only h1 h2',
   landmarks: 'main search navigation complementary',
-  highlightTarget: 'instant'
+};
+
+const defaultHighlightOptions = {
+  highlightTarget: 'instant',
+  highlightBorderSize: 'small',
+  highlightBorderStyle: 'solid'
 };
 
 const defaultStyleOptions = {
@@ -52,7 +57,7 @@ const defaultStyleOptions = {
   menuTextColor: '#13294b',
   menuBackgroundColor: '#dddddd',
   menuitemFocusTextColor: '#dddddd',
-  menuitemFocusBackgroundColor: '#13294b'
+  menuitemFocusBackgroundColor: '#13294b',
 };
 
 const i18nOptions = {
@@ -76,8 +81,8 @@ const i18nOptions = {
   navLabel:    browserI18n.getMessage('init_navigation_label'),
   regionLabel: browserI18n.getMessage('init_region_label'),
   asideLabel:  browserI18n.getMessage('init_aside_label'),
-  footerLabel: browserI18n.getMessage('init_header_label'),
-  headerLabel: browserI18n.getMessage('init_footer_label'),
+  headerLabel: browserI18n.getMessage('init_header_label'),
+  footerLabel: browserI18n.getMessage('init_footer_label'),
   formLabel:   browserI18n.getMessage('init_form_label'),
   msgNoLandmarksFound: browserI18n.getMessage('init_msg_no_landmarks_found'),
   msgNoHeadingsFound:  browserI18n.getMessage('init_msg_no_headings_found'),
@@ -94,6 +99,7 @@ const i18nOptions = {
   msgPreviousRegion:  browserI18n.getMessage('init_msg_previous_region'),
   msgNextHeading:     browserI18n.getMessage('init_msg_next_heading'),
   msgPreviousHeading: browserI18n.getMessage('init_msg_previous_heading'),
+  msgHeadingIsHidden: browserI18n.getMessage('init_msg_heading_is_hidden'),
 
   msgMainRegions:          browserI18n.getMessage('init_msg_main_regions'),
   msgNavigationRegions:    browserI18n.getMessage('init_msg_navigation_regions'),
@@ -118,7 +124,7 @@ const i18nOptions = {
 
 };
 
-const defaultOptions = Object.assign({}, defaultButtonOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions, defaultShortcutOptions);
+const defaultOptions = Object.assign({}, defaultButtonOptions, defaultHighlightOptions, defaultMenuOptions, defaultStyleOptions, i18nOptions, defaultShortcutOptions);
 
 function hasAllProperties (refObj, srcObj) {
   for (const key of Object.keys(refObj)) {
@@ -196,6 +202,17 @@ export function resetDefaultOptions () {
 export function resetDefaultButtonOptions () {
   return new Promise (function (resolve, reject) {
     browserStorage.set(defaultButtonOptions, function () {
+      if (notLastError()) { resolve() }
+    });
+  });
+}
+
+/*
+** resetDefaultHighlightOptions
+*/
+export function resetDefaultHighlightOptions () {
+  return new Promise (function (resolve, reject) {
+    browserStorage.set(defaultHighlightOptions, function () {
       if (notLastError()) { resolve() }
     });
   });

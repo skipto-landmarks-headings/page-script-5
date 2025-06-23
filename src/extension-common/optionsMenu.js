@@ -40,48 +40,6 @@ optionsMenuTemplate.innerHTML = `
   <form>
     <div>
 
-      <fieldset>
-        <legend data-i18n="options_highlight_legend">
-          Highlight Content when when navigating menu options
-         </legend>
-
-        <label class="inline"
-               for="highlight-disabled">
-          <input id="highlight-disabled"
-                 type="radio"
-                 name="highlight"
-                 value="disabled"
-                 data-option="highlightTarget"/>
-          <span data-i18n="options_highlight_disabled_label">
-            None
-          </span>
-        </label>
-
-        <label class="inline"
-               for="highlight-instant">
-          <input id="highlight-instant"
-                 type="radio"
-                 name="highlight"
-                 value="instant"
-                 data-option="highlightTarget"/>
-          <span data-i18n="options_highlight_instant_label">
-            Scroll immediately to menu target
-          </span>
-        </label>
-
-        <label class="inline"
-               for="highlight-smooth">
-          <input id="highlight-smooth"
-                 type="radio"
-                 name="highlight"
-                 value="smooth"
-                 data-option="highlightTarget"/>
-          <span data-i18n="options_highlight_smooth_label">
-            Scroll immediately to menu target
-          </span>
-        </label>
-
-      </fieldset>
 
       <fieldset>
         <legend data-i18n="options_landmark_legend">
