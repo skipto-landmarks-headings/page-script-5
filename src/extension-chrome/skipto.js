@@ -3996,26 +3996,26 @@ button:hover {
         this.containerNode.appendChild(this.menuNode);
 
         this.landmarkGroupLabelNode = document.createElement('div');
-        this.landmarkGroupLabelNode.setAttribute('id', MENU_LANDMARK_GROUP_LABEL_ID);
+        this.landmarkGroupLabelNode.id = MENU_LANDMARK_GROUP_LABEL_ID;
         this.landmarkGroupLabelNode.setAttribute('role', 'separator');
         this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.landmarkGroupLabel);
         this.menuNode.appendChild(this.landmarkGroupLabelNode);
 
         this.landmarkGroupNode = document.createElement('div');
-        this.landmarkGroupNode.setAttribute('id', MENU_LANDMARK_GROUP_ID);
+        this.landmarkGroupNode.id = MENU_LANDMARK_GROUP_ID;
         this.landmarkGroupNode.setAttribute('role', 'group');
         this.landmarkGroupNode.className = 'overflow';
         this.landmarkGroupNode.setAttribute('aria-labelledby', MENU_LANDMARK_GROUP_LABEL_ID);
         this.menuNode.appendChild(this.landmarkGroupNode);
 
         this.headingGroupLabelNode = document.createElement('div');
-        this.headingGroupLabelNode.setAttribute('id', MENU_HEADINGS_GROUP_LABEL_ID);
+        this.headingGroupLabelNode.id = MENU_HEADINGS_GROUP_LABEL_ID;
         this.headingGroupLabelNode.setAttribute('role', 'separator');
         this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.headingGroupLabel);
         this.menuNode.appendChild(this.headingGroupLabelNode);
 
         this.headingGroupNode = document.createElement('div');
-        this.headingGroupNode.setAttribute('id', MENU_HEADINGS_GROUP_ID);
+        this.headingGroupNode.id = MENU_HEADINGS_GROUP_ID;
         this.headingGroupNode.setAttribute('role', 'group');
         this.headingGroupNode.className = 'overflow';
         this.headingGroupNode.setAttribute('aria-labelledby', MENU_HEADINGS_GROUP_LABEL_ID);
