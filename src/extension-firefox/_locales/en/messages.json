@@ -99,13 +99,25 @@
     "message" : "Landmark Regions",
     "description" : "Initial value of landmark regions label"
   },
+  "init_landmark_one_group_label": {
+    "message" : "One Landmark Region",
+    "description" : "Initial value of landmark regions label when only one region"
+  },
   "init_heading_group_label": {
     "message" : "Headings",
     "description" : "Initial value of headings label"
   },
+  "init_heading_one_group_label": {
+    "message" : "One Heading",
+    "description" : "Initial value of headings label when only one heading"
+  },
   "init_heading_main_group_label": {
     "message" : "Headings in Main Region",
     "description" : "Initial value of headings in main label"
+  },
+  "init_heading_one_main_group_label": {
+    "message" : "One Heading in Main Region",
+    "description" : "Initial value of headings in main label when only one heading"
   },
   "init_heading_level_label": {
     "message" : "Heading level",
@@ -499,13 +511,25 @@
     "message" : "Landmark Regions Group Label",
     "description" : "Legend for i18n for landmark group label"
   },
+  "options_landmark_one_group_label": {
+    "message" : "Landmark Regions Group Label when only one Region",
+    "description" : "Legend for i18n for landmark group label for one region"
+  },
   "options_heading_group_label": {
     "message" : "Headings Group Label",
     "description" : "Legend for i18n for heading group label"
   },
+  "options_heading_one_group_label": {
+    "message" : "One Heading Group Label",
+    "description" : "Legend for i18n for heading group label for one heading in group"
+  },
   "options_heading_main_group_label": {
     "message" : "Headings in Main Region Group Label",
     "description" : "Legend for i18n for heading main group label"
+  },
+  "options_heading_one_main_group_label": {
+    "message" : "One Heading in Main Region Group Label",
+    "description" : "Legend for i18n for heading main group label when only one heading in main"
   },
   "options_msg_heading_level_label": {
     "message" : "Heading Level Label",

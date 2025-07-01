@@ -69,11 +69,14 @@ const i18nOptions = {
   shortcutLabel:    browserI18n.getMessage('init_shortcut_label'),
 
   // Menu labels and messages
-  menuLabel:             browserI18n.getMessage('init_menu_label'),
-  landmarkGroupLabel:    browserI18n.getMessage('init_landmark_group_label'),
-  headingGroupLabel:     browserI18n.getMessage('init_heading_group_label'),
-  headingMainGroupLabel: browserI18n.getMessage('init_heading_main_group_label'),
-  headingLevelLabel:     browserI18n.getMessage('init_heading_level_label'),
+  menuLabel:                browserI18n.getMessage('init_menu_label'),
+  landmarkGroupLabel:       browserI18n.getMessage('init_landmark_group_label'),
+  landmarkOneGroupLabel:    browserI18n.getMessage('init_landmark_one_group_label'),
+  headingGroupLabel:        browserI18n.getMessage('init_heading_group_label'),
+  headingOneGroupLabel:     browserI18n.getMessage('init_heading_one_group_label'),
+  headingMainGroupLabel:    browserI18n.getMessage('init_heading_main_group_label'),
+  headingOneMainGroupLabel: browserI18n.getMessage('init_heading_one_main_group_label'),
+  headingLevelLabel:        browserI18n.getMessage('init_heading_level_label'),
 
   // Landmark names
   mainLabel:   browserI18n.getMessage('init_main_label'),
