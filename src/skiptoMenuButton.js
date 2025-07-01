@@ -574,19 +574,31 @@ export default class SkiptoMenuButton {
       // Update list of menuitems
       this.updateMenuitems();
 
-      // Are all headings in the main region
-      const allInMain = headingElements.length > 0 ?
-            headingElements.reduce( (flag, item) => {
-              return flag && item.inMain;
-            }, true) :
-            false;
-
       this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel, landmarkElements.length);
-      if (config.headings.includes('main') && allInMain) {
+      if (landmarkElements.length === 1) {
+        this.landmarkGroupLabelNode.setAttribute('aria-label', config.landmarkOneGroupLabel);
+      }
+      else {
+       this.landmarkGroupLabelNode.setAttribute('aria-label', `${landmarkElements.length} ${config.landmarkGroupLabel}`);
+      }
+
+      if (config.headings.includes('main')) {
         this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingMainGroupLabel, headingElements.length);
+        if (headingElements.length === 1) {
+          this.headingGroupLabelNode.setAttribute('aria-label', config.headingOneMainGroupLabel);
+        }
+        else {
+         this.headingGroupLabelNode.setAttribute('aria-label', `${headingElements.length} ${config.headingMainGroupLabel}`);
+        }
       }
       else {
         this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel, headingElements.length);
+        if (headingElements.length === 1) {
+          this.headingGroupLabelNode.setAttribute('aria-label', config.headingOneGroupLabel);
+        }
+        else {
+         this.headingGroupLabelNode.setAttribute('aria-label', `${headingElements.length} ${config.headingGroupLabel}`);
+        }
       }
     }
 

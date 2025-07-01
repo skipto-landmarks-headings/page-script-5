@@ -1,5 +1,10 @@
 # Version history for SkipTo.js
 
+## Version 5.7.6
+* Improves labels for group labels for headings and landmarks
+* Added 'landmarkOneGroupLabel' and 'headingOneGroupLabel' properties to configuration
+* Changed default headers to be any h1 or h2 on the page
+
 ## Version 5.7.5
 * Fixing bug in banner and contentinfo navigation in menu
 * Configuration option for changing the border and offset for highlighting elements

@@ -1,10 +1,12 @@
 # Version history for SkipTo.js for Firefox, Chrome and Opera
 
+## Version 1.1.8
+* Support version 5.7.6 of SkipTo.js improves group labels for landmarks and headings
+
 ## Version 1.1.7
 * Support version 5.7.5 of SkipTo.js that fixes bug in banner and contentinfo menu navigation
 * Configuration of border and offset for highlighting elements
 * Added border style configuration to highlighting elements
-
 
 ## Version 1.1.6
 * Support version 5.7.4 of SkipTo.js that supports dark more for overlay using custom element for highlighting

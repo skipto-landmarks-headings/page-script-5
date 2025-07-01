@@ -261,9 +261,9 @@
   const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
   const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
 
-  const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-576';
-  const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-576';
-  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-576';
+  const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-575';
+  const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-575';
+  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-575';
 
   // Attributes
 
@@ -4452,31 +4452,19 @@ button:hover {
         // Update list of menuitems
         this.updateMenuitems();
 
-        this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel, landmarkElements.length);
-        if (landmarkElements.length === 1) {
-          this.landmarkGroupLabelNode.setAttribute('aria-label', config.landmarkOneGroupLabel);
-        }
-        else {
-         this.landmarkGroupLabelNode.setAttribute('aria-label', `${landmarkElements.length} ${config.landmarkGroupLabel}`);
-        }
+        // Are all headings in the main region
+        const allInMain = headingElements.length > 0 ?
+              headingElements.reduce( (flag, item) => {
+                return flag && item.inMain;
+              }, true) :
+              false;
 
-        if (config.headings.includes('main')) {
+        this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel, landmarkElements.length);
+        if (config.headings.includes('main') && allInMain) {
           this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingMainGroupLabel, headingElements.length);
-          if (headingElements.length === 1) {
-            this.headingGroupLabelNode.setAttribute('aria-label', config.headingOneMainGroupLabel);
-          }
-          else {
-           this.headingGroupLabelNode.setAttribute('aria-label', `${headingElements.length} ${config.headingMainGroupLabel}`);
-          }
         }
         else {
           this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel, headingElements.length);
-          if (headingElements.length === 1) {
-            this.headingGroupLabelNode.setAttribute('aria-label', config.headingOneGroupLabel);
-          }
-          else {
-           this.headingGroupLabelNode.setAttribute('aria-label', `${headingElements.length} ${config.headingGroupLabel}`);
-          }
         }
       }
 
@@ -5321,17 +5309,17 @@ button:hover {
 
   const defaultStyleOptions = colorThemes['default'];
 
-  /* @class SkipToContent576
+  /* @class SkipToContent575
    *
    */
 
-  class SkipToContent576 extends HTMLElement {
+  class SkipToContent575 extends HTMLElement {
 
     constructor() {
       // Always call super first in constructor
       super();
       this.attachShadow({ mode: 'open' });
-      this.version = "5.7.6";
+      this.version = "5.7.5";
       this.buttonSkipTo = false;
       this.initialized = false;
 
@@ -5430,9 +5418,7 @@ button:hover {
         menuLabel: 'Landmarks and Headings',
         landmarkGroupLabel: 'Landmark Regions',
         headingGroupLabel: 'Headings',
-        headingOneGroupLabel: 'One Heading',
         headingMainGroupLabel: 'Headings in Main Region',
-        headingOneMainGroupLabel: 'One Heading in Main Region',
         headingLevelLabel: 'Heading level',
         mainLabel: 'main',
         searchLabel: 'search',
@@ -5447,7 +5433,7 @@ button:hover {
 
         // Selectors for landmark and headings sections
         landmarks: 'main search navigation complementary',
-        headings: 'h1 h2',
+        headings: 'main-only h1 h2',
 
         // Highlight options
         highlightTarget:      defaultStyleOptions.highlightTarget,
@@ -5830,7 +5816,7 @@ button:hover {
           if (!isExtensionLoaded) {
             if (!isBookmarkletLoaded) {
               removePageSkipTo();
-              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent576);
+              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent575);
               skipToContentElem = document.createElement(BOOKMARKLET_ELEMENT_NAME);
               skipToContentElem.setAttribute('version', skipToContentElem.version);
               skipToContentElem.setAttribute('type', type);
@@ -5846,7 +5832,7 @@ button:hover {
           if (!isExtensionLoaded) {
             removePageSkipTo();
             removeBookmarkletSkipTo();
-            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent576);
+            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent575);
             skipToContentElem = document.createElement(EXTENSION_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
@@ -5859,7 +5845,7 @@ button:hover {
 
         default:
           if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
-            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent576);
+            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent575);
             skipToContentElem = document.createElement(PAGE_SCRIPT_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);

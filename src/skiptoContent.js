@@ -30,17 +30,17 @@ debug.flag = false;
 
 const defaultStyleOptions = colorThemes['default'];
 
-/* @class SkipToContent575
+/* @class SkipToContent576
  *
  */
 
-export default class SkipToContent575 extends HTMLElement {
+export default class SkipToContent576 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
-    this.version = "5.7.5";
+    this.version = "5.7.6";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -139,7 +139,9 @@ export default class SkipToContent575 extends HTMLElement {
       menuLabel: 'Landmarks and Headings',
       landmarkGroupLabel: 'Landmark Regions',
       headingGroupLabel: 'Headings',
+      headingOneGroupLabel: 'One Heading',
       headingMainGroupLabel: 'Headings in Main Region',
+      headingOneMainGroupLabel: 'One Heading in Main Region',
       headingLevelLabel: 'Heading level',
       mainLabel: 'main',
       searchLabel: 'search',
@@ -154,7 +156,7 @@ export default class SkipToContent575 extends HTMLElement {
 
       // Selectors for landmark and headings sections
       landmarks: 'main search navigation complementary',
-      headings: 'main-only h1 h2',
+      headings: 'h1 h2',
 
       // Highlight options
       highlightTarget:      defaultStyleOptions.highlightTarget,
