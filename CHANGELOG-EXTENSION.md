@@ -1,10 +1,10 @@
 # Version history for SkipTo.js for Firefox, Chrome and Opera
 
 ## Version 1.1.9
-* Support version 5.8.0 of SkipTo.js improves group labels for landmarks and headings
+* Support version 5.8.0 of SkipTo.js fixes adds new headings and landmark exclusion options
 
 ## Version 1.1.8
-* Support version 5.8.0 of SkipTo.js fixes group label reference
+* Support version 5.7.6 of SkipTo.js fixes group label reference
 
 ## Version 1.1.7
 * Support version 5.7.5 of SkipTo.js that fixes bug in banner and contentinfo menu navigation
