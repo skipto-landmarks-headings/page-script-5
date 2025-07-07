@@ -30,17 +30,17 @@ debug.flag = false;
 
 const defaultStyleOptions = colorThemes['default'];
 
-/* @class SkipToContent576
+/* @class SkipToContent580
  *
  */
 
-export default class SkipToContent576 extends HTMLElement {
+export default class SkipToContent580 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
-    this.version = "5.7.6";
+    this.version = "5.8.0";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -49,6 +49,11 @@ export default class SkipToContent576 extends HTMLElement {
       // Feature switches
       enableHeadingLevelShortcuts: true,
       lightDarkSupported: 'false',
+
+      // Content options
+
+      excludeSmallHeadings: true,
+      excludeLandmarksWithoutNames: true,
 
       focusOption: 'none',  // used by extensions only
 

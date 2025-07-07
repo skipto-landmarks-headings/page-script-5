@@ -315,11 +315,39 @@ function couldHaveAltText (element) {
 *   @returns  {String}  see @desc
 *
 */
+
 function addCssGeneratedContent (element, contents) {
 
-  let result = contents,
-      prefix = getComputedStyle(element, ':before').content,
-      suffix = getComputedStyle(element, ':after').content;
+  function isVisible (style) {
+
+    let flag = true;
+
+    const display = style.getPropertyValue("display");
+    if (display) {
+      flag = flag && display !== 'none';
+    }
+
+    const visibility = style.getPropertyValue("visibility");
+    if (visibility) {
+      flag = flag && (visibility !== 'hidden') && (visibility !== 'collapse');
+    }
+    return flag;
+  }
+
+  let result = contents;
+  const styleBefore = getComputedStyle(element, ':before');
+  const styleAfter  = getComputedStyle(element, ':after');
+
+  const beforeVisible = isVisible(styleBefore);
+  const afterVisible  = isVisible(styleAfter);
+
+  const prefix = beforeVisible ?
+                 styleBefore.content :
+                 '';
+
+  const suffix = afterVisible ?
+                 styleAfter.content :
+                 '';
 
   if ((prefix[0] === '"') && !prefix.toLowerCase().includes('moz-')) {
     result = prefix.substring(1, (prefix.length-1)) + result;

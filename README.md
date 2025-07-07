@@ -1,4 +1,4 @@
-# SkipTo Page Script, Version 5.7
+# SkipTo Page Script, Version 5.8
 
 See the [documentation](https://skipto-landmarks-headings.github.io/page-script-5/) for more information on SkipTo.
 

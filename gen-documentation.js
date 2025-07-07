@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const nunjucks  = require('nunjucks');
 
-const version = "5.7";
+const version = "5.8";
 
 /* Constants */
 

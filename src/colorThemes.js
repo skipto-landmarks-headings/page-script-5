@@ -6,7 +6,7 @@ export const colorThemes = {
     fontFamily: 'inherit',
     fontSize: 'inherit',
     positionLeft: '46%',
-    smallBreakPoint: '576',
+    smallBreakPoint: '580',
     mediumBreakPoint: '992',
     buttonTextColor: '#13294b',
     buttonBackgroundColor: '#dddddd',

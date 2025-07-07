@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.7
+ * Version: 5.8.0
  * Copyright (c) 2022, 2023, 2024, 2025 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -26,7 +26,7 @@
       fontFamily: 'inherit',
       fontSize: 'inherit',
       positionLeft: '46%',
-      smallBreakPoint: '576',
+      smallBreakPoint: '580',
       mediumBreakPoint: '992',
       buttonTextColor: '#13294b',
       buttonBackgroundColor: '#dddddd',
@@ -232,6 +232,10 @@
 
   /* constants.js */
 
+  // Numbers
+
+  const REQUIRE_ACCESSIBLE_NAME_COUNT = 3;
+
   // Element IDs
 
   const SKIP_TO_ID            = 'id-skip-to-ver-5';
@@ -261,9 +265,9 @@
   const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
   const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
 
-  const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-576';
-  const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-576';
-  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-576';
+  const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-580';
+  const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-580';
+  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-580';
 
   // Attributes
 
@@ -921,6 +925,35 @@
     }
 
     return !isDisplayNone(element);
+  }
+
+  /**
+   * @fuction isSmallOrOffScreen
+   *
+   * @desc Returns true if the element is not very high or wide, or is
+   *       positioned outside the graphical rendering
+   *
+   * @param {node}  elementNode  - DOM element node of a labelable element
+   */
+  function isSmallOrOffScreen(elementNode) {
+
+    function isSmall(style) {
+      const height = parseFloat(style.getPropertyValue("height"));
+      const width  = parseFloat(style.getPropertyValue("width"));
+      const overflow = style.getPropertyValue("overflow");
+      return ((height <= 3) || (width <= 3)) && (overflow === 'hidden');
+    }
+
+    function isOffScreen(style) {
+      const top = parseFloat(style.getPropertyValue("top"));
+      const left  = parseFloat(style.getPropertyValue("left"));
+      const position = style.getPropertyValue("position");
+      return ((top < -5) || (left < -5)) && (position === 'absolute');
+    }
+
+    let style = window.getComputedStyle(elementNode, null);
+
+    return isSmall(style) || isOffScreen(style);
   }
 
   /* shortcutInfoDialog.js */
@@ -2544,11 +2577,39 @@ button:hover {
   *   @returns  {String}  see @desc
   *
   */
+
   function addCssGeneratedContent (element, contents) {
 
-    let result = contents,
-        prefix = getComputedStyle(element, ':before').content,
-        suffix = getComputedStyle(element, ':after').content;
+    function isVisible (style) {
+
+      let flag = true;
+
+      const display = style.getPropertyValue("display");
+      if (display) {
+        flag = flag && display !== 'none';
+      }
+
+      const visibility = style.getPropertyValue("visibility");
+      if (visibility) {
+        flag = flag && (visibility !== 'hidden') && (visibility !== 'collapse');
+      }
+      return flag;
+    }
+
+    let result = contents;
+    const styleBefore = getComputedStyle(element, ':before');
+    const styleAfter  = getComputedStyle(element, ':after');
+
+    const beforeVisible = isVisible(styleBefore);
+    const afterVisible  = isVisible(styleAfter);
+
+    const prefix = beforeVisible ?
+                   styleBefore.content :
+                   '';
+
+    const suffix = afterVisible ?
+                   styleAfter.content :
+                   '';
 
     if ((prefix[0] === '"') && !prefix.toLowerCase().includes('moz-')) {
       result = prefix.substring(1, (prefix.length-1)) + result;
@@ -2646,6 +2707,7 @@ button:hover {
   const debug$5 = new DebugLogging('landmarksHeadings', false);
   debug$5.flag = false;
 
+
   const skipableElements = [
     'base',
     'content',
@@ -2659,7 +2721,10 @@ button:hover {
     'style',
     'template',
     'shadow',
-    'title'
+    'title',
+    PAGE_SCRIPT_ELEMENT_NAME,
+    BOOKMARKLET_ELEMENT_NAME,
+    EXTENSION_ELEMENT_NAME
   ];
 
   const allowedLandmarkSelectors = [
@@ -3278,7 +3343,7 @@ button:hover {
     // If targets undefined, use default settings
     if (typeof headingTargets !== 'string') {
       console.warn(`[skipto.js]: Error in heading configuration`);
-      headingTargets = 'main-only h1 h2';
+      headingTargets = 'h1 h2';
     }
 
     const [landmarks, headings] = queryDOMForLandmarksAndHeadings(landmarkTargets, headingTargets, skiptoId);
@@ -3307,7 +3372,9 @@ button:hover {
       if ((typeof role === 'string') &&
           ((role === 'presentation') || role === 'none')
          ) continue;
-      if (isVisible(heading.node) && isNotEmptyString(heading.node.textContent)) {
+      if (isVisible(heading.node) &&
+          isNotEmptyString(heading.node.textContent) &&
+          ((config.excludeSmallHeadings === 'false') || !isSmallOrOffScreen(heading.node))) {
         if (heading.node.hasAttribute('data-skip-to-id')) {
           dataId = heading.node.getAttribute('data-skip-to-id');
         } else {
@@ -3425,6 +3492,32 @@ button:hover {
     return targetLandmarks;
   }
 
+  /*
+   * @function checkForName
+   *
+   * @desc  Removes landmark objects without an accessible name if array is longer
+   *        than accessible name count constant
+   *
+   * @param {Array} landmarks - Array of landmark objects
+   *
+   * @returns {Array}  Array of landmark objects
+   */
+  function checkForName (landmarks) {
+
+    let namedLandmarks = [];
+
+    if (landmarks.length > REQUIRE_ACCESSIBLE_NAME_COUNT) {
+
+      landmarks.forEach( (l) => {
+        if (l.hasName) {
+          namedLandmarks.push(l);
+        }
+      });
+      return namedLandmarks;
+    }
+
+    return landmarks;
+  }
 
   /*
    * @function getLandmarks
@@ -3550,6 +3643,18 @@ button:hover {
     if (config.landmarks.includes('doc-order')) {
       return allElements;
     }
+  //  if (config.excludeHiddenHeadings) {
+
+  //  }
+    if (config.excludeLandmarksWithoutNames === 'true') {
+      asideElements  = checkForName(asideElements);
+      navElements    = checkForName(navElements);
+      searchElements = checkForName(searchElements);
+      headerElements = checkForName(headerElements);
+      footerElements = checkForName(footerElements);
+
+    }
+
     return [].concat(mainElements, searchElements, navElements, asideElements, regionElements, footerElements, headerElements, otherElements);
   }
 
@@ -5321,17 +5426,17 @@ button:hover {
 
   const defaultStyleOptions = colorThemes['default'];
 
-  /* @class SkipToContent576
+  /* @class SkipToContent580
    *
    */
 
-  class SkipToContent576 extends HTMLElement {
+  class SkipToContent580 extends HTMLElement {
 
     constructor() {
       // Always call super first in constructor
       super();
       this.attachShadow({ mode: 'open' });
-      this.version = "5.7.6";
+      this.version = "5.8.0";
       this.buttonSkipTo = false;
       this.initialized = false;
 
@@ -5340,6 +5445,11 @@ button:hover {
         // Feature switches
         enableHeadingLevelShortcuts: true,
         lightDarkSupported: 'false',
+
+        // Content options
+
+        excludeSmallHeadings: true,
+        excludeLandmarksWithoutNames: true,
 
         focusOption: 'none',  // used by extensions only
 
@@ -5830,7 +5940,7 @@ button:hover {
           if (!isExtensionLoaded) {
             if (!isBookmarkletLoaded) {
               removePageSkipTo();
-              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent576);
+              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent580);
               skipToContentElem = document.createElement(BOOKMARKLET_ELEMENT_NAME);
               skipToContentElem.setAttribute('version', skipToContentElem.version);
               skipToContentElem.setAttribute('type', type);
@@ -5846,7 +5956,7 @@ button:hover {
           if (!isExtensionLoaded) {
             removePageSkipTo();
             removeBookmarkletSkipTo();
-            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent576);
+            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent580);
             skipToContentElem = document.createElement(EXTENSION_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
@@ -5859,7 +5969,7 @@ button:hover {
 
         default:
           if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
-            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent576);
+            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent580);
             skipToContentElem = document.createElement(PAGE_SCRIPT_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);

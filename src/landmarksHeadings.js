@@ -4,8 +4,17 @@
 import DebugLogging  from './debug.js';
 
 import {
+  REQUIRE_ACCESSIBLE_NAME_COUNT,
+  PAGE_SCRIPT_ELEMENT_NAME,
+  BOOKMARKLET_ELEMENT_NAME,
+  EXTENSION_ELEMENT_NAME
+} from './constants.js';
+
+
+import {
   isNotEmptyString,
   isVisible,
+  isSmallOrOffScreen
 } from './utils.js';
 
 
@@ -29,6 +38,7 @@ export {
 const debug = new DebugLogging('landmarksHeadings', false);
 debug.flag = false;
 
+
 const skipableElements = [
   'base',
   'content',
@@ -42,7 +52,10 @@ const skipableElements = [
   'style',
   'template',
   'shadow',
-  'title'
+  'title',
+  PAGE_SCRIPT_ELEMENT_NAME,
+  BOOKMARKLET_ELEMENT_NAME,
+  EXTENSION_ELEMENT_NAME
 ];
 
 const allowedLandmarkSelectors = [
@@ -664,7 +677,7 @@ function getLandmarksAndHeadings (config, skiptoId) {
   // If targets undefined, use default settings
   if (typeof headingTargets !== 'string') {
     console.warn(`[skipto.js]: Error in heading configuration`);
-    headingTargets = 'main-only h1 h2';
+    headingTargets = 'h1 h2';
   }
 
   const [landmarks, headings] = queryDOMForLandmarksAndHeadings(landmarkTargets, headingTargets, skiptoId);
@@ -693,7 +706,9 @@ function getHeadings (config, headings) {
     if ((typeof role === 'string') &&
         ((role === 'presentation') || role === 'none')
        ) continue;
-    if (isVisible(heading.node) && isNotEmptyString(heading.node.textContent)) {
+    if (isVisible(heading.node) &&
+        isNotEmptyString(heading.node.textContent) &&
+        ((config.excludeSmallHeadings === 'false') || !isSmallOrOffScreen(heading.node))) {
       if (heading.node.hasAttribute('data-skip-to-id')) {
         dataId = heading.node.getAttribute('data-skip-to-id');
       } else {
@@ -811,6 +826,32 @@ function getLandmarkTargets (targets) {
   return targetLandmarks;
 }
 
+/*
+ * @function checkForName
+ *
+ * @desc  Removes landmark objects without an accessible name if array is longer
+ *        than accessible name count constant
+ *
+ * @param {Array} landmarks - Array of landmark objects
+ *
+ * @returns {Array}  Array of landmark objects
+ */
+function checkForName (landmarks) {
+
+  let namedLandmarks = [];
+
+  if (landmarks.length > REQUIRE_ACCESSIBLE_NAME_COUNT) {
+
+    landmarks.forEach( (l) => {
+      if (l.hasName) {
+        namedLandmarks.push(l);
+      }
+    });
+    return namedLandmarks;
+  }
+
+  return landmarks;
+}
 
 /*
  * @function getLandmarks
@@ -938,6 +979,18 @@ function getLandmarks(config, landmarks) {
   if (config.landmarks.includes('doc-order')) {
     return allElements;
   }
+//  if (config.excludeHiddenHeadings) {
+
+//  }
+  if (config.excludeLandmarksWithoutNames === 'true') {
+    asideElements  = checkForName(asideElements);
+    navElements    = checkForName(navElements);
+    searchElements = checkForName(searchElements);
+    headerElements = checkForName(headerElements);
+    footerElements = checkForName(footerElements);
+
+  }
+
   return [].concat(mainElements, searchElements, navElements, asideElements, regionElements, footerElements, headerElements, otherElements);
 }
 

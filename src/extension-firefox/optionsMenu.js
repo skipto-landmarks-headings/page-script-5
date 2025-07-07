@@ -108,21 +108,33 @@ optionsMenuTemplate.innerHTML = `
                  value="region"
                  data-option="landmarks"/>
           <span data-i18n="options_landmark_region">
-            Named region
+            XX
           </span>
         </label>
 
         <label class="inline"
-               style="margin-top: 2em"
+               style="margin-top: 1em"
+               for="landmarks-with-name">
+          <input id="landmarks-with-name"
+                 type="checkbox"
+                 data-option="excludeLandmarksWithoutNames"/>
+          <span data-i18n="options_landmarks_without_names">
+            XX
+          </span>
+        </label>
+
+        <label class="inline"
+               style="margin-top: 1em"
                for="landmarks-doc-order">
           <input id="landmarks-doc-order"
                  type="checkbox"
                  value="doc-order"
                  data-option="landmarks"/>
           <span data-i18n="options_landmark_doc_order">
-            Show landmarks in document order
+            XX
           </span>
         </label>
+
 
       </fieldset>
 
@@ -204,7 +216,7 @@ optionsMenuTemplate.innerHTML = `
         </label>
 
         <label class="inline"
-               style="margin-top: 2em"
+               style="margin-top: 1em"
                for="headings-main-only">
           <input id="headings-main-only"
                  type="checkbox"
@@ -214,6 +226,18 @@ optionsMenuTemplate.innerHTML = `
             Only show headings in main landmark region
           </span>
         </label>
+
+        <label class="inline"
+               style="margin-top: 1em"
+               for="headings-small">
+          <input id="headings-small"
+                 type="checkbox"
+                 data-option="excludeSmallHeadings"/>
+          <span data-i18n="options_heading_exclude_small">
+            XX
+          </span>
+        </label>
+
 
       </fieldset>
 
@@ -294,7 +318,12 @@ class OptionsMenu extends HTMLElement {
         debug && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
         const option = input.getAttribute('data-option');
         if (input.type === 'checkbox') {
-          input.checked = options[option].includes(input.value);
+          if (options[option].includes) {
+            input.checked = options[option].includes(input.value);
+          }
+          else {
+            input.checked = options[option];
+          }
         }
         else {
           const value = option === 'headings' ?
@@ -355,14 +384,23 @@ class OptionsMenu extends HTMLElement {
         const option = input.getAttribute('data-option');
         if (input.type === 'checkbox') {
           if (input.checked) {
-            if (!options[option].includes(input.value)) {
-              options[option] += ' ' + input.value;
+            if (options[option].includes) {
+              if (!options[option].includes(input.value)) {
+                options[option] += ' ' + input.value;
+              }
+            }
+            else {
+              options[option] = true;
             }
           }
           else {
-            options[option] = options[option].replace(input.value, '');
+            if (options[option].replace) {
+              options[option] = options[option].replace(input.value, '').trim();
+            }
+            else {
+              options[option] = false;
+            }
           }
-          options[option] = options[option].trim();
         }
         else {
           if (input.type === 'radio') {

@@ -1,5 +1,9 @@
 /* constants.js */
 
+// Numbers
+
+export const REQUIRE_ACCESSIBLE_NAME_COUNT = 3;
+
 // Element IDs
 
 export const SKIP_TO_ID            = 'id-skip-to-ver-5';
@@ -29,9 +33,9 @@ export const PAGE_SCRIPT_ELEMENT_NAME = 'skip-to-content';
 export const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
 export const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
 
-export const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-576';
-export const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-576';
-export const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-576';
+export const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-580';
+export const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-580';
+export const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-580';
 
 // Attributes
 

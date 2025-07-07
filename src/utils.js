@@ -15,7 +15,8 @@ export {
   getAttributeValue,
   isEmptyString,
   isNotEmptyString,
-  isVisible
+  isVisible,
+  isSmallOrOffScreen
 };
 
 
@@ -122,6 +123,35 @@ function isVisible (element) {
   }
 
   return !isDisplayNone(element);
+}
+
+/**
+ * @fuction isSmallOrOffScreen
+ *
+ * @desc Returns true if the element is not very high or wide, or is
+ *       positioned outside the graphical rendering
+ *
+ * @param {node}  elementNode  - DOM element node of a labelable element
+ */
+function isSmallOrOffScreen(elementNode) {
+
+  function isSmall(style) {
+    const height = parseFloat(style.getPropertyValue("height"));
+    const width  = parseFloat(style.getPropertyValue("width"));
+    const overflow = style.getPropertyValue("overflow");
+    return ((height <= 3) || (width <= 3)) && (overflow === 'hidden');
+  }
+
+  function isOffScreen(style) {
+    const top = parseFloat(style.getPropertyValue("top"));
+    const left  = parseFloat(style.getPropertyValue("left"));
+    const position = style.getPropertyValue("position");
+    return ((top < -5) || (left < -5)) && (position === 'absolute');
+  }
+
+  let style = window.getComputedStyle(elementNode, null);
+
+  return isSmall(style) || isOffScreen(style);
 }
 
 

@@ -355,6 +355,10 @@
     "message" : "Only show headings in main landmark region",
     "description" : "Only include headings in the main landmark region from page in menu"
   },
+  "options_heading_exclude_small": {
+    "message" : "Exclude small and off-screen headings (e.g. hidden)",
+    "description" : "Exclude small and off-screen headings label"
+  },
   "options_landmark_legend": {
     "message" : "Landmark Regions",
     "description" : "Label for landmarks checkbox group"
@@ -386,6 +390,10 @@
   "options_landmark_doc_order": {
     "message" : "Show landmarks in document order",
     "description" : "Label for showing landmarks in document order checkbox"
+  },
+  "options_landmarks_without_names": {
+    "message" : "Exclude landmarks with out accessible names when there are more than 3 landmarks of the same type",
+    "description" : "Label for excluding landmarks without accessible names"
   },
   "options_font_options": {
     "message" : "Font Options",
