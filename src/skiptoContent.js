@@ -52,8 +52,7 @@ export default class SkipToContent580 extends HTMLElement {
 
       // Content options
 
-      excludeSmallHeadings: true,
-      excludeLandmarksWithoutNames: true,
+      showLandmarksWithoutNames: 'false',
 
       focusOption: 'none',  // used by extensions only
 

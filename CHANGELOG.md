@@ -6,7 +6,6 @@
 * Changed default headers to be any h1 or h2 on the page
 * Exclude SkipTo.js components from analysis
 * New option to exclude landmarks without accessible names if there are more than 3 landmarks of that type (default is to exclude), this mimics screen reader behaviors
-* New option to exclude headings that are off screen or hidden (default is to exclude), this mimics screen reader behaviors
 * Update accessible name calculation to exclude hidden :before and :after content
 
 ## Version 5.7.5

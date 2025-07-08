@@ -38,10 +38,9 @@ const defaultShortcutOptions = {
 };
 
 const defaultMenuOptions = {
-  headings: 'h1 h2',
+  headings: 'main-only h1 h2',
   landmarks: 'main search navigation complementary',
-  excludeSmallHeadings: true,
-  excludeLandmarksWithoutNames: true
+  showLandmarksWithoutNames:false
 };
 
 const defaultHighlightOptions = {

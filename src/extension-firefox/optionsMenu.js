@@ -117,7 +117,7 @@ optionsMenuTemplate.innerHTML = `
                for="landmarks-with-name">
           <input id="landmarks-with-name"
                  type="checkbox"
-                 data-option="excludeLandmarksWithoutNames"/>
+                 data-option="showLandmarksWithoutNames"/>
           <span data-i18n="options_landmarks_without_names">
             XX
           </span>
@@ -226,18 +226,6 @@ optionsMenuTemplate.innerHTML = `
             Only show headings in main landmark region
           </span>
         </label>
-
-        <label class="inline"
-               style="margin-top: 1em"
-               for="headings-small">
-          <input id="headings-small"
-                 type="checkbox"
-                 data-option="excludeSmallHeadings"/>
-          <span data-i18n="options_heading_exclude_small">
-            XX
-          </span>
-        </label>
-
 
       </fieldset>
 

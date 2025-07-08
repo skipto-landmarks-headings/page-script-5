@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {% include "../head.njk" %}
+  </head>
+  <body>
+    {% include "../header.njk" %}
+
+    <div class="container px-4">
+      <nav aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+          <li class="breadcrumb-item active">{{title | safe}}</li>
+        </ol>
+      </nav>
+
+    <!-- Layout of Main Content -->
+      <div class="container">
+        <div class="row">
+
+          <div class="col col-lg-2 bg-light border rounded">
+            <div role="search">
+                <label for="id-search-input">Search</label>
+                <input id="id-search-input"
+                  type="text"
+                  style="width: 100%; padding: 2px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;">
+            </div>
+
+            <nav aria-labelledby="id-test-pages">
+              <h2 id="id-test-pages">Test Pages</h2>
+              <ul>
+              {% for t in tests %}
+                <li><a href="{{t.filename}}">{{t.title | safe}}</a></li>
+              {% endfor %}
+              </ul>
+            </nav>
+          </div>
+
+          <main class="col col-lg-8">
+            {% block title %}
+            <h1>{{title}}</h1>
+            {% endblock %}
+
+            <section class="border border-2 rounded"
+              style="padding: 0.5em"
+              aria-labelledby="id-description">
+
+              <h2 id="id-description" style="margin-top: 0">Description</h2>
+              <p>{{description}}</p>
+
+              {% if config %}
+              <h2>Configuration Parameters</h2>
+              <div class="params bg-light" width="auto">
+                <code>{{config}}</code>
+              </div>
+              {% endif %}
+            </section>
+
+            <h2>H3s with height set</h2>
+
+            <h3 style="height: 1px; overflow: hidden">H3 with height of 1 pixel</h3>
+            <p>1 Pixel height heading: <code>height: 1px; overflow: hidden</code></p>
+
+            <h3 style="height: 2px; overflow: hidden">H3 with height of 2 pixel</h3>
+            <p>2 Pixel height heading: <code>height: 2px; overflow: hidden</code></p>
+
+            <h3 style="height: 3px; overflow: hidden">H3 with height of 3 pixel</h3>
+            <p>3 Pixel height heading: <code>height: 3px; overflow: hidden</code></p>
+
+            <h3 style="height: 4px; overflow: hidden">H3 with height of 4 pixel</h3>
+            <p>4 Pixel height heading: <code>height: 4px; overflow: hidden</code></p>
+
+            <h3 style="height: 5px; overflow: hidden">H3 with height of 5 pixel</h3>
+            <p>5 Pixel height heading: <code>height: 5px; overflow: hidden</code></p>
+
+            <h3 style="height: 6px; overflow: hidden">H3 with height of 6 pixel</h3>
+            <p>6 Pixel height heading: <code>height: 6px; overflow: hidden</code></p>
+
+            <h3 style="height: 7px; overflow: hidden">H3 with height of 7 pixel</h3>
+            <p>7 Pixel height heading: <code>height: 7px; overflow: hidden</code></p>
+
+            <h3 style="height: 8px; overflow: hidden">H3 with height of 8 pixel</h3>
+            <p>8 Pixel height heading: <code>height: 8px; overflow: hidden</code></p>
+
+            <h3 style="height: 9px; overflow: hidden">H3 with height of 9 pixel</h3>
+            <p>9 Pixel height heading: <code>height: 9px; overflow: hidden</code></p>
+
+            <h3 style="height: 10px; overflow: hidden">H3 with height of 10 pixel</h3>
+            <p>10 Pixel height heading: <code>height: 10px; overflow: hidden</code></p>
+
+            <h3 style="height: 11px; overflow: hidden">H3 with height of 11 pixel</h3>
+            <p>11 Pixel height heading: <code>height: 11px; overflow: hidden</code></p>
+
+            <h3 style="height: 12px; overflow: hidden">H3 with height of 12 pixel</h3>
+            <p>12 Pixel height heading: <code>height: 12px; overflow: hidden</code></p>
+
+            <h3 style="height: 13px; overflow: hidden">H3 with height of 13 pixel</h3>
+            <p>13 Pixel height heading: <code>height: 13px; overflow: hidden</code></p>
+
+            <h3 style="height: 14px; overflow: hidden">H3 with height of 14 pixel</h3>
+            <p>14 Pixel height heading: <code>height: 14px; overflow: hidden</code></p>
+
+            <h3 style="height: 15px; overflow: hidden">H3 with height of 15 pixel</h3>
+            <p>15 Pixel height heading: <code>height: 15px; overflow: hidden</code></p>
+
+            <h3 style="height: 16px; overflow: hidden">H3 with height of 16 pixel</h3>
+            <p>16 Pixel height heading: <code>height: 16px; overflow: hidden</code></p>
+
+            <h3 style="height: 17px; overflow: hidden">H3 with height of 17 pixel</h3>
+            <p>17 Pixel height heading: <code>height: 17px; overflow: hidden</code></p>
+
+            <h3 style="height: 18px; overflow: hidden">H3 with height of 18 pixel</h3>
+            <p>18 Pixel height heading: <code>height: 18px; overflow: hidden</code></p>
+
+            <h3 style="height: 19px; overflow: hidden">H3 with height of 19 pixel</h3>
+            <p>19 Pixel height heading: <code>height: 19px; overflow: hidden</code></p>
+
+            <h3 style="height: 20px; overflow: hidden">H3 with height of 20 pixel</h3>
+            <p>20 Pixel height heading: <code>height: 20px; overflow: hidden</code></p>
+
+            <h3 style="height: 21px; overflow: hidden">H3 with height of 21 pixel</h3>
+            <p>21 Pixel height heading: <code>height: 21px; overflow: hidden</code></p>
+
+            <h3 style="height: 22px; overflow: hidden">H3 with height of 22 pixel</h3>
+            <p>22 Pixel height heading: <code>height: 22px; overflow: hidden</code></p>
+
+            <h3 style="height: 23px; overflow: hidden">H3 with height of 23 pixel</h3>
+            <p>23 Pixel height heading: <code>height: 23px; overflow: hidden</code></p>
+
+            <h3 style="height: 24px; overflow: hidden">H3 with height of 24 pixel</h3>
+            <p>24 Pixel height heading: <code>height: 24px; overflow: hidden</code></p>
+
+            <h3 style="height: 25px; overflow: hidden">H3 with height of 25 pixel</h3>
+            <p>25 Pixel height heading: <code>height: 25px; overflow: hidden</code></p>
+
+            <h3 style="height: 26px; overflow: hidden">H3 with height of 26 pixel</h3>
+            <p>26 Pixel height heading: <code>height: 26px; overflow: hidden</code></p>
+
+            <h3 style="height: 27px; overflow: hidden">H3 with height of 27 pixel</h3>
+            <p>27 Pixel height heading: <code>height: 27px; overflow: hidden</code></p>
+
+            <h3 style="height: 28px; overflow: hidden">H3 with height of 28 pixel</h3>
+            <p>28 Pixel height heading: <code>height: 28px; overflow: hidden</code></p>
+
+            <h2>H3s positioned off screen</h2>
+
+            <h3 style="position: absolute; top: -30em; left: -300em">H3 positioned off screen</h3>
+            <p>Positioned off screen: <code>position: absolute; top: -30em; left: -300em</code></p>
+
+
+
+
+          </main>
+
+        </div>
+
+    </div>
+    {% include "../footer.njk" %}
+    {% include "./scripts-example.njk" %}
+
+    <!-- SkipTo.js -->
+    <script data-skipto="positionLeft: 15%; {{config}}"
+            src="./dist/skipto.js">
+    </script>
+
+  </body>
+</html>

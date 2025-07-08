@@ -13,8 +13,7 @@ import {
 
 import {
   isNotEmptyString,
-  isVisible,
-  isSmallOrOffScreen
+  isVisible
 } from './utils.js';
 
 
@@ -707,8 +706,7 @@ function getHeadings (config, headings) {
         ((role === 'presentation') || role === 'none')
        ) continue;
     if (isVisible(heading.node) &&
-        isNotEmptyString(heading.node.textContent) &&
-        ((config.excludeSmallHeadings === 'false') || !isSmallOrOffScreen(heading.node))) {
+        isNotEmptyString(heading.node.textContent)) {
       if (heading.node.hasAttribute('data-skip-to-id')) {
         dataId = heading.node.getAttribute('data-skip-to-id');
       } else {
@@ -982,7 +980,7 @@ function getLandmarks(config, landmarks) {
 //  if (config.excludeHiddenHeadings) {
 
 //  }
-  if (config.excludeLandmarksWithoutNames === 'true') {
+  if (config.showLandmarksWithoutNames === 'false') {
     asideElements  = checkForName(asideElements);
     navElements    = checkForName(navElements);
     searchElements = checkForName(searchElements);

@@ -927,35 +927,6 @@
     return !isDisplayNone(element);
   }
 
-  /**
-   * @fuction isSmallOrOffScreen
-   *
-   * @desc Returns true if the element is not very high or wide, or is
-   *       positioned outside the graphical rendering
-   *
-   * @param {node}  elementNode  - DOM element node of a labelable element
-   */
-  function isSmallOrOffScreen(elementNode) {
-
-    function isSmall(style) {
-      const height = parseFloat(style.getPropertyValue("height"));
-      const width  = parseFloat(style.getPropertyValue("width"));
-      const overflow = style.getPropertyValue("overflow");
-      return ((height <= 3) || (width <= 3)) && (overflow === 'hidden');
-    }
-
-    function isOffScreen(style) {
-      const top = parseFloat(style.getPropertyValue("top"));
-      const left  = parseFloat(style.getPropertyValue("left"));
-      const position = style.getPropertyValue("position");
-      return ((top < -5) || (left < -5)) && (position === 'absolute');
-    }
-
-    let style = window.getComputedStyle(elementNode, null);
-
-    return isSmall(style) || isOffScreen(style);
-  }
-
   /* shortcutInfoDialog.js */
 
   /* Constants */
@@ -3373,8 +3344,7 @@ button:hover {
           ((role === 'presentation') || role === 'none')
          ) continue;
       if (isVisible(heading.node) &&
-          isNotEmptyString(heading.node.textContent) &&
-          ((config.excludeSmallHeadings === 'false') || !isSmallOrOffScreen(heading.node))) {
+          isNotEmptyString(heading.node.textContent)) {
         if (heading.node.hasAttribute('data-skip-to-id')) {
           dataId = heading.node.getAttribute('data-skip-to-id');
         } else {
@@ -3646,7 +3616,7 @@ button:hover {
   //  if (config.excludeHiddenHeadings) {
 
   //  }
-    if (config.excludeLandmarksWithoutNames === 'true') {
+    if (config.showLandmarksWithoutNames === 'false') {
       asideElements  = checkForName(asideElements);
       navElements    = checkForName(navElements);
       searchElements = checkForName(searchElements);
@@ -5448,8 +5418,7 @@ button:hover {
 
         // Content options
 
-        excludeSmallHeadings: true,
-        excludeLandmarksWithoutNames: true,
+        showLandmarksWithoutNames: 'false',
 
         focusOption: 'none',  // used by extensions only
 

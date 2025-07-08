@@ -360,7 +360,7 @@
     "description" : "Exclude small and off-screen headings label"
   },
   "options_landmark_legend": {
-    "message" : "Landmark Regions",
+    "message" : "Landmark Region Types",
     "description" : "Label for landmarks checkbox group"
   },
   "options_landmark_banner": {
@@ -392,7 +392,7 @@
     "description" : "Label for showing landmarks in document order checkbox"
   },
   "options_landmarks_without_names": {
-    "message" : "Exclude landmarks with out accessible names when there are more than 3 landmarks of the same type",
+    "message" : "Show landmarks of the same type without accessible names",
     "description" : "Label for excluding landmarks without accessible names"
   },
   "options_font_options": {
@@ -648,7 +648,7 @@
     "description" : "Describes how values are case sensitive"
   },
   "options_region_legend": {
-      "message" : "Landmark Regions",
+      "message" : "Landmark Region Types",
       "description" : "Legend for region landmark navigation shortcuts"
   },
   "options_region_next_label": {

@@ -204,6 +204,12 @@ const tests = [
     filename: 'test-init-object.html',
     description: 'Uses the SkipToConfig configuration object',
     config: ``
+  },
+  { template: './src-docs/templates/example/header-size.njk',
+    title: 'Header Size',
+    filename: 'test-header-size.html',
+    description: 'Testing if the dimensional size (e.g. height and width) of headings effects which headings screen readers will include in lists and header navigation',
+    config: ``
   }
   ]
 
