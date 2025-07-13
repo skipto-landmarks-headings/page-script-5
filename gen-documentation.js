@@ -94,6 +94,12 @@ const examples = [
     description: 'The "Skip To Content" menu button is always visible at the top of the window',
     config: ``
   },
+  { template: './src-docs/templates/example/content-slot-content.njk',
+    title: 'Content from Slot Elements',
+    filename: 'example-slot-content.html',
+    description: 'Able to calculate accessible names when slot content is used for the heading content.',
+    config: ``
+  },
   { template: './src-docs/templates/example/content-example.njk',
     title: 'Popup Menu Button',
     filename: 'example-popup.html',

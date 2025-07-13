@@ -232,7 +232,7 @@ function getNodeContents (node) {
       else {
         if (node instanceof HTMLSlotElement) {
           // if no slotted elements, check for default slotted content
-          const assignedNodes = node.assignedNodes().length ? node.assignedNodes() : node.assignedNodes({ flatten: true });
+          const assignedNodes = Array.from(node.assignedNodes({ flatten: true }));
           assignedNodes.forEach( assignedNode => {
             nc = getNodeContents(assignedNode);
             if (nc.length) arr.push(nc);
@@ -267,8 +267,7 @@ function getNodeContents (node) {
     default:
       break;  
   }
-
-  return contents;
+  return normalize(contents);
 }
 
 /*

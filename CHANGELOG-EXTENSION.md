@@ -1,7 +1,7 @@
 # Version history for SkipTo.js for Firefox, Chrome and Opera
 
 ## Version 1.2.0
-* Support version 5.8.0 of SkipTo.js fixes adds new landmark exclusion options
+* Support SkipTo.js 5.8.0, which includes bug fixess and adds a new landmark exclusion option
 
 ## Version 1.1.8
 * Support version 5.7.6 of SkipTo.js fixes group label reference

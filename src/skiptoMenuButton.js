@@ -199,7 +199,7 @@ export default class SkiptoMenuButton {
 
       this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
       this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
-      this.containerNode.addEventListener('pointerdown', this.handleContinerPointerdown.bind(this), true);
+      this.containerNode.addEventListener('pointerdown', this.handleContainerPointerdown.bind(this), true);
       document.documentElement.addEventListener('pointerdown', this.handleBodyPointerdown.bind(this), true);
 
       if (this.usesAltKey || this.usesOptionKey) {
@@ -1352,7 +1352,7 @@ export default class SkiptoMenuButton {
       event.preventDefault();
     }
 
-    handleContinerPointerdown(event) {
+    handleContainerPointerdown(event) {
       debug.flag && debug.log(`[down]: target: ${event.pointerId}`);
 
       if (this.isOverButton(event.clientX, event.clientY)) {
@@ -1360,8 +1360,8 @@ export default class SkiptoMenuButton {
       }
       else {
         this.containerNode.setPointerCapture(event.pointerId);
-        this.containerNode.addEventListener('pointermove', this.handleContinerPointermove.bind(this));
-        this.containerNode.addEventListener('pointerup', this.handleContinerPointerup.bind(this));
+        this.containerNode.addEventListener('pointermove', this.handleContainerPointermove.bind(this));
+        this.containerNode.addEventListener('pointerup', this.handleContainerPointerup.bind(this));
 
         if (this.containerNode.contains(event.target)) {
           if (this.isOpen()) {
@@ -1385,7 +1385,7 @@ export default class SkiptoMenuButton {
       event.preventDefault();
     }
 
-    handleContinerPointermove(event) {
+    handleContainerPointermove(event) {
       const mi = this.getMenuitem(event.clientX, event.clientY);
       if (mi) {
         this.removeHoverClass(mi);
@@ -1403,11 +1403,11 @@ export default class SkiptoMenuButton {
       event.preventDefault();
     }
 
-    handleContinerPointerup(event) {
+    handleContainerPointerup(event) {
 
       this.containerNode.releasePointerCapture(event.pointerId);
-      this.containerNode.removeEventListener('pointermove', this.handleContinerPointermove);
-      this.containerNode.removeEventListener('pointerup', this.handleContinerPointerup);
+      this.containerNode.removeEventListener('pointermove', this.handleContainerPointermove);
+      this.containerNode.removeEventListener('pointerup', this.handleContainerPointerup);
 
       const mi = this.getMenuitem(event.clientX, event.clientY);
       const omb = this.isOverButton(event.clientX, event.clientY);

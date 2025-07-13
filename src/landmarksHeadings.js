@@ -560,6 +560,7 @@ function queryDOMForLandmarksAndHeadings (landmarkTargets, headingTargets, skipt
                     headingTags.includes(tagName) ?
                     tagName.substring(1) :
                     '';
+
       if (headingTags.includes(tagName) ||
          (isHeadingRole && hasAriaLevel)) {
         const accName = getAccessibleName(doc, node, true);
@@ -706,7 +707,7 @@ function getHeadings (config, headings) {
         ((role === 'presentation') || role === 'none')
        ) continue;
     if (isVisible(heading.node) &&
-        isNotEmptyString(heading.node.textContent)) {
+        isNotEmptyString(heading.name)) {
       if (heading.node.hasAttribute('data-skip-to-id')) {
         dataId = heading.node.getAttribute('data-skip-to-id');
       } else {

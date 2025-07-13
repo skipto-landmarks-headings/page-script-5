@@ -7,9 +7,10 @@
 * Exclude SkipTo.js components from analysis
 * New option to exclude landmarks without accessible names if there are more than 3 landmarks of that type (default is to exclude), this mimics screen reader behaviors
 * Update accessible name calculation to exclude hidden :before and :after content
+* Fixed bug in accessible name identification for including headings in menu (Issue #37)
 
 ## Version 5.7.5
-* Fixing bug in banner and contentinfo navigation in menu
+* Fixing bug in banner and contentinfo navigation in menu (Issue #31)
 * Configuration option for changing the border and offset for highlighting elements
 * Added border style configuration to highlighting elements
 * Fixed ID bug in menu

@@ -24,7 +24,7 @@ export {
 /**
  *   @fuction getAccessibleName
  *
- *   @desc Returns the accessible name for an heading or landamrk 
+ *   @desc Returns the accessible name for an heading or landmark
  *
  *   @paramn {Object}   dom      - Document of the current element
  *   @param  {node}     element  - DOM element node for either a heading or
