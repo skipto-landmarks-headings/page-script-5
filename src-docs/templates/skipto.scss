@@ -210,6 +210,13 @@ div.container .h1 {
   font-size: 2rem;
 }
 
+div.container h1 img.logo {
+  display: inline-block;
+  height: 48px;
+  padding: 0;
+  margin: 0.25em;
+}
+
 div.container h2,
 div.container .h2 {
   padding: 0;
