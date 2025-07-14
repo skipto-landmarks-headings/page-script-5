@@ -84,16 +84,16 @@
                   style="width: 100%; padding: 2px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;">
             </div>
 
-            <nav aria-labelledby="id-examples">
-              <slotted-h2 id="id-examples">Examples</slotted-h2>
-              <slotted-h2 class="hidden-offscreen">Examples off screen heading</slotted-h2>
-              <slotted-h2 class="hidden-small">Examples hidden small heading</slotted-h2>
+
+            <nav role="none" aria-labelledby="id-test-pages">
+              <h2 id="id-test-pages">Test Pages</h2>
               <ul>
-              {% for e in examples %}
-                <li><a href="{{e.filename}}">{{e.title | safe}}</a></li>
+              {% for t in tests %}
+                <li><a href="{{t.filename}}">{{t.title | safe}}</a></li>
               {% endfor %}
               </ul>
             </nav>
+
           </div>
 
           <main class="col col-lg-8">

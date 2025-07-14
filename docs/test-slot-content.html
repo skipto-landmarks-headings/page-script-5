@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Example: Popup with Border | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
+    <title>Test Page: Content from Slot Elements | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
     <!-- Choose Light or Dark Theme -->
@@ -20,6 +20,63 @@
 
 
 
+    <script>
+      class SlottedH1 extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          this.shadowRoot.innerHTML = "<h1><slot></slot></h1>"
+        }
+      }
+
+      class SlottedH2 extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          this.shadowRoot.innerHTML = "<h2><slot></slot></h2>"
+        }
+      }
+
+      class SlottedH3 extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          this.shadowRoot.innerHTML = "<h3><slot></slot></h3>"
+        }
+      }
+
+      class SlottedH4 extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          this.shadowRoot.innerHTML = "<h4><slot></slot></h4>"
+        }
+      }
+
+      class SlottedH5 extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          this.shadowRoot.innerHTML = "<h5><slot></slot></h5>"
+        }
+      }
+
+      class SlottedH6 extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          this.shadowRoot.innerHTML = "<h6><slot></slot></h6>"
+        }
+      }
+
+
+      customElements.define('slotted-h1', SlottedH1);
+      customElements.define('slotted-h2', SlottedH2);
+      customElements.define('slotted-h3', SlottedH3);
+      customElements.define('slotted-h4', SlottedH4);
+      customElements.define('slotted-h5', SlottedH5);
+      customElements.define('slotted-h6', SlottedH6);
+    </script>
   </head>
   <body>
             <!-- Navigation-->
@@ -98,7 +155,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
-          <li class="breadcrumb-item active">Example: Popup with Border</li>
+          <li class="breadcrumb-item active">Test Page: Content from Slot Elements</li>
         </ol>
       </nav>
 
@@ -114,73 +171,54 @@
                   style="width: 100%; padding: 2px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;">
             </div>
 
-            <nav aria-labelledby="id-examples">
-              <h2 id="id-examples">Examples</h2>
-              <h2 class="hidden-offscreen">Examples off screen heading</h2>
-              <h2 class="hidden-small">Examples hidden small heading</h2>
+
+            <nav role="none" aria-labelledby="id-test-pages">
+              <h2 id="id-test-pages">Test Pages</h2>
               <ul>
               
-                <li><a href="example-default.html">Default Menu Button</a></li>
+                <li><a href="test-no-landmarks.html">No landmarks</a></li>
               
-                <li><a href="example-popup.html">Popup Menu Button</a></li>
+                <li><a href="test-slot-content.html">Content from Slot Elements</a></li>
               
-                <li><a href="example-popup-border.html">Popup with Border</a></li>
+                <li><a href="test-no-headings.html">No headings</a></li>
               
-                <li><a href="example-smooth.html">Smooth Highlight of menu options</a></li>
+                <li><a href="test-role-headings.html">Uses Role Heading</a></li>
               
-                <li><a href="example-instant.html">Instant Highlight of menu options</a></li>
+                <li><a href="test-input-controls.html">Input controls</a></li>
               
-                <li><a href="example-landmarks.html">Landmarks</a></li>
+                <li><a href="test-init-object.html">Initialization Object</a></li>
               
-                <li><a href="example-main-headings.html">Only Headings in Main Landmark Region (h1-h3)</a></li>
-              
-                <li><a href="example-headings.html">All Headings on Page (h1-h6)</a></li>
-              
-                <li><a href="example-illinois.html">Illinois Theme</a></li>
-              
-                <li><a href="example-aria.html">ARIA Theme</a></li>
-              
-                <li><a href="example-walmart.html">Walmart Theme</a></li>
-              
-                <li><a href="example-fonts.html">Fonts</a></li>
-              
-                <li><a href="example-colors.html">Colors</a></li>
-              
-                <li><a href="example-position.html">Position</a></li>
+                <li><a href="test-header-size.html">Header Size</a></li>
               
               </ul>
             </nav>
+
           </div>
 
           <main class="col col-lg-8">
             
-            <h1>Example: Popup with Border</h1>
+            <slotted-h1>Test Page: Content from Slot Elements</slotted-h1>
             
 
             <section class="border border-2 rounded"
               style="padding: 0.5em"
               aria-labelledby="id-description">
 
-              <h2 id="id-description" style="margin-top: 0">Description</h2>
-              <p>The &quot;Skip To Content&quot; menu button appears when it gets focus, bottom border is always visible.</p>
+              <slotted-h2 id="id-description" style="margin-top: 0">Description</slotted-h2>
+              <p>Able to calculate accessible names when slot content is used for the heading content.</p>
 
-              
-              <h2>Configuration Parameters</h2>
-              <div class="params bg-light" width="auto">
-                <code>displayOption: popup-border; positionLeft: 46%</code>
-              </div>
               
             </section>
 
             <section>
               <article>
-                <h2>Cabbage</h2>
+                <slotted-h2>Cabbage</slotted-h2>
                 <section>
                    Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc tincidunt consequat purus vitae sagittis. Nam ut elementum libero. In dui lacus, interdum ac imperdiet sed, volutpat in diam. Morbi scelerisque arcu eros, et ultrices massa elementum id. Morbi dui libero, mollis vel lacinia non, ultricies sit amet neque. Etiam condimentum blandit pharetra. 
                     <a href="#">Link 1</a>
                 </section>
 
-                <h3 class="hidden-small">More on Cabbage</h3>
+                <slotted-h3 class="hidden-small">More on Cabbage</slotted-h3>
                 <section>
                     Etiam vitae urna ligula. In accumsan volutpat sapien, eget varius enim commodo at. Nam faucibus, augue id maximus semper, sapien quam egestas est, euismod blandit neque mi ut massa. Donec vitae sagittis velit, ac suscipit magna. Mauris tincidunt nunc nec purus convallis, in commodo erat efficitur. Integer pretium semper imperdiet. Sed sed facilisis diam. Integer pellentesque elit leo, sed interdum quam sollicitudin at. Aliquam a aliquam mi.
                     <a href="#">Link 2</a>
@@ -188,12 +226,12 @@
               </article>
 
               <article>
-                <h2>Carrots</h2>
+                <slotted-h2>Carrots</slotted-h2>
                 <section>
                     Morbi non nunc non justo sollicitudin auctor et at urna. Curabitur luctus sodales quam rutrum auctor. Nullam euismod ipsum vel ipsum mattis, a hendrerit felis pretium. Proin pharetra in tortor ut molestie. Nam in ligula ac enim fringilla rhoncus ac vel lectus. Nam eu dui bibendum, sollicitudin libero quis, consectetur diam. Fusce euismod ultricies nibh, blandit consequat tortor. Cras at est at mi vestibulum rutrum. Sed luctus est eu nisi ultricies, vitae consectetur tortor pulvinar. 
                     <a href="#">Link 3</a>
                 </section>
-                <h2>Cellery</h2>
+                <slotted-h2>Cellery</slotted-h2>
                 <section>
                     Nullam sollicitudin semper tortor, quis condimentum turpis egestas eget. Donec condimentum euismod dictum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque maximus semper venenatis. Nullam at risus tempor, congue mi eu, aliquet massa. Vestibulum faucibus, augue sit amet imperdiet scelerisque, orci ante vulputate turpis, non sodales sapien nisi quis libero. In feugiat vehicula ligula, a vestibulum urna lacinia tincidunt. Duis ut malesuada massa, vitae sagittis ipsum. Nunc quis consectetur arcu. Vestibulum at tellus venenatis velit tincidunt consequat et non nulla. Suspendisse pretium lobortis metus ut maximus. 
                     <a href="#">Link 4</a>
@@ -201,12 +239,12 @@
               </article>
 
               <article>
-                  <h2>Lettuce</h2>
+                  <slotted-h2>Lettuce</slotted-h2>
                   <section>
                        Cras consequat, quam sodales commodo blandit, magna lacus sodales odio, vitae dignissim mi tortor id est. Suspendisse arcu tellus, ornare iaculis nisl vel, egestas imperdiet leo. Pellentesque hendrerit metus neque, id interdum lectus tincidunt sed. Vestibulum odio nibh, bibendum id leo non, mattis rhoncus est. Donec ac massa at risus ultricies consectetur fringilla eu est. Fusce nec purus imperdiet, vehicula ex ut, volutpat ante. Morbi porttitor lorem id dolor pretium suscipit. 
                       <a href="#">Link 5</a>
                   </section>
-                  <h3 class="hidden-offscreen">More on Lettuce</h3>
+                  <slotted-h3 class="hidden-offscreen">More on Lettuce</slotted-h3>
                   <section>
                       Curabitur eros lacus, pulvinar a finibus in, fermentum eu tortor. Praesent scelerisque risus sit amet ultricies feugiat. Donec a nibh et eros consectetur ornare id sed mauris. Etiam efficitur sapien quis nibh congue feugiat sed in nulla. Nam bibendum, massa vitae hendrerit sollicitudin, quam libero condimentum tortor, aliquam faucibus tellus turpis posuere ante. Etiam pharetra aliquam enim non finibus. 
                       <a href="#">Link 6</a>
@@ -214,27 +252,27 @@
               </article>
 
               <article>
-                  <h2>Kale</h2>
+                  <slotted-h2>Kale</slotted-h2>
                   <section>
                      Etiam varius turpis et ex varius congue. Aenean et pretium sem. Ut pulvinar ligula et libero ultrices auctor. Vestibulum consequat mollis magna vitae rutrum. Phasellus blandit accumsan vestibulum. Etiam id egestas dui, a pharetra urna. Curabitur vitae porta elit, ac imperdiet massa. Nullam in lacinia sapien, venenatis maximus ante. Ut varius arcu eget tempor ultricies. 
                       <a href="#">Link 7</a>
                   </section>
-                  <h3>More on Kale (h3)</h3>
+                  <slotted-h3>More on Kale (h3)</slotted-h3>
                   <section>
                       Proin aliquam, diam et tincidunt rhoncus, neque ex placerat ligula, eu tristique turpis nibh non nisl. Nam risus sem, commodo eget mollis vitae, vestibulum ut leo. Proin at elementum sem. Donec fringilla risus arcu, in dignissim tortor efficitur sed. Quisque gravida, nibh non tincidunt euismod, felis ligula sodales sapien, in consectetur metus tortor dignissim velit. 
                       <a href="#">Link 8A</a>
                   </section>
-                  <h4>More on Kale (h4)</h4>
+                  <slotted-h4>More on Kale (h4)</slotted-h4>
                   <section>
                       Proin aliquam, diam et tincidunt rhoncus, neque ex placerat ligula, eu tristique turpis nibh non nisl. Nam risus sem, commodo eget mollis vitae, vestibulum ut leo. Proin at elementum sem. Donec fringilla risus arcu, in dignissim tortor efficitur sed. Quisque gravida, nibh non tincidunt euismod, felis ligula sodales sapien, in consectetur metus tortor dignissim velit.
                       <a href="#">Link 8B</a>
                   </section>
-                  <h5>More on Kale (h5)</h5>
+                  <slotted-h5>More on Kale (h5)</slotted-h5>
                   <section>
                       Proin aliquam, diam et tincidunt rhoncus, neque ex placerat ligula, eu tristique turpis nibh non nisl. Nam risus sem, commodo eget mollis vitae, vestibulum ut leo. Proin at elementum sem. Donec fringilla risus arcu, in dignissim tortor efficitur sed. Quisque gravida, nibh non tincidunt euismod, felis ligula sodales sapien, in consectetur metus tortor dignissim velit.
                       <a href="#">Link 8C</a>
                   </section>
-                  <h6>More on Kale (h6)</h6>
+                  <slotted-h6>More on Kale (h6)</slotted-h6>
                   <section>
                       Proin aliquam, diam et tincidunt rhoncus, neque ex placerat ligula, eu tristique turpis nibh non nisl. Nam risus sem, commodo eget mollis vitae, vestibulum ut leo. Proin at elementum sem. Donec fringilla risus arcu, in dignissim tortor efficitur sed. Quisque gravida, nibh non tincidunt euismod, felis ligula sodales sapien, in consectetur metus tortor dignissim velit.
                       <a href="#">Link 8D</a>
@@ -242,7 +280,7 @@
               </article>
 
               <article>
-                <h2>Spinach</h2>
+                <slotted-h2>Spinach</slotted-h2>
                 <section>
                   Vestibulum sapien lectus, pretium eget tortor vel, venenatis iaculis ex. Nullam arcu arcu, hendrerit vitae mattis sed, malesuada sed metus. In aliquet iaculis erat, tempus convallis lacus posuere quis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum rutrum maximus libero, eget gravida nisi consequat vitae. Ut vulputate mollis elementum.  
                   <a href="#">Link 9</a>
@@ -253,7 +291,7 @@
 
           <aside class="col col-lg-2 bg-light border rounded"
                  aria-labelledby="id-resources">
-            <h2 id="id-resources">Resources</h2>
+            <slotted-h2 id="id-resources">Resources</slotted-h2>
             <ul>
               <li><a href="#">Resource 1</a></li>
               <li><a href="#">Resource 2</a></li>
@@ -273,7 +311,7 @@
           <section class="col col-lg-8 bg-light border rounded"
             role="complementary"
             aria-label="More Resources">
-            <h2>More Resources</h2>
+            <slotted-h2>More Resources</slotted-h2>
             <ul>
               <li><a href="#">More resources 1</a></li>
               <li><a href="#">More resources 2</a></li>
@@ -292,7 +330,7 @@
           <section class="col col-lg-8 bg-light border rounded"
             role="complementary"
             aria-label="Many More Resources">
-            <h2>Many More Resources</h2>
+            <slotted-h2>Many More Resources</slotted-h2>
             <ul>
               <li><a href="#">Many more resources 1</a></li>
               <li><a href="#">Many more resources 2</a></li>
@@ -336,7 +374,7 @@
 
 
     <!-- SkipTo.js -->
-    <script data-skipto="positionLeft: 15%; displayOption: popup-border; positionLeft: 46%"
+    <script data-skipto="positionLeft: 15%; "
             src="./dist/skipto.js">
     </script>
 
