@@ -186,16 +186,16 @@ const tests = [
     description: 'No landmarks on page',
     config: `containerElement: div`
   },
-  { template: './src-docs/templates/example/content-slot-content.njk',
-    title: 'Content from Slot Elements',
-    filename: 'test-slot-content.html',
-    description: 'Able to calculate accessible names when slot content is used for the heading content.',
-    config: ``
-  },
   { template: './src-docs/templates/example/content-no-headings.njk',
     title: 'No headings',
     filename: 'test-no-headings.html',
     description: 'No headings on page',
+    config: ``
+  },
+  { template: './src-docs/templates/example/content-slot-content.njk',
+    title: 'Content from Slot Elements',
+    filename: 'test-slot-content.html',
+    description: 'Able to calculate accessible names when slot content is used for the heading content.',
     config: ``
   },
   { template: './src-docs/templates/example/content-role-heading.njk',
