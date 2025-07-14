@@ -24,23 +24,21 @@
           {% endblock %}
 
 
-          <div id="examples">
+          <div id="tests">
 
-           <table class="table table-striped" aria-labelledby="id-title">
+           <table class="table table-striped" aria-labelledby="id-test-pages">
             <thead>
-              <th>Example</th>
+              <th>Test Page</th>
               <th>Description</th>
             </thead>
             <tbody>
-            {% for e in examples %}
+            {% for t in tests %}
               <tr>
-                <td><a href="{{e.filename}}">{{e.title | safe}}</a></td>
-                <td>{{ e.description}}</td>
+                <td><a href="{{t.filename}}">{{t.title | safe}}</a></td>
+                <td>{{ t.description}}</td>
               </tr>
             {% endfor %}
             </tbody>
-           </table>
-
            </table>
 
             {% include "./feedback.njk" %}

@@ -84,6 +84,11 @@ const secondLevelPages = [
     link: 'Examples',
     filename: 'examples.html'
   },
+  { template: './src-docs/templates/content-tests.njk',
+    title: 'Test Pages',
+    link: 'Tests',
+    filename: 'tests.html'
+  },
   ];
 
 

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Example Configurations | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
+    <title>Test Pages | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
     <!-- Choose Light or Dark Theme -->
@@ -98,7 +98,7 @@
       <nav aria-label="Breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Example Configurations</li>
+          <li class="breadcrumb-item active">Test Pages</li>
         </ol>
       </nav>
       <main class="row gx-4 justify-content-center">
@@ -115,92 +115,55 @@
 
 
           
-          <h1 id="id-title">Example Configurations</h1>
+          <h1 id="id-title">Test Pages</h1>
           
 
 
-          <div id="examples">
+          <div id="tests">
 
-           <table class="table table-striped" aria-labelledby="id-title">
+           <table class="table table-striped" aria-labelledby="id-test-pages">
             <thead>
-              <th>Example</th>
+              <th>Test Page</th>
               <th>Description</th>
             </thead>
             <tbody>
             
               <tr>
-                <td><a href="example-default.html">Default Menu Button</a></td>
-                <td>The &quot;Skip To Content&quot; menu button is always visible at the top of the window</td>
+                <td><a href="test-no-landmarks.html">No landmarks</a></td>
+                <td>No landmarks on page</td>
               </tr>
             
               <tr>
-                <td><a href="example-popup.html">Popup Menu Button</a></td>
-                <td>The &quot;Skip To Content&quot; menu button appears when it gets focus</td>
+                <td><a href="test-slot-content.html">Content from Slot Elements</a></td>
+                <td>Able to calculate accessible names when slot content is used for the heading content.</td>
               </tr>
             
               <tr>
-                <td><a href="example-popup-border.html">Popup with Border</a></td>
-                <td>The &quot;Skip To Content&quot; menu button appears when it gets focus, bottom border is always visible.</td>
+                <td><a href="test-no-headings.html">No headings</a></td>
+                <td>No headings on page</td>
               </tr>
             
               <tr>
-                <td><a href="example-smooth.html">Smooth Highlight of menu options</a></td>
-                <td>&quot;Skip To Content&quot; button is visible on load and scrolling to content is enabled using the smooth value</td>
+                <td><a href="test-role-headings.html">Uses Role Heading</a></td>
+                <td>Heading role used on page and empty H2, h3 and H4 elements</td>
               </tr>
             
               <tr>
-                <td><a href="example-instant.html">Instant Highlight of menu options</a></td>
-                <td>&quot;Skip To Content&quot; button is visible on load and scrolling to content is enabled using the instant value</td>
+                <td><a href="test-input-controls.html">Input controls</a></td>
+                <td>Shortcut keys is disabled when focus is a text input.</td>
               </tr>
             
               <tr>
-                <td><a href="example-landmarks.html">Landmarks</a></td>
-                <td>The SkipTo.js menu lists only main, navigation and complementary landmarks in the &quot;Landmark Regions&quot; section of the menu.</td>
+                <td><a href="test-init-object.html">Initialization Object</a></td>
+                <td>Uses the SkipToConfig configuration object</td>
               </tr>
             
               <tr>
-                <td><a href="example-main-headings.html">Only Headings in Main Landmark Region (h1-h3)</a></td>
-                <td>The SkipTo.js menu shows only H1, h2 and H3 heading levels within the main landmark region in the &quot;Headings&quot; section of the menu.</td>
-              </tr>
-            
-              <tr>
-                <td><a href="example-headings.html">All Headings on Page (h1-h6)</a></td>
-                <td>The SkipTo.js menu shows all H1, h2, H3, H4, H5 and H6 headings in the &quot;Headings&quot; section of the menu.</td>
-              </tr>
-            
-              <tr>
-                <td><a href="example-illinois.html">Illinois Theme</a></td>
-                <td>The color theme of the button and the menu uses the &quot;illinois&quot; theme.</td>
-              </tr>
-            
-              <tr>
-                <td><a href="example-aria.html">ARIA Theme</a></td>
-                <td>The color theme of the button and the menu uses the &quot;aria&quot; theme.</td>
-              </tr>
-            
-              <tr>
-                <td><a href="example-walmart.html">Walmart Theme</a></td>
-                <td>The color theme of the button and the menu uses the &quot;walmart&quot; theme.</td>
-              </tr>
-            
-              <tr>
-                <td><a href="example-fonts.html">Fonts</a></td>
-                <td>The fonts for button and menu are set to 8pt and monospace.</td>
-              </tr>
-            
-              <tr>
-                <td><a href="example-colors.html">Colors</a></td>
-                <td>Setting the colors for button and menu.</td>
-              </tr>
-            
-              <tr>
-                <td><a href="example-position.html">Position</a></td>
-                <td>Setting the position of &quot;Skip To Content&quot; button from the left side of the window.</td>
+                <td><a href="test-header-size.html">Header Size</a></td>
+                <td>Testing if the dimensional size (e.g. height and width) of headings effects which headings screen readers will include in lists and header navigation</td>
               </tr>
             
             </tbody>
-           </table>
-
            </table>
 
                         <hr style="margin-top: 5em;"/>
