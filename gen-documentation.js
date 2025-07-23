@@ -47,7 +47,7 @@ const pages = [
     filename: 'shortcuts.html'
   },
   { template: './src-docs/templates/content-extensions.njk',
-    title: 'SkipTo.js Web Browser Extensions',
+    title: 'SkipTo.js Browser Extensions',
     link: 'Extensions',
     filename: 'extensions.html'
   },

@@ -3,10 +3,6 @@
     "message": "SkipTo.js for Chrome",
     "description": "Extension name for Chrome browser"
   },
-  "extension_name_edge" : {
-    "message": "SkipTo.js for Microsoft Edge",
-    "description": "Extension name for Microsoft Edge browser"
-  },
   "extension_name_firefox" : {
     "message": "SkipTo.js for Firefox",
     "description": "Extension name for Firefox browser"

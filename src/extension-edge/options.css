@@ -1,0 +1,227 @@
+/* options.css */
+
+body {
+  margin: 1em;
+  padding: 4px;
+  font-family: Helvetica, Arial, Sans-Serif;
+  font-size: 11pt;
+}
+
+header {
+  padding-bottom: 0.5em;
+  border-bottom: #aaa solid 1px;
+}
+
+header img {
+  height: 40px;
+  padding-right: 0.5em;
+}
+
+h1,
+#banner-title {
+  font-size: 24pt;
+  font-weight: bold;
+  margin: 1.5rem 0 0.75rem;
+}
+
+
+.checkbox {
+  margin-left: 12px;
+}
+
+fieldset {
+  margin: 0;
+  margin-top: 0.5em;
+  border: none;
+}
+
+h2.legend,
+legend {
+  margin: 0;
+  padding: 0;
+  margin-top: 0.5em;
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+h2#h2-font-options {
+  margin-top: 1.5em;
+}
+
+label {
+  display:  block;
+  margin: 0.25em;
+  margin-left: 0.5em;
+  font-size: 12pt;
+}
+
+select {
+  font-size: 12pt;
+  width: 10em;
+  margin-bottom: 1em;
+}
+
+label.inline input {
+  display: inline-block;
+}
+
+label.inline input[type=radio],
+label.inline input[type=checkbox] {
+  position: relative;
+  top: 2px;
+}
+
+label.inline span {
+  display: inline-block;
+  position: relative;
+  top: 2px;
+}
+
+.text,
+.font {
+  margin-bottom: 0.5em;
+  margin-left: 0;
+  padding: 0.25em;
+}
+
+.text {
+  padding-bottom: 0.5em;
+}
+
+
+.text input {
+  font-size: 12pt;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.text label {
+  font-weight: bold;
+}
+
+.font label {
+  display: inline-block;
+  font-weight: bold;
+  margin-left: 0;
+}
+
+.color {
+  width: 27em;
+  padding: 0.5em;
+  padding-top: 0.75em;
+  padding-bottom: 0.75em;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  padding-top: 0.125em;
+  padding-bottom: 0.125em;
+}
+
+.color label {
+  display: inline-block;
+}
+
+label span {
+  font-size: 1.2em;
+  position: relative;
+  top: -0.1rem;
+}
+
+input[type="text"] {
+  margin:  0;
+  padding: 0;
+  margin-left:  0.5em;
+}
+
+button {
+  font-size: 1.3em;
+}
+
+.desc {
+  margin:  0;
+  padding: 0;
+  margin-top: .125em;
+  margin-left:  0.5em;
+  margin-bottom: 0.125em;
+  font-style: italic;
+  max-width: 30em;
+}
+
+.desc code {
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  font-style: normal !important;
+  font-weight:  bold;
+}
+
+
+.note {
+  margin:  0;
+  padding: 0;
+  font-style: italic;
+}
+
+.note span {
+  font-weight: bold;
+}
+
+p.note {
+  margin:  0.5em;
+  margin-left:  0.75em;
+  padding: 0;
+}
+
+button[type=reset] {
+  margin-top:  2em;
+}
+
+select {
+  display: block;
+}
+
+
+.feedback {
+  color: black;
+  border: 2px solid red;
+  background:  white;
+  padding: 2px;
+  border-radius:  4px;
+}
+
+.feedback img {
+  height: 12px !important;
+}
+
+.feedback.shortcut {
+  display:  none;
+  position: absolute;
+  left:  1em;
+  top: 1em;
+  width:  18em;
+  z-index: 10;
+}
+
+.feedback.shortcut.show {
+  display:  block;
+}
+
+.feedback.prefix {
+  display:  inline-block;
+  visibility:  hidden;
+}
+
+.feedback.prefix.show {
+  visibility:  visible;
+}
+
+/* focus styling */
+
+.focus {
+  outline: ButtonText 2px solid;
+}
+
+input[type=checkbox]:focus,
+input[type=radio]:focus {
+  outline: none;
+}
+
+

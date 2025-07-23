@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title id="head-title">Options for SkipTo.js</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="options.css"/>
+    <link rel="stylesheet" href="optionsTablist.css"/>
+
+    <script type="module" src="options.js"></script>
+    <script type="module" src="optionsMenu.js"></script>
+    <script type="module" src="optionsButton.js"></script>
+    <script type="module" src="optionsHighlight.js"></script>
+    <script type="module" src="optionsShortcuts.js"></script>
+    <script type="module" src="optionsStyle.js"></script>
+    <script type="module" src="optionsStyleViewer.js"></script>
+    <script type="module" src="optionsI18n.js"></script>
+    <script type="module" src="optionsTablist.js"></script>
+
+  </head>
+
+  <body>
+    <main>
+      <div class="tablist" role="tablist">
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-menu"
+             aria-controls="tabpanel-options-menu"
+             data-i18n="options_tab_menu">
+          Menu
+        </div>
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-button"
+             aria-controls="tabpanel-options-button"
+             data-i18n="options_tab_button">
+          Button
+        </div>
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-highlight"
+             aria-controls="tabpanel-options-highlight"
+             data-i18n="options_tab_highlight">
+          Highlight
+        </div>
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-shortcuts"
+             aria-controls="tabpanel-options-shortcuts"
+             data-i18n="options_tab_shortcuts">
+          Keyboard Shortcuts
+        </div>
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-style"
+             aria-controls="tabpanel-options-style"
+             data-i18n="options_tab_style">
+          Style
+        </div>
+        <div class="tab"
+             role="tab"
+             id="tablist-tab-i18n"
+             aria-controls="tabpanel-options-i18n"
+             data-i18n="options_tab_i18n">
+          Internationalization
+        </div>
+      </div>
+
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-shortcuts"
+           aria-labelledby="tablist-tab-shortcuts">
+
+        <options-shortcuts></options-shortcuts>
+
+      </div>
+
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-button"
+           aria-labelledby="tablist-tab-button">
+
+        <options-button></options-button>
+
+      </div>
+
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-highlight"
+           aria-labelledby="tablist-tab-highlight">
+
+        <options-highlight></options-highlight>
+
+      </div>
+
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-menu"
+           aria-labelledby="tablist-tab-menu">
+
+        <options-menu></options-menu>
+
+      </div>
+
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-style"
+           aria-labelledby="tablist-tab-style">
+
+           <options-style></options-style>
+
+      </div>
+
+      <div class="tabpanel"
+           role="tabpanel"
+           id="tabpanel-options-i18n"
+           aria-labelledby="tablist-tab-i18n">
+
+        <options-i18n></options-i18n>
+
+      </div>
+
+    </main>
+  </body>
+</html>
