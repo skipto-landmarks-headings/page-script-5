@@ -79,6 +79,7 @@ gulp.task('copyrightMin', () => {
     'src/extension-common/*.html',
   ])
     .pipe(dest('src/extension-chrome'))
+    .pipe(dest('src/extension-edge'))
     .pipe(dest('src/extension-opera'))
     .pipe(dest('src/extension-firefox'));
 });
@@ -88,6 +89,7 @@ gulp.task('extensionsLocales', () => {
     'src/extension-common/_locales/en/*.json',
   ])
     .pipe(dest('src/extension-chrome/_locales/en'))
+    .pipe(dest('src/extension-edge/_locales/en'))
     .pipe(dest('src/extension-opera/_locales/en'))
     .pipe(dest('src/extension-firefox/_locales/en'));
 });
