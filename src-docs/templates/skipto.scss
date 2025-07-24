@@ -5,6 +5,7 @@ $iconBackground: #dddddd;
 $iconWhite: #ffffff;
 $contentBlue: #005797;
 $linkCurrent: #000000;
+$separatorColor: #C5050C;
 
 $navBackground: #eeeeee;
 $navBackgroundDark: #101010;
@@ -331,4 +332,11 @@ main dd {
   padding: 0;
   margin-left: 0.5em;
   line-height: 1.2em;
+}
+
+.feedback {
+  margin: 0;
+  padding: 0.25em;
+  margin-top: 5em;
+  border-top: 2px solid $separatorColor;
 }

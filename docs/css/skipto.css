@@ -319,3 +319,10 @@ main dd {
   margin-left: 0.5em;
   line-height: 1.2em;
 }
+
+.feedback {
+  margin: 0;
+  padding: 0.25em;
+  margin-top: 5em;
+  border-top: 2px solid #C5050C;
+}
