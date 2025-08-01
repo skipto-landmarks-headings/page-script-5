@@ -12,6 +12,7 @@ const version = "5.8";
 
 const outputDirectory = './docs/';
 const templateDirectory = './src-docs/templates';
+const repositoryURL = 'https://github.com/skipto-landmarks-headings/page-script-5/';
 
 // setUseCodeTags(true);
 
@@ -233,6 +234,7 @@ examples.forEach( f => {
   outputFile(f.filename, nunjucks.render(f.template, {
     version: version,
     title: 'Example: ' + f.title,
+    repositoryURL: repositoryURL,
     description: f.description,
     config: f.config,
     pages: pages,
@@ -245,6 +247,7 @@ tests.forEach( f => {
   outputFile(f.filename, nunjucks.render(f.template, {
     version: version,
     title: 'Test Page: ' + f.title,
+    repositoryURL: repositoryURL,
     description: f.description,
     config: f.config,
     pages: pages,
@@ -257,6 +260,7 @@ secondLevelPages.forEach( p => {
   outputFile(p.filename, nunjucks.render(p.template,{
     version: version,
     title: p.title,
+    repositoryURL: repositoryURL,
     pages: pages,
     examples: examples,
     tests: tests
@@ -268,6 +272,7 @@ pages.forEach( p => {
   outputFile(p.filename, nunjucks.render(p.template,{
     version: version,
     title: p.title,
+    repositoryURL: repositoryURL,
     pages: pages,
     examples: examples,
     tests: tests
