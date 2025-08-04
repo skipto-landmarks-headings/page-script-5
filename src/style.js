@@ -56,7 +56,7 @@ cssMenuTemplate.textContent = `
   border: none;
   margin-bottom: 4px;
   transition: left 1s ease;
-  z-index: $zIndex !important;
+  z-index: $z1Index !important;
   user-select: none;
   touch-action: none;
 }
@@ -74,7 +74,7 @@ cssMenuTemplate.textContent = `
   z-index: 100000 !important;
   font-family: $fontFamily;
   font-size: $fontSize;
-  z-index: $zIndex !important;
+  z-index: $z1Index !important;
   touch-action: none;
 }
 
@@ -142,7 +142,7 @@ cssMenuTemplate.textContent = `
   border-style: solid;
   border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
   border-radius: 5px;
-  z-index: $zIndex !important;
+  z-index: $z1Index !important;
   touch-action: none;
 }
 
@@ -173,8 +173,14 @@ cssMenuTemplate.textContent = `
   grid-template-columns: repeat(6, 1.2rem) 1fr;
   grid-column-gap: 2px;
   font-size: 1em;
-  z-index: $zIndex !important;  
+  z-index: $z1Index;
 }
+
+#${SKIP_TO_ID} [role="menuitem"].shortcuts,
+#${SKIP_TO_ID} [role="menuitem"].about {
+  z-index: $z2Index;
+}
+
 
 #${SKIP_TO_ID} [role="menuitem"] .level,
 #${SKIP_TO_ID} [role="menuitem"] .label {
@@ -255,7 +261,7 @@ cssMenuTemplate.textContent = `
   border-bottom-color: light-dark($menuTextColor, $menuTextDarkColor);
   background-color: light-dark($menuBackgroundColor, $menuBackgroundColor);
   color: light-dark($menuTextColor, $menuTextDarkColor);
-  z-index: $zIndex !important;
+  z-index: $z1Index !important;
 }
 
 #${SKIP_TO_ID} [role="separator"] .mofn {
@@ -344,7 +350,7 @@ cssMenuTemplate.textContent = `
     border-bottom-color: ButtonBorder;
     background-color: ButtonFace;
     color: ButtonText;
-    z-index: $zIndex !important;
+    z-index: $z1Index !important;
   }
 
   #${SKIP_TO_ID} button:focus,
@@ -533,7 +539,13 @@ function addCSSColors (cssMenu, config, useURLTheme=false) {
   cssMenu = updateStyle(cssMenu, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
   cssMenu = updateStyle(cssMenu, '$buttonBackgroundDarkColor', config.buttonBackgroundDarkColor, theme.buttonBackgroundDarkColor, defaultTheme.buttonBackgroundDarkColor);
 
-  cssMenu = updateStyle(cssMenu, '$zIndex', config.zIndex, theme.zIndex, defaultTheme.zIndex);
+  cssMenu = updateStyle(cssMenu, '$z1Index', config.zIndex, theme.zIndex, defaultTheme.zIndex);
+
+  const z2Index = config.zIndex ?
+                  (parseInt(config.zIndex) + 1).toString() :
+                  '2000002';
+
+  cssMenu = updateStyle(cssMenu, '$z2Index', z2Index, '', defaultTheme.z2Index);
 
   // Special case for theme configuration used in Illinois theme
   if (typeof theme.highlightTarget === 'string') {

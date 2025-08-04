@@ -40,7 +40,7 @@ export default class SkipToContent580 extends HTMLElement {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
-    this.version = "5.8.0";
+    this.version = "5.8.1";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -103,7 +103,9 @@ export default class SkipToContent580 extends HTMLElement {
       aboutHappy: `Happy Skipping!`,
       aboutVersion: `Version ${this.version}`,
       aboutCopyright: 'BSD License, Copyright 2021-2025',
-      aboutDesc: 'SkipTo.js is a free and open source utility to support authors in implementing the WCAG 4.2.1 Bypass Block requirement on their websites.',
+      aboutDesc: 'SkipTo.js is a free and open source utility to support the WCAG 2.4.1 Bypass Block requirement.  ',
+      aboutPrivacyLabel: 'Privacy',
+      aboutPrivacy: 'SkipTo.js does not collect or store any information about users or work with any other parties to collect or share user browsing information.',
 
       closeLabel: 'Close',
       moreInfoLabel: 'More Information',

@@ -23,6 +23,7 @@ export const colorThemes = {
     buttonTextDarkColor: '#ffffff',
     buttonBackgroundDarkColor: '#013c93',
     zIndex: '2000000',
+    z2Index: '20000002',
     zHighlight: '1999900',
     displayOption: 'fixed',
     highlightTarget: 'instant',

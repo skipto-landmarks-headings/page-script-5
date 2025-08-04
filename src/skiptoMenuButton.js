@@ -438,7 +438,7 @@ export default class SkiptoMenuButton {
       const menuitemNode = document.createElement('div');
       menuitemNode.setAttribute('role', 'menuitem');
       menuitemNode.setAttribute('data-about-info', '');
-      menuitemNode.className = 'skip-to-nav skip-to-nesting-level-0';
+      menuitemNode.className = 'about skip-to-nav skip-to-nesting-level-0';
       menuitemNode.tabIndex = -1;
 
       const labelNode = document.createElement('span');

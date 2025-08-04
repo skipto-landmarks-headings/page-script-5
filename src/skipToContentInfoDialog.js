@@ -38,7 +38,7 @@ dialog#skip-to-info-dialog {
   border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
   border-radius: 5px;
   z-index: 2000001;
-
+  max-width: 350px;
 }
 
 dialog#skip-to-info-dialog .header {
@@ -82,16 +82,27 @@ dialog#skip-to-info-dialog .content {
 }
 
 dialog#skip-to-info-dialog .content .desc {
-  max-width: 20em;
+  margin: 0.25em;
+  text-align: center;
 }
 
-dialog#skip-to-info-dialog .content .happy {
-  margin-top: 0.5em;
+dialog#skip-to-info-dialog .content .privacy-label {
+  margin: 0;
+  margin-top: 1em;
   text-align: center;
-  font-family: fantasy, cursive;
-  font-size: 1.25em;
   font-weight: bold;
-  font-style: italic;
+}
+
+dialog#skip-to-info-dialog .content .privacy {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+
+dialog#skip-to-info-dialog .content .happy {
+  text-align: center;
+  font-family: 'Brush Script MT', cursive;
+  font-size: 200%;
   letter-spacing: 0.05em;
 }
 
@@ -100,8 +111,6 @@ dialog#skip-to-info-dialog .content .version,
 dialog#skip-to-info-dialog .content .copyright {
   margin-top: 0.5em;
   text-align: center;
-  font-weight: bold;
-  font-size: 90%;
 }
 
 dialog#skip-to-info-dialog .content table {
@@ -439,7 +448,18 @@ export default class SkipToContentInfoDialog extends HTMLElement {
 
     let divElem = document.createElement('div');
     divElem.className = 'desc';
+
     divElem.textContent = config.aboutDesc;
+    this.contentElem.appendChild(divElem);
+
+    divElem = document.createElement('div');
+    divElem.className = 'privacy-label';
+    divElem.textContent = config.aboutPrivacyLabel;
+    this.contentElem.appendChild(divElem);
+
+    divElem = document.createElement('div');
+    divElem.className = 'privacy';
+    divElem.textContent = config.aboutPrivacy;
     this.contentElem.appendChild(divElem);
 
     divElem = document.createElement('div');

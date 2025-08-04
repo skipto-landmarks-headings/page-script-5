@@ -1,5 +1,9 @@
 # Version history for SkipTo.js
 
+## Version 5.8.1
+* Fixes bug in reference to WCAG 2.4.1 in information dialog
+* Added privacy statement to information dialog
+
 ## Version 5.8.0
 * Improves labels for group labels for headings and landmarks
 * Added 'landmarkOneGroupLabel' and 'headingOneGroupLabel' properties to configuration
