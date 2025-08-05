@@ -1,7 +1,7 @@
 # Version history for SkipTo.js for Firefox, Chrome and Opera
 
 ## Version 1.2.2
-* Support SkipTo.js 5.8.2, fixes bug in menu when the landmarks or headings are clipped
+* Support SkipTo.js 5.8.2, fixes bug in menu when the landmarks or headings are clipped and removes counts from grouping labels
 
 ## Version 1.2.1
 * Support SkipTo.js 5.8.1, fixes bug in reference to WCAG 4.2.1 and adds privacy statement in information dialog box

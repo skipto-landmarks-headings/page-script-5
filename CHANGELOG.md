@@ -2,7 +2,7 @@
 
 ## Version 5.8.2
 * Fixes bug in menu when the landmarks or headings are clipped
-* Removed numbers from heading and landmark group labels in the menu
+* Removed numbers from heading and landmark group labels in the menu, screen readers already have the information
 
 ## Version 5.8.1
 * Fixes bug in reference to WCAG 2.4.1 in information dialog
