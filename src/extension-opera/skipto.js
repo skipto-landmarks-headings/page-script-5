@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.8.1
+ * Version: 5.8.2
  * Copyright (c) 2022, 2023, 2024, 2025 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -4561,30 +4561,15 @@ button:hover {
         this.updateMenuitems();
 
         this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel, landmarkElements.length);
-        if (landmarkElements.length === 1) {
-          this.landmarkGroupLabelNode.setAttribute('aria-label', config.landmarkOneGroupLabel);
-        }
-        else {
-         this.landmarkGroupLabelNode.setAttribute('aria-label', `${landmarkElements.length} ${config.landmarkGroupLabel}`);
-        }
+        this.landmarkGroupLabelNode.setAttribute('aria-label', config.landmarkGroupLabel);
 
         if (config.headings.includes('main')) {
           this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingMainGroupLabel, headingElements.length);
-          if (headingElements.length === 1) {
-            this.headingGroupLabelNode.setAttribute('aria-label', config.headingOneMainGroupLabel);
-          }
-          else {
-           this.headingGroupLabelNode.setAttribute('aria-label', `${headingElements.length} ${config.headingMainGroupLabel}`);
-          }
+          this.headingGroupLabelNode.setAttribute('aria-label', config.headingMainGroupLabel);
         }
         else {
           this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel, headingElements.length);
-          if (headingElements.length === 1) {
-            this.headingGroupLabelNode.setAttribute('aria-label', config.headingOneGroupLabel);
-          }
-          else {
-           this.headingGroupLabelNode.setAttribute('aria-label', `${headingElements.length} ${config.headingGroupLabel}`);
-          }
+          this.headingGroupLabelNode.setAttribute('aria-label', config.headingGroupLabel);
         }
       }
 
@@ -4881,7 +4866,7 @@ button:hover {
        * @return {object}  see @desc
        */
       getMenuitem(x, y) {
-        for (let i = 0; i < this.menuitemNodes.length; i += 1) {
+        for (let i = (this.menuitemNodes.length - 1); i >= 0; i -= 1) {
           const node = this.menuitemNodes[i];
           const rect = node.getBoundingClientRect();
 
@@ -5289,6 +5274,7 @@ button:hover {
       }
 
       handleMenuitemClick(event) {
+        debug$2.log(`[handleMenuitemClick]: ${event.currentTarget.textContent}`);
         this.handleMenuitemAction(event.currentTarget);
         event.stopPropagation();
         event.preventDefault();
@@ -5324,7 +5310,6 @@ button:hover {
       }
 
       handleMenuitemPointerleave(event) {
-        debug$2.flag && debug$2.log(`[leave]`);
         let tgt = event.currentTarget;
         tgt.classList.remove('hover');
         event.stopPropagation();
@@ -5439,7 +5424,7 @@ button:hover {
       // Always call super first in constructor
       super();
       this.attachShadow({ mode: 'open' });
-      this.version = "5.8.1";
+      this.version = "5.8.2";
       this.buttonSkipTo = false;
       this.initialized = false;
 

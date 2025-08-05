@@ -1,5 +1,9 @@
 # Version history for SkipTo.js
 
+## Version 5.8.2
+* Fixes bug in menu when the landmarks or headings are clipped
+* Removed numbers from heading and landmark group labels in the menu
+
 ## Version 5.8.1
 * Fixes bug in reference to WCAG 2.4.1 in information dialog
 * Added privacy statement to information dialog

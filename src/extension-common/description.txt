@@ -61,9 +61,9 @@ Opera: recommended 612×408, maximum 800x600
 
 Creating Zip Files
 ------------------
-zip -r ../../docs/dist/skipto-for-firefox-1.2.1.zip . -x ".*" -x "__MACOSX"
-zip -r ../../docs/dist/skipto-for-edge-1.2.1.zip . -x ".*" -x "__MACOSX"
-zip -r ../../docs/dist/skipto-for-chrome-1.2.1.zip . -x ".*" -x "__MACOSX"
+zip -r ../../docs/dist/skipto-for-firefox-1.2.2.zip . -x ".*" -x "__MACOSX"
+zip -r ../../docs/dist/skipto-for-edge-1.2.2.zip . -x ".*" -x "__MACOSX"
+zip -r ../../docs/dist/skipto-for-chrome-1.2.2.zip . -x ".*" -x "__MACOSX"
 
 Questions
 ---------
