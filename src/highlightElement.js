@@ -668,6 +668,9 @@ export default class HighlightElement extends HTMLElement {
     if (this.overlayElem) {
       this.overlayElem.style.display = 'none';
     }
+    if (this.hiddenElem) {
+      this.hiddenElem.style.display = 'none';
+    }
   }
 
 }

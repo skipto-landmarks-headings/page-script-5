@@ -1,5 +1,9 @@
 # Version history for SkipTo.js
 
+## Version 5.8.3
+* Fixes bug with hidden heading message not being hidden in some cases
+* FIxes bug with keyboard navigation when focus is on the menu button
+
 ## Version 5.8.2
 * Fixes bug in menu when the landmarks or headings are clipped
 * Removed numbers from heading and landmark group labels in the menu, screen readers already have the information

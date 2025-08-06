@@ -4,7 +4,8 @@
 import DebugLogging  from './debug.js';
 
 import {
-  HIGHLIGHT_ELEMENT_NAME
+  HIGHLIGHT_ELEMENT_NAME,
+  SKIP_TO_ID
 } from './constants.js';
 
 import {
@@ -228,7 +229,8 @@ function queryDOMForSkipToNavigation (target, direction, elem, useFirst=false, n
     return false;
   } // end function
 
-  passFound = passElem === document.body;
+  passFound = (passElem === document.body) ||
+              (passElem.parentNode && (passElem.parentNode.id === SKIP_TO_ID));
   let node = transverseDOMForElement(document.body);
 
   if (!node && useFirst && firstNode) {
