@@ -57,8 +57,6 @@ cssMenuTemplate.textContent = `
   margin-bottom: 4px;
   transition: left 1s ease;
   z-index: $z1Index !important;
-  user-select: none;
-  touch-action: none;
 }
 
 #${SKIP_TO_ID} button {
@@ -75,7 +73,6 @@ cssMenuTemplate.textContent = `
   font-family: $fontFamily;
   font-size: $fontSize;
   z-index: $z1Index !important;
-  touch-action: none;
 }
 
 @media screen and (max-width: $smallBreakPointpx) {

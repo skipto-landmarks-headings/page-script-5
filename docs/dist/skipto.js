@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.8.3
+ * Version: 5.8.4
  * Copyright (c) 2022, 2023, 2024, 2025 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -329,8 +329,6 @@
   margin-bottom: 4px;
   transition: left 1s ease;
   z-index: $z1Index !important;
-  user-select: none;
-  touch-action: none;
 }
 
 #${SKIP_TO_ID} button {
@@ -347,7 +345,6 @@
   font-family: $fontFamily;
   font-size: $fontSize;
   z-index: $z1Index !important;
-  touch-action: none;
 }
 
 @media screen and (max-width: $smallBreakPointpx) {
@@ -5428,7 +5425,7 @@ button:hover {
       // Always call super first in constructor
       super();
       this.attachShadow({ mode: 'open' });
-      this.version = "5.8.3";
+      this.version = "5.8.4";
       this.buttonSkipTo = false;
       this.initialized = false;
 

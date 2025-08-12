@@ -1,5 +1,8 @@
 # Version history for SkipTo.js
 
+## Version 5.8.4
+* Fixes bug popup button not working with gestures on voice over on iOS
+
 ## Version 5.8.3
 * Fixes bug with hidden heading message not being hidden in some cases
 * FIxes bug with keyboard navigation when focus is on the menu button
