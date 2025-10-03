@@ -3,10 +3,13 @@
 /* Imports */
 import {colorThemes} from './colorThemes.js';
 import DebugLogging  from './debug.js';
+import {MESSAGE_ID}  from './constants.js';
 
 /* Constants */
 const debug = new DebugLogging('style', false);
 debug.flag = false;
+
+
 
 const cssStyleTemplate = document.createElement('template');
 cssStyleTemplate.textContent = `
@@ -571,6 +574,82 @@ dialog button:focus {
 dialog button:hover {
   cursor: pointer;
 }
+
+/* Navigation Messages */
+
+#${MESSAGE_ID} {
+  position: fixed;
+  display: block;
+  opacity: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+
+  font-family: $fontFamily;
+  font-size: $fontSize;
+  max-width: 70%;
+  margin: 0;
+  padding: 0;
+  background-color: light-dark(var(--skipto-dialog-background-color), var(--skipto-dialog-background-dark-color));
+  border: 2px solid light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+  border-radius: 5px;
+  color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
+  z-index: 2000001;
+  opacity: 1;
+}
+
+#${MESSAGE_ID} .header {
+  margin: 0;
+  padding: 4px;
+  border-bottom: 1px solid light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-weight:  bold;
+  background-color: light-dark(var(--skipto-dialog-background-title-color), var(--skipto-dialog-background-title-dark-color));
+  color light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
+  font-size: 100%;
+}
+
+#${MESSAGE_ID} .content {
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  background-color: light-dark(var(--skipto-dialog-background-color), var(-skipto-dialog-background-dark-color));
+  color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
+  font-size: 110%;
+  text-algin: center;
+}
+
+#${MESSAGE_ID}.hidden {
+  display: none;
+}
+
+#${MESSAGE_ID}.fade {
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 1s linear;
+}
+
+@media (forced-colors: active) {
+
+  #${MESSAGE_ID} {
+    background-color: Canvas;
+    color CanvasText;
+    border-color: AccentColor;
+  }
+
+  #${MESSAGE_ID} .header {
+    background-color: Canvas;
+    color CanvasText;
+  }
+
+  #${MESSAGE_ID} .content {
+    background-color: Canvas;
+    color: CanvasText;
+  }
+}
+
+
 `;
 
 /*

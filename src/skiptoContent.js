@@ -7,7 +7,6 @@ import DebugLogging  from './debug.js';
 
 import {
   ATTR_SKIP_TO_DATA,
-  MESSAGE_ELEMENT_NAME,
   HIGHLIGHT_ELEMENT_NAME
 } from './constants.js';
 
@@ -400,12 +399,6 @@ export default class SkipToContent590 extends HTMLElement {
       renderStyleElement(this.shadowRoot, config);
       this.buttonSkipTo.updateLabels(config);
       this.buttonSkipTo.setDisplayOption(config['displayOption']);
-    }
-
-    const shortcutsMessage = document.querySelector(MESSAGE_ELEMENT_NAME);
-    debug.flag && debug.log(`[shortcutMessage]: ${shortcutsMessage}`);
-    if (shortcutsMessage) {
-      shortcutsMessage.configureStyle(config);
     }
 
     const highlight = document.querySelector(HIGHLIGHT_ELEMENT_NAME);

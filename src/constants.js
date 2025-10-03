@@ -35,8 +35,6 @@ export const PAGE_SCRIPT_ELEMENT_NAME = 'skip-to-content';
 export const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
 export const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
 
-export const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-590';
-export const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-590';
 export const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-590';
 
 // Attributes

@@ -231,11 +231,60 @@
 
   }
 
+  /* constants.js */
+
+  // Numbers
+
+  const REQUIRE_ACCESSIBLE_NAME_COUNT = 3;
+
+  // Element IDs
+
+  const SKIP_TO_ID            = 'id-skip-to-ver-5';
+
+  const SCRIPT_EXTENSION_ID   = `id-skip-to-extension`;
+  const SCRIPT_BOOKMARKLET_ID = `id-skip-to-bookmarklet`;
+
+  const MENU_ID   = 'id-skip-to-menu';
+
+  const MENU_LANDMARK_GROUP_ID        = 'id-skip-to-landmark-group';
+  const MENU_LANDMARK_GROUP_LABEL_ID  = 'id-skip-to-landmark-group-label';
+
+  const MENU_HEADINGS_GROUP_ID        = 'id-skip-to-heading-group';
+  const MENU_HEADINGS_GROUP_LABEL_ID  = 'id-skip-to-heading-group-label';
+
+  const MENU_SHORTCUTS_GROUP_ID       = 'id-skip-to-shortcuts-group';
+  const MENU_SHORTCUTS_GROUP_LABEL_ID = 'id-skip-to-shortcuts-group-label';
+
+  const MENU_ABOUT_ID = 'id-skip-to-about';
+
+  const MESSAGE_ID = 'id-skip-to-message';
+
+  const HIGHLIGHT_ID = 'id-skip-to-highlight-overlay';
+
+  // Custom element names
+
+  const PAGE_SCRIPT_ELEMENT_NAME = 'skip-to-content';
+  const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
+  const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
+
+  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-590';
+
+  // Attributes
+
+  const ATTR_SKIP_TO_DATA = 'data-skipto';
+
+  // URLs to more information
+
+  const MORE_ABOUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/';
+  const MORE_SHORTCUT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
+
   /* style.js */
 
   /* Constants */
   const debug$c = new DebugLogging('style', false);
   debug$c.flag = false;
+
+
 
   const cssStyleTemplate = document.createElement('template');
   cssStyleTemplate.textContent = `
@@ -800,6 +849,82 @@ dialog button:focus {
 dialog button:hover {
   cursor: pointer;
 }
+
+/* Navigation Messages */
+
+#${MESSAGE_ID} {
+  position: fixed;
+  display: block;
+  opacity: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+
+  font-family: $fontFamily;
+  font-size: $fontSize;
+  max-width: 70%;
+  margin: 0;
+  padding: 0;
+  background-color: light-dark(var(--skipto-dialog-background-color), var(--skipto-dialog-background-dark-color));
+  border: 2px solid light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+  border-radius: 5px;
+  color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
+  z-index: 2000001;
+  opacity: 1;
+}
+
+#${MESSAGE_ID} .header {
+  margin: 0;
+  padding: 4px;
+  border-bottom: 1px solid light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-weight:  bold;
+  background-color: light-dark(var(--skipto-dialog-background-title-color), var(--skipto-dialog-background-title-dark-color));
+  color light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
+  font-size: 100%;
+}
+
+#${MESSAGE_ID} .content {
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  background-color: light-dark(var(--skipto-dialog-background-color), var(-skipto-dialog-background-dark-color));
+  color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
+  font-size: 110%;
+  text-algin: center;
+}
+
+#${MESSAGE_ID}.hidden {
+  display: none;
+}
+
+#${MESSAGE_ID}.fade {
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 1s linear;
+}
+
+@media (forced-colors: active) {
+
+  #${MESSAGE_ID} {
+    background-color: Canvas;
+    color CanvasText;
+    border-color: AccentColor;
+  }
+
+  #${MESSAGE_ID} .header {
+    background-color: Canvas;
+    color CanvasText;
+  }
+
+  #${MESSAGE_ID} .content {
+    background-color: Canvas;
+    color: CanvasText;
+  }
+}
+
+
 `;
 
   /*
@@ -1108,53 +1233,6 @@ dialog button:hover {
     return !isDisplayNone(element);
   }
 
-  /* constants.js */
-
-  // Numbers
-
-  const REQUIRE_ACCESSIBLE_NAME_COUNT = 3;
-
-  // Element IDs
-
-  const SKIP_TO_ID            = 'id-skip-to-ver-5';
-
-  const SCRIPT_EXTENSION_ID   = `id-skip-to-extension`;
-  const SCRIPT_BOOKMARKLET_ID = `id-skip-to-bookmarklet`;
-
-  const MENU_ID   = 'id-skip-to-menu';
-
-  const MENU_LANDMARK_GROUP_ID        = 'id-skip-to-landmark-group';
-  const MENU_LANDMARK_GROUP_LABEL_ID  = 'id-skip-to-landmark-group-label';
-
-  const MENU_HEADINGS_GROUP_ID        = 'id-skip-to-heading-group';
-  const MENU_HEADINGS_GROUP_LABEL_ID  = 'id-skip-to-heading-group-label';
-
-  const MENU_SHORTCUTS_GROUP_ID       = 'id-skip-to-shortcuts-group';
-  const MENU_SHORTCUTS_GROUP_LABEL_ID = 'id-skip-to-shortcuts-group-label';
-
-  const MENU_ABOUT_ID = 'id-skip-to-about';
-
-  const MESSAGE_ID = 'id-skip-to-message';
-
-  const HIGHLIGHT_ID = 'id-skip-to-highlight-overlay';
-
-  // Custom element names
-
-  const PAGE_SCRIPT_ELEMENT_NAME = 'skip-to-content';
-  const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
-  const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
-  const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-590';
-  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-590';
-
-  // Attributes
-
-  const ATTR_SKIP_TO_DATA = 'data-skipto';
-
-  // URLs to more information
-
-  const MORE_ABOUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/';
-  const MORE_SHORTCUT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
-
   /* shortcutInfoDialog.js */
 
   /* Constants */
@@ -1362,16 +1440,80 @@ dialog button:hover {
     }
   }
 
+  /* shortcutsMessage.js */
+
+  /* Constants */
+  const debug$9 = new DebugLogging('[shortcutsMessage]', false);
+  debug$9.flag = false;
+
+  const templateMessage = document.createElement('template');
+  templateMessage.innerHTML = `
+  <div id="${MESSAGE_ID}" class="hidden">
+    <div class="header">
+      SkipTo.js Message
+    </div>
+    <div class="content">
+    </div>
+  </div>
+`;
+
+
+  class ShortcutsMessage {
+    constructor (attachElem) {
+
+      attachElem.appendChild(templateMessage.content.cloneNode(true));
+
+      // Get references
+
+      this.messageElem  = attachElem.querySelector(`#${MESSAGE_ID}`);
+
+      this.contentElem  = this.messageElem.querySelector(`.content`);
+
+      this.timeoutShowID = false;
+      this.timeoutFadeID = false;
+
+      return this;
+    }
+
+    close() {
+      this.messageElem.classList.remove('show');
+      this.messageElem.classList.remove('fade');
+      this.messageElem.classList.add('hidden');
+    }
+
+    open(message) {
+      clearInterval(this.timeoutFadeID);
+      clearInterval(this.timeoutShowID);
+      this.messageElem.classList.remove('hidden');
+      this.messageElem.classList.remove('fade');
+      this.messageElem.classList.add('show');
+      this.contentElem.textContent = message;
+
+      const msg = this;
+
+      this.timeoutFadeID = setTimeout( () => {
+        msg.messageElem.classList.add('fade');
+        msg.messageElem.classList.remove('show');
+      }, 3000);
+
+      this.timeoutShowID = setTimeout( () => {
+        msg.close();
+      }, 4000);
+
+    }
+
+  }
+
   /* highlight.js */
 
   /* Constants */
-  const debug$9 = new DebugLogging('highlight', false);
-  debug$9.flag = false;
+  const debug$8 = new DebugLogging('highlight', false);
+  debug$8.flag = false;
 
   const minWidth = 68;
   const minHeight = 27;
 
-  const defaultStyleOptions$2 = colorThemes['default'];
+  const defaultStyleOptions$1 = colorThemes['default'];
 
   const styleHighlightTemplate = document.createElement('template');
   styleHighlightTemplate.textContent = `
@@ -1562,81 +1704,81 @@ dialog button:hover {
       style = updateOption(style,
                            '$fontFamily',
                            config.fontFamily,
-                           defaultStyleOptions$2.fontFamily);
+                           defaultStyleOptions$1.fontFamily);
 
       style = updateOption(style,
                            '$buttonBackgroundColor',
                            config.buttonBackgroundColor,
-                           defaultStyleOptions$2.buttonBackgroundColor);
+                           defaultStyleOptions$1.buttonBackgroundColor);
 
       style = updateOption(style,
                            '$buttonBackgroundDarkColor',
                            config.buttonBackgroundDarkColor,
-                           defaultStyleOptions$2.buttonBackgroundDarkColor);
+                           defaultStyleOptions$1.buttonBackgroundDarkColor);
 
       style = updateOption(style,
                            '$focusBorderColor',
                            config.focusBorderColor,
-                           defaultStyleOptions$2.focusBorderColor);
+                           defaultStyleOptions$1.focusBorderColor);
 
       style = updateOption(style,
                            '$focusBorderDarkColor',
                            config.focusBorderDarkColor,
-                           defaultStyleOptions$2.focusBorderDarkColor);
+                           defaultStyleOptions$1.focusBorderDarkColor);
 
       style = updateOption(style,
                            '$menuBackgroundColor',
                            config.menuBackgroundColor,
-                           defaultStyleOptions$2.menuBackgroundColor);
+                           defaultStyleOptions$1.menuBackgroundColor);
 
       style = updateOption(style,
                            '$menuBackgroundDarkColor',
                            config.menuBackgroundDarkColor,
-                           defaultStyleOptions$2.menuBackgroundDarkColor);
+                           defaultStyleOptions$1.menuBackgroundDarkColor);
 
       style = updateOption(style,
                            '$menuTextColor',
                            config.menuTextColor,
-                           defaultStyleOptions$2.menuTextColor);
+                           defaultStyleOptions$1.menuTextColor);
 
       style = updateOption(style,
                            '$menuTextDarkColor',
                            config.menuTextDarkColor,
-                           defaultStyleOptions$2.menuTextDarkColor);
+                           defaultStyleOptions$1.menuTextDarkColor);
 
       style = updateOption(style,
                            '$hiddenHeadingColor',
                            config.hiddenHeadingColor,
-                           defaultStyleOptions$2.hiddenHeadingColor);
+                           defaultStyleOptions$1.hiddenHeadingColor);
 
       style = updateOption(style,
                            '$hiddenHeadingDarkColor',
                            config.hiddenHeadingDarkColor,
-                           defaultStyleOptions$2.hiddenHeadingDarkColor);
+                           defaultStyleOptions$1.hiddenHeadingDarkColor);
 
       style = updateOption(style,
                            '$hiddenHeadingBackgroundColor',
                            config.hiddenHeadingBackgroundColor,
-                           defaultStyleOptions$2.hiddenHeadingBackgroundColor);
+                           defaultStyleOptions$1.hiddenHeadingBackgroundColor);
 
       style = updateOption(style,
                            '$hiddenHeadingBackgroundDarkColor',
                            config.hiddenHeadingBackgroundDarkColor,
-                           defaultStyleOptions$2.hiddenHeadingBackgroundDarkColor);
+                           defaultStyleOptions$1.hiddenHeadingBackgroundDarkColor);
 
       style = updateOption(style,
                            '$zHighlight',
                            config.zHighlight,
-                           defaultStyleOptions$2.zHighlight);
+                           defaultStyleOptions$1.zHighlight);
 
       style = updateOption(style,
                            '$highlightBorderStyle',
                            config.highlightBorderStyle,
-                           defaultStyleOptions$2.highlightBorderStyle);
+                           defaultStyleOptions$1.highlightBorderStyle);
 
       const highlightBorderSize =  config.highlightBorderSize ?
                                    config.highlightBorderSize :
-                                   defaultStyleOptions$2.highlightBorderSize;
+                                   defaultStyleOptions$1.highlightBorderSize;
 
       switch (highlightBorderSize) {
         case 'small':
@@ -1678,7 +1820,7 @@ dialog button:hover {
       style = updateOption(style,
                            '$fontSize',
                            this.fontSize,
-                           defaultStyleOptions$2.fontSize);
+                           defaultStyleOptions$1.fontSize);
 
       style = updateOption(style,
                            '$highlightOffset',
@@ -1734,9 +1876,9 @@ dialog button:hover {
         const rect = elem.getBoundingClientRect();
 
         // If target element is hidden create a visible element
-        debug$9.flag && debug$9.log(`[    info]: ${info}`);
-        debug$9.flag && debug$9.log(`[    rect]: Left: ${rect.left} Top: ${rect.top} Width: ${rect.width} height: ${rect.height}`);
-        debug$9.flag && debug$9.log(`[isHidden]: ${this.isElementHidden(elem)}`);
+        debug$8.flag && debug$8.log(`[    info]: ${info}`);
+        debug$8.flag && debug$8.log(`[    rect]: Left: ${rect.left} Top: ${rect.top} Width: ${rect.width} height: ${rect.height}`);
+        debug$8.flag && debug$8.log(`[isHidden]: ${this.isElementHidden(elem)}`);
 
         if (this.isElementHidden(elem)) {
           // If element is hidden make hidden element message visible
@@ -2026,231 +2168,6 @@ dialog button:hover {
       if (this.hiddenElem) {
         this.hiddenElem.style.display = 'none';
       }
-    }
-
-  }
-
-  /* shortcutsMessage.js */
-
-  /* Constants */
-  const debug$8 = new DebugLogging('[shortcutsMessage]', false);
-  debug$8.flag = false;
-
-  const defaultStyleOptions$1 = colorThemes['default'];
-
-  const styleTemplate = document.createElement('template');
-  styleTemplate.textContent = `
-/* shortcutsMessage.css */
-:root {
-  color-scheme: light dark;
-}
-
-#${MESSAGE_ID} {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-
-  font-family: $fontFamily;
-  font-size: $fontSize;
-  max-width: 70%;
-  margin: 0;
-  padding: 0;
-  background-color: light-dark($dialogBackgroundColor, $dialogBackgroundDarkColor);
-  border: 2px solid light-dark($focusBorderColor, $focusBorderDarkColor);
-  border-radius: 5px;
-  color: light-dark($dialogTextColor, $dialogTextDarkColor);
-  z-index: 2000001;
-  opacity: 1;
-}
-
-#${MESSAGE_ID} .header {
-  margin: 0;
-  padding: 4px;
-  border-bottom: 1px solid light-dark($focusBorderColor, $focusBorderDarkColor);
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  font-weight:  bold;
-  background-color: light-dark($dialogBackgroundTitleColor, $dialogBackgroundTitleDarkColor);
-  color light-dark($dialogTextColor, $dialogTextDarkColor);
-  font-size: 100%;
-}
-
-#${MESSAGE_ID} .content {
-  margin-left: 2em;
-  margin-right: 2em;
-  margin-top: 2em;
-  margin-bottom: 2em;
-  background-color: light-dark($dialogBackgroundColor, $dialogBackgroundDarkColor);
-  color: light-dark($dialogTextColor, $dialogTextDarkColor);
-  font-size: 110%;
-  text-algin: center;
-}
-
-#${MESSAGE_ID}.hidden {
-  display: none;
-}
-
-#${MESSAGE_ID}.show {
-  display: block;
-  opacity: 1;
-}
-
-#${MESSAGE_ID}.fade {
-  opacity: 0;
-  transition: visibility 0s 1s, opacity 1s linear;
-}
-
-@media (forced-colors: active) {
-
-  #${MESSAGE_ID} {
-    background-color: Canvas;
-    color CanvasText;
-    border-color: AccentColor;
-  }
-
-  #${MESSAGE_ID} .header {
-    background-color: Canvas;
-    color CanvasText;
-  }
-
-  #${MESSAGE_ID} .content {
-    background-color: Canvas;
-    color: CanvasText;
-  }
-}
-
-`;
-
-  class ShortcutsMessage extends HTMLElement {
-    constructor () {
-
-      super();
-      this.attachShadow({ mode: 'open' });
-
-      // Get references
-
-      this.messageDialog  = document.createElement('div');
-      this.messageDialog.id = MESSAGE_ID;
-      this.messageDialog.classList.add('hidden');
-      this.shadowRoot.appendChild(this.messageDialog);
-
-      const headerElem  = document.createElement('div');
-      headerElem.className = 'header';
-      headerElem.textContent = 'SkipTo.js Message';
-      this.messageDialog.appendChild(headerElem);
-
-      this.contentElem  = document.createElement('div');
-      this.contentElem.className = 'content';
-      this.messageDialog.appendChild(this.contentElem);
-
-      this.timeoutShowID = false;
-      this.timeoutFadeID = false;
-
-    }
-
-    configureStyle(config={}) {
-
-      function updateOption(style, option, configOption, defaultOption) {
-        if (configOption) {
-          return style.replaceAll(option, configOption);
-        }
-        else {
-          return style.replaceAll(option, defaultOption);
-        }
-      }
-
-      // make a copy of the template
-      let style = styleTemplate.textContent.slice(0);
-
-      style = updateOption(style,
-                           '$fontFamily',
-                           config.fontFamily,
-                           defaultStyleOptions$1.fontFamily);
-
-      style = updateOption(style,
-                           '$fontSize',
-                           config.fontSize,
-                           defaultStyleOptions$1.fontSize);
-
-      style = updateOption(style,
-                           '$focusBorderColor',
-                           config.focusBorderColor,
-                           defaultStyleOptions$1.focusBorderColor);
-
-      style = updateOption(style,
-                           '$focusBorderDarkColor',
-                           config.focusBorderDarkColor,
-                           defaultStyleOptions$1.focusBorderDarkColor);
-
-
-      style = updateOption(style,
-                           '$dialogTextColor',
-                           config.dialogTextColor,
-                           defaultStyleOptions$1.dialogTextColor);
-
-      style = updateOption(style,
-                           '$dialogTextDarkColor',
-                           config.dialogTextDarkColor,
-                           defaultStyleOptions$1.dialogTextDarkColor);
-
-      style = updateOption(style,
-                           '$dialogBackgroundColor',
-                           config.dialogBackgroundColor,
-                           defaultStyleOptions$1.dialogBackgroundColor);
-
-      style = updateOption(style,
-                           '$dialogBackgroundDarkColor',
-                           config.dialogBackgroundDarkColor,
-                           defaultStyleOptions$1.dialogBackgroundDarkColor);
-
-      style = updateOption(style,
-                           '$dialogBackgroundTitleColor',
-                           config.dialogBackgroundTitleColor,
-                           defaultStyleOptions$1.dialogBackgroundTitleColor);
-
-      style = updateOption(style,
-                           '$dialogBackgroundTitleDarkColor',
-                           config.dialogBackgroundTitleDarkColor,
-                           defaultStyleOptions$1.dialogBackgroundTitleDarkColor);
-
-      let styleNode = this.shadowRoot.querySelector('style');
-
-      if (styleNode) {
-        styleNode.remove();
-      }
-
-      styleNode = document.createElement('style');
-      styleNode.textContent = style;
-      this.shadowRoot.appendChild(styleNode);
-
-    }
-
-    close() {
-      this.messageDialog.classList.remove('show');
-      this.messageDialog.classList.remove('fade');
-      this.messageDialog.classList.add('hidden');
-    }
-
-    open(message) {
-      clearInterval(this.timeoutFadeID);
-      clearInterval(this.timeoutShowID);
-      this.messageDialog.classList.remove('hidden');
-      this.messageDialog.classList.remove('fade');
-      this.messageDialog.classList.add('show');
-      this.contentElem.textContent = message;
-
-      const msg = this;
-
-      this.timeoutFadeID = setTimeout( () => {
-        msg.messageDialog.classList.add('fade');
-        msg.messageDialog.classList.remove('show');
-      }, 3000);
-
-      this.timeoutShowID = setTimeout( () => {
-        msg.close();
-      }, 4000);
-
     }
 
   }
@@ -4114,8 +4031,10 @@ dialog button:hover {
         }
 
         // Information dialog
-
         this.infoDialog = new SkipToContentInfoDialog(this.containerNode);
+
+        // Shortcut messages
+        this.shortcutsMessage = new ShortcutsMessage(this.containerNode);
 
         // Highlight element
 
@@ -4126,17 +4045,6 @@ dialog button:hover {
           this.highlightElem = document.createElement(HIGHLIGHT_ELEMENT_NAME);
           this.highlightElem.configureStyle(this.config);
           document.body.appendChild(this.highlightElem);
-        }
-
-        // Shortcut messages
-
-        this.shortcutsMessage = document.querySelector(MESSAGE_ELEMENT_NAME);
-
-        if (!this.shortcutsMessage) {
-          window.customElements.define(MESSAGE_ELEMENT_NAME, ShortcutsMessage);
-          this.shortcutsMessage = document.createElement(MESSAGE_ELEMENT_NAME);
-          this.shortcutsMessage.configureStyle(this.config);
-          document.body.appendChild(this.shortcutsMessage);
         }
 
         this.menuButtonNode.addEventListener('focusin', this.handleFocusin.bind(this));
@@ -5685,12 +5593,6 @@ dialog button:hover {
         renderStyleElement(this.shadowRoot, config);
         this.buttonSkipTo.updateLabels(config);
         this.buttonSkipTo.setDisplayOption(config['displayOption']);
-      }
-
-      const shortcutsMessage = document.querySelector(MESSAGE_ELEMENT_NAME);
-      debug$1.flag && debug$1.log(`[shortcutMessage]: ${shortcutsMessage}`);
-      if (shortcutsMessage) {
-        shortcutsMessage.configureStyle(config);
       }
 
       const highlight = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
