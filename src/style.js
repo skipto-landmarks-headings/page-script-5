@@ -3,11 +3,16 @@
 /* Imports */
 import {colorThemes} from './colorThemes.js';
 import DebugLogging  from './debug.js';
+
 import {
-  HIDDEN_MESSAGE_ID,
+  HIDDEN_ELEMENT_ID,
   HIGHLIGHT_ID,
   MESSAGE_ID
 }  from './constants.js';
+
+import {
+  getHighlightInfo
+}  from './utils.js';
 
 /* Constants */
 const debug = new DebugLogging('style', false);
@@ -60,14 +65,12 @@ cssStyleTemplate.textContent = `
   --skipto-dialog-background-title-color: '#eeeeee';
   --skipto-dialog-background-title-dark-color: '#013c93';
 
-  --skipto-z-index:   '2000000';
   --skipto-z-index-1: '2000001';
   --skipto-z-index-2: '20000002';
-  --skipto-z-highlight: '1999900';
+  --skipto-z-index-highlight: '1999900';
 
   --skipto-highlight-offset: '6px';
   --skipto-highlight-border-width: '4px':
-  --skipto-highlight-border-contrast: '3px':
   --skipto-highlight-font-size: '14pt':
   --skipto-highlight-shadow-border-width: '10px';
   --skipto-highlight-border-style: 'dashed';
@@ -671,20 +674,12 @@ dialog button:hover {
   padding: 0;
   position: absolute;
   border-radius: var(--skipto-highlight-offset);
-  border: var(--skipto-highlight-shadow-border-width) solid light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
+  border-width: var(--skipto-highlight-shadow-border-width);
+  border-style: solid;
+  border-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
   box-sizing: border-box;
   pointer-events:none;
-  z-index: var(--skipto-z-index);
-}
-
-#${HIGHLIGHT_ID}.hasInfoBottom,
-#${HIGHLIGHT_ID} .overlay-border.hasInfoBottom {
-  border-radius: var(--skipto-highlight-offset), var(--skipto-highlight-offset), var(--skipto-highlight-offset) 0;
-}
-
-#${HIGHLIGHT_ID}.hasInfoTop,
-#${HIGHLIGHT_ID} .overlay-border.hasInfoTop {
-  border-radius: 0 var(--skipto-highlight-offset) var(--skipto-highlight-offset) var(--skipto-highlight-offset);
+  z-index: var(--skipto-z-index-highlight);
 }
 
 #${HIGHLIGHT_ID} .overlay-border {
@@ -692,8 +687,10 @@ dialog button:hover {
   padding: 0;
   position: relative;
   border-radius: var(--skipto-highlight-offset);
-  border: var(--skipto-highlight-border-width) var(--skipto-highlight-border-width) var(--skipto-highlight-border-style) light-dark(var(--skipto-focus-border-color), --skipto-focus-border-dark-color));
-  z-index: var(--skipto-z-highlight);
+  border-width: var(--skipto-highlight-border-width);
+  border-style: var(--skipto-highlight-border-style);
+  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+  z-index: var(--skipto-z-index-1);
   box-sizing: border-box;
   pointer-events:none;
   background: transparent;
@@ -705,7 +702,7 @@ dialog button:hover {
   100% { opacity: 1; }
 }
 
-#${HIDDEN_MESSAGE_ID} {
+#${HIDDEN_ELEMENT_ID} {
   position: absolute;
   margin: 0;
   padding: .25em;
@@ -717,7 +714,7 @@ dialog button:hover {
   font-weight: bold;
   text-align: center;
   animation: fadeIn 1.5s;
-  z-index: var(--skipto-z-highlight);
+  z-index: var(--skipto-z-index-1);
 }
 
 #${HIGHLIGHT_ID} .overlay-info {
@@ -730,7 +727,7 @@ dialog button:hover {
   border: var(--skipto-highlight-border-width) solid light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
   background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
   color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
-  z-index: var(--skipto-z-highlight);
+  z-index: var(--skipto-z-index-1);
   overflow: hidden;
   text-overflow: ellipsis;
   pointer-events:none;
@@ -934,6 +931,18 @@ function updateCSS (containerNode, config, useURLTheme=false) {
   updateStyle(containerNode, '--skipto-dialog-background-title-color',      config.dialogBackgroundTitleColor,     theme.dialogBackgroundTitleColor,     d.dialogBackgroundTitleColor);
   updateStyle(containerNode, '--skipto-dialog-background-title-dark-color', config.dialogBackgroundTitleDarkColor, theme.dialogBackgroundTitleDarkColor, d.dialogBackgroundTitleDarkColor);
 
+  let borderWidth, shadowWidth, offset, fontSize;
+
+  [borderWidth, shadowWidth, offset, fontSize] = getHighlightInfo(config.highlightBorderSize);
+
+  const shadowBorderWidth = borderWidth + 2 * shadowWidth;
+
+  updateStyle(containerNode, '--skipto-highlight-offset',              `${offset}px`,               '', '');
+  updateStyle(containerNode, '--skipto-highlight-border-width',        `${borderWidth}px`,          '', '');
+  updateStyle(containerNode, '--skipto-highlight-font-size',           fontSize,                    '', '');
+  updateStyle(containerNode, '--skipto-highlight-shadow-border-width', `${shadowBorderWidth}px`,    '', '');
+  updateStyle(containerNode, '--skipto-highlight-border-style',        config.highlightBorderStyle, '', '');
+
   updateStyle(containerNode, '--skipto-hidden-text-color',            config.hiddenTextColor,           '', d.hiddenTextColor);
   updateStyle(containerNode, '--skipto-hidden-text-dark-color',       config.hiddenTextDarkColor,       '', d.hiddenTextDarkColor);
   updateStyle(containerNode, '--skipto-hidden-background-color',      config.hiddenBackgroundColor,     '', d.hiddenBackgroundColor);
@@ -958,11 +967,17 @@ function updateCSS (containerNode, config, useURLTheme=false) {
 
 
 
-  const z2Index = config.zIndex ?
+  const zIndex2 = config.zIndex ?
                   (parseInt(config.zIndex) + 1).toString() :
-                  '2000002';
+                  '2000001';
 
-  updateStyle(containerNode, '--skipto-z-index-2', z2Index, '');
+  updateStyle(containerNode, '--skipto-z-index-2', zIndex2, '');
+
+  const zIndexHighlight = config.zIndex ?
+                  (parseInt(config.zIndex) - 1).toString() :
+                  '199999';
+
+  updateStyle(containerNode, '--skipto-z-index-highlight', zIndexHighlight, '');
 
   // Special case for theme configuration used in Illinois theme
   if (typeof theme.highlightTarget === 'string') {

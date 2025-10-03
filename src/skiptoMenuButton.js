@@ -201,8 +201,8 @@ export default class SkiptoMenuButton {
 
       // Highlight element
 
-      this.highlight = new HighlightElement(this.containerNode);
-      this.highlight.configureStyle(this.config);
+      this.highlightElement = new HighlightElement(this.containerNode);
+      this.highlightElement.configureStyle(this.config);
 
       this.menuButtonNode.addEventListener('focusin', this.handleFocusin.bind(this));
       this.menuButtonNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -220,11 +220,11 @@ export default class SkiptoMenuButton {
     }
 
     /*
-     * @get highlightTarget
+     * @get scrollBehavior
      *
      * @desc Returns normalized value for the highlightTarget option
      */
-    get highlightTarget () {
+    scrollBehavior () {
       let value = this.config.highlightTarget.trim().toLowerCase();
 
       if ('enabled smooth'.includes(value)) {
@@ -246,13 +246,13 @@ export default class SkiptoMenuButton {
      *          is enabled (NOTE: Highlight is enabled by default)
      *
      *   @param {Object}  elem            : DOM node of element to highlight
-     *   @param {String}  highlightTarget : value of highlight target
+     *   @param {String}  scrollBehavior  : value of highlight target
      *   @param {String}  info            : Information about target
      *   @param {Boolean} force           : If true override isRduced
      */
 
-    highlight(elem, highlightTarget, info='', force=false) {
-      this.highlight.highlight(elem, highlightTarget, info, force);
+    highlight(elem, scrollBehavior='instant', info='', force=false) {
+      this.highlightElement.highlight(elem, scrollBehavior, info, force);
     }
 
     /*
@@ -261,7 +261,7 @@ export default class SkiptoMenuButton {
      *   @desc  Hides the highlight element on the page
      */
     removeHighlight() {
-      this.highlight.removeHighlight();
+      this.highlightElement.removeHighlight();
     }
 
     /*
@@ -305,7 +305,7 @@ export default class SkiptoMenuButton {
       this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel);
       this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel);
 
-      this.highlight.configureStyle(config);
+      this.highlightElement.configureStyle(config);
 
 
     }
@@ -666,10 +666,10 @@ export default class SkiptoMenuButton {
         this.focusMenuitem = menuitem;
         if (menuitem.hasAttribute('data-id')) {
           const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
-          this.highlight.highlight(elem, this.highlightTarget);
+          this.highlightElement.highlight(elem, this.scrollBehavior());
         }
         else {
-          this.highlight.removeHighlight();
+          this.highlightElement.removeHighlight();
         }
       }
     }
@@ -836,7 +836,7 @@ export default class SkiptoMenuButton {
       if (this.isOpen()) {
         this.buttonNode.setAttribute('aria-expanded', 'false');
         this.menuNode.style.display = 'none';
-        this.highlight.removeHighlight();
+        this.highlightElement.removeHighlight();
         this.buttonNode.classList.remove('menu');
       }
     }
@@ -1298,10 +1298,10 @@ export default class SkiptoMenuButton {
       tgt.classList.add('hover');
       if (tgt.hasAttribute('data-id')) {
         const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
-        this.highlight.highlight(elem, this.highlightTarget);
+        this.highlightElement.highlight(elem, this.scrollBehavior());
       }
       else {
-        this.highlight.removeHighlight();
+        this.highlightElement.removeHighlight();
       }
       event.stopPropagation();
       event.preventDefault();
@@ -1311,10 +1311,10 @@ export default class SkiptoMenuButton {
       let tgt = event.currentTarget;
       if (tgt.hasAttribute('data-id')) {
         const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
-        this.highlight.highlight(elem, this.highlightTarget);
+        this.highlightElement.highlight(elem, this.scrollBehavior());
       }
       else {
-        this.highlight.removeHighlight();
+        this.highlightElement.removeHighlight();
       }
       event.stopPropagation();
       event.preventDefault();
@@ -1363,10 +1363,10 @@ export default class SkiptoMenuButton {
         mi.classList.add('hover');
         if (mi.hasAttribute('data-id')) {
           const elem = queryDOMForSkipToId(mi.getAttribute('data-id'));
-          this.highlight.highlight(elem, this.highlightTarget);
+          this.highlightElement.highlight(elem, this.scrollBehavior());
         }
         else {
-          this.highlight.removeHighlight();
+          this.highlightElement.removeHighlight();
         }
       }
 

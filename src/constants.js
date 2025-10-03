@@ -23,12 +23,13 @@ export const MENU_HEADINGS_GROUP_LABEL_ID  = 'id-skip-to-heading-group-label';
 export const MENU_SHORTCUTS_GROUP_ID       = 'id-skip-to-shortcuts-group';
 export const MENU_SHORTCUTS_GROUP_LABEL_ID = 'id-skip-to-shortcuts-group-label';
 
-export const MENU_ABOUT_ID = 'id-skip-to-about';
+export const MENU_ABOUT_ID     = 'id-skip-to-about';
 
 export const MESSAGE_ID        = 'id-skip-to-message';
-export const HIDDEN_MESSAGE_ID = 'id-skip-to-hidden-message';
 
-export const HIGHLIGHT_ID = 'id-skip-to-highlight-overlay';
+export const HIGHLIGHT_ID      = 'id-skip-to-highlight-overlay';
+export const HIDDEN_ELEMENT_ID = 'id-skip-to-hidden-element';
+
 
 // Custom element names
 

@@ -255,12 +255,13 @@
   const MENU_SHORTCUTS_GROUP_ID       = 'id-skip-to-shortcuts-group';
   const MENU_SHORTCUTS_GROUP_LABEL_ID = 'id-skip-to-shortcuts-group-label';
 
-  const MENU_ABOUT_ID = 'id-skip-to-about';
+  const MENU_ABOUT_ID     = 'id-skip-to-about';
 
   const MESSAGE_ID        = 'id-skip-to-message';
-  const HIDDEN_MESSAGE_ID = 'id-skip-to-hidden-message';
 
-  const HIGHLIGHT_ID = 'id-skip-to-highlight-overlay';
+  const HIGHLIGHT_ID      = 'id-skip-to-highlight-overlay';
+  const HIDDEN_ELEMENT_ID = 'id-skip-to-hidden-element';
+
 
   // Custom element names
 
@@ -277,11 +278,153 @@
   const MORE_ABOUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/';
   const MORE_SHORTCUT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 
+  /* utils.js */
+
+  /* Constants */
+  const debug$c = new DebugLogging('Utils', false);
+  debug$c.flag = false;
+
+  /*
+   * @function getHighlightInfo
+   *
+   * @desc Returns an array of sizes and fonts for highlighting elements
+   *
+   * @param   {String}   size  : Highlight border size 'small', 'medium', 'large' or 'x-large'
+   *
+   * @returns [borderWidth, shadowWidth, offset, fontSize]
+   */
+  function getHighlightInfo (size) {
+
+    let borderWidth, shadowWidth, offset, fontSize;
+
+    const highlightBorderSize =  size ?
+                                 size :
+                                 'small';
+
+    switch (highlightBorderSize) {
+      case 'small':
+        borderWidth = 2;
+        shadowWidth = 1;
+        offset = 4;
+        fontSize = '12pt';
+        break;
+
+      case 'medium':
+        borderWidth = 3;
+        shadowWidth = 2;
+        offset = 4;
+        fontSize = '13pt';
+        break;
+
+      case 'large':
+        borderWidth = 4;
+        shadowWidth = 3;
+        offset = 6;
+        fontSize = '14pt';
+       break;
+
+      case 'x-large':
+        borderWidth = 6;
+        shadowWidth = 3;
+        offset = 8;
+        fontSize = '16pt';
+        break;
+
+      default:
+        borderWidth = 2;
+        shadowWidth = 1;
+        offset = 4;
+        fontSize = '12pt';
+        break;
+    }
+    return [borderWidth, shadowWidth, offset, fontSize];
+  }
+
+  /*
+   * @function getAttributeValue
+   * 
+   * @desc Return attribute value if present on element,
+   *       otherwise return empty string.
+   *
+   * @returns {String} see @desc
+   */
+  function getAttributeValue (element, attribute) {
+    let value = element.getAttribute(attribute);
+    return (value === null) ? '' : normalize(value);
+  }
+
+  /*
+   * @function normalize
+   *
+   * @desc Trim leading and trailing whitespace and condense all
+   *       internal sequences of whitespace to a single space. Adapted from
+   *       Mozilla documentation on String.prototype.trim polyfill. Handles
+   *       BOM and NBSP characters.
+   *
+   * @return {String}  see @desc
+   */
+  function normalize (s) {
+    let rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+    return s.replace(rtrim, '').replace(/\s+/g, ' ');
+  }
+
+  /**
+   * @fuction isNotEmptyString
+   *
+   * @desc Returns true if the string has content, otherwise false
+   *
+   * @param {Boolean}  see @desc
+   */
+  function isNotEmptyString (str) {
+    return (typeof str === 'string') && str.length && str.trim() && str !== "&nbsp;";
+  }
+
+  /**
+   * @fuction isVisible
+   *
+   * @desc Returns true if the element is visible in the graphical rendering 
+   *
+   * @param {node}  elem  - DOM element node of a labelable element
+   */
+  function isVisible (element) {
+
+    function isDisplayNone(el) {
+      if (!el || (el.nodeType !== Node.ELEMENT_NODE)) {
+        return false;
+      }
+
+      if (el.hasAttribute('hidden')) {
+        return true;
+      }
+
+      const style = window.getComputedStyle(el, null);
+      const display = style.getPropertyValue("display");
+      if (display === 'none') { 
+        return true;
+      }
+
+      // check ancestors for display none
+      if (el.parentNode) {
+        return isDisplayNone(el.parentNode);
+      }
+
+      return false;
+    }
+
+    const computedStyle = window.getComputedStyle(element);
+    let visibility = computedStyle.getPropertyValue('visibility');
+    if ((visibility === 'hidden') || (visibility === 'collapse')) {
+      return false;
+    }
+
+    return !isDisplayNone(element);
+  }
+
   /* style.js */
 
   /* Constants */
-  const debug$c = new DebugLogging('style', false);
-  debug$c.flag = false;
+  const debug$b = new DebugLogging('style', false);
+  debug$b.flag = false;
 
 
 
@@ -330,14 +473,12 @@
   --skipto-dialog-background-title-color: '#eeeeee';
   --skipto-dialog-background-title-dark-color: '#013c93';
 
-  --skipto-z-index:   '2000000';
   --skipto-z-index-1: '2000001';
   --skipto-z-index-2: '20000002';
-  --skipto-z-highlight: '1999900';
+  --skipto-z-index-highlight: '1999900';
 
   --skipto-highlight-offset: '6px';
   --skipto-highlight-border-width: '4px':
-  --skipto-highlight-border-contrast: '3px':
   --skipto-highlight-font-size: '14pt':
   --skipto-highlight-shadow-border-width: '10px';
   --skipto-highlight-border-style: 'dashed';
@@ -941,20 +1082,12 @@ dialog button:hover {
   padding: 0;
   position: absolute;
   border-radius: var(--skipto-highlight-offset);
-  border: var(--skipto-highlight-shadow-border-width) solid light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
+  border-width: var(--skipto-highlight-shadow-border-width);
+  border-style: solid;
+  border-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
   box-sizing: border-box;
   pointer-events:none;
-  z-index: var(--skipto-z-index);
-}
-
-#${HIGHLIGHT_ID}.hasInfoBottom,
-#${HIGHLIGHT_ID} .overlay-border.hasInfoBottom {
-  border-radius: var(--skipto-highlight-offset), var(--skipto-highlight-offset), var(--skipto-highlight-offset) 0;
-}
-
-#${HIGHLIGHT_ID}.hasInfoTop,
-#${HIGHLIGHT_ID} .overlay-border.hasInfoTop {
-  border-radius: 0 var(--skipto-highlight-offset) var(--skipto-highlight-offset) var(--skipto-highlight-offset);
+  z-index: var(--skipto-z-index-highlight);
 }
 
 #${HIGHLIGHT_ID} .overlay-border {
@@ -962,8 +1095,10 @@ dialog button:hover {
   padding: 0;
   position: relative;
   border-radius: var(--skipto-highlight-offset);
-  border: var(--skipto-highlight-border-width) var(--skipto-highlight-border-width) var(--skipto-highlight-border-style) light-dark(var(--skipto-focus-border-color), --skipto-focus-border-dark-color));
-  z-index: var(--skipto-z-highlight);
+  border-width: var(--skipto-highlight-border-width);
+  border-style: var(--skipto-highlight-border-style);
+  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+  z-index: var(--skipto-z-index-1);
   box-sizing: border-box;
   pointer-events:none;
   background: transparent;
@@ -975,7 +1110,7 @@ dialog button:hover {
   100% { opacity: 1; }
 }
 
-#${HIDDEN_MESSAGE_ID} {
+#${HIDDEN_ELEMENT_ID} {
   position: absolute;
   margin: 0;
   padding: .25em;
@@ -987,7 +1122,7 @@ dialog button:hover {
   font-weight: bold;
   text-align: center;
   animation: fadeIn 1.5s;
-  z-index: var(--skipto-z-highlight);
+  z-index: var(--skipto-z-index-1);
 }
 
 #${HIGHLIGHT_ID} .overlay-info {
@@ -1000,7 +1135,7 @@ dialog button:hover {
   border: var(--skipto-highlight-border-width) solid light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
   background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
   color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
-  z-index: var(--skipto-z-highlight);
+  z-index: var(--skipto-z-index-1);
   overflow: hidden;
   text-overflow: ellipsis;
   pointer-events:none;
@@ -1204,6 +1339,18 @@ dialog button:hover {
     updateStyle(containerNode, '--skipto-dialog-background-title-color',      config.dialogBackgroundTitleColor,     theme.dialogBackgroundTitleColor,     d.dialogBackgroundTitleColor);
     updateStyle(containerNode, '--skipto-dialog-background-title-dark-color', config.dialogBackgroundTitleDarkColor, theme.dialogBackgroundTitleDarkColor, d.dialogBackgroundTitleDarkColor);
 
+    let borderWidth, shadowWidth, offset, fontSize;
+
+    [borderWidth, shadowWidth, offset, fontSize] = getHighlightInfo(config.highlightBorderSize);
+
+    const shadowBorderWidth = borderWidth + 2 * shadowWidth;
+
+    updateStyle(containerNode, '--skipto-highlight-offset',              `${offset}px`,               '', '');
+    updateStyle(containerNode, '--skipto-highlight-border-width',        `${borderWidth}px`,          '', '');
+    updateStyle(containerNode, '--skipto-highlight-font-size',           fontSize,                    '', '');
+    updateStyle(containerNode, '--skipto-highlight-shadow-border-width', `${shadowBorderWidth}px`,    '', '');
+    updateStyle(containerNode, '--skipto-highlight-border-style',        config.highlightBorderStyle, '', '');
+
     updateStyle(containerNode, '--skipto-hidden-text-color',            config.hiddenTextColor,           '', d.hiddenTextColor);
     updateStyle(containerNode, '--skipto-hidden-text-dark-color',       config.hiddenTextDarkColor,       '', d.hiddenTextDarkColor);
     updateStyle(containerNode, '--skipto-hidden-background-color',      config.hiddenBackgroundColor,     '', d.hiddenBackgroundColor);
@@ -1228,11 +1375,17 @@ dialog button:hover {
 
 
 
-    const z2Index = config.zIndex ?
+    const zIndex2 = config.zIndex ?
                     (parseInt(config.zIndex) + 1).toString() :
-                    '2000002';
+                    '2000001';
 
-    updateStyle(containerNode, '--skipto-z-index-2', z2Index, '');
+    updateStyle(containerNode, '--skipto-z-index-2', zIndex2, '');
+
+    const zIndexHighlight = config.zIndex ?
+                    (parseInt(config.zIndex) - 1).toString() :
+                    '199999';
+
+    updateStyle(containerNode, '--skipto-z-index-highlight', zIndexHighlight, '');
 
     // Special case for theme configuration used in Illinois theme
     if (typeof theme.highlightTarget === 'string') {
@@ -1262,93 +1415,6 @@ dialog button:hover {
 
     updateCSS(containerNode, config, useURLTheme);
 
-  }
-
-  /* utils.js */
-
-  /* Constants */
-  const debug$b = new DebugLogging('Utils', false);
-  debug$b.flag = false;
-
-
-  /*
-   * @function getAttributeValue
-   * 
-   * @desc Return attribute value if present on element,
-   *       otherwise return empty string.
-   *
-   * @returns {String} see @desc
-   */
-  function getAttributeValue (element, attribute) {
-    let value = element.getAttribute(attribute);
-    return (value === null) ? '' : normalize(value);
-  }
-
-  /*
-   * @function normalize
-   *
-   * @desc Trim leading and trailing whitespace and condense all
-   *       internal sequences of whitespace to a single space. Adapted from
-   *       Mozilla documentation on String.prototype.trim polyfill. Handles
-   *       BOM and NBSP characters.
-   *
-   * @return {String}  see @desc
-   */
-  function normalize (s) {
-    let rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
-    return s.replace(rtrim, '').replace(/\s+/g, ' ');
-  }
-
-  /**
-   * @fuction isNotEmptyString
-   *
-   * @desc Returns true if the string has content, otherwise false
-   *
-   * @param {Boolean}  see @desc
-   */
-  function isNotEmptyString (str) {
-    return (typeof str === 'string') && str.length && str.trim() && str !== "&nbsp;";
-  }
-
-  /**
-   * @fuction isVisible
-   *
-   * @desc Returns true if the element is visible in the graphical rendering 
-   *
-   * @param {node}  elem  - DOM element node of a labelable element
-   */
-  function isVisible (element) {
-
-    function isDisplayNone(el) {
-      if (!el || (el.nodeType !== Node.ELEMENT_NODE)) {
-        return false;
-      }
-
-      if (el.hasAttribute('hidden')) {
-        return true;
-      }
-
-      const style = window.getComputedStyle(el, null);
-      const display = style.getPropertyValue("display");
-      if (display === 'none') { 
-        return true;
-      }
-
-      // check ancestors for display none
-      if (el.parentNode) {
-        return isDisplayNone(el.parentNode);
-      }
-
-      return false;
-    }
-
-    const computedStyle = window.getComputedStyle(element);
-    let visibility = computedStyle.getPropertyValue('visibility');
-    if ((visibility === 'hidden') || (visibility === 'collapse')) {
-      return false;
-    }
-
-    return !isDisplayNone(element);
   }
 
   /* shortcutInfoDialog.js */
@@ -1656,12 +1722,12 @@ dialog button:hover {
       this.overlayElem.appendChild(this.infoElem);
 
       this.hiddenElem = document.createElement('div');
-      this.hiddenElem.id = HIDDEN_MESSAGE_ID;
+      this.hiddenElem.id = HIDDEN_ELEMENT_ID;
       attachElem.appendChild(this.hiddenElem);
       this.hiddenElem.style.display = 'none';
 
       this.borderWidth    = 0;
-      this.borderContrast = 0;
+      this.shadowWidth = 0;
       this.offset         = 0;
 
       this.msgHeadingIsHidden = '';
@@ -1694,72 +1760,7 @@ dialog button:hover {
                               config.msgElemenIsHidden :
                               'Element is hidden';
 
-
-  /*
-
-      const highlightBorderSize =  config.highlightBorderSize ?
-                                   config.highlightBorderSize :
-                                   defaultStyleOptions.highlightBorderSize;
-
-      switch (highlightBorderSize) {
-        case 'small':
-          this.borderWidth = 2;
-          this.borderContrast = 1;
-          this.offset = 4;
-          this.fontSize = '12pt';
-          break;
-
-        case 'medium':
-          this.borderWidth = 3;
-          this.borderContrast = 2;
-          this.offset = 4;
-          this.fontSize = '13pt';
-          break;
-
-        case 'large':
-          this.borderWidth = 4;
-          this.borderContrast = 3;
-          this.offset = 6;
-           this.fontSize = '14pt';
-         break;
-
-        case 'x-large':
-          this.borderWidth = 6;
-          this.borderContrast = 3;
-          this.offset = 8;
-          this.fontSize = '16pt';
-          break;
-
-        default:
-          this.borderWidth = 2;
-          this.borderContrast = 1;
-          this.offset = 4;
-          this.fontSize = '12pt';
-          break;
-      }
-
-
-      style = updateOption(style,
-                           '$highlightOffset',
-                           this.offset,
-                           this.offset);
-
-      style = updateOption(style,
-                           '$overlayBorderWidth',
-                           this.borderWidth,
-                           this.borderWidth);
-
-      style = updateOption(style,
-                           '$shadowBorderWidth',
-                           this.borderWidth + 2 * this.borderContrast,
-                           this.borderWidth + 2 * this.borderContrast);
-
-      style = updateOption(style,
-                           '$infoBorderWidth',
-                           this.borderWidth,
-                           this.borderWidth);
-
-  */
+      [this.borderWidth, this.shadowWidth, this.offset, this.fontSize] = getHighlightInfo(config.highlightBorderSize);
 
     }
 
@@ -1775,7 +1776,7 @@ dialog button:hover {
      *   @param {Boolean} force           : If true override isRduced
      */
 
-    highlight(elem, highlightTarget, info='', force=false) {
+    highlight(elem, highlightTarget='instant', info='', force=false) {
       let scrollElement;
       const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
       const isReduced = !mediaQuery || mediaQuery.matches;
@@ -1804,7 +1805,7 @@ dialog button:hover {
                                                       info,
                                                       0,
                                                       this.borderWidth,
-                                                      this.borderContrast);
+                                                      this.shadowWidth);
         }
         else {
           this.hiddenElem.style.display = 'none';
@@ -1812,7 +1813,7 @@ dialog button:hover {
                                                       info,
                                                       this.offset,
                                                       this.borderWidth,
-                                                      this.borderContrast);
+                                                      this.shadowWidth);
         }
 
         if (this.isElementInHeightLarge(elem)) {
@@ -1837,15 +1838,15 @@ dialog button:hover {
      *  @param  {String}  info          -  Description of the element
      *  @param  {Number}  offset        -  Number of pixels for offset
      *  @param  {Number}  borderWidth   -  Number of pixels for border width
-     *  @param  {Number}  borderContrast  -  Number of pixels to provide border contrast
+     *  @param  {Number}  shadowWidth   -  Number of pixels to provide border contrast
      *
      */
 
-     updateHighlightElement (elem, info, offset, borderWidth, borderContrast) {
+     updateHighlightElement (elem, info, offset, borderWidth, shadowWidth) {
 
-      const adjRect = this.getAdjustedRect(elem, offset, borderWidth, borderContrast);
+      const adjRect = this.getAdjustedRect(elem, offset, borderWidth, shadowWidth);
 
-      const borderElemOffset = -1 * (this.borderWidth + this.borderContrast);
+      const borderElemOffset = -1 * (this.borderWidth + this.shadowWidth);
 
       this.overlayElem.style.left   = adjRect.left   + 'px';
       this.overlayElem.style.top    = adjRect.top    + 'px';
@@ -1854,8 +1855,8 @@ dialog button:hover {
 
       this.overlayElem.style.width  = adjRect.width  + 'px';
       this.overlayElem.style.height = adjRect.height + 'px';
-      this.borderElem.style.width   = (adjRect.width - (2 * borderContrast)) + 'px';
-      this.borderElem.style.height  = (adjRect.height - (2 * borderContrast)) + 'px';
+      this.borderElem.style.width   = (adjRect.width - (2 * shadowWidth)) + 'px';
+      this.borderElem.style.height  = (adjRect.height - (2 * shadowWidth)) + 'px';
 
       this.overlayElem.style.display = 'block';
 
@@ -1864,7 +1865,7 @@ dialog button:hover {
         this.infoElem.style.display = 'inline-block';
         this.infoElem.textContent   = info;
 
-        const infoElemOffsetLeft = -1 * (borderWidth + 2 * borderContrast);
+        const infoElemOffsetLeft = -1 * (borderWidth + 2 * shadowWidth);
         this.infoElem.style.left = infoElemOffsetLeft + 'px';
 
         const infoElemRect    = this.infoElem.getBoundingClientRect();
@@ -1886,7 +1887,7 @@ dialog button:hover {
           // Info is displayed below the highlighted element when it is at the top of
           // the window
 
-          const infoElemOffsetTop  = -1 * (borderWidth + borderContrast);
+          const infoElemOffsetTop  = -1 * (borderWidth + shadowWidth);
 
           this.overlayElem.classList.remove('hasInfoTop');
           this.borderElem.classList.remove('hasInfoTop');
@@ -1917,12 +1918,12 @@ dialog button:hover {
      *  @param  {Object}  elem            -  DOM node of element to be highlighted
      *  @param  {Number}  offset          -  Number of pixels for offset
      *  @param  {Number}  borderWidth     -  Number of pixels for border width
-     *  @param  {Number}  borderContrast  -  Number of pixels to provide border contrast
+     *  @param  {Number}  shadowWidth  -  Number of pixels to provide border contrast
      *
      *   @returns see @desc
      */
 
-     getAdjustedRect(elem, offset, borderWidth, borderContrast) {
+     getAdjustedRect(elem, offset, borderWidth, shadowWidth) {
 
       const rect  = elem.getBoundingClientRect();
 
@@ -1933,7 +1934,7 @@ dialog button:hover {
         height: 0
       };
 
-      const offsetBorder = offset + borderWidth + 2 * borderContrast;
+      const offsetBorder = offset + borderWidth + 2 * shadowWidth;
 
       adjRect.left    = rect.left > offset ?
                         Math.round(rect.left + (-1 * offsetBorder) + window.scrollX) :
@@ -3947,8 +3948,8 @@ dialog button:hover {
 
         // Highlight element
 
-        this.highlight = new HighlightElement(this.containerNode);
-        this.highlight.configureStyle(this.config);
+        this.highlightElement = new HighlightElement(this.containerNode);
+        this.highlightElement.configureStyle(this.config);
 
         this.menuButtonNode.addEventListener('focusin', this.handleFocusin.bind(this));
         this.menuButtonNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -3966,11 +3967,11 @@ dialog button:hover {
       }
 
       /*
-       * @get highlightTarget
+       * @get scrollBehavior
        *
        * @desc Returns normalized value for the highlightTarget option
        */
-      get highlightTarget () {
+      scrollBehavior () {
         let value = this.config.highlightTarget.trim().toLowerCase();
 
         if ('enabled smooth'.includes(value)) {
@@ -3992,13 +3993,13 @@ dialog button:hover {
        *          is enabled (NOTE: Highlight is enabled by default)
        *
        *   @param {Object}  elem            : DOM node of element to highlight
-       *   @param {String}  highlightTarget : value of highlight target
+       *   @param {String}  scrollBehavior  : value of highlight target
        *   @param {String}  info            : Information about target
        *   @param {Boolean} force           : If true override isRduced
        */
 
-      highlight(elem, highlightTarget, info='', force=false) {
-        this.highlight.highlight(elem, highlightTarget, info, force);
+      highlight(elem, scrollBehavior='instant', info='', force=false) {
+        this.highlightElement.highlight(elem, scrollBehavior, info, force);
       }
 
       /*
@@ -4007,7 +4008,7 @@ dialog button:hover {
        *   @desc  Hides the highlight element on the page
        */
       removeHighlight() {
-        this.highlight.removeHighlight();
+        this.highlightElement.removeHighlight();
       }
 
       /*
@@ -4051,7 +4052,7 @@ dialog button:hover {
         this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel);
         this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel);
 
-        this.highlight.configureStyle(config);
+        this.highlightElement.configureStyle(config);
 
 
       }
@@ -4412,10 +4413,10 @@ dialog button:hover {
           this.focusMenuitem = menuitem;
           if (menuitem.hasAttribute('data-id')) {
             const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
-            this.highlight.highlight(elem, this.highlightTarget);
+            this.highlightElement.highlight(elem, this.scrollBehavior());
           }
           else {
-            this.highlight.removeHighlight();
+            this.highlightElement.removeHighlight();
           }
         }
       }
@@ -4582,7 +4583,7 @@ dialog button:hover {
         if (this.isOpen()) {
           this.buttonNode.setAttribute('aria-expanded', 'false');
           this.menuNode.style.display = 'none';
-          this.highlight.removeHighlight();
+          this.highlightElement.removeHighlight();
           this.buttonNode.classList.remove('menu');
         }
       }
@@ -5037,10 +5038,10 @@ dialog button:hover {
         tgt.classList.add('hover');
         if (tgt.hasAttribute('data-id')) {
           const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
-          this.highlight.highlight(elem, this.highlightTarget);
+          this.highlightElement.highlight(elem, this.scrollBehavior());
         }
         else {
-          this.highlight.removeHighlight();
+          this.highlightElement.removeHighlight();
         }
         event.stopPropagation();
         event.preventDefault();
@@ -5050,10 +5051,10 @@ dialog button:hover {
         let tgt = event.currentTarget;
         if (tgt.hasAttribute('data-id')) {
           const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
-          this.highlight.highlight(elem, this.highlightTarget);
+          this.highlightElement.highlight(elem, this.scrollBehavior());
         }
         else {
-          this.highlight.removeHighlight();
+          this.highlightElement.removeHighlight();
         }
         event.stopPropagation();
         event.preventDefault();
@@ -5102,10 +5103,10 @@ dialog button:hover {
           mi.classList.add('hover');
           if (mi.hasAttribute('data-id')) {
             const elem = queryDOMForSkipToId(mi.getAttribute('data-id'));
-            this.highlight.highlight(elem, this.highlightTarget);
+            this.highlightElement.highlight(elem, this.scrollBehavior());
           }
           else {
-            this.highlight.removeHighlight();
+            this.highlightElement.removeHighlight();
           }
         }
 

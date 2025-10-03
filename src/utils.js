@@ -13,12 +13,68 @@ export {
   normalize,
   normalizeName,
   getAttributeValue,
+  getHighlightInfo,
   isEmptyString,
   isNotEmptyString,
   isVisible,
   isSmallOrOffScreen
 };
 
+/*
+ * @function getHighlightInfo
+ *
+ * @desc Returns an array of sizes and fonts for highlighting elements
+ *
+ * @param   {String}   size  : Highlight border size 'small', 'medium', 'large' or 'x-large'
+ *
+ * @returns [borderWidth, shadowWidth, offset, fontSize]
+ */
+function getHighlightInfo (size) {
+
+  let borderWidth, shadowWidth, offset, fontSize;
+
+  const highlightBorderSize =  size ?
+                               size :
+                               'small';
+
+  switch (highlightBorderSize) {
+    case 'small':
+      borderWidth = 2;
+      shadowWidth = 1;
+      offset = 4;
+      fontSize = '12pt';
+      break;
+
+    case 'medium':
+      borderWidth = 3;
+      shadowWidth = 2;
+      offset = 4;
+      fontSize = '13pt';
+      break;
+
+    case 'large':
+      borderWidth = 4;
+      shadowWidth = 3;
+      offset = 6;
+      fontSize = '14pt';
+     break;
+
+    case 'x-large':
+      borderWidth = 6;
+      shadowWidth = 3;
+      offset = 8;
+      fontSize = '16pt';
+      break;
+
+    default:
+      borderWidth = 2;
+      shadowWidth = 1;
+      offset = 4;
+      fontSize = '12pt';
+      break;
+  }
+  return [borderWidth, shadowWidth, offset, fontSize];
+}
 
 /*
  * @function getAttributeValue

@@ -11,9 +11,13 @@ const minWidth = 68;
 const minHeight = 27;
 
 import {
-  HIDDEN_MESSAGE_ID,
+  HIDDEN_ELEMENT_ID,
   HIGHLIGHT_ID
 } from './constants.js';
+
+import {
+  getHighlightInfo
+} from './utils.js';
 
 /*
  *   @class HighlightElement
@@ -40,12 +44,12 @@ export default class HighlightElement {
     this.overlayElem.appendChild(this.infoElem);
 
     this.hiddenElem = document.createElement('div');
-    this.hiddenElem.id = HIDDEN_MESSAGE_ID;
+    this.hiddenElem.id = HIDDEN_ELEMENT_ID;
     attachElem.appendChild(this.hiddenElem);
     this.hiddenElem.style.display = 'none';
 
     this.borderWidth    = 0;
-    this.borderContrast = 0;
+    this.shadowWidth = 0;
     this.offset         = 0;
 
     this.msgHeadingIsHidden = '';
@@ -78,72 +82,7 @@ export default class HighlightElement {
                             config.msgElemenIsHidden :
                             'Element is hidden';
 
-
-/*
-
-    const highlightBorderSize =  config.highlightBorderSize ?
-                                 config.highlightBorderSize :
-                                 defaultStyleOptions.highlightBorderSize;
-
-    switch (highlightBorderSize) {
-      case 'small':
-        this.borderWidth = 2;
-        this.borderContrast = 1;
-        this.offset = 4;
-        this.fontSize = '12pt';
-        break;
-
-      case 'medium':
-        this.borderWidth = 3;
-        this.borderContrast = 2;
-        this.offset = 4;
-        this.fontSize = '13pt';
-        break;
-
-      case 'large':
-        this.borderWidth = 4;
-        this.borderContrast = 3;
-        this.offset = 6;
-         this.fontSize = '14pt';
-       break;
-
-      case 'x-large':
-        this.borderWidth = 6;
-        this.borderContrast = 3;
-        this.offset = 8;
-        this.fontSize = '16pt';
-        break;
-
-      default:
-        this.borderWidth = 2;
-        this.borderContrast = 1;
-        this.offset = 4;
-        this.fontSize = '12pt';
-        break;
-    }
-
-
-    style = updateOption(style,
-                         '$highlightOffset',
-                         this.offset,
-                         this.offset);
-
-    style = updateOption(style,
-                         '$overlayBorderWidth',
-                         this.borderWidth,
-                         this.borderWidth);
-
-    style = updateOption(style,
-                         '$shadowBorderWidth',
-                         this.borderWidth + 2 * this.borderContrast,
-                         this.borderWidth + 2 * this.borderContrast);
-
-    style = updateOption(style,
-                         '$infoBorderWidth',
-                         this.borderWidth,
-                         this.borderWidth);
-
-*/
+    [this.borderWidth, this.shadowWidth, this.offset, this.fontSize] = getHighlightInfo(config.highlightBorderSize);
 
   }
 
@@ -159,7 +98,7 @@ export default class HighlightElement {
    *   @param {Boolean} force           : If true override isRduced
    */
 
-  highlight(elem, highlightTarget, info='', force=false) {
+  highlight(elem, highlightTarget='instant', info='', force=false) {
     let scrollElement;
     const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
     const isReduced = !mediaQuery || mediaQuery.matches;
@@ -188,7 +127,7 @@ export default class HighlightElement {
                                                     info,
                                                     0,
                                                     this.borderWidth,
-                                                    this.borderContrast);
+                                                    this.shadowWidth);
       }
       else {
         this.hiddenElem.style.display = 'none';
@@ -196,7 +135,7 @@ export default class HighlightElement {
                                                     info,
                                                     this.offset,
                                                     this.borderWidth,
-                                                    this.borderContrast);
+                                                    this.shadowWidth);
       }
 
       if (this.isElementInHeightLarge(elem)) {
@@ -221,15 +160,15 @@ export default class HighlightElement {
    *  @param  {String}  info          -  Description of the element
    *  @param  {Number}  offset        -  Number of pixels for offset
    *  @param  {Number}  borderWidth   -  Number of pixels for border width
-   *  @param  {Number}  borderContrast  -  Number of pixels to provide border contrast
+   *  @param  {Number}  shadowWidth   -  Number of pixels to provide border contrast
    *
    */
 
-   updateHighlightElement (elem, info, offset, borderWidth, borderContrast) {
+   updateHighlightElement (elem, info, offset, borderWidth, shadowWidth) {
 
-    const adjRect = this.getAdjustedRect(elem, offset, borderWidth, borderContrast);
+    const adjRect = this.getAdjustedRect(elem, offset, borderWidth, shadowWidth);
 
-    const borderElemOffset = -1 * (this.borderWidth + this.borderContrast);
+    const borderElemOffset = -1 * (this.borderWidth + this.shadowWidth);
 
     this.overlayElem.style.left   = adjRect.left   + 'px';
     this.overlayElem.style.top    = adjRect.top    + 'px';
@@ -238,8 +177,8 @@ export default class HighlightElement {
 
     this.overlayElem.style.width  = adjRect.width  + 'px';
     this.overlayElem.style.height = adjRect.height + 'px';
-    this.borderElem.style.width   = (adjRect.width - (2 * borderContrast)) + 'px';
-    this.borderElem.style.height  = (adjRect.height - (2 * borderContrast)) + 'px';
+    this.borderElem.style.width   = (adjRect.width - (2 * shadowWidth)) + 'px';
+    this.borderElem.style.height  = (adjRect.height - (2 * shadowWidth)) + 'px';
 
     this.overlayElem.style.display = 'block';
 
@@ -248,7 +187,7 @@ export default class HighlightElement {
       this.infoElem.style.display = 'inline-block';
       this.infoElem.textContent   = info;
 
-      const infoElemOffsetLeft = -1 * (borderWidth + 2 * borderContrast);
+      const infoElemOffsetLeft = -1 * (borderWidth + 2 * shadowWidth);
       this.infoElem.style.left = infoElemOffsetLeft + 'px';
 
       const infoElemRect    = this.infoElem.getBoundingClientRect();
@@ -270,7 +209,7 @@ export default class HighlightElement {
         // Info is displayed below the highlighted element when it is at the top of
         // the window
 
-        const infoElemOffsetTop  = -1 * (borderWidth + borderContrast);
+        const infoElemOffsetTop  = -1 * (borderWidth + shadowWidth);
 
         this.overlayElem.classList.remove('hasInfoTop');
         this.borderElem.classList.remove('hasInfoTop');
@@ -301,12 +240,12 @@ export default class HighlightElement {
    *  @param  {Object}  elem            -  DOM node of element to be highlighted
    *  @param  {Number}  offset          -  Number of pixels for offset
    *  @param  {Number}  borderWidth     -  Number of pixels for border width
-   *  @param  {Number}  borderContrast  -  Number of pixels to provide border contrast
+   *  @param  {Number}  shadowWidth  -  Number of pixels to provide border contrast
    *
    *   @returns see @desc
    */
 
-   getAdjustedRect(elem, offset, borderWidth, borderContrast) {
+   getAdjustedRect(elem, offset, borderWidth, shadowWidth) {
 
     const rect  = elem.getBoundingClientRect();
 
@@ -317,7 +256,7 @@ export default class HighlightElement {
       height: 0
     };
 
-    const offsetBorder = offset + borderWidth + 2 * borderContrast;
+    const offsetBorder = offset + borderWidth + 2 * shadowWidth;
 
     adjRect.left    = rect.left > offset ?
                       Math.round(rect.left + (-1 * offsetBorder) + window.scrollX) :
