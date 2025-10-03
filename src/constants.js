@@ -23,6 +23,8 @@ export const MENU_HEADINGS_GROUP_LABEL_ID  = 'id-skip-to-heading-group-label';
 export const MENU_SHORTCUTS_GROUP_ID       = 'id-skip-to-shortcuts-group';
 export const MENU_SHORTCUTS_GROUP_LABEL_ID = 'id-skip-to-shortcuts-group-label';
 
+export const MENU_ABOUT_ID = 'id-skip-to-about';
+
 export const MESSAGE_ID = 'id-skip-to-message';
 
 export const HIGHLIGHT_ID = 'id-skip-to-highlight-overlay';
@@ -33,9 +35,9 @@ export const PAGE_SCRIPT_ELEMENT_NAME = 'skip-to-content';
 export const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
 export const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
 
-export const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-580';
-export const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-580';
-export const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-580';
+export const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-590';
+export const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-590';
+export const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-590';
 
 // Attributes
 
@@ -43,6 +45,6 @@ export const ATTR_SKIP_TO_DATA = 'data-skipto';
 
 // URLs to more information
 
-export const MORE_PAGE_SCRIPT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/';
-export const MORE_SHORTCUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
+export const MORE_ABOUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/';
+export const MORE_SHORTCUT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 

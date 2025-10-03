@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.8.4
+ * Version: 5.9.0
  * Copyright (c) 2022, 2023, 2024, 2025 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -231,232 +231,222 @@
 
   }
 
-  /* constants.js */
-
-  // Numbers
-
-  const REQUIRE_ACCESSIBLE_NAME_COUNT = 3;
-
-  // Element IDs
-
-  const SKIP_TO_ID            = 'id-skip-to-ver-5';
-  const SKIP_TO_MENU_STYLE_ID = 'id-skip-to-menu-style';
-
-  const SCRIPT_EXTENSION_ID   = `id-skip-to-extension`;
-  const SCRIPT_BOOKMARKLET_ID = `id-skip-to-bookmarklet`;
-
-  const MENU_ID   = 'id-skip-to-menu';
-
-  const MENU_LANDMARK_GROUP_ID        = 'id-skip-to-landmark-group';
-  const MENU_LANDMARK_GROUP_LABEL_ID  = 'id-skip-to-landmark-group-label';
-
-  const MENU_HEADINGS_GROUP_ID        = 'id-skip-to-heading-group';
-  const MENU_HEADINGS_GROUP_LABEL_ID  = 'id-skip-to-heading-group-label';
-
-  const MENU_SHORTCUTS_GROUP_ID       = 'id-skip-to-shortcuts-group';
-  const MENU_SHORTCUTS_GROUP_LABEL_ID = 'id-skip-to-shortcuts-group-label';
-
-  const MESSAGE_ID = 'id-skip-to-message';
-
-  const HIGHLIGHT_ID = 'id-skip-to-highlight-overlay';
-
-  // Custom element names
-
-  const PAGE_SCRIPT_ELEMENT_NAME = 'skip-to-content';
-  const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
-  const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
-
-  const INFO_DIALOG_ELEMENT_NAME = 'skip-to-content-info-dialog-580';
-  const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-580';
-  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-580';
-
-  // Attributes
-
-  const ATTR_SKIP_TO_DATA = 'data-skipto';
-
-  // URLs to more information
-
-  const MORE_PAGE_SCRIPT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/';
-  const MORE_SHORTCUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
-
   /* style.js */
 
   /* Constants */
   const debug$c = new DebugLogging('style', false);
   debug$c.flag = false;
 
-  const cssMenuTemplate = document.createElement('template');
-  cssMenuTemplate.textContent = `
-:root {
+  const cssStyleTemplate = document.createElement('template');
+  cssStyleTemplate.textContent = `
+.container {
   color-scheme: light dark;
+
+  --skipto-popup-offset: -36px;
+  --skipto-show-border-offset: -28px;
+  --skipto-menu-offset: 36px;
+
+  --skipto-font-family: 'inherit';
+  --skipto-font-size: 'inherit';
+  --skipto-position-left: '46%';
+  --skipto-small-break-point: '580px';
+  --skipto-medium-break-point: '992px';
+
+  --skipto-button-text-color: '#13294b';
+  --skipto-button-text-dark-color: '#ffffff';
+
+  --skipto-button-background-color: '#dddddd';
+  --skipto-button-background-dark-color: '#013c93';
+
+  --skipto-focus-border-color: '#c5050c';
+  --skipto-focus-border-dark-color: '#ffffff';
+
+  --skipto-menu-text-color: '#13294b';
+  --skipto-menu-text-dark-color: '#ffffff';
+
+  --skipto-menu-background-color: '#dddddd';
+  --skipto-menu-background-dark-color: '#000000';
+
+  --skipto-menuitem-focus-text-color: '#dddddd';
+  --skipto-menuitem-focus-text-dark-color: '#ffffff';
+
+  --skipto-menuitem-focus-background-color: '#13294b';
+  --skipto-menuitem-focus-background-dark-color: '#013c93';
+
+  --skipto-dialog-text-color: '#000000';
+  --skipto-dialog-text-dark-color: '#ffffff';
+
+  --skipto-dialog-background-color: '#ffffff';
+  --skipto-dialog-background-dark-color: '#000000';
+
+  --skipto-dialog-background-title-color: '#eeeeee';
+  --skipto-dialog-background-title-dark-color: '#013c93';
+
+  --skipto-z-index-1: '2000000';
+  --skipto-z-index-2: '20000002';
+  --skipto-z-highlight: '1999900';
+
 }
 
-#${SKIP_TO_ID}.popup {
-  top: -36px;
+.container {
+  display: block;
+  z-index: var(--skipto-z-index-1);
+}
+
+.menu-button button.popup {
+  top: var(--skipto-popup-offset);
   transition: top 0.35s ease;
 }
 
-#${SKIP_TO_ID}.popup.show-border {
-  top: -28px;
+.menu-button button.popup.show-border {
+  top: var(--skipto-show-border-offset);
   transition: top 0.35s ease;
 }
 
-#${SKIP_TO_ID} button .skipto-text {
+.menu-button button .skipto-text {
   padding: 6px 8px 6px 8px;
   display: inline-block;
 }
 
-#${SKIP_TO_ID} button .skipto-small {
+.menu-button button .skipto-small {
   padding: 6px 8px 6px 8px;
   display: none;
 }
 
-#${SKIP_TO_ID} button .skipto-medium {
+.menu-button button .skipto-medium {
   padding: 6px 8px 6px 8px;
   display: none;
 }
 
-#${SKIP_TO_ID},
-#${SKIP_TO_ID}.popup.focus,
-#${SKIP_TO_ID}.popup:hover {
+.menu-button button {
   position: fixed;
-  top: 0;
-  left: $positionLeft;
-  font-family: $fontFamily;
-  font-size: $fontSize;
-  display: block;
-  border: none;
-  margin-bottom: 4px;
-  transition: left 1s ease;
-  z-index: $z1Index !important;
-}
-
-#${SKIP_TO_ID} button {
-  position: sticky;
+  left: var(--skipto-position-left);
   margin: 0;
   padding: 0;
   border-width: 0px 1px 1px 1px;
   border-style: solid;
   border-radius: 0px 0px 6px 6px;
-  border-color: light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
-  color: light-dark($buttonTextColor, $buttonTextDarkColor);
-  background-color: light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
+  border-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+  color: light-dark(var(--skipto-button-text-color), var(--skipto-button-text-dark-color));
+  background-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
   z-index: 100000 !important;
-  font-family: $fontFamily;
-  font-size: $fontSize;
-  z-index: $z1Index !important;
+  z-index: var(--skipto-z-index-1) !important;
+  font-size: var(--skipto-font-size);
+  font-family: var(--skipto-font-family);
 }
 
-@media screen and (max-width: $smallBreakPointpx) {
-  #${SKIP_TO_ID}:not(.popup) button .skipto-small {
+@media screen and (max-width: var(--skipto-small-break-point)) {
+  .menu-button button:not(.popup) .skipto-small {
     transition: top 0.35s ease;
     display: inline-block;
   }
 
-  #${SKIP_TO_ID}:not(.popup) button .skipto-text,
-  #${SKIP_TO_ID}:not(.popup) button .skipto-medium {
+  .menu-button button:not(.popup) .skipto-text,
+  button:not(.popup) .skipto-medium {
     transition: top 0.35s ease;
     display: none;
   }
 
-  #${SKIP_TO_ID}:not(.popup).focus button .skipto-text {
+  .menu-button button:not(.popup):focus .skipto-text {
     transition: top 0.35s ease;
     display: inline-block;
   }
 
-  #${SKIP_TO_ID}:not(.popup).focus button .skipto-small,
-  #${SKIP_TO_ID}:not(.popup).focus button .skipto-medium {
-    transition: top 0.35s ease;
-    display: none;
-  }
-}
-
-@media screen and (min-width: $smallBreakPointpx) and (max-width: $mediumBreakPointpx) {
-  #${SKIP_TO_ID}:not(.popup) button .skipto-medium {
-    transition: top 0.35s ease;
-    display: inline-block;
-  }
-
-  #${SKIP_TO_ID}:not(.popup) button .skipto-text,
-  #${SKIP_TO_ID}:not(.popup) button .skipto-small {
-    transition: top 0.35s ease;
-    display: none;
-  }
-
-  #${SKIP_TO_ID}:not(.popup).focus button .skipto-text {
-    transition: top 0.35s ease;
-    display: inline-block;
-  }
-
-  #${SKIP_TO_ID}:not(.popup).focus button .skipto-small,
-  #${SKIP_TO_ID}:not(.popup).focus button .skipto-medium {
+  .menu-button button:not(.popup):focus .skipto-small,
+  .menu-button button:not(.popup):focus .skipto-medium {
     transition: top 0.35s ease;
     display: none;
   }
 }
 
-#${SKIP_TO_ID}.static {
+@media screen and (min-width: var(--skipto-small-break-point)) and (max-width: var(--skipto-medium-break-point)) {
+  .menu-button button:not(.popup) .skipto-medium {
+    transition: top 0.35s ease;
+    display: inline-block;
+  }
+
+  .menu-button button:not(.popup) .skipto-text,
+  .menu-button button:not(.popup) .skipto-small {
+    transition: top 0.35s ease;
+    display: none;
+  }
+
+  .menu-button button:not(.popup):focus .skipto-text {
+    transition: top 0.35s ease;
+    display: inline-block;
+  }
+
+  .menu-button button:not(.popup):focus .skipto-small,
+  .menu-button button:not(.popup):focus .skipto-medium {
+    transition: top 0.35s ease;
+    display: none;
+  }
+}
+
+.menu-button button.static {
   position: absolute !important;
 }
 
-
-#${SKIP_TO_ID} [role="menu"] {
-  position: absolute;
+.menu-button [role="menu"] {
+  position: fixed;
+  top: var(--skipto-menu-offset);
+  left: var(--skipto-position-left);
   min-width: 16em;
   display: none;
   margin: 0;
   padding: 0.25rem;
-  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
   border-width: 2px;
   border-style: solid;
-  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
+  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
   border-radius: 5px;
-  z-index: $z1Index !important;
+  z-index: var(--skipto-z-index-1) !important;
   touch-action: none;
+  font-size: var(--skipto-font-size);
+  font-family: var(--skipto-font-family);
 }
 
-#${SKIP_TO_ID} [role="group"] {
+.menu-button [role="group"] {
   display: grid;
   grid-auto-rows: min-content;
   grid-row-gap: 1px;
 }
 
-#${SKIP_TO_ID} [role="group"].overflow {
+.menu-button [role="group"].overflow {
   overflow-x: hidden;
   overflow-y: scroll;
 }
 
-#${SKIP_TO_ID} [role="separator"]:first-child {
+.menu-button [role="separator"]:first-child {
   border-radius: 5px 5px 0 0;
 }
 
-#${SKIP_TO_ID} [role="menuitem"] {
+.menu-button [role="menuitem"] {
   padding: 3px;
   width: auto;
   border-width: 0px;
   border-style: solid;
-  color: light-dark($menuTextColor, $menuTextDarkColor);
-  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
+  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
   display: grid;
   overflow-y: clip;
   grid-template-columns: repeat(6, 1.2rem) 1fr;
   grid-column-gap: 2px;
-  font-size: 1em;
-  z-index: $z1Index;
+  z-index: var(--skipto-z-index-1);
 }
 
-#${SKIP_TO_ID} [role="menuitem"].shortcuts,
-#${SKIP_TO_ID} [role="menuitem"].about {
-  z-index: $z2Index;
+.menu-button [role="menuitem"].shortcuts,
+.menu-button [role="menuitem"].about {
+  z-index: var(--skipto-z-index-2);
 }
 
 
-#${SKIP_TO_ID} [role="menuitem"] .level,
-#${SKIP_TO_ID} [role="menuitem"] .label {
+.menu-button [role="menuitem"] .level,
+.menu-button [role="menuitem"] .label {
   font-size: 100%;
   font-weight: normal;
-  color: light-dark($menuTextColor, $menuTextDarkColor);
-  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
+  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
   display: inline-block;
   line-height: inherit;
   display: inline-block;
@@ -464,12 +454,12 @@
   border: none;
 }
 
-#${SKIP_TO_ID} [role="menuitem"] .level {
+.menu-button [role="menuitem"] .level {
   text-align: right;
   padding-right: 4px;
 }
 
-#${SKIP_TO_ID} [role="menuitem"] .label {
+.menu-button [role="menuitem"] .label {
   text-align: left;
   margin: 0;
   padding: 0;
@@ -477,49 +467,49 @@
   text-overflow: ellipsis;
 }
 
-#${SKIP_TO_ID} [role="menuitem"] .level:first-letter,
-#${SKIP_TO_ID} [role="menuitem"] .label:first-letter {
+.menu-button [role="menuitem"] .level:first-letter,
+.menu-button [role="menuitem"] .label:first-letter {
   text-decoration: underline;
   text-transform: uppercase;
 }
 
 
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h1 .level { grid-column: 1; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h2 .level { grid-column: 2; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h3 .level { grid-column: 3; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h4 .level { grid-column: 4; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h5 .level { grid-column: 5; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h6 .level { grid-column: 6;}
+.menu-button [role="menuitem"].skip-to-h1 .level { grid-column: 1; }
+.menu-button [role="menuitem"].skip-to-h2 .level { grid-column: 2; }
+.menu-button [role="menuitem"].skip-to-h3 .level { grid-column: 3; }
+.menu-button [role="menuitem"].skip-to-h4 .level { grid-column: 4; }
+.menu-button [role="menuitem"].skip-to-h5 .level { grid-column: 5; }
+.menu-button [role="menuitem"].skip-to-h6 .level { grid-column: 6;}
 
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h1 .label { grid-column: 2 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h2 .label { grid-column: 3 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h3 .label { grid-column: 4 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h4 .label { grid-column: 5 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h5 .label { grid-column: 6 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h6 .label { grid-column: 7 / 8;}
+.menu-button [role="menuitem"].skip-to-h1 .label { grid-column: 2 / 8; }
+.menu-button [role="menuitem"].skip-to-h2 .label { grid-column: 3 / 8; }
+.menu-button [role="menuitem"].skip-to-h3 .label { grid-column: 4 / 8; }
+.menu-button [role="menuitem"].skip-to-h4 .label { grid-column: 5 / 8; }
+.menu-button [role="menuitem"].skip-to-h5 .label { grid-column: 6 / 8; }
+.menu-button [role="menuitem"].skip-to-h6 .label { grid-column: 7 / 8;}
 
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h1.no-level .label { grid-column: 1 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h2.no-level .label { grid-column: 2 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h3.no-level .label { grid-column: 3 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h4.no-level .label { grid-column: 4 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h5.no-level .label { grid-column: 5 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h6.no-level .label { grid-column: 6 / 8; }
+.menu-button [role="menuitem"].skip-to-h1.no-level .label { grid-column: 1 / 8; }
+.menu-button [role="menuitem"].skip-to-h2.no-level .label { grid-column: 2 / 8; }
+.menu-button [role="menuitem"].skip-to-h3.no-level .label { grid-column: 3 / 8; }
+.menu-button [role="menuitem"].skip-to-h4.no-level .label { grid-column: 4 / 8; }
+.menu-button [role="menuitem"].skip-to-h5.no-level .label { grid-column: 5 / 8; }
+.menu-button [role="menuitem"].skip-to-h6.no-level .label { grid-column: 6 / 8; }
 
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-1 .nesting { grid-column: 1; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-2 .nesting { grid-column: 2; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-3 .nesting { grid-column: 3; }
+.menu-button [role="menuitem"].skip-to-nesting-level-1 .nesting { grid-column: 1; }
+.menu-button [role="menuitem"].skip-to-nesting-level-2 .nesting { grid-column: 2; }
+.menu-button [role="menuitem"].skip-to-nesting-level-3 .nesting { grid-column: 3; }
 
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-0 .label { grid-column: 1 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-1 .label { grid-column: 2 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-2 .label { grid-column: 3 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-3 .label { grid-column: 4 / 8; }
+.menu-button [role="menuitem"].skip-to-nesting-level-0 .label { grid-column: 1 / 8; }
+.menu-button [role="menuitem"].skip-to-nesting-level-1 .label { grid-column: 2 / 8; }
+.menu-button [role="menuitem"].skip-to-nesting-level-2 .label { grid-column: 3 / 8; }
+.menu-button [role="menuitem"].skip-to-nesting-level-3 .label { grid-column: 4 / 8; }
 
-#${SKIP_TO_ID} [role="menuitem"].no-items .label,
-#${SKIP_TO_ID} [role="menuitem"].action .label {
+.menu-button [role="menuitem"].no-items .label,
+.menu-button [role="menuitem"].action .label {
   grid-column: 1 / 8;
 }
 
-#${SKIP_TO_ID} [role="separator"] {
+.menu-button [role="separator"] {
   margin: 1px 0px 1px 0px;
   padding: 3px;
   display: block;
@@ -527,125 +517,290 @@
   font-weight: bold;
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-bottom-color: light-dark($menuTextColor, $menuTextDarkColor);
-  background-color: light-dark($menuBackgroundColor, $menuBackgroundColor);
-  color: light-dark($menuTextColor, $menuTextDarkColor);
-  z-index: $z1Index !important;
+  border-bottom-color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
+  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
+  z-index: var(--skipto-z-index-1) !important;
 }
 
-#${SKIP_TO_ID} [role="separator"] .mofn {
+.menu-button [role="separator"] .mofn {
   font-weight: normal;
   font-size: 85%;
 }
 
-#${SKIP_TO_ID} [role="separator"]:first-child {
+.menu-button [role="separator"]:first-child {
   border-radius: 5px 5px 0 0;
 }
 
-#${SKIP_TO_ID} [role="menuitem"].last {
+.menu-button [role="menuitem"].last {
   border-radius: 0 0 5px 5px;
 }
 
 /* focus styling */
 
-#${SKIP_TO_ID}.focus {
-  display: block;
-}
-
-#${SKIP_TO_ID} button:focus,
-#${SKIP_TO_ID} button:hover {
-  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
-  color: light-dark($menuTextColor, $menuTextDarkColor);
+.menu-button button:focus,
+.menu-button button:hover {
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
+  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
   outline: none;
   border-width: 0px 2px 2px 2px;
-  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
+  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
 }
 
+.menu-button button.popup.menu,
+.menu-button button.popup:focus,
+.menu-button button.popup:hover {
+  top: 0;
+  display: block;
+  transition: left 1s ease;
+  z-index: var(--skipto-z-index-1) !important;
+}
 
-#${SKIP_TO_ID} button:focus .skipto-text,
-#${SKIP_TO_ID} button:hover .skipto-text,
-#${SKIP_TO_ID} button:focus .skipto-small,
-#${SKIP_TO_ID} button:hover .skipto-small,
-#${SKIP_TO_ID} button:focus .skipto-medium,
-#${SKIP_TO_ID} button:hover .skipto-medium {
+.menu-button button:focus .skipto-text,
+.menu-button button:hover .skipto-text,
+.menu-button button:focus .skipto-small,
+.menu-button button:hover .skipto-small,
+.menu-button button:focus .skipto-medium,
+.menu-button button:hover .skipto-medium {
   padding: 6px 7px 5px 7px;
 }
 
-#${SKIP_TO_ID} [role="menuitem"]:focus {
+.menu-button [role="menuitem"]:focus {
   padding: 1px;
   border-width: 2px;
   border-style: solid;
-  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
+  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
   outline: none;
 }
 
-#${SKIP_TO_ID} [role="menuitem"].hover,
-#${SKIP_TO_ID} [role="menuitem"].hover .level,
-#${SKIP_TO_ID} [role="menuitem"].hover .label {
-  background-color: light-dark($menuitemFocusBackgroundColor, $menuitemFocusBackgroundDarkColor);
-  color: light-dark($menuitemFocusTextColor, $menuitemFocusTextDarkColor);
+.menu-button [role="menuitem"].hover,
+.menu-button [role="menuitem"].hover .level,
+.menu-button [role="menuitem"].hover .label {
+  background-color: light-dark(var(--skipto-menuitem-focus-background-color), var(--skipto-menuitem-focus-background-dark-color));
+  color: light-dark(var(--skipto-menuitem-focus-text-color), var(--skipto-menuitem-focus-text-dark-color));
 }
 
-#${SKIP_TO_ID} [role="separator"].shortcuts-disabled,
-#${SKIP_TO_ID} [role="menuitem"].shortcuts-disabled {
+.menu-button [role="separator"].shortcuts-disabled,
+.menu-button [role="menuitem"].shortcuts-disabled {
   display: none;
 }
 
+
 @media (forced-colors: active) {
 
-  #${SKIP_TO_ID} button {
+  .menu-button button {
     border-color: ButtonBorder;
     color: ButtonText;
     background-color: ButtonFace;
   }
 
-  #${SKIP_TO_ID} [role="menu"] {
+  .menu-button [role="menu"] {
     background-color: ButtonFace;
     border-color: ButtonText;
   }
 
-  #${SKIP_TO_ID} [role="menuitem"] {
+  .menu-button [role="menuitem"] {
     color: ButtonText;
     background-color: ButtonFace;
   }
 
-  #${SKIP_TO_ID} [role="menuitem"] .level,
-  #${SKIP_TO_ID} [role="menuitem"] .label {
+  .menu-button [role="menuitem"] .level,
+  .menu-button [role="menuitem"] .label {
     color: ButtonText;
     background-color: ButtonFace;
   }
 
-  #${SKIP_TO_ID} [role="separator"] {
+  .menu-button [role="separator"] {
     border-bottom-color: ButtonBorder;
     background-color: ButtonFace;
     color: ButtonText;
-    z-index: $z1Index !important;
+    z-index: var(--skipto-z-index-1) !important;
   }
 
-  #${SKIP_TO_ID} button:focus,
-  #${SKIP_TO_ID} button:hover {
+  .menu-button button:focus,
+  .menu-button button:hover {
     background-color: ButtonFace;
     color: ButtonText;
     border-color: ButtonBorder;
   }
 
-  #${SKIP_TO_ID} [role="menuitem"]:focus {
+  .menu-button [role="menuitem"]:focus {
     background-color: ButtonText;
     color: ButtonFace;
     border-color: ButtonBorder;
   }
 
-  #${SKIP_TO_ID} [role="menuitem"].hover,
-  #${SKIP_TO_ID} [role="menuitem"].hover .level,
-  #${SKIP_TO_ID} [role="menuitem"].hover .label {
+  .menu-button [role="menuitem"].hover,
+  .menu-button [role="menuitem"].hover .level,
+  .menu-button [role="menuitem"].hover .label {
     background-color: ButtonText;
     color: ButtonFace;
   }
-
 }
 
-`;
+/* Dialog Styling */
 
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-family: var(--skipto-font-family);
+  font-size: var(--skipto-font-size);
+  max-width: 70%;
+  margin: 0;
+  padding: 0;
+  background-color: light-dark(var(--skipto-dialog-background-color), var(--skipto-dialog-background-dark-color));
+  color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
+  border-width: 2px;
+  border-style: solid;
+  border-color: light-dark(var(--skipto-focus-border-color), --skipto-focus-border-dark-color));
+  border-radius: 5px;
+  z-index: 2000001;
+  width: 80%;
+  max-width: 450px;
+}
+
+dialog .header {
+  margin: 0;
+  margin-bottom: 0.5em;
+  padding: 4px;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-style: solid;
+  border-color: light-dark(--skipto-focus-border-color), --skipto-focus-border-dark-color));
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-weight:  bold;
+  background-color: light-dark(var(--skipto-dialog-background-title-color), var(--skipto-dialog-background-title-dark-color));
+  color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
+  position: relative;
+  font-size: 100%;
+}
+
+dialog .header h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+}
+
+dialog .header button {
+  position: absolute;
+  top: -0.25em;
+  right: 0;
+  border: none;
+  background: transparent;
+  font-weight: bold;
+  color: light-dark(black, white);
+}
+
+dialog .content {
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: 0;
+  margin-bottom: 2em;
+}
+
+dialog .content .desc {
+  margin: 0.25em;
+  text-align: center;
+}
+
+dialog .content .privacy-label {
+  margin: 0;
+  margin-top: 1em;
+  text-align: center;
+  font-weight: bold;
+}
+
+dialog .content .privacy {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+dialog .content .happy {
+  text-align: center;
+  font-family: 'Brush Script MT', cursive;
+  font-size: 200%;
+  letter-spacing: 0.05em;
+}
+
+dialog .content .version,
+dialog .content .copyright {
+  margin-top: 0.5em;
+  text-align: center;
+}
+
+dialog .content table {
+  width: auto;
+}
+
+dialog .content caption {
+  margin: 0;
+  padding: 0;
+  margin-top: 1em;
+  text-align: left;
+  font-weight: bold;
+  font-size: 110%;
+}
+
+dialog .content th {
+  margin: 0;
+  padding: 0;
+  padding-top: 0.125em;
+  padding-bottom: 0.125em;
+  text-align: left;
+  font-weight: bold;
+  font-size: 100%;
+}
+
+dialog .content th {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: light-dark(#999999, #777777);
+}
+
+dialog .content th.shortcut {
+  width: 2.5em;
+}
+
+dialog .content td {
+  margin: 0;
+  padding: 0;
+  padding-top: 0.125em;
+  padding-bottom: 0.125em;
+  text-align: left;
+  font-size: 100%;
+}
+
+
+dialog .content table tr:nth-child(even) {
+  background-color: light-dark(#eeeeee, #111111);
+}
+
+dialog .buttons {
+  float: right;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+dialog button {
+  margin: 6px;
+}
+
+dialog .buttons button {
+  min-width: 5em;
+}
+
+dialog button:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+dialog button:hover {
+  cursor: pointer;
+}
+`;
 
   /*
    *   @function getTheme
@@ -728,30 +883,28 @@
   /*
    *   @function updateStyle
    *
-   *   @desc  
+   *   @desc  Updates the value of a css variable
    *
-   *   @param 
-   *
-   *   @returns 
+   *   @param  {string} cssVariable -
+   *   @param  {string} configValue -
+   *   @param  {string} themeValue  -
    */
-  function updateStyle(cssContent, stylePlaceholder, configValue, themeValue, defaultValue) {
-    let value = defaultValue;
+  function updateStyle(containerNode, cssVariable, configValue, themeValue, defaultValue) {
+    let value = '';
     if (typeof configValue === 'string' && configValue) {
       value = configValue;
     } else {
       if (typeof themeValue === 'string' && themeValue) {
         value = themeValue;
       }
+      else {
+        value = defaultValue;
+      }
     }
 
-    let index1 = cssContent.indexOf(stylePlaceholder);
-    let index2 = index1 + stylePlaceholder.length;
-    while (index1 >= 0 && index2 < cssContent.length) {
-      cssContent = cssContent.substring(0, index1) + value + cssContent.substring(index2);
-      index1 = cssContent.indexOf(stylePlaceholder, index2);
-      index2 = index1 + stylePlaceholder.length;
+    if ((typeof value === 'string') && value.length) {
+      containerNode.style.setProperty(cssVariable, value);
     }
-    return cssContent;
   }
 
   /*
@@ -760,15 +913,14 @@
    * @desc Updates the styling for the menu and highlight information
    *       and returns the updated strings
    *
-   * @param  {String}  cssMenu       -  CSS template for the button and menu
    * @param  {Object}  config        -  SkipTo.js configuration information object
    * @param  {Boolean} useURLTheme   -  When true use the theme associated with the URL
    *
    * @returns. see @desc
    */
-  function addCSSColors (cssMenu, config, useURLTheme=false) {
+  function updateCSS (containerNode, config, useURLTheme=false) {
+    const d = colorThemes['default'];
     const theme = useURLTheme ? getTheme(config.colorTheme) : {};
-    const defaultTheme = getTheme('default');
 
     // Check for display option in theme
     if ((typeof config.displayOption === 'string') &&
@@ -779,49 +931,70 @@
         config.displayOption = theme.displayOption;
       }
       else {
-        config.displayOption = defaultTheme.displayOption;
+        config.displayOption = 'popup';
       }
     }
 
-    cssMenu = updateStyle(cssMenu, '$fontFamily', config.fontFamily, theme.fontFamily, defaultTheme.fontFamily);
-    cssMenu = updateStyle(cssMenu, '$fontSize', config.fontSize, theme.fontSize, defaultTheme.fontSize);
+    updateStyle(containerNode, '--skipto-font-family', config.fontFamily, theme.fontFamily, d.fontFamily);
+    updateStyle(containerNode, '--skipto-font-size',   config.fontSize,   theme.fontSize,   d.fontSize);
 
-    cssMenu = updateStyle(cssMenu, '$positionLeft', config.positionLeft, theme.positionLeft, defaultTheme.positionLeft);
-    cssMenu = updateStyle(cssMenu, '$smallBreakPoint', config.smallBreakPoint, theme.smallBreakPoint, defaultTheme.smallBreakPoint);
-    cssMenu = updateStyle(cssMenu, '$mediumBreakPoint', config.mediumBreakPoint, theme.mediumBreakPoint, defaultTheme.mediumBreakPoint);
+    updateStyle(containerNode, '--skipto-position-left',      config.positionLeft,     theme.positionLeft,     d.positionLeft);
+    updateStyle(containerNode, '--skipto-small-break-point',  config.smallBreakPoint,  theme.smallBreakPoint,  d.smallBreakPoint);
+    updateStyle(containerNode, '--skipto-medium-break-point', config.mediumBreakPoint, theme.mediumBreakPoint, d.mediumBreakPoint);
 
-    cssMenu = updateStyle(cssMenu, '$menuTextColor', config.menuTextColor, theme.menuTextColor, defaultTheme.menuTextColor);
-    cssMenu = updateStyle(cssMenu, '$menuTextDarkColor', config.menuTextDarkColor, theme.menuTextDarkColor, defaultTheme.menuTextDarkColor);
-    cssMenu = updateStyle(cssMenu, '$menuBackgroundColor', config.menuBackgroundColor, theme.menuBackgroundColor, defaultTheme.menuBackgroundColor);
-    cssMenu = updateStyle(cssMenu, '$menuBackgroundDarkColor', config.menuBackgroundDarkColor, theme.menuBackgroundDarkColor, defaultTheme.menuBackgroundDarkColor);
+    updateStyle(containerNode, '--skipto-menu-text-color',            config.menuTextColor,           theme.menuTextColor,           d.menuTextColor);
+    updateStyle(containerNode, '--skipto-menu-text-dark-color',       config.menuTextDarkColor,       theme.menuTextDarkColor,       d.menuTextDarkColor);
+    updateStyle(containerNode, '--skipto-menu-background-color',      config.menuBackgroundColor,     theme.menuBackgroundColor,     d.menuTextDarkColor);
+    updateStyle(containerNode, '--skipto-menu-background-dark-color', config.menuBackgroundDarkColor, theme.menuBackgroundDarkColor, d.menuBackgroundDarkColor);
 
-    cssMenu = updateStyle(cssMenu, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
-    cssMenu = updateStyle(cssMenu, '$menuitemFocusTextDarkColor', config.menuitemFocusTextDarkColor, theme.menuitemFocusTextDarkColor, defaultTheme.menuitemFocusTextDarkColor);
-    cssMenu = updateStyle(cssMenu, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
-    cssMenu = updateStyle(cssMenu, '$menuitemFocusBackgroundDarkColor', config.menuitemFocusBackgroundDarkColor, theme.menuitemFocusBackgroundDarkColor, defaultTheme.menuitemFocusBackgroundDarkColor);
+    updateStyle(containerNode, '--skipto-menuitem-focus-text-color',            config.menuitemFocusTextColor,           theme.menuitemFocusTextColor,           d.menuitemFocusTextColor);
+    updateStyle(containerNode, '--skipto-menuitem-focus-text-dark-color',       config.menuitemFocusTextDarkColor,       theme.menuitemFocusTextDarkColor,       d.menuitemFocusTextDarkColor);
+    updateStyle(containerNode, '--skipto-menuitem-focus-background-color',      config.menuitemFocusBackgroundColor,     theme.menuitemFocusBackgroundColor,     d.menuitemFocusBackgroundColor);
+    updateStyle(containerNode, '--skipto-menuitem-focus-background-dark-color', config.menuitemFocusBackgroundDarkColor, theme.menuitemFocusBackgroundDarkColor, d.menuitemFocusBackgroundDarkColor);
 
-    cssMenu = updateStyle(cssMenu, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
-    cssMenu = updateStyle(cssMenu, '$focusBorderDarkColor', config.focusBorderDarkColor, theme.focusBorderDarkColor, defaultTheme.focusBorderDarkColor);
+    updateStyle(containerNode, '--skipto-focus-border-color',      config.focusBorderColor,     theme.focusBorderColor,     d.focusBorderColor);
+    updateStyle(containerNode, '--skipto-focus-border-dark-color', config.focusBorderDarkColor, theme.focusBorderDarkColor, d.focusBorderDarkColor);
 
-    cssMenu = updateStyle(cssMenu, '$buttonTextColor', config.buttonTextColor, theme.buttonTextColor, defaultTheme.buttonTextColor);
-    cssMenu = updateStyle(cssMenu, '$buttonTextDarkColor', config.buttonTextDarkColor, theme.buttonTextDarkColor, defaultTheme.buttonTextDarkColor);
-    cssMenu = updateStyle(cssMenu, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
-    cssMenu = updateStyle(cssMenu, '$buttonBackgroundDarkColor', config.buttonBackgroundDarkColor, theme.buttonBackgroundDarkColor, defaultTheme.buttonBackgroundDarkColor);
+    updateStyle(containerNode, '--skipto-button-text-color',            config.buttonTextColor,           theme.buttonTextColor,           d.buttonTextColor);
+    updateStyle(containerNode, '--skipto-button-text-dark-color',       config.buttonTextDarkColor,       theme.buttonTextDarkColor,       d.buttonTextDarkColor);
+    updateStyle(containerNode, '--skipto-button-background-color',      config.buttonBackgroundColor,     theme.buttonBackgroundColor,     d.buttonBackgroundColor);
+    updateStyle(containerNode, '--skipto-button-background-dark-color', config.buttonBackgroundDarkColor, theme.buttonBackgroundDarkColor, d.buttonBackgroundDarkColor);
 
-    cssMenu = updateStyle(cssMenu, '$z1Index', config.zIndex, theme.zIndex, defaultTheme.zIndex);
+    updateStyle(containerNode, '--skipto-dialog-text-color',                  config.dialogTextColor,                theme.dialogTextColorr,               d.dialogTextColor);
+    updateStyle(containerNode, '--skipto-dialog-text-dark-color',             config.dialogTextDarkColor,            theme.dialogTextDarkColor,            d.dialogTextDarkColor);
+    updateStyle(containerNode, '--skipto-dialog-background-color',            config.dialogBackgroundColor,          theme.dialogBackgroundColor,          d.dialogBackgroundColor);
+    updateStyle(containerNode, '--skipto-dialog-background-dark-color',       config.dialogBackgroundDarkColor,      theme.dialogBackgroundDarkColor,      d.dialogBackgroundDarkColor);
+    updateStyle(containerNode, '--skipto-dialog-background-title-color',      config.dialogBackgroundTitleColor,     theme.dialogBackgroundTitleColor,     d.dialogBackgroundTitleColor);
+    updateStyle(containerNode, '--skipto-dialog-background-title-dark-color', config.dialogBackgroundTitleDarkColor, theme.dialogBackgroundTitleDarkColor, d.dialogBackgroundTitleDarkColor);
+
+    updateStyle(containerNode, '--skipto-z-index-1', config.zIndex, theme.zIndex, d.zIndex);
+
+    const buttonNode = containerNode.querySelector('button');
+    const rect = buttonNode.getBoundingClientRect();
+    if (buttonNode.classList.contains('show-border')) {
+      const borderOffset = -1 * rect.height + 4 + 'px';
+      containerNode.style.setProperty('--skipto-show-border-offset', borderOffset);
+    }
+    else {
+      if (buttonNode.classList.contains('popup')) {
+        const popupOffset = -1 * rect.height - 6 + 'px';
+        containerNode.style.setProperty('--skipto-popup-offset', popupOffset);
+      }
+    }
+    containerNode.style.setProperty('--skipto-menu-offset', rect.height + 'px');
+
+
 
     const z2Index = config.zIndex ?
                     (parseInt(config.zIndex) + 1).toString() :
                     '2000002';
 
-    cssMenu = updateStyle(cssMenu, '$z2Index', z2Index, '', defaultTheme.z2Index);
+    updateStyle(containerNode, '--skipto-z-index-2', z2Index, '');
 
     // Special case for theme configuration used in Illinois theme
     if (typeof theme.highlightTarget === 'string') {
       config.highlightTarget = theme.highlightTarget;
     }
-
-    return cssMenu;
 
   }
 
@@ -832,21 +1005,19 @@
    *
    * @param  {Object}  attachNode      - DOM element node to attach button and menu container element
    * @param  {Object}  config          -  Configuration information object
-   * @param  {String}  skipYToStyleId  -  Id used for the skipto container element
    * @param  {Boolean} useURLTheme     - When true use the theme associated with the URL
    */
-  function renderStyleElement (attachNode, config, skipToId, useURLTheme=false) {
-    let cssMenu = cssMenuTemplate.textContent.slice(0);
-
-    cssMenu = addCSSColors(cssMenu, config, useURLTheme);
-
-    let styleNode = attachNode.querySelector(`#${SKIP_TO_MENU_STYLE_ID}`);
+  function renderStyleElement (attachNode, config, useURLTheme=false) {
+    let styleNode = attachNode.querySelector(`style`);
     if (!styleNode) {
       styleNode = document.createElement('style');
       attachNode.appendChild(styleNode);
-      styleNode.setAttribute('id', `${SKIP_TO_MENU_STYLE_ID}`);
+      styleNode.textContent = cssStyleTemplate.textContent;
     }
-    styleNode.textContent = cssMenu;
+
+    const containerNode = attachNode.querySelector('.container');
+
+    updateCSS(containerNode, config, useURLTheme);
 
   }
 
@@ -937,180 +1108,175 @@
     return !isDisplayNone(element);
   }
 
+  /* constants.js */
+
+  // Numbers
+
+  const REQUIRE_ACCESSIBLE_NAME_COUNT = 3;
+
+  // Element IDs
+
+  const SKIP_TO_ID            = 'id-skip-to-ver-5';
+
+  const SCRIPT_EXTENSION_ID   = `id-skip-to-extension`;
+  const SCRIPT_BOOKMARKLET_ID = `id-skip-to-bookmarklet`;
+
+  const MENU_ID   = 'id-skip-to-menu';
+
+  const MENU_LANDMARK_GROUP_ID        = 'id-skip-to-landmark-group';
+  const MENU_LANDMARK_GROUP_LABEL_ID  = 'id-skip-to-landmark-group-label';
+
+  const MENU_HEADINGS_GROUP_ID        = 'id-skip-to-heading-group';
+  const MENU_HEADINGS_GROUP_LABEL_ID  = 'id-skip-to-heading-group-label';
+
+  const MENU_SHORTCUTS_GROUP_ID       = 'id-skip-to-shortcuts-group';
+  const MENU_SHORTCUTS_GROUP_LABEL_ID = 'id-skip-to-shortcuts-group-label';
+
+  const MENU_ABOUT_ID = 'id-skip-to-about';
+
+  const MESSAGE_ID = 'id-skip-to-message';
+
+  const HIGHLIGHT_ID = 'id-skip-to-highlight-overlay';
+
+  // Custom element names
+
+  const PAGE_SCRIPT_ELEMENT_NAME = 'skip-to-content';
+  const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
+  const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
+  const MESSAGE_ELEMENT_NAME     = 'skip-to-content-message-element-590';
+  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-590';
+
+  // Attributes
+
+  const ATTR_SKIP_TO_DATA = 'data-skipto';
+
+  // URLs to more information
+
+  const MORE_ABOUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/';
+  const MORE_SHORTCUT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
+
   /* shortcutInfoDialog.js */
 
   /* Constants */
   const debug$a = new DebugLogging('[shortcutsInfoDialog]', false);
   debug$a.flag = false;
 
-  const defaultStyleOptions$3 = colorThemes['default'];
+  const templateInfoDialog = document.createElement('template');
+  templateInfoDialog.innerHTML = `
+  <dialog>
+    <div class="header">
+      <h2>Keyboard Shortcuts</h2>
+      <button>✕</button>
+    </div>
 
+    <div class="content shortcuts">
+       <table>
+          <caption>Landmark Regions</caption>
+          <thead>
+             <tr>
+                <th class="shortcut">Key</th>
+                <th class="desc">Description</th>
+             </tr>
+          </thead>
+          <tbody>
+             <tr>
+                <td class="shortcut">r</td>
+                <td class="desc">Next region</td>
+             </tr>
+             <tr>
+                <td class="shortcut">R</td>
+                <td class="desc">Previous region</td>
+             </tr>
+             <tr>
+                <td class="shortcut">m</td>
+                <td class="desc">Main regions</td>
+             </tr>
+             <tr>
+                <td class="shortcut">n</td>
+                <td class="desc">Navigation regions</td>
+             </tr>
+             <tr>
+                <td class="shortcut">c</td>
+                <td class="desc">Complementary regions</td>
+             </tr>
+          </tbody>
+       </table>
+       <table>
+          <caption>Headings</caption>
+          <thead>
+             <tr>
+                <th class="shortcut">Key</th>
+                <th class="desc">Description</th>
+             </tr>
+          </thead>
+          <tbody>
+             <tr>
+                <td class="shortcut">h</td>
+                <td class="desc">Next heading</td>
+             </tr>
+             <tr>
+                <td class="shortcut">H</td>
+                <td class="desc">Previous heading</td>
+             </tr>
+             <tr>
+                <td class="shortcut">1</td>
+                <td class="desc">Level 1 headings</td>
+             </tr>
+             <tr>
+                <td class="shortcut">2</td>
+                <td class="desc">Level 2 headings</td>
+             </tr>
+             <tr>
+                <td class="shortcut">3</td>
+                <td class="desc">Level 3 headings</td>
+             </tr>
+             <tr>
+                <td class="shortcut">4</td>
+                <td class="desc">Level 4 headings</td>
+             </tr>
+             <tr>
+                <td class="shortcut">5</td>
+                <td class="desc">Level 5 headings</td>
+             </tr>
+             <tr>
+                <td class="shortcut">6</td>
+                <td class="desc">Level 6 headings</td>
+             </tr>
+          </tbody>
+       </table>
+    </div>
 
-  const styleTemplate$1 = document.createElement('template');
-  styleTemplate$1.textContent = `
-/* infoDialog.css */
+    <div class="content about">
+      <div class="desc">
+        SkipTo.js is a free and open source utility to support the WCAG 2.4.1 Bypass Block requirement.
+      </div>
+      <div class="privacy-label">
+        Privacy
+      </div>
+      <div class="privacy">
+        SkipTo.js does not collect or store any information about users or work with any other parties to collect or share user browsing information.
+      </div>
+      <div class="happy">
+        Happy Skipping!
+      </div>
+      <div class="version">
+        Version 5.9.0
+      </div>
+      <div class="copyright">
+        BSD License, Copyright 2021-2025
+      </div>
+    </div>
 
-dialog#skip-to-info-dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  font-family: $fontFamily;
-  font-size: $fontSize;
-  max-width: 70%;
-  margin: 0;
-  padding: 0;
-  background-color: light-dark($dialogBackgroundColor, $dialogBackgroundDarkColor);
-  color: light-dark($dialogTextColor, $dialogTextDarkColor);
-  border-width: 2px;
-  border-style: solid;
-  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
-  border-radius: 5px;
-  z-index: 2000001;
-  max-width: 350px;
-}
+    <div class="buttons">
+      <button class="more">
+        More Information
+      </button>
+      <button class="close">
+        Close
+      </button>
+    </div>
 
-dialog#skip-to-info-dialog .header {
-  margin: 0;
-  margin-bottom: 0.5em;
-  padding: 4px;
-  border-width: 0;
-  border-bottom-width: 1px;
-  border-style: solid;
-  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  font-weight:  bold;
-  background-color: light-dark($dialogBackgroundTitleColor, $dialogBackgroundTitleDarkColor);
-  color: light-dark($dialogTextColor, $dialogTextDarkColor);
-  position: relative;
-  font-size: 100%;
-}
-
-dialog#skip-to-info-dialog .header h2 {
-  margin: 0;
-  padding: 0;
-  font-size: 1em;
-}
-
-dialog#skip-to-info-dialog .header button {
-  position: absolute;
-  top: -0.25em;
-  right: 0;
-  border: none;
-  background: transparent;
-  font-weight: bold;
-  color: light-dark(black, white);
-}
-
-dialog#skip-to-info-dialog .content {
-  margin-left: 2em;
-  margin-right: 2em;
-  margin-top: 0;
-  margin-bottom: 2em;
-}
-
-dialog#skip-to-info-dialog .content .desc {
-  margin: 0.25em;
-  text-align: center;
-}
-
-dialog#skip-to-info-dialog .content .privacy-label {
-  margin: 0;
-  margin-top: 1em;
-  text-align: center;
-  font-weight: bold;
-}
-
-dialog#skip-to-info-dialog .content .privacy {
-  text-align: center;
-  margin-bottom: 1em;
-}
-
-
-dialog#skip-to-info-dialog .content .happy {
-  text-align: center;
-  font-family: 'Brush Script MT', cursive;
-  font-size: 200%;
-  letter-spacing: 0.05em;
-}
-
-
-dialog#skip-to-info-dialog .content .version,
-dialog#skip-to-info-dialog .content .copyright {
-  margin-top: 0.5em;
-  text-align: center;
-}
-
-dialog#skip-to-info-dialog .content table {
-  width: auto;
-}
-
-dialog#skip-to-info-dialog .content caption {
-  margin: 0;
-  padding: 0;
-  margin-top: 1em;
-  text-align: left;
-  font-weight: bold;
-  font-size: 110%;
-}
-
-dialog#skip-to-info-dialog .content th {
-  margin: 0;
-  padding: 0;
-  padding-top: 0.125em;
-  padding-bottom: 0.125em;
-  text-align: left;
-  font-weight: bold;
-  font-size: 100%;
-}
-
-dialog#skip-to-info-dialog .content th {
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: light-dark(#999999, #777777);
-}
-
-dialog#skip-to-info-dialog .content th.shortcut {
-  width: 2.5em;
-}
-
-dialog#skip-to-info-dialog .content td {
-  margin: 0;
-  padding: 0;
-  padding-top: 0.125em;
-  padding-bottom: 0.125em;
-  text-align: left;
-  font-size: 100%;
-}
-
-
-dialog#skip-to-info-dialog .content table tr:nth-child(even) {
-  background-color: light-dark(#eeeeee, #111111);
-}
-
-dialog#skip-to-info-dialog .buttons {
-  float: right;
-  margin-right: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-dialog#skip-to-info-dialog button {
-  margin: 6px;
-}
-
-dialog#skip-to-info-dialog .buttons button {
-  min-width: 5em;
-}
-
-button:focus {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
-}
-
-button:hover {
-  cursor: pointer;
-}
+  </dialog>
 `;
 
   /*
@@ -1118,294 +1284,58 @@ button:hover {
    *
    */
 
-  class SkipToContentInfoDialog extends HTMLElement {
-    constructor () {
-
-      super();
-      this.attachShadow({ mode: 'open' });
+  class SkipToContentInfoDialog {
+    constructor (attachElem) {
 
       // Get references
 
-      this.infoDialog  = document.createElement('dialog');
-      this.infoDialog.id = 'skip-to-info-dialog';
-      this.shadowRoot.appendChild(this.infoDialog);
+      attachElem.appendChild(templateInfoDialog.content.cloneNode(true));
 
-      const headerElem  = document.createElement('div');
-      headerElem.className = 'header';
-      this.infoDialog.appendChild(headerElem);
+      this.dialogElem = attachElem.querySelector('dialog');
 
-      this.h2Elem  = document.createElement('h2');
-      this.h2Elem.textContent = 'Keyboard Shortcuts';
-      headerElem.appendChild(this.h2Elem);
+      this.closeButtonElem1  = attachElem.querySelector('.header button');
+      this.closeButtonElem1.addEventListener('click', this.onCloseButtonClick.bind(this));
+      this.closeButtonElem1.addEventListener('keydown', this.onKeyDown.bind(this));
 
-      this.closeButton1  = document.createElement('button');
-      this.closeButton1.textContent = '✕';
-      headerElem.appendChild(this.closeButton1);
-      this.closeButton1.addEventListener('click', this.onCloseButtonClick.bind(this));
-      this.closeButton1.addEventListener('keydown', this.onKeyDown.bind(this));
+      this.shortcutContentElem = attachElem.querySelector('.content.shortcuts');
+      this.aboutContentElem    = attachElem.querySelector('.content.about');
 
-      this.contentElem  = document.createElement('div');
-      this.contentElem.className = 'content';
-      this.infoDialog.appendChild(this.contentElem);
+      const moreInfoButtonElem = attachElem.querySelector('.buttons button.more');
+      moreInfoButtonElem.addEventListener('click', this.onMoreInfoClick.bind(this));
 
-      const buttonsElem  = document.createElement('div');
-      buttonsElem.className = 'buttons';
-      this.infoDialog.appendChild(buttonsElem);
+      this.closeButtonElem2  = attachElem.querySelector('.buttons button.close');
+      this.closeButtonElem2.addEventListener('click', this.onCloseButtonClick.bind(this));
+      this.closeButtonElem2.addEventListener('keydown', this.onKeyDown.bind(this));
 
-      this.moreInfoButton  = document.createElement('button');
-      this.moreInfoButton.textContent = 'More Information';
-      buttonsElem.appendChild(this.moreInfoButton);
-      this.moreInfoButton.addEventListener('click', this.onMoreInfoClick.bind(this));
-
-      this.closeButton2  = document.createElement('button');
-      this.closeButton2.textContent  = 'Close';
-      buttonsElem.appendChild(this.closeButton2);
-      this.closeButton2.addEventListener('click', this.onCloseButtonClick.bind(this));
-      this.closeButton2.addEventListener('keydown', this.onKeyDown.bind(this));
-
-      this.moreInfoURL = '';
-
+      return this;
     }
 
     onCloseButtonClick () {
-      this.infoDialog.close();
+      this.dialogElem.close();
     }
 
-    openDialog () {
-      this.infoDialog.showModal();
-      this.closeButton2.focus();
+    openDialog (content) {
+      this.content = content;
+
+      if (content === 'shortcuts') {
+        this.aboutContentElem.style.display = 'none';
+        this.shortcutContentElem.style.display = 'block';
+      }
+      else {
+        this.shortcutContentElem.style.display = 'none';
+        this.aboutContentElem.style.display = 'block';
+      }
+      this.dialogElem.showModal();
+      this.closeButtonElem2.focus();
     }
 
     onMoreInfoClick () {
-      if (this.moreInfoURL) {
-        window.open(this.moreInfoURL, '_blank').focus();
+      const url = this.content === 'shortcut' ?
+                                    MORE_SHORTCUT_INFO_URL :
+                                    MORE_ABOUT_INFO_URL;
+      if (url) {
+        window.open(url, '_blank').focus();
       }
-    }
-
-    configureStyle(config={}) {
-
-      function updateOption(style, option, configOption, defaultOption) {
-        if (configOption) {
-          return style.replaceAll(option, configOption);
-        }
-        else {
-          return style.replaceAll(option, defaultOption);
-        }
-      }
-
-      // make a copy of the template
-      let style = styleTemplate$1.textContent.slice(0);
-
-      style = updateOption(style,
-                           '$fontFamily',
-                           config.fontFamily,
-                           defaultStyleOptions$3.fontFamily);
-
-      style = updateOption(style,
-                           '$fontSize',
-                           config.fontSize,
-                           defaultStyleOptions$3.fontSize);
-
-      style = updateOption(style,
-                           '$focusBorderColor',
-                           config.focusBorderColor,
-                           defaultStyleOptions$3.focusBorderColor);
-
-      style = updateOption(style,
-                           '$focusBorderDarkColor',
-                           config.focusBorderDarkColor,
-                           defaultStyleOptions$3.focusBorderDarkColor);
-
-      style = updateOption(style,
-                           '$dialogTextColor',
-                           config.dialogTextColor,
-                           defaultStyleOptions$3.dialogTextColor);
-
-      style = updateOption(style,
-                           '$dialogextDarkColor',
-                           config.dialogextDarkColor,
-                           defaultStyleOptions$3.dialogextDarkColor);
-
-      style = updateOption(style,
-                           '$dialogBackgroundColor',
-                           config.dialogBackgroundColor,
-                           defaultStyleOptions$3.dialogBackgroundColor);
-
-      style = updateOption(style,
-                           '$dialogBackgroundDarkColor',
-                           config.dialogBackgroundDarkColor,
-                           defaultStyleOptions$3.dialogBackgroundDarkColor);
-
-      style = updateOption(style,
-                           '$dialogBackgroundTitleColor',
-                           config.dialogBackgroundTitleColor,
-                           defaultStyleOptions$3.dialogBackgroundTitleColor);
-
-      style = updateOption(style,
-                           '$dialogBackgroundTitleDarkColor',
-                           config.dialogBackgroundTitleDarkColor,
-                           defaultStyleOptions$3.dialogBackgroundTitleDarkColor);
-
-
-      let styleNode = this.shadowRoot.querySelector('style');
-
-      if (styleNode) {
-        styleNode.remove();
-      }
-
-      styleNode = document.createElement('style');
-      styleNode.textContent = style;
-      this.shadowRoot.appendChild(styleNode);
-
-    }
-
-
-    updateShortcutContent (config) {
-
-        while (this.contentElem.lastElementChild) {
-          this.contentElem.removeChild(this.contentElem.lastElementChild);
-        }
-
-        this.moreInfoURL = MORE_SHORTCUT_INFO_URL;
-
-        this.h2Elem.textContent = config.shortcutsInfoLabel;
-        this.closeButton1.setAttribute('aria-label', config.closeLabel);
-        this.closeButton2.textContent = config.closeLabel;
-        this.moreInfoButton.textContent = config.moreInfoLabel;
-
-        function addRow(tbodyElem, shortcut, desc) {
-
-          const trElem = document.createElement('tr');
-          tbodyElem.appendChild(trElem);
-
-          const tdElem1 = document.createElement('td');
-          tdElem1.className = 'shortcut';
-          tdElem1.textContent = shortcut;
-          trElem.appendChild(tdElem1);
-
-          const tdElem2 = document.createElement('td');
-          tdElem2.className = 'desc';
-          tdElem2.textContent = desc;
-          trElem.appendChild(tdElem2);
-        }
-
-        // Regions
-
-        const tableElem1 = document.createElement('table');
-        this.contentElem.appendChild(tableElem1);
-
-        const captionElem1 = document.createElement('caption');
-        captionElem1.textContent = config.landmarkGroupLabel;
-        tableElem1.appendChild(captionElem1);
-
-        const theadElem1 = document.createElement('thead');
-        tableElem1.appendChild(theadElem1);
-
-        const trElem1 = document.createElement('tr');
-        theadElem1.appendChild(trElem1);
-
-        const thElem1 = document.createElement('th');
-        thElem1.className = 'shortcut';
-        thElem1.textContent = config.msgKey;
-        trElem1.appendChild(thElem1);
-
-        const thElem2 = document.createElement('th');
-        thElem2.className = 'desc';
-        thElem2.textContent = config.msgDescription;
-        trElem1.appendChild(thElem2);
-
-        const tbodyElem1 = document.createElement('tbody');
-        tableElem1.appendChild(tbodyElem1);
-
-        addRow(tbodyElem1, config.shortcutRegionNext,          config.msgNextRegion);
-        addRow(tbodyElem1, config.shortcutRegionPrevious,      config.msgPreviousRegion);
-        addRow(tbodyElem1, config.shortcutRegionMain,          config.msgMainRegions);
-        addRow(tbodyElem1, config.shortcutRegionNavigation,    config.msgNavigationRegions);
-        addRow(tbodyElem1, config.shortcutRegionComplementary, config.msgComplementaryRegions);
-
-        // Headings
-
-        const tableElem2 = document.createElement('table');
-        this.contentElem.appendChild(tableElem2);
-
-        const captionElem2 = document.createElement('caption');
-        captionElem2.textContent = config.headingGroupLabel;
-        tableElem2.appendChild(captionElem2);
-
-        const theadElem2 = document.createElement('thead');
-        tableElem2.appendChild(theadElem2);
-
-        const trElem2 = document.createElement('tr');
-        theadElem2.appendChild(trElem2);
-
-        const thElem3 = document.createElement('th');
-        thElem3.className = 'shortcut';
-        thElem3.textContent = config.msgKey;
-        trElem2.appendChild(thElem3);
-
-        const thElem4 = document.createElement('th');
-        thElem4.className = 'desc';
-        thElem4.textContent = config.msgDescription;
-        trElem2.appendChild(thElem4);
-
-        const tbodyElem2 = document.createElement('tbody');
-        tableElem2.appendChild(tbodyElem2);
-
-        addRow(tbodyElem2, config.shortcutHeadingNext, config.msgNextHeading);
-        addRow(tbodyElem2, config.shortcutHeadingPrevious, config.msgPreviousHeading);
-        addRow(tbodyElem2, config.shortcutHeadingH1, config.msgH1Headings);
-        addRow(tbodyElem2, config.shortcutHeadingH2, config.msgH2Headings);
-        addRow(tbodyElem2, config.shortcutHeadingH3, config.msgH3Headings);
-        addRow(tbodyElem2, config.shortcutHeadingH4, config.msgH4Headings);
-        addRow(tbodyElem2, config.shortcutHeadingH5, config.msgH5Headings);
-        addRow(tbodyElem2, config.shortcutHeadingH6, config.msgH6Headings);
-
-    }
-
-    updateAboutContent (config) {
-
-      while (this.contentElem.lastElementChild) {
-        this.contentElem.removeChild(this.contentElem.lastElementChild);
-      }
-
-      this.moreInfoURL = MORE_PAGE_SCRIPT_INFO_URL;
-
-      this.h2Elem.textContent = config.aboutInfoLabel;
-      this.closeButton1.setAttribute('aria-label', config.closeLabel);
-      this.closeButton2.textContent = config.closeLabel;
-      this.moreInfoButton.textContent = config.moreInfoLabel;
-
-      let divElem = document.createElement('div');
-      divElem.className = 'desc';
-
-      divElem.textContent = config.aboutDesc;
-      this.contentElem.appendChild(divElem);
-
-      divElem = document.createElement('div');
-      divElem.className = 'privacy-label';
-      divElem.textContent = config.aboutPrivacyLabel;
-      this.contentElem.appendChild(divElem);
-
-      divElem = document.createElement('div');
-      divElem.className = 'privacy';
-      divElem.textContent = config.aboutPrivacy;
-      this.contentElem.appendChild(divElem);
-
-      divElem = document.createElement('div');
-      divElem.className = 'happy';
-      divElem.textContent = config.aboutHappy;
-      this.contentElem.appendChild(divElem);
-
-      divElem = document.createElement('div');
-      divElem.className = 'version';
-      divElem.textContent = config.aboutVersion;
-      this.contentElem.appendChild(divElem);
-
-      divElem = document.createElement('div');
-      divElem.className = 'copyright';
-      divElem.textContent = config.aboutCopyright;
-      this.contentElem.appendChild(divElem);
-
     }
 
     onKeyDown (event) {
@@ -1416,15 +1346,15 @@ button:hover {
           !event.metaKey) {
 
         if (event.shiftKey &&
-            (event.currentTarget === this.closeButton1)) {
-          this.closeButton2.focus();
+            (event.currentTarget === this.closeButtonElem1)) {
+          this.closeButtonElem2.focus();
           event.preventDefault();
           event.stopPropagation();
         }
 
         if (!event.shiftKey &&
-            (event.currentTarget === this.closeButton2)) {
-          this.closeButton1.focus();
+            (event.currentTarget === this.closeButtonElem2)) {
+          this.closeButtonElem1.focus();
           event.preventDefault();
           event.stopPropagation();
         }
@@ -4031,9 +3961,66 @@ button:hover {
 
   /* skiptoMenuButton.js */
 
+
   /* Constants */
   const debug$2 = new DebugLogging('SkipToButton', false);
   debug$2.flag = false;
+
+  const templateMenuButton = document.createElement('template');
+  templateMenuButton.innerHTML = `
+    <button aria-haspopup="menu"
+            aria-expanded= "false"
+            aria-label="Skip To Content"
+            aria-controls="id-skip-to-menu">
+      <span class="skipto-text">Skip To Content (Alt+0)</span>
+      <span class="skipto-medium">Skip To Content</span>
+      <span class="skipto-small">SkipTo</span>
+    </button>
+    <div id="${MENU_ID}"
+         role="menu"
+         aria-label="${MENU_LANDMARK_GROUP_LABEL_ID}"
+         style="display: none;">
+      <div id="id-skip-to-landmark-group-label"
+           role="separator"
+           aria-label="Landmark Regions">
+        Landmark Regions (nn)
+      </div>
+      <div id="${MENU_LANDMARK_GROUP_ID}"
+           role="group"
+           class="overflow"
+           aria-labelledby="${MENU_LANDMARK_GROUP_LABEL_ID}" >
+      </div>
+      <div id="${MENU_HEADINGS_GROUP_LABEL_ID}"
+           role="separator"
+           aria-label="Headings">
+        Headings (nn)
+      </div>
+      <div id="${MENU_HEADINGS_GROUP_ID}"
+           role="group"
+           class="overflow"
+           aria-labelledby="${MENU_HEADINGS_GROUP_LABEL_ID}">
+      </div>
+      <div id="${MENU_SHORTCUTS_GROUP_LABEL_ID}"
+           role="separator"
+           class="shortcuts-disabled">
+        Shortcuts: Disabled
+      </div>
+      <div id="id-skip-to-shortcuts-group"
+           role="group"
+           aria-labelledby="id-skip-to-shortcuts-group-label"
+           class="shortcuts-disabled">
+      </div>
+      <div role="separator"></div>
+      <div id="${MENU_ABOUT_ID}"
+           role="menuitem"
+           data-about-info=""
+           class="about skip-to-nav skip-to-nesting-level-0 last"
+           tabindex="-1">
+        <span class="label">About SkipTo.js</span>
+      </div>
+    </div>
+`;
+
 
   /**
    * @class SkiptoMenuButton
@@ -4051,116 +4038,84 @@ button:hover {
         this.skipToContentElem = skipToContentElem;
         this.config     = skipToContentElem.config;
 
+        this.containerNode = document.createElement('div');
+        this.containerNode.className = 'container';
+        skipToContentElem.shadowRoot.appendChild(this.containerNode);
+
         // check for 'nav' element, if not use 'div' element
         const ce = this.config.containerElement.toLowerCase().trim() === 'nav' ? 'nav' : 'div';
 
-        this.containerNode = document.createElement(ce);
-        skipToContentElem.shadowRoot.appendChild(this.containerNode);
+        this.menuButtonNode = document.createElement(ce);
+        this.menuButtonNode.className = 'menu-button';
+        this.containerNode.appendChild(this.menuButtonNode);
 
-        this.containerNode.id = SKIP_TO_ID;
         if (ce === 'nav') {
-          this.containerNode.setAttribute('aria-label', this.config.buttonLabel);
+          this.menuButtonNode.setAttribute('aria-label', this.config.buttonLabel);
         }
         if (isNotEmptyString(this.config.customClass)) {
-          this.containerNode.classList.add(this.config.customClass);
+          this.menuButtonNode.classList.add(this.config.customClass);
         }
-
-        this.setDisplayOption(this.config.displayOption);
 
         // Create button
 
         const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(this.config);
 
-        this.buttonNode = document.createElement('button');
-        this.buttonNode.setAttribute('aria-haspopup', 'menu');
-        this.buttonNode.setAttribute('aria-expanded', 'false');
+        this.menuButtonNode.appendChild(templateMenuButton.content.cloneNode(true));
+
+        this.buttonNode = this.containerNode.querySelector('button');
         this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
-        this.buttonNode.setAttribute('aria-controls', MENU_ID);
         this.buttonNode.addEventListener('keydown', this.handleButtonKeydown.bind(this));
         this.buttonNode.addEventListener('click', this.handleButtonClick.bind(this));
-        this.containerNode.appendChild(this.buttonNode);
 
-        this.textButtonNode = document.createElement('span');
-        this.buttonNode.appendChild(this.textButtonNode);
-        this.textButtonNode.classList.add('skipto-text');
+        this.textButtonNode = this.buttonNode.querySelector('span.skipto-text');
         this.textButtonNode.textContent = buttonVisibleLabel;
 
-        this.smallButtonNode = document.createElement('span');
-        this.buttonNode.appendChild(this.smallButtonNode);
-        this.smallButtonNode.classList.add('skipto-small');
+        this.smallButtonNode = this.buttonNode.querySelector('span.skipto-small');
         this.smallButtonNode.textContent = this.config.smallButtonLabel;
 
-        this.mediumButtonNode = document.createElement('span');
-        this.buttonNode.appendChild(this.mediumButtonNode);
-        this.mediumButtonNode.classList.add('skipto-medium');
+        this.mediumButtonNode = this.buttonNode.querySelector('span.skipto-medium');
         this.mediumButtonNode.textContent = this.config.buttonLabel;
+
+        this.setDisplayOption(this.config.displayOption);
 
         // Create menu container
         this.menuitemNodes = [];
 
-        this.menuNode   = document.createElement('div');
-        this.menuNode.setAttribute('id', MENU_ID);
-        this.menuNode.setAttribute('role', 'menu');
+        this.menuNode   = this.menuButtonNode.querySelector(`#${MENU_ID}`);
         this.menuNode.setAttribute('aria-label', this.config.menuLabel);
-        this.containerNode.appendChild(this.menuNode);
 
-        this.landmarkGroupLabelNode = document.createElement('div');
-        this.landmarkGroupLabelNode.id = MENU_LANDMARK_GROUP_LABEL_ID;
-        this.landmarkGroupLabelNode.setAttribute('role', 'separator');
+        this.landmarkGroupLabelNode = this.menuButtonNode.querySelector(`#${MENU_LANDMARK_GROUP_LABEL_ID}`);
         this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.landmarkGroupLabel);
-        this.menuNode.appendChild(this.landmarkGroupLabelNode);
 
-        this.landmarkGroupNode = document.createElement('div');
-        this.landmarkGroupNode.id = MENU_LANDMARK_GROUP_ID;
-        this.landmarkGroupNode.setAttribute('role', 'group');
-        this.landmarkGroupNode.className = 'overflow';
-        this.landmarkGroupNode.setAttribute('aria-labelledby', MENU_LANDMARK_GROUP_LABEL_ID);
-        this.menuNode.appendChild(this.landmarkGroupNode);
+        this.landmarkGroupNode = this.menuButtonNode.querySelector(`#${MENU_LANDMARK_GROUP_ID}`);
 
-        this.headingGroupLabelNode = document.createElement('div');
-        this.headingGroupLabelNode.id = MENU_HEADINGS_GROUP_LABEL_ID;
-        this.headingGroupLabelNode.setAttribute('role', 'separator');
+        this.headingGroupLabelNode = this.menuButtonNode.querySelector(`#${MENU_HEADINGS_GROUP_LABEL_ID}`);
         this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(this.config.headingGroupLabel);
-        this.menuNode.appendChild(this.headingGroupLabelNode);
 
-        this.headingGroupNode = document.createElement('div');
-        this.headingGroupNode.id = MENU_HEADINGS_GROUP_ID;
-        this.headingGroupNode.setAttribute('role', 'group');
-        this.headingGroupNode.className = 'overflow';
-        this.headingGroupNode.setAttribute('aria-labelledby', MENU_HEADINGS_GROUP_LABEL_ID);
-        this.menuNode.appendChild(this.headingGroupNode);
+        this.headingGroupNode = this.menuButtonNode.querySelector(`#${MENU_HEADINGS_GROUP_ID}`);
 
-        this.shortcutsGroupLabelNode = document.createElement('div');
-        this.shortcutsGroupLabelNode.setAttribute('id', MENU_SHORTCUTS_GROUP_LABEL_ID);
-        this.shortcutsGroupLabelNode.setAttribute('role', 'separator');
+        this.shortcutsGroupLabelNode = this.menuButtonNode.querySelector(`#${MENU_SHORTCUTS_GROUP_LABEL_ID}`);
         if (this.config.shortcuts === 'enabled') {
           this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupEnabledLabel;
         }
         else {
           this.shortcutsGroupLabelNode.textContent = this.config.shortcutsGroupDisabledLabel;
         }
-        this.menuNode.appendChild(this.shortcutsGroupLabelNode);
 
-        this.shortcutsGroupNode = document.createElement('div');
-        this.shortcutsGroupNode.setAttribute('id', MENU_SHORTCUTS_GROUP_ID);
-        this.shortcutsGroupNode.setAttribute('role', 'group');
-        this.shortcutsGroupNode.setAttribute('aria-labelledby', MENU_SHORTCUTS_GROUP_LABEL_ID);
-        this.menuNode.appendChild(this.shortcutsGroupNode);
+        this.shortcutsGroupNode = this.menuButtonNode.querySelector(`#${MENU_SHORTCUTS_GROUP_ID}`);
 
-        if (this.config.aboutSupported === 'true') {
-          this.renderAboutToMenu(this.menuNode, this.config);
+        this.aboutNode      = this.menuButtonNode.querySelector(`#${MENU_ABOUT_ID}`);
+        this.aboutLabelNode = this.menuButtonNode.querySelector(`#${MENU_ABOUT_ID} .label`);
+        this.aboutLabelNode.textContent = this.config.aboutInfoLabel;
+
+        if (this.config.aboutSupported !== 'true') {
+          this.aboutNode.remove();
+          this.aboutLabelNode = false;
         }
 
         // Information dialog
 
-        this.infoDialog = document.querySelector(INFO_DIALOG_ELEMENT_NAME);
-
-        if (!this.infoDialog) {
-          window.customElements.define(INFO_DIALOG_ELEMENT_NAME, SkipToContentInfoDialog);
-          this.infoDialog = document.createElement(INFO_DIALOG_ELEMENT_NAME);
-          this.infoDialog.configureStyle(this.config);
-          document.body.appendChild(this.infoDialog);
-        }
+        this.infoDialog = new SkipToContentInfoDialog(this.containerNode);
 
         // Highlight element
 
@@ -4184,9 +4139,9 @@ button:hover {
           document.body.appendChild(this.shortcutsMessage);
         }
 
-        this.containerNode.addEventListener('focusin', this.handleFocusin.bind(this));
-        this.containerNode.addEventListener('focusout', this.handleFocusout.bind(this));
-        this.containerNode.addEventListener('pointerdown', this.handleContainerPointerdown.bind(this), true);
+        this.menuButtonNode.addEventListener('focusin', this.handleFocusin.bind(this));
+        this.menuButtonNode.addEventListener('focusout', this.handleFocusout.bind(this));
+        this.menuButtonNode.addEventListener('pointerdown', this.handleContainerPointerdown.bind(this), true);
         document.documentElement.addEventListener('pointerdown', this.handleBodyPointerdown.bind(this), true);
 
         if (this.usesAltKey || this.usesOptionKey) {
@@ -4195,8 +4150,6 @@ button:hover {
             this.handleDocumentKeydown.bind(this)
           );
         }
-
-        skipToContentElem.shadowRoot.appendChild(this.containerNode);
 
         this.focusMenuitem = null;
       }
@@ -4218,16 +4171,6 @@ button:hover {
         }
 
         return '';
-      }
-
-      /*
-       * @method focusButton
-       *
-       * @desc Sets keyboard focus on the menu button
-       */
-      focusButton() {
-        this.buttonNode.focus();
-        this.skipToContentElem.setAttribute('focus', 'button');
       }
 
       /*
@@ -4411,33 +4354,6 @@ button:hover {
       }
 
       /*
-       * @method renderAboutToMenu
-       *
-       * @desc Render the about menuitem
-       *
-       * @param  {Object}  menuNode   -  DOM element node for the menu
-       */
-      renderAboutToMenu (menuNode, config) {
-
-        const separatorNode = document.createElement('div');
-        separatorNode.setAttribute('role', 'separator');
-
-        const menuitemNode = document.createElement('div');
-        menuitemNode.setAttribute('role', 'menuitem');
-        menuitemNode.setAttribute('data-about-info', '');
-        menuitemNode.className = 'about skip-to-nav skip-to-nesting-level-0';
-        menuitemNode.tabIndex = -1;
-
-        const labelNode = document.createElement('span');
-        labelNode.classList.add('label');
-        labelNode.textContent = config.aboutInfoLabel;
-        menuitemNode.appendChild(labelNode);
-
-        menuNode.appendChild(separatorNode);
-        menuNode.appendChild(menuitemNode);
-      }
-
-      /*
        * @method renderMenuitemToGroup
        *
        * @desc Renders a menuitem using an information object about the menuitem
@@ -4555,7 +4471,6 @@ button:hover {
 
         this.renderMenuitemsToGroup(this.landmarkGroupNode, landmarkElements, config.msgNoLandmarksFound);
         this.renderMenuitemsToGroup(this.headingGroupNode,  headingElements, config.msgNoHeadingsFound);
-        debug$2.flag && debug$2.log(`[shortcutsSupported]: ${config.shortcutsSupported}`);
         this.renderMenuitemsToShortcutsGroup(this.shortcutsGroupLabelNode, this.shortcutsGroupNode);
 
         // Update list of menuitems
@@ -4634,9 +4549,6 @@ button:hover {
           groupNode.classList.add('shortcuts-disabled');
           groupLabelNode.classList.add('shortcuts-disabled');
         }
-
-
-
       }
 
   //
@@ -4791,7 +4703,6 @@ button:hover {
        * @desc Opens the menu of landmark regions and headings
        */
       openPopup() {
-        debug$2.flag && debug$2.log(`[openPopup]`);
         this.menuNode.setAttribute('aria-busy', 'true');
         // Compute height of menu to not exceed about 80% of screen height
         const h = (30 * window.innerHeight) / 100;
@@ -4803,19 +4714,22 @@ button:hover {
         // make sure menu is on screen and not clipped in the right edge of the window
         const buttonRect = this.buttonNode.getBoundingClientRect();
         const menuRect = this.menuNode.getBoundingClientRect();
-        const diff = window.innerWidth - buttonRect.left - menuRect.width - 8;
+        const diff = window.innerWidth - buttonRect.left - menuRect.width;
         if (diff < 0) {
-          if (buttonRect.left + diff < 0) {
-            this.menuNode.style.left = (8 - buttonRect.left) + 'px';
+          if (window.innerWidth > menuRect.width) {
+            this.menuNode.style.left = (window.innerWidth - menuRect.width) + 'px';
           } else {
-            this.menuNode.style.left = diff + 'px';
+            this.menuNode.style.left = '0px';
           }
+        }
+        else {
+          this.menuNode.style.left = buttonRect.left + 'px';
         }
 
         this.menuNode.removeAttribute('aria-busy');
         this.buttonNode.setAttribute('aria-expanded', 'true');
         // use custom element attribute to set focus to the menu
-        this.skipToContentElem.setAttribute('focus', 'menu');
+        this.buttonNode.classList.add('menu');
       }
 
       /*
@@ -4824,11 +4738,11 @@ button:hover {
        * @desc Closes the memu of landmark regions and headings
        */
       closePopup() {
-        debug$2.flag && debug$2.log(`[closePopup]`);
         if (this.isOpen()) {
           this.buttonNode.setAttribute('aria-expanded', 'false');
           this.menuNode.style.display = 'none';
           this.highlightElem.removeHighlight();
+          this.buttonNode.classList.remove('menu');
         }
       }
 
@@ -4933,23 +4847,23 @@ button:hover {
 
         if (typeof value === 'string') {
           value = value.trim().toLowerCase();
-          if (value.length && this.containerNode) {
+          if (value.length && this.buttonNode) {
 
-            this.containerNode.classList.remove('static');
-            this.containerNode.classList.remove('popup');
-            this.containerNode.classList.remove('show-border');
+            this.buttonNode.classList.remove('static');
+            this.buttonNode.classList.remove('popup');
+            this.buttonNode.classList.remove('show-border');
 
             switch (value) {
               case 'static':
-                this.containerNode.classList.add('static');
+                this.buttonNode.classList.add('static');
                 break;
               case 'onfocus':  // Legacy option
               case 'popup':
-                this.containerNode.classList.add('popup');
+                this.buttonNode.classList.add('popup');
                 break;
               case 'popup-border':
-                this.containerNode.classList.add('popup');
-                this.containerNode.classList.add('show-border');
+                this.buttonNode.classList.add('popup');
+                this.buttonNode.classList.add('show-border');
                 break;
             }
           }
@@ -4959,12 +4873,12 @@ button:hover {
       // Menu event handlers
       
       handleFocusin() {
-        this.containerNode.classList.add('focus');
+        this.buttonNode.classList.add('focus');
         this.skipToContentElem.setAttribute('focus', 'button');
       }
       
       handleFocusout() {
-        this.containerNode.classList.remove('focus');
+        this.buttonNode.classList.remove('focus');
         this.skipToContentElem.setAttribute('focus', 'none');
       }
       
@@ -5001,7 +4915,6 @@ button:hover {
       }
 
       handleButtonClick(event) {
-        debug$2.flag && debug$2.log(`[handleButtonClick]`);
         if (this.isOpen()) {
           this.closePopup();
           this.buttonNode.focus();
@@ -5021,7 +4934,7 @@ button:hover {
         let flag = false;
         let elem;
         const focusElem = getFocusElement();
-        debug$2.flag && debug$2.log(`[handleDocumentKeydown][elementTakesText][${event.target.tagName}]: ${elementTakesText(focusElem)}`);
+
         if (!elementTakesText(focusElem)) {
 
           const altPressed = this.usesAltKey && onlyAltPressed(event);
@@ -5184,14 +5097,12 @@ button:hover {
         }
 
         if (tgt.hasAttribute('data-shortcuts-info')) {
-          this.infoDialog.updateShortcutContent(this.skipToContentElem.config);
-          this.infoDialog.openDialog();
+          this.infoDialog.openDialog('shortcuts');
           this.closePopup();
         }
 
         if (tgt.hasAttribute('data-about-info')) {
-          this.infoDialog.updateAboutContent(this.skipToContentElem.config);
-          this.infoDialog.openDialog();
+          this.infoDialog.openDialog('skipto');
           this.closePopup();
         }
 
@@ -5275,14 +5186,12 @@ button:hover {
       }
 
       handleMenuitemClick(event) {
-        debug$2.log(`[handleMenuitemClick]: ${event.currentTarget.textContent}`);
         this.handleMenuitemAction(event.currentTarget);
         event.stopPropagation();
         event.preventDefault();
       }
 
       handleMenuitemPointerenter(event) {
-        debug$2.flag && debug$2.log(`[enter]`);
         let tgt = event.currentTarget;
         tgt.classList.add('hover');
         if (tgt.hasAttribute('data-id')) {
@@ -5297,7 +5206,6 @@ button:hover {
       }
 
      handleMenuitemPointerover(event) {
-        debug$2.flag && debug$2.log(`[over]`);
         let tgt = event.currentTarget;
         if (tgt.hasAttribute('data-id')) {
           const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
@@ -5318,8 +5226,6 @@ button:hover {
       }
 
       handleContainerPointerdown(event) {
-        debug$2.flag && debug$2.log(`[down]: target: ${event.pointerId}`);
-
         if (this.isOverButton(event.clientX, event.clientY)) {
           this.containerNode.releasePointerCapture(event.pointerId);
         }
@@ -5331,14 +5237,12 @@ button:hover {
           if (this.containerNode.contains(event.target)) {
             if (this.isOpen()) {
               if (!this.isOverMenu(event.clientX, event.clientY)) {
-                debug$2.flag && debug$2.log(`[down][close]`);
                 this.closePopup();
                 this.buttonNode.focus();
                 this.skipToContentElem.setAttribute('focus', 'button');
               }
             }
             else {
-              debug$2.flag && debug$2.log(`[down][open]`);
               this.openPopup();          
               this.setFocusToFirstMenuitem();
             }
@@ -5376,16 +5280,13 @@ button:hover {
 
         const mi = this.getMenuitem(event.clientX, event.clientY);
         const omb = this.isOverButton(event.clientX, event.clientY);
-        debug$2.flag && debug$2.log(`[up] isOverButton: ${omb} getMenuitem: ${mi} id: ${event.pointerId}`);
 
         if (mi) {
           this.handleMenuitemAction(mi);          
         }
         else {
           if (!omb) {
-            debug$2.flag && debug$2.log(`[up] not over button `);
             if (this.isOpen()) {
-              debug$2.flag && debug$2.log(`[up] close `);
               this.closePopup();
               this.buttonNode.focus();
               this.skipToContentElem.setAttribute('focus', 'button');
@@ -5398,8 +5299,6 @@ button:hover {
       }
 
       handleBodyPointerdown(event) {
-        debug$2.flag && debug$2.log(`[handleBodyPointerdown]: target: ${event.pointerId}`);
-
         if (!this.isOverButton(event.clientX, event.clientY) &&
             !this.isOverMenu(event.clientX, event.clientY)) {
           this.closePopup();
@@ -5415,17 +5314,17 @@ button:hover {
 
   const defaultStyleOptions = colorThemes['default'];
 
-  /* @class SkipToContent580
+  /* @class SkipToContent590
    *
    */
 
-  class SkipToContent580 extends HTMLElement {
+  class SkipToContent590 extends HTMLElement {
 
     constructor() {
       // Always call super first in constructor
       super();
       this.attachShadow({ mode: 'open' });
-      this.version = "5.8.4";
+      this.version = "5.9.0";
       this.buttonSkipTo = false;
       this.initialized = false;
 
@@ -5607,8 +5506,11 @@ button:hover {
 
     attributeChangedCallback(name, oldValue, newValue) {
 
-      if (name === ATTR_SKIP_TO_DATA) {
+      if (name === ATTR_SKIP_TO_DATA && newValue) {
         this.config = this.setupConfigFromDataAttribute(this.config, newValue);
+        if (newValue.length > 48) {
+          this.removeAttribute(ATTR_SKIP_TO_DATA);
+        }
       }
 
       if (name === 'type') {
@@ -5679,8 +5581,8 @@ button:hover {
         }
 
         // Add skipto style sheet to document
-        renderStyleElement(this.shadowRoot, this.config, this.skipToId, globalConfig);
         this.buttonSkipTo = new SkiptoMenuButton(this);
+        renderStyleElement(this.shadowRoot, this.config, globalConfig);
 
         // Add landmark and heading info to DOM elements for keyboard navigation
         // if using bookmarklet or extension
@@ -5778,17 +5680,11 @@ button:hover {
         }
       }
 
-      renderStyleElement(this.shadowRoot, config, this.skipToId);
 
       if (this.buttonSkipTo) {
+        renderStyleElement(this.shadowRoot, config);
         this.buttonSkipTo.updateLabels(config);
         this.buttonSkipTo.setDisplayOption(config['displayOption']);
-      }
-
-      const infoDialog = document.querySelector(INFO_DIALOG_ELEMENT_NAME);
-      debug$1.flag && debug$1.log(`[infoDialog]: ${infoDialog}`);
-      if (infoDialog) {
-        infoDialog.configureStyle(config);
       }
 
       const shortcutsMessage = document.querySelector(MESSAGE_ELEMENT_NAME);
@@ -5904,7 +5800,6 @@ button:hover {
       }
     }
 
-
     /*
     *. @function getSkipToContentElement
     *
@@ -5928,7 +5823,7 @@ button:hover {
           if (!isExtensionLoaded) {
             if (!isBookmarkletLoaded) {
               removePageSkipTo();
-              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent580);
+              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent590);
               skipToContentElem = document.createElement(BOOKMARKLET_ELEMENT_NAME);
               skipToContentElem.setAttribute('version', skipToContentElem.version);
               skipToContentElem.setAttribute('type', type);
@@ -5944,7 +5839,7 @@ button:hover {
           if (!isExtensionLoaded) {
             removePageSkipTo();
             removeBookmarkletSkipTo();
-            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent580);
+            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent590);
             skipToContentElem = document.createElement(EXTENSION_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
@@ -5957,7 +5852,7 @@ button:hover {
 
         default:
           if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
-            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent580);
+            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent590);
             skipToContentElem = document.createElement(PAGE_SCRIPT_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);

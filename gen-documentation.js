@@ -107,6 +107,12 @@ const examples = [
     config: `displayOption: popup; positionLeft: 46%`
   },
   { template: './src-docs/templates/example/content-example.njk',
+    title: 'Popup Menu Button with large fonts',
+    filename: 'example-popup-large-fonts.html',
+    description: 'The "Skip To Content" menu button appears when it gets focus.  But is suing a large font.',
+    config: `displayOption: popup; positionLeft: 46%; fontSize: 24pt`
+  },
+  { template: './src-docs/templates/example/content-example.njk',
     title: 'Popup with Border',
     filename: 'example-popup-border.html',
     description: 'The "Skip To Content" menu button appears when it gets focus, bottom border is always visible.',

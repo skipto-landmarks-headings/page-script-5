@@ -78,20 +78,20 @@ gulp.task('copyrightMin', () => {
     'src/extension-common/*.css',
     'src/extension-common/*.html',
   ])
-    .pipe(dest('src/extension-chrome'))
-    .pipe(dest('src/extension-edge'))
-    .pipe(dest('src/extension-opera'))
-    .pipe(dest('src/extension-firefox'));
+    .pipe(dest('./extension-chrome'))
+    .pipe(dest('./extension-edge'))
+    .pipe(dest('./extension-opera'))
+    .pipe(dest('./extension-firefox'));
 });
 
 gulp.task('extensionsLocales', () => {
   return src([
     'src/extension-common/_locales/en/*.json',
   ])
-    .pipe(dest('src/extension-chrome/_locales/en'))
-    .pipe(dest('src/extension-edge/_locales/en'))
-    .pipe(dest('src/extension-opera/_locales/en'))
-    .pipe(dest('src/extension-firefox/_locales/en'));
+    .pipe(dest('./extension-chrome/_locales/en'))
+    .pipe(dest('./extension-edge/_locales/en'))
+    .pipe(dest('./extension-opera/_locales/en'))
+    .pipe(dest('./extension-firefox/_locales/en'));
 });
 
 gulp.task('documentation', function (cb) {

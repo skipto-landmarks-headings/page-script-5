@@ -7,7 +7,6 @@ import DebugLogging  from './debug.js';
 
 import {
   ATTR_SKIP_TO_DATA,
-  INFO_DIALOG_ELEMENT_NAME,
   MESSAGE_ELEMENT_NAME,
   HIGHLIGHT_ELEMENT_NAME
 } from './constants.js';
@@ -30,17 +29,17 @@ debug.flag = false;
 
 const defaultStyleOptions = colorThemes['default'];
 
-/* @class SkipToContent580
+/* @class SkipToContent590
  *
  */
 
-export default class SkipToContent580 extends HTMLElement {
+export default class SkipToContent590 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
-    this.version = "5.8.4";
+    this.version = "5.9.0";
     this.buttonSkipTo = false;
     this.initialized = false;
 
@@ -222,8 +221,11 @@ export default class SkipToContent580 extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
 
-    if (name === ATTR_SKIP_TO_DATA) {
+    if (name === ATTR_SKIP_TO_DATA && newValue) {
       this.config = this.setupConfigFromDataAttribute(this.config, newValue);
+      if (newValue.length > 48) {
+        this.removeAttribute(ATTR_SKIP_TO_DATA);
+      }
     }
 
     if (name === 'type') {
@@ -294,8 +296,8 @@ export default class SkipToContent580 extends HTMLElement {
       }
 
       // Add skipto style sheet to document
-      renderStyleElement(this.shadowRoot, this.config, this.skipToId, globalConfig);
       this.buttonSkipTo = new SkiptoMenuButton(this);
+      renderStyleElement(this.shadowRoot, this.config, globalConfig);
 
       // Add landmark and heading info to DOM elements for keyboard navigation
       // if using bookmarklet or extension
@@ -393,17 +395,11 @@ export default class SkipToContent580 extends HTMLElement {
       }
     }
 
-    renderStyleElement(this.shadowRoot, config, this.skipToId);
 
     if (this.buttonSkipTo) {
+      renderStyleElement(this.shadowRoot, config);
       this.buttonSkipTo.updateLabels(config);
       this.buttonSkipTo.setDisplayOption(config['displayOption']);
-    }
-
-    const infoDialog = document.querySelector(INFO_DIALOG_ELEMENT_NAME);
-    debug.flag && debug.log(`[infoDialog]: ${infoDialog}`);
-    if (infoDialog) {
-      infoDialog.configureStyle(config);
     }
 
     const shortcutsMessage = document.querySelector(MESSAGE_ELEMENT_NAME);

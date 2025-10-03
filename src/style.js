@@ -4,187 +4,220 @@
 import {colorThemes} from './colorThemes.js';
 import DebugLogging  from './debug.js';
 
-import {
-  SKIP_TO_ID,
-  SKIP_TO_MENU_STYLE_ID
-} from './constants.js';
-
 /* Constants */
 const debug = new DebugLogging('style', false);
 debug.flag = false;
 
-const cssMenuTemplate = document.createElement('template');
-cssMenuTemplate.textContent = `
-:root {
+const cssStyleTemplate = document.createElement('template');
+cssStyleTemplate.textContent = `
+.container {
   color-scheme: light dark;
+
+  --skipto-popup-offset: -36px;
+  --skipto-show-border-offset: -28px;
+  --skipto-menu-offset: 36px;
+
+  --skipto-font-family: 'inherit';
+  --skipto-font-size: 'inherit';
+  --skipto-position-left: '46%';
+  --skipto-small-break-point: '580px';
+  --skipto-medium-break-point: '992px';
+
+  --skipto-button-text-color: '#13294b';
+  --skipto-button-text-dark-color: '#ffffff';
+
+  --skipto-button-background-color: '#dddddd';
+  --skipto-button-background-dark-color: '#013c93';
+
+  --skipto-focus-border-color: '#c5050c';
+  --skipto-focus-border-dark-color: '#ffffff';
+
+  --skipto-menu-text-color: '#13294b';
+  --skipto-menu-text-dark-color: '#ffffff';
+
+  --skipto-menu-background-color: '#dddddd';
+  --skipto-menu-background-dark-color: '#000000';
+
+  --skipto-menuitem-focus-text-color: '#dddddd';
+  --skipto-menuitem-focus-text-dark-color: '#ffffff';
+
+  --skipto-menuitem-focus-background-color: '#13294b';
+  --skipto-menuitem-focus-background-dark-color: '#013c93';
+
+  --skipto-dialog-text-color: '#000000';
+  --skipto-dialog-text-dark-color: '#ffffff';
+
+  --skipto-dialog-background-color: '#ffffff';
+  --skipto-dialog-background-dark-color: '#000000';
+
+  --skipto-dialog-background-title-color: '#eeeeee';
+  --skipto-dialog-background-title-dark-color: '#013c93';
+
+  --skipto-z-index-1: '2000000';
+  --skipto-z-index-2: '20000002';
+  --skipto-z-highlight: '1999900';
+
 }
 
-#${SKIP_TO_ID}.popup {
-  top: -36px;
+.container {
+  display: block;
+  z-index: var(--skipto-z-index-1);
+}
+
+.menu-button button.popup {
+  top: var(--skipto-popup-offset);
   transition: top 0.35s ease;
 }
 
-#${SKIP_TO_ID}.popup.show-border {
-  top: -28px;
+.menu-button button.popup.show-border {
+  top: var(--skipto-show-border-offset);
   transition: top 0.35s ease;
 }
 
-#${SKIP_TO_ID} button .skipto-text {
+.menu-button button .skipto-text {
   padding: 6px 8px 6px 8px;
   display: inline-block;
 }
 
-#${SKIP_TO_ID} button .skipto-small {
+.menu-button button .skipto-small {
   padding: 6px 8px 6px 8px;
   display: none;
 }
 
-#${SKIP_TO_ID} button .skipto-medium {
+.menu-button button .skipto-medium {
   padding: 6px 8px 6px 8px;
   display: none;
 }
 
-#${SKIP_TO_ID},
-#${SKIP_TO_ID}.popup.focus,
-#${SKIP_TO_ID}.popup:hover {
+.menu-button button {
   position: fixed;
-  top: 0;
-  left: $positionLeft;
-  font-family: $fontFamily;
-  font-size: $fontSize;
-  display: block;
-  border: none;
-  margin-bottom: 4px;
-  transition: left 1s ease;
-  z-index: $z1Index !important;
-}
-
-#${SKIP_TO_ID} button {
-  position: sticky;
+  left: var(--skipto-position-left);
   margin: 0;
   padding: 0;
   border-width: 0px 1px 1px 1px;
   border-style: solid;
   border-radius: 0px 0px 6px 6px;
-  border-color: light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
-  color: light-dark($buttonTextColor, $buttonTextDarkColor);
-  background-color: light-dark($buttonBackgroundColor, $buttonBackgroundDarkColor);
+  border-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+  color: light-dark(var(--skipto-button-text-color), var(--skipto-button-text-dark-color));
+  background-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
   z-index: 100000 !important;
-  font-family: $fontFamily;
-  font-size: $fontSize;
-  z-index: $z1Index !important;
+  z-index: var(--skipto-z-index-1) !important;
+  font-size: var(--skipto-font-size);
+  font-family: var(--skipto-font-family);
 }
 
-@media screen and (max-width: $smallBreakPointpx) {
-  #${SKIP_TO_ID}:not(.popup) button .skipto-small {
+@media screen and (max-width: var(--skipto-small-break-point)) {
+  .menu-button button:not(.popup) .skipto-small {
     transition: top 0.35s ease;
     display: inline-block;
   }
 
-  #${SKIP_TO_ID}:not(.popup) button .skipto-text,
-  #${SKIP_TO_ID}:not(.popup) button .skipto-medium {
+  .menu-button button:not(.popup) .skipto-text,
+  button:not(.popup) .skipto-medium {
     transition: top 0.35s ease;
     display: none;
   }
 
-  #${SKIP_TO_ID}:not(.popup).focus button .skipto-text {
+  .menu-button button:not(.popup):focus .skipto-text {
     transition: top 0.35s ease;
     display: inline-block;
   }
 
-  #${SKIP_TO_ID}:not(.popup).focus button .skipto-small,
-  #${SKIP_TO_ID}:not(.popup).focus button .skipto-medium {
-    transition: top 0.35s ease;
-    display: none;
-  }
-}
-
-@media screen and (min-width: $smallBreakPointpx) and (max-width: $mediumBreakPointpx) {
-  #${SKIP_TO_ID}:not(.popup) button .skipto-medium {
-    transition: top 0.35s ease;
-    display: inline-block;
-  }
-
-  #${SKIP_TO_ID}:not(.popup) button .skipto-text,
-  #${SKIP_TO_ID}:not(.popup) button .skipto-small {
-    transition: top 0.35s ease;
-    display: none;
-  }
-
-  #${SKIP_TO_ID}:not(.popup).focus button .skipto-text {
-    transition: top 0.35s ease;
-    display: inline-block;
-  }
-
-  #${SKIP_TO_ID}:not(.popup).focus button .skipto-small,
-  #${SKIP_TO_ID}:not(.popup).focus button .skipto-medium {
+  .menu-button button:not(.popup):focus .skipto-small,
+  .menu-button button:not(.popup):focus .skipto-medium {
     transition: top 0.35s ease;
     display: none;
   }
 }
 
-#${SKIP_TO_ID}.static {
+@media screen and (min-width: var(--skipto-small-break-point)) and (max-width: var(--skipto-medium-break-point)) {
+  .menu-button button:not(.popup) .skipto-medium {
+    transition: top 0.35s ease;
+    display: inline-block;
+  }
+
+  .menu-button button:not(.popup) .skipto-text,
+  .menu-button button:not(.popup) .skipto-small {
+    transition: top 0.35s ease;
+    display: none;
+  }
+
+  .menu-button button:not(.popup):focus .skipto-text {
+    transition: top 0.35s ease;
+    display: inline-block;
+  }
+
+  .menu-button button:not(.popup):focus .skipto-small,
+  .menu-button button:not(.popup):focus .skipto-medium {
+    transition: top 0.35s ease;
+    display: none;
+  }
+}
+
+.menu-button button.static {
   position: absolute !important;
 }
 
-
-#${SKIP_TO_ID} [role="menu"] {
-  position: absolute;
+.menu-button [role="menu"] {
+  position: fixed;
+  top: var(--skipto-menu-offset);
+  left: var(--skipto-position-left);
   min-width: 16em;
   display: none;
   margin: 0;
   padding: 0.25rem;
-  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
   border-width: 2px;
   border-style: solid;
-  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
+  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
   border-radius: 5px;
-  z-index: $z1Index !important;
+  z-index: var(--skipto-z-index-1) !important;
   touch-action: none;
+  font-size: var(--skipto-font-size);
+  font-family: var(--skipto-font-family);
 }
 
-#${SKIP_TO_ID} [role="group"] {
+.menu-button [role="group"] {
   display: grid;
   grid-auto-rows: min-content;
   grid-row-gap: 1px;
 }
 
-#${SKIP_TO_ID} [role="group"].overflow {
+.menu-button [role="group"].overflow {
   overflow-x: hidden;
   overflow-y: scroll;
 }
 
-#${SKIP_TO_ID} [role="separator"]:first-child {
+.menu-button [role="separator"]:first-child {
   border-radius: 5px 5px 0 0;
 }
 
-#${SKIP_TO_ID} [role="menuitem"] {
+.menu-button [role="menuitem"] {
   padding: 3px;
   width: auto;
   border-width: 0px;
   border-style: solid;
-  color: light-dark($menuTextColor, $menuTextDarkColor);
-  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
+  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
   display: grid;
   overflow-y: clip;
   grid-template-columns: repeat(6, 1.2rem) 1fr;
   grid-column-gap: 2px;
-  font-size: 1em;
-  z-index: $z1Index;
+  z-index: var(--skipto-z-index-1);
 }
 
-#${SKIP_TO_ID} [role="menuitem"].shortcuts,
-#${SKIP_TO_ID} [role="menuitem"].about {
-  z-index: $z2Index;
+.menu-button [role="menuitem"].shortcuts,
+.menu-button [role="menuitem"].about {
+  z-index: var(--skipto-z-index-2);
 }
 
 
-#${SKIP_TO_ID} [role="menuitem"] .level,
-#${SKIP_TO_ID} [role="menuitem"] .label {
+.menu-button [role="menuitem"] .level,
+.menu-button [role="menuitem"] .label {
   font-size: 100%;
   font-weight: normal;
-  color: light-dark($menuTextColor, $menuTextDarkColor);
-  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
+  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
   display: inline-block;
   line-height: inherit;
   display: inline-block;
@@ -192,12 +225,12 @@ cssMenuTemplate.textContent = `
   border: none;
 }
 
-#${SKIP_TO_ID} [role="menuitem"] .level {
+.menu-button [role="menuitem"] .level {
   text-align: right;
   padding-right: 4px;
 }
 
-#${SKIP_TO_ID} [role="menuitem"] .label {
+.menu-button [role="menuitem"] .label {
   text-align: left;
   margin: 0;
   padding: 0;
@@ -205,49 +238,49 @@ cssMenuTemplate.textContent = `
   text-overflow: ellipsis;
 }
 
-#${SKIP_TO_ID} [role="menuitem"] .level:first-letter,
-#${SKIP_TO_ID} [role="menuitem"] .label:first-letter {
+.menu-button [role="menuitem"] .level:first-letter,
+.menu-button [role="menuitem"] .label:first-letter {
   text-decoration: underline;
   text-transform: uppercase;
 }
 
 
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h1 .level { grid-column: 1; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h2 .level { grid-column: 2; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h3 .level { grid-column: 3; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h4 .level { grid-column: 4; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h5 .level { grid-column: 5; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h6 .level { grid-column: 6;}
+.menu-button [role="menuitem"].skip-to-h1 .level { grid-column: 1; }
+.menu-button [role="menuitem"].skip-to-h2 .level { grid-column: 2; }
+.menu-button [role="menuitem"].skip-to-h3 .level { grid-column: 3; }
+.menu-button [role="menuitem"].skip-to-h4 .level { grid-column: 4; }
+.menu-button [role="menuitem"].skip-to-h5 .level { grid-column: 5; }
+.menu-button [role="menuitem"].skip-to-h6 .level { grid-column: 6;}
 
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h1 .label { grid-column: 2 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h2 .label { grid-column: 3 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h3 .label { grid-column: 4 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h4 .label { grid-column: 5 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h5 .label { grid-column: 6 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h6 .label { grid-column: 7 / 8;}
+.menu-button [role="menuitem"].skip-to-h1 .label { grid-column: 2 / 8; }
+.menu-button [role="menuitem"].skip-to-h2 .label { grid-column: 3 / 8; }
+.menu-button [role="menuitem"].skip-to-h3 .label { grid-column: 4 / 8; }
+.menu-button [role="menuitem"].skip-to-h4 .label { grid-column: 5 / 8; }
+.menu-button [role="menuitem"].skip-to-h5 .label { grid-column: 6 / 8; }
+.menu-button [role="menuitem"].skip-to-h6 .label { grid-column: 7 / 8;}
 
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h1.no-level .label { grid-column: 1 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h2.no-level .label { grid-column: 2 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h3.no-level .label { grid-column: 3 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h4.no-level .label { grid-column: 4 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h5.no-level .label { grid-column: 5 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-h6.no-level .label { grid-column: 6 / 8; }
+.menu-button [role="menuitem"].skip-to-h1.no-level .label { grid-column: 1 / 8; }
+.menu-button [role="menuitem"].skip-to-h2.no-level .label { grid-column: 2 / 8; }
+.menu-button [role="menuitem"].skip-to-h3.no-level .label { grid-column: 3 / 8; }
+.menu-button [role="menuitem"].skip-to-h4.no-level .label { grid-column: 4 / 8; }
+.menu-button [role="menuitem"].skip-to-h5.no-level .label { grid-column: 5 / 8; }
+.menu-button [role="menuitem"].skip-to-h6.no-level .label { grid-column: 6 / 8; }
 
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-1 .nesting { grid-column: 1; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-2 .nesting { grid-column: 2; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-3 .nesting { grid-column: 3; }
+.menu-button [role="menuitem"].skip-to-nesting-level-1 .nesting { grid-column: 1; }
+.menu-button [role="menuitem"].skip-to-nesting-level-2 .nesting { grid-column: 2; }
+.menu-button [role="menuitem"].skip-to-nesting-level-3 .nesting { grid-column: 3; }
 
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-0 .label { grid-column: 1 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-1 .label { grid-column: 2 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-2 .label { grid-column: 3 / 8; }
-#${SKIP_TO_ID} [role="menuitem"].skip-to-nesting-level-3 .label { grid-column: 4 / 8; }
+.menu-button [role="menuitem"].skip-to-nesting-level-0 .label { grid-column: 1 / 8; }
+.menu-button [role="menuitem"].skip-to-nesting-level-1 .label { grid-column: 2 / 8; }
+.menu-button [role="menuitem"].skip-to-nesting-level-2 .label { grid-column: 3 / 8; }
+.menu-button [role="menuitem"].skip-to-nesting-level-3 .label { grid-column: 4 / 8; }
 
-#${SKIP_TO_ID} [role="menuitem"].no-items .label,
-#${SKIP_TO_ID} [role="menuitem"].action .label {
+.menu-button [role="menuitem"].no-items .label,
+.menu-button [role="menuitem"].action .label {
   grid-column: 1 / 8;
 }
 
-#${SKIP_TO_ID} [role="separator"] {
+.menu-button [role="separator"] {
   margin: 1px 0px 1px 0px;
   padding: 3px;
   display: block;
@@ -255,125 +288,290 @@ cssMenuTemplate.textContent = `
   font-weight: bold;
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-bottom-color: light-dark($menuTextColor, $menuTextDarkColor);
-  background-color: light-dark($menuBackgroundColor, $menuBackgroundColor);
-  color: light-dark($menuTextColor, $menuTextDarkColor);
-  z-index: $z1Index !important;
+  border-bottom-color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
+  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
+  z-index: var(--skipto-z-index-1) !important;
 }
 
-#${SKIP_TO_ID} [role="separator"] .mofn {
+.menu-button [role="separator"] .mofn {
   font-weight: normal;
   font-size: 85%;
 }
 
-#${SKIP_TO_ID} [role="separator"]:first-child {
+.menu-button [role="separator"]:first-child {
   border-radius: 5px 5px 0 0;
 }
 
-#${SKIP_TO_ID} [role="menuitem"].last {
+.menu-button [role="menuitem"].last {
   border-radius: 0 0 5px 5px;
 }
 
 /* focus styling */
 
-#${SKIP_TO_ID}.focus {
-  display: block;
-}
-
-#${SKIP_TO_ID} button:focus,
-#${SKIP_TO_ID} button:hover {
-  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
-  color: light-dark($menuTextColor, $menuTextDarkColor);
+.menu-button button:focus,
+.menu-button button:hover {
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
+  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
   outline: none;
   border-width: 0px 2px 2px 2px;
-  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
+  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
 }
 
+.menu-button button.popup.menu,
+.menu-button button.popup:focus,
+.menu-button button.popup:hover {
+  top: 0;
+  display: block;
+  transition: left 1s ease;
+  z-index: var(--skipto-z-index-1) !important;
+}
 
-#${SKIP_TO_ID} button:focus .skipto-text,
-#${SKIP_TO_ID} button:hover .skipto-text,
-#${SKIP_TO_ID} button:focus .skipto-small,
-#${SKIP_TO_ID} button:hover .skipto-small,
-#${SKIP_TO_ID} button:focus .skipto-medium,
-#${SKIP_TO_ID} button:hover .skipto-medium {
+.menu-button button:focus .skipto-text,
+.menu-button button:hover .skipto-text,
+.menu-button button:focus .skipto-small,
+.menu-button button:hover .skipto-small,
+.menu-button button:focus .skipto-medium,
+.menu-button button:hover .skipto-medium {
   padding: 6px 7px 5px 7px;
 }
 
-#${SKIP_TO_ID} [role="menuitem"]:focus {
+.menu-button [role="menuitem"]:focus {
   padding: 1px;
   border-width: 2px;
   border-style: solid;
-  border-color: light-dark($focusBorderColor, $focusBorderDarkColor);
+  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
   outline: none;
 }
 
-#${SKIP_TO_ID} [role="menuitem"].hover,
-#${SKIP_TO_ID} [role="menuitem"].hover .level,
-#${SKIP_TO_ID} [role="menuitem"].hover .label {
-  background-color: light-dark($menuitemFocusBackgroundColor, $menuitemFocusBackgroundDarkColor);
-  color: light-dark($menuitemFocusTextColor, $menuitemFocusTextDarkColor);
+.menu-button [role="menuitem"].hover,
+.menu-button [role="menuitem"].hover .level,
+.menu-button [role="menuitem"].hover .label {
+  background-color: light-dark(var(--skipto-menuitem-focus-background-color), var(--skipto-menuitem-focus-background-dark-color));
+  color: light-dark(var(--skipto-menuitem-focus-text-color), var(--skipto-menuitem-focus-text-dark-color));
 }
 
-#${SKIP_TO_ID} [role="separator"].shortcuts-disabled,
-#${SKIP_TO_ID} [role="menuitem"].shortcuts-disabled {
+.menu-button [role="separator"].shortcuts-disabled,
+.menu-button [role="menuitem"].shortcuts-disabled {
   display: none;
 }
 
+
 @media (forced-colors: active) {
 
-  #${SKIP_TO_ID} button {
+  .menu-button button {
     border-color: ButtonBorder;
     color: ButtonText;
     background-color: ButtonFace;
   }
 
-  #${SKIP_TO_ID} [role="menu"] {
+  .menu-button [role="menu"] {
     background-color: ButtonFace;
     border-color: ButtonText;
   }
 
-  #${SKIP_TO_ID} [role="menuitem"] {
+  .menu-button [role="menuitem"] {
     color: ButtonText;
     background-color: ButtonFace;
   }
 
-  #${SKIP_TO_ID} [role="menuitem"] .level,
-  #${SKIP_TO_ID} [role="menuitem"] .label {
+  .menu-button [role="menuitem"] .level,
+  .menu-button [role="menuitem"] .label {
     color: ButtonText;
     background-color: ButtonFace;
   }
 
-  #${SKIP_TO_ID} [role="separator"] {
+  .menu-button [role="separator"] {
     border-bottom-color: ButtonBorder;
     background-color: ButtonFace;
     color: ButtonText;
-    z-index: $z1Index !important;
+    z-index: var(--skipto-z-index-1) !important;
   }
 
-  #${SKIP_TO_ID} button:focus,
-  #${SKIP_TO_ID} button:hover {
+  .menu-button button:focus,
+  .menu-button button:hover {
     background-color: ButtonFace;
     color: ButtonText;
     border-color: ButtonBorder;
   }
 
-  #${SKIP_TO_ID} [role="menuitem"]:focus {
+  .menu-button [role="menuitem"]:focus {
     background-color: ButtonText;
     color: ButtonFace;
     border-color: ButtonBorder;
   }
 
-  #${SKIP_TO_ID} [role="menuitem"].hover,
-  #${SKIP_TO_ID} [role="menuitem"].hover .level,
-  #${SKIP_TO_ID} [role="menuitem"].hover .label {
+  .menu-button [role="menuitem"].hover,
+  .menu-button [role="menuitem"].hover .level,
+  .menu-button [role="menuitem"].hover .label {
     background-color: ButtonText;
     color: ButtonFace;
   }
-
 }
 
-`;
+/* Dialog Styling */
 
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-family: var(--skipto-font-family);
+  font-size: var(--skipto-font-size);
+  max-width: 70%;
+  margin: 0;
+  padding: 0;
+  background-color: light-dark(var(--skipto-dialog-background-color), var(--skipto-dialog-background-dark-color));
+  color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
+  border-width: 2px;
+  border-style: solid;
+  border-color: light-dark(var(--skipto-focus-border-color), --skipto-focus-border-dark-color));
+  border-radius: 5px;
+  z-index: 2000001;
+  width: 80%;
+  max-width: 450px;
+}
+
+dialog .header {
+  margin: 0;
+  margin-bottom: 0.5em;
+  padding: 4px;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-style: solid;
+  border-color: light-dark(--skipto-focus-border-color), --skipto-focus-border-dark-color));
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-weight:  bold;
+  background-color: light-dark(var(--skipto-dialog-background-title-color), var(--skipto-dialog-background-title-dark-color));
+  color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
+  position: relative;
+  font-size: 100%;
+}
+
+dialog .header h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+}
+
+dialog .header button {
+  position: absolute;
+  top: -0.25em;
+  right: 0;
+  border: none;
+  background: transparent;
+  font-weight: bold;
+  color: light-dark(black, white);
+}
+
+dialog .content {
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: 0;
+  margin-bottom: 2em;
+}
+
+dialog .content .desc {
+  margin: 0.25em;
+  text-align: center;
+}
+
+dialog .content .privacy-label {
+  margin: 0;
+  margin-top: 1em;
+  text-align: center;
+  font-weight: bold;
+}
+
+dialog .content .privacy {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+dialog .content .happy {
+  text-align: center;
+  font-family: 'Brush Script MT', cursive;
+  font-size: 200%;
+  letter-spacing: 0.05em;
+}
+
+dialog .content .version,
+dialog .content .copyright {
+  margin-top: 0.5em;
+  text-align: center;
+}
+
+dialog .content table {
+  width: auto;
+}
+
+dialog .content caption {
+  margin: 0;
+  padding: 0;
+  margin-top: 1em;
+  text-align: left;
+  font-weight: bold;
+  font-size: 110%;
+}
+
+dialog .content th {
+  margin: 0;
+  padding: 0;
+  padding-top: 0.125em;
+  padding-bottom: 0.125em;
+  text-align: left;
+  font-weight: bold;
+  font-size: 100%;
+}
+
+dialog .content th {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: light-dark(#999999, #777777);
+}
+
+dialog .content th.shortcut {
+  width: 2.5em;
+}
+
+dialog .content td {
+  margin: 0;
+  padding: 0;
+  padding-top: 0.125em;
+  padding-bottom: 0.125em;
+  text-align: left;
+  font-size: 100%;
+}
+
+
+dialog .content table tr:nth-child(even) {
+  background-color: light-dark(#eeeeee, #111111);
+}
+
+dialog .buttons {
+  float: right;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+dialog button {
+  margin: 6px;
+}
+
+dialog .buttons button {
+  min-width: 5em;
+}
+
+dialog button:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+dialog button:hover {
+  cursor: pointer;
+}
+`;
 
 /*
  *   @function getTheme
@@ -456,30 +654,28 @@ function getTheme(colorTheme) {
 /*
  *   @function updateStyle
  *
- *   @desc  
+ *   @desc  Updates the value of a css variable
  *
- *   @param 
- *
- *   @returns 
+ *   @param  {string} cssVariable -
+ *   @param  {string} configValue -
+ *   @param  {string} themeValue  -
  */
-function updateStyle(cssContent, stylePlaceholder, configValue, themeValue, defaultValue) {
-  let value = defaultValue;
+function updateStyle(containerNode, cssVariable, configValue, themeValue, defaultValue) {
+  let value = '';
   if (typeof configValue === 'string' && configValue) {
     value = configValue;
   } else {
     if (typeof themeValue === 'string' && themeValue) {
       value = themeValue;
     }
+    else {
+      value = defaultValue;
+    }
   }
 
-  let index1 = cssContent.indexOf(stylePlaceholder);
-  let index2 = index1 + stylePlaceholder.length;
-  while (index1 >= 0 && index2 < cssContent.length) {
-    cssContent = cssContent.substring(0, index1) + value + cssContent.substring(index2);
-    index1 = cssContent.indexOf(stylePlaceholder, index2);
-    index2 = index1 + stylePlaceholder.length;
+  if ((typeof value === 'string') && value.length) {
+    containerNode.style.setProperty(cssVariable, value);
   }
-  return cssContent;
 }
 
 /*
@@ -488,15 +684,14 @@ function updateStyle(cssContent, stylePlaceholder, configValue, themeValue, defa
  * @desc Updates the styling for the menu and highlight information
  *       and returns the updated strings
  *
- * @param  {String}  cssMenu       -  CSS template for the button and menu
  * @param  {Object}  config        -  SkipTo.js configuration information object
  * @param  {Boolean} useURLTheme   -  When true use the theme associated with the URL
  *
  * @returns. see @desc
  */
-function addCSSColors (cssMenu, config, useURLTheme=false) {
+function updateCSS (containerNode, config, useURLTheme=false) {
+  const d = colorThemes['default'];
   const theme = useURLTheme ? getTheme(config.colorTheme) : {};
-  const defaultTheme = getTheme('default');
 
   // Check for display option in theme
   if ((typeof config.displayOption === 'string') &&
@@ -507,49 +702,70 @@ function addCSSColors (cssMenu, config, useURLTheme=false) {
       config.displayOption = theme.displayOption;
     }
     else {
-      config.displayOption = defaultTheme.displayOption;
+      config.displayOption = 'popup';
     }
   }
 
-  cssMenu = updateStyle(cssMenu, '$fontFamily', config.fontFamily, theme.fontFamily, defaultTheme.fontFamily);
-  cssMenu = updateStyle(cssMenu, '$fontSize', config.fontSize, theme.fontSize, defaultTheme.fontSize);
+  updateStyle(containerNode, '--skipto-font-family', config.fontFamily, theme.fontFamily, d.fontFamily);
+  updateStyle(containerNode, '--skipto-font-size',   config.fontSize,   theme.fontSize,   d.fontSize);
 
-  cssMenu = updateStyle(cssMenu, '$positionLeft', config.positionLeft, theme.positionLeft, defaultTheme.positionLeft);
-  cssMenu = updateStyle(cssMenu, '$smallBreakPoint', config.smallBreakPoint, theme.smallBreakPoint, defaultTheme.smallBreakPoint);
-  cssMenu = updateStyle(cssMenu, '$mediumBreakPoint', config.mediumBreakPoint, theme.mediumBreakPoint, defaultTheme.mediumBreakPoint);
+  updateStyle(containerNode, '--skipto-position-left',      config.positionLeft,     theme.positionLeft,     d.positionLeft);
+  updateStyle(containerNode, '--skipto-small-break-point',  config.smallBreakPoint,  theme.smallBreakPoint,  d.smallBreakPoint);
+  updateStyle(containerNode, '--skipto-medium-break-point', config.mediumBreakPoint, theme.mediumBreakPoint, d.mediumBreakPoint);
 
-  cssMenu = updateStyle(cssMenu, '$menuTextColor', config.menuTextColor, theme.menuTextColor, defaultTheme.menuTextColor);
-  cssMenu = updateStyle(cssMenu, '$menuTextDarkColor', config.menuTextDarkColor, theme.menuTextDarkColor, defaultTheme.menuTextDarkColor);
-  cssMenu = updateStyle(cssMenu, '$menuBackgroundColor', config.menuBackgroundColor, theme.menuBackgroundColor, defaultTheme.menuBackgroundColor);
-  cssMenu = updateStyle(cssMenu, '$menuBackgroundDarkColor', config.menuBackgroundDarkColor, theme.menuBackgroundDarkColor, defaultTheme.menuBackgroundDarkColor);
+  updateStyle(containerNode, '--skipto-menu-text-color',            config.menuTextColor,           theme.menuTextColor,           d.menuTextColor);
+  updateStyle(containerNode, '--skipto-menu-text-dark-color',       config.menuTextDarkColor,       theme.menuTextDarkColor,       d.menuTextDarkColor);
+  updateStyle(containerNode, '--skipto-menu-background-color',      config.menuBackgroundColor,     theme.menuBackgroundColor,     d.menuTextDarkColor);
+  updateStyle(containerNode, '--skipto-menu-background-dark-color', config.menuBackgroundDarkColor, theme.menuBackgroundDarkColor, d.menuBackgroundDarkColor);
 
-  cssMenu = updateStyle(cssMenu, '$menuitemFocusTextColor', config.menuitemFocusTextColor, theme.menuitemFocusTextColor, defaultTheme.menuitemFocusTextColor);
-  cssMenu = updateStyle(cssMenu, '$menuitemFocusTextDarkColor', config.menuitemFocusTextDarkColor, theme.menuitemFocusTextDarkColor, defaultTheme.menuitemFocusTextDarkColor);
-  cssMenu = updateStyle(cssMenu, '$menuitemFocusBackgroundColor', config.menuitemFocusBackgroundColor, theme.menuitemFocusBackgroundColor, defaultTheme.menuitemFocusBackgroundColor);
-  cssMenu = updateStyle(cssMenu, '$menuitemFocusBackgroundDarkColor', config.menuitemFocusBackgroundDarkColor, theme.menuitemFocusBackgroundDarkColor, defaultTheme.menuitemFocusBackgroundDarkColor);
+  updateStyle(containerNode, '--skipto-menuitem-focus-text-color',            config.menuitemFocusTextColor,           theme.menuitemFocusTextColor,           d.menuitemFocusTextColor);
+  updateStyle(containerNode, '--skipto-menuitem-focus-text-dark-color',       config.menuitemFocusTextDarkColor,       theme.menuitemFocusTextDarkColor,       d.menuitemFocusTextDarkColor);
+  updateStyle(containerNode, '--skipto-menuitem-focus-background-color',      config.menuitemFocusBackgroundColor,     theme.menuitemFocusBackgroundColor,     d.menuitemFocusBackgroundColor);
+  updateStyle(containerNode, '--skipto-menuitem-focus-background-dark-color', config.menuitemFocusBackgroundDarkColor, theme.menuitemFocusBackgroundDarkColor, d.menuitemFocusBackgroundDarkColor);
 
-  cssMenu = updateStyle(cssMenu, '$focusBorderColor', config.focusBorderColor, theme.focusBorderColor, defaultTheme.focusBorderColor);
-  cssMenu = updateStyle(cssMenu, '$focusBorderDarkColor', config.focusBorderDarkColor, theme.focusBorderDarkColor, defaultTheme.focusBorderDarkColor);
+  updateStyle(containerNode, '--skipto-focus-border-color',      config.focusBorderColor,     theme.focusBorderColor,     d.focusBorderColor);
+  updateStyle(containerNode, '--skipto-focus-border-dark-color', config.focusBorderDarkColor, theme.focusBorderDarkColor, d.focusBorderDarkColor);
 
-  cssMenu = updateStyle(cssMenu, '$buttonTextColor', config.buttonTextColor, theme.buttonTextColor, defaultTheme.buttonTextColor);
-  cssMenu = updateStyle(cssMenu, '$buttonTextDarkColor', config.buttonTextDarkColor, theme.buttonTextDarkColor, defaultTheme.buttonTextDarkColor);
-  cssMenu = updateStyle(cssMenu, '$buttonBackgroundColor', config.buttonBackgroundColor, theme.buttonBackgroundColor, defaultTheme.buttonBackgroundColor);
-  cssMenu = updateStyle(cssMenu, '$buttonBackgroundDarkColor', config.buttonBackgroundDarkColor, theme.buttonBackgroundDarkColor, defaultTheme.buttonBackgroundDarkColor);
+  updateStyle(containerNode, '--skipto-button-text-color',            config.buttonTextColor,           theme.buttonTextColor,           d.buttonTextColor);
+  updateStyle(containerNode, '--skipto-button-text-dark-color',       config.buttonTextDarkColor,       theme.buttonTextDarkColor,       d.buttonTextDarkColor);
+  updateStyle(containerNode, '--skipto-button-background-color',      config.buttonBackgroundColor,     theme.buttonBackgroundColor,     d.buttonBackgroundColor);
+  updateStyle(containerNode, '--skipto-button-background-dark-color', config.buttonBackgroundDarkColor, theme.buttonBackgroundDarkColor, d.buttonBackgroundDarkColor);
 
-  cssMenu = updateStyle(cssMenu, '$z1Index', config.zIndex, theme.zIndex, defaultTheme.zIndex);
+  updateStyle(containerNode, '--skipto-dialog-text-color',                  config.dialogTextColor,                theme.dialogTextColorr,               d.dialogTextColor);
+  updateStyle(containerNode, '--skipto-dialog-text-dark-color',             config.dialogTextDarkColor,            theme.dialogTextDarkColor,            d.dialogTextDarkColor);
+  updateStyle(containerNode, '--skipto-dialog-background-color',            config.dialogBackgroundColor,          theme.dialogBackgroundColor,          d.dialogBackgroundColor);
+  updateStyle(containerNode, '--skipto-dialog-background-dark-color',       config.dialogBackgroundDarkColor,      theme.dialogBackgroundDarkColor,      d.dialogBackgroundDarkColor);
+  updateStyle(containerNode, '--skipto-dialog-background-title-color',      config.dialogBackgroundTitleColor,     theme.dialogBackgroundTitleColor,     d.dialogBackgroundTitleColor);
+  updateStyle(containerNode, '--skipto-dialog-background-title-dark-color', config.dialogBackgroundTitleDarkColor, theme.dialogBackgroundTitleDarkColor, d.dialogBackgroundTitleDarkColor);
+
+  updateStyle(containerNode, '--skipto-z-index-1', config.zIndex, theme.zIndex, d.zIndex);
+
+  const buttonNode = containerNode.querySelector('button');
+  const rect = buttonNode.getBoundingClientRect();
+  if (buttonNode.classList.contains('show-border')) {
+    const borderOffset = -1 * rect.height + 4 + 'px';
+    containerNode.style.setProperty('--skipto-show-border-offset', borderOffset);
+  }
+  else {
+    if (buttonNode.classList.contains('popup')) {
+      const popupOffset = -1 * rect.height - 6 + 'px';
+      containerNode.style.setProperty('--skipto-popup-offset', popupOffset);
+    }
+  }
+  containerNode.style.setProperty('--skipto-menu-offset', rect.height + 'px');
+
+
 
   const z2Index = config.zIndex ?
                   (parseInt(config.zIndex) + 1).toString() :
                   '2000002';
 
-  cssMenu = updateStyle(cssMenu, '$z2Index', z2Index, '', defaultTheme.z2Index);
+  updateStyle(containerNode, '--skipto-z-index-2', z2Index, '');
 
   // Special case for theme configuration used in Illinois theme
   if (typeof theme.highlightTarget === 'string') {
     config.highlightTarget = theme.highlightTarget;
   }
-
-  return cssMenu;
 
 }
 
@@ -560,20 +776,18 @@ function addCSSColors (cssMenu, config, useURLTheme=false) {
  *
  * @param  {Object}  attachNode      - DOM element node to attach button and menu container element
  * @param  {Object}  config          -  Configuration information object
- * @param  {String}  skipYToStyleId  -  Id used for the skipto container element
  * @param  {Boolean} useURLTheme     - When true use the theme associated with the URL
  */
-export default function renderStyleElement (attachNode, config, skipToId, useURLTheme=false) {
-  let cssMenu = cssMenuTemplate.textContent.slice(0);
-
-  cssMenu = addCSSColors(cssMenu, config, useURLTheme);
-
-  let styleNode = attachNode.querySelector(`#${SKIP_TO_MENU_STYLE_ID}`);
+export default function renderStyleElement (attachNode, config, useURLTheme=false) {
+  let styleNode = attachNode.querySelector(`style`);
   if (!styleNode) {
     styleNode = document.createElement('style');
     attachNode.appendChild(styleNode);
-    styleNode.setAttribute('id', `${SKIP_TO_MENU_STYLE_ID}`);
+    styleNode.textContent = cssStyleTemplate.textContent;
   }
-  styleNode.textContent = cssMenu;
+
+  const containerNode = attachNode.querySelector('.container');
+
+  updateCSS(containerNode, config, useURLTheme);
 
 }
