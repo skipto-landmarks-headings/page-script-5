@@ -4,7 +4,8 @@
 import DebugLogging  from './debug.js';
 
 import {
-  HIGHLIGHT_ELEMENT_NAME,
+  BOOKMARKLET_ELEMENT_NAME,
+  EXTENSION_ELEMENT_NAME,
   SKIP_TO_ID
 } from './constants.js';
 
@@ -37,9 +38,9 @@ debug.flag = false;
  */
 function monitorKeyboardFocus () {
   document.addEventListener('focusin', () => {
-    const highlightElem = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
-    if (highlightElem) {
-      highlightElem.removeHighlight();
+    const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME) | document.querySelector(BOOKMARKLET_ELEMENT_NAME);
+    if (skipToContentElem) {
+      skipToContentElem.removeHighlight();
     }
   });
 }
@@ -94,9 +95,9 @@ function navigateContent (target, direction, msgHeadingLevel, useFirst=false, na
       }
     }
 
-    const highlightElem = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
-    if (highlightElem) {
-      highlightElem.highlight(elem, 'instant', info, true);  // force highlight
+    const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME) || document.querySelector(BOOKMARKLET_ELEMENT_NAME);
+    if (skipToContentElem) {
+      skipToContentElem.highlight(elem, 'instant', info, true);  // force highlight
     }
 
   }

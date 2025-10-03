@@ -3,8 +3,6 @@
 /* Imports */
 import DebugLogging  from './debug.js';
 
-import {colorThemes} from './colorThemes.js';
-
 /* Constants */
 const debug = new DebugLogging('highlight', false);
 debug.flag = false;
@@ -13,135 +11,24 @@ const minWidth = 68;
 const minHeight = 27;
 
 import {
+  HIDDEN_MESSAGE_ID,
   HIGHLIGHT_ID
 } from './constants.js';
-
-const defaultStyleOptions = colorThemes['default'];
-
-const styleHighlightTemplate = document.createElement('template');
-styleHighlightTemplate.textContent = `
-:root {
-  color-scheme: light dark;
-}
-
-#${HIGHLIGHT_ID} {
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  border-radius: $highlightOffsetpx;
-  border: $shadowBorderWidthpx solid light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
-  box-sizing: border-box;
-  pointer-events:none;
-  z-index: $zHighlight;
-}
-
-#${HIGHLIGHT_ID}.hasInfoBottom,
-#${HIGHLIGHT_ID} .overlay-border.hasInfoBottom {
-  border-radius: $highlightOffsetpx $highlightOffsetpx $highlightOffsetpx 0;
-}
-
-#${HIGHLIGHT_ID}.hasInfoTop,
-#${HIGHLIGHT_ID} .overlay-border.hasInfoTop {
-  border-radius: 0 $highlightOffsetpx $highlightOffsetpx $highlightOffsetpx;
-}
-
-#${HIGHLIGHT_ID} .overlay-border {
-  margin: 0;
-  padding: 0;
-  position: relative;
-  border-radius: $highlightOffsetpx;
-  border: $overlayBorderWidthpx $highlightBorderStyle light-dark($focusBorderColor, $focusBorderDarkColor);
-  z-index: $zHighlight;
-  box-sizing: border-box;
-  pointer-events:none;
-  background: transparent;
-}
-
-
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-#hidden-elem-msg {
-  position: absolute;
-  margin: 0;
-  padding: .25em;
-  background-color: light-dark($hiddenHeadingBackgroundColor, $hiddenHeadingBackgroundDarkColor);
-  color: light-dark($hiddenHeadingColor, $hiddenHeadingDarkColor);
-  font-family: $fontFamily;
-  font-size: $fontSize;
-  font-style: italic;
-  font-weight: bold;
-  text-align: center;
-  animation: fadeIn 1.5s;
-  z-index: $zHighlight;
-}
-
-#${HIGHLIGHT_ID} .overlay-info {
-  margin: 0;
-  padding: 2px;
-  position: relative;
-  text-align: left;
-  font-size: $fontSize;
-  font-family: $fontFamily;
-  border: $infoBorderWidthpx solid light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
-  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
-  color: light-dark($menuTextColor, $menuTextDarkColor);
-  z-index: $zHighlight;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  pointer-events:none;
-}
-
-#${HIGHLIGHT_ID} .overlay-info.hasInfoTop {
-  border-radius: $highlightOffsetpx $highlightOffsetpx 0 0;
-}
-
-#${HIGHLIGHT_ID} .overlay-info.hasInfoBottom {
-  border-radius: 0 0 $highlightOffsetpx $highlightOffsetpx;
-}
-
-@media (forced-colors: active) {
-
-  #${HIGHLIGHT_ID} {
-    border-color: ButtonBorder;
-  }
-
-  #${HIGHLIGHT_ID} .overlay-border {
-    border-color: ButtonBorder;
-  }
-
-  #${HIGHLIGHT_ID} .overlay-border.skip-to-hidden {
-    background-color: ButtonFace;
-    color: ButtonText;
-  }
-
-  #${HIGHLIGHT_ID} .overlay-info {
-    border-color: ButtonBorder;
-    background-color: ButtonFace;
-    color: ButtonText;
-  }
-
-}
-`;
 
 /*
  *   @class HighlightElement
  *
  */
 
-export default class HighlightElement extends HTMLElement {
+export default class HighlightElement {
 
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
+  constructor(attachElem) {
 
     // Get references
 
     this.overlayElem  = document.createElement('div');
     this.overlayElem.id = HIGHLIGHT_ID;
-    this.shadowRoot.appendChild(this.overlayElem);
+    attachElem.appendChild(this.overlayElem);
     this.overlayElem.style.display = 'none';
 
     this.borderElem = document.createElement('div');
@@ -153,8 +40,8 @@ export default class HighlightElement extends HTMLElement {
     this.overlayElem.appendChild(this.infoElem);
 
     this.hiddenElem = document.createElement('div');
-    this.hiddenElem.id = 'hidden-elem-msg';
-    this.shadowRoot.appendChild(this.hiddenElem);
+    this.hiddenElem.id = HIDDEN_MESSAGE_ID;
+    attachElem.appendChild(this.hiddenElem);
     this.hiddenElem.style.display = 'none';
 
     this.borderWidth    = 0;
@@ -177,15 +64,6 @@ export default class HighlightElement extends HTMLElement {
 
   configureStyle(config={}) {
 
-    function updateOption(style, option, configOption, defaultOption) {
-      if (configOption) {
-        return style.replaceAll(option, configOption);
-      }
-      else {
-        return style.replaceAll(option, defaultOption);
-      }
-    }
-
     // Get i18n Messages
 
     this.msgHeadingIsHidden = typeof config.msgHeadingIsHidden === 'string' ?
@@ -201,83 +79,7 @@ export default class HighlightElement extends HTMLElement {
                             'Element is hidden';
 
 
-    // make a copy of the template
-    let style = styleHighlightTemplate.textContent.slice(0);
-
-    style = updateOption(style,
-                         '$fontFamily',
-                         config.fontFamily,
-                         defaultStyleOptions.fontFamily);
-
-    style = updateOption(style,
-                         '$buttonBackgroundColor',
-                         config.buttonBackgroundColor,
-                         defaultStyleOptions.buttonBackgroundColor);
-
-    style = updateOption(style,
-                         '$buttonBackgroundDarkColor',
-                         config.buttonBackgroundDarkColor,
-                         defaultStyleOptions.buttonBackgroundDarkColor);
-
-    style = updateOption(style,
-                         '$focusBorderColor',
-                         config.focusBorderColor,
-                         defaultStyleOptions.focusBorderColor);
-
-    style = updateOption(style,
-                         '$focusBorderDarkColor',
-                         config.focusBorderDarkColor,
-                         defaultStyleOptions.focusBorderDarkColor);
-
-    style = updateOption(style,
-                         '$menuBackgroundColor',
-                         config.menuBackgroundColor,
-                         defaultStyleOptions.menuBackgroundColor);
-
-    style = updateOption(style,
-                         '$menuBackgroundDarkColor',
-                         config.menuBackgroundDarkColor,
-                         defaultStyleOptions.menuBackgroundDarkColor);
-
-    style = updateOption(style,
-                         '$menuTextColor',
-                         config.menuTextColor,
-                         defaultStyleOptions.menuTextColor);
-
-    style = updateOption(style,
-                         '$menuTextDarkColor',
-                         config.menuTextDarkColor,
-                         defaultStyleOptions.menuTextDarkColor);
-
-    style = updateOption(style,
-                         '$hiddenHeadingColor',
-                         config.hiddenHeadingColor,
-                         defaultStyleOptions.hiddenHeadingColor);
-
-    style = updateOption(style,
-                         '$hiddenHeadingDarkColor',
-                         config.hiddenHeadingDarkColor,
-                         defaultStyleOptions.hiddenHeadingDarkColor);
-
-    style = updateOption(style,
-                         '$hiddenHeadingBackgroundColor',
-                         config.hiddenHeadingBackgroundColor,
-                         defaultStyleOptions.hiddenHeadingBackgroundColor);
-
-    style = updateOption(style,
-                         '$hiddenHeadingBackgroundDarkColor',
-                         config.hiddenHeadingBackgroundDarkColor,
-                         defaultStyleOptions.hiddenHeadingBackgroundDarkColor);
-
-    style = updateOption(style,
-                         '$zHighlight',
-                         config.zHighlight,
-                         defaultStyleOptions.zHighlight);
-
-    style = updateOption(style,
-                         '$highlightBorderStyle',
-                         config.highlightBorderStyle,
-                         defaultStyleOptions.highlightBorderStyle);
+/*
 
     const highlightBorderSize =  config.highlightBorderSize ?
                                  config.highlightBorderSize :
@@ -320,10 +122,6 @@ export default class HighlightElement extends HTMLElement {
         break;
     }
 
-    style = updateOption(style,
-                         '$fontSize',
-                         this.fontSize,
-                         defaultStyleOptions.fontSize);
 
     style = updateOption(style,
                          '$highlightOffset',
@@ -345,15 +143,7 @@ export default class HighlightElement extends HTMLElement {
                          this.borderWidth,
                          this.borderWidth);
 
-    let styleNode = this.shadowRoot.querySelector('style');
-
-    if (styleNode) {
-      styleNode.remove();
-    }
-
-    styleNode = document.createElement('style');
-    styleNode.textContent = style;
-    this.shadowRoot.appendChild(styleNode);
+*/
 
   }
 

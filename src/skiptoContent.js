@@ -6,8 +6,7 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
 import DebugLogging  from './debug.js';
 
 import {
-  ATTR_SKIP_TO_DATA,
-  HIGHLIGHT_ELEMENT_NAME
+  ATTR_SKIP_TO_DATA
 } from './constants.js';
 
 import {
@@ -169,10 +168,10 @@ export default class SkipToContent590 extends HTMLElement {
                             // options: 'solid' (default), 'dotted', 'dashed'
 
       // Hidden heading when highlighting
-      hiddenHeadingColor: '#000000',
-      hiddenHeadingDarkColor: '#000000',
-      hiddenHeadingBackgroundColor: '#ffcc00',
-      hiddenHeadingBackgroundDarkColor: '#ffcc00',
+      hiddenTextColor: '#000000',
+      hiddenTextDarkColor: '#000000',
+      hiddenBackgroundColor: '#ffcc00',
+      hiddenBackgroundDarkColor: '#ffcc00',
 
       //Dialog styling
       dialogTextColor: '#000000',
@@ -399,12 +398,6 @@ export default class SkipToContent590 extends HTMLElement {
       renderStyleElement(this.shadowRoot, config);
       this.buttonSkipTo.updateLabels(config);
       this.buttonSkipTo.setDisplayOption(config['displayOption']);
-    }
-
-    const highlight = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
-    debug.flag && debug.log(`[highlight]: ${highlight}`);
-    if (highlight) {
-      highlight.configureStyle(config);
     }
 
     return config;

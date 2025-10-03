@@ -3,7 +3,11 @@
 /* Imports */
 import {colorThemes} from './colorThemes.js';
 import DebugLogging  from './debug.js';
-import {MESSAGE_ID}  from './constants.js';
+import {
+  HIDDEN_MESSAGE_ID,
+  HIGHLIGHT_ID,
+  MESSAGE_ID
+}  from './constants.js';
 
 /* Constants */
 const debug = new DebugLogging('style', false);
@@ -56,9 +60,22 @@ cssStyleTemplate.textContent = `
   --skipto-dialog-background-title-color: '#eeeeee';
   --skipto-dialog-background-title-dark-color: '#013c93';
 
-  --skipto-z-index-1: '2000000';
+  --skipto-z-index:   '2000000';
+  --skipto-z-index-1: '2000001';
   --skipto-z-index-2: '20000002';
   --skipto-z-highlight: '1999900';
+
+  --skipto-highlight-offset: '6px';
+  --skipto-highlight-border-width: '4px':
+  --skipto-highlight-border-contrast: '3px':
+  --skipto-highlight-font-size: '14pt':
+  --skipto-highlight-shadow-border-width: '10px';
+  --skipto-highlight-border-style: 'dashed';
+
+  --skipto-hidden-text-color: '#000000';
+  --skipto-hidden-text-dark-color: '#0000000';
+  --skipto-hidden-background-color: '#ffcc00';
+  --skipto-hidden-background-dark-color: '#ffcc00';
 
 }
 
@@ -615,7 +632,7 @@ dialog button:hover {
   margin-right: 2em;
   margin-top: 2em;
   margin-bottom: 2em;
-  background-color: light-dark(var(--skipto-dialog-background-color), var(-skipto-dialog-background-dark-color));
+  background-color: light-dark(var(--skipto-dialog-background-color), var(--skipto-dialog-background-dark-color));
   color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
   font-size: 110%;
   text-algin: center;
@@ -649,6 +666,106 @@ dialog button:hover {
   }
 }
 
+#${HIGHLIGHT_ID} {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  border-radius: var(--skipto-highlight-offset);
+  border: var(--skipto-highlight-shadow-border-width) solid light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
+  box-sizing: border-box;
+  pointer-events:none;
+  z-index: var(--skipto-z-index);
+}
+
+#${HIGHLIGHT_ID}.hasInfoBottom,
+#${HIGHLIGHT_ID} .overlay-border.hasInfoBottom {
+  border-radius: var(--skipto-highlight-offset), var(--skipto-highlight-offset), var(--skipto-highlight-offset) 0;
+}
+
+#${HIGHLIGHT_ID}.hasInfoTop,
+#${HIGHLIGHT_ID} .overlay-border.hasInfoTop {
+  border-radius: 0 var(--skipto-highlight-offset) var(--skipto-highlight-offset) var(--skipto-highlight-offset);
+}
+
+#${HIGHLIGHT_ID} .overlay-border {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  border-radius: var(--skipto-highlight-offset);
+  border: var(--skipto-highlight-border-width) var(--skipto-highlight-border-width) var(--skipto-highlight-border-style) light-dark(var(--skipto-focus-border-color), --skipto-focus-border-dark-color));
+  z-index: var(--skipto-z-highlight);
+  box-sizing: border-box;
+  pointer-events:none;
+  background: transparent;
+}
+
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+#${HIDDEN_MESSAGE_ID} {
+  position: absolute;
+  margin: 0;
+  padding: .25em;
+  background-color: light-dark(var(--skipto-hidden-background-color), var(--skipto-hidden-background-dark-color));
+  color: light-dark(var(--skipto-hidden-text-color), var(--skipto-hidden-text-dark-color));
+  font-family: var(--skipto-font-family);
+  font-size: var(--skipto-highlight-font-size);
+  font-style: italic;
+  font-weight: bold;
+  text-align: center;
+  animation: fadeIn 1.5s;
+  z-index: var(--skipto-z-highlight);
+}
+
+#${HIGHLIGHT_ID} .overlay-info {
+  margin: 0;
+  padding: 2px;
+  position: relative;
+  text-align: left;
+  font-size: $fontSize;
+  font-family: $fontFamily;
+  border: var(--skipto-highlight-border-width) solid light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
+  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
+  z-index: var(--skipto-z-highlight);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events:none;
+}
+
+#${HIGHLIGHT_ID} .overlay-info.hasInfoTop {
+  border-radius: var(--skipto-highlight-offset) var(--skipto-highlight-offset) 0 0;
+}
+
+#${HIGHLIGHT_ID} .overlay-info.hasInfoBottom {
+  border-radius: 0 0 var(--skipto-highlight-offset) var(--skipto-highlight-offset);
+}
+
+@media (forced-colors: active) {
+
+  #${HIGHLIGHT_ID} {
+    border-color: ButtonBorder;
+  }
+
+  #${HIGHLIGHT_ID} .overlay-border {
+    border-color: ButtonBorder;
+  }
+
+  #${HIGHLIGHT_ID} .overlay-border.skip-to-hidden {
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+
+  #${HIGHLIGHT_ID} .overlay-info {
+    border-color: ButtonBorder;
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+
+}
 
 `;
 
@@ -817,7 +934,13 @@ function updateCSS (containerNode, config, useURLTheme=false) {
   updateStyle(containerNode, '--skipto-dialog-background-title-color',      config.dialogBackgroundTitleColor,     theme.dialogBackgroundTitleColor,     d.dialogBackgroundTitleColor);
   updateStyle(containerNode, '--skipto-dialog-background-title-dark-color', config.dialogBackgroundTitleDarkColor, theme.dialogBackgroundTitleDarkColor, d.dialogBackgroundTitleDarkColor);
 
+  updateStyle(containerNode, '--skipto-hidden-text-color',            config.hiddenTextColor,           '', d.hiddenTextColor);
+  updateStyle(containerNode, '--skipto-hidden-text-dark-color',       config.hiddenTextDarkColor,       '', d.hiddenTextDarkColor);
+  updateStyle(containerNode, '--skipto-hidden-background-color',      config.hiddenBackgroundColor,     '', d.hiddenBackgroundColor);
+  updateStyle(containerNode, '--skipto-hidden-background-dark-color', config.hiddenBackgroundDarkColor, '', d.hiddenBackgroundDarkColor);
+
   updateStyle(containerNode, '--skipto-z-index-1', config.zIndex, theme.zIndex, d.zIndex);
+
 
   const buttonNode = containerNode.querySelector('button');
   const rect = buttonNode.getBoundingClientRect();

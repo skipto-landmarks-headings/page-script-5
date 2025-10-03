@@ -9,7 +9,6 @@ import {
 
 import SkipToContentInfoDialog  from './skipToContentInfoDialog.js';
 import ShortcutsMessage         from './shortcutsMessage.js';
-
 import HighlightElement         from './highlightElement.js';
 
 import {
@@ -20,8 +19,7 @@ import {
   MENU_HEADINGS_GROUP_LABEL_ID,
   MENU_SHORTCUTS_GROUP_ID,
   MENU_SHORTCUTS_GROUP_LABEL_ID,
-  MENU_ABOUT_ID,
-  HIGHLIGHT_ELEMENT_NAME
+  MENU_ABOUT_ID
 } from './constants.js';
 
 import {
@@ -60,9 +58,9 @@ templateMenuButton.innerHTML = `
     </button>
     <div id="${MENU_ID}"
          role="menu"
-         aria-label="${MENU_LANDMARK_GROUP_LABEL_ID}"
+         aria-label="Skip to Content"
          style="display: none;">
-      <div id="id-skip-to-landmark-group-label"
+      <div id="${MENU_LANDMARK_GROUP_LABEL_ID}"
            role="separator"
            aria-label="Landmark Regions">
         Landmark Regions (nn)
@@ -87,9 +85,9 @@ templateMenuButton.innerHTML = `
            class="shortcuts-disabled">
         Shortcuts: Disabled
       </div>
-      <div id="id-skip-to-shortcuts-group"
+      <div id="${MENU_SHORTCUTS_GROUP_ID}"
            role="group"
-           aria-labelledby="id-skip-to-shortcuts-group-label"
+           aria-labelledby="${MENU_SHORTCUTS_GROUP_LABEL_ID}"
            class="shortcuts-disabled">
       </div>
       <div role="separator"></div>
@@ -203,14 +201,8 @@ export default class SkiptoMenuButton {
 
       // Highlight element
 
-      this.highlightElem = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
-
-      if (!this.highlightElem) {
-        window.customElements.define(HIGHLIGHT_ELEMENT_NAME, HighlightElement);
-        this.highlightElem = document.createElement(HIGHLIGHT_ELEMENT_NAME);
-        this.highlightElem.configureStyle(this.config);
-        document.body.appendChild(this.highlightElem);
-      }
+      this.highlight = new HighlightElement(this.containerNode);
+      this.highlight.configureStyle(this.config);
 
       this.menuButtonNode.addEventListener('focusin', this.handleFocusin.bind(this));
       this.menuButtonNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -244,6 +236,32 @@ export default class SkiptoMenuButton {
       }
 
       return '';
+    }
+
+
+    /*
+     *   @method highlight
+     *
+     *   @desc  Highlights the element on the page when highlighting
+     *          is enabled (NOTE: Highlight is enabled by default)
+     *
+     *   @param {Object}  elem            : DOM node of element to highlight
+     *   @param {String}  highlightTarget : value of highlight target
+     *   @param {String}  info            : Information about target
+     *   @param {Boolean} force           : If true override isRduced
+     */
+
+    highlight(elem, highlightTarget, info='', force=false) {
+      this.highlight.highlight(elem, highlightTarget, info, force);
+    }
+
+    /*
+     *   @method removeHighlight
+     *
+     *   @desc  Hides the highlight element on the page
+     */
+    removeHighlight() {
+      this.highlight.removeHighlight();
     }
 
     /*
@@ -286,6 +304,10 @@ export default class SkiptoMenuButton {
       this.menuNode.setAttribute('aria-label', config.menuLabel);
       this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel);
       this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel);
+
+      this.highlight.configureStyle(config);
+
+
     }
 
     /*
@@ -644,10 +666,10 @@ export default class SkiptoMenuButton {
         this.focusMenuitem = menuitem;
         if (menuitem.hasAttribute('data-id')) {
           const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
-          this.highlightElem.highlight(elem, this.highlightTarget);
+          this.highlight.highlight(elem, this.highlightTarget);
         }
         else {
-          this.highlightElem.removeHighlight();
+          this.highlight.removeHighlight();
         }
       }
     }
@@ -814,7 +836,7 @@ export default class SkiptoMenuButton {
       if (this.isOpen()) {
         this.buttonNode.setAttribute('aria-expanded', 'false');
         this.menuNode.style.display = 'none';
-        this.highlightElem.removeHighlight();
+        this.highlight.removeHighlight();
         this.buttonNode.classList.remove('menu');
       }
     }
@@ -1276,10 +1298,10 @@ export default class SkiptoMenuButton {
       tgt.classList.add('hover');
       if (tgt.hasAttribute('data-id')) {
         const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
-        this.highlightElem.highlight(elem, this.highlightTarget);
+        this.highlight.highlight(elem, this.highlightTarget);
       }
       else {
-        this.highlightElem.removeHighlight();
+        this.highlight.removeHighlight();
       }
       event.stopPropagation();
       event.preventDefault();
@@ -1289,10 +1311,10 @@ export default class SkiptoMenuButton {
       let tgt = event.currentTarget;
       if (tgt.hasAttribute('data-id')) {
         const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
-        this.highlightElem.highlight(elem, this.highlightTarget);
+        this.highlight.highlight(elem, this.highlightTarget);
       }
       else {
-        this.highlightElem.removeHighlight();
+        this.highlight.removeHighlight();
       }
       event.stopPropagation();
       event.preventDefault();
@@ -1341,10 +1363,10 @@ export default class SkiptoMenuButton {
         mi.classList.add('hover');
         if (mi.hasAttribute('data-id')) {
           const elem = queryDOMForSkipToId(mi.getAttribute('data-id'));
-          this.highlightElem.highlight(elem, this.highlightTarget);
+          this.highlight.highlight(elem, this.highlightTarget);
         }
         else {
-          this.highlightElem.removeHighlight();
+          this.highlight.removeHighlight();
         }
       }
 

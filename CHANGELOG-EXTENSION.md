@@ -1,7 +1,7 @@
 # Version history for SkipTo.js for Firefox, Chrome and Opera
 
-## Version 1.2.4
-* Support SkipTo.js 5.8.4
+## Version 1.3
+* Support SkipTo.js 5.9
 
 ## Version 1.2.3
 * Support SkipTo.js 5.8.3

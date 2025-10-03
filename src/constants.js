@@ -25,7 +25,8 @@ export const MENU_SHORTCUTS_GROUP_LABEL_ID = 'id-skip-to-shortcuts-group-label';
 
 export const MENU_ABOUT_ID = 'id-skip-to-about';
 
-export const MESSAGE_ID = 'id-skip-to-message';
+export const MESSAGE_ID        = 'id-skip-to-message';
+export const HIDDEN_MESSAGE_ID = 'id-skip-to-hidden-message';
 
 export const HIGHLIGHT_ID = 'id-skip-to-highlight-overlay';
 
@@ -34,8 +35,6 @@ export const HIGHLIGHT_ID = 'id-skip-to-highlight-overlay';
 export const PAGE_SCRIPT_ELEMENT_NAME = 'skip-to-content';
 export const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
 export const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
-
-export const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-590';
 
 // Attributes
 

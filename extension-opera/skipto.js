@@ -257,7 +257,8 @@
 
   const MENU_ABOUT_ID = 'id-skip-to-about';
 
-  const MESSAGE_ID = 'id-skip-to-message';
+  const MESSAGE_ID        = 'id-skip-to-message';
+  const HIDDEN_MESSAGE_ID = 'id-skip-to-hidden-message';
 
   const HIGHLIGHT_ID = 'id-skip-to-highlight-overlay';
 
@@ -266,8 +267,6 @@
   const PAGE_SCRIPT_ELEMENT_NAME = 'skip-to-content';
   const BOOKMARKLET_ELEMENT_NAME = 'skip-to-content-bookmarklet';
   const EXTENSION_ELEMENT_NAME   = 'skip-to-content-extension';
-
-  const HIGHLIGHT_ELEMENT_NAME   = 'skip-to-content-highlight-element-590';
 
   // Attributes
 
@@ -331,9 +330,22 @@
   --skipto-dialog-background-title-color: '#eeeeee';
   --skipto-dialog-background-title-dark-color: '#013c93';
 
-  --skipto-z-index-1: '2000000';
+  --skipto-z-index:   '2000000';
+  --skipto-z-index-1: '2000001';
   --skipto-z-index-2: '20000002';
   --skipto-z-highlight: '1999900';
+
+  --skipto-highlight-offset: '6px';
+  --skipto-highlight-border-width: '4px':
+  --skipto-highlight-border-contrast: '3px':
+  --skipto-highlight-font-size: '14pt':
+  --skipto-highlight-shadow-border-width: '10px';
+  --skipto-highlight-border-style: 'dashed';
+
+  --skipto-hidden-text-color: '#000000';
+  --skipto-hidden-text-dark-color: '#0000000';
+  --skipto-hidden-background-color: '#ffcc00';
+  --skipto-hidden-background-dark-color: '#ffcc00';
 
 }
 
@@ -890,7 +902,7 @@ dialog button:hover {
   margin-right: 2em;
   margin-top: 2em;
   margin-bottom: 2em;
-  background-color: light-dark(var(--skipto-dialog-background-color), var(-skipto-dialog-background-dark-color));
+  background-color: light-dark(var(--skipto-dialog-background-color), var(--skipto-dialog-background-dark-color));
   color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
   font-size: 110%;
   text-algin: center;
@@ -924,6 +936,106 @@ dialog button:hover {
   }
 }
 
+#${HIGHLIGHT_ID} {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  border-radius: var(--skipto-highlight-offset);
+  border: var(--skipto-highlight-shadow-border-width) solid light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
+  box-sizing: border-box;
+  pointer-events:none;
+  z-index: var(--skipto-z-index);
+}
+
+#${HIGHLIGHT_ID}.hasInfoBottom,
+#${HIGHLIGHT_ID} .overlay-border.hasInfoBottom {
+  border-radius: var(--skipto-highlight-offset), var(--skipto-highlight-offset), var(--skipto-highlight-offset) 0;
+}
+
+#${HIGHLIGHT_ID}.hasInfoTop,
+#${HIGHLIGHT_ID} .overlay-border.hasInfoTop {
+  border-radius: 0 var(--skipto-highlight-offset) var(--skipto-highlight-offset) var(--skipto-highlight-offset);
+}
+
+#${HIGHLIGHT_ID} .overlay-border {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  border-radius: var(--skipto-highlight-offset);
+  border: var(--skipto-highlight-border-width) var(--skipto-highlight-border-width) var(--skipto-highlight-border-style) light-dark(var(--skipto-focus-border-color), --skipto-focus-border-dark-color));
+  z-index: var(--skipto-z-highlight);
+  box-sizing: border-box;
+  pointer-events:none;
+  background: transparent;
+}
+
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+#${HIDDEN_MESSAGE_ID} {
+  position: absolute;
+  margin: 0;
+  padding: .25em;
+  background-color: light-dark(var(--skipto-hidden-background-color), var(--skipto-hidden-background-dark-color));
+  color: light-dark(var(--skipto-hidden-text-color), var(--skipto-hidden-text-dark-color));
+  font-family: var(--skipto-font-family);
+  font-size: var(--skipto-highlight-font-size);
+  font-style: italic;
+  font-weight: bold;
+  text-align: center;
+  animation: fadeIn 1.5s;
+  z-index: var(--skipto-z-highlight);
+}
+
+#${HIGHLIGHT_ID} .overlay-info {
+  margin: 0;
+  padding: 2px;
+  position: relative;
+  text-align: left;
+  font-size: $fontSize;
+  font-family: $fontFamily;
+  border: var(--skipto-highlight-border-width) solid light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
+  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
+  z-index: var(--skipto-z-highlight);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events:none;
+}
+
+#${HIGHLIGHT_ID} .overlay-info.hasInfoTop {
+  border-radius: var(--skipto-highlight-offset) var(--skipto-highlight-offset) 0 0;
+}
+
+#${HIGHLIGHT_ID} .overlay-info.hasInfoBottom {
+  border-radius: 0 0 var(--skipto-highlight-offset) var(--skipto-highlight-offset);
+}
+
+@media (forced-colors: active) {
+
+  #${HIGHLIGHT_ID} {
+    border-color: ButtonBorder;
+  }
+
+  #${HIGHLIGHT_ID} .overlay-border {
+    border-color: ButtonBorder;
+  }
+
+  #${HIGHLIGHT_ID} .overlay-border.skip-to-hidden {
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+
+  #${HIGHLIGHT_ID} .overlay-info {
+    border-color: ButtonBorder;
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+
+}
 
 `;
 
@@ -1092,7 +1204,13 @@ dialog button:hover {
     updateStyle(containerNode, '--skipto-dialog-background-title-color',      config.dialogBackgroundTitleColor,     theme.dialogBackgroundTitleColor,     d.dialogBackgroundTitleColor);
     updateStyle(containerNode, '--skipto-dialog-background-title-dark-color', config.dialogBackgroundTitleDarkColor, theme.dialogBackgroundTitleDarkColor, d.dialogBackgroundTitleDarkColor);
 
+    updateStyle(containerNode, '--skipto-hidden-text-color',            config.hiddenTextColor,           '', d.hiddenTextColor);
+    updateStyle(containerNode, '--skipto-hidden-text-dark-color',       config.hiddenTextDarkColor,       '', d.hiddenTextDarkColor);
+    updateStyle(containerNode, '--skipto-hidden-background-color',      config.hiddenBackgroundColor,     '', d.hiddenBackgroundColor);
+    updateStyle(containerNode, '--skipto-hidden-background-dark-color', config.hiddenBackgroundDarkColor, '', d.hiddenBackgroundDarkColor);
+
     updateStyle(containerNode, '--skipto-z-index-1', config.zIndex, theme.zIndex, d.zIndex);
+
 
     const buttonNode = containerNode.querySelector('button');
     const rect = buttonNode.getBoundingClientRect();
@@ -1513,132 +1631,20 @@ dialog button:hover {
   const minWidth = 68;
   const minHeight = 27;
 
-  const defaultStyleOptions$1 = colorThemes['default'];
-
-  const styleHighlightTemplate = document.createElement('template');
-  styleHighlightTemplate.textContent = `
-:root {
-  color-scheme: light dark;
-}
-
-#${HIGHLIGHT_ID} {
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  border-radius: $highlightOffsetpx;
-  border: $shadowBorderWidthpx solid light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
-  box-sizing: border-box;
-  pointer-events:none;
-  z-index: $zHighlight;
-}
-
-#${HIGHLIGHT_ID}.hasInfoBottom,
-#${HIGHLIGHT_ID} .overlay-border.hasInfoBottom {
-  border-radius: $highlightOffsetpx $highlightOffsetpx $highlightOffsetpx 0;
-}
-
-#${HIGHLIGHT_ID}.hasInfoTop,
-#${HIGHLIGHT_ID} .overlay-border.hasInfoTop {
-  border-radius: 0 $highlightOffsetpx $highlightOffsetpx $highlightOffsetpx;
-}
-
-#${HIGHLIGHT_ID} .overlay-border {
-  margin: 0;
-  padding: 0;
-  position: relative;
-  border-radius: $highlightOffsetpx;
-  border: $overlayBorderWidthpx $highlightBorderStyle light-dark($focusBorderColor, $focusBorderDarkColor);
-  z-index: $zHighlight;
-  box-sizing: border-box;
-  pointer-events:none;
-  background: transparent;
-}
-
-
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-#hidden-elem-msg {
-  position: absolute;
-  margin: 0;
-  padding: .25em;
-  background-color: light-dark($hiddenHeadingBackgroundColor, $hiddenHeadingBackgroundDarkColor);
-  color: light-dark($hiddenHeadingColor, $hiddenHeadingDarkColor);
-  font-family: $fontFamily;
-  font-size: $fontSize;
-  font-style: italic;
-  font-weight: bold;
-  text-align: center;
-  animation: fadeIn 1.5s;
-  z-index: $zHighlight;
-}
-
-#${HIGHLIGHT_ID} .overlay-info {
-  margin: 0;
-  padding: 2px;
-  position: relative;
-  text-align: left;
-  font-size: $fontSize;
-  font-family: $fontFamily;
-  border: $infoBorderWidthpx solid light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
-  background-color: light-dark($menuBackgroundColor, $menuBackgroundDarkColor);
-  color: light-dark($menuTextColor, $menuTextDarkColor);
-  z-index: $zHighlight;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  pointer-events:none;
-}
-
-#${HIGHLIGHT_ID} .overlay-info.hasInfoTop {
-  border-radius: $highlightOffsetpx $highlightOffsetpx 0 0;
-}
-
-#${HIGHLIGHT_ID} .overlay-info.hasInfoBottom {
-  border-radius: 0 0 $highlightOffsetpx $highlightOffsetpx;
-}
-
-@media (forced-colors: active) {
-
-  #${HIGHLIGHT_ID} {
-    border-color: ButtonBorder;
-  }
-
-  #${HIGHLIGHT_ID} .overlay-border {
-    border-color: ButtonBorder;
-  }
-
-  #${HIGHLIGHT_ID} .overlay-border.skip-to-hidden {
-    background-color: ButtonFace;
-    color: ButtonText;
-  }
-
-  #${HIGHLIGHT_ID} .overlay-info {
-    border-color: ButtonBorder;
-    background-color: ButtonFace;
-    color: ButtonText;
-  }
-
-}
-`;
-
   /*
    *   @class HighlightElement
    *
    */
 
-  class HighlightElement extends HTMLElement {
+  class HighlightElement {
 
-    constructor() {
-      super();
-      this.attachShadow({ mode: 'open' });
+    constructor(attachElem) {
 
       // Get references
 
       this.overlayElem  = document.createElement('div');
       this.overlayElem.id = HIGHLIGHT_ID;
-      this.shadowRoot.appendChild(this.overlayElem);
+      attachElem.appendChild(this.overlayElem);
       this.overlayElem.style.display = 'none';
 
       this.borderElem = document.createElement('div');
@@ -1650,8 +1656,8 @@ dialog button:hover {
       this.overlayElem.appendChild(this.infoElem);
 
       this.hiddenElem = document.createElement('div');
-      this.hiddenElem.id = 'hidden-elem-msg';
-      this.shadowRoot.appendChild(this.hiddenElem);
+      this.hiddenElem.id = HIDDEN_MESSAGE_ID;
+      attachElem.appendChild(this.hiddenElem);
       this.hiddenElem.style.display = 'none';
 
       this.borderWidth    = 0;
@@ -1674,15 +1680,6 @@ dialog button:hover {
 
     configureStyle(config={}) {
 
-      function updateOption(style, option, configOption, defaultOption) {
-        if (configOption) {
-          return style.replaceAll(option, configOption);
-        }
-        else {
-          return style.replaceAll(option, defaultOption);
-        }
-      }
-
       // Get i18n Messages
 
       this.msgHeadingIsHidden = typeof config.msgHeadingIsHidden === 'string' ?
@@ -1698,87 +1695,11 @@ dialog button:hover {
                               'Element is hidden';
 
 
-      // make a copy of the template
-      let style = styleHighlightTemplate.textContent.slice(0);
-
-      style = updateOption(style,
-                           '$fontFamily',
-                           config.fontFamily,
-                           defaultStyleOptions$1.fontFamily);
-
-      style = updateOption(style,
-                           '$buttonBackgroundColor',
-                           config.buttonBackgroundColor,
-                           defaultStyleOptions$1.buttonBackgroundColor);
-
-      style = updateOption(style,
-                           '$buttonBackgroundDarkColor',
-                           config.buttonBackgroundDarkColor,
-                           defaultStyleOptions$1.buttonBackgroundDarkColor);
-
-      style = updateOption(style,
-                           '$focusBorderColor',
-                           config.focusBorderColor,
-                           defaultStyleOptions$1.focusBorderColor);
-
-      style = updateOption(style,
-                           '$focusBorderDarkColor',
-                           config.focusBorderDarkColor,
-                           defaultStyleOptions$1.focusBorderDarkColor);
-
-      style = updateOption(style,
-                           '$menuBackgroundColor',
-                           config.menuBackgroundColor,
-                           defaultStyleOptions$1.menuBackgroundColor);
-
-      style = updateOption(style,
-                           '$menuBackgroundDarkColor',
-                           config.menuBackgroundDarkColor,
-                           defaultStyleOptions$1.menuBackgroundDarkColor);
-
-      style = updateOption(style,
-                           '$menuTextColor',
-                           config.menuTextColor,
-                           defaultStyleOptions$1.menuTextColor);
-
-      style = updateOption(style,
-                           '$menuTextDarkColor',
-                           config.menuTextDarkColor,
-                           defaultStyleOptions$1.menuTextDarkColor);
-
-      style = updateOption(style,
-                           '$hiddenHeadingColor',
-                           config.hiddenHeadingColor,
-                           defaultStyleOptions$1.hiddenHeadingColor);
-
-      style = updateOption(style,
-                           '$hiddenHeadingDarkColor',
-                           config.hiddenHeadingDarkColor,
-                           defaultStyleOptions$1.hiddenHeadingDarkColor);
-
-      style = updateOption(style,
-                           '$hiddenHeadingBackgroundColor',
-                           config.hiddenHeadingBackgroundColor,
-                           defaultStyleOptions$1.hiddenHeadingBackgroundColor);
-
-      style = updateOption(style,
-                           '$hiddenHeadingBackgroundDarkColor',
-                           config.hiddenHeadingBackgroundDarkColor,
-                           defaultStyleOptions$1.hiddenHeadingBackgroundDarkColor);
-
-      style = updateOption(style,
-                           '$zHighlight',
-                           config.zHighlight,
-                           defaultStyleOptions$1.zHighlight);
-
-      style = updateOption(style,
-                           '$highlightBorderStyle',
-                           config.highlightBorderStyle,
-                           defaultStyleOptions$1.highlightBorderStyle);
+  /*
 
       const highlightBorderSize =  config.highlightBorderSize ?
                                    config.highlightBorderSize :
-                                   defaultStyleOptions$1.highlightBorderSize;
+                                   defaultStyleOptions.highlightBorderSize;
 
       switch (highlightBorderSize) {
         case 'small':
@@ -1817,10 +1738,6 @@ dialog button:hover {
           break;
       }
 
-      style = updateOption(style,
-                           '$fontSize',
-                           this.fontSize,
-                           defaultStyleOptions$1.fontSize);
 
       style = updateOption(style,
                            '$highlightOffset',
@@ -1842,15 +1759,7 @@ dialog button:hover {
                            this.borderWidth,
                            this.borderWidth);
 
-      let styleNode = this.shadowRoot.querySelector('style');
-
-      if (styleNode) {
-        styleNode.remove();
-      }
-
-      styleNode = document.createElement('style');
-      styleNode.textContent = style;
-      this.shadowRoot.appendChild(styleNode);
+  */
 
     }
 
@@ -3522,9 +3431,9 @@ dialog button:hover {
    */
   function monitorKeyboardFocus () {
     document.addEventListener('focusin', () => {
-      const highlightElem = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
-      if (highlightElem) {
-        highlightElem.removeHighlight();
+      const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME) | document.querySelector(BOOKMARKLET_ELEMENT_NAME);
+      if (skipToContentElem) {
+        skipToContentElem.removeHighlight();
       }
     });
   }
@@ -3579,9 +3488,9 @@ dialog button:hover {
         }
       }
 
-      const highlightElem = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
-      if (highlightElem) {
-        highlightElem.highlight(elem, 'instant', info, true);  // force highlight
+      const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME) || document.querySelector(BOOKMARKLET_ELEMENT_NAME);
+      if (skipToContentElem) {
+        skipToContentElem.highlight(elem, 'instant', info, true);  // force highlight
       }
 
     }
@@ -3895,9 +3804,9 @@ dialog button:hover {
     </button>
     <div id="${MENU_ID}"
          role="menu"
-         aria-label="${MENU_LANDMARK_GROUP_LABEL_ID}"
+         aria-label="Skip to Content"
          style="display: none;">
-      <div id="id-skip-to-landmark-group-label"
+      <div id="${MENU_LANDMARK_GROUP_LABEL_ID}"
            role="separator"
            aria-label="Landmark Regions">
         Landmark Regions (nn)
@@ -3922,9 +3831,9 @@ dialog button:hover {
            class="shortcuts-disabled">
         Shortcuts: Disabled
       </div>
-      <div id="id-skip-to-shortcuts-group"
+      <div id="${MENU_SHORTCUTS_GROUP_ID}"
            role="group"
-           aria-labelledby="id-skip-to-shortcuts-group-label"
+           aria-labelledby="${MENU_SHORTCUTS_GROUP_LABEL_ID}"
            class="shortcuts-disabled">
       </div>
       <div role="separator"></div>
@@ -4038,14 +3947,8 @@ dialog button:hover {
 
         // Highlight element
 
-        this.highlightElem = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
-
-        if (!this.highlightElem) {
-          window.customElements.define(HIGHLIGHT_ELEMENT_NAME, HighlightElement);
-          this.highlightElem = document.createElement(HIGHLIGHT_ELEMENT_NAME);
-          this.highlightElem.configureStyle(this.config);
-          document.body.appendChild(this.highlightElem);
-        }
+        this.highlight = new HighlightElement(this.containerNode);
+        this.highlight.configureStyle(this.config);
 
         this.menuButtonNode.addEventListener('focusin', this.handleFocusin.bind(this));
         this.menuButtonNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -4079,6 +3982,32 @@ dialog button:hover {
         }
 
         return '';
+      }
+
+
+      /*
+       *   @method highlight
+       *
+       *   @desc  Highlights the element on the page when highlighting
+       *          is enabled (NOTE: Highlight is enabled by default)
+       *
+       *   @param {Object}  elem            : DOM node of element to highlight
+       *   @param {String}  highlightTarget : value of highlight target
+       *   @param {String}  info            : Information about target
+       *   @param {Boolean} force           : If true override isRduced
+       */
+
+      highlight(elem, highlightTarget, info='', force=false) {
+        this.highlight.highlight(elem, highlightTarget, info, force);
+      }
+
+      /*
+       *   @method removeHighlight
+       *
+       *   @desc  Hides the highlight element on the page
+       */
+      removeHighlight() {
+        this.highlight.removeHighlight();
       }
 
       /*
@@ -4121,6 +4050,10 @@ dialog button:hover {
         this.menuNode.setAttribute('aria-label', config.menuLabel);
         this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel);
         this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel);
+
+        this.highlight.configureStyle(config);
+
+
       }
 
       /*
@@ -4479,10 +4412,10 @@ dialog button:hover {
           this.focusMenuitem = menuitem;
           if (menuitem.hasAttribute('data-id')) {
             const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
-            this.highlightElem.highlight(elem, this.highlightTarget);
+            this.highlight.highlight(elem, this.highlightTarget);
           }
           else {
-            this.highlightElem.removeHighlight();
+            this.highlight.removeHighlight();
           }
         }
       }
@@ -4649,7 +4582,7 @@ dialog button:hover {
         if (this.isOpen()) {
           this.buttonNode.setAttribute('aria-expanded', 'false');
           this.menuNode.style.display = 'none';
-          this.highlightElem.removeHighlight();
+          this.highlight.removeHighlight();
           this.buttonNode.classList.remove('menu');
         }
       }
@@ -5104,10 +5037,10 @@ dialog button:hover {
         tgt.classList.add('hover');
         if (tgt.hasAttribute('data-id')) {
           const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
-          this.highlightElem.highlight(elem, this.highlightTarget);
+          this.highlight.highlight(elem, this.highlightTarget);
         }
         else {
-          this.highlightElem.removeHighlight();
+          this.highlight.removeHighlight();
         }
         event.stopPropagation();
         event.preventDefault();
@@ -5117,10 +5050,10 @@ dialog button:hover {
         let tgt = event.currentTarget;
         if (tgt.hasAttribute('data-id')) {
           const elem = queryDOMForSkipToId(tgt.getAttribute('data-id'));
-          this.highlightElem.highlight(elem, this.highlightTarget);
+          this.highlight.highlight(elem, this.highlightTarget);
         }
         else {
-          this.highlightElem.removeHighlight();
+          this.highlight.removeHighlight();
         }
         event.stopPropagation();
         event.preventDefault();
@@ -5169,10 +5102,10 @@ dialog button:hover {
           mi.classList.add('hover');
           if (mi.hasAttribute('data-id')) {
             const elem = queryDOMForSkipToId(mi.getAttribute('data-id'));
-            this.highlightElem.highlight(elem, this.highlightTarget);
+            this.highlight.highlight(elem, this.highlightTarget);
           }
           else {
-            this.highlightElem.removeHighlight();
+            this.highlight.removeHighlight();
           }
         }
 
@@ -5363,10 +5296,10 @@ dialog button:hover {
                               // options: 'solid' (default), 'dotted', 'dashed'
 
         // Hidden heading when highlighting
-        hiddenHeadingColor: '#000000',
-        hiddenHeadingDarkColor: '#000000',
-        hiddenHeadingBackgroundColor: '#ffcc00',
-        hiddenHeadingBackgroundDarkColor: '#ffcc00',
+        hiddenTextColor: '#000000',
+        hiddenTextDarkColor: '#000000',
+        hiddenBackgroundColor: '#ffcc00',
+        hiddenBackgroundDarkColor: '#ffcc00',
 
         //Dialog styling
         dialogTextColor: '#000000',
@@ -5593,12 +5526,6 @@ dialog button:hover {
         renderStyleElement(this.shadowRoot, config);
         this.buttonSkipTo.updateLabels(config);
         this.buttonSkipTo.setDisplayOption(config['displayOption']);
-      }
-
-      const highlight = document.querySelector(HIGHLIGHT_ELEMENT_NAME);
-      debug$1.flag && debug$1.log(`[highlight]: ${highlight}`);
-      if (highlight) {
-        highlight.configureStyle(config);
       }
 
       return config;

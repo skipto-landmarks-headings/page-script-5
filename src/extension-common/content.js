@@ -4,6 +4,7 @@ const debug = false;
 
 // These constants are defined in '../constants.js'
 const EXTENSION_ELEMENT_NAME = 'skip-to-content-extension';
+const SCRIPT_EXTENSION_ID    = `id-skip-to-extension`;
 const ATTR_SKIP_TO_DATA      = 'data-skipto';
 
 // Define browser specific APIs for Opera, Firefox and Chrome
@@ -15,7 +16,7 @@ const browserRuntime = typeof browser === 'object' ?
 // Add SkipTo.js script to page
 const scriptNode = document.createElement('script');
 scriptNode.type = 'text/javascript';
-scriptNode.id = 'id-skip-to-extension';
+scriptNode.id = SCRIPT_EXTENSION_ID;
 scriptNode.setAttribute(ATTR_SKIP_TO_DATA, 'displayOption: popup');
 scriptNode.src = browserRuntime.getURL('skipto.js');
 document.body.appendChild(scriptNode);
