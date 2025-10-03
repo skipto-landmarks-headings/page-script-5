@@ -54,19 +54,19 @@ export default class HighlightElement {
 
     this.msgHeadingIsHidden = '';
 
-    this.configureStyle();
+    this.configureMessageSizes();
 
   }
 
   /*
-   *   @method configureStyle
+   *   @method configureMessageSizes
    *
    *   @desc  Updates stylesheet for styling the highlight information
    *
    *   @param {Object} config : color and font information
    */
 
-  configureStyle(config={}) {
+  configureMessageSizes(config={}) {
 
     // Get i18n Messages
 

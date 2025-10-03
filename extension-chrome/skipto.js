@@ -1732,19 +1732,19 @@ dialog button:hover {
 
       this.msgHeadingIsHidden = '';
 
-      this.configureStyle();
+      this.configureMessageSizes();
 
     }
 
     /*
-     *   @method configureStyle
+     *   @method configureMessageSizes
      *
      *   @desc  Updates stylesheet for styling the highlight information
      *
      *   @param {Object} config : color and font information
      */
 
-    configureStyle(config={}) {
+    configureMessageSizes(config={}) {
 
       // Get i18n Messages
 
@@ -3949,7 +3949,7 @@ dialog button:hover {
         // Highlight element
 
         this.highlightElement = new HighlightElement(this.containerNode);
-        this.highlightElement.configureStyle(this.config);
+        this.highlightElement.configureMessageSizes(this.config);
 
         this.menuButtonNode.addEventListener('focusin', this.handleFocusin.bind(this));
         this.menuButtonNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -4052,7 +4052,7 @@ dialog button:hover {
         this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel);
         this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel);
 
-        this.highlightElement.configureStyle(config);
+        this.highlightElement.configureMessageSizes(config);
 
 
       }

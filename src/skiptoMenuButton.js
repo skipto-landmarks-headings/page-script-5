@@ -202,7 +202,7 @@ export default class SkiptoMenuButton {
       // Highlight element
 
       this.highlightElement = new HighlightElement(this.containerNode);
-      this.highlightElement.configureStyle(this.config);
+      this.highlightElement.configureMessageSizes(this.config);
 
       this.menuButtonNode.addEventListener('focusin', this.handleFocusin.bind(this));
       this.menuButtonNode.addEventListener('focusout', this.handleFocusout.bind(this));
@@ -305,7 +305,7 @@ export default class SkiptoMenuButton {
       this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel);
       this.headingGroupLabelNode.textContent = this.addNumberToGroupLabel(config.headingGroupLabel);
 
-      this.highlightElement.configureStyle(config);
+      this.highlightElement.configureMessageSizes(config);
 
 
     }
