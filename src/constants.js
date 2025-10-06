@@ -12,7 +12,6 @@ export const SKIP_TO_MENU_STYLE_ID = 'id-skip-to-menu-style';
 export const SCRIPT_EXTENSION_ID   = `id-skip-to-extension`;
 export const SCRIPT_BOOKMARKLET_ID = `id-skip-to-bookmarklet`;
 
-export const MENU_ID   = 'id-skip-to-menu';
 
 export const MENU_LANDMARK_GROUP_ID        = 'id-skip-to-landmark-group';
 export const MENU_LANDMARK_GROUP_LABEL_ID  = 'id-skip-to-landmark-group-label';
@@ -25,8 +24,10 @@ export const MENU_SHORTCUTS_GROUP_LABEL_ID = 'id-skip-to-shortcuts-group-label';
 
 export const MENU_ABOUT_ID     = 'id-skip-to-about';
 
+export const BUTTON_ID         = 'id-skip-to-button';
+export const MENU_ID           = 'id-skip-to-menu';
+export const DIALOG_ID         = 'id-skip-to-dialog';
 export const MESSAGE_ID        = 'id-skip-to-message';
-
 export const HIGHLIGHT_ID      = 'id-skip-to-highlight-overlay';
 export const HIDDEN_ELEMENT_ID = 'id-skip-to-hidden-element';
 

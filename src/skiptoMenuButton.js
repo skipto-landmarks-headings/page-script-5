@@ -12,6 +12,7 @@ import ShortcutsMessage         from './shortcutsMessage.js';
 import HighlightElement         from './highlightElement.js';
 
 import {
+  BUTTON_ID,
   MENU_ID,
   MENU_LANDMARK_GROUP_ID,
   MENU_LANDMARK_GROUP_LABEL_ID,
@@ -19,7 +20,8 @@ import {
   MENU_HEADINGS_GROUP_LABEL_ID,
   MENU_SHORTCUTS_GROUP_ID,
   MENU_SHORTCUTS_GROUP_LABEL_ID,
-  MENU_ABOUT_ID
+  MENU_ABOUT_ID,
+  SKIP_TO_ID
 } from './constants.js';
 
 import {
@@ -48,7 +50,8 @@ debug.flag = false;
 
 const templateMenuButton = document.createElement('template');
 templateMenuButton.innerHTML = `
-    <button aria-haspopup="menu"
+    <button id="${BUTTON_ID}"
+            aria-haspopup="menu"
             aria-expanded= "false"
             aria-label="Skip To Content"
             aria-controls="id-skip-to-menu">
@@ -127,6 +130,7 @@ export default class SkiptoMenuButton {
 
       this.menuButtonNode = document.createElement(ce);
       this.menuButtonNode.className = 'menu-button';
+      this.menuButtonNode.id = SKIP_TO_ID;
       this.containerNode.appendChild(this.menuButtonNode);
 
       if (ce === 'nav') {
@@ -1059,7 +1063,7 @@ export default class SkiptoMenuButton {
               break;
 
             case this.config.shortcutRegionNext:
-              elem = navigateContent('landmark', 'next', this.config.msgHeadingLevel);
+              elem = navigateContent(this.highlight, 'landmark', 'next', this.config.msgHeadingLevel);
               if (!elem) {
                 this.shortcutsMessage.open(this.config.msgNoMoreRegions);
               }

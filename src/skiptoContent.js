@@ -403,7 +403,7 @@ export default class SkipToContent590 extends HTMLElement {
     return config;
   }
 
-    /*
+  /*
    * @method supportShortcuts
    *
    * @desc  Set suuportShortcuts configuration property
@@ -420,4 +420,32 @@ export default class SkipToContent590 extends HTMLElement {
       this.config.shortcuts = 'disabled';
     }
   }
+
+ /*
+   *   @method highlight
+   *
+   *   @desc  Highlights the element on the page when highlighting
+   *          is enabled (NOTE: Highlight is enabled by default)
+   *
+   *   @param {Object}  elem            : DOM node of element to highlight
+   *   @param {String}  highlightTarget : value of highlight target
+   *   @param {String}  info            : Information about target
+   *   @param {Boolean} force           : If true override isRduced
+   */
+
+  highlight(elem, highlightTarget='instant', info='', force=false) {
+    this.buttonSkipto.highlight(elem, highlightTarget, info, force);
+  }
+
+  /*
+   *   @method removeHighlight
+   *
+   *   @desc  Hides the highlight element on the page
+   */
+  removeHighlight() {
+    debug.log(`[removeHighlight]`);
+    this.buttonSkipto.removeHighlight();
+
+  }
+
 }

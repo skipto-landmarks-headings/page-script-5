@@ -38,9 +38,10 @@ debug.flag = false;
  */
 function monitorKeyboardFocus () {
   document.addEventListener('focusin', () => {
-    const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME) | document.querySelector(BOOKMARKLET_ELEMENT_NAME);
+    const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME) || document.querySelector(BOOKMARKLET_ELEMENT_NAME);
+    debug.log(`[monitorKeyboardFocus]: ${skipToContentElem}`);
     if (skipToContentElem) {
-      skipToContentElem.removeHighlight();
+      skipToContentElem.buttonSkipTo.removeHighlight();
     }
   });
 }
@@ -58,13 +59,12 @@ function monitorKeyboardFocus () {
 
 function navigateContent (target, direction, msgHeadingLevel, useFirst=false, nameRequired=false) {
 
-  const lastFocusElem = getFocusElement();
+  let lastFocusElem = getFocusElement();
   let elem = lastFocusElem;
   let lastElem;
   let count = 0;
 
   // Note: The counter is used as a safety mechanism for any endless loops
-
   do {
     lastElem = elem;
     elem = queryDOMForSkipToNavigation(target, direction, elem, useFirst, nameRequired);
@@ -97,7 +97,7 @@ function navigateContent (target, direction, msgHeadingLevel, useFirst=false, na
 
     const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME) || document.querySelector(BOOKMARKLET_ELEMENT_NAME);
     if (skipToContentElem) {
-      skipToContentElem.highlight(elem, 'instant', info, true);  // force highlight
+      skipToContentElem.buttonSkipTo.highlight(elem, 'instant', info, true);  // force highlight
     }
 
   }

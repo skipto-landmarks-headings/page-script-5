@@ -4,6 +4,7 @@
 import DebugLogging  from './debug.js';
 
 import {
+  DIALOG_ID,
   MORE_ABOUT_INFO_URL,
   MORE_SHORTCUT_INFO_URL
 } from './constants.js';
@@ -14,7 +15,7 @@ debug.flag = false;
 
 const templateInfoDialog = document.createElement('template');
 templateInfoDialog.innerHTML = `
-  <dialog>
+  <dialog id="${DIALOG_ID}">
     <div class="header">
       <h2>Keyboard Shortcuts</h2>
       <button>✕</button>
