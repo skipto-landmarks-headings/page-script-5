@@ -31,7 +31,7 @@ window.addEventListener('load', function() {
     debug && console.log(`[load][skipToContentElem]: ${skipToContentElem}`);
     if (skipToContentElem) {
       skipToContentElem.setAttribute(ATTR_SKIP_TO_DATA, params);
-      skipToContentElem.setAttribute('setfocus', getFocusOption(params));
+//      skipToContentElem.setAttribute('setfocus', getFocusOption(params));
     }
   })
 });

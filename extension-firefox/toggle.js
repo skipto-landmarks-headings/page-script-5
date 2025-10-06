@@ -13,10 +13,10 @@
   if (skipToContentElem) {
     const focus = skipToContentElem.getAttribute('focus');
     if (focus === 'menu') {
-      skipToContentElem.setAttribute('setfocus', 'none');
+//      skipToContentElem.setAttribute('setfocus', 'none');
     }
     else {
-      skipToContentElem.setAttribute('setfocus', 'menu');
+//      skipToContentElem.setAttribute('setfocus', 'menu');
     }
   }
 

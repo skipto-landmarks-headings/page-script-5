@@ -4410,7 +4410,7 @@ dialog button:hover {
           this.removeHoverClass(menuitem);
           menuitem.classList.add('hover');
           menuitem.focus();
-          this.skipToContentElem.setAttribute('focus', 'menu');
+  //        this.skipToContentElem.setAttribute('focus', 'menu');
           this.focusMenuitem = menuitem;
           if (menuitem.hasAttribute('data-id')) {
             const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
@@ -4717,12 +4717,12 @@ dialog button:hover {
       
       handleFocusin() {
         this.buttonNode.classList.add('focus');
-        this.skipToContentElem.setAttribute('focus', 'button');
+  //      this.skipToContentElem.setAttribute('focus', 'button');
       }
       
       handleFocusout() {
         this.buttonNode.classList.remove('focus');
-        this.skipToContentElem.setAttribute('focus', 'none');
+  //      this.skipToContentElem.setAttribute('focus', 'none');
       }
       
       handleButtonKeydown(event) {
@@ -4741,7 +4741,7 @@ dialog button:hover {
           case 'Escape':
             this.closePopup();
             this.buttonNode.focus();
-            this.skipToContentElem.setAttribute('focus', 'button');
+  //          this.skipToContentElem.setAttribute('focus', 'button');
             flag = true;
             break;
           case 'Up':
@@ -4761,7 +4761,7 @@ dialog button:hover {
         if (this.isOpen()) {
           this.closePopup();
           this.buttonNode.focus();
-          this.skipToContentElem.setAttribute('focus', 'button');
+  //        this.skipToContentElem.setAttribute('focus', 'button');
         } else {
           this.openPopup();
           this.setFocusToFirstMenuitem();
@@ -4803,7 +4803,7 @@ dialog button:hover {
                 break;
 
               case this.config.shortcutRegionNext:
-                elem = navigateContent(this.highlight, 'landmark', 'next', this.config.msgHeadingLevel);
+                elem = navigateContent('landmark', 'next', this.config.msgHeadingLevel);
                 if (!elem) {
                   this.shortcutsMessage.open(this.config.msgNoMoreRegions);
                 }
@@ -4931,10 +4931,12 @@ dialog button:hover {
 
         if (tgt.hasAttribute('data-shortcuts-toggle')) {
           if (tgt.getAttribute('data-shortcuts-toggle') === 'enable') {
-            this.skipToContentElem.setAttribute('shortcuts', 'enable');
+            this.config.shortcuts = 'enabled';
+  //          this.skipToContentElem.setAttribute('shortcuts', 'enable');
           }
           else {
-            this.skipToContentElem.setAttribute('shortcuts', 'disable');
+            this.config.shortcuts = 'disabled';
+  //          this.skipToContentElem.setAttribute('shortcuts', 'disable');
           }
           this.closePopup();
         }
@@ -4970,7 +4972,7 @@ dialog button:hover {
           if (event.key === 'Tab') {
             this.closePopup();
             this.buttonNode.focus();
-            this.skipToContentElem.setAttribute('focus', 'button');
+  //          this.skipToContentElem.setAttribute('focus', 'button');
             flag = true;
           }
         } else {
@@ -4984,7 +4986,7 @@ dialog button:hover {
             case 'Escape':
               this.closePopup();
               this.buttonNode.focus();
-              this.skipToContentElem.setAttribute('focus', 'button');
+  //            this.skipToContentElem.setAttribute('focus', 'button');
               flag = true;
               break;
             case 'Left':
@@ -5082,7 +5084,7 @@ dialog button:hover {
               if (!this.isOverMenu(event.clientX, event.clientY)) {
                 this.closePopup();
                 this.buttonNode.focus();
-                this.skipToContentElem.setAttribute('focus', 'button');
+  //              this.skipToContentElem.setAttribute('focus', 'button');
               }
             }
             else {
@@ -5132,7 +5134,7 @@ dialog button:hover {
             if (this.isOpen()) {
               this.closePopup();
               this.buttonNode.focus();
-              this.skipToContentElem.setAttribute('focus', 'button');
+  //            this.skipToContentElem.setAttribute('focus', 'button');
             }        
           }
         }
@@ -5435,8 +5437,7 @@ dialog button:hover {
         }
 
       }
-
-      this.setAttribute('focus', 'none');
+  //    this.setAttribute('focus', 'none');
     }
 
    /*

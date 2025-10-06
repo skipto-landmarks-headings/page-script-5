@@ -305,8 +305,7 @@ export default class SkipToContent590 extends HTMLElement {
       }
 
     }
-
-    this.setAttribute('focus', 'none');
+//    this.setAttribute('focus', 'none');
   }
 
  /*
