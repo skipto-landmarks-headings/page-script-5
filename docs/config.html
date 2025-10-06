@@ -163,14 +163,17 @@
                      </td>
                   </tr>
                   <tr>
-                     <td style="text-align: left"><code>customClass</code></td>
+                     <td style="text-align: left">
+                        <code>customClass</code><br>
+                        <i>(Deprecated)</i>
+                     </td>
                      <td style="text-align: left">none</td>
-                     <td style="text-align: left">CSS class added to the container element (e.g. <code>nav</code> or <code>div</code>). Can be used for customize styling of the button and menu with author supplied stylesheet.</td>
+                     <td style="text-align: left">CSS class added to the container element (e.g. <code>nav</code> or <code>div</code>). Can be used for customize styling of the button and menu with author supplied stylesheet.  This feature is deprecated since SkipTo.js is now using a custom element, which make using custom class more difficut.  Support maybe removed in future versions.</td>
                   </tr>
                </tbody>
             </table>
 
-            <p><strong>NOTE: </strong> The <code>attachElement</code> property is no longer supported due to scroll to content feature and the menu being in a fixed position at the top of the page.</p>
+            <p><strong>NOTE: </strong> The <code>attachElement</code> property is no longer supported due to scroll to content feature and the menu being in a fixed position at the top of the page. </p>
 
             <h2 id="button-positioning">Button Positioning</h2>
 
@@ -309,7 +312,7 @@
                   <tr>
                      <th style="text-align: left">Property</th>
                      <th style="text-align: left">Type</th>
-                     <th style="text-align: left">Default</th>
+                     <th style="text-align: left; min-width: 180px">Default</th>
                      <th style="text-align: left">Description</th>
                   </tr>
                </thead>
@@ -317,43 +320,85 @@
                   <tr>
                      <td style="text-align: left"><code>buttonTextColor</code></td>
                      <td style="text-align: left">Color</td>
-                     <td style="text-align: left"><code>#1a1a1a</code></td>
+                     <td style="text-align: left"><code>hsl(216, 60%, 18%)</code></td>
                      <td style="text-align: left">Color of text for “Skip To Content” button.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>buttonTextDarkColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code>hsl(216, 60%, 72%)</code></td>
+                     <td style="text-align: left">Color of text for “Skip To Content” button in dark appearance mode.</td>
                   </tr>
                   <tr>
                      <td style="text-align: left"><code>buttonBackgroundColor</code></td>
                      <td style="text-align: left">Color</td>
-                     <td style="text-align: left"><code>#eeeeee</code></td>
+                     <td style="text-align: left"><code>hsl(0, 0%, 87%)</code></td>
                      <td style="text-align: left">Background color of text for “Skip To Content” button.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>buttonBackgroundDarkColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code>hsl(0, 0%, 13%)</code></td>
+                     <td style="text-align: left">Background color of text for “Skip To Content” button in dark appearance mode.</td>
                   </tr>
                   <tr>
                      <td style="text-align: left"><code>focusBorderColor</code></td>
                      <td style="text-align: left">Color</td>
-                     <td style="text-align: left"><code>#1a1a1a</code></td>
+                     <td style="text-align: left"><code>hsl(358, 95%, 40%)</code></td>
                      <td style="text-align: left">Border color for items with keyboard focus.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>focusBorderColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code>hsl(358, 95%, 60%)</code></td>
+                     <td style="text-align: left">Border color for items with keyboard focus in dark appearance mode.</td>
                   </tr>
                   <tr>
                      <td style="text-align: left"><code>menuTextColor</code></td>
                      <td style="text-align: left">Color</td>
-                     <td style="text-align: left"><code>#1a1a1a</code></td>
+                     <td style="text-align: left"><code>hsl(216, 60%, 18%)</code></td>
                      <td style="text-align: left">Menu text color</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>menuTextDarkColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code>hsl(216, 60%, 72%)</code></td>
+                     <td style="text-align: left">Menu text color in dark appearance mode.</td>
                   </tr>
                   <tr>
                      <td style="text-align: left"><code>menuBackgroundColor</code></td>
                      <td style="text-align: left">Color</td>
-                     <td style="text-align: left"><code>#dcdcdc</code></td>
+                     <td style="text-align: left"><code>hsl(0, 0%, 87%)</code></td>
                      <td style="text-align: left">Menu background color.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>menuBackgroundDarkColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code>hsl(0, 0%, 13%)</code></td>
+                     <td style="text-align: left">Menu background color in dark appearance mode.</td>
                   </tr>
                   <tr>
                      <td style="text-align: left"><code>menuitemFocusTextColor</code></td>
                      <td style="text-align: left">Color</td>
-                     <td style="text-align: left"><code>#eeeeee</code></td>
+                     <td style="text-align: left"><code>hsl(0, 0%, 87%)</code></td>
                      <td style="text-align: left">Menuitem text color when a menuitem has focus.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>menuitemFocusTextColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code>hsl(0, 0%, 13%)</code></td>
+                     <td style="text-align: left">Menuitem text color when a menuitem has focus in dark appearance mode.</td>
                   </tr>
                   <tr>
                      <td style="text-align: left"><code>menuitemFocusBackgroundColor</code></td>
                      <td style="text-align: left">Color</td>
-                     <td style="text-align: left"><code>#1a1a1a</code></td>
+                     <td style="text-align: left"><code>hsl(216, 60%, 18%)</code></td>
+                     <td style="text-align: left">Menuitem text background when a menuitem has focus.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>menuitemFocusBackgroundDarkColor</code></td>
+                     <td style="text-align: left">Color</td>
+                     <td style="text-align: left"><code>hsl(216, 60%, 72%)</code></td>
                      <td style="text-align: left">Menuitem text background when a menuitem has focus.</td>
                   </tr>
                </tbody>

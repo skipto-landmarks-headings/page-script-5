@@ -251,23 +251,26 @@ export default class SkipToContent590 extends HTMLElement {
     }
 
     if (name === 'setfocus') {
-        switch(newValue) {
-          case 'button':
-            this.buttonSkipTo.closePopup();
-            this.buttonSkipTo.buttonNode.focus();
-            break;
+      switch (newValue.trim().toLowerCase()) {
 
-          case 'menu':
-            this.buttonSkipTo.openPopup();
-            this.buttonSkipTo.setFocusToFirstMenuitem();
-            break;
+        case 'button':
+          this.buttonSkipTo.closePopup();
+          this.buttonSkipTo.buttonNode.focus();
+          break;
 
-          case 'none':
-            this.buttonSkipTo.closePopup();
-            document.body.focus();
-            break;
-        }
+        case 'menu':
+          this.buttonSkipTo.openPopup();
+          this.buttonSkipTo.setFocusToFirstMenuitem();
+          break;
+
+        default:
+          this.buttonSkipTo.closePopup();
+          document.body.focus();
+          break;
+      }
     }
+
+
   }
 
   /*

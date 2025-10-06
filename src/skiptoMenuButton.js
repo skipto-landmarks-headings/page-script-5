@@ -136,6 +136,7 @@ export default class SkiptoMenuButton {
       if (ce === 'nav') {
         this.menuButtonNode.setAttribute('aria-label', this.config.buttonLabel);
       }
+
       if (isNotEmptyString(this.config.customClass)) {
         this.menuButtonNode.classList.add(this.config.customClass);
       }
@@ -666,7 +667,7 @@ export default class SkiptoMenuButton {
         this.removeHoverClass(menuitem);
         menuitem.classList.add('hover');
         menuitem.focus();
-//        this.skipToContentElem.setAttribute('focus', 'menu');
+        this.skipToContentElem.setAttribute('focus', 'menu');
         this.focusMenuitem = menuitem;
         if (menuitem.hasAttribute('data-id')) {
           const elem = queryDOMForSkipToId(menuitem.getAttribute('data-id'));
@@ -975,12 +976,12 @@ export default class SkiptoMenuButton {
     
     handleFocusin() {
       this.buttonNode.classList.add('focus');
-//      this.skipToContentElem.setAttribute('focus', 'button');
+      this.skipToContentElem.setAttribute('focus', 'button');
     }
     
     handleFocusout() {
       this.buttonNode.classList.remove('focus');
-//      this.skipToContentElem.setAttribute('focus', 'none');
+      this.skipToContentElem.setAttribute('focus', 'none');
     }
     
     handleButtonKeydown(event) {
@@ -999,7 +1000,7 @@ export default class SkiptoMenuButton {
         case 'Escape':
           this.closePopup();
           this.buttonNode.focus();
-//          this.skipToContentElem.setAttribute('focus', 'button');
+          this.skipToContentElem.setAttribute('focus', 'button');
           flag = true;
           break;
         case 'Up':
@@ -1021,7 +1022,7 @@ export default class SkiptoMenuButton {
       if (this.isOpen()) {
         this.closePopup();
         this.buttonNode.focus();
-//        this.skipToContentElem.setAttribute('focus', 'button');
+        this.skipToContentElem.setAttribute('focus', 'button');
       } else {
         this.openPopup();
         this.setFocusToFirstMenuitem();
@@ -1195,11 +1196,11 @@ export default class SkiptoMenuButton {
       if (tgt.hasAttribute('data-shortcuts-toggle')) {
         if (tgt.getAttribute('data-shortcuts-toggle') === 'enable') {
           this.config.shortcuts = 'enabled';
-//          this.skipToContentElem.setAttribute('shortcuts', 'enable');
+          this.skipToContentElem.setAttribute('shortcuts', 'enable');
         }
         else {
           this.config.shortcuts = 'disabled';
-//          this.skipToContentElem.setAttribute('shortcuts', 'disable');
+          this.skipToContentElem.setAttribute('shortcuts', 'disable');
         }
         this.closePopup();
       }
@@ -1235,7 +1236,7 @@ export default class SkiptoMenuButton {
         if (event.key === 'Tab') {
           this.closePopup();
           this.buttonNode.focus();
-//          this.skipToContentElem.setAttribute('focus', 'button');
+          this.skipToContentElem.setAttribute('focus', 'button');
           flag = true;
         }
       } else {
@@ -1249,7 +1250,7 @@ export default class SkiptoMenuButton {
           case 'Escape':
             this.closePopup();
             this.buttonNode.focus();
-//            this.skipToContentElem.setAttribute('focus', 'button');
+            this.skipToContentElem.setAttribute('focus', 'button');
             flag = true;
             break;
           case 'Left':
@@ -1347,7 +1348,7 @@ export default class SkiptoMenuButton {
             if (!this.isOverMenu(event.clientX, event.clientY)) {
               this.closePopup();
               this.buttonNode.focus();
-//              this.skipToContentElem.setAttribute('focus', 'button');
+              this.skipToContentElem.setAttribute('focus', 'button');
             }
           }
           else {
@@ -1397,7 +1398,7 @@ export default class SkiptoMenuButton {
           if (this.isOpen()) {
             this.closePopup();
             this.buttonNode.focus();
-//            this.skipToContentElem.setAttribute('focus', 'button');
+            this.skipToContentElem.setAttribute('focus', 'button');
           }        
         }
       }

@@ -485,7 +485,7 @@ dialog .header button {
   border: none;
   background: transparent;
   font-weight: bold;
-  color: light-dark(black, white);
+  color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
 }
 
 dialog .content {
@@ -578,12 +578,11 @@ dialog .buttons {
   margin-bottom: 0.5em;
 }
 
-dialog button {
-  margin: 6px;
-}
-
 dialog .buttons button {
+  margin: 6px;
   min-width: 5em;
+  font-family: var(--skipto-font-family);
+  font-size: var(--skipto-font-size);
 }
 
 dialog button:focus {
