@@ -451,8 +451,6 @@ dialog {
   border-color: light-dark(var(--skipto-focus-border-color), --skipto-focus-border-dark-color));
   border-radius: 5px;
   z-index: 2000001;
-  width: 80%;
-  max-width: 450px;
 }
 
 dialog .header {
@@ -480,12 +478,14 @@ dialog .header h2 {
 
 dialog .header button {
   position: absolute;
-  top: -0.25em;
-  right: 0;
+  top: 4px;
+  right: 2px;
   border: none;
   background: transparent;
   font-weight: bold;
   color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
+  font-family: var(--skipto-font-family);
+  font-size: var(--skipto-font-size);
 }
 
 dialog .content {
