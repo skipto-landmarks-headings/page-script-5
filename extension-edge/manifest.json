@@ -43,6 +43,7 @@
   },
   "options_page": "options.html",
   "permissions": [
+    "action",
     "activeTab",
     "scripting",
     "storage"

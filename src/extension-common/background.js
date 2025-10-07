@@ -82,7 +82,7 @@ browserAction.onClicked.addListener((tab) => {
 
 // Set SkipTo.js toolbar icons for light or dark color theme
 function setIcons(scheme='light') {
-  debug.flag && debug.log(`[setIcons]: ${scheme}`)
+  debug && console.log(`[setIcons]: ${scheme}`)
   if (['light', 'dark'].includes(scheme)) {
     browserAction.setIcon({
       path: {
