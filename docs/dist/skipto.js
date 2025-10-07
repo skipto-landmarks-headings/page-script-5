@@ -3431,7 +3431,6 @@ dialog button:hover {
   function monitorKeyboardFocus () {
     document.addEventListener('focusin', () => {
       const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME) || document.querySelector(BOOKMARKLET_ELEMENT_NAME);
-      debug$4.log(`[monitorKeyboardFocus]: ${skipToContentElem}`);
       if (skipToContentElem) {
         skipToContentElem.buttonSkipTo.removeHighlight();
       }
@@ -3460,7 +3459,6 @@ dialog button:hover {
     do {
       lastElem = elem;
       elem = queryDOMForSkipToNavigation(target, direction, elem, useFirst, nameRequired);
-      debug$4.flag && debug$4.log(`[navigateContent][elem]: ${elem} (${lastElem === elem})`);
       if (elem) {
         elem.tabIndex = elem.tabIndex >= 0 ? elem.tabIndex : -1;
         elem.focus();
@@ -3530,31 +3528,25 @@ dialog button:hover {
 
           if (target.includes('heading'))
 
-          debug$4.flag && debug$4.log(`[checkForTarget][${node.tagName}]: ${node.textContent.trim().substring(0, 10)} (vis:${isVisible(node)} pf:${passFound})`);
-
           if (!firstNode &&
               isVisible(node)) {
-            debug$4.flag && debug$4.log(`[checkForTarget][firstNode]`);
             firstNode = node;
           }
 
           if ((node !== passElem) &&
               isVisible(node)) {
-            debug$4.flag && debug$4.log(`[checkForTarget][lastNode]`);
             lastNode = node;
           }
 
           if (passFound &&
              (direction === 'next') &&
               isVisible(node)) {
-            debug$4.flag && debug$4.log(`[checkForTarget][found]`);
             return node;
           }
         }
 
         if (node === passElem) {
           passFound = true;
-          debug$4.flag && debug$4.log(`[checkForTarget][passFound]: ${node.tagName}`);
           if (direction === 'previous') {
             return lastNode;
           }

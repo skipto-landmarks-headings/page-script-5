@@ -75,7 +75,7 @@ function getFocusOption(params) {
 
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-    console.log(`[color scheme change]: ${event.matches}`);
+    debug && console.log(`[color scheme change]: ${event.matches}`);
     const newColorScheme = event.matches ? "color-theme-dark" : "color-theme-light";
     browserRuntime.sendMessage({skiptoMessage: newColorScheme});
 });
