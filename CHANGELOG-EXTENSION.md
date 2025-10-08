@@ -2,6 +2,7 @@
 
 ## Version 1.3
 * Support SkipTo.js 5.9
+* Toolbar icon responds to appearance settings (e.g. light/dark)
 
 ## Version 1.2.3
 * Support SkipTo.js 5.8.3
