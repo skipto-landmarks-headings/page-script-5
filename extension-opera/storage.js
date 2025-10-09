@@ -52,13 +52,20 @@ const defaultHighlightOptions = {
 const defaultStyleOptions = {
   fontFamily: 'sans-serif',
   fontSize: '12pt',
-  buttonTextColor: '#13294b',
-  buttonBackgroundColor: '#dddddd',
-  focusBorderColor: '#c5050c',
-  menuTextColor: '#13294b',
-  menuBackgroundColor: '#dddddd',
-  menuitemFocusTextColor: '#dddddd',
-  menuitemFocusBackgroundColor: '#13294b',
+  buttonTextColor: 'hsl(216, 60%, 18%)',
+  buttonTextDarkColor: 'hsl(216, 60%, 72%)',
+  buttonBackgroundColor: 'hsl(0, 0%, 87%)',
+  buttonBackgroundDarkColor: 'hsl(0, 0%, 13%)',
+  focusBorderColor: 'hsl(358, 95%, 40%)',
+  focusBorderDarkColor: 'hsl(358, 95%, 60%)',
+  menuTextColor: 'hsl(216, 60%, 18%)',
+  menuTextDarkColor: 'hsl(216, 60%, 72%)',
+  menuBackgroundColor: 'hsl(0, 0%, 87%)',
+  menuBackgroundDarkColor: 'hsl(0, 0%, 13%)',
+  menuitemFocusTextColor: 'hsl(0, 0%, 87%)',
+  menuitemFocusTextDarkColor: 'hsl(0, 0%, 13%)',
+  menuitemFocusBackgroundColor: 'hsl(216, 60%, 18%)',
+  menuitemFocusBackgroundDarkColor: 'hsl(216, 60%, 72%)',
 };
 
 const i18nOptions = {

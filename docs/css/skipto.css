@@ -25,8 +25,8 @@ footer.bg-light {
 .brand .skipto {
   display: inline-block;
   padding: 0.25em;
-  color: #ffffff;
-  background: #C5050C;
+  color: light-dark(#ffffff, #000000);
+  background: light-dark(hsl(358, 95%, 40%), hsl(358, 95%, 60%));
 }
 
 blockquote {

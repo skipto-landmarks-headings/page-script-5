@@ -32,6 +32,67 @@ function notLastError () {
   }
 }
 
+/**
+ * Converts an HSL color value to RGB. Conversion formula
+ * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+ * Assumes h, s, and l are contained in the set [0, 1] and
+ * returns r, g, and b in the set [0, 255].
+ *
+ * @param   {String}  value   The hue
+ * @param   {number}  s       The saturation
+ * @param   {number}  l       The lightness
+ * @return  {String}          The RGB representation
+ */
+  function hslToHex(value) {
+
+    function getNumber(str) {
+      let num = '';
+      for(let i = 0; i < str.length; i += 1) {
+        const c = str[i];
+        if ('0123456789'.includes(c)) {
+          num += c;
+        }
+      }
+      return parseInt(num);
+    }
+
+    const parts = value.split(',');
+
+    let h = getNumber(parts[0]); // hue
+    let s = getNumber(parts[1]); // Saturation
+    let l = getNumber(parts[2]); // lightness
+
+    h /= 360;
+    s /= 100;
+    l /= 100;
+    let r, g, b;
+    if (s === 0) {
+      r = g = b = l; // achromatic
+    } else {
+      const hue2rgb = (p, q, t) => {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
+      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      const p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1 / 3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1 / 3);
+    }
+    const toHex = x => {
+      const hex = Math.round(x * 255).toString(16);
+      return hex.length === 1 ? '0' + hex : hex;
+    };
+    const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    console.log(`[hslToHex]: ${value} => ${hex}`);
+    return hex;
+  }
+
+
 // Constants
 
 const optionsStyleTemplate = document.createElement('template');
@@ -208,7 +269,7 @@ class OptionsStyle extends HTMLElement {
 
       formControls.forEach( input => {
         debug && console.log(`[update][${input.id}]: ${options[input.getAttribute('data-option')]} (${input.getAttribute('data-option')})`);
-        const option = options[input.getAttribute('data-option')];
+        let option = options[input.getAttribute('data-option')];
 
         if (input.tagName.toLowerCase() === 'select') {
           const optionNodes = input.querySelectorAll('option');
@@ -220,6 +281,7 @@ class OptionsStyle extends HTMLElement {
           }
         }
         else {
+          option = option.includes('hsl') ? hslToHex(option) : option;
           input.value = option;
         }
       });

@@ -990,6 +990,7 @@ dialog .content .copyright {
 
 dialog .content table {
   width: auto;
+  border-collapse: collapse;
 }
 
 dialog .content caption {
@@ -1017,19 +1018,26 @@ dialog .content th {
   border-bottom-color: light-dark(#999999, #777777);
 }
 
-dialog .content th.shortcut {
-  width: 2.5em;
-}
-
-dialog .content td {
+dialog .content td.shortcut,
+dialog .content td.desc {
   margin: 0;
-  padding: 0;
+  padding-left: 0.25em;
+  padding-right: 0.25em;
   padding-top: 0.125em;
   padding-bottom: 0.125em;
   text-align: left;
   font-size: 100%;
 }
 
+dialog .content th.shortcut {
+  text-align: left;
+  width: 3em;
+}
+
+dialog .content th.desc {
+  text-align: left;
+  width: 12em;
+}
 
 dialog .content table tr:nth-child(even) {
   background-color: light-dark(#eeeeee, #111111);

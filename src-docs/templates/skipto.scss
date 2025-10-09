@@ -1,8 +1,13 @@
 /* Define standard variables and values for website */
+
 $iconBlue: #13294B;
-$iconRed: #C5050C;
+$iconRed: hsl(358, 95%, 40%);
+$iconRedDark: hsl(358, 95%, 60%);
+
 $iconBackground: #dddddd;
 $iconWhite: #ffffff;
+$iconWhiteDark: #000000;
+
 $contentBlue: #005797;
 $linkCurrent: #000000;
 $separatorColor: #C5050C;
@@ -39,8 +44,8 @@ footer.bg-light {
 .brand .skipto {
   display: inline-block;
   padding: 0.25em;
-  color: $iconWhite;
-  background: $iconRed;
+  color: light-dark($iconWhite, $iconWhiteDark);
+  background: light-dark($iconRed, $iconRedDark);
 }
 
 blockquote {
