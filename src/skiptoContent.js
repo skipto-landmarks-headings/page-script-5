@@ -37,7 +37,7 @@ export default class SkipToContent590 extends HTMLElement {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
-    this.version = "5.9.0";
+    this.version = "5.9.1";
     this.buttonSkipTo = false;
     this.initialized = false;
 

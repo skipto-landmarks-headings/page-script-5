@@ -1,5 +1,8 @@
 # Version history for SkipTo.js
 
+## Version 5.9.1
+* Fixes bug in shortcut key navigation to named headings and landmark regions
+
 ## Version 5.9
 * Refactored code to use CSS variables and reduce custom elements in the light DOM
 * Calculate the height of the menu button for off-screen positioning based on font-size

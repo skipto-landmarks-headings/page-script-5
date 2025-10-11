@@ -1082,7 +1082,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutRegionComplementary:
               elem = navigateContent('complementary', 'next', this.config.msgHeadingLevel, true);
               if (!elem) {
-                this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'complementary'));
+                this.shortcutsMessage.open(this.config.msgNoRegionsFound.replace('%r', 'complementary'));
               }
               flag = true;
               break;
@@ -1090,7 +1090,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutRegionMain:
               elem = navigateContent('main', 'next', this.config.msgHeadingLevel, true);
               if (!elem) {
-                this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'main'));
+                this.shortcutsMessage.open(this.config.msgNoRegionsFound.replace('%r', 'main'));
               }
               flag = true;
               break;
@@ -1098,7 +1098,7 @@ export default class SkiptoMenuButton {
             case this.config.shortcutRegionNavigation:
               elem = navigateContent('navigation', 'next', this.config.msgHeadingLevel, true);
               if (!elem) {
-                this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'navigation'));
+                this.shortcutsMessage.open(this.config.msgNoRegionsFound.replace('%r', 'navigation'));
               }
               flag = true;
               break;

@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.9.1
+ * Version: 5.9.0
  * Copyright (c) 2022, 2023, 2024, 2025 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -3590,6 +3590,8 @@ dialog button:hover {
               node.hasAttribute('data-skip-to-acc-name') &&
               node.getAttribute('data-skip-to-acc-name').trim().length > 0))) {
 
+          if (target.includes('heading'))
+
           if (!firstNode &&
               isVisible(node)) {
             firstNode = node;
@@ -3679,8 +3681,6 @@ dialog button:hover {
     passFound = (passElem === document.body) ||
                 (passElem.parentNode && (passElem.parentNode.id === SKIP_TO_ID));
     let node = transverseDOMForElement(document.body);
-
-    debug$4.log(`[node]: ${node} [useFirst]: ${useFirst} [firstNode]: ${firstNode}`);
 
     if (!node && useFirst && firstNode) {
       node = firstNode;
@@ -4877,7 +4877,7 @@ dialog button:hover {
               case this.config.shortcutRegionComplementary:
                 elem = navigateContent('complementary', 'next', this.config.msgHeadingLevel, true);
                 if (!elem) {
-                  this.shortcutsMessage.open(this.config.msgNoRegionsFound.replace('%r', 'complementary'));
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'complementary'));
                 }
                 flag = true;
                 break;
@@ -4885,7 +4885,7 @@ dialog button:hover {
               case this.config.shortcutRegionMain:
                 elem = navigateContent('main', 'next', this.config.msgHeadingLevel, true);
                 if (!elem) {
-                  this.shortcutsMessage.open(this.config.msgNoRegionsFound.replace('%r', 'main'));
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'main'));
                 }
                 flag = true;
                 break;
@@ -4893,7 +4893,7 @@ dialog button:hover {
               case this.config.shortcutRegionNavigation:
                 elem = navigateContent('navigation', 'next', this.config.msgHeadingLevel, true);
                 if (!elem) {
-                  this.shortcutsMessage.open(this.config.msgNoRegionsFound.replace('%r', 'navigation'));
+                  this.shortcutsMessage.open(this.config.msgNoMoreRegions.replace('%r', 'navigation'));
                 }
                 flag = true;
                 break;
@@ -5225,7 +5225,7 @@ dialog button:hover {
       // Always call super first in constructor
       super();
       this.attachShadow({ mode: 'open' });
-      this.version = "5.9.1";
+      this.version = "5.9.0";
       this.buttonSkipTo = false;
       this.initialized = false;
 

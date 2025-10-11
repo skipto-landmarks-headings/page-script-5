@@ -134,8 +134,6 @@ function queryDOMForSkipToNavigation (target, direction, elem, useFirst=false, n
             node.hasAttribute('data-skip-to-acc-name') &&
             node.getAttribute('data-skip-to-acc-name').trim().length > 0))) {
 
-        if (target.includes('heading'))
-
         if (!firstNode &&
             isVisible(node)) {
           firstNode = node;
@@ -225,6 +223,8 @@ function queryDOMForSkipToNavigation (target, direction, elem, useFirst=false, n
   passFound = (passElem === document.body) ||
               (passElem.parentNode && (passElem.parentNode.id === SKIP_TO_ID));
   let node = transverseDOMForElement(document.body);
+
+  debug.log(`[node]: ${node} [useFirst]: ${useFirst} [firstNode]: ${firstNode}`);
 
   if (!node && useFirst && firstNode) {
     node = firstNode;

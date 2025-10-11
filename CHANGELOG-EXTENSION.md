@@ -1,5 +1,8 @@
 # Version history for SkipTo.js for Firefox, Chrome and Opera
 
+## Version 1.3.1
+* Updated to SkipTo.js 5.9.1 to fix bug in shortcut key navigation to named regions and headings
+
 ## Version 1.3
 * Support SkipTo.js 5.9
 * Toolbar icon responds to appearance settings (e.g. light/dark)
