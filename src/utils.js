@@ -16,6 +16,7 @@ export {
   getHighlightInfo,
   hslToHex,
   isEmptyString,
+  isMobile,
   isNotEmptyString,
   isVisible,
   isSmallOrOffScreen
@@ -269,4 +270,15 @@ function isSmallOrOffScreen(elementNode) {
     const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
     return hex;
   }
+
+/**
+ * @function isMobile
+ *
+ * @desc  Returns true if operating system is iOS or Android
+ *
+ * @return  {Boolean}  see @desc
+ */
+function isMobile() {
+  return (/(iPad|iPhone|iPod|android)/g.test(navigator.userAgent) && navigator.maxTouchPoints);
+}
 

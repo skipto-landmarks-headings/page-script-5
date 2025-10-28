@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.9.2
+ * Version: 5.9.1
  * Copyright (c) 2022, 2023, 2024, 2025 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -287,9 +287,6 @@
 
   /* constants.js */
 
-  // Version
-  const VERSION = '5.9.2';
-
   // Numbers
 
   const REQUIRE_ACCESSIBLE_NAME_COUNT = 3;
@@ -478,17 +475,6 @@
     return !isDisplayNone(element);
   }
 
-  /**
-   * @function isMobile
-   *
-   * @desc  Returns true if operating system is iOS or Android
-   *
-   * @return  {Boolean}  see @desc
-   */
-  function isMobile() {
-    return (/(iPad|iPhone|iPod|android)/g.test(navigator.userAgent) && navigator.maxTouchPoints);
-  }
-
   /* style.js */
 
   /* Constants */
@@ -564,19 +550,14 @@
   z-index: var(--skipto-z-index-1);
 }
 
-.menu-button.popup {
-  transform: translateY(var(--skipto-popup-offset));
+.menu-button button.popup {
+  top: var(--skipto-popup-offset);
   transition: top 0.35s ease;
 }
 
-.menu-button.popup.show-border {
-  transform: translateY(var(--skipto-show-border-offset));
-/* top: var(--skipto-show-border-offset); */
+.menu-button button.popup.show-border {
+  top: var(--skipto-show-border-offset);
   transition: top 0.35s ease;
-}
-
-.menu-button.popup.mobile button {
-  display: none;
 }
 
 .menu-button button .skipto-text {
@@ -594,13 +575,9 @@
   display: none;
 }
 
-.menu-button {
+.menu-button button {
   position: fixed;
   left: var(--skipto-position-left);
-  z-index: var(--skipto-z-index-1) !important;
-}
-
-.menu-button button {
   margin: 0;
   padding: 0;
   border-width: 0px 1px 1px 1px;
@@ -609,63 +586,68 @@
   border-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
   color: light-dark(var(--skipto-button-text-color), var(--skipto-button-text-dark-color));
   background-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+  z-index: 100000 !important;
+  z-index: var(--skipto-z-index-1) !important;
   font-size: var(--skipto-font-size);
   font-family: var(--skipto-font-family);
 }
 
 @media screen and (max-width: var(--skipto-small-break-point)) {
-  .menu-button:not(.popup) button .skipto-small {
+  .menu-button button:not(.popup) .skipto-small {
     transition: top 0.35s ease;
     display: inline-block;
   }
 
-  .menu-button:not(.popup) button .skipto-text,
-  .menu-button:not(.popup) button .skipto-medium {
+  .menu-button button:not(.popup) .skipto-text,
+  button:not(.popup) .skipto-medium {
     transition: top 0.35s ease;
     display: none;
   }
 
-  .menu-button:not(.popup) button:focus .skipto-text {
+  .menu-button button:not(.popup):focus .skipto-text {
     transition: top 0.35s ease;
     display: inline-block;
   }
 
-  .menu-button:not(.popup) button:focus .skipto-small,
-  .menu-button:not(.popup) button:focus .skipto-medium {
+  .menu-button button:not(.popup):focus .skipto-small,
+  .menu-button button:not(.popup):focus .skipto-medium {
     transition: top 0.35s ease;
     display: none;
   }
 }
 
 @media screen and (min-width: var(--skipto-small-break-point)) and (max-width: var(--skipto-medium-break-point)) {
-  .menu-button:not(.popup) button .skipto-medium {
+  .menu-button button:not(.popup) .skipto-medium {
     transition: top 0.35s ease;
     display: inline-block;
   }
 
-  .menu-button:not(.popup) button .skipto-text,
-  .menu-button:not(.popup) button .skipto-small {
+  .menu-button button:not(.popup) .skipto-text,
+  .menu-button button:not(.popup) .skipto-small {
     transition: top 0.35s ease;
     display: none;
   }
 
-  .menu-button:not(.popup) button:focus .skipto-text {
+  .menu-button button:not(.popup):focus .skipto-text {
     transition: top 0.35s ease;
     display: inline-block;
   }
 
-  .menu-button:not(.popup) button:focus .skipto-small,
-  .menu-button:not(.popup) button:focus .skipto-medium {
+  .menu-button button:not(.popup):focus .skipto-small,
+  .menu-button button:not(.popup):focus .skipto-medium {
     transition: top 0.35s ease;
     display: none;
   }
 }
 
-.menu-button.static {
+.menu-button button.static {
   position: absolute !important;
 }
 
 .menu-button [role="menu"] {
+  position: fixed;
+  top: var(--skipto-menu-offset);
+  left: var(--skipto-position-left);
   min-width: 16em;
   display: none;
   margin: 0;
@@ -822,17 +804,13 @@
   border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
 }
 
-.menu-button.popup.focus,
-.menu-button.popup.menu,
-.menu-button.popup:hover {
-  transform: translateY(0);
+.menu-button button.popup.menu,
+.menu-button button.popup:focus,
+.menu-button button.popup:hover {
+  top: 0;
   display: block;
   transition: left 1s ease;
   z-index: var(--skipto-z-index-1) !important;
-}
-
-.menu-button.popup.mobile.focus button {
-  display: block;
 }
 
 .menu-button button:focus .skipto-text,
@@ -1443,20 +1421,21 @@ dialog button:hover {
     updateStyle(containerNode, '--skipto-z-index-1', config.zIndex, theme.zIndex, d.zIndex);
 
 
-    const menuButtonNode = containerNode.querySelector('.menu-button');
     const buttonNode = containerNode.querySelector('button');
     const rect = buttonNode.getBoundingClientRect();
-    if (menuButtonNode.classList.contains('show-border')) {
-      const borderOffset = -1 * rect.height + 3 + 'px';
+    if (buttonNode.classList.contains('show-border')) {
+      const borderOffset = -1 * rect.height + 4 + 'px';
       containerNode.style.setProperty('--skipto-show-border-offset', borderOffset);
     }
     else {
-      if (menuButtonNode.classList.contains('popup')) {
-        const popupOffset = -1 * rect.height + 'px';
+      if (buttonNode.classList.contains('popup')) {
+        const popupOffset = -1 * rect.height - 6 + 'px';
         containerNode.style.setProperty('--skipto-popup-offset', popupOffset);
       }
     }
     containerNode.style.setProperty('--skipto-menu-offset', rect.height + 'px');
+
+
 
     const zIndex2 = config.zIndex ?
                     (parseInt(config.zIndex) + 1).toString() :
@@ -1605,7 +1584,7 @@ dialog button:hover {
         Happy Skipping!
       </div>
       <div class="version">
-        Version ${VERSION}
+        Version 5.9.0
       </div>
       <div class="copyright">
         BSD License, Copyright 2021-2025
@@ -3960,28 +3939,12 @@ dialog button:hover {
         if (isNotEmptyString(this.config.customClass)) {
           this.menuButtonNode.classList.add(this.config.customClass);
         }
-        this.setDisplayOption(this.menuButtonNode, this.config.displayOption);
 
-        this.menuButtonNode.appendChild(templateMenuButton.content.cloneNode(true));
-
-        this.linkNode = false;
-        // If Mobile add a link to open menu when clicked and hide button
-        if ((this.config.displayOption.toLowerCase() === 'popup') && isMobile()) {
-          this.linkNode = document.createElement('a');
-          this.linkNode.href = "#";
-          // Position off screen
-          this.linkNode.style = "position: absolute; top: -30em; left: -300em";
-          this.linkNode.textContent = this.config.buttonLabel;
-          // If there is a click event from VO, move focus to menu
-          this.linkNode.addEventListener('click', this.handleMobileClick.bind(this));
-          document.body.prepend(this.linkNode);
-          // add class to hide button
-          this.menuButtonNode.classList.add('mobile');
-        }
-
-        // Setup button
+        // Create button
 
         const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(this.config);
+
+        this.menuButtonNode.appendChild(templateMenuButton.content.cloneNode(true));
 
         this.buttonNode = this.containerNode.querySelector('button');
         this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
@@ -3997,6 +3960,7 @@ dialog button:hover {
         this.mediumButtonNode = this.buttonNode.querySelector('span.skipto-medium');
         this.mediumButtonNode.textContent = this.config.buttonLabel;
 
+        this.setDisplayOption(this.config.displayOption);
 
         // Create menu container
         this.menuitemNodes = [];
@@ -4651,20 +4615,20 @@ dialog button:hover {
         const menuRect = this.menuNode.getBoundingClientRect();
         const diff = window.innerWidth - buttonRect.left - menuRect.width;
         if (diff < 0) {
-          if (window.innerWidth < menuRect.width) {
+          if (window.innerWidth > menuRect.width) {
+            this.menuNode.style.left = (window.innerWidth - menuRect.width) + 'px';
+          } else {
             this.menuNode.style.left = '0px';
           }
+        }
+        else {
+          this.menuNode.style.left = buttonRect.left + 'px';
         }
 
         this.menuNode.removeAttribute('aria-busy');
         this.buttonNode.setAttribute('aria-expanded', 'true');
         // use custom element attribute to set focus to the menu
         this.buttonNode.classList.add('menu');
-
-        if (this.linkNode) {
-          this.linkNode.style.display = 'none';
-        }
-
       }
 
       /*
@@ -4672,22 +4636,12 @@ dialog button:hover {
        *
        * @desc Closes the memu of landmark regions and headings
        */
-      closePopup(moveFocusToButton=false) {
+      closePopup() {
         if (this.isOpen()) {
           this.buttonNode.setAttribute('aria-expanded', 'false');
           this.menuNode.style.display = 'none';
           this.highlightElement.removeHighlight();
           this.buttonNode.classList.remove('menu');
-          if (moveFocusToButton) {
-            if (this.linkNode) {
-              this.linkNode.style.display = 'block';
-              this.linkNode.focus();
-            }
-            else {
-              this.buttonNode.focus();
-            }
-            this.skipToContentElem.setAttribute('focus', 'button');
-          }
         }
       }
 
@@ -4786,32 +4740,29 @@ dialog button:hover {
        * @desc Set display option for button visibility wehn it does not
        *       have focus
        *
-       * @param  {Object}  elem  - DOM element to update style
        * @param  {String}  value - String with configuration information
        */
-      setDisplayOption(elem, value) {
+      setDisplayOption(value) {
 
         if (typeof value === 'string') {
           value = value.trim().toLowerCase();
-          if (value.length && elem) {
+          if (value.length && this.buttonNode) {
 
-            elem.classList.remove('static');
-            elem.classList.remove('popup');
-            elem.classList.remove('show-border');
+            this.buttonNode.classList.remove('static');
+            this.buttonNode.classList.remove('popup');
+            this.buttonNode.classList.remove('show-border');
 
             switch (value) {
               case 'static':
-                elem.classList.add('static');
+                this.buttonNode.classList.add('static');
                 break;
-
               case 'onfocus':  // Legacy option
               case 'popup':
-                elem.classList.add('popup');
+                this.buttonNode.classList.add('popup');
                 break;
-
               case 'popup-border':
-                elem.classList.add('popup');
-                elem.classList.add('show-border');
+                this.buttonNode.classList.add('popup');
+                this.buttonNode.classList.add('show-border');
                 break;
             }
           }
@@ -4821,19 +4772,13 @@ dialog button:hover {
       // Menu event handlers
       
       handleFocusin() {
-        this.menuButtonNode.classList.add('focus');
+        this.buttonNode.classList.add('focus');
         this.skipToContentElem.setAttribute('focus', 'button');
-        if (this.linkNode) {
-          this.linkNode.style.display = 'none';
-        }
       }
       
       handleFocusout() {
-        this.menuButtonNode.classList.remove('focus');
+        this.buttonNode.classList.remove('focus');
         this.skipToContentElem.setAttribute('focus', 'none');
-        if (this.linkNode) {
-          this.linkNode.style.display = 'block';
-        }
       }
       
       handleButtonKeydown(event) {
@@ -4850,7 +4795,9 @@ dialog button:hover {
             break;
           case 'Esc':
           case 'Escape':
-            this.closePopup(true);
+            this.closePopup();
+            this.buttonNode.focus();
+            this.skipToContentElem.setAttribute('focus', 'button');
             flag = true;
             break;
           case 'Up':
@@ -4867,9 +4814,10 @@ dialog button:hover {
       }
 
       handleButtonClick(event) {
-        this.menuButtonNode.classList.add('focus');
         if (this.isOpen()) {
-          this.closePopup(true);
+          this.closePopup();
+          this.buttonNode.focus();
+          this.skipToContentElem.setAttribute('focus', 'button');
         } else {
           this.openPopup();
           this.setFocusToFirstMenuitem();
@@ -5078,7 +5026,9 @@ dialog button:hover {
             flag = true;
           }
           if (event.key === 'Tab') {
-            this.closePopup(true);
+            this.closePopup();
+            this.buttonNode.focus();
+            this.skipToContentElem.setAttribute('focus', 'button');
             flag = true;
           }
         } else {
@@ -5090,7 +5040,9 @@ dialog button:hover {
               break;
             case 'Esc':
             case 'Escape':
-              this.closePopup(true);
+              this.closePopup();
+              this.buttonNode.focus();
+              this.skipToContentElem.setAttribute('focus', 'button');
               flag = true;
               break;
             case 'Left':
@@ -5186,7 +5138,9 @@ dialog button:hover {
           if (this.containerNode.contains(event.target)) {
             if (this.isOpen()) {
               if (!this.isOverMenu(event.clientX, event.clientY)) {
-                this.closePopup(true);
+                this.closePopup();
+                this.buttonNode.focus();
+                this.skipToContentElem.setAttribute('focus', 'button');
               }
             }
             else {
@@ -5234,17 +5188,13 @@ dialog button:hover {
         else {
           if (!omb) {
             if (this.isOpen()) {
-              this.closePopup(true);
+              this.closePopup();
+              this.buttonNode.focus();
+              this.skipToContentElem.setAttribute('focus', 'button');
             }        
           }
         }
 
-        event.stopPropagation();
-        event.preventDefault();
-      }
-
-      handleMobileClick (event) {
-        this.skipToContentElem.setAttribute('setfocus', 'menu');
         event.stopPropagation();
         event.preventDefault();
       }
@@ -5265,17 +5215,17 @@ dialog button:hover {
 
   const defaultStyleOptions = colorThemes['default'];
 
-  /* @class SkipToContent592
+  /* @class SkipToContent590
    *
    */
 
-  class SkipToContent592 extends HTMLElement {
+  class SkipToContent590 extends HTMLElement {
 
     constructor() {
       // Always call super first in constructor
       super();
       this.attachShadow({ mode: 'open' });
-      this.version = `${VERSION}`;
+      this.version = "5.9.1";
       this.buttonSkipTo = false;
       this.initialized = false;
 
@@ -5792,7 +5742,7 @@ dialog button:hover {
           if (!isExtensionLoaded) {
             if (!isBookmarkletLoaded) {
               removePageSkipTo();
-              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent592);
+              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent590);
               skipToContentElem = document.createElement(BOOKMARKLET_ELEMENT_NAME);
               skipToContentElem.setAttribute('version', skipToContentElem.version);
               skipToContentElem.setAttribute('type', type);
@@ -5808,7 +5758,7 @@ dialog button:hover {
           if (!isExtensionLoaded) {
             removePageSkipTo();
             removeBookmarkletSkipTo();
-            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent592);
+            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent590);
             skipToContentElem = document.createElement(EXTENSION_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
@@ -5821,7 +5771,7 @@ dialog button:hover {
 
         default:
           if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
-            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent592);
+            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent590);
             skipToContentElem = document.createElement(PAGE_SCRIPT_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);

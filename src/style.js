@@ -87,14 +87,19 @@ cssStyleTemplate.textContent = `
   z-index: var(--skipto-z-index-1);
 }
 
-.menu-button button.popup {
-  top: var(--skipto-popup-offset);
+.menu-button.popup {
+  transform: translateY(var(--skipto-popup-offset));
   transition: top 0.35s ease;
 }
 
-.menu-button button.popup.show-border {
-  top: var(--skipto-show-border-offset);
+.menu-button.popup.show-border {
+  transform: translateY(var(--skipto-show-border-offset));
+/* top: var(--skipto-show-border-offset); */
   transition: top 0.35s ease;
+}
+
+.menu-button.popup.mobile button {
+  display: none;
 }
 
 .menu-button button .skipto-text {
@@ -112,9 +117,13 @@ cssStyleTemplate.textContent = `
   display: none;
 }
 
-.menu-button button {
+.menu-button {
   position: fixed;
   left: var(--skipto-position-left);
+  z-index: var(--skipto-z-index-1) !important;
+}
+
+.menu-button button {
   margin: 0;
   padding: 0;
   border-width: 0px 1px 1px 1px;
@@ -123,68 +132,63 @@ cssStyleTemplate.textContent = `
   border-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
   color: light-dark(var(--skipto-button-text-color), var(--skipto-button-text-dark-color));
   background-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
-  z-index: 100000 !important;
-  z-index: var(--skipto-z-index-1) !important;
   font-size: var(--skipto-font-size);
   font-family: var(--skipto-font-family);
 }
 
 @media screen and (max-width: var(--skipto-small-break-point)) {
-  .menu-button button:not(.popup) .skipto-small {
+  .menu-button:not(.popup) button .skipto-small {
     transition: top 0.35s ease;
     display: inline-block;
   }
 
-  .menu-button button:not(.popup) .skipto-text,
-  button:not(.popup) .skipto-medium {
+  .menu-button:not(.popup) button .skipto-text,
+  .menu-button:not(.popup) button .skipto-medium {
     transition: top 0.35s ease;
     display: none;
   }
 
-  .menu-button button:not(.popup):focus .skipto-text {
+  .menu-button:not(.popup) button:focus .skipto-text {
     transition: top 0.35s ease;
     display: inline-block;
   }
 
-  .menu-button button:not(.popup):focus .skipto-small,
-  .menu-button button:not(.popup):focus .skipto-medium {
+  .menu-button:not(.popup) button:focus .skipto-small,
+  .menu-button:not(.popup) button:focus .skipto-medium {
     transition: top 0.35s ease;
     display: none;
   }
 }
 
 @media screen and (min-width: var(--skipto-small-break-point)) and (max-width: var(--skipto-medium-break-point)) {
-  .menu-button button:not(.popup) .skipto-medium {
+  .menu-button:not(.popup) button .skipto-medium {
     transition: top 0.35s ease;
     display: inline-block;
   }
 
-  .menu-button button:not(.popup) .skipto-text,
-  .menu-button button:not(.popup) .skipto-small {
+  .menu-button:not(.popup) button .skipto-text,
+  .menu-button:not(.popup) button .skipto-small {
     transition: top 0.35s ease;
     display: none;
   }
 
-  .menu-button button:not(.popup):focus .skipto-text {
+  .menu-button:not(.popup) button:focus .skipto-text {
     transition: top 0.35s ease;
     display: inline-block;
   }
 
-  .menu-button button:not(.popup):focus .skipto-small,
-  .menu-button button:not(.popup):focus .skipto-medium {
+  .menu-button:not(.popup) button:focus .skipto-small,
+  .menu-button:not(.popup) button:focus .skipto-medium {
     transition: top 0.35s ease;
     display: none;
   }
 }
 
-.menu-button button.static {
+.menu-button.static {
   position: absolute !important;
 }
 
 .menu-button [role="menu"] {
-  position: fixed;
-  top: var(--skipto-menu-offset);
-  left: var(--skipto-position-left);
   min-width: 16em;
   display: none;
   margin: 0;
@@ -341,13 +345,17 @@ cssStyleTemplate.textContent = `
   border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
 }
 
-.menu-button button.popup.menu,
-.menu-button button.popup:focus,
-.menu-button button.popup:hover {
-  top: 0;
+.menu-button.popup.focus,
+.menu-button.popup.menu,
+.menu-button.popup:hover {
+  transform: translateY(0);
   display: block;
   transition: left 1s ease;
   z-index: var(--skipto-z-index-1) !important;
+}
+
+.menu-button.popup.mobile.focus button {
+  display: block;
 }
 
 .menu-button button:focus .skipto-text,
@@ -958,21 +966,20 @@ function updateCSS (containerNode, config, useURLTheme=false) {
   updateStyle(containerNode, '--skipto-z-index-1', config.zIndex, theme.zIndex, d.zIndex);
 
 
+  const menuButtonNode = containerNode.querySelector('.menu-button');
   const buttonNode = containerNode.querySelector('button');
   const rect = buttonNode.getBoundingClientRect();
-  if (buttonNode.classList.contains('show-border')) {
-    const borderOffset = -1 * rect.height + 4 + 'px';
+  if (menuButtonNode.classList.contains('show-border')) {
+    const borderOffset = -1 * rect.height + 3 + 'px';
     containerNode.style.setProperty('--skipto-show-border-offset', borderOffset);
   }
   else {
-    if (buttonNode.classList.contains('popup')) {
-      const popupOffset = -1 * rect.height - 6 + 'px';
+    if (menuButtonNode.classList.contains('popup')) {
+      const popupOffset = -1 * rect.height + 'px';
       containerNode.style.setProperty('--skipto-popup-offset', popupOffset);
     }
   }
   containerNode.style.setProperty('--skipto-menu-offset', rect.height + 'px');
-
-
 
   const zIndex2 = config.zIndex ?
                   (parseInt(config.zIndex) + 1).toString() :

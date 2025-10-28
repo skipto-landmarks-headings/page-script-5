@@ -4,6 +4,7 @@
 import DebugLogging  from './debug.js';
 
 import {
+  isMobile,
   isNotEmptyString
 } from './utils.js';
 
@@ -140,12 +141,28 @@ export default class SkiptoMenuButton {
       if (isNotEmptyString(this.config.customClass)) {
         this.menuButtonNode.classList.add(this.config.customClass);
       }
-
-      // Create button
-
-      const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(this.config);
+      this.setDisplayOption(this.menuButtonNode, this.config.displayOption);
 
       this.menuButtonNode.appendChild(templateMenuButton.content.cloneNode(true));
+
+      this.linkNode = false;
+      // If Mobile add a link to open menu when clicked and hide button
+      if ((this.config.displayOption.toLowerCase() === 'popup') && isMobile()) {
+        this.linkNode = document.createElement('a');
+        this.linkNode.href = "#";
+        // Position off screen
+        this.linkNode.style = "position: absolute; top: -30em; left: -300em";
+        this.linkNode.textContent = this.config.buttonLabel;
+        // If there is a click event from VO, move focus to menu
+        this.linkNode.addEventListener('click', this.handleMobileClick.bind(this));
+        document.body.prepend(this.linkNode);
+        // add class to hide button
+        this.menuButtonNode.classList.add('mobile');
+      }
+
+      // Setup button
+
+      const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(this.config);
 
       this.buttonNode = this.containerNode.querySelector('button');
       this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
@@ -161,7 +178,6 @@ export default class SkiptoMenuButton {
       this.mediumButtonNode = this.buttonNode.querySelector('span.skipto-medium');
       this.mediumButtonNode.textContent = this.config.buttonLabel;
 
-      this.setDisplayOption(this.config.displayOption);
 
       // Create menu container
       this.menuitemNodes = [];
@@ -816,20 +832,20 @@ export default class SkiptoMenuButton {
       const menuRect = this.menuNode.getBoundingClientRect();
       const diff = window.innerWidth - buttonRect.left - menuRect.width;
       if (diff < 0) {
-        if (window.innerWidth > menuRect.width) {
-          this.menuNode.style.left = (window.innerWidth - menuRect.width) + 'px';
-        } else {
+        if (window.innerWidth < menuRect.width) {
           this.menuNode.style.left = '0px';
         }
-      }
-      else {
-        this.menuNode.style.left = buttonRect.left + 'px';
       }
 
       this.menuNode.removeAttribute('aria-busy');
       this.buttonNode.setAttribute('aria-expanded', 'true');
       // use custom element attribute to set focus to the menu
       this.buttonNode.classList.add('menu');
+
+      if (this.linkNode) {
+        this.linkNode.style.display = 'none';
+      }
+
     }
 
     /*
@@ -837,12 +853,22 @@ export default class SkiptoMenuButton {
      *
      * @desc Closes the memu of landmark regions and headings
      */
-    closePopup() {
+    closePopup(moveFocusToButton=false) {
       if (this.isOpen()) {
         this.buttonNode.setAttribute('aria-expanded', 'false');
         this.menuNode.style.display = 'none';
         this.highlightElement.removeHighlight();
         this.buttonNode.classList.remove('menu');
+        if (moveFocusToButton) {
+          if (this.linkNode) {
+            this.linkNode.style.display = 'block';
+            this.linkNode.focus();
+          }
+          else {
+            this.buttonNode.focus();
+          }
+          this.skipToContentElem.setAttribute('focus', 'button');
+        }
       }
     }
 
@@ -941,29 +967,32 @@ export default class SkiptoMenuButton {
      * @desc Set display option for button visibility wehn it does not
      *       have focus
      *
+     * @param  {Object}  elem  - DOM element to update style
      * @param  {String}  value - String with configuration information
      */
-    setDisplayOption(value) {
+    setDisplayOption(elem, value) {
 
       if (typeof value === 'string') {
         value = value.trim().toLowerCase();
-        if (value.length && this.buttonNode) {
+        if (value.length && elem) {
 
-          this.buttonNode.classList.remove('static');
-          this.buttonNode.classList.remove('popup');
-          this.buttonNode.classList.remove('show-border');
+          elem.classList.remove('static');
+          elem.classList.remove('popup');
+          elem.classList.remove('show-border');
 
           switch (value) {
             case 'static':
-              this.buttonNode.classList.add('static');
+              elem.classList.add('static');
               break;
+
             case 'onfocus':  // Legacy option
             case 'popup':
-              this.buttonNode.classList.add('popup');
+              elem.classList.add('popup');
               break;
+
             case 'popup-border':
-              this.buttonNode.classList.add('popup');
-              this.buttonNode.classList.add('show-border');
+              elem.classList.add('popup');
+              elem.classList.add('show-border');
               break;
             default:
               break;
@@ -975,13 +1004,19 @@ export default class SkiptoMenuButton {
     // Menu event handlers
     
     handleFocusin() {
-      this.buttonNode.classList.add('focus');
+      this.menuButtonNode.classList.add('focus');
       this.skipToContentElem.setAttribute('focus', 'button');
+      if (this.linkNode) {
+        this.linkNode.style.display = 'none';
+      }
     }
     
     handleFocusout() {
-      this.buttonNode.classList.remove('focus');
+      this.menuButtonNode.classList.remove('focus');
       this.skipToContentElem.setAttribute('focus', 'none');
+      if (this.linkNode) {
+        this.linkNode.style.display = 'block';
+      }
     }
     
     handleButtonKeydown(event) {
@@ -998,9 +1033,7 @@ export default class SkiptoMenuButton {
           break;
         case 'Esc':
         case 'Escape':
-          this.closePopup();
-          this.buttonNode.focus();
-          this.skipToContentElem.setAttribute('focus', 'button');
+          this.closePopup(true);
           flag = true;
           break;
         case 'Up':
@@ -1019,10 +1052,9 @@ export default class SkiptoMenuButton {
     }
 
     handleButtonClick(event) {
+      this.menuButtonNode.classList.add('focus');
       if (this.isOpen()) {
-        this.closePopup();
-        this.buttonNode.focus();
-        this.skipToContentElem.setAttribute('focus', 'button');
+        this.closePopup(true);
       } else {
         this.openPopup();
         this.setFocusToFirstMenuitem();
@@ -1234,9 +1266,7 @@ export default class SkiptoMenuButton {
           flag = true;
         }
         if (event.key === 'Tab') {
-          this.closePopup();
-          this.buttonNode.focus();
-          this.skipToContentElem.setAttribute('focus', 'button');
+          this.closePopup(true);
           flag = true;
         }
       } else {
@@ -1248,9 +1278,7 @@ export default class SkiptoMenuButton {
             break;
           case 'Esc':
           case 'Escape':
-            this.closePopup();
-            this.buttonNode.focus();
-            this.skipToContentElem.setAttribute('focus', 'button');
+            this.closePopup(true);
             flag = true;
             break;
           case 'Left':
@@ -1346,9 +1374,7 @@ export default class SkiptoMenuButton {
         if (this.containerNode.contains(event.target)) {
           if (this.isOpen()) {
             if (!this.isOverMenu(event.clientX, event.clientY)) {
-              this.closePopup();
-              this.buttonNode.focus();
-              this.skipToContentElem.setAttribute('focus', 'button');
+              this.closePopup(true);
             }
           }
           else {
@@ -1396,13 +1422,17 @@ export default class SkiptoMenuButton {
       else {
         if (!omb) {
           if (this.isOpen()) {
-            this.closePopup();
-            this.buttonNode.focus();
-            this.skipToContentElem.setAttribute('focus', 'button');
+            this.closePopup(true);
           }        
         }
       }
 
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    handleMobileClick (event) {
+      this.skipToContentElem.setAttribute('setfocus', 'menu');
       event.stopPropagation();
       event.preventDefault();
     }

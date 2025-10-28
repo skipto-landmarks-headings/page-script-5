@@ -1,5 +1,8 @@
 /* constants.js */
 
+// Version
+export const VERSION = '5.9.2';
+
 // Numbers
 
 export const REQUIRE_ACCESSIBLE_NAME_COUNT = 3;

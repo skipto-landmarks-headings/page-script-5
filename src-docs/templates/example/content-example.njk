@@ -52,10 +52,11 @@
               <p>{{description}}</p>
 
               {% if config %}
-              <h2>Configuration Parameters</h2>
+              <h2>Configuration Attribute</h2>
               <div class="params bg-light" width="auto">
-                <code>{{config}}</code>
+                <code>data-skipto="{{config}}"</code>
               </div>
+              <p>Note: The <code>data-skipto</code> attribute is on the <code>script</code> element referencing the SkipTo.js script.</p>
               {% endif %}
             </section>
 

@@ -6,7 +6,8 @@ import SkiptoMenuButton from './skiptoMenuButton.js';
 import DebugLogging  from './debug.js';
 
 import {
-  ATTR_SKIP_TO_DATA
+  ATTR_SKIP_TO_DATA,
+  VERSION
 } from './constants.js';
 
 import {
@@ -27,17 +28,17 @@ debug.flag = false;
 
 const defaultStyleOptions = colorThemes['default'];
 
-/* @class SkipToContent590
+/* @class SkipToContent592
  *
  */
 
-export default class SkipToContent590 extends HTMLElement {
+export default class SkipToContent592 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
     super();
     this.attachShadow({ mode: 'open' });
-    this.version = "5.9.1";
+    this.version = `${VERSION}`;
     this.buttonSkipTo = false;
     this.initialized = false;
 

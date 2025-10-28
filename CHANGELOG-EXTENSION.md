@@ -1,5 +1,8 @@
 # Version history for SkipTo.js for Firefox, Chrome and Opera
 
+## Version 1.3.2
+* Updated to SkipTo.js 5.9.2 fix bug in iOS and voiceOver
+
 ## Version 1.3.1
 * Updated to SkipTo.js 5.9.1 to fix bug in shortcut key navigation to named regions and headings
 

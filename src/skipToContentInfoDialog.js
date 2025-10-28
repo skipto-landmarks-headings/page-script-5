@@ -6,7 +6,8 @@ import DebugLogging  from './debug.js';
 import {
   DIALOG_ID,
   MORE_ABOUT_INFO_URL,
-  MORE_SHORTCUT_INFO_URL
+  MORE_SHORTCUT_INFO_URL,
+  VERSION
 } from './constants.js';
 
 /* Constants */
@@ -112,7 +113,7 @@ templateInfoDialog.innerHTML = `
         Happy Skipping!
       </div>
       <div class="version">
-        Version 5.9.0
+        Version ${VERSION}
       </div>
       <div class="copyright">
         BSD License, Copyright 2021-2025
