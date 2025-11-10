@@ -1,7 +1,7 @@
 # Version history for SkipTo.js
 
 ## Version 5.9.2
-* Fix bug with iOS and VoiceOver
+* Fixes issue with iOS and Android with Voice Over and Talk Back
 
 ## Version 5.9.1
 * Fixes bug in shortcut key navigation to named headings and landmark regions
