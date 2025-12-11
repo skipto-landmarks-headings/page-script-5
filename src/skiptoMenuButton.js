@@ -1238,12 +1238,12 @@ export default class SkiptoMenuButton {
       }
 
       if (tgt.hasAttribute('data-shortcuts-info')) {
-        this.infoDialog.openDialog('shortcuts');
+        this.infoDialog.openDialog('shortcuts', this.config.shortcutsInfoLabel);
         this.closePopup();
       }
 
       if (tgt.hasAttribute('data-about-info')) {
-        this.infoDialog.openDialog('skipto');
+        this.infoDialog.openDialog('about', this.config.aboutInfoLabel);
         this.closePopup();
       }
 

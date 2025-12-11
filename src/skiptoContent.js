@@ -90,11 +90,11 @@ export default class SkipToContent592 extends HTMLElement {
       shortcutRegionNavigation: 'n',
       shortcutRegionComplementary: 'c',
 
+      shortcutsInfoLabel:          'Keyboard Shortcuts',
       shortcutsGroupEnabledLabel:  'Shortcuts: Enabled',
       shortcutsGroupDisabledLabel: 'Shortcuts: Disabled',
       shortcutsToggleEnableLabel:  'Enable shortcuts',
       shortcutsToggleDisableLabel: 'Disable shortcuts',
-      shortcutsInfoLabel:          'Shortcut Information',
 
       aboutSupported: 'true',
       aboutInfoLabel: `About SkipTo.js`,
@@ -446,9 +446,7 @@ export default class SkipToContent592 extends HTMLElement {
    *   @desc  Hides the highlight element on the page
    */
   removeHighlight() {
-    debug.log(`[removeHighlight]`);
     this.buttonSkipto.removeHighlight();
-
   }
 
 }

@@ -128,18 +128,6 @@ optionsI18nTemplate.innerHTML = `
       </div>
 
       <div class="text">
-        <label data-i18n="options_landmark_one_group_label"
-               for="input-landmark-one-group">
-                X
-        </label>
-        <input id="input-landmark-One-group"
-          data-option="landmarkOneGroupLabel"
-          type="text"
-          size="25"/>
-      </div>
-
-
-      <div class="text">
         <label data-i18n="options_heading_group_label"
                for="input-heading-group">
                X

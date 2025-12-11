@@ -184,7 +184,7 @@
     "description" : "Initial value of disable shortcuts menu item label"
   },
   "init_shortcuts_info_label": {
-    "message" : "Shortcut Information",
+    "message" : "Keyboard Shortcuts",
     "description" : "Initial value of Shortcut Information menu item label"
   },
   "init_msg_heading_level": {

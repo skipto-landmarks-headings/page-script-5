@@ -1,14 +1,15 @@
 # Version history for SkipTo.js
 
 ## Version 5.9.2
-* Fixes issue with iOS and Android with Voice Over and Talk Back
+* Fixes issue of opening menu in iOS and Android with Voice Over and Talk Back in popup configuration
+* Fixes dialog title issue in About dialog
 
 ## Version 5.9.1
 * Fixes bug in shortcut key navigation to named headings and landmark regions
 
 ## Version 5.9
 * Refactored code to use CSS variables and reduce custom elements in the light DOM
-* Calculate the height of the menu button for off-screen positioning based on font-size
+* Calculate the height of the menu button for off-screen positioning based on font-size so button is always hidden in popup configuration
 
 ## Version 5.8.3
 * Fixes bug with hidden heading message not being hidden in some cases
