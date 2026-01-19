@@ -1,5 +1,9 @@
 # Version history for SkipTo.js
 
+## Version 5.9.3
+* Fixes issue with supporting forced-color media query
+* Increases size of dialog box buttons and close icon
+
 ## Version 5.9.2
 * Fixes issue of opening menu in iOS and Android with Voice Over and Talk Back in popup configuration
 * Fixes dialog title issue in About dialog
