@@ -864,59 +864,6 @@
   display: none;
 }
 
-
-@media (forced-colors: active) {
-
-  .menu-button button {
-    border-color: ButtonBorder;
-    color: ButtonText;
-    background-color: ButtonFace;
-  }
-
-  .menu-button [role="menu"] {
-    background-color: ButtonFace;
-    border-color: ButtonText;
-  }
-
-  .menu-button [role="menuitem"] {
-    color: ButtonText;
-    background-color: ButtonFace;
-  }
-
-  .menu-button [role="menuitem"] .level,
-  .menu-button [role="menuitem"] .label {
-    color: ButtonText;
-    background-color: ButtonFace;
-  }
-
-  .menu-button [role="separator"] {
-    border-bottom-color: ButtonBorder;
-    background-color: ButtonFace;
-    color: ButtonText;
-    z-index: var(--skipto-z-index-1) !important;
-  }
-
-  .menu-button button:focus,
-  .menu-button button:hover {
-    background-color: ButtonFace;
-    color: ButtonText;
-    border-color: ButtonBorder;
-  }
-
-  .menu-button [role="menuitem"]:focus {
-    background-color: ButtonText;
-    color: ButtonFace;
-    border-color: ButtonBorder;
-  }
-
-  .menu-button [role="menuitem"].hover,
-  .menu-button [role="menuitem"].hover .level,
-  .menu-button [role="menuitem"].hover .label {
-    background-color: ButtonText;
-    color: ButtonFace;
-  }
-}
-
 /* Dialog Styling */
 
 dialog {
