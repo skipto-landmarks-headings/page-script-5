@@ -428,19 +428,19 @@ dialog .header {
 dialog .header h2 {
   margin: 0;
   padding: 0;
-  font-size: 1em;
+  font-size: 120%;
 }
 
 dialog .header button {
   position: absolute;
-  top: 4px;
+  top: 0px;
   right: 2px;
   border: none;
   background: transparent;
   font-weight: bold;
+  font-size: 1.75em;
   color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
   font-family: var(--skipto-font-family);
-  font-size: var(--skipto-font-size);
 }
 
 dialog .content {
@@ -448,6 +448,7 @@ dialog .content {
   margin-right: 2em;
   margin-top: 0;
   margin-bottom: 2em;
+  font-size: 110%;
 }
 
 dialog .content .desc {
@@ -545,7 +546,7 @@ dialog .buttons button {
   margin: 6px;
   min-width: 5em;
   font-family: var(--skipto-font-family);
-  font-size: var(--skipto-font-size);
+  font-size: 125%;
 }
 
 dialog button:focus {
