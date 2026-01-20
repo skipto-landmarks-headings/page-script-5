@@ -3,6 +3,7 @@
 ## Version 5.9.3
 * Fixes issue with supporting forced-color media query
 * Increases size of dialog box buttons and close icon
+* Added button keyboard shortcut information to About dialog box
 
 ## Version 5.9.2
 * Fixes issue of opening menu in iOS and Android with Voice Over and Talk Back in popup configuration
