@@ -21,9 +21,10 @@ templateInfoDialog.innerHTML = `
     <div>
       <div class="header">
         <h2 class="title"></h2>
-        <button aria-label="Close">✕</button>
+        <button aria-label="Close">&times;</button>
       </div>
       <div class="shortcuts content">
+
          <table>
             <caption>Landmark Regions</caption>
             <thead>
@@ -55,6 +56,7 @@ templateInfoDialog.innerHTML = `
                </tr>
             </tbody>
          </table>
+
          <table>
             <caption>Headings</caption>
             <thead>
