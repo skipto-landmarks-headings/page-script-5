@@ -107,6 +107,12 @@ templateInfoDialog.innerHTML = `
           SkipTo.js is a free and open source utility to support the WCAG 2.4.1 Bypass Block requirement.
         </div>
         <div class="privacy-label">
+          Button Shortcut
+        </div>
+        <div class="privacy">
+          Use the <kbd id="button-shortcut">Alt+0</kbd> keyboard shortcut to open the "Skip To Content" menu.
+        </div>
+        <div class="privacy-label">
           Privacy
         </div>
         <div class="privacy">
@@ -157,6 +163,7 @@ export default class SkipToContentInfoDialog {
     this.titleElem           = attachElem.querySelector(`#${DIALOG_ID} .title`);
     this.shortcutContentElem = attachElem.querySelector(`#${DIALOG_ID} .shortcuts`);
     this.aboutContentElem    = attachElem.querySelector(`#${DIALOG_ID} .about`);
+    this.buttonShortcutElem  = attachElem.querySelector(`#${DIALOG_ID} #button-shortcut`);
 
     const moreInfoButtonElem = attachElem.querySelector(`#${DIALOG_ID} .buttons button.more`);
     moreInfoButtonElem.addEventListener('click', this.onMoreInfoClick.bind(this));
@@ -172,7 +179,7 @@ export default class SkipToContentInfoDialog {
     this.dialogElem.close();
   }
 
-  openDialog (content, title) {
+  openDialog (content, title, buttonShortcut="Option+0") {
     this.content = content;
 
     if (content === 'shortcuts') {
@@ -184,6 +191,7 @@ export default class SkipToContentInfoDialog {
       this.shortcutContentElem.style.display = 'none';
       this.aboutContentElem.style.display = 'block';
       this.titleElem.textContent = title;
+      this.buttonShortcutElem.textContent = buttonShortcut;
     }
     this.dialogElem.showModal();
     this.closeButtonElem2.focus();

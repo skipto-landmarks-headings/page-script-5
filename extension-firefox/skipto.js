@@ -1547,6 +1547,12 @@ dialog button:hover {
           SkipTo.js is a free and open source utility to support the WCAG 2.4.1 Bypass Block requirement.
         </div>
         <div class="privacy-label">
+          Button Shortcut
+        </div>
+        <div class="privacy">
+          Use the <kbd id="button-shortcut">Alt+0</kbd> keyboard shortcut to open the "Skip To Content" menu.
+        </div>
+        <div class="privacy-label">
           Privacy
         </div>
         <div class="privacy">
@@ -1597,6 +1603,7 @@ dialog button:hover {
       this.titleElem           = attachElem.querySelector(`#${DIALOG_ID} .title`);
       this.shortcutContentElem = attachElem.querySelector(`#${DIALOG_ID} .shortcuts`);
       this.aboutContentElem    = attachElem.querySelector(`#${DIALOG_ID} .about`);
+      this.buttonShortcutElem  = attachElem.querySelector(`#${DIALOG_ID} #button-shortcut`);
 
       const moreInfoButtonElem = attachElem.querySelector(`#${DIALOG_ID} .buttons button.more`);
       moreInfoButtonElem.addEventListener('click', this.onMoreInfoClick.bind(this));
@@ -1612,7 +1619,7 @@ dialog button:hover {
       this.dialogElem.close();
     }
 
-    openDialog (content, title) {
+    openDialog (content, title, buttonShortcut="Option+0") {
       this.content = content;
 
       if (content === 'shortcuts') {
@@ -1624,6 +1631,7 @@ dialog button:hover {
         this.shortcutContentElem.style.display = 'none';
         this.aboutContentElem.style.display = 'block';
         this.titleElem.textContent = title;
+        this.buttonShortcutElem.textContent = buttonShortcut;
       }
       this.dialogElem.showModal();
       this.closeButtonElem2.focus();
@@ -3938,7 +3946,8 @@ dialog button:hover {
 
         // Setup button
 
-        const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(this.config);
+        const [buttonVisibleLabel, buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(this.config);
+        this.config.osShortcut = osShortcut;
 
         this.buttonNode = this.containerNode.querySelector('button');
         this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
@@ -4091,7 +4100,8 @@ dialog button:hover {
           this.containerNode.setAttribute('aria-label', config.buttonLabel);
         }
 
-        const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(config);
+        const [buttonVisibleLabel, buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(config);
+        config.osShortcut = osShortcut;
         this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
 
         this.textButtonNode.textContent = buttonVisibleLabel;
@@ -4133,6 +4143,7 @@ dialog button:hover {
         let label = config.buttonLabel;
         let ariaLabel = config.buttonLabel;
         let buttonShortcut;
+        let osShortcut;
 
         // Check to make sure a shortcut key is defined
         if (config.altShortcut && config.optionShortcut) {
@@ -4152,6 +4163,8 @@ dialog button:hover {
             ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
             ariaLabel = ariaLabel.replace('$modifierLabel', config.altLabel);
             ariaLabel = ariaLabel.replace('$shortcutLabel', config.shortcutLabel);
+            osShortcut = `${config.altLabel}+0`;
+
           }
 
           if (this.usesOptionKey) {
@@ -4164,9 +4177,10 @@ dialog button:hover {
             ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
             ariaLabel = ariaLabel.replace('$modifierLabel', config.optionLabel);
             ariaLabel = ariaLabel.replace('$shortcutLabel', config.shortcutLabel);
+            osShortcut = `${config.optionLabel}+0`;
           }
         }
-        return [label, ariaLabel];
+        return [label, ariaLabel, osShortcut];
       }
 
       /*
@@ -5007,12 +5021,12 @@ dialog button:hover {
         }
 
         if (tgt.hasAttribute('data-shortcuts-info')) {
-          this.infoDialog.openDialog('shortcuts', this.config.shortcutsInfoLabel);
+          this.infoDialog.openDialog('shortcuts', this.config.shortcutsInfoLabel, this.config.osShortcut);
           this.closePopup();
         }
 
         if (tgt.hasAttribute('data-about-info')) {
-          this.infoDialog.openDialog('about', this.config.aboutInfoLabel);
+          this.infoDialog.openDialog('about', this.config.aboutInfoLabel, this.config.osShortcut);
           this.closePopup();
         }
 

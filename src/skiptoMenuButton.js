@@ -162,7 +162,8 @@ export default class SkiptoMenuButton {
 
       // Setup button
 
-      const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(this.config);
+      const [buttonVisibleLabel, buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(this.config);
+      this.config.osShortcut = osShortcut;
 
       this.buttonNode = this.containerNode.querySelector('button');
       this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
@@ -315,7 +316,8 @@ export default class SkiptoMenuButton {
         this.containerNode.setAttribute('aria-label', config.buttonLabel);
       }
 
-      const [buttonVisibleLabel, buttonAriaLabel] = this.getBrowserSpecificShortcut(config);
+      const [buttonVisibleLabel, buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(config);
+      config.osShortcut = osShortcut;
       this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
 
       this.textButtonNode.textContent = buttonVisibleLabel;
@@ -357,6 +359,7 @@ export default class SkiptoMenuButton {
       let label = config.buttonLabel;
       let ariaLabel = config.buttonLabel;
       let buttonShortcut;
+      let osShortcut;
 
       // Check to make sure a shortcut key is defined
       if (config.altShortcut && config.optionShortcut) {
@@ -376,6 +379,8 @@ export default class SkiptoMenuButton {
           ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
           ariaLabel = ariaLabel.replace('$modifierLabel', config.altLabel);
           ariaLabel = ariaLabel.replace('$shortcutLabel', config.shortcutLabel);
+          osShortcut = `${config.altLabel}+0`;
+
         }
 
         if (this.usesOptionKey) {
@@ -388,9 +393,10 @@ export default class SkiptoMenuButton {
           ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
           ariaLabel = ariaLabel.replace('$modifierLabel', config.optionLabel);
           ariaLabel = ariaLabel.replace('$shortcutLabel', config.shortcutLabel);
+          osShortcut = `${config.optionLabel}+0`;
         }
       }
-      return [label, ariaLabel];
+      return [label, ariaLabel, osShortcut];
     }
 
     /*
@@ -1238,12 +1244,12 @@ export default class SkiptoMenuButton {
       }
 
       if (tgt.hasAttribute('data-shortcuts-info')) {
-        this.infoDialog.openDialog('shortcuts', this.config.shortcutsInfoLabel);
+        this.infoDialog.openDialog('shortcuts', this.config.shortcutsInfoLabel, this.config.osShortcut);
         this.closePopup();
       }
 
       if (tgt.hasAttribute('data-about-info')) {
-        this.infoDialog.openDialog('about', this.config.aboutInfoLabel);
+        this.infoDialog.openDialog('about', this.config.aboutInfoLabel, this.config.osShortcut);
         this.closePopup();
       }
 
