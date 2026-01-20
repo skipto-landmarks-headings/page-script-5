@@ -766,7 +766,7 @@ function getTheme(colorTheme) {
           pathnameMatch = '';
         }
         else {
-          // if the same hostname is used in another theme, set the hostnameFlas in case the pathname
+          // if the same hostname is used in another theme, set the hostnameFlag in case the pathname
           // matches
           if (colorThemes[hostnameMatch].hostnameSelector.length === hostnameSelector.length) {
             hostnameFlag = true;
@@ -887,7 +887,7 @@ function updateCSS (containerNode, config, useURLTheme=false) {
   updateStyle(containerNode, '--skipto-button-background-color',      config.buttonBackgroundColor,     theme.buttonBackgroundColor,     d.buttonBackgroundColor);
   updateStyle(containerNode, '--skipto-button-background-dark-color', config.buttonBackgroundDarkColor, theme.buttonBackgroundDarkColor, d.buttonBackgroundDarkColor);
 
-  updateStyle(containerNode, '--skipto-dialog-text-color',                  config.dialogTextColor,                theme.dialogTextColorr,               d.dialogTextColor);
+  updateStyle(containerNode, '--skipto-dialog-text-color',                  config.dialogTextColor,                theme.dialogTextColor,                d.dialogTextColor);
   updateStyle(containerNode, '--skipto-dialog-text-dark-color',             config.dialogTextDarkColor,            theme.dialogTextDarkColor,            d.dialogTextDarkColor);
   updateStyle(containerNode, '--skipto-dialog-background-color',            config.dialogBackgroundColor,          theme.dialogBackgroundColor,          d.dialogBackgroundColor);
   updateStyle(containerNode, '--skipto-dialog-background-dark-color',       config.dialogBackgroundDarkColor,      theme.dialogBackgroundDarkColor,      d.dialogBackgroundDarkColor);
