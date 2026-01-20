@@ -26,8 +26,8 @@
       fontFamily: 'inherit',
       fontSize: 'inherit',
       positionLeft: '46%',
-      smallBreakPoint: '580',
-      mediumBreakPoint: '992',
+      smallBreakPoint: '580px',
+      mediumBreakPoint: '992px',
       buttonTextColor: 'hsl(216, 60%, 18%)',
       buttonTextDarkColor: 'hsl(216, 60%, 72%)',
       buttonBackgroundColor: 'hsl(0, 0%, 87%)',
@@ -509,8 +509,6 @@
   --skipto-font-family: 'inherit';
   --skipto-font-size: 'inherit';
   --skipto-position-left: '46%';
-  --skipto-small-break-point: '580px';
-  --skipto-medium-break-point: '992px';
 
   --skipto-button-text-color: '#13294b';
   --skipto-button-text-dark-color: '#ffffff';
@@ -613,7 +611,7 @@
   font-family: var(--skipto-font-family);
 }
 
-@media screen and (max-width: var(--skipto-small-break-point)) {
+@media only screen and (max-width: 588px) {
   .menu-button:not(.popup) button .skipto-small {
     transition: top 0.35s ease;
     display: inline-block;
@@ -637,7 +635,7 @@
   }
 }
 
-@media screen and (min-width: var(--skipto-small-break-point)) and (max-width: var(--skipto-medium-break-point)) {
+@media only screen and (min-width: 588px) and (max-width: 992px) {
   .menu-button:not(.popup) button .skipto-medium {
     transition: top 0.35s ease;
     display: inline-block;
@@ -1343,8 +1341,6 @@ dialog button:hover {
     updateStyle(containerNode, '--skipto-font-size',   config.fontSize,   theme.fontSize,   d.fontSize);
 
     updateStyle(containerNode, '--skipto-position-left',      config.positionLeft,     theme.positionLeft,     d.positionLeft);
-    updateStyle(containerNode, '--skipto-small-break-point',  config.smallBreakPoint,  theme.smallBreakPoint,  d.smallBreakPoint);
-    updateStyle(containerNode, '--skipto-medium-break-point', config.mediumBreakPoint, theme.mediumBreakPoint, d.mediumBreakPoint);
 
     updateStyle(containerNode, '--skipto-menu-text-color',            config.menuTextColor,           theme.menuTextColor,           d.menuTextColor);
     updateStyle(containerNode, '--skipto-menu-text-dark-color',       config.menuTextDarkColor,       theme.menuTextDarkColor,       d.menuTextDarkColor);
@@ -1552,7 +1548,7 @@ dialog button:hover {
           Button Shortcut
         </div>
         <div class="privacy">
-          Use the <kbd id="button-shortcut">Alt+0</kbd> keyboard shortcut to open the "Skip To Content" menu.
+          Use the <kbd id="os-shortcut">Alt+0</kbd> keyboard shortcut to open the "Skip To Content" menu.
         </div>
         <div class="privacy-label">
           Privacy
@@ -1605,7 +1601,7 @@ dialog button:hover {
       this.titleElem           = attachElem.querySelector(`#${DIALOG_ID} .title`);
       this.shortcutContentElem = attachElem.querySelector(`#${DIALOG_ID} .shortcuts`);
       this.aboutContentElem    = attachElem.querySelector(`#${DIALOG_ID} .about`);
-      this.buttonShortcutElem  = attachElem.querySelector(`#${DIALOG_ID} #button-shortcut`);
+      this.osShortcutElem  = attachElem.querySelector(`#${DIALOG_ID} #os-shortcut`);
 
       const moreInfoButtonElem = attachElem.querySelector(`#${DIALOG_ID} .buttons button.more`);
       moreInfoButtonElem.addEventListener('click', this.onMoreInfoClick.bind(this));
@@ -1621,7 +1617,7 @@ dialog button:hover {
       this.dialogElem.close();
     }
 
-    openDialog (content, title, buttonShortcut="Option+0") {
+    openDialog (content, title, osShortcut) {
       this.content = content;
 
       if (content === 'shortcuts') {
@@ -1633,7 +1629,7 @@ dialog button:hover {
         this.shortcutContentElem.style.display = 'none';
         this.aboutContentElem.style.display = 'block';
         this.titleElem.textContent = title;
-        this.buttonShortcutElem.textContent = buttonShortcut;
+        this.osShortcutElem.textContent = osShortcut;
       }
       this.dialogElem.showModal();
       this.closeButtonElem2.focus();
@@ -5389,8 +5385,6 @@ dialog button:hover {
         fontFamily: '',
         fontSize: '',
         positionLeft: '',
-        smallBreakPoint: '',
-        mediumBreakPoint: '',
         menuTextColor: '',
         menuBackgroundColor: '',
         menuitemFocusTextColor: '',

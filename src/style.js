@@ -32,8 +32,6 @@ cssStyleTemplate.textContent = `
   --skipto-font-family: 'inherit';
   --skipto-font-size: 'inherit';
   --skipto-position-left: '46%';
-  --skipto-small-break-point: '580px';
-  --skipto-medium-break-point: '992px';
 
   --skipto-button-text-color: '#13294b';
   --skipto-button-text-dark-color: '#ffffff';
@@ -136,7 +134,7 @@ cssStyleTemplate.textContent = `
   font-family: var(--skipto-font-family);
 }
 
-@media screen and (max-width: var(--skipto-small-break-point)) {
+@media only screen and (max-width: 588px) {
   .menu-button:not(.popup) button .skipto-small {
     transition: top 0.35s ease;
     display: inline-block;
@@ -160,7 +158,7 @@ cssStyleTemplate.textContent = `
   }
 }
 
-@media screen and (min-width: var(--skipto-small-break-point)) and (max-width: var(--skipto-medium-break-point)) {
+@media only screen and (min-width: 588px) and (max-width: 992px) {
   .menu-button:not(.popup) button .skipto-medium {
     transition: top 0.35s ease;
     display: inline-block;
@@ -866,8 +864,6 @@ function updateCSS (containerNode, config, useURLTheme=false) {
   updateStyle(containerNode, '--skipto-font-size',   config.fontSize,   theme.fontSize,   d.fontSize);
 
   updateStyle(containerNode, '--skipto-position-left',      config.positionLeft,     theme.positionLeft,     d.positionLeft);
-  updateStyle(containerNode, '--skipto-small-break-point',  config.smallBreakPoint,  theme.smallBreakPoint,  d.smallBreakPoint);
-  updateStyle(containerNode, '--skipto-medium-break-point', config.mediumBreakPoint, theme.mediumBreakPoint, d.mediumBreakPoint);
 
   updateStyle(containerNode, '--skipto-menu-text-color',            config.menuTextColor,           theme.menuTextColor,           d.menuTextColor);
   updateStyle(containerNode, '--skipto-menu-text-dark-color',       config.menuTextDarkColor,       theme.menuTextDarkColor,       d.menuTextDarkColor);

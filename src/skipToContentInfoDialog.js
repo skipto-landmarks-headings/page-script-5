@@ -112,7 +112,7 @@ templateInfoDialog.innerHTML = `
           Button Shortcut
         </div>
         <div class="privacy">
-          Use the <kbd id="button-shortcut">Alt+0</kbd> keyboard shortcut to open the "Skip To Content" menu.
+          Use the <kbd id="os-shortcut">Alt+0</kbd> keyboard shortcut to open the "Skip To Content" menu.
         </div>
         <div class="privacy-label">
           Privacy
@@ -165,7 +165,7 @@ export default class SkipToContentInfoDialog {
     this.titleElem           = attachElem.querySelector(`#${DIALOG_ID} .title`);
     this.shortcutContentElem = attachElem.querySelector(`#${DIALOG_ID} .shortcuts`);
     this.aboutContentElem    = attachElem.querySelector(`#${DIALOG_ID} .about`);
-    this.buttonShortcutElem  = attachElem.querySelector(`#${DIALOG_ID} #button-shortcut`);
+    this.osShortcutElem  = attachElem.querySelector(`#${DIALOG_ID} #os-shortcut`);
 
     const moreInfoButtonElem = attachElem.querySelector(`#${DIALOG_ID} .buttons button.more`);
     moreInfoButtonElem.addEventListener('click', this.onMoreInfoClick.bind(this));
@@ -181,7 +181,7 @@ export default class SkipToContentInfoDialog {
     this.dialogElem.close();
   }
 
-  openDialog (content, title, buttonShortcut="Option+0") {
+  openDialog (content, title, osShortcut) {
     this.content = content;
 
     if (content === 'shortcuts') {
@@ -193,7 +193,7 @@ export default class SkipToContentInfoDialog {
       this.shortcutContentElem.style.display = 'none';
       this.aboutContentElem.style.display = 'block';
       this.titleElem.textContent = title;
-      this.buttonShortcutElem.textContent = buttonShortcut;
+      this.osShortcutElem.textContent = osShortcut;
     }
     this.dialogElem.showModal();
     this.closeButtonElem2.focus();

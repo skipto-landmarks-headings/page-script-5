@@ -2,6 +2,7 @@
 
 ## Version 5.10
 * Adds KBD element in button label to improve the rendering of 0 with a slash in it
+* Fixed bug in CSS media query for screen, hard coded 588px and 992px for breaks
 
 ## Version 5.9.3
 * Fixes issue with supporting forced-color media query

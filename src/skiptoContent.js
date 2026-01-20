@@ -188,8 +188,6 @@ export default class SkipToContent592 extends HTMLElement {
       fontFamily: '',
       fontSize: '',
       positionLeft: '',
-      smallBreakPoint: '',
-      mediumBreakPoint: '',
       menuTextColor: '',
       menuBackgroundColor: '',
       menuitemFocusTextColor: '',
