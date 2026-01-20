@@ -56,7 +56,10 @@ templateMenuButton.innerHTML = `
             aria-expanded= "false"
             aria-label="Skip To Content"
             aria-controls="id-skip-to-menu">
-      <span class="skipto-text">Skip To Content (Alt+0)</span>
+      <span class="skipto-large">
+        <span class="skipto-text">Skip To Content</span>
+        (<kbd class="skipto-shortcut">Alt+0</kbd>)
+      </span>
       <span class="skipto-medium">Skip To Content</span>
       <span class="skipto-small">SkipTo</span>
     </button>
@@ -162,7 +165,7 @@ export default class SkiptoMenuButton {
 
       // Setup button
 
-      const [buttonVisibleLabel, buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(this.config);
+      let [buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(this.config);
       this.config.osShortcut = osShortcut;
 
       this.buttonNode = this.containerNode.querySelector('button');
@@ -171,7 +174,10 @@ export default class SkiptoMenuButton {
       this.buttonNode.addEventListener('click', this.handleButtonClick.bind(this));
 
       this.textButtonNode = this.buttonNode.querySelector('span.skipto-text');
-      this.textButtonNode.textContent = buttonVisibleLabel;
+      this.textButtonNode.textContent = this.config.buttonLabel;
+
+      this.shortcutButtonNode = this.buttonNode.querySelector('kbd.skipto-shortcut');
+      this.shortcutButtonNode.textContent = osShortcut;
 
       this.smallButtonNode = this.buttonNode.querySelector('span.skipto-small');
       this.smallButtonNode.textContent = this.config.smallButtonLabel;
@@ -316,13 +322,16 @@ export default class SkiptoMenuButton {
         this.containerNode.setAttribute('aria-label', config.buttonLabel);
       }
 
-      const [buttonVisibleLabel, buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(config);
+      let [buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(config);
+
       config.osShortcut = osShortcut;
+
       this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
 
-      this.textButtonNode.textContent = buttonVisibleLabel;
-      this.smallButtonNode.textContent = config.smallButtonLabel;
-      this.mediumButtonNode.textContent = config.buttonLabel;
+      this.textButtonNode.textContent     = config.buttonLabel;
+      this.shortcutButtonNode.textContent = osShortcut;
+      this.smallButtonNode.textContent    = config.smallButtonLabel;
+      this.mediumButtonNode.textContent   = config.buttonLabel;
 
       this.menuNode.setAttribute('aria-label', config.menuLabel);
       this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel);
@@ -356,25 +365,12 @@ export default class SkiptoMenuButton {
       this.usesAltKey = hasWin || (hasLinux && !hasAndroid);
       this.usesOptionKey = hasMac;
 
-      let label = config.buttonLabel;
       let ariaLabel = config.buttonLabel;
-      let buttonShortcut;
       let osShortcut;
 
       // Check to make sure a shortcut key is defined
       if (config.altShortcut && config.optionShortcut) {
-        if (this.usesAltKey || this.usesOptionKey) {
-          buttonShortcut = config.buttonShortcut.replace(
-            '$key',
-            config.altShortcut
-          );
-        }
         if (this.usesAltKey) {
-          buttonShortcut = buttonShortcut.replace(
-            '$modifier',
-            config.altLabel
-          );
-          label = label + buttonShortcut;
           ariaLabel = config.buttonAriaLabel.replace('$key', config.altShortcut);
           ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
           ariaLabel = ariaLabel.replace('$modifierLabel', config.altLabel);
@@ -384,11 +380,6 @@ export default class SkiptoMenuButton {
         }
 
         if (this.usesOptionKey) {
-          buttonShortcut = buttonShortcut.replace(
-            '$modifier',
-            config.optionLabel
-          );
-          label = label + buttonShortcut;
           ariaLabel = config.buttonAriaLabel.replace('$key', config.altShortcut);
           ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
           ariaLabel = ariaLabel.replace('$modifierLabel', config.optionLabel);
@@ -396,7 +387,7 @@ export default class SkiptoMenuButton {
           osShortcut = `${config.optionLabel}+0`;
         }
       }
-      return [label, ariaLabel, osShortcut];
+      return [ariaLabel, osShortcut];
     }
 
     /*

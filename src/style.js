@@ -102,7 +102,7 @@ cssStyleTemplate.textContent = `
   display: none;
 }
 
-.menu-button button .skipto-text {
+.menu-button button .skipto-large {
   padding: 6px 8px 6px 8px;
   display: inline-block;
 }
@@ -142,13 +142,13 @@ cssStyleTemplate.textContent = `
     display: inline-block;
   }
 
-  .menu-button:not(.popup) button .skipto-text,
+  .menu-button:not(.popup) button .skipto-large,
   .menu-button:not(.popup) button .skipto-medium {
     transition: top 0.35s ease;
     display: none;
   }
 
-  .menu-button:not(.popup) button:focus .skipto-text {
+  .menu-button:not(.popup) button:focus .skipto-large {
     transition: top 0.35s ease;
     display: inline-block;
   }
@@ -166,13 +166,13 @@ cssStyleTemplate.textContent = `
     display: inline-block;
   }
 
-  .menu-button:not(.popup) button .skipto-text,
+  .menu-button:not(.popup) button .skipto-large,
   .menu-button:not(.popup) button .skipto-small {
     transition: top 0.35s ease;
     display: none;
   }
 
-  .menu-button:not(.popup) button:focus .skipto-text {
+  .menu-button:not(.popup) button:focus .skipto-large {
     transition: top 0.35s ease;
     display: inline-block;
   }
@@ -358,8 +358,8 @@ cssStyleTemplate.textContent = `
   display: block;
 }
 
-.menu-button button:focus .skipto-text,
-.menu-button button:hover .skipto-text,
+.menu-button button:focus .skipto-large,
+.menu-button button:hover .skipto-large,
 .menu-button button:focus .skipto-small,
 .menu-button button:hover .skipto-small,
 .menu-button button:focus .skipto-medium,

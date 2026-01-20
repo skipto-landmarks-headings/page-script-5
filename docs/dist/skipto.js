@@ -579,7 +579,7 @@
   display: none;
 }
 
-.menu-button button .skipto-text {
+.menu-button button .skipto-large {
   padding: 6px 8px 6px 8px;
   display: inline-block;
 }
@@ -619,13 +619,13 @@
     display: inline-block;
   }
 
-  .menu-button:not(.popup) button .skipto-text,
+  .menu-button:not(.popup) button .skipto-large,
   .menu-button:not(.popup) button .skipto-medium {
     transition: top 0.35s ease;
     display: none;
   }
 
-  .menu-button:not(.popup) button:focus .skipto-text {
+  .menu-button:not(.popup) button:focus .skipto-large {
     transition: top 0.35s ease;
     display: inline-block;
   }
@@ -643,13 +643,13 @@
     display: inline-block;
   }
 
-  .menu-button:not(.popup) button .skipto-text,
+  .menu-button:not(.popup) button .skipto-large,
   .menu-button:not(.popup) button .skipto-small {
     transition: top 0.35s ease;
     display: none;
   }
 
-  .menu-button:not(.popup) button:focus .skipto-text {
+  .menu-button:not(.popup) button:focus .skipto-large {
     transition: top 0.35s ease;
     display: inline-block;
   }
@@ -835,8 +835,8 @@
   display: block;
 }
 
-.menu-button button:focus .skipto-text,
-.menu-button button:hover .skipto-text,
+.menu-button button:focus .skipto-large,
+.menu-button button:hover .skipto-large,
 .menu-button button:focus .skipto-small,
 .menu-button button:hover .skipto-small,
 .menu-button button:focus .skipto-medium,
@@ -1567,7 +1567,7 @@ dialog button:hover {
           Version ${VERSION}
         </div>
         <div class="copyright">
-          BSD License, Copyright 2021-2025
+          BSD License, Copyright 2021-2026
         </div>
       </div>
     </div>
@@ -3842,7 +3842,10 @@ dialog button:hover {
             aria-expanded= "false"
             aria-label="Skip To Content"
             aria-controls="id-skip-to-menu">
-      <span class="skipto-text">Skip To Content (Alt+0)</span>
+      <span class="skipto-large">
+        <span class="skipto-text">Skip To Content</span>
+        (<kbd class="skipto-shortcut">Alt+0</kbd>)
+      </span>
       <span class="skipto-medium">Skip To Content</span>
       <span class="skipto-small">SkipTo</span>
     </button>
@@ -3948,7 +3951,7 @@ dialog button:hover {
 
         // Setup button
 
-        const [buttonVisibleLabel, buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(this.config);
+        let [buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(this.config);
         this.config.osShortcut = osShortcut;
 
         this.buttonNode = this.containerNode.querySelector('button');
@@ -3957,7 +3960,10 @@ dialog button:hover {
         this.buttonNode.addEventListener('click', this.handleButtonClick.bind(this));
 
         this.textButtonNode = this.buttonNode.querySelector('span.skipto-text');
-        this.textButtonNode.textContent = buttonVisibleLabel;
+        this.textButtonNode.textContent = this.config.buttonLabel;
+
+        this.shortcutButtonNode = this.buttonNode.querySelector('kbd.skipto-shortcut');
+        this.shortcutButtonNode.textContent = osShortcut;
 
         this.smallButtonNode = this.buttonNode.querySelector('span.skipto-small');
         this.smallButtonNode.textContent = this.config.smallButtonLabel;
@@ -4102,13 +4108,16 @@ dialog button:hover {
           this.containerNode.setAttribute('aria-label', config.buttonLabel);
         }
 
-        const [buttonVisibleLabel, buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(config);
+        let [buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(config);
+
         config.osShortcut = osShortcut;
+
         this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
 
-        this.textButtonNode.textContent = buttonVisibleLabel;
-        this.smallButtonNode.textContent = config.smallButtonLabel;
-        this.mediumButtonNode.textContent = config.buttonLabel;
+        this.textButtonNode.textContent     = config.buttonLabel;
+        this.shortcutButtonNode.textContent = osShortcut;
+        this.smallButtonNode.textContent    = config.smallButtonLabel;
+        this.mediumButtonNode.textContent   = config.buttonLabel;
 
         this.menuNode.setAttribute('aria-label', config.menuLabel);
         this.landmarkGroupLabelNode.textContent = this.addNumberToGroupLabel(config.landmarkGroupLabel);
@@ -4142,25 +4151,12 @@ dialog button:hover {
         this.usesAltKey = hasWin || (hasLinux && !hasAndroid);
         this.usesOptionKey = hasMac;
 
-        let label = config.buttonLabel;
         let ariaLabel = config.buttonLabel;
-        let buttonShortcut;
         let osShortcut;
 
         // Check to make sure a shortcut key is defined
         if (config.altShortcut && config.optionShortcut) {
-          if (this.usesAltKey || this.usesOptionKey) {
-            buttonShortcut = config.buttonShortcut.replace(
-              '$key',
-              config.altShortcut
-            );
-          }
           if (this.usesAltKey) {
-            buttonShortcut = buttonShortcut.replace(
-              '$modifier',
-              config.altLabel
-            );
-            label = label + buttonShortcut;
             ariaLabel = config.buttonAriaLabel.replace('$key', config.altShortcut);
             ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
             ariaLabel = ariaLabel.replace('$modifierLabel', config.altLabel);
@@ -4170,11 +4166,6 @@ dialog button:hover {
           }
 
           if (this.usesOptionKey) {
-            buttonShortcut = buttonShortcut.replace(
-              '$modifier',
-              config.optionLabel
-            );
-            label = label + buttonShortcut;
             ariaLabel = config.buttonAriaLabel.replace('$key', config.altShortcut);
             ariaLabel = ariaLabel.replace('$buttonLabel', config.buttonLabel);
             ariaLabel = ariaLabel.replace('$modifierLabel', config.optionLabel);
@@ -4182,7 +4173,7 @@ dialog button:hover {
             osShortcut = `${config.optionLabel}+0`;
           }
         }
-        return [label, ariaLabel, osShortcut];
+        return [ariaLabel, osShortcut];
       }
 
       /*
@@ -5281,6 +5272,7 @@ dialog button:hover {
         shortcutLabel: 'shortcut',
         buttonShortcut: ' ($modifier+$key)',
         buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
+        osShortcut: '',  // Computed based on OS
 
         // Page navigation flag and keys
         shortcutsSupported: 'true', // options: true or false

@@ -127,7 +127,7 @@ templateInfoDialog.innerHTML = `
           Version ${VERSION}
         </div>
         <div class="copyright">
-          BSD License, Copyright 2021-2025
+          BSD License, Copyright 2021-2026
         </div>
       </div>
     </div>
