@@ -1,0 +1,8 @@
+# Article: https://help.github.com/articles/dealing-with-line-endings/
+# Helpful examples: https://github.com/alexkaratarakis/gitattributes
+
+# every text should use eol lf - basically the same as core.autocrlf=false
+* -text eol=lf
+
+*.png binary
+*.zip binary
