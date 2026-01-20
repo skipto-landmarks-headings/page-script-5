@@ -132,7 +132,7 @@ function isSkipableElement(element) {
 /*
  *   @function isCustomElement
  *
- *   @desc  Reuturns true if the element is a custom element, otherwise
+ *   @desc  Returns true if the element is a custom element, otherwise
  *          false
  *
  *   @param  {Object}  element  - DOM element node
@@ -146,7 +146,7 @@ function isCustomElement(element) {
 /*
  *   @function sSlotElement
  *
- *   @desc  Reuturns true if the element is a slot element, otherwise
+ *   @desc  Returns true if the element is a slot element, otherwise
  *          false
  *
  *   @param  {Object}  element  - DOM element node
@@ -164,9 +164,9 @@ function isSlotElement(node) {
 *         elements with default landmark roles or is the descendant
 *         of an element with a defined landmark role
 *
-*   @param  {Object}  node  - Element node from a berowser DOM
+*   @param  {Object}  node  - Element node from a browser DOM
 * 
-*   @reutrn {Boolean} Returns true if top level landmark, otherwise false
+*   @return {Boolean} Returns true if top level landmark, otherwise false
 */
 
 function isTopLevel (node) {
@@ -396,9 +396,9 @@ function findVisibleElement (startingNode, tagNames) {
 /*
  *   @function skipToElement
  *
- *   @desc Moves focus to the element identified by the memu item
+ *   @desc Moves focus to the element identified by the menu item
  *
- *   @param {Object}  menutim  -  DOM element in the menu identifying the target element.
+ *   @param {Object}  menuitem  -  DOM element in the menu identifying the target element.
  */ 
 function skipToElement(menuitem) {
 
@@ -475,11 +475,11 @@ function setItemFocus(elem, isLandmark, isSearch, isNav) {
  *   @function getHeadingTargets
  *
  *   @desc  Returns an array of heading tag names to include in menu
- *          NOTE: It uses "includes" method to maximimze compatibility with
+ *          NOTE: It uses "includes" method to maximize compatibility with
  *          previous versions of SkipTo which used CSS selectors for 
  *          identifying targets.
  *
- *   @param {String}  targets  -  A space with the heading tags to inclucde
+ *   @param {String}  targets  -  A space with the heading tags to include
  *
  *   @returns {Array}  Array of heading element tag names to include in menu
  */ 
@@ -496,7 +496,7 @@ function getHeadingTargets(targets) {
 /*
  *   @function isMain
  *
- *   @desc  Returns true if the element is a main landamrk
+ *   @desc  Returns true if the element is a main landmark
  *
  *   @param  {Object}  element  -  DOM element node
  *
@@ -515,9 +515,9 @@ function isMain (element) {
  *   @function queryDOMForLandmarksAndHeadings
  *
  *   @desc  Recursive function to return two arrays, one an array of the DOM element nodes for 
- *          landmarks and the other an array of DOM element ndoes for headings  
+ *          landmarks and the other an array of DOM element nodes for headings  
  *
- *   @param  {Array}   landamrkTargets  -  An array of strings representing landmark regions
+ *   @param  {Array}   landmarkTargets  -  An array of strings representing landmark regions
  *   @param  {Array}   headingTargets  -  An array of strings representing headings
  *   @param  {String}  skiptoId        -  An array of strings representing headings
  *
@@ -737,8 +737,8 @@ function getHeadings (config, headings) {
  * @desc Localizes a landmark name and adds accessible name if defined
  *
  * @param {Object} config  - Object with configuration information
- * @param {String} tagName - String with landamrk and/or tag names
- * @param {String} AccName - Accessible name for therlandmark, maybe an empty string
+ * @param {String} tagName - String with landmark and/or tag names
+ * @param {String} AccName - Accessible name for the landmark, maybe an empty string
  *
  * @returns {String}  A localized string for a landmark name
  */

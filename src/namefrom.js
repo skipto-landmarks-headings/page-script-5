@@ -24,7 +24,7 @@ debug.flag = false;
 *   @function nameFromAttribute
 *
 *   @desc  If defined, returns the value of an attribute,
-*          otheriwse the empty string
+*          otherwise the empty string
 *
 *   @param {Object}  element    - DOM element node
 *   @param {String}  attribute  - String identifying the attribute
@@ -97,7 +97,7 @@ function isDisplayNone (node) {
     }
 
     // aria-hidden attribute with the value "true" is an same as 
-    // setting the hidden attribute for name calcuation
+    // setting the hidden attribute for name calculation
     if (node.hasAttribute('aria-hidden')) {
       if (node.getAttribute('aria-hidden').toLowerCase()  === 'true') {
         return true;
@@ -118,7 +118,7 @@ function isDisplayNone (node) {
 /*
 *   @function isVisibilityHidden 
 *   
-*   @desc Returns true if the node (or it's parrent) has the CSS visibility 
+*   @desc Returns true if the node (or it's parent) has the CSS visibility 
 *         property set to "hidden" or "collapse", otherwise false
 *
 *   @param  {Object}   node  -  DOM node
@@ -152,7 +152,7 @@ function isVisibilityHidden(node) {
 *   
 *   @desc Returns true if the node has the aria-hidden property set to
 *         "false", otherwise false.  
-*         NOTE: This function is important in the accessible namce 
+*         NOTE: This function is important in the accessible name 
 *               calculation, since content hidden with a CSS technique 
 *               can be included in the accessible name calculation when 
 *               aria-hidden is set to false
@@ -277,7 +277,7 @@ function getNodeContents (node) {
 *          the element could have an 'alt' attribute,
 *          otherwise false.
 * 
-*   @param  {Object}  element  - DOM eleemnt node
+*   @param  {Object}  element  - DOM element node
 *
 *   @return {Boolean}  see @desc
 */
