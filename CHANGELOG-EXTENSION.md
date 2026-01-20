@@ -1,5 +1,8 @@
 # Version history for SkipTo.js for Firefox, Chrome and Opera
 
+## Version 1.3.3
+* Updated to SkipTo.js 5.10, improved rendering of keyboard short for button
+
 ## Version 1.3.2
 * Updated to SkipTo.js 5.9.2, fixes dialog titling issue in about dialog box
 

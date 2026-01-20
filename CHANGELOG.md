@@ -1,5 +1,8 @@
 # Version history for SkipTo.js
 
+## Version 5.10
+* Adds KBD element in button label to improve the rendering of 0 with a slash in it
+
 ## Version 5.9.3
 * Fixes issue with supporting forced-color media query
 * Increases size of dialog box buttons and close icon
