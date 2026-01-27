@@ -72,6 +72,7 @@ export default class SkipToContent592 extends HTMLElement {
       buttonShortcut: ' ($modifier+$key)',
       buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
       osShortcut: '',  // Computed based on OS
+      hideButtonLabel: 'Hide Skip To Content button',
 
       // Page navigation flag and keys
       shortcutsSupported: 'true', // options: true or false
@@ -307,8 +308,10 @@ export default class SkipToContent592 extends HTMLElement {
         monitorKeyboardFocus();
       }
 
+      // Position hide button after all styling updates
+      this.buttonSkipTo.positionHideButton();
+
     }
-//    this.setAttribute('focus', 'none');
   }
 
  /*

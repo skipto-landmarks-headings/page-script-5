@@ -14,6 +14,7 @@ import HighlightElement         from './highlightElement.js';
 
 import {
   BUTTON_ID,
+  FORCE_POPUP,
   MENU_ID,
   MENU_LANDMARK_GROUP_ID,
   MENU_LANDMARK_GROUP_LABEL_ID,
@@ -55,13 +56,29 @@ templateMenuButton.innerHTML = `
             aria-haspopup="menu"
             aria-expanded= "false"
             aria-label="Skip To Content"
-            aria-controls="id-skip-to-menu">
+            aria-controls="id-skip-to-menu"
+            class="open">
       <span class="skipto-large">
         <span class="skipto-text">Skip To Content</span>
         (<kbd class="skipto-shortcut">Alt+0</kbd>)
       </span>
       <span class="skipto-medium">Skip To Content</span>
       <span class="skipto-small">SkipTo</span>
+    </button>
+    <button class="hide">
+      <svg xmlns="http://www.w3.org/2000/svg"
+           width="20"
+           height="20"
+           viewBox="0 0 16 16"
+           role="none">
+
+        <!-- Circle outline -->
+        <circle cx="8" cy="8" r="7" class="focus" stroke-width="1" fill="none";
+/>
+        <!-- X lines -->
+        <line x1="5" y1="5" x2="11" y2="11" stroke-width="1" stroke-linecap="round" />
+        <line x1="11" y1="5" x2="5" y2="11" stroke-width="1" stroke-linecap="round" />
+      </svg>
     </button>
     <div id="${MENU_ID}"
          role="menu"
@@ -168,7 +185,7 @@ export default class SkiptoMenuButton {
       let [buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(this.config);
       this.config.osShortcut = osShortcut;
 
-      this.buttonNode = this.containerNode.querySelector('button');
+      this.buttonNode = this.containerNode.querySelector('button.open');
       this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
       this.buttonNode.addEventListener('keydown', this.handleButtonKeydown.bind(this));
       this.buttonNode.addEventListener('click', this.handleButtonClick.bind(this));
@@ -185,6 +202,9 @@ export default class SkiptoMenuButton {
       this.mediumButtonNode = this.buttonNode.querySelector('span.skipto-medium');
       this.mediumButtonNode.textContent = this.config.buttonLabel;
 
+      this.hideButtonNode = this.containerNode.querySelector('button.hide');
+      this.hideButtonNode.title = this.config.hideButtonLabel;
+      this.hideButtonNode.addEventListener('click', this.handleHideButtonClick.bind(this));
 
       // Create menu container
       this.menuitemNodes = [];
@@ -245,10 +265,37 @@ export default class SkiptoMenuButton {
       }
 
       this.focusMenuitem = null;
+
     }
 
     /*
-     * @get scrollBehavior
+     * @method setPopup
+     *
+     * @desc Sets button to have popup behavior
+     */
+    setPopup() {
+      this.menuButtonNode.classList.add('popup');
+    }
+
+    /*
+     * @method positionHideButton
+     *
+     * @desc Sets position of hide button to right of open button
+     *       and centers it vertically
+     */
+     positionHideButton() {
+        const openRect = this.buttonNode.getBoundingClientRect();
+        const hideRect = this.hideButtonNode.getBoundingClientRect();
+
+        const leftAdj = openRect.right - hideRect.left;
+        const topAdj  = (openRect.height - hideRect.height) / 2;
+
+        this.hideButtonNode.style.left = leftAdj + 'px';
+        this.hideButtonNode.style.top  = topAdj + 'px';
+     }
+
+    /*
+     * @method scrollBehavior
      *
      * @desc Returns normalized value for the highlightTarget option
      */
@@ -939,6 +986,26 @@ export default class SkiptoMenuButton {
     }
 
     /*
+     * @method isOverHideButton
+     *
+     * @desc Returns true if pointer over hide button
+     *
+     * @param {Number}   x: client x coordinator of pointer
+     * @param {Number}   y: client y coordinator of pointer
+     *
+     * @return {object}  see @desc
+     */
+    isOverHideButton(x, y) {
+      const node = this.hideButtonNode;
+      const rect = node.getBoundingClientRect();
+
+      return (rect.left <= x) &&
+             (rect.right >= x) &&
+             (rect.top <= y) &&
+             (rect.bottom >= y);
+    }
+
+    /*
      * @method isOverMenu
      *
      * @desc Returns true if pointer over the menu
@@ -996,6 +1063,13 @@ export default class SkiptoMenuButton {
           }
         }
       }
+
+      // Check if a cookie has been set to force popup behavior
+
+      if (document.cookie.split(";").some((item) => item.trim().startsWith(`${FORCE_POPUP}=`))) {
+        this.setPopup();
+      }
+
     }
 
     // Menu event handlers
@@ -1056,6 +1130,13 @@ export default class SkiptoMenuButton {
         this.openPopup();
         this.setFocusToFirstMenuitem();
       }
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    handleHideButtonClick(event) {
+      this.setPopup();
+      document.cookie = `${FORCE_POPUP}=1; SameSite=None; Secure;`;
       event.stopPropagation();
       event.preventDefault();
     }
@@ -1360,7 +1441,8 @@ export default class SkiptoMenuButton {
     }
 
     handleContainerPointerdown(event) {
-      if (this.isOverButton(event.clientX, event.clientY)) {
+      if (this.isOverButton(event.clientX, event.clientY) ||
+          this.isOverHideButton(event.clientX, event.clientY)) {
         this.containerNode.releasePointerCapture(event.pointerId);
       }
       else {
@@ -1411,7 +1493,8 @@ export default class SkiptoMenuButton {
       this.containerNode.removeEventListener('pointerup', this.handleContainerPointerup);
 
       const mi = this.getMenuitem(event.clientX, event.clientY);
-      const omb = this.isOverButton(event.clientX, event.clientY);
+      const omb = this.isOverButton(event.clientX, event.clientY) ||
+                  this.isOverHideButton(event.clientX, event.clientY);
 
       if (mi) {
         this.handleMenuitemAction(mi);          
@@ -1436,6 +1519,7 @@ export default class SkiptoMenuButton {
 
     handleBodyPointerdown(event) {
       if (!this.isOverButton(event.clientX, event.clientY) &&
+          !this.isOverHideButton(event.clientX, event.clientY) &&
           !this.isOverMenu(event.clientX, event.clientY)) {
         this.closePopup();
       }

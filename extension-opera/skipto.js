@@ -26,8 +26,6 @@
       fontFamily: 'inherit',
       fontSize: 'inherit',
       positionLeft: '46%',
-      smallBreakPoint: '580px',
-      mediumBreakPoint: '992px',
       buttonTextColor: 'hsl(216, 60%, 18%)',
       buttonTextDarkColor: 'hsl(216, 60%, 72%)',
       buttonBackgroundColor: 'hsl(0, 0%, 87%)',
@@ -336,6 +334,10 @@
   const MORE_ABOUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/';
   const MORE_SHORTCUT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 
+  //  Force popup cookie
+
+  const FORCE_POPUP ='forceSkipToPopupBehavior';
+
   /* utils.js */
 
   /* Constants */
@@ -577,31 +579,16 @@
   display: none;
 }
 
-.menu-button button .skipto-large {
-  padding: 6px 8px 6px 8px;
-  display: inline-block;
-}
-
-.menu-button button .skipto-small {
-  padding: 6px 8px 6px 8px;
-  display: none;
-}
-
-.menu-button button .skipto-medium {
-  padding: 6px 8px 6px 8px;
-  display: none;
-}
-
 .menu-button {
   position: fixed;
   left: var(--skipto-position-left);
   z-index: var(--skipto-z-index-1) !important;
 }
 
-.menu-button button {
+.menu-button button.open {
   margin: 0;
-  padding: 0;
-  border-width: 0px 1px 1px 1px;
+  padding: 2px 4px 4px 4px;
+  border-width: 0px 2px 2px 2px;
   border-style: solid;
   border-radius: 0px 0px 6px 6px;
   border-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
@@ -609,6 +596,67 @@
   background-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
   font-size: var(--skipto-font-size);
   font-family: var(--skipto-font-family);
+}
+
+.menu-button button.open:focus,
+.menu-button button.open:hover {
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
+  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
+  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+  outline: none;
+}
+
+
+.menu-button button.open .skipto-large,
+.menu-button button.open .skipto-medium,
+.menu-button button.open .skipto-small {
+  display: inline-block;
+  margin: 0;
+  padding: 4px;
+}
+
+
+.menu-button button.open:focus .skipto-large,
+.menu-button button.open:focus .skipto-medium,
+.menu-button button.open:focus .skipto-small {
+  outline: 2px dotted light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+}
+
+.menu-button button.open .skipto-medium {
+  display: none;
+}
+
+.menu-button button.open .skipto-small {
+  display: none;
+}
+
+.menu-button button.hide {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+  border-style: solid;
+  border-width: 2px 2px 2px 2px;
+  border-radius: 0px 6px 6px 0px;
+  border-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+  outline: none;
+}
+
+.menu-button button.hide line {
+  stroke: light-dark(var(--skipto-button-text-color), var(--skipto-button-text-dark-color));
+}
+
+.menu-button button.hide circle {
+  stroke: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+}
+
+.menu-button button.hide:focus circle.focus,
+.menu-button button.hide:hover circle.focus {
+  stroke: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+}
+
+.menu-button.popup button.hide {
+  display: none;
 }
 
 @media only screen and (max-width: 588px) {
@@ -811,15 +859,6 @@
 
 /* focus styling */
 
-.menu-button button:focus,
-.menu-button button:hover {
-  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
-  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
-  outline: none;
-  border-width: 0px 2px 2px 2px;
-  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
-}
-
 .menu-button.popup.focus,
 .menu-button.popup.menu,
 .menu-button.popup:hover {
@@ -831,15 +870,6 @@
 
 .menu-button.popup.mobile.focus button {
   display: block;
-}
-
-.menu-button button:focus .skipto-large,
-.menu-button button:hover .skipto-large,
-.menu-button button:focus .skipto-small,
-.menu-button button:hover .skipto-small,
-.menu-button button:focus .skipto-medium,
-.menu-button button:hover .skipto-medium {
-  padding: 6px 7px 5px 7px;
 }
 
 .menu-button [role="menuitem"]:focus {
@@ -3837,13 +3867,29 @@ dialog button:hover {
             aria-haspopup="menu"
             aria-expanded= "false"
             aria-label="Skip To Content"
-            aria-controls="id-skip-to-menu">
+            aria-controls="id-skip-to-menu"
+            class="open">
       <span class="skipto-large">
         <span class="skipto-text">Skip To Content</span>
         (<kbd class="skipto-shortcut">Alt+0</kbd>)
       </span>
       <span class="skipto-medium">Skip To Content</span>
       <span class="skipto-small">SkipTo</span>
+    </button>
+    <button class="hide">
+      <svg xmlns="http://www.w3.org/2000/svg"
+           width="20"
+           height="20"
+           viewBox="0 0 16 16"
+           role="none">
+
+        <!-- Circle outline -->
+        <circle cx="8" cy="8" r="7" class="focus" stroke-width="1" fill="none";
+/>
+        <!-- X lines -->
+        <line x1="5" y1="5" x2="11" y2="11" stroke-width="1" stroke-linecap="round" />
+        <line x1="11" y1="5" x2="5" y2="11" stroke-width="1" stroke-linecap="round" />
+      </svg>
     </button>
     <div id="${MENU_ID}"
          role="menu"
@@ -3950,7 +3996,7 @@ dialog button:hover {
         let [buttonAriaLabel, osShortcut] = this.getBrowserSpecificShortcut(this.config);
         this.config.osShortcut = osShortcut;
 
-        this.buttonNode = this.containerNode.querySelector('button');
+        this.buttonNode = this.containerNode.querySelector('button.open');
         this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
         this.buttonNode.addEventListener('keydown', this.handleButtonKeydown.bind(this));
         this.buttonNode.addEventListener('click', this.handleButtonClick.bind(this));
@@ -3967,6 +4013,9 @@ dialog button:hover {
         this.mediumButtonNode = this.buttonNode.querySelector('span.skipto-medium');
         this.mediumButtonNode.textContent = this.config.buttonLabel;
 
+        this.hideButtonNode = this.containerNode.querySelector('button.hide');
+        this.hideButtonNode.title = this.config.hideButtonLabel;
+        this.hideButtonNode.addEventListener('click', this.handleHideButtonClick.bind(this));
 
         // Create menu container
         this.menuitemNodes = [];
@@ -4027,10 +4076,37 @@ dialog button:hover {
         }
 
         this.focusMenuitem = null;
+
       }
 
       /*
-       * @get scrollBehavior
+       * @method setPopup
+       *
+       * @desc Sets button to have popup behavior
+       */
+      setPopup() {
+        this.menuButtonNode.classList.add('popup');
+      }
+
+      /*
+       * @method positionHideButton
+       *
+       * @desc Sets position of hide button to right of open button
+       *       and centers it vertically
+       */
+       positionHideButton() {
+          const openRect = this.buttonNode.getBoundingClientRect();
+          const hideRect = this.hideButtonNode.getBoundingClientRect();
+
+          const leftAdj = openRect.right - hideRect.left;
+          const topAdj  = (openRect.height - hideRect.height) / 2;
+
+          this.hideButtonNode.style.left = leftAdj + 'px';
+          this.hideButtonNode.style.top  = topAdj + 'px';
+       }
+
+      /*
+       * @method scrollBehavior
        *
        * @desc Returns normalized value for the highlightTarget option
        */
@@ -4721,6 +4797,26 @@ dialog button:hover {
       }
 
       /*
+       * @method isOverHideButton
+       *
+       * @desc Returns true if pointer over hide button
+       *
+       * @param {Number}   x: client x coordinator of pointer
+       * @param {Number}   y: client y coordinator of pointer
+       *
+       * @return {object}  see @desc
+       */
+      isOverHideButton(x, y) {
+        const node = this.hideButtonNode;
+        const rect = node.getBoundingClientRect();
+
+        return (rect.left <= x) &&
+               (rect.right >= x) &&
+               (rect.top <= y) &&
+               (rect.bottom >= y);
+      }
+
+      /*
        * @method isOverMenu
        *
        * @desc Returns true if pointer over the menu
@@ -4776,6 +4872,13 @@ dialog button:hover {
             }
           }
         }
+
+        // Check if a cookie has been set to force popup behavior
+
+        if (document.cookie.split(";").some((item) => item.trim().startsWith(`${FORCE_POPUP}=`))) {
+          this.setPopup();
+        }
+
       }
 
       // Menu event handlers
@@ -4834,6 +4937,13 @@ dialog button:hover {
           this.openPopup();
           this.setFocusToFirstMenuitem();
         }
+        event.stopPropagation();
+        event.preventDefault();
+      }
+
+      handleHideButtonClick(event) {
+        this.setPopup();
+        document.cookie = `${FORCE_POPUP}=1; SameSite=None; Secure;`;
         event.stopPropagation();
         event.preventDefault();
       }
@@ -5135,7 +5245,8 @@ dialog button:hover {
       }
 
       handleContainerPointerdown(event) {
-        if (this.isOverButton(event.clientX, event.clientY)) {
+        if (this.isOverButton(event.clientX, event.clientY) ||
+            this.isOverHideButton(event.clientX, event.clientY)) {
           this.containerNode.releasePointerCapture(event.pointerId);
         }
         else {
@@ -5186,7 +5297,8 @@ dialog button:hover {
         this.containerNode.removeEventListener('pointerup', this.handleContainerPointerup);
 
         const mi = this.getMenuitem(event.clientX, event.clientY);
-        const omb = this.isOverButton(event.clientX, event.clientY);
+        const omb = this.isOverButton(event.clientX, event.clientY) ||
+                    this.isOverHideButton(event.clientX, event.clientY);
 
         if (mi) {
           this.handleMenuitemAction(mi);          
@@ -5211,6 +5323,7 @@ dialog button:hover {
 
       handleBodyPointerdown(event) {
         if (!this.isOverButton(event.clientX, event.clientY) &&
+            !this.isOverHideButton(event.clientX, event.clientY) &&
             !this.isOverMenu(event.clientX, event.clientY)) {
           this.closePopup();
         }
@@ -5269,6 +5382,7 @@ dialog button:hover {
         buttonShortcut: ' ($modifier+$key)',
         buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
         osShortcut: '',  // Computed based on OS
+        hideButtonLabel: 'Hide Skip To Content button',
 
         // Page navigation flag and keys
         shortcutsSupported: 'true', // options: true or false
@@ -5504,8 +5618,10 @@ dialog button:hover {
           monitorKeyboardFocus();
         }
 
+        // Position hide button after all styling updates
+        this.buttonSkipTo.positionHideButton();
+
       }
-  //    this.setAttribute('focus', 'none');
     }
 
    /*

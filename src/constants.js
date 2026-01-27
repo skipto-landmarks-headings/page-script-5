@@ -50,3 +50,8 @@ export const ATTR_SKIP_TO_DATA = 'data-skipto';
 export const MORE_ABOUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/';
 export const MORE_SHORTCUT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 
+//  Force popup cookie
+
+export const FORCE_POPUP ='forceSkipToPopupBehavior';
+
+

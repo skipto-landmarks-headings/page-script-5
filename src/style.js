@@ -100,31 +100,16 @@ cssStyleTemplate.textContent = `
   display: none;
 }
 
-.menu-button button .skipto-large {
-  padding: 6px 8px 6px 8px;
-  display: inline-block;
-}
-
-.menu-button button .skipto-small {
-  padding: 6px 8px 6px 8px;
-  display: none;
-}
-
-.menu-button button .skipto-medium {
-  padding: 6px 8px 6px 8px;
-  display: none;
-}
-
 .menu-button {
   position: fixed;
   left: var(--skipto-position-left);
   z-index: var(--skipto-z-index-1) !important;
 }
 
-.menu-button button {
+.menu-button button.open {
   margin: 0;
-  padding: 0;
-  border-width: 0px 1px 1px 1px;
+  padding: 2px 4px 4px 4px;
+  border-width: 0px 2px 2px 2px;
   border-style: solid;
   border-radius: 0px 0px 6px 6px;
   border-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
@@ -132,6 +117,67 @@ cssStyleTemplate.textContent = `
   background-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
   font-size: var(--skipto-font-size);
   font-family: var(--skipto-font-family);
+}
+
+.menu-button button.open:focus,
+.menu-button button.open:hover {
+  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
+  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
+  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+  outline: none;
+}
+
+
+.menu-button button.open .skipto-large,
+.menu-button button.open .skipto-medium,
+.menu-button button.open .skipto-small {
+  display: inline-block;
+  margin: 0;
+  padding: 4px;
+}
+
+
+.menu-button button.open:focus .skipto-large,
+.menu-button button.open:focus .skipto-medium,
+.menu-button button.open:focus .skipto-small {
+  outline: 2px dotted light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+}
+
+.menu-button button.open .skipto-medium {
+  display: none;
+}
+
+.menu-button button.open .skipto-small {
+  display: none;
+}
+
+.menu-button button.hide {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+  border-style: solid;
+  border-width: 2px 2px 2px 2px;
+  border-radius: 0px 6px 6px 0px;
+  border-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+  outline: none;
+}
+
+.menu-button button.hide line {
+  stroke: light-dark(var(--skipto-button-text-color), var(--skipto-button-text-dark-color));
+}
+
+.menu-button button.hide circle {
+  stroke: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+}
+
+.menu-button button.hide:focus circle.focus,
+.menu-button button.hide:hover circle.focus {
+  stroke: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+}
+
+.menu-button.popup button.hide {
+  display: none;
 }
 
 @media only screen and (max-width: 588px) {
@@ -334,15 +380,6 @@ cssStyleTemplate.textContent = `
 
 /* focus styling */
 
-.menu-button button:focus,
-.menu-button button:hover {
-  background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
-  color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
-  outline: none;
-  border-width: 0px 2px 2px 2px;
-  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
-}
-
 .menu-button.popup.focus,
 .menu-button.popup.menu,
 .menu-button.popup:hover {
@@ -354,15 +391,6 @@ cssStyleTemplate.textContent = `
 
 .menu-button.popup.mobile.focus button {
   display: block;
-}
-
-.menu-button button:focus .skipto-large,
-.menu-button button:hover .skipto-large,
-.menu-button button:focus .skipto-small,
-.menu-button button:hover .skipto-small,
-.menu-button button:focus .skipto-medium,
-.menu-button button:hover .skipto-medium {
-  padding: 6px 7px 5px 7px;
 }
 
 .menu-button [role="menuitem"]:focus {
