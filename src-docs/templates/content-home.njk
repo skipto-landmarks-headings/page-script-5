@@ -1,42 +1,5 @@
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    {% include "./head.njk" %}
-    <style>
-      main h3 {
-        font-size: 125%;
-      }
-      #anatomy {
-        margin-top: 2em;
-        margin-bottom: 1em;
-      }
-      figure img {
-        width: 90%;
-        border: 2px solid #888;
-      }
-      figcaption {
-        font-size: 150%;
-        text-align: center;
-        font-weight: bold;
-      }
-    </style>
-  </head>
-  <body>
-    {% include "./header.njk" %}
 
-    <!-- Main section-->
-    <main class="container px-4">
-      <div class="row gx-4 justify-content-center">
-        <div class="col-lg-10">
-          {% block content %}
-            <figure class="image" style="width: 80%">
-               <img src="images/chrome-ahs-1280-800.png"
-                    alt=""
-                    style="width: 100%";/>
-                    <figcaption>Example Screen Shot of SkipTo.js button and menu</figcaption>
-            </figure>
-
-            <h1>{{title}}</h1>
+      <div id="main">
 
             <p>SkipTo.js is more than a just replacement for your old classic “Skip To Main Content” link for implementing the <a href="https://www.w3.org/TR/WCAG/#bypass-blocks">WCAG 2.4.1 Bypass Blocks</a> requirement.
 
@@ -113,7 +76,7 @@
 
             <h2 id="anatomy">Anatomy of the SkipTo.js Menu</h2>
 
-            <figure>
+            <figure class="image">
                 <img src="images/skipto-menu-anatomy.png"
                      alt="Screen shot of SkipTo.js menu features with call out pointers">
                 <figcaption>Features of the SkipTo.js Menu</figcaption>
@@ -190,14 +153,4 @@
                 </tr>
               </tbody>
             </table>
-            {% include "./feedback.njk" %}
-
-          {% endblock %}
         </div>
-      </div>
-    </main>
-    {% include "./footer.njk" %}
-    {% include "./scripts.njk" %}
-
-  </body>
-</html>

@@ -6,12 +6,19 @@ const fs = require('fs');
 const path = require('path');
 const nunjucks  = require('nunjucks');
 
-const version = "5.10";
-
 /* Constants */
 
-const outputDirectory = './docs/';
+const version = "5.10";
+
+const tagLineName = "SkipTo.js for WCAG Bypass Blocks";
+const projectName   = "SkipTo.js";
+
+const issuesURL   = "https://github.com/skipto-landmarks-headings/page-script-5/issues";
+const issuesEmail = "jongund@illinois.edu";
+
+const outputDirectory   = './docs/';
 const templateDirectory = './src-docs/templates';
+const websiteURL        = 'https://skipto-landmarks-headings.github.io/page-script-5/';
 const repositoryURL = 'https://github.com/skipto-landmarks-headings/page-script-5/';
 
 // setUseCodeTags(true);
@@ -36,252 +43,408 @@ function outputTemplate(fname, data) {
   })
 }
 
-const pages = [
-  { template: './src-docs/templates/content-home.njk',
+const examplePages = [
+  { content: 'example/content-example.njk',
+    link: 'Defaults',
+    title: 'Default Menu Button',
+    filename: 'example-default.html',
+    description: 'The "Skip To Content" menu button is always visible at the top of the window',
+    config: ``,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'Popup',
+    title: 'Popup Menu Button',
+    filename: 'example-popup.html',
+    description: 'The "Skip To Content" menu button appears when it gets focus',
+    config: `displayOption: popup; positionLeft: 46%`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'Large Fonts',
+    title: 'Popup Menu Button with large fonts',
+    filename: 'example-popup-large-fonts.html',
+    description: 'The "Skip To Content" menu button appears when it gets focus.  But is suing a large font.',
+    config: `displayOption: popup; positionLeft: 46%; fontSize: 24pt`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'Visible Border',
+    title: 'Popup with Border',
+    filename: 'example-popup-border.html',
+    description: 'The "Skip To Content" menu button appears when it gets focus, bottom border is always visible.',
+    config: `displayOption: popup-border; positionLeft: 46%`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'Smooth Scroll',
+    title: 'Smooth Highlight of menu options',
+    filename: 'example-smooth.html',
+    description: '"Skip To Content" button is visible on load and scrolling to content is enabled using the smooth value',
+    config: `highlightTarget: smooth`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'Instant Scroll',
+    title: 'Instant Highlight of menu options',
+    filename: 'example-instant.html',
+    description: '"Skip To Content" button is visible on load and scrolling to content is enabled using the instant value',
+    config: `highlightTarget: instant`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'Setting Landmarks',
+    title: 'Setting landmarks visible in menu',
+    filename: 'example-landmarks.html',
+    description: 'The SkipTo.js menu lists only main, navigation and complementary landmarks in the "Landmark Regions" section of the menu.',
+    config: `landmarks: main navigation complementary`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'Only headings in main',
+    title: 'Only Headings in Main Landmark Region (h1-h3)',
+    filename: 'example-main-headings.html',
+    description: 'The SkipTo.js menu shows only H1, h2 and H3 heading levels within the main landmark region in the "Headings" section of the menu.',
+    config: `headings: main h1 h2 h3`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'Setting Headings',
+    title: 'Setting all headings visible in the menu',
+    filename: 'example-headings.html',
+    description: 'The SkipTo.js menu shows all H1, h2, H3, H4, H5 and H6 headings in the "Headings" section of the menu.',
+    config: `headings: h1 h2 h3 h4 h5 h6`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'Illinois Theme',
+    title: 'Illinois Theme',
+    filename: 'example-illinois.html',
+    description: 'The color theme of the button and the menu uses the "illinois" theme.',
+    config: `colorTheme: illinois`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'ARIA Theme',
+    title: 'ARIA Theme',
+    filename: 'example-aria.html',
+    description: 'The color theme of the button and the menu uses the "aria" theme.',
+    config: `colorTheme: aria`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'Fonts',
+    title: 'Setting Font Styling',
+    filename: 'example-fonts.html',
+    description: 'The fonts for button and menu are set to 8pt and monospace.',
+    config: `fontSize: 8pt; fontFamily: monospace`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'Colors',
+    title: 'Setting Color styles',
+    filename: 'example-colors.html',
+    description: 'Setting the colors for button and menu.',
+    config: `menuTextColor: #003366; menuBackgroundColor: #ffffff;menuitemFocusTextColor: #ffffff;menuitemFocusBackgroundColor: #003366;focusBorderColor: #dd3444;buttonTextColor: #ffffff;buttonBackgroundColor: #003366; fontSize: 90%`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
+    link: 'Position',
+    title: 'Setting button position',
+    filename: 'example-position.html',
+    description: 'Setting the position of "Skip To Content" button from the left side of the window.',
+    config: `positionLeft: 25%`,
+    isExample: true
+  }
+];
+
+const testPages = [
+  { content: 'example/content-test.njk',
+    link: 'No Landmarks',
+    title: 'No landmarks',
+    filename: 'test-no-landmarks.html',
+    description: 'No landmarks on page',
+    config: `containerElement: div`,
+    test: 'nolandmarks'
+  },
+  { content: 'example/content-test.njk',
+    link: 'No headings',
+    title: 'No headings',
+    filename: 'test-no-headings.html',
+    description: 'No headings on page',
+    test: 'noheadings'
+  },
+  { content: 'example/content-role-heading.njk',
+    link: 'Role Heading',
+    title: 'Uses Role Heading',
+    filename: 'test-role-headings.html',
+    description: 'Heading role used on page and empty H2, h3 and H4 elements',
+    test: `roleheading`,
+    config: 'headings: h1 h2 h3 h4 h5 h6'
+  },
+  { content: 'example/content-test.njk',
+    link: 'Config Object',
+    title: 'Configuration Object',
+    filename: 'test-config-object.html',
+    description: 'Uses the SkipToConfig javascript object for configuring SkipTo.js',
+    test: `config-object`
+  },
+  { content: 'example/content-text-input.njk',
+    link: 'Input controls',
+    title: 'Input controls',
+    filename: 'test-input-controls.html',
+    description: 'Shortcut keys is disabled when focus is a text input.',
+    test: `controls`
+  },
+  { content: 'example/content-slot-content.njk',
+    link: 'Slotted Content',
+    title: 'Custom Elements with Slotted Content',
+    filename: 'test-slotted-content.html',
+    description: 'Uses custom elements to render headings and landmarks.',
+    test: `slotted`
+  },
+  { content: 'example/content-header-size.njk',
+    title: 'Header Size',
+    title: 'Header Size',
+    filename: 'test-header-size.html',
+    description: 'Testing if the dimensional size (e.g. height and width) of headings effects which headings screen readers will include in lists and header navigation',
+    config: `headings: h1 h2 h3 h4 h5 h6`
+  }
+];
+
+
+const mainPages = [
+  { content: 'content-home.njk',
     title: 'SkipTo.js for Bypass Blocks',
     link: 'Home',
     filename: 'index.html'
   },
-  { template: './src-docs/templates/content-shortcuts.njk',
+  { content: 'content-shortcuts.njk',
     title: 'Shortcut Keys',
     link: 'Shortcuts',
     filename: 'shortcuts.html'
   },
-  { template: './src-docs/templates/content-extensions.njk',
-    title: 'SkipTo.js Browser Extensions',
-    link: 'Extensions',
-    filename: 'extensions.html'
+  { dropdown: 'Extensions',
+    pages: [
+      { content: 'content-extensions-overview.njk',
+        title: 'SkipTo.js Browser Extensions',
+        link: 'Overview',
+        filename: 'extensions-overview.html'
+      },
+      { content: 'content-extensions-menu.njk',
+        title: 'Menu Options',
+        link: 'Menu',
+        filename: 'extensions-options-menu.html'
+      },
+      { content: 'content-extensions-button.njk',
+        title: 'Button Options',
+        link: 'Button',
+        filename: 'extensions-options-button.html'
+      },
+      { content: 'content-extensions-highlight.njk',
+        title: 'Highlight Options',
+        link: 'Highlight',
+        filename: 'extensions-options-highlight.html'
+      },
+      { content: 'content-extensions-shortcuts.njk',
+        title: 'Shortcut Options',
+        link: 'Shortcuts',
+        filename: 'extensions-options-shortcuts.html'
+      },
+      { content: 'content-extensions-style.njk',
+        title: 'Styling Options',
+        link: 'Fonts and Colors',
+        filename: 'extensions-options-style.html'
+      },
+      { content: 'content-extensions-i18n.njk',
+        title: 'Internationalization Options',
+        link: 'I18n',
+        filename: 'extensions-options-i18n.html'
+      }
+    ]
   },
-  { template: './src-docs/templates/content-bookmarklets.njk',
+  { content: 'content-bookmarklets.njk',
     title: 'SkipTo.js Bookmarklets',
     link: 'Bookmarklets',
     filename: 'bookmarklets.html'
   },
-  { template: './src-docs/templates/content-page-script.njk',
-    title: 'Adding SkipTo.js to a Web Page',
-    link: 'Page Script',
-    filename: 'page-script.html'
+  { dropdown: 'Page Script',
+    pages: [
+      { content: 'content-page-script-add.njk',
+        title: 'Adding SkipTo.js to a Web Page',
+        link: 'Adding to Page',
+        filename: 'page-script-add.html'
+      },
+      { content: 'content-page-script-config.njk',
+        title: 'Configuration Options',
+        link: 'Configuration',
+        filename: 'page-script-config.html'
+      },
+      { content: 'content-page-script-subpages.njk',
+        title: 'Example Configurations',
+        link: 'Examples',
+        filename: 'page-script-examples.html',
+        subpages: examplePages
+      },
+      { content: 'content-page-script-subpages.njk',
+        title: 'Test Pages',
+        link: 'Tests',
+        filename: 'page-script-tests.html',
+        subpages: testPages
+      }
+    ]
   },
-  { template: './src-docs/templates/content-faq.njk',
+  { content: 'content-faq.njk',
     title: 'Frequently Asked Questions',
     link: 'FAQ',
     filename: 'faq.html'
   },
-  { template: './src-docs/templates/content-about.njk',
-    title: 'About',
-    link: 'About',
-    filename: 'about.html'
+  { dropdown: 'About',
+    pages: [
+      { content: 'content-about-history.njk',
+        title: 'History',
+        link: 'History',
+        filename: 'about-history.html'
+      },
+      { content: 'content-about-privacy.njk',
+        title: 'Privacy',
+        link: 'Privacy',
+        filename: 'about-privacy.html'
+      },
+      { content: 'content-about-feedback.njk',
+        title: 'Feedback and Issues',
+        link: 'Feedback',
+        filename: 'about-feedback.html'
+      },
+      {
+        spacer: ''
+      },
+      { url: 'https://opena11y.github.io/evaluation-library/',
+        link: 'Evaluation Library'
+      },
+      { url: 'https://opena11y.github.io/ainspector/',
+        link: 'AInspector for WCAG'
+      },
+      { url: 'https://opena11y.github.io/h2l-side-panel/',
+        link: 'H2L Side Panel'
+      }
+    ]
   }
-  ];
-
-const secondLevelPages = [
-  { template: './src-docs/templates/content-config.njk',
-    title: 'Configuration Options',
-    link: 'Configuration',
-    filename: 'config.html'
-  },
-  { template: './src-docs/templates/content-examples.njk',
-    title: 'Example Configurations',
-    link: 'Examples',
-    filename: 'examples.html'
-  },
-  { template: './src-docs/templates/content-tests.njk',
-    title: 'Test Pages',
-    link: 'Tests',
-    filename: 'tests.html'
-  },
-  ];
+];
 
 
-const examples = [
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Default Menu Button',
-    filename: 'example-default.html',
-    description: 'The "Skip To Content" menu button is always visible at the top of the window',
-    config: ``
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Popup Menu Button',
-    filename: 'example-popup.html',
-    description: 'The "Skip To Content" menu button appears when it gets focus',
-    config: `displayOption: popup; positionLeft: 46%`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Popup Menu Button with large fonts',
-    filename: 'example-popup-large-fonts.html',
-    description: 'The "Skip To Content" menu button appears when it gets focus.  But is suing a large font.',
-    config: `displayOption: popup; positionLeft: 46%; fontSize: 24pt`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Popup with Border',
-    filename: 'example-popup-border.html',
-    description: 'The "Skip To Content" menu button appears when it gets focus, bottom border is always visible.',
-    config: `displayOption: popup-border; positionLeft: 46%`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Smooth Highlight of menu options',
-    filename: 'example-smooth.html',
-    description: '"Skip To Content" button is visible on load and scrolling to content is enabled using the smooth value',
-    config: `highlightTarget: smooth`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Instant Highlight of menu options',
-    filename: 'example-instant.html',
-    description: '"Skip To Content" button is visible on load and scrolling to content is enabled using the instant value',
-    config: `highlightTarget: instant`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Landmarks',
-    filename: 'example-landmarks.html',
-    description: 'The SkipTo.js menu lists only main, navigation and complementary landmarks in the "Landmark Regions" section of the menu.',
-    config: `landmarks: main navigation complementary`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Only Headings in Main Landmark Region (h1-h3)',
-    filename: 'example-main-headings.html',
-    description: 'The SkipTo.js menu shows only H1, h2 and H3 heading levels within the main landmark region in the "Headings" section of the menu.',
-    config: `headings: main h1 h2 h3`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'All Headings on Page (h1-h6)',
-    filename: 'example-headings.html',
-    description: 'The SkipTo.js menu shows all H1, h2, H3, H4, H5 and H6 headings in the "Headings" section of the menu.',
-    config: `headings: h1 h2 h3 h4 h5 h6`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Illinois Theme',
-    filename: 'example-illinois.html',
-    description: 'The color theme of the button and the menu uses the "illinois" theme.',
-    config: `colorTheme: illinois`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'ARIA Theme',
-    filename: 'example-aria.html',
-    description: 'The color theme of the button and the menu uses the "aria" theme.',
-    config: `colorTheme: aria`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Walmart Theme',
-    filename: 'example-walmart.html',
-    description: 'The color theme of the button and the menu uses the "walmart" theme.',
-    config: `colorTheme: walmart`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Fonts',
-    filename: 'example-fonts.html',
-    description: 'The fonts for button and menu are set to 8pt and monospace.',
-    config: `fontSize: 8pt; fontFamily: monospace`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Colors',
-    filename: 'example-colors.html',
-    description: 'Setting the colors for button and menu.',
-    config: `menuTextColor: #003366; menuBackgroundColor: #ffffff;menuitemFocusTextColor: #ffffff;menuitemFocusBackgroundColor: #003366;focusBorderColor: #dd3444;buttonTextColor: #ffffff;buttonBackgroundColor: #003366; fontSize: 90%`
-  },
-  { template: './src-docs/templates/example/content-example.njk',
-    title: 'Position',
-    filename: 'example-position.html',
-    description: 'Setting the position of "Skip To Content" button from the left side of the window.',
-    config: `positionLeft: 25%`
+
+
+// Create content files
+
+function createNavigation(pages) {
+  console.log(`[create Navigation]`);
+  let html = '\n';
+  pages.forEach( item => {
+    console.log(`[create Navigation]: ${item.dropdown} ${item.filename}`);
+    if (item.dropdown) {
+      html += `
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             data-bs-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-expanded="false">${item.dropdown}</a>
+          <ul class="dropdown-menu">`;
+
+      item.pages.forEach( p => {
+        console.log(`[dropdown][page]: ${p.filename}`);
+        if (p.filename) {
+          html += `<li><a class="dropdown-item" href="${p.filename}">${p.link}</a></li>`;
+        }
+        else {
+          if (p.url) {
+          html += `<li><a class="dropdown-item" href="${p.url}">${p.link}</a></li>`;
+          }
+          else {
+            html += `<li><hr class="dropdown-divider"></li>`;
+          }
+        }
+      });
+
+      html += `
+          </ul>
+        </li>
+      `;
+    }
+    else {
+      html += `
+        <li class="nav-item">
+          <a class="nav-link" href="${item.filename}">${item.link}</a>
+        </li>
+      `;
+    }
+  });
+  html += '\n';
+
+  return html;
+}
+
+const mainNav = createNavigation(mainPages);
+
+
+function createPage(page, mainNav, dropdownName='', dropdownPages=false, subPages=[], subPagesTitle='') {
+  if (page.filename) {
+    console.log(`  [createPage]: ${page.filename}`);
+
+    const desc   = page.description ? page.description : '';
+    let config = page.config ? page.config : '';
+    if (!config.includes('positionLeft')) {
+      config += config ? ';positionLeft: 30%' : 'positionLeft: 30%';
+    }
+
+    outputFile(page.filename,
+      nunjucks.render('./src-docs/templates/page.njk',{
+        content: page.content,
+        navigation: mainNav,
+        dropdownName: dropdownName,
+        dropdownPages: dropdownPages,
+        websiteURL: websiteURL,
+        repositoryURL: repositoryURL,
+        projectName: projectName,
+        tagLineName: tagLineName,
+        issuesURL: issuesURL,
+        issuesEmail: issuesEmail,
+        version: version,
+        title: page.title,
+        description: desc,
+        config: config,
+        subPages: subPages,
+        subPagesTitle: subPagesTitle,
+        test: page.test
+      })
+    );
   }
-  ];
-
-const tests = [
-  { template: './src-docs/templates/example/content-no-landmarks.njk',
-    title: 'No landmarks',
-    filename: 'test-no-landmarks.html',
-    description: 'No landmarks on page',
-    config: `containerElement: div`
-  },
-  { template: './src-docs/templates/example/content-no-headings.njk',
-    title: 'No headings',
-    filename: 'test-no-headings.html',
-    description: 'No headings on page',
-    config: ``
-  },
-  { template: './src-docs/templates/example/content-slot-content.njk',
-    title: 'Content from Slot Elements',
-    filename: 'test-slot-content.html',
-    description: 'Able to calculate accessible names when slot content is used for the heading content.',
-    config: ``
-  },
-  { template: './src-docs/templates/example/content-role-heading.njk',
-    title: 'Uses Role Heading',
-    filename: 'test-role-headings.html',
-    description: 'Heading role used on page and empty H2, h3 and H4 elements',
-    config: ``
-  },
-  { template: './src-docs/templates/example/content-text-input.njk',
-    title: 'Input controls',
-    filename: 'test-input-controls.html',
-    description: 'Shortcut keys is disabled when focus is a text input.',
-    config: ``
-  },
-  { template: './src-docs/templates/example/content-init-object.njk',
-    title: 'Initialization Object',
-    filename: 'test-init-object.html',
-    description: 'Uses the SkipToConfig configuration object',
-    config: ``
-  },
-  { template: './src-docs/templates/example/header-size.njk',
-    title: 'Header Size',
-    filename: 'test-header-size.html',
-    description: 'Testing if the dimensional size (e.g. height and width) of headings effects which headings screen readers will include in lists and header navigation',
-    config: ``
-  }
-  ]
-
+}
 
 // Create files
 
+function createPages(pages) {
+  console.log(`[create pages]`);
+  pages.forEach( item => {
+    if (item.dropdown) {
+      item.pages.forEach( p => {
+        const subPages     = p.subpages ? p.subpages : [];
+        const subPageTitle = p.subpages ? p.link : '';
+        createPage(p, mainNav, item.dropdown, item.pages, subPages, '');
+        if (subPages) {
+          subPages.forEach( sp => {
+            createPage(sp, mainNav, item.dropdown, item.pages, subPages, subPageTitle);
+          });
+        }
+      });
+    }
+    else {
+      createPage(item, mainNav);
+    }
+  });
+}
 
-examples.forEach( f => {
-  console.log(`[example]: ${f.filename}`);
-  outputFile(f.filename, nunjucks.render(f.template, {
-    version: version,
-    title: 'Example: ' + f.title,
-    repositoryURL: repositoryURL,
-    description: f.description,
-    config: f.config,
-    pages: pages,
-    examples: examples
-  }));
-})
+createPages(mainPages);
 
-tests.forEach( f => {
-  console.log(`[test]: ${f.filename}`);
-  outputFile(f.filename, nunjucks.render(f.template, {
-    version: version,
-    title: 'Test Page: ' + f.title,
-    repositoryURL: repositoryURL,
-    description: f.description,
-    config: f.config,
-    pages: pages,
-    tests: tests
-  }));
-})
-
-secondLevelPages.forEach( p => {
-  console.log(`[secondLevelPages]: ${p.filename}`);
-  outputFile(p.filename, nunjucks.render(p.template,{
-    version: version,
-    title: p.title,
-    repositoryURL: repositoryURL,
-    pages: pages,
-    examples: examples,
-    tests: tests
-  }));
-})
-
-pages.forEach( p => {
-  console.log(`[page]: ${p.filename}`);
-  outputFile(p.filename, nunjucks.render(p.template,{
-    version: version,
-    title: p.title,
-    repositoryURL: repositoryURL,
-    pages: pages,
-    examples: examples,
-    tests: tests
-  }));
-})
 

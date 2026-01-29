@@ -1,31 +1,5 @@
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    {% include "./head.njk" %}
-  </head>
-  <body>
-    {% include "./header.njk" %}
 
-    <div id="main-section" class="container px-4">
-      <nav aria-label="Breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">{{title | safe}}</li>
-        </ol>
-      </nav>
-
-      <!-- Main section-->
-      <main class="container px-4">
-        <div class="row gx-4 justify-content-center">
-          <div class="col-lg-10">
-
-            {% include "./content-page-script-nav.njk" %}
-
-            {% block title %}
-            <h1>{{title}}</h1>
-            {% endblock %}
-
-            {% block content %}
+          <div id="add-script">
 
             <h2 id="page-benefits">Benefits of Page Script</h2>
             <ul>
@@ -124,16 +98,4 @@
 
               {% include "./warnings.njk" %}
 
-              {% include "./feedback.njk" %}
-
-
-            {% endblock %}
           </div>
-        </div>
-      </main>
-    </div>
-    {% include "./footer.njk" %}
-    {% include "./scripts.njk" %}
-
-  </body>
-</html>

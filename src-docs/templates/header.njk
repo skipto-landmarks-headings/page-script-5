@@ -1,33 +1,42 @@
-        <!-- Navigation-->
-        <nav class="navbar
-             navbar-expand-lg navbar-light bg-light"
-             aria-label="Primary"
-             id="mainNav">
-            <div class="container px-4">
-                <span class="brand">
-                  <span class="skipto">SkipTo.js {{version}}</span>
-                </span>
+        <header>
+          <!-- Navigation-->
+          <nav class="navbar
+               navbar-expand-lg"
+               aria-label="Primary"
+               id="mainNav">
+              <div class="container px-4">
+                  <span class="brand">
+                    <span class="icon">
+                      <img src="./images/skipto-128-light.png" alt="">
+                    </span>
+                    <span class="version">
+                      Version {{version}}
+                    </span>
+                  </span>
 
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#mainNavbar"
-                        aria-controls="mainNavbar"
-                        aria-expanded="false" a
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="mainNavbar">
-                  <ul class="navbar-nav ms-auto">
-                    {% for p in pages %}
-                      {% if p.link %}
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{p.filename}}">{{p.link}}</a>
-                        </li>
-                      {% endif %}
-                    {% endfor %}
-                  </ul>
-                </div>
+                  <button class="navbar-toggler"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#mainNavbar"
+                          aria-controls="mainNavbar"
+                          aria-expanded="false"
+                          aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ms-auto">
+
+                    {{ navigation | safe }}
+
+                    </ul>
+                  </div>
+              </div>
+          </nav>
+          <div class="tagline">
+            <div class="container px-4" >
+              {{tagLineName}}
             </div>
-        </nav>
+          </div>
+       </header>
+
 

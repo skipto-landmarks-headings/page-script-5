@@ -5,338 +5,408 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Frequently Asked Questions | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
+    <title>Frequently Asked Questions | AInspector for WCAG Evaluation Browser Extension</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
-    <!-- Choose Light or Dark Theme -->
-    <script src="./js/light-dark-scheme.js"></script>
-
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="./css/skipto.css" rel="stylesheet" />
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
     <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
 
+    <link href="./css/bootstrap.min.css" rel="stylesheet" >
+
+    <link href="./css/skipto.css" rel="stylesheet" />
 
 
 
-    <style>
-      #faq h2 {
-        border-bottom: 1px solid light-dark(#444, #ccc);
-      }
-      #faq dl {
-        margin-bottom: 2em;
-      }
 
-      #faq dt {
-        background-color: light-dark(#eee, #484848);
-        padding: 0.25em;
-      }
 
-      #faq dd {
-        padding: 0.25em;
-        margin: 0.25em;
-        margin-left: .75em;
-      }
-
-    </style>
   </head>
   <body>
-            <!-- Navigation-->
-        <nav class="navbar
-             navbar-expand-lg navbar-light bg-light"
-             aria-label="Primary"
-             id="mainNav">
-            <div class="container px-4">
-                <span class="brand">
-                  <span class="skipto">SkipTo.js 5.10</span>
-                </span>
+            <header>
+          <!-- Navigation-->
+          <nav class="navbar
+               navbar-expand-lg"
+               aria-label="Primary"
+               id="mainNav">
+              <div class="container px-4">
+                  <span class="brand">
+                    <span class="icon">
+                      <img src="./images/skipto-128-light.png" alt="">
+                    </span>
+                    <span class="version">
+                      Version 5.10
+                    </span>
+                  </span>
 
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#mainNavbar"
-                        aria-controls="mainNavbar"
-                        aria-expanded="false" a
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="mainNavbar">
-                  <ul class="navbar-nav ms-auto">
+                  <button class="navbar-toggler"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#mainNavbar"
+                          aria-controls="mainNavbar"
+                          aria-expanded="false"
+                          aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ms-auto">
+
                     
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="index.html">Home</a>
-                        </li>
-                      
-                    
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="shortcuts.html">Shortcuts</a>
-                        </li>
-                      
-                    
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="extensions.html">Extensions</a>
-                        </li>
-                      
-                    
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="bookmarklets.html">Bookmarklets</a>
-                        </li>
-                      
-                    
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="page-script.html">Page Script</a>
-                        </li>
-                      
-                    
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="faq.html">FAQ</a>
-                        </li>
-                      
-                    
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="about.html">About</a>
-                        </li>
-                      
-                    
-                  </ul>
-                </div>
+
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+      
+        <li class="nav-item">
+          <a class="nav-link" href="shortcuts.html">Shortcuts</a>
+        </li>
+      
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             data-bs-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-expanded="false">Extensions</a>
+          <ul class="dropdown-menu"><li><a class="dropdown-item" href="extensions-overview.html">Overview</a></li><li><a class="dropdown-item" href="extensions-options-menu.html">Menu</a></li><li><a class="dropdown-item" href="extensions-options-button.html">Button</a></li><li><a class="dropdown-item" href="extensions-options-highlight.html">Highlight</a></li><li><a class="dropdown-item" href="extensions-options-shortcuts.html">Shortcuts</a></li><li><a class="dropdown-item" href="extensions-options-style.html">Fonts and Colors</a></li><li><a class="dropdown-item" href="extensions-options-i18n.html">I18n</a></li>
+          </ul>
+        </li>
+      
+        <li class="nav-item">
+          <a class="nav-link" href="bookmarklets.html">Bookmarklets</a>
+        </li>
+      
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             data-bs-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-expanded="false">Page Script</a>
+          <ul class="dropdown-menu"><li><a class="dropdown-item" href="page-script-add.html">Adding to Page</a></li><li><a class="dropdown-item" href="page-script-config.html">Configuration</a></li><li><a class="dropdown-item" href="page-script-examples.html">Examples</a></li><li><a class="dropdown-item" href="page-script-tests.html">Tests</a></li>
+          </ul>
+        </li>
+      
+        <li class="nav-item">
+          <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+      
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             data-bs-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-expanded="false">About</a>
+          <ul class="dropdown-menu"><li><a class="dropdown-item" href="about-history.html">History</a></li><li><a class="dropdown-item" href="about-privacy.html">Privacy</a></li><li><a class="dropdown-item" href="about-feedback.html">Feedback</a></li><li><hr class="dropdown-divider"></li><li><a class="dropdown-item" href="https://opena11y.github.io/evaluation-library/">Evaluation Library</a></li><li><a class="dropdown-item" href="https://opena11y.github.io/ainspector/">AInspector for WCAG</a></li><li><a class="dropdown-item" href="https://opena11y.github.io/h2l-side-panel/">H2L Side Panel</a></li>
+          </ul>
+        </li>
+      
+
+
+                    </ul>
+                  </div>
+              </div>
+          </nav>
+          <div class="tagline">
+            <div class="container px-4" >
+              SkipTo.js for WCAG Bypass Blocks
             </div>
-        </nav>
+          </div>
+       </header>
+
 
 
 
     <!-- Main section-->
     <div id="main-section" class="container px-4">
-      <nav aria-label="Breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Frequently Asked Questions</li>
-        </ol>
-      </nav>
-      <main class="row gx-4 justify-content-center">
-        <div class="col-lg-10">
-          
-          <h1>Frequently Asked Questions</h1>
-          
 
-          <div id="faq">
+      <div class="container px-4">
+        <div class="row gx-4 justify-content-center">
+          <div class="col-lg-10">
 
-            <h2>Headings and Landmark Regions</h2>
+            
+          </div>
+        </div>
+      </div>
 
-            <dl>
-              <dt>
+      
+      <div class="container px-4">
+        <div class="row gx-4 justify-content-center">
+          <div class="col-lg-10">
+            <main>
+
+                <h1>Frequently Asked Questions</h1>
+
+                
+        <div id="faq">
+
+          <h2>Headings and Landmark Regions</h2>
+
+          <div class="faq">
+
+            <details>
+              <summary>
                 What are Headings?
-              </dt>
-              <dd>
-                <a href="https://www.w3.org/WAI/tutorials/page-structure/headings/">Headings</a> are used to add structure to content and should describe the content in the next section or sub-section on the page.
-              </dd>
-              <dd>
-                There are six levels of headings (e.g. <code>h1</code>-<code>h6</code> elements) in HTML to identify sub-sections in hierarchical content.
-              </dd>
-              <dd>
-                Web browsers, plug-ins, and assistive technologies can use them to provide in-page navigation.
-              </dd>
-             <dd>
-                SkipTo.js provides a means for everyone to use keyboard navigation to navigate to headings on page.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  <a href="https://www.w3.org/WAI/tutorials/page-structure/headings/">Headings</a> are used to add structure to content and should describe the content in the next section or sub-section on the page.
+                </li>
+                <li>
+                  There are six levels of headings (e.g. <code>h1</code>-<code>h6</code> elements) in HTML to identify sub-sections in hierarchical content.
+                </li>
+                <li>
+                  Web browsers, plug-ins, and assistive technologies can use them to provide in-page navigation.
+                </li>
+               <li>
+                  SkipTo.js provides a means for everyone to use keyboard navigation to navigate to headings on page.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
 
-              <dt>
+            <details>
+              <summary>
                 What are Landmark Regions?
-              </dt>
-              <dd>
-                <a href="https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/">Landmark Regions</a> identify the major sections of a page that is usually conveyed visually with placement, spacing, color, or borders.
-              </dd>
-              <dd>
-                 Landmark regions enable assistive technology users to perceive the start and end of each section of a web page.
-              </dd>
-              <dd>
-                There are eight types of landmark regions used to identify content on a page: Banner, Complementary, Contentinfo, Form, Main, Navigation, Region and Search.
-              </dd>
-              <dd>
-                SkipTo.js provides a means for everyone to use keyboard navigation to navigate to landmark regions on page.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  <a href="https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/">Landmark Regions</a> identify the major sections of a page that is usually conveyed visually with placement, spacing, color, or borders.
+                </li>
+                <li>
+                   Landmark regions enable assistive technology users to perceive the start and end of each section of a web page.
+                </li>
+                <li>
+                  There are eight types of landmark regions used to identify content on a page: <code>banner</code>, <code>complementary</code>, <code>contentinfo</code>, <code>form</code>, <code>main</code>, <code>navigation</code>, <code>region</code> and <code>search</code>.
+                </li>
+                <li>
+                  SkipTo.js provides a means for everyone to use keyboard navigation to navigate to landmark regions on page.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-
-            </dl>
 
             <h2>"Skip To Content" Button and Menu</h2>
 
-            <dl>
-              <dt>
+            <details>
+              <summary>
                 Does the "Skip To Content" button always have to be visible when a web page opens?
-              </dt>
-              <dd>
-                The page-script and extension versions have configuration options to hide the button when the page loads.
-              </dd>
-              <dd>
-                The <a href="bookmarklets.html">bookmarklets</a> have separate link to demonstrate the configuration option for hiding the button when the page loads.
-              </dd>
-              <dd>
-                When the button is initially hidden it will be the first <kbd>tab</kbd> stop on the page, or can be opened at any time using the shortcut key (<kbd>Alt+0</kbd> or <kbd>Option+0</kbd>).
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  The page-script and extension versions have configuration options to hide the button when the page loads.
+                </li>
+                <li>
+                  The <a href="bookmarklets.html">bookmarklets</a> have separate link to demonstrate the configuration option for hiding the button when the page loads.
+                </li>
+                <li>
+                  When the button is initially hidden it will be the first <kbd>tab</kbd> stop on the page, or can be opened at any time using the shortcut key (<kbd>Alt+0</kbd> or <kbd>Option+0</kbd>).
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+              <summary>
                 Can the auto-scrolling feature be disabled?
-              </dt>
-              <dd>
-                The auto-scrolling feature is disabled if the operating system reduced motion setting is enabled by the <em>user</em>.
-              </dd>
-              <dd>
-                <em>Authors</em>can use configuration options for the page-script to disable auto-scrolling for a web page.
-              </dd>
-              <dd>
-                 <em>Users</em> can use configuration options for the browser extensions to disable auto-scrolling.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  The auto-scrolling feature is disabled if the operating system reduced motion setting is enabled by the <em>user</em>.
+                </li>
+                <li>
+                  <em>Authors</em>can use configuration options for the page-script to disable auto-scrolling for a web page.
+                </li>
+                <li>
+                   <em>Users</em> can use configuration options for the browser extensions to disable auto-scrolling.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+              <summary>
                 Why are <em>not all</em> of the landmark regions on the page included in the menu?
-              </dt>
-              <dd>
-                The default setting include the <code>complementary</code>, <code>main</code>, <code>navigation</code> and <code>search</code> landmark regions.
-              </dd>
-              <dd>
-                In the browser extensions <em>users</em> can set options to choose which landmark regions are included in the menu, including <code>banner</code>, <code>contentinfo</code>, <code>region</code> and <code>form</code>.
-              </dd>
-              <dd>
-                By default the order of the landmark regions in the menu are for importance of keyboard navigation: <code>main</code>, <code>search</code>, <code>navigation</code> and <code>complementary</code>.  In the browser extensions the <em>user</em>  can specify to show the landmarks in document order.
-              </dd>
-              <dd>
-                <em>Authors</em> can use configuration options in the page-script for setting the headings and landmark regions in the menu.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  The default setting include the <code>complementary</code>, <code>main</code>, <code>navigation</code> and <code>search</code> landmark regions.
+                </li>
+                <li>
+                  In the browser extensions <em>users</em> can set options to choose which landmark regions are included in the menu, including <code>banner</code>, <code>contentinfo</code>, <code>region</code> and <code>form</code>.
+                </li>
+                <li>
+                  By default the order of the landmark regions in the menu are for importance of keyboard navigation: <code>main</code>, <code>search</code>, <code>navigation</code> and <code>complementary</code>.  In the browser extensions the <em>user</em>  can specify to show the landmarks in document order.
+                </li>
+                <li>
+                  <em>Authors</em> can use configuration options in the page-script for setting the headings and landmark regions in the menu.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+              <summary>
                 Why are the landmark regions in the menu <em>not</em> in the <em>order</em> of how they appear on the page?
-              </dt>
-              <dd>
-                By default the order of the landmark regions in the menu are for importance of keyboard navigation: <code>main</code>, <code>search</code>, <code>navigation</code> and <code>complementary</code>.
-              <dd>
-                In the browser extensions the <em>user</em>  can specify to show the landmarks in document order.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  By default the order of the landmark regions in the menu are for importance of keyboard navigation: <code>main</code>, <code>search</code>, <code>navigation</code> and <code>complementary</code>.
+                <li>
+                  In the browser extensions the <em>user</em>  can specify to show the landmarks in document order.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+              <summary>
                 Why are <em>not all</em> of the headings on the page  are included in the menu?
-              </dt>
-              <dd>
-                The default setting include first and second level headings (e.g. <code>h1</code> and <code>h2</code> elements).
-              </dd>
-              <dd>
-                In the options setting you can choose which headings are included in the menu .
-              </dd>
-              <dd>
-                In the browser extensions <em>users</em> can set options to choose which headings are included in the menu (e.g. <code>h1</code>, <code>h2</code>, <code>h3</code>, <code>h4</code>, <code>h5</code> and <code>h6</code> elements).
-              </dd>
-              <dd>
-                <em>Authors</em> can use configuration options in the page-script for setting the headings and landmark regions in the menu.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  The default setting include first and second level headings (e.g. <code>h1</code> and <code>h2</code> elements).
+                </li>
+                <li>
+                  In the options setting you can choose which headings are included in the menu .
+                </li>
+                <li>
+                  In the browser extensions <em>users</em> can set options to choose which headings are included in the menu (e.g. <code>h1</code>, <code>h2</code>, <code>h3</code>, <code>h4</code>, <code>h5</code> and <code>h6</code> elements).
+                </li>
+                <li>
+                  <em>Authors</em> can use configuration options in the page-script for setting the headings and landmark regions in the menu.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+              <summary>
                 What does <em>"Headings in Main</em> mean?
-              </dt>
-              <dd>
-                The list of headings in the menu can be from the entire web page or limited to the headings within the main landamrk.
-              </dd>
-              <dd>
-                When the list of headings is limited to headings within the main landmark, the heading group label is <em>"Headings in Main</em>.
-              </dd>
-              <dd>
-                When there are no headings found in the main landmark, any headings found in the web page will be included in the menu.
-              </dd>
-              <dd>
-                When using a browser extension, <em>users</em> can choose to use the only in main option.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  The list of headings in the menu can be from the entire web page or limited to the headings within the main landamrk.
+                </li>
+                <li>
+                  When the list of headings is limited to headings within the main landmark, the heading group label is <em>"Headings in Main</em>.
+                </li>
+                <li>
+                  When there are no headings found in the main landmark, any headings found in the web page will be included in the menu.
+                </li>
+                <li>
+                  When using a browser extension, <em>users</em> can choose to use the only in main option.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+
+              <summary>
                 What do the numbers before heading names mean?
-              </dt>
-              <dd>
-                The numbers before the heading name identify the level of the heading.
-              </dd>
-              <dd>
-                Web pages can have up to six levels of headings (e.g. <code>h1</code>-<code>h6</code> elements).  Level 2 headings should be used as sub-sections of level 1 headings, level 3 headings should be used as sub-sections of level 2 headings and so on for the remaining heading levels.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  The numbers before the heading name identify the level of the heading.
+                </li>
+                <li>
+                  Web pages can have up to six levels of headings (e.g. <code>h1</code>-<code>h6</code> elements).  Level 2 headings should be used as sub-sections of level 1 headings, level 3 headings should be used as sub-sections of level 2 headings and so on for the remaining heading levels.
+                </li>
+              </ul>
 
-
-            </dl>
+            </details>
 
             <h2>Shortcuts</h2>
 
-            <dl>
+            <details>
 
-              <dt>
+              <summary>
                 What does the <em>hidden heading</em> message mean in sequential navigation?
-              </dt>
-              <dd>
-                Some section headings (i.e. <code>h1</code>-<code>h6</code> elements) are added to web pages in a way that only people using screen readers can "see" them.
-              </dd>
-              <dd>
-                Hidden headings are not visible in the graphical rendering of the page, but are visible to people using screen readers.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  Some section headings (i.e. <code>h1</code>-<code>h6</code> elements) are added to web pages in a way that only people using screen readers can "see" them.
+                </li>
+                <li>
+                  Hidden headings are not visible in the graphical rendering of the page, but are visible to people using screen readers.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+              <summary>
                 Why when I am in a search box or other text form control the sequential navigation keys don't work?
-              </dt>
-              <dd>
-                When keyboard focus is in a search box or other area of a web page that can accept text input the sequential shortcut keys are disabled.
-              </dd>
-              <dd>
-                The shortcuts are disabled to ensure the user can complete any forms or input associated with the web page.
-              </dd>
-              <dd>
-                Use the <kbd>Tab</kbd> key to move focus to a link or button and the shortcuts will again be enabled.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  When keyboard focus is in a search box or other area of a web page that can accept text input the sequential shortcut keys are disabled.
+                </li>
+                <li>
+                  The shortcuts are disabled to ensure the user can complete any forms or input associated with the web page.
+                </li>
+                <li>
+                  Use the <kbd>Tab</kbd> key to move focus to a link or button and the shortcuts will again be enabled.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-            </dl>
 
 
             <h2>Other Issues</h2>
 
-            <dl>
+            <details>
 
-              <dt>What happens with the bookmarklets or the extension are used on pages using the SkipTo.js page-script?</dt>
-              <dd>The extension and bookmarklets automatically unload any existing copies of SkipTo.js.</dd>
-
-            </dl>
-
-                         <section id="privacy" class="feedback" aria-label="Privacy and Feedback">
-
-              <h2 id="privacy">Privacy</h2>
-             <p>SkipTo.js <em>does not</em> collect or store any information about users or work with any other parties to collect or share user browsing information.</p>
-
-
-              <h2 id="of-course-we-want-feedback">Feedback and Reporting Issues</h2>
-
-              <p>We welcome your feedback!  Please do not hesitate to <a href="https://github.com/skipto-landmarks-headings/page-script-5//issues/">raise issues and comment on Github</a> if something doesn’t work or you have ideas on how to improve .</p>
-
-              <p class="happy">Happy skipping!</p>
-
-            </section>
-
+              <summary>What happens with the bookmarklets or the extension are used on pages using the SkipTo.js page-script?</summary>
+              <div class="content">
+                <ul>
+                  <li>The extension and bookmarklets automatically unload any existing copies of SkipTo.js.</li>
+                </ul>
+              </div>
+            </details>
 
         </div>
-      </main>
-    </nav>
+      </div>
+
+
+            </main>
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
             <!-- Footer-->
-        <footer class="py-5 bg-light">
+        <footer class="py-5">
+            <div class="feedback container px-4 text-center">
+            <a href="https://opena11y.github.io/">All OpenA11y Projects</a> |
+            <a href="about-privacy.html">Privacy Policy</a> |
+            <a href="about-feedback.html">Feedback</a>
+            </div>
 
-            <div class="fst-italic text-center" style="margin-bottom: 1em">The <code>SkipTo.js</code> script is the modern way to implement the <a href="https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html">WCAG 2.4.1 Bypass Blocks</a> requirement.</div>
+            <div class="container px-4 text-center">SkipTo.js Copyright (c) 2021-2026; Licensed BSD, All rights reserved</div>
 
-            <div class="container px-4 text-center">SkipTo.js Copyright (c) 2022, 2023, 2024, 2025 Jon Gunderson; Licensed BSD, All rights reserved</div>
+            <div class="container px-4 text-center"><a href="https://en.wikipedia.org/wiki/BSD_licenses">Licensed BSD</a> allows for <em>SkipTo.js</em> to be freely used (e.g. no cost), copied or modified.</div>
 
-            <div class="container px-4 text-center">SkipTo.js Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD, All rights reserved.</div>
-
-            <div class="container px-4 text-center">BSD License allows for the SkipTo.js code to be freely used (e.g. no cost), copied or modified as long as the copyright notice is included.</div>
-
-            <div class="container px-4 text-center">Website conformance to <a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a> requirements supported using <a href="https://ainspector.disability.illinois.edu">AInspector browser addon</a>.</div>
+            <div class="container px-4 text-center">Website conformance to <a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a> requirements supported using <a href="https://opena11y.github.io/ainspector">AInspector browser addon</a>.</div>
 
         </footer>
 
@@ -352,7 +422,7 @@
         <script src="js/createBookmarklets.js"></script>
 
         <!-- SkipTo.js -->
-        <script data-skipto="positionLeft: 18%"
+        <script data-skipto="positionLeft: 30%"
                 src="./dist/skipto.js">
         </script>
 

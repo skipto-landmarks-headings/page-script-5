@@ -5619,7 +5619,7 @@ dialog button:hover {
         }
 
         // Position hide button after all styling updates
-        this.buttonSkipTo.positionHideButton();
+              this.buttonSkipTo.positionHideButton();
 
       }
     }

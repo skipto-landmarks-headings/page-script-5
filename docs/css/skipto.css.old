@@ -1,36 +1,17 @@
 /* Define standard variables and values for website */
-
-$iconBlue: #13294B;
-$iconRed: hsl(358, 95%, 40%);
-$iconRedDark: hsl(358, 95%, 60%);
-
-$iconBackground: #dddddd;
-$iconWhite: #ffffff;
-$iconWhiteDark: #000000;
-
-$contentBlue: #005797;
-$linkCurrent: #000000;
-$separatorColor: #C5050C;
-
-$navBackground: #eeeeee;
-$navBackgroundDark: #101010;
-
-$contentBlueDark: rgb(110, 168, 254);
-$linkCurrentDark: #888;
-
 :root {
   color-scheme: light dark;
 }
 
 nav.second-level,
 nav.navbar.bg-light {
-  background-color: light-dark($navBackground, $navBackgroundDark) !important;
-  border-bottom: 1px solid light-dark(transparent, $navBackground);
+  background-color: light-dark(#eeeeee, #101010) !important;
+  border-bottom: 1px solid light-dark(transparent, #eeeeee);
 }
 
 footer.bg-light {
-  background-color: light-dark($navBackground, $navBackgroundDark) !important;
-  border-top: 1px solid light-dark(transparent, $navBackground);
+  background-color: light-dark(#eeeeee, #101010) !important;
+  border-top: 1px solid light-dark(transparent, #eeeeee);
 }
 
 .brand {
@@ -44,8 +25,8 @@ footer.bg-light {
 .brand .skipto {
   display: inline-block;
   padding: 0.25em;
-  color: light-dark($iconWhite, $iconWhiteDark);
-  background: light-dark($iconRed, $iconRedDark);
+  color: light-dark(#ffffff, #000000);
+  background: light-dark(hsl(358, 95%, 40%), hsl(358, 95%, 60%));
 }
 
 blockquote {
@@ -54,11 +35,11 @@ blockquote {
 }
 
 .text-blue {
-  color: $contentBlue;
+  color: #005797;
 }
 
 nav ol.breadcrumb {
-  padding-left:  0;
+  padding-left: 0;
 }
 
 nav.second-level {
@@ -81,7 +62,6 @@ nav.second-level a[aria-current] {
   text-decoration: none;
 }
 
-
 footer {
   margin-top: 40px;
 }
@@ -98,8 +78,8 @@ nav.second-level a:focus,
 .navbar-nav .nav-link,
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link:focus {
-  color: light-dark($contentBlue, $contentBlueDark);
-  outline-color: light-dark($contentBlue, $contentBlueDark);
+  color: light-dark(#005797, rgb(110, 168, 254));
+  outline-color: light-dark(#005797, rgb(110, 168, 254));
 }
 
 .breadcrumb a[aria-current],
@@ -107,7 +87,7 @@ nav.second-level a[aria-current],
 .navbar-nav .nav-link[aria-current],
 .navbar-nav .nav-link:hover[aria-current],
 .navbar-nav .nav-link:focus {
-  color: light-dark($linkCurrent, $linkCurrentDark);
+  color: light-dark(#000000, #888);
 }
 
 .tab-pane {
@@ -121,72 +101,72 @@ div.language-html {
   display: flex;
 }
 
-div.language-html pre>code {
-  padding:0;
-  margin:0;
-  font-size:100%;
-  word-break:normal;
-  white-space:pre;
-  background:transparent;
-  border:0;
+div.language-html pre > code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
   overflow-y: scroll;
 }
 
 div.language-html .highlight {
-  margin-bottom:16px;
+  margin-bottom: 16px;
   overflow-y: scroll;
 }
 
 div.language-html .highlight pre {
-  margin-bottom:0;
-  word-break:normal;
+  margin-bottom: 0;
+  word-break: normal;
   overflow-y: scroll;
 }
 
 div.language-html .highlight pre,
 div.language-html pre {
-  padding:16px;
-  overflow:auto;
-  font-size:85%;
-  line-height:1.45;
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
   background-color: light-dark(#f6f8fa, #0a0804);
-  border-radius:3px;
+  border-radius: 3px;
   overflow-y: scroll;
 }
 
 div.language-html pre code,
 div.language-html pre tt {
-  display:inline;
-  max-width:auto;
-  padding:0;
-  margin:0;
-  overflow:visible;
-  line-height:inherit;
-  word-wrap:normal;
-  background-color:transparent;
-  border:0
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
 }
 
-div.language-html pre .nt /* entity.name.tag, markup.quote */ {
-  color:  light-dark(darkgreen, lightgreen);
+div.language-html pre .nt {
+  color: light-dark(darkgreen, lightgreen);
 }
 
 div.language-html pre .kd,
 div.language-html pre .nx {
-  color:  light-dark(#953800, #ff985a);
+  color: light-dark(#953800, #ff985a);
 }
 
 div.language-html pre .na {
-  color:  light-dark(#005cc5, #63acff);
+  color: light-dark(#005cc5, #63acff);
 }
 
-div.language-html pre .c1 /* entity.name.tag, markup.quote */ {
-  color:  light-dark(#005cc5, #63acff);
-}
-div.language-html pre .k /* keyword, storage, storage.type */ {
-  color:  light-dark(#d73a49, #c22736);
+div.language-html pre .c1 {
+  color: light-dark(#005cc5, #63acff);
 }
 
+div.language-html pre .k {
+  color: light-dark(#d73a49, #c22736);
+}
 
 figure.image {
   margin: 0.5em;
@@ -240,8 +220,7 @@ div.container .h3 {
 }
 
 div.container h4,
-div.container .h4,
- {
+div.container .h4 {
   padding: 0;
   margin: 0;
   margin-top: 0.5em;
@@ -253,7 +232,6 @@ div.params {
   padding: 0.5em;
 }
 
-
 .bg-light code {
   color: light-dark(darkred, lightred);
 }
@@ -263,7 +241,7 @@ div.params {
 }
 
 p.happy {
-  font-family: 'Brush Script MT', cursive;
+  font-family: "Brush Script MT", cursive;
   font-size: 250%;
   letter-spacing: 0.05em;
 }
@@ -289,8 +267,11 @@ main li span.shortcut {
   position: absolute;
   overflow: hidden;
   clip: rect(0 0 0 0);
-  height: 1px; width: 1px;
-  margin: -1px; padding: 0; border: 0;
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
 }
 
 .hidden-offscreen {
@@ -341,5 +322,5 @@ main dd {
   margin: 0;
   padding: 0.25em;
   margin-top: 5em;
-  border-top: 2px solid $separatorColor;
+  border-top: 2px solid #C5050C;
 }

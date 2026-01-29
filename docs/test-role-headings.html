@@ -5,197 +5,282 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Test Page: Uses Role Heading | SkipTo.js for WCAG 2.4.1 Bypass Blocks</title>
+    <title>Uses Role Heading | AInspector for WCAG Evaluation Browser Extension</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
-    <!-- Choose Light or Dark Theme -->
-    <script src="./js/light-dark-scheme.js"></script>
-
     <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+
+    <link href="./css/bootstrap.min.css" rel="stylesheet" >
+
     <link href="./css/skipto.css" rel="stylesheet" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
 
 
 
   </head>
   <body>
-            <!-- Navigation-->
-        <nav class="navbar
-             navbar-expand-lg navbar-light bg-light"
-             aria-label="Primary"
-             id="mainNav">
-            <div class="container px-4">
-                <span class="brand">
-                  <span class="skipto">SkipTo.js 5.10</span>
-                </span>
+            <header>
+          <!-- Navigation-->
+          <nav class="navbar
+               navbar-expand-lg"
+               aria-label="Primary"
+               id="mainNav">
+              <div class="container px-4">
+                  <span class="brand">
+                    <span class="icon">
+                      <img src="./images/skipto-128-light.png" alt="">
+                    </span>
+                    <span class="version">
+                      Version 5.10
+                    </span>
+                  </span>
 
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#mainNavbar"
-                        aria-controls="mainNavbar"
-                        aria-expanded="false" a
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="mainNavbar">
-                  <ul class="navbar-nav ms-auto">
+                  <button class="navbar-toggler"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#mainNavbar"
+                          aria-controls="mainNavbar"
+                          aria-expanded="false"
+                          aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ms-auto">
+
                     
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="index.html">Home</a>
-                        </li>
-                      
-                    
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="shortcuts.html">Shortcuts</a>
-                        </li>
-                      
-                    
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="extensions.html">Extensions</a>
-                        </li>
-                      
-                    
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="bookmarklets.html">Bookmarklets</a>
-                        </li>
-                      
-                    
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="page-script.html">Page Script</a>
-                        </li>
-                      
-                    
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="faq.html">FAQ</a>
-                        </li>
-                      
-                    
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="about.html">About</a>
-                        </li>
-                      
-                    
-                  </ul>
-                </div>
+
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+      
+        <li class="nav-item">
+          <a class="nav-link" href="shortcuts.html">Shortcuts</a>
+        </li>
+      
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             data-bs-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-expanded="false">Extensions</a>
+          <ul class="dropdown-menu"><li><a class="dropdown-item" href="extensions-overview.html">Overview</a></li><li><a class="dropdown-item" href="extensions-options-menu.html">Menu</a></li><li><a class="dropdown-item" href="extensions-options-button.html">Button</a></li><li><a class="dropdown-item" href="extensions-options-highlight.html">Highlight</a></li><li><a class="dropdown-item" href="extensions-options-shortcuts.html">Shortcuts</a></li><li><a class="dropdown-item" href="extensions-options-style.html">Fonts and Colors</a></li><li><a class="dropdown-item" href="extensions-options-i18n.html">I18n</a></li>
+          </ul>
+        </li>
+      
+        <li class="nav-item">
+          <a class="nav-link" href="bookmarklets.html">Bookmarklets</a>
+        </li>
+      
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             data-bs-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-expanded="false">Page Script</a>
+          <ul class="dropdown-menu"><li><a class="dropdown-item" href="page-script-add.html">Adding to Page</a></li><li><a class="dropdown-item" href="page-script-config.html">Configuration</a></li><li><a class="dropdown-item" href="page-script-examples.html">Examples</a></li><li><a class="dropdown-item" href="page-script-tests.html">Tests</a></li>
+          </ul>
+        </li>
+      
+        <li class="nav-item">
+          <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+      
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             data-bs-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-expanded="false">About</a>
+          <ul class="dropdown-menu"><li><a class="dropdown-item" href="about-history.html">History</a></li><li><a class="dropdown-item" href="about-privacy.html">Privacy</a></li><li><a class="dropdown-item" href="about-feedback.html">Feedback</a></li><li><hr class="dropdown-divider"></li><li><a class="dropdown-item" href="https://opena11y.github.io/evaluation-library/">Evaluation Library</a></li><li><a class="dropdown-item" href="https://opena11y.github.io/ainspector/">AInspector for WCAG</a></li><li><a class="dropdown-item" href="https://opena11y.github.io/h2l-side-panel/">H2L Side Panel</a></li>
+          </ul>
+        </li>
+      
+
+
+                    </ul>
+                  </div>
+              </div>
+          </nav>
+          <div class="tagline">
+            <div class="container px-4" >
+              SkipTo.js for WCAG Bypass Blocks
             </div>
-        </nav>
-
-
-
-    <div class="container px-4">
-      <nav aria-label="Breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item"><a href="tests.html">Tests</a></li>
-          <li class="breadcrumb-item active">Test Page: Uses Role Heading</li>
-        </ol>
-      </nav>
-
-    <!-- Layout of Main Content -->
-      <div class="container">
-        <div class="row">
-
-          <div class="col col-lg-2 bg-light border rounded">
-            <div role="search">
-                <label for="id-search-input">Search</label>
-                <input id="id-search-input"
-                  type="text"
-                  style="width: 100%; padding: 2px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;">
-            </div>
-
-            <nav aria-labelledby="id-test-pages">
-              <div id="id-test-pages" class="h2" role="heading" aria-level="2">Test Pages</div>
-              <ul>
-              
-                <li><a href="test-no-landmarks.html">No landmarks</a></li>
-              
-                <li><a href="test-no-headings.html">No headings</a></li>
-              
-                <li><a href="test-slot-content.html">Content from Slot Elements</a></li>
-              
-                <li><a href="test-role-headings.html">Uses Role Heading</a></li>
-              
-                <li><a href="test-input-controls.html">Input controls</a></li>
-              
-                <li><a href="test-init-object.html">Initialization Object</a></li>
-              
-                <li><a href="test-header-size.html">Header Size</a></li>
-              
-              </ul>
-            </nav>
           </div>
+       </header>
 
 
-          <main class="col col-lg">
+
+
+    <!-- Main section-->
+    <div id="main-section" class="container px-4">
+
+      <div class="container px-4">
+        <div class="row gx-4 justify-content-center">
+          <div class="col-lg-10">
+
             
-            <div class="h1" role="heading" aria-level="1">Test Page: Uses Role Heading</div>
-            
-
-            <section class="border border-2 rounded"
-              style="padding: 0.5em"
-              aria-labelledby="id-description">
-
-              <div id="id-description" class="h2" role="heading" aria-level="2" style="margin-top: 0">Description</div>
-              <p>Heading role used on page and empty H2, h3 and H4 elements</p>
-
+            <nav class="second-level" aria-label="Page Script">
               
-            </section>
+                
+                <a href="page-script-add.html">Adding to Page</a>
+                
+              
+                
+                  
+                   | <a href="page-script-config.html">Configuration</a>
+                  
+                
+              
+                
+                  
+                   | <a href="page-script-examples.html">Examples</a>
+                  
+                
+              
+                
+                  
+                   | <a href="page-script-tests.html">Tests</a>
+                  
+                
+              
+            </nav>
+            
+          </div>
+        </div>
+      </div>
 
+      
+
+
+        <div class="container px-4">
+          <div class="row gx-4 justify-content-center">
+
+            <div class="col col-lg-2 bg-light border rounded sidepanel">
+              <nav aria-labelledby="id-examples">
+                <h2 id="id-examples">Tests</h2>
+                <ul>
+                  
+                  <li><a href="test-no-landmarks.html">No Landmarks</a></li>
+                  
+                  <li><a href="test-no-headings.html">No headings</a></li>
+                  
+                  <li><a href="test-role-headings.html">Role Heading</a></li>
+                  
+                  <li><a href="test-config-object.html">Config Object</a></li>
+                  
+                  <li><a href="test-input-controls.html">Input controls</a></li>
+                  
+                  <li><a href="test-slotted-content.html">Slotted Content</a></li>
+                  
+                  <li><a href="test-header-size.html"></a></li>
+                  
+                </ul>
+              </nav>
+            </div>
+
+            <div class="col-lg-7">
+              <main>
+
+                  <h1>Uses Role Heading</h1>
+
+                  
 
             <section>
-              <div class="h2" role="heading" aria-level="2">Example Content</div>
-
               <article>
-                <div class="h3" role="heading" aria-level="3">Pastrami</div><h3></h3>
+                <div role="heading" aria-level="2">Cabbage</div>
                 <section>
-                    Boudin pastrami cow ham leberkas doner ground round pork. Turducken swine bresaola, flank kielbasa ground round beef ribs chuck meatball shoulder tail leberkas biltong pastrami andouille. Drumstick jowl brisket ribeye ham jerky shank cow bacon. Ham swine chuck, ball tip frankfurter meatball short loin bacon andouille ribeye beef ribs shoulder tail spare ribs bresaola. Swine meatball leberkas bacon. Beef ribs short loin pork belly meatloaf pastrami bacon pig andouille ham jowl pork chop shoulder jerky ribeye. Meatball doner t-bone strip steak tail biltong ham hock, shank jowl.
+                   Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc tincidunt consequat purus vitae sagittis. Nam ut elementum libero. In dui lacus, interdum ac imperdiet sed, volutpat in diam. Morbi scelerisque arcu eros, et ultrices massa elementum id. Morbi dui libero, mollis vel lacinia non, ultricies sit amet neque. Etiam condimentum blandit pharetra. 
                     <a href="#">Link 1</a>
                 </section>
 
-                <div class="h4" role="heading" aria-level="7">More Pastrami (<code>aria-level=7</code>)</div><h4></h4>
+                <div role="heading" aria-level="3" class="hidden-small">More on Cabbage</div>
                 <section>
-                    Boudin pastrami cow ham leberkas doner ground round pork. Turducken swine bresaola, flank kielbasa ground round beef ribs chuck meatball shoulder tail leberkas biltong pastrami andouille. Drumstick jowl brisket ribeye ham jerky shank cow bacon. Ham swine chuck, ball tip frankfurter meatball short loin bacon andouille ribeye beef ribs shoulder tail spare ribs bresaola. Swine meatball leberkas bacon. Beef ribs short loin pork belly meatloaf pastrami bacon pig andouille ham jowl pork chop shoulder jerky ribeye. Meatball doner t-bone strip steak tail biltong ham hock, shank jowl.
+                    Etiam vitae urna ligula. In accumsan volutpat sapien, eget varius enim commodo at. Nam faucibus, augue id maximus semper, sapien quam egestas est, euismod blandit neque mi ut massa. Donec vitae sagittis velit, ac suscipit magna. Mauris tincidunt nunc nec purus convallis, in commodo erat efficitur. Integer pretium semper imperdiet. Sed sed facilisis diam. Integer pellentesque elit leo, sed interdum quam sollicitudin at. Aliquam a aliquam mi.
                     <a href="#">Link 2</a>
                 </section>
               </article>
 
               <article>
-                <div class="h3" role="heading" aria-level="5">Turkey</div><h3></h3>
+                <div role="heading" aria-level="2">Carrots</div>
                 <section>
-                    Turkey tri-tip sirloin tail hamburger, pancetta prosciutto pork chop pork tongue. Salami drumstick bacon jerky, pork sausage ham prosciutto capicola pancetta beef ribs fatback. Bresaola andouille sirloin, fatback beef ribs shoulder leberkas tongue. Shankle shank turducken, flank jerky leberkas strip steak chuck pancetta tail venison pork belly meatball.
+                    Morbi non nunc non justo sollicitudin auctor et at urna. Curabitur luctus sodales quam rutrum auctor. Nullam euismod ipsum vel ipsum mattis, a hendrerit felis pretium. Proin pharetra in tortor ut molestie. Nam in ligula ac enim fringilla rhoncus ac vel lectus. Nam eu dui bibendum, sollicitudin libero quis, consectetur diam. Fusce euismod ultricies nibh, blandit consequat tortor. Cras at est at mi vestibulum rutrum. Sed luctus est eu nisi ultricies, vitae consectetur tortor pulvinar. 
                     <a href="#">Link 3</a>
                 </section>
-                <div class="h4" role="heading" aria-level="4">More Turkey</div><h4></h4>
+                <div role="heading" aria-level="2">Cellery</div>
                 <section>
-                        Turkey tri-tip sirloin tail hamburger, pancetta prosciutto pork chop pork tongue. Salami drumstick bacon jerky, pork sausage ham prosciutto capicola pancetta beef ribs fatback. Bresaola andouille sirloin, fatback beef ribs shoulder leberkas tongue. Shankle shank turducken, flank jerky leberkas strip steak chuck pancetta tail venison pork belly meatball.
-                        <a href="#">Link 4</a>
+                    Nullam sollicitudin semper tortor, quis condimentum turpis egestas eget. Donec condimentum euismod dictum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque maximus semper venenatis. Nullam at risus tempor, congue mi eu, aliquet massa. Vestibulum faucibus, augue sit amet imperdiet scelerisque, orci ante vulputate turpis, non sodales sapien nisi quis libero. In feugiat vehicula ligula, a vestibulum urna lacinia tincidunt. Duis ut malesuada massa, vitae sagittis ipsum. Nunc quis consectetur arcu. Vestibulum at tellus venenatis velit tincidunt consequat et non nulla. Suspendisse pretium lobortis metus ut maximus. 
+                    <a href="#">Link 4</a>
                 </section>
               </article>
 
               <article>
-                <div class="h3" role="heading">Ribeye (no <code>aria-level</code>)</div><h3></h3>
+                  <div role="heading" aria-level="2">Lettuce</div>
+                  <section>
+                       Cras consequat, quam sodales commodo blandit, magna lacus sodales odio, vitae dignissim mi tortor id est. Suspendisse arcu tellus, ornare iaculis nisl vel, egestas imperdiet leo. Pellentesque hendrerit metus neque, id interdum lectus tincidunt sed. Vestibulum odio nibh, bibendum id leo non, mattis rhoncus est. Donec ac massa at risus ultricies consectetur fringilla eu est. Fusce nec purus imperdiet, vehicula ex ut, volutpat ante. Morbi porttitor lorem id dolor pretium suscipit. 
+                      <a href="#">Link 5</a>
+                  </section>
+                  <div role="heading" aria-level="3" class="hidden-offscreen">More on Lettuce</div>
+                  <section>
+                      Curabitur eros lacus, pulvinar a finibus in, fermentum eu tortor. Praesent scelerisque risus sit amet ultricies feugiat. Donec a nibh et eros consectetur ornare id sed mauris. Etiam efficitur sapien quis nibh congue feugiat sed in nulla. Nam bibendum, massa vitae hendrerit sollicitudin, quam libero condimentum tortor, aliquam faucibus tellus turpis posuere ante. Etiam pharetra aliquam enim non finibus. 
+                      <a href="#">Link 6</a>
+                  </section>
+              </article>
+
+              <article>
+                  <div role="heading" aria-level="2">Kale</div>
+                  <section>
+                     Etiam varius turpis et ex varius congue. Aenean et pretium sem. Ut pulvinar ligula et libero ultrices auctor. Vestibulum consequat mollis magna vitae rutrum. Phasellus blandit accumsan vestibulum. Etiam id egestas dui, a pharetra urna. Curabitur vitae porta elit, ac imperdiet massa. Nullam in lacinia sapien, venenatis maximus ante. Ut varius arcu eget tempor ultricies. 
+                      <a href="#">Link 7</a>
+                  </section>
+                  <div role="heading" aria-level="3">More on Kale (h3)</div>
+                  <section>
+                      Proin aliquam, diam et tincidunt rhoncus, neque ex placerat ligula, eu tristique turpis nibh non nisl. Nam risus sem, commodo eget mollis vitae, vestibulum ut leo. Proin at elementum sem. Donec fringilla risus arcu, in dignissim tortor efficitur sed. Quisque gravida, nibh non tincidunt euismod, felis ligula sodales sapien, in consectetur metus tortor dignissim velit. 
+                      <a href="#">Link 8A</a>
+                  </section>
+                  <div role="heading" aria-level="4">More on Kale (h4)</div>
+                  <section>
+                      Proin aliquam, diam et tincidunt rhoncus, neque ex placerat ligula, eu tristique turpis nibh non nisl. Nam risus sem, commodo eget mollis vitae, vestibulum ut leo. Proin at elementum sem. Donec fringilla risus arcu, in dignissim tortor efficitur sed. Quisque gravida, nibh non tincidunt euismod, felis ligula sodales sapien, in consectetur metus tortor dignissim velit.
+                      <a href="#">Link 8B</a>
+                  </section>
+                  <div role="heading" aria-level="5">More on Kale (h5)</div>
+                  <section>
+                      Proin aliquam, diam et tincidunt rhoncus, neque ex placerat ligula, eu tristique turpis nibh non nisl. Nam risus sem, commodo eget mollis vitae, vestibulum ut leo. Proin at elementum sem. Donec fringilla risus arcu, in dignissim tortor efficitur sed. Quisque gravida, nibh non tincidunt euismod, felis ligula sodales sapien, in consectetur metus tortor dignissim velit.
+                      <a href="#">Link 8C</a>
+                  </section>
+                  <div role="heading" aria-level="6">More on Kale (h6)</div>
+                  <section>
+                      Proin aliquam, diam et tincidunt rhoncus, neque ex placerat ligula, eu tristique turpis nibh non nisl. Nam risus sem, commodo eget mollis vitae, vestibulum ut leo. Proin at elementum sem. Donec fringilla risus arcu, in dignissim tortor efficitur sed. Quisque gravida, nibh non tincidunt euismod, felis ligula sodales sapien, in consectetur metus tortor dignissim velit.
+                      <a href="#">Link 8D</a>
+                  </section>
+              </article>
+
+              <article>
+                <div role="heading" aria-level="2">Spinach</div>
                 <section>
-                  Ribeye turkey beef ribs, ground round pork chop cow venison capicola shank pastrami. Salami pork ball tip tongue chicken tenderloin sausage short loin. Prosciutto jerky chuck sausage. Tri-tip shankle short ribs cow pastrami, sirloin drumstick pig ball tip shank meatball ground round hamburger.
-                  <a href="#">Link 5</a>
+                  Vestibulum sapien lectus, pretium eget tortor vel, venenatis iaculis ex. Nullam arcu arcu, hendrerit vitae mattis sed, malesuada sed metus. In aliquet iaculis erat, tempus convallis lacus posuere quis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum rutrum maximus libero, eget gravida nisi consequat vitae. Ut vulputate mollis elementum.  
+                  <a href="#">Link 9</a>
                 </section>
               </article>
             </section>
-          </main>
 
 
-          <aside class="col col-lg-2 bg-light border rounded" aria-labelledby="id-resources">
-            <div class="h2" role="heading" aria-level="x">Resources (<code>aria-level</code> is not a number</div><h2></h2>
+
+
+              </main>
+            </div>
+
+            <div class="col col-lg-3 bg-light border rounded sidepanel">
+
+              
+            <div role="search" style="margin-top: 1em">
+                <label for="id-search-input">Search</label>
+                <input id="id-search-input" type="text" style="width: 100%; padding: 2px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;">
+            </div>
+
+           <aside aria-labelledby="id-resources">
+            <h2 id="id-resources">Resources</h2>
             <ul>
               <li><a href="#">Resource 1</a></li>
               <li><a href="#">Resource 2</a></li>
@@ -206,41 +291,54 @@
             </ul>
           </aside>
 
-        </div>
-
-        <div class="row">
-          <div class="col col-lg-2">
-          </div>
-
-          <section class="col col-lg-8 bg-light border rounded"
+          <section class="col col-lg-8 bg-light"
             role="complementary"
             aria-label="More Resources">
-            <div class="h2" role="heading" aria-level="">More Resources (<code>aria-level</code> is empty)</div>
+            <h2>More Resources</h2>
             <ul>
-              <li><a href="%">More resources 1</a></li>
-              <li><a href="%">More resources 2</a></li>
-              <li><a href="%">More resources 3</a></li>
-              <li><a href="%">More resources 4</a></li>
-              <li><a href="%">More resources 5</a></li>
+              <li><a href="#">More resources 1</a></li>
+              <li><a href="#">More resources 2</a></li>
+              <li><a href="#">More resources 3</a></li>
+              <li><a href="#">More resources 4</a></li>
+              <li><a href="#">More resources 5</a></li>
             </ul>
           </section>
-       </div>
-      </div>
 
+          <section class="col col-lg-8 bg-light"
+            role="complementary"
+            aria-label="Many More Resources">
+            <h2>Many More Resources</h2>
+            <ul>
+              <li><a href="#">Many more resources 1</a></li>
+              <li><a href="#">Many more resources 2</a></li>
+              <li><a href="#">Many more resources 3</a></li>
+              <li><a href="#">Many more resources 4</a></li>
+              <li><a href="#">Many more resources 5</a></li>
+            </ul>
+          </section>
+
+
+
+            </div>
+          </div>
+        </div>
+
+      
 
     </div>
             <!-- Footer-->
-        <footer class="py-5 bg-light">
+        <footer class="py-5">
+            <div class="feedback container px-4 text-center">
+            <a href="https://opena11y.github.io/">All OpenA11y Projects</a> |
+            <a href="about-privacy.html">Privacy Policy</a> |
+            <a href="about-feedback.html">Feedback</a>
+            </div>
 
-            <div class="fst-italic text-center" style="margin-bottom: 1em">The <code>SkipTo.js</code> script is the modern way to implement the <a href="https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html">WCAG 2.4.1 Bypass Blocks</a> requirement.</div>
+            <div class="container px-4 text-center">SkipTo.js Copyright (c) 2021-2026; Licensed BSD, All rights reserved</div>
 
-            <div class="container px-4 text-center">SkipTo.js Copyright (c) 2022, 2023, 2024, 2025 Jon Gunderson; Licensed BSD, All rights reserved</div>
+            <div class="container px-4 text-center"><a href="https://en.wikipedia.org/wiki/BSD_licenses">Licensed BSD</a> allows for <em>SkipTo.js</em> to be freely used (e.g. no cost), copied or modified.</div>
 
-            <div class="container px-4 text-center">SkipTo.js Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD, All rights reserved.</div>
-
-            <div class="container px-4 text-center">BSD License allows for the SkipTo.js code to be freely used (e.g. no cost), copied or modified as long as the copyright notice is included.</div>
-
-            <div class="container px-4 text-center">Website conformance to <a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a> requirements supported using <a href="https://ainspector.disability.illinois.edu">AInspector browser addon</a>.</div>
+            <div class="container px-4 text-center">Website conformance to <a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a> requirements supported using <a href="https://opena11y.github.io/ainspector">AInspector browser addon</a>.</div>
 
         </footer>
 
@@ -252,15 +350,15 @@
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
 
-       <!-- Bookmarklets-->
+        <!-- Bookmarklets-->
         <script src="js/createBookmarklets.js"></script>
 
+        <!-- SkipTo.js -->
+        <script data-skipto="headings: h1 h2 h3 h4 h5 h6;positionLeft: 30%"
+                src="./dist/skipto.js">
+        </script>
 
 
 
-    <!-- SkipTo.js -->
-    <script data-skipto=""
-            src="./dist/skipto.js">
-    </script>
   </body>
 </html>

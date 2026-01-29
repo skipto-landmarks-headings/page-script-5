@@ -1,232 +1,252 @@
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    {% include "./head.njk" %}
 
-    <style>
-      #faq h2 {
-        border-bottom: 1px solid light-dark(#444, #ccc);
-      }
-      #faq dl {
-        margin-bottom: 2em;
-      }
+        <div id="faq">
 
-      #faq dt {
-        background-color: light-dark(#eee, #484848);
-        padding: 0.25em;
-      }
+          <h2>Headings and Landmark Regions</h2>
 
-      #faq dd {
-        padding: 0.25em;
-        margin: 0.25em;
-        margin-left: .75em;
-      }
+          <div class="faq">
 
-    </style>
-  </head>
-  <body>
-    {% include "./header.njk" %}
-
-    <!-- Main section-->
-    <div id="main-section" class="container px-4">
-      <nav aria-label="Breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">{{title | safe}}</li>
-        </ol>
-      </nav>
-      <main class="row gx-4 justify-content-center">
-        <div class="col-lg-10">
-          {% block title %}
-          <h1>{{title}}</h1>
-          {% endblock %}
-
-          <div id="faq">
-
-            <h2>Headings and Landmark Regions</h2>
-
-            <dl>
-              <dt>
+            <details>
+              <summary>
                 What are Headings?
-              </dt>
-              <dd>
-                <a href="https://www.w3.org/WAI/tutorials/page-structure/headings/">Headings</a> are used to add structure to content and should describe the content in the next section or sub-section on the page.
-              </dd>
-              <dd>
-                There are six levels of headings (e.g. <code>h1</code>-<code>h6</code> elements) in HTML to identify sub-sections in hierarchical content.
-              </dd>
-              <dd>
-                Web browsers, plug-ins, and assistive technologies can use them to provide in-page navigation.
-              </dd>
-             <dd>
-                SkipTo.js provides a means for everyone to use keyboard navigation to navigate to headings on page.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  <a href="https://www.w3.org/WAI/tutorials/page-structure/headings/">Headings</a> are used to add structure to content and should describe the content in the next section or sub-section on the page.
+                </li>
+                <li>
+                  There are six levels of headings (e.g. <code>h1</code>-<code>h6</code> elements) in HTML to identify sub-sections in hierarchical content.
+                </li>
+                <li>
+                  Web browsers, plug-ins, and assistive technologies can use them to provide in-page navigation.
+                </li>
+               <li>
+                  SkipTo.js provides a means for everyone to use keyboard navigation to navigate to headings on page.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
 
-              <dt>
+            <details>
+              <summary>
                 What are Landmark Regions?
-              </dt>
-              <dd>
-                <a href="https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/">Landmark Regions</a> identify the major sections of a page that is usually conveyed visually with placement, spacing, color, or borders.
-              </dd>
-              <dd>
-                 Landmark regions enable assistive technology users to perceive the start and end of each section of a web page.
-              </dd>
-              <dd>
-                There are eight types of landmark regions used to identify content on a page: Banner, Complementary, Contentinfo, Form, Main, Navigation, Region and Search.
-              </dd>
-              <dd>
-                SkipTo.js provides a means for everyone to use keyboard navigation to navigate to landmark regions on page.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  <a href="https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/">Landmark Regions</a> identify the major sections of a page that is usually conveyed visually with placement, spacing, color, or borders.
+                </li>
+                <li>
+                   Landmark regions enable assistive technology users to perceive the start and end of each section of a web page.
+                </li>
+                <li>
+                  There are eight types of landmark regions used to identify content on a page: <code>banner</code>, <code>complementary</code>, <code>contentinfo</code>, <code>form</code>, <code>main</code>, <code>navigation</code>, <code>region</code> and <code>search</code>.
+                </li>
+                <li>
+                  SkipTo.js provides a means for everyone to use keyboard navigation to navigate to landmark regions on page.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-
-            </dl>
 
             <h2>"Skip To Content" Button and Menu</h2>
 
-            <dl>
-              <dt>
+            <details>
+              <summary>
                 Does the "Skip To Content" button always have to be visible when a web page opens?
-              </dt>
-              <dd>
-                The page-script and extension versions have configuration options to hide the button when the page loads.
-              </dd>
-              <dd>
-                The <a href="bookmarklets.html">bookmarklets</a> have separate link to demonstrate the configuration option for hiding the button when the page loads.
-              </dd>
-              <dd>
-                When the button is initially hidden it will be the first <kbd>tab</kbd> stop on the page, or can be opened at any time using the shortcut key (<kbd>Alt+0</kbd> or <kbd>Option+0</kbd>).
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  The page-script and extension versions have configuration options to hide the button when the page loads.
+                </li>
+                <li>
+                  The <a href="bookmarklets.html">bookmarklets</a> have separate link to demonstrate the configuration option for hiding the button when the page loads.
+                </li>
+                <li>
+                  When the button is initially hidden it will be the first <kbd>tab</kbd> stop on the page, or can be opened at any time using the shortcut key (<kbd>Alt+0</kbd> or <kbd>Option+0</kbd>).
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+              <summary>
                 Can the auto-scrolling feature be disabled?
-              </dt>
-              <dd>
-                The auto-scrolling feature is disabled if the operating system reduced motion setting is enabled by the <em>user</em>.
-              </dd>
-              <dd>
-                <em>Authors</em>can use configuration options for the page-script to disable auto-scrolling for a web page.
-              </dd>
-              <dd>
-                 <em>Users</em> can use configuration options for the browser extensions to disable auto-scrolling.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  The auto-scrolling feature is disabled if the operating system reduced motion setting is enabled by the <em>user</em>.
+                </li>
+                <li>
+                  <em>Authors</em>can use configuration options for the page-script to disable auto-scrolling for a web page.
+                </li>
+                <li>
+                   <em>Users</em> can use configuration options for the browser extensions to disable auto-scrolling.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+              <summary>
                 Why are <em>not all</em> of the landmark regions on the page included in the menu?
-              </dt>
-              <dd>
-                The default setting include the <code>complementary</code>, <code>main</code>, <code>navigation</code> and <code>search</code> landmark regions.
-              </dd>
-              <dd>
-                In the browser extensions <em>users</em> can set options to choose which landmark regions are included in the menu, including <code>banner</code>, <code>contentinfo</code>, <code>region</code> and <code>form</code>.
-              </dd>
-              <dd>
-                By default the order of the landmark regions in the menu are for importance of keyboard navigation: <code>main</code>, <code>search</code>, <code>navigation</code> and <code>complementary</code>.  In the browser extensions the <em>user</em>  can specify to show the landmarks in document order.
-              </dd>
-              <dd>
-                <em>Authors</em> can use configuration options in the page-script for setting the headings and landmark regions in the menu.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  The default setting include the <code>complementary</code>, <code>main</code>, <code>navigation</code> and <code>search</code> landmark regions.
+                </li>
+                <li>
+                  In the browser extensions <em>users</em> can set options to choose which landmark regions are included in the menu, including <code>banner</code>, <code>contentinfo</code>, <code>region</code> and <code>form</code>.
+                </li>
+                <li>
+                  By default the order of the landmark regions in the menu are for importance of keyboard navigation: <code>main</code>, <code>search</code>, <code>navigation</code> and <code>complementary</code>.  In the browser extensions the <em>user</em>  can specify to show the landmarks in document order.
+                </li>
+                <li>
+                  <em>Authors</em> can use configuration options in the page-script for setting the headings and landmark regions in the menu.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+              <summary>
                 Why are the landmark regions in the menu <em>not</em> in the <em>order</em> of how they appear on the page?
-              </dt>
-              <dd>
-                By default the order of the landmark regions in the menu are for importance of keyboard navigation: <code>main</code>, <code>search</code>, <code>navigation</code> and <code>complementary</code>.
-              <dd>
-                In the browser extensions the <em>user</em>  can specify to show the landmarks in document order.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  By default the order of the landmark regions in the menu are for importance of keyboard navigation: <code>main</code>, <code>search</code>, <code>navigation</code> and <code>complementary</code>.
+                <li>
+                  In the browser extensions the <em>user</em>  can specify to show the landmarks in document order.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+              <summary>
                 Why are <em>not all</em> of the headings on the page  are included in the menu?
-              </dt>
-              <dd>
-                The default setting include first and second level headings (e.g. <code>h1</code> and <code>h2</code> elements).
-              </dd>
-              <dd>
-                In the options setting you can choose which headings are included in the menu .
-              </dd>
-              <dd>
-                In the browser extensions <em>users</em> can set options to choose which headings are included in the menu (e.g. <code>h1</code>, <code>h2</code>, <code>h3</code>, <code>h4</code>, <code>h5</code> and <code>h6</code> elements).
-              </dd>
-              <dd>
-                <em>Authors</em> can use configuration options in the page-script for setting the headings and landmark regions in the menu.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  The default setting include first and second level headings (e.g. <code>h1</code> and <code>h2</code> elements).
+                </li>
+                <li>
+                  In the options setting you can choose which headings are included in the menu .
+                </li>
+                <li>
+                  In the browser extensions <em>users</em> can set options to choose which headings are included in the menu (e.g. <code>h1</code>, <code>h2</code>, <code>h3</code>, <code>h4</code>, <code>h5</code> and <code>h6</code> elements).
+                </li>
+                <li>
+                  <em>Authors</em> can use configuration options in the page-script for setting the headings and landmark regions in the menu.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+              <summary>
                 What does <em>"Headings in Main</em> mean?
-              </dt>
-              <dd>
-                The list of headings in the menu can be from the entire web page or limited to the headings within the main landamrk.
-              </dd>
-              <dd>
-                When the list of headings is limited to headings within the main landmark, the heading group label is <em>"Headings in Main</em>.
-              </dd>
-              <dd>
-                When there are no headings found in the main landmark, any headings found in the web page will be included in the menu.
-              </dd>
-              <dd>
-                When using a browser extension, <em>users</em> can choose to use the only in main option.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  The list of headings in the menu can be from the entire web page or limited to the headings within the main landamrk.
+                </li>
+                <li>
+                  When the list of headings is limited to headings within the main landmark, the heading group label is <em>"Headings in Main</em>.
+                </li>
+                <li>
+                  When there are no headings found in the main landmark, any headings found in the web page will be included in the menu.
+                </li>
+                <li>
+                  When using a browser extension, <em>users</em> can choose to use the only in main option.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+
+              <summary>
                 What do the numbers before heading names mean?
-              </dt>
-              <dd>
-                The numbers before the heading name identify the level of the heading.
-              </dd>
-              <dd>
-                Web pages can have up to six levels of headings (e.g. <code>h1</code>-<code>h6</code> elements).  Level 2 headings should be used as sub-sections of level 1 headings, level 3 headings should be used as sub-sections of level 2 headings and so on for the remaining heading levels.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  The numbers before the heading name identify the level of the heading.
+                </li>
+                <li>
+                  Web pages can have up to six levels of headings (e.g. <code>h1</code>-<code>h6</code> elements).  Level 2 headings should be used as sub-sections of level 1 headings, level 3 headings should be used as sub-sections of level 2 headings and so on for the remaining heading levels.
+                </li>
+              </ul>
 
-
-            </dl>
+            </details>
 
             <h2>Shortcuts</h2>
 
-            <dl>
+            <details>
 
-              <dt>
+              <summary>
                 What does the <em>hidden heading</em> message mean in sequential navigation?
-              </dt>
-              <dd>
-                Some section headings (i.e. <code>h1</code>-<code>h6</code> elements) are added to web pages in a way that only people using screen readers can "see" them.
-              </dd>
-              <dd>
-                Hidden headings are not visible in the graphical rendering of the page, but are visible to people using screen readers.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  Some section headings (i.e. <code>h1</code>-<code>h6</code> elements) are added to web pages in a way that only people using screen readers can "see" them.
+                </li>
+                <li>
+                  Hidden headings are not visible in the graphical rendering of the page, but are visible to people using screen readers.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-              <dt>
+
+            <details>
+              <summary>
                 Why when I am in a search box or other text form control the sequential navigation keys don't work?
-              </dt>
-              <dd>
-                When keyboard focus is in a search box or other area of a web page that can accept text input the sequential shortcut keys are disabled.
-              </dd>
-              <dd>
-                The shortcuts are disabled to ensure the user can complete any forms or input associated with the web page.
-              </dd>
-              <dd>
-                Use the <kbd>Tab</kbd> key to move focus to a link or button and the shortcuts will again be enabled.
-              </dd>
+              </summary>
+                <div class="content">
+                  <ul>
+                <li>
+                  When keyboard focus is in a search box or other area of a web page that can accept text input the sequential shortcut keys are disabled.
+                </li>
+                <li>
+                  The shortcuts are disabled to ensure the user can complete any forms or input associated with the web page.
+                </li>
+                <li>
+                  Use the <kbd>Tab</kbd> key to move focus to a link or button and the shortcuts will again be enabled.
+                </li>
+                  </ul>
+                </div>
+            </details>
 
-            </dl>
 
 
             <h2>Other Issues</h2>
 
-            <dl>
+            <details>
 
-              <dt>What happens with the bookmarklets or the extension are used on pages using the SkipTo.js page-script?</dt>
-              <dd>The extension and bookmarklets automatically unload any existing copies of SkipTo.js.</dd>
-
-            </dl>
-
-             {% include "./feedback.njk" %}
+              <summary>What happens with the bookmarklets or the extension are used on pages using the SkipTo.js page-script?</summary>
+              <div class="content">
+                <ul>
+                  <li>The extension and bookmarklets automatically unload any existing copies of SkipTo.js.</li>
+                </ul>
+              </div>
+            </details>
 
         </div>
-      </main>
-    </nav>
-    {% include "./footer.njk" %}
-    {% include "./scripts.njk" %}
-
-  </body>
-</html>
+      </div>

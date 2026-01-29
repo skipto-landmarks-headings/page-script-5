@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {% include "./head.njk" %}
+  </head>
+  <body>
+    {% include "./header.njk" %}
+
+    <!-- Main section-->
+    <div id="main-section" class="container px-4">
+
+      <div class="container px-4">
+        <div class="row gx-4 justify-content-center">
+          <div class="col-lg-10">
+
+            {% if dropdownPages %}
+            <nav class="second-level" aria-label="{{dropdownName}}">
+              {% for page in dropdownPages %}
+                {% if loop.first %}
+                <a href="{{page.filename}}">{{page.link}}</a>
+                {% else %}
+                  {% if page.filename %}
+                   | <a href="{{page.filename}}">{{page.link}}</a>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </nav>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      {% if not subPagesTitle %}
+      <div class="container px-4">
+        <div class="row gx-4 justify-content-center">
+          <div class="col-lg-10">
+            <main>
+
+                <h1>{{title}}</h1>
+
+                {% include './' + content %}
+
+            </main>
+          </div>
+        </div>
+      </div>
+      {% else %}
+
+
+        <div class="container px-4">
+          <div class="row gx-4 justify-content-center">
+
+            <div class="col col-lg-2 bg-light border rounded sidepanel">
+              <nav aria-labelledby="id-examples">
+                <h2 id="id-examples">{{subPagesTitle}}</h2>
+                <ul>
+                  {% for sp in subPages %}
+                  <li><a href="{{sp.filename}}">{{sp.link}}</a></li>
+                  {% endfor %}
+                </ul>
+              </nav>
+            </div>
+
+            <div class="col-lg-7">
+              <main>
+
+                  <h1>{{title}}</h1>
+
+                  {% include './' + content %}
+
+              </main>
+            </div>
+
+            <div class="col col-lg-3 bg-light border rounded sidepanel">
+
+              {% include './example/example-aside.njk' %}
+
+            </div>
+          </div>
+        </div>
+
+      {% endif %}
+
+    </div>
+    {% include "./footer.njk" %}
+    {% include "./scripts.njk" %}
+
+  </body>
+</html>

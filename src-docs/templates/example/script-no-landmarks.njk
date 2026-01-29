@@ -1,0 +1,18 @@
+<script>
+
+  window.addEventListener('load', () => {
+
+    const landmarks = document.querySelectorAll('aside, footer, header, main, nav, [role="search"], [role="complementary"], [role="main"], [role="navigation"], [role="banner"], [role="contentinfo"]');
+
+    console.log(landmarks.length);
+    for (let i = 0; i < landmarks.length; i += 1) {
+      const l = landmarks[i];
+      l.setAttribute("role", "none");
+      console.log(l.tagName);
+    }
+
+  });
+
+</script>
+
+

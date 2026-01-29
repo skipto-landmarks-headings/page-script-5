@@ -1,0 +1,22 @@
+
+          <div id="examples">
+
+           <table class="table table-striped" aria-labelledby="id-title">
+            <thead>
+              <th>Example</th>
+              <th>Description</th>
+            </thead>
+            <tbody>
+            {% for sp in subPages %}
+              <tr>
+                <td><a href="{{sp.filename}}">{{sp.title | safe}}</a></td>
+                <td>{{ sp.description}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+           </table>
+
+           </table>
+
+          </div>
+        </div>

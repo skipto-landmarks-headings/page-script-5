@@ -1,32 +1,158 @@
 /* Define standard variables and values for website */
+
 :root {
   color-scheme: light dark;
+
+  --iconBlue: hsl(216, 60%, 18%);
+  --iconBlueDark: hsl(216, 60%, 82%);
+
+  --iconOrange: hsl(22, 100%, 51%);
+  --iconOrangeDark: hsl(22, 100%, 49%);
+
+  --iconBackground: hsl(0, 0%, 93%);
+  --iconBackgroundDark: hsl(0, 0%, 7%);
+
+  --iconWhite: hsl(0, 0%, 100%);
+  --iconWhiteDark: hsl(0, 0%, 0%);
+
+  --resultV: hsl(0, 100%, 84%);
+  --resultVDark: hsl(0, 100%, 16%);
+
+  --resultW: hsl(49, 100%, 79%);
+  --resultWDark: hsl(49, 100%, 21%);
+
+  --resultMC: hsl(198, 53%, 81%);
+  --resultMCDark: hsl(198, 53%, 19%);
+
+  --resultP: hsl(90, 67%, 69%);
+  --resultPDark: hsl(90, 67%, 31%);
+
+  --resultNA: hsl(240, 100%, 96.7%);
+  --resultNADark: hsl(240, 100%, 3.3%);
+
+  --resultH: hsl(0, 0%, 87%);
+  --resultHDark: hsl(0, 0%, 3%);
+
+  --linkColor: hsl(216, 60%, 18%);
+  --linkColorDark: hsl(216, 60%, 82%);
+
+  --linkColorFocus: hsl(22, 100%, 51%, 0.75);
+  --linkColorFocusDark: hsl(22, 100%, 51%, 0.75);
+
+  --linkCurrentColor: #000;
+  --linkCurrentColorDark: #eee;
+
+  --linkIcon: hsl(195, 100%, 42%);
+  --linkIconDark: hsl(195, 100%, 58%);
+
+  --backgroundColor: hsl(0, 0%, 100%);
+  --backgroundColorDark: hsl(0, 0%, 0%);
+
+  --textColor:  hsl(0, 0%, 7%);
+  --textColorDark:  hsl(0, 0%, 93%);
+
+  --headingColor: hsl(214, 70%, 38%);
+  --headingColorDark:  hsl(214, 70%, 62%);
+
+  --imageBorder:  hsl(0, 0%, 87%);
+  --imageBorderDark:  hsl(0, 0%, 13%);
+
+  --font-family: arial, verdana, tahoma, "trebuchet MS", sans-serif;
+
+  --footerColor:  hsl(0, 0%, 7%);
+  --footerColorDark:  hsl(0, 0%, 93%);
+
+  --footerBackground:  hsl(0, 0%, 90%);
+  --footerBackgroundDark: hsl(0, 0%, 10%);
+
+  --faqBackground:  hsl(195, 100%, 92%);
+  --faqBackgroundDark: hsl(195, 100%, 15%);
+
 }
 
-nav.second-level,
-nav.navbar.bg-light {
-  background-color: light-dark(#eeeeee, #101010) !important;
-  border-bottom: 1px solid light-dark(transparent, #eeeeee);
+
+body {
+  margin: 0;
+  padding: 0;
+  color: light-dark(var(--textColor), var(--textColorDark)) !important;
+  background-color: light-dark(var(--backgroundColor), var(--backgroundColorDark)) !important;
+  font-family: var(--font-family);
 }
 
-footer.bg-light {
-  background-color: light-dark(#eeeeee, #101010) !important;
-  border-top: 1px solid light-dark(transparent, #eeeeee);
+header,
+header nav {
+  background-color: light-dark(var(--backgroundColor), var(--backgroundColorDark)) !important;
+}
+
+.icon {
+  display: inline-block;
+}
+
+li .icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+header .icon svg {
+  width: 64px;
+  height: 64px;
+}
+
+.icon path.border {
+  stroke: light-dark(var(--iconBlue), var(--iconBlueDark));
+  fill: none;
+  stroke-width: 2;
+  stroke: light-dark(var(--iconBlue), var(--iconBlueDark));
+}
+
+.icon polygon.text {
+  stroke-width: 2;
+  stroke: light-dark(var(--iconBlue), var(--iconBlueDark));
+  fill: light-dark(var(--iconBlue), var(--iconBlueDark));
+}
+
+main a,
+main a:visited,
+footer a,
+footer a:visited {
+  color: light-dark(var(--linkColor), var(--linkColorDark));
 }
 
 .brand {
   display: block;
-  font-family: "Fjalla One", sans-serif;
-  font-weight: 400;
   font-style: normal;
   margin: 0.25em;
 }
 
-.brand .skipto {
+.brand .icon {
+  padding: 0;
+  margin: 0;
   display: inline-block;
+}
+
+.brand .icon img {
+  padding: 0;
+  margin: 0;
+  height: 64px;
+}
+
+.brand .version {
+  position: relative;
+  top: 5px;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  color: light-dark(var(--iconBlue), var(--iconBlueDark));
+}
+
+.tagline {
   padding: 0.25em;
-  color: light-dark(#ffffff, #000000);
-  background: light-dark(hsl(358, 95%, 40%), hsl(358, 95%, 60%));
+  padding-left: 1em;
+  font-family: "Fjalla One", sans-serif;
+  font-weight: 400;
+  font-size: 2em;
+  color: light-dark(var(--iconWhite), var(--iconWhiteDark));
+  background: light-dark(var(--iconBlue), var(--iconBlueDark));
 }
 
 blockquote {
@@ -34,18 +160,19 @@ blockquote {
   text-align: center;
 }
 
-.text-blue {
-  color: #005797;
-}
-
 nav ol.breadcrumb {
   padding-left: 0;
 }
 
 nav.second-level {
+  padding: 0;
   margin: 0;
-  margin-bottom: 1em;
 }
+
+nav.second-level + h1 {
+  margin-top: 0;
+}
+
 
 nav.second-level a {
   display: inline-block;
@@ -58,36 +185,76 @@ nav.second-level a {
   font-size: 110%;
 }
 
+nav.second-level a:first-child {
+  padding-left: 0.125em;
+}
+
 nav.second-level a[aria-current] {
   text-decoration: none;
 }
 
-footer {
-  margin-top: 40px;
+a[href] {
+  display: inline-block;
 }
 
-a[href]:hover {
-  text-decoration: underline;
+a[href]:hover,
+a[href]:focus {
+  text-decoration: underline !important;
+}
+
+a[href]:focus {
+  outline: 3px solid light-dark(var(--linkColorFocus), var(--linkColorFocusDark)) !important;
+}
+
+.breadcrumb a[href],
+main  a[href],
+footer  a[href] {
+  outline-offset: 3px;
+}
+
+main .second-level a[href] {
+  outline-offset: -3px;
+}
+
+.dropdown-menu hr.dropdown-divider {
+  border-color: light-dark(var(--linkColor), var(--linkColorDark));
 }
 
 .bg-light a,
 .breadcrumb a,
 nav.second-level a,
-nav.second-level a:hover,
-nav.second-level a:focus,
 .navbar-nav .nav-link,
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link:focus {
-  color: light-dark(#005797, rgb(110, 168, 254));
-  outline-color: light-dark(#005797, rgb(110, 168, 254));
+.navbar-nav .nav-link.show,
+.dropdown-menu .dropdown-item {
+  color: light-dark(var(--linkColor), var(--linkColorDark));
+}
+
+.dropdown-menu {
+  background-color: light-dark(var(--backgroundColor), var(--backgroundColorDark)) !important;
+  border-color: light-dark(var(--linkColor), var(--linkColorDark)) !important;
 }
 
 .breadcrumb a[aria-current],
 nav.second-level a[aria-current],
-.navbar-nav .nav-link[aria-current],
-.navbar-nav .nav-link:hover[aria-current],
-.navbar-nav .nav-link:focus {
-  color: light-dark(#000000, #888);
+.nav-link[aria-current],
+.nav-link:hover[aria-current],
+.nav-link:focus-visible,
+.dropdown-item:hover[aria-current],
+.dropdown-item:focus-visible {
+  color: light-dark(var(--linkColor), var(--linkColorDark));
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus-visible {
+  outline: 3px solid light-dark(var(--linkColorFocus), var(--linkColorFocusDark)) !important;
+  background-color: light-dark(var(--backgroundColor), var(--backgroundColorDark)) !important;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible,
+.dropdown-item:hover,
+.dropdown-item:focus-visible {
+  box-shadow: 0 0 0 0.15rem light-dark(var(--linkColorFocus), var(--linkColorFocusDark));
 }
 
 .tab-pane {
@@ -169,14 +336,15 @@ div.language-html pre .k {
 }
 
 figure.image {
-  margin: 0.5em;
-  margin-top: 2em;
-  margin-bottom: 4em;
-  max-width: 90%;
+  margin: 0;
+  margin-top: 1em;
+  margin-bottom: 3em;
+  max-width: 98%;
 }
 
 figure.image img {
-  border: 2px solid light-dark(#dddddd, #333333);
+  border: 2px solid light-dark(var(--imageBorder), var(--imageBorderDark));
+  width: 100%;
 }
 
 figure.image figcaption {
@@ -184,52 +352,77 @@ figure.image figcaption {
   padding: 0.25em;
   font-weight: bold;
   font-size: 110%;
-  background-color: light-dark(#dddddd, #333333);
+  background-color: light-dark(var(--imageBorder), var(--imageBorderDark));
   width: 100%;
   text-align: center;
 }
 
-div.container h1,
-div.container .h1 {
+main h1 {
   padding: 0;
   margin: 0;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
   font-size: 2rem;
 }
 
-div.container h1 img.logo {
-  display: inline-block;
-  height: 48px;
-  padding: 0;
-  margin: 0.25em;
-}
-
-div.container h2,
-div.container .h2 {
+main h2,
+main [role="heading"][aria-level="2"] {
   padding: 0;
   margin: 0;
   margin-top: 1em;
   font-size: 1.5rem;
 }
 
-div.container h3,
-div.container .h3 {
+main #faq h2 {
+  margin-top: 1em;
+}
+
+main .feature h2 {
+  margin-top: 0.25em;
+}
+
+main h3 {
   padding: 0;
   margin: 0;
   margin-top: 0.5em;
   font-size: 1.25rem;
 }
 
-div.container h4,
-div.container .h4 {
+main h4 {
   padding: 0;
   margin: 0;
   margin-top: 0.5em;
   font-size: 1.1rem;
 }
 
+main .feature div.type {
+  margin: 0;
+  padding: 0;
+  margin-top: 0.5em;
+}
+
+main .feature ul.type {
+  margin: 0;
+  padding: 0;
+}
+
+main .feature ul.type li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+main .feature ul.type li .extension {
+  font-weight: bold;
+}
+
 div.params {
   margin: 0.5em 0;
   padding: 0.5em;
+}
+
+.feedback {
+  margin-bottom: 1em;
 }
 
 .bg-light code {
@@ -241,8 +434,10 @@ div.params {
 }
 
 p.happy {
-  font-family: "Brush Script MT", cursive;
-  font-size: 250%;
+  font-family: fantasy, cursive;
+  font-size: 1.5em;
+  font-weight: bold;
+  font-style: italic;
   letter-spacing: 0.05em;
 }
 
@@ -261,6 +456,42 @@ main li span.shortcut {
   display: inline-block;
   width: 1.5em;
   font-weight: bold;
+}
+
+main .feature {
+  margin: 0;
+  padding: 0;
+  margin-top: 2em;
+  border-top: 2px solid light-dark(var(--headingColor), var(--headingColorDark));
+}
+
+main h1,
+main h2,
+main h3,
+main h4,
+main h5,
+main h6,
+main [role="heading"][aria-level="2"],
+main [role="heading"][aria-level="3"],
+main [role="heading"][aria-level="4"],
+main [role="heading"][aria-level="5"],
+main [role="heading"][aria-level="6"] {
+  color: light-dark(var(--headingColor), var(--headingColorDark));
+}
+
+main h2 {
+  margin-top: 0;
+}
+
+main .feature ul,
+main .feature ol {
+  margin: 0;
+}
+
+main .feature ul li,
+main .feature ol li {
+  margin: 0;
+  padding-bottom: 0.5em;
 }
 
 .hidden-small {
@@ -291,7 +522,8 @@ table.table tbody th a[href] {
   font-weight: normal;
 }
 
-table.table tbody td ul {
+table.table tbody td ul,
+table.table tbody td ol {
   margin: 0;
   padding: 0;
 }
@@ -299,7 +531,16 @@ table.table tbody td ul {
 table.table tbody td li {
   margin: 0;
   padding: 0;
-  margin-left: 1em;
+  margin-left: 1.75em;
+}
+
+table.shortcuts {
+  width: 20em;
+}
+
+
+table.shortcuts thead th:first-child {
+  width: 2em;
 }
 
 main dt {
@@ -313,14 +554,192 @@ main dt {
 main dd {
   font-size: 110%;
   margin: 0;
+  margin-bottom: 1em;
   padding: 0;
   margin-left: 0.5em;
   line-height: 1.2em;
 }
 
-.feedback {
+main dd em {
+  font-style: italics;
+  font-weight: bold;
+}
+
+main details.screenshot {
+  margin: 0;
+  padding: 0;
+  margin-left: 1em;
+  margin-bottom: 2em;
+  color: light-dark(var(--linkColor), var(--linkColorDark));
+}
+
+main details.screenshot summary {
+  font-size: 110%;
+  width: 14em;
+}
+
+main details.screenshot summary:hover,
+main details.screenshot:focus-visible,
+main details.screenshot summary:focus-visible {
+  box-shadow: none;
+  outline: light-dark(var(--linkColorFocus), var(--linkColorFocusDark)) 2px solid;
+  outline-offset: 2px;
+}
+
+main details.screenshot summary:hover path.camera,
+main details.screenshot:focus-visible path.camera,
+main details.screenshot summary:focus-visible path.camera {
+  fill: light-dark(var(--linkColorFocus), var(--linkColorFocusDark));
+}
+
+main details.screenshot:hover::marker,
+main details.screenshot summary:hover::marker,
+main details.screenshot:focus-visible::marker,
+main details.screenshot summary:focus-visible::marker {
+  color: light-dark(var(--linkColorFocus), var(--linkColorFocusDark));
+}
+
+
+main details.screenshot .show {
+  display: inline;
+}
+
+main details.screenshot .hide {
+  display: none;
+}
+
+main details.screenshot[open] .show {
+  display: none;
+}
+
+main details.screenshot[open] .hide {
+  display: inline;
+}
+
+main .faq details summary {
   margin: 0;
   padding: 0.25em;
-  margin-top: 5em;
-  border-top: 2px solid #C5050C;
+  font-size: 110%;
+  font-weight: bold;
+}
+
+main .faq details .content {
+  margin: 0.25em;
+  padding: 0.5em;
+  padding-left: 1em;
+  background-color: light-dark(var(--faqBackground), var(--faqBackgroundDark));
+  margin-bottom: 0.5em;
+  border-color: light-dark(var(--faqBackground), var(--faqBackgroundDark));
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+}
+
+main .faq ul,
+main .faq ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+main .faq details .content li {
+  margin: 0;
+  padding: 0;
+  margin-top: 0.125em;
+  margin-bottom: 0.5em;
+}
+
+main .table > :not(caption) > * > * {
+  color: light-dark(var(--textColor), var(--textColorDark));
+  background-color: light-dark(var(--textBackground), var(--textBackGroundDark));
+}
+
+main .table-striped > tbody > tr:nth-child(odd) > * {
+  color: light-dark(var(--textColor), var(--textColorDark));
+  background-color: light-dark(#eee, #333);
+}
+
+main .faq .content h2 {
+  margin-top: 2em;
+  font-size: 110%;
+}
+
+main section h2 {
+  margin-top: 2em;
+  border-bottom: 1px solid light-dark(var(--textColor), var(--textColorDark));
+  margin-bottom: 0.125em;
+}
+
+main code.result {
+  padding: 1px 0.125em ;
+  display: inline-block;
+  width: 3em;
+  text-align: center;
+}
+
+main code.v {
+  color: light-dark(var(--textColor), var(--textColorDark));
+  background-color: light-dark(var(--resultV), var(--resultVDark));
+}
+
+main code.w {
+  color: light-dark(var(--textColor), var(--textColorDark));
+  background-color: light-dark(var(--resultW), var(--resultWDark));
+}
+
+main code.mc {
+  color: light-dark(var(--textColor), var(--textColorDark));
+  background-color: light-dark(var(--resultMC), var(--resultMCDark));
+}
+
+main code.p {
+  color: light-dark(var(--textColor), var(--textColorDark));
+  background-color: light-dark(var(--resultP), var(--resultPDark));
+}
+
+main code.na {
+  color: light-dark(var(--textColor), var(--textColorDark));
+  background-color: light-dark(var(--resultNA), var(--resultNADark));
+}
+
+main code.h {
+  color: light-dark(var(--textColor), var(--textColorDark));
+  background-color: light-dark(var(--resultH), var(--resultHDark));
+}
+
+.sidepanel {
+
+  h2 {
+    margin-top: 1em;
+    font-size: 120%;
+    font-weight: bold;
+    color: light-dark(var(--headingColor), var(--headingColorDark));
+  }
+
+  ul:has(a) {
+    margin: 0;
+    padding: 0;
+  }
+
+  li:has(a) {
+    margin: 0;
+    margin-bottom: 0.25em;
+    padding: 0;
+    list-style: none;
+   }
+
+
+
+  section {
+    border: none;
+    width: 100%;
+  }
+
+}
+
+footer  {
+  margin: 0;
+  margin-top: 2em;
+  color: light-dark(var(--footerColor), var(--footerColorDark));
+  background-color: light-dark(var(--footerBackground), var(--footerBackgroundDark));
 }

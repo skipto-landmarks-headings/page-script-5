@@ -309,7 +309,7 @@ export default class SkipToContent592 extends HTMLElement {
       }
 
       // Position hide button after all styling updates
-      this.buttonSkipTo.positionHideButton();
+            this.buttonSkipTo.positionHideButton();
 
     }
   }
