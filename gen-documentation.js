@@ -229,7 +229,7 @@ const mainPages = [
       { content: 'content-extensions-overview.njk',
         title: 'SkipTo.js Browser Extensions',
         link: 'Overview',
-        filename: 'extensions-overview.html'
+        filename: 'extensions.html'
       },
       { content: 'content-extensions-menu.njk',
         title: 'Menu Options',
