@@ -152,7 +152,7 @@ cssStyleTemplate.textContent = `
 }
 
 .menu-button button.hide {
-  position: relative;
+  position: absolute;
   margin: 0;
   padding: 0;
   background-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));

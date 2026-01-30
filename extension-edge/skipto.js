@@ -631,7 +631,7 @@
 }
 
 .menu-button button.hide {
-  position: relative;
+  position: absolute;
   margin: 0;
   padding: 0;
   background-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
@@ -4098,11 +4098,11 @@ dialog button:hover {
           const openRect = this.buttonNode.getBoundingClientRect();
           const hideRect = this.hideButtonNode.getBoundingClientRect();
 
-          const leftAdj = openRect.right - hideRect.left;
-          const topAdj  = (openRect.height - hideRect.height) / 2;
+          const left = openRect.width;
+          const top  = (openRect.height - hideRect.height) / 2;
 
-          this.hideButtonNode.style.left = leftAdj + 'px';
-          this.hideButtonNode.style.top  = topAdj + 'px';
+          this.hideButtonNode.style.left = left + 'px';
+          this.hideButtonNode.style.top  = top + 'px';
        }
 
       /*

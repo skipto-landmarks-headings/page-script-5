@@ -273,7 +273,7 @@ const mainPages = [
       { content: 'content-page-script-add.njk',
         title: 'Adding SkipTo.js to a Web Page',
         link: 'Adding to Page',
-        filename: 'page-script-add.html'
+        filename: 'page-script.html'
       },
       { content: 'content-page-script-config.njk',
         title: 'Configuration Options',
