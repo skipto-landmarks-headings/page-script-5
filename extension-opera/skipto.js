@@ -5108,6 +5108,7 @@ dialog button:hover {
         }
 
         if (tgt.hasAttribute('data-shortcuts-toggle')) {
+          this.closePopup();
           if (tgt.getAttribute('data-shortcuts-toggle') === 'enable') {
             this.config.shortcuts = 'enabled';
             this.skipToContentElem.setAttribute('shortcuts', 'enable');
@@ -5116,17 +5117,16 @@ dialog button:hover {
             this.config.shortcuts = 'disabled';
             this.skipToContentElem.setAttribute('shortcuts', 'disable');
           }
-          this.closePopup();
         }
 
         if (tgt.hasAttribute('data-shortcuts-info')) {
-          this.infoDialog.openDialog('shortcuts', this.config.shortcutsInfoLabel, this.config.osShortcut);
           this.closePopup();
+          this.infoDialog.openDialog('shortcuts', this.config.shortcutsInfoLabel, this.config.osShortcut);
         }
 
         if (tgt.hasAttribute('data-about-info')) {
-          this.infoDialog.openDialog('about', this.config.aboutInfoLabel, this.config.osShortcut);
           this.closePopup();
+          this.infoDialog.openDialog('about', this.config.aboutInfoLabel, this.config.osShortcut);
         }
 
       }
