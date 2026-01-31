@@ -72,7 +72,7 @@ export default class SkipToContent592 extends HTMLElement {
       buttonShortcut: ' ($modifier+$key)',
       buttonAriaLabel: '$buttonLabel, $shortcutLabel $modifierLabel + $key',
       osShortcut: '',  // Computed based on OS
-      hideButtonLabel: 'Hide Skip To Content button',
+      hideButtonLabel: 'Hide Skip To Content',
 
       // Page navigation flag and keys
       shortcutsSupported: 'true', // options: true or false
