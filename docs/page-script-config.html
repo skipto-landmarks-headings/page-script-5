@@ -79,7 +79,7 @@
             href="#"
             role="button"
             aria-expanded="false">Page Script</a>
-          <ul class="dropdown-menu"><li><a class="dropdown-item" href="page-script.html">Adding to Page</a></li><li><a class="dropdown-item" href="page-script-config.html">Configuration</a></li><li><a class="dropdown-item" href="page-script-examples.html">Examples</a></li><li><a class="dropdown-item" href="page-script-tests.html">Tests</a></li>
+          <ul class="dropdown-menu"><li><a class="dropdown-item" href="page-script.html">Adding to Page</a></li><li><a class="dropdown-item" href="page-script-config.html">Configuration</a></li><li><a class="dropdown-item" href="page-script-examples.html">Example Configurations</a></li><li><a class="dropdown-item" href="page-script-tests.html">Test Pages</a></li>
           </ul>
         </li>
       
@@ -135,13 +135,13 @@
               
                 
                   
-                   | <a href="page-script-examples.html">Examples</a>
+                   | <a href="page-script-examples.html">Example Configurations</a>
                   
                 
               
                 
                   
-                   | <a href="page-script-tests.html">Tests</a>
+                   | <a href="page-script-tests.html">Test Pages</a>
                   
                 
               
@@ -182,14 +182,21 @@
                   </tr>
                   <tr>
                      <td style="text-align: left"><code>displayOption</code></td>
-                     <td style="text-align: left">‘fixed’</td>
-                     <td style="text-align: left">The allowed values include <code >fixed</code>, <code>popup</code>, <code>popup-border</code> or <code>static</code>:
+                     <td style="text-align: left">‘static’</td>
+                     <td style="text-align: left">The allowed values include <code >static</code>, <code>popup</code> or <code>popup-border</code>:
                         <ul>
-                           <li><code>fixed</code>: The button is always visible at the top of the page even when the page scrolls, making the SkipTo.js features available to all users to benefit from.</li>
+                           <li>
+                              <p>
+                                 <code>static</code>: The button is always visible at the top of the page even when the page scrolls, making the SkipTo.js features available to all users to benefit from.
+                              </p>
+                              <p>
+                                 <strong>Note:</strong> This option also includes a "hide" button for users who want to hide the "Skip To Content" button when it obscures some page content. The SkipTo.js button is still available as a popup option and returns to <code>static</code> behavior when the the cookie history is "cleared" or the browser is restarted.
+                              </p>
+                           </li>
                            <li><code>popup</code>: The button is initially not visible, but becomes visible when it receives focus.</li>
-                           <li><code>popup-border</code>: Is similar to the "popup" option except the bottom border of button is always visible.  The entire button becomes visible when it receives focus (e.g same a "popup" option) and when the pointer is moved over the exposed border.  <br/>NOTE: This option makes the button and menu discoverable by pointer users, making the SkipTo.js features available to all users to benefit from.</li>
-                           <li><code>static</code>: The button is always visible at the top of the page.</li>
+                           <li><code>popup-border</code>: Is similar to the "popup" option except the bottom border of button is always visible.  The entire button becomes visible when it receives focus (e.g same a "popup" option) and when the pointer is moved over the exposed border. </li>
                         </ul>
+                         <p style="margin-top: 1em"><strong>NOTE:</strong> The <code>static</code> and to some extent the <code>popup-border</code> options makes the button and menu discoverable by pointer users, making the SkipTo.js features available to all users to benefit from.</p>
                      </td>
                   </tr>
                   <tr>

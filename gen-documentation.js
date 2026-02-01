@@ -280,15 +280,15 @@ const mainPages = [
         link: 'Configuration',
         filename: 'page-script-config.html'
       },
-      { content: 'content-page-script-subpages.njk',
+      { content: 'content-page-script-examples.njk',
         title: 'Example Configurations',
-        link: 'Examples',
+        link: 'Example Configurations',
         filename: 'page-script-examples.html',
         subpages: examplePages
       },
-      { content: 'content-page-script-subpages.njk',
+      { content: 'content-page-script-tests.njk',
         title: 'Test Pages',
-        link: 'Tests',
+        link: 'Test Pages',
         filename: 'page-script-tests.html',
         subpages: testPages
       }

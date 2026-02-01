@@ -1,0 +1,24 @@
+
+          <div id="tests">
+
+            <p>
+              The test pages are used for quality assurance of SkipTo.js features.
+              For example what if a page does not have any landarks, does SkpTo.js menu provide information indicating this condition.
+            </p>
+
+           <table class="table table-striped" aria-labelledby="id-title">
+            <thead>
+              <th>Test</th>
+              <th>Description</th>
+            </thead>
+            <tbody>
+            {% for sp in subPages %}
+              <tr>
+                <td><a href="{{sp.filename}}">{{sp.title | safe}}</a></td>
+                <td>{{ sp.description}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+           </table>
+
+        </div>
