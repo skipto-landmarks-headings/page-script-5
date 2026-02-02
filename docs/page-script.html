@@ -197,7 +197,8 @@
             </ul>
             <p>NOTE: Popup menu button option is available through configuration of SkipTo.js when it is loaded using the <code>data-skipto="displayOption: popup"</code> attribute on the script tag referencing the SkipTo.js script.</p>
 
-           <h2 id-"features">Features</h2>
+            
+                       <h2 id-"features">Features</h2>
 
             <table class="table table-striped" aria-labelledby="features">
                <thead>
@@ -207,6 +208,7 @@
                   </tr>
                </thead>
                <tbody>
+               
                   <tr>
                      <td style="text-align: left">Button Visibility</td>
                      <td style="text-align: left">
@@ -214,7 +216,7 @@
                         The "Skip To Content" button can be visible (<em>default</em>) or hidden after the page completes loading.
                         </p>
                         <p>
-                           <strong>Note:</strong>When the SkipTo.js button is visible when the page loads there is a "hide" button to change SkipTo.js to popup mode.
+                           <strong>Note:</strong>When the SkipTo.js button is visible when the page loads and is obscuring page content use the "hide" button to change SkipTo.js to popup mode.
                         </p>
                      </td>
                   </tr>
@@ -240,7 +242,8 @@
                   <tr>
                      <td style="text-align: left">Heading Items</td>
                      <td style="text-align: left">
-                        In the <em>heading</em> group the headings are in document order.
+                         In the <em>heading</em> group the headings are in document order. By default only <code>h1</code> and <code>h2</code> headings are shown in the list.  More headings can be shown using configuration options.
+
                      </td>
                   </tr>
                   <tr>
@@ -261,6 +264,7 @@
                   </tr>
                </tbody>
             </table>
+
 
               <h2>What You Need To do</h2>
               <p>All you need are either <code>skipto.js</code> or <code>skipto.min.js</code> from the “<a href="https://github.com/skipto-landmarks-headings/page-script-5/tree/main/docs/dist">/dist/</a>” directory of this repository. The <code>skipto.min.js</code> script is a minified (a lighter version) of <code>skipto.js</code> script.</p>
