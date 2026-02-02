@@ -219,6 +219,11 @@ const mainPages = [
     link: 'Home',
     filename: 'index.html'
   },
+  { content: 'content-anatomy.njk',
+    title: 'Anatomy of SkipTo.js Menu',
+    link: 'Anatomy',
+    filename: 'anatomy.html'
+  },
   { content: 'content-shortcuts.njk',
     title: 'Shortcut Keys',
     link: 'Shortcuts',
