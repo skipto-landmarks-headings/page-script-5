@@ -8,7 +8,7 @@ const domainHREF = pathname.lastIndexOf('/') >= 0 ?
                    domainURL.protocol + '//' + domainURL.hostname;
 
 function createSkiptoBookmarklet (a) {
-  const params = a.getAttribute('data-skipto');
+  const params = a.getAttribute('data-params');
 
   if (params) {
     a.href = `javascript:(() => {if(!document.getElementById('id-skip-to')){const%20script=document.createElement('script');script.id='id-skip-to-bookmarklet';script.type='text/javascript';script.setAttribute('data-skipto', '${params}');script.src='${domainHREF}/dist/skipto.min.js';document.head.appendChild(script);}})()`;
