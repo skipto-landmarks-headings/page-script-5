@@ -67,17 +67,20 @@ templateMenuButton.innerHTML = `
     </button>
     <button class="hide">
       <svg xmlns="http://www.w3.org/2000/svg"
-           width="20"
-           height="20"
-           viewBox="0 0 16 16"
+           width="24"
+           height="24"
+           viewBox="0 0 28 28"
            role="none">
 
+
         <!-- Circle outline -->
-        <circle cx="8" cy="8" r="7" class="focus" stroke-width="1" fill="none";
-/>
+        <circle cx="14" cy="14" r="12" class="focus" stroke-width="2" fill="none"/>
+
+        <circle cx="14" cy="14" r="9" class="background" stroke-width="0"/>
+
         <!-- X lines -->
-        <line x1="5" y1="5" x2="11" y2="11" stroke-width="1" stroke-linecap="round" />
-        <line x1="11" y1="5" x2="5" y2="11" stroke-width="1" stroke-linecap="round" />
+        <line x1="10" y1="10" x2="18" y2="18" stroke-width="2" stroke-linecap="round" />
+        <line x1="18" y1="10" x2="10" y2="18" stroke-width="2" stroke-linecap="round" />
       </svg>
     </button>
     <div id="${MENU_ID}"
@@ -189,6 +192,8 @@ export default class SkiptoMenuButton {
       this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
       this.buttonNode.addEventListener('keydown', this.handleButtonKeydown.bind(this));
       this.buttonNode.addEventListener('click', this.handleButtonClick.bind(this));
+      this.buttonNode.addEventListener('focus', this.handleButtonFocus.bind(this));
+      this.buttonNode.addEventListener('blur', this.handleButtonBlur.bind(this));
 
       this.textButtonNode = this.buttonNode.querySelector('span.skipto-text');
       this.textButtonNode.textContent = this.config.buttonLabel;
@@ -205,6 +210,10 @@ export default class SkiptoMenuButton {
       this.hideButtonNode = this.containerNode.querySelector('button.hide');
       this.hideButtonNode.title = this.config.hideButtonLabel;
       this.hideButtonNode.addEventListener('click', this.handleHideButtonClick.bind(this));
+
+      addEventListener("resize", () => {
+        this.positionHideButton();
+      });
 
       // Create menu container
       this.menuitemNodes = [];
@@ -1132,6 +1141,14 @@ export default class SkiptoMenuButton {
       }
       event.stopPropagation();
       event.preventDefault();
+    }
+
+    handleButtonFocus() {
+      this.positionHideButton();
+    }
+
+    handleButtonBlur() {
+      this.positionHideButton();
     }
 
     handleHideButtonClick(event) {

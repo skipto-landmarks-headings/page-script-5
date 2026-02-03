@@ -23,23 +23,24 @@
   const colorThemes = {
     'default': {
 
-      fontFamily: 'inherit',
-      fontSize: 'inherit',
+      fontFamily: 'Arial, Helvetica, sans-serif',
+      fontSize: '16px',
       positionLeft: '46%',
-      buttonTextColor: 'hsl(216, 60%, 18%)',
-      buttonTextDarkColor: 'hsl(216, 60%, 72%)',
-      buttonBackgroundColor: 'hsl(0, 0%, 87%)',
-      buttonBackgroundDarkColor: 'hsl(0, 0%, 13%)',
-      focusBorderColor: 'hsl(358, 95%, 40%)',
-      focusBorderDarkColor: 'hsl(358, 95%, 60%)',
-      menuTextColor: 'hsl(216, 60%, 18%)',
+      focusBorderColor: 'hsl(216, 60%, 18%)',
+      focusBorderDarkColor: 'hsl(216, 60%, 72%)',
+      buttonTextColor: ' hsl(216, 60%, 18%)',
+      buttonTextDarkColor: ' hsl(216, 60%, 72%)',
+      buttonBackgroundColor: 'hsl(0, 0%, 96%)',
+      buttonBackgroundDarkColor: 'hsl(0, 0%, 4%)',
+      menuTextColor: ' hsl(216, 60%, 18%)',
       menuTextDarkColor: 'hsl(216, 60%, 72%)',
-      menuBackgroundColor: 'hsl(0, 0%, 87%)',
-      menuBackgroundDarkColor: 'hsl(0, 0%, 13%)',
-      menuitemFocusTextColor: 'hsl(0, 0%, 87%)',
-      menuitemFocusTextDarkColor: 'hsl(0, 0%, 13%)',
+      menuBackgroundColor: 'hsl(0, 0%, 96%)',
+      menuBackgroundDarkColor: 'hsl(0, 0%, 4%)',
+      menuitemFocusTextColor: 'hsl(0, 0%, 100%)',
+      menuitemFocusTextDarkColor: 'hsl(0, 0%, 0%)',
       menuitemFocusBackgroundColor: 'hsl(216, 60%, 18%)',
       menuitemFocusBackgroundDarkColor: 'hsl(216, 60%, 72%)',
+
       zIndex: '2000000',
       displayOption: 'fixed',
       highlightTarget: 'instant',
@@ -50,7 +51,6 @@
       hostnameSelector: 'w3.org',
       pathnameSelector: 'ARIA/apg',
       fontFamily: 'sans-serif',
-      fontSize: '10pt',
       positionLeft: '7%',
       menuTextColor: 'hsl(0, 0%, 0%)',
       menuTextDarkColor: 'hsl(0, 0%, 100%)',
@@ -68,22 +68,22 @@
       buttonBackgroundDarkColor: 'hsl(0, 0%, 13%)'
     },
     'illinois': {
-      hostnameSelector: 'illinois.edu',
-      menuTextColor: 'hsl(214, 100%, 9%)',
-      menuTextDarkColor: 'hsl(214, 100%, 91%)',
-      menuBackgroundColor: 'hsl(216, 54%, 86%)',
-      menuBackgroundDarkColor: 'hsl(216, 54%, 14%)',
-      menuitemFocusTextColor: 'hsl(0, 0%, 93%)',
-      menuitemFocusTextDarkColor: 'hsl(0, 0%, 7%)',
-      menuitemFocusBackgroundColor: 'hsl(214, 100%, 9%)',
-      menuitemFocusBackgroundDarkColor: 'hsl(214, 100%, 91%)',
-      focusBorderColor: 'hsl(11, 100%, 59%)',
-      focusBorderDarkColor: 'hsl(11, 100%, 41%)',
-      buttonTextColor: 'hsl(0, 0%, 27%)',
-      buttonTextDarkColor: 'hsl(0, 0%, 73%)',
-      buttonBackgroundColor: 'hsl(180, 1%, 87%)',
-      buttonBackgroundDarkColor: 'hsl(180, 1%, 13%)',
-      highlightTarget: 'disabled'
+       hostnameSelector: 'illinois.edu',
+       focusBorderColor: 'hsl(216, 60%, 18%)',
+       focusBorderDarkColor: 'hsl(216, 60%, 72%)',
+       buttonTextColor: ' hsl(216, 60%, 18%)',
+       buttonTextDarkColor: ' hsl(216, 60%, 72%)',
+       buttonBackgroundColor: 'hsl(0, 0%, 96%)',
+       buttonBackgroundDarkColor: 'hsl(0, 0%, 4%)',
+       menuTextColor: ' hsl(216, 60%, 18%)',
+       menuTextDarkColor: ' hsl(216, 60%, 72%)',
+       menuBackgroundColor: 'hsl(0, 0%, 96%)',
+       menuBackgroundDarkColor: 'hsl(0, 0%, 4%)',
+       menuitemFocusTextColor: 'hsl(0, 0%, 100%)',
+       menuitemFocusTextDarkColor: 'hsl(0, 0%, 0%)',
+       menuitemFocusBackgroundColor: 'hsl(216, 60%, 18%)',
+       menuitemFocusBackgroundDarkColor: 'hsl(216, 60%, 72%)',
+       highlightTarget: 'disabled'
     },
     'openweba11y': {
       hostnameSelector: 'openweba11y.com',
@@ -106,7 +106,6 @@
     'skipto': {
       hostnameSelector: 'skipto-landmarks-headings.github.io',
       positionLeft: '25%',
-      fontSize: '14px',
       menuTextColor: 'hsl(214, 100%, 9%)',
       menuTextDarkColor: 'hsl(214, 100%, 91%)',
       menuBackgroundColor: 'hsl(216, 54%, 86%)',
@@ -615,13 +614,6 @@
   padding: 4px;
 }
 
-
-.menu-button button.open:focus .skipto-large,
-.menu-button button.open:focus .skipto-medium,
-.menu-button button.open:focus .skipto-small {
-  outline: 2px dotted light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
-}
-
 .menu-button button.open .skipto-medium {
   display: none;
 }
@@ -636,18 +628,35 @@
   padding: 0;
   background-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
   border-style: solid;
-  border-width: 2px 2px 2px 2px;
+  border-width: 1px 1px 1px 1px;
   border-radius: 0px 6px 6px 0px;
   border-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
   outline: none;
 }
 
+.menu-button button.hide svg {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: 1px;
+}
+
 .menu-button button.hide line {
+  stroke: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+}
+
+.menu-button button.hide circle.background {
+  fill: light-dark(var(--skipto-button-text-color), var(--skipto-button-text-dark-color));
   stroke: light-dark(var(--skipto-button-text-color), var(--skipto-button-text-dark-color));
 }
 
-.menu-button button.hide circle {
-  stroke: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+.menu-button button.hide circle.background {
+  stroke: none;
+  fill: light-dark(var(--skipto-button-text-color), var(--skipto-button-text-dark-color));
+}
+
+.menu-button button.hide circle.focus {
+  stroke: none;
 }
 
 .menu-button button.hide:focus circle.focus,
@@ -719,7 +728,7 @@
   background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
   border-width: 2px;
   border-style: solid;
-  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+  border-color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
   border-radius: 5px;
   z-index: var(--skipto-z-index-1) !important;
   touch-action: none;
@@ -1374,7 +1383,7 @@ dialog button:hover {
 
     updateStyle(containerNode, '--skipto-menu-text-color',            config.menuTextColor,           theme.menuTextColor,           d.menuTextColor);
     updateStyle(containerNode, '--skipto-menu-text-dark-color',       config.menuTextDarkColor,       theme.menuTextDarkColor,       d.menuTextDarkColor);
-    updateStyle(containerNode, '--skipto-menu-background-color',      config.menuBackgroundColor,     theme.menuBackgroundColor,     d.menuTextDarkColor);
+    updateStyle(containerNode, '--skipto-menu-background-color',      config.menuBackgroundColor,     theme.menuBackgroundColor,     d.menuBackgroundColor);
     updateStyle(containerNode, '--skipto-menu-background-dark-color', config.menuBackgroundDarkColor, theme.menuBackgroundDarkColor, d.menuBackgroundDarkColor);
 
     updateStyle(containerNode, '--skipto-menuitem-focus-text-color',            config.menuitemFocusTextColor,           theme.menuitemFocusTextColor,           d.menuitemFocusTextColor);
@@ -3878,17 +3887,20 @@ dialog button:hover {
     </button>
     <button class="hide">
       <svg xmlns="http://www.w3.org/2000/svg"
-           width="20"
-           height="20"
-           viewBox="0 0 16 16"
+           width="24"
+           height="24"
+           viewBox="0 0 28 28"
            role="none">
 
+
         <!-- Circle outline -->
-        <circle cx="8" cy="8" r="7" class="focus" stroke-width="1" fill="none";
-/>
+        <circle cx="14" cy="14" r="12" class="focus" stroke-width="2" fill="none"/>
+
+        <circle cx="14" cy="14" r="9" class="background" stroke-width="0"/>
+
         <!-- X lines -->
-        <line x1="5" y1="5" x2="11" y2="11" stroke-width="1" stroke-linecap="round" />
-        <line x1="11" y1="5" x2="5" y2="11" stroke-width="1" stroke-linecap="round" />
+        <line x1="10" y1="10" x2="18" y2="18" stroke-width="2" stroke-linecap="round" />
+        <line x1="18" y1="10" x2="10" y2="18" stroke-width="2" stroke-linecap="round" />
       </svg>
     </button>
     <div id="${MENU_ID}"
@@ -4000,6 +4012,8 @@ dialog button:hover {
         this.buttonNode.setAttribute('aria-label', buttonAriaLabel);
         this.buttonNode.addEventListener('keydown', this.handleButtonKeydown.bind(this));
         this.buttonNode.addEventListener('click', this.handleButtonClick.bind(this));
+        this.buttonNode.addEventListener('focus', this.handleButtonFocus.bind(this));
+        this.buttonNode.addEventListener('blur', this.handleButtonBlur.bind(this));
 
         this.textButtonNode = this.buttonNode.querySelector('span.skipto-text');
         this.textButtonNode.textContent = this.config.buttonLabel;
@@ -4016,6 +4030,10 @@ dialog button:hover {
         this.hideButtonNode = this.containerNode.querySelector('button.hide');
         this.hideButtonNode.title = this.config.hideButtonLabel;
         this.hideButtonNode.addEventListener('click', this.handleHideButtonClick.bind(this));
+
+        addEventListener("resize", () => {
+          this.positionHideButton();
+        });
 
         // Create menu container
         this.menuitemNodes = [];
@@ -4939,6 +4957,14 @@ dialog button:hover {
         }
         event.stopPropagation();
         event.preventDefault();
+      }
+
+      handleButtonFocus() {
+        this.positionHideButton();
+      }
+
+      handleButtonBlur() {
+        this.positionHideButton();
       }
 
       handleHideButtonClick(event) {

@@ -136,13 +136,6 @@ cssStyleTemplate.textContent = `
   padding: 4px;
 }
 
-
-.menu-button button.open:focus .skipto-large,
-.menu-button button.open:focus .skipto-medium,
-.menu-button button.open:focus .skipto-small {
-  outline: 2px dotted light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
-}
-
 .menu-button button.open .skipto-medium {
   display: none;
 }
@@ -157,18 +150,35 @@ cssStyleTemplate.textContent = `
   padding: 0;
   background-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
   border-style: solid;
-  border-width: 2px 2px 2px 2px;
+  border-width: 1px 1px 1px 1px;
   border-radius: 0px 6px 6px 0px;
   border-color: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
   outline: none;
 }
 
+.menu-button button.hide svg {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: 1px;
+}
+
 .menu-button button.hide line {
+  stroke: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+}
+
+.menu-button button.hide circle.background {
+  fill: light-dark(var(--skipto-button-text-color), var(--skipto-button-text-dark-color));
   stroke: light-dark(var(--skipto-button-text-color), var(--skipto-button-text-dark-color));
 }
 
-.menu-button button.hide circle {
-  stroke: light-dark(var(--skipto-button-background-color), var(--skipto-button-background-dark-color));
+.menu-button button.hide circle.background {
+  stroke: none;
+  fill: light-dark(var(--skipto-button-text-color), var(--skipto-button-text-dark-color));
+}
+
+.menu-button button.hide circle.focus {
+  stroke: none;
 }
 
 .menu-button button.hide:focus circle.focus,
@@ -240,7 +250,7 @@ cssStyleTemplate.textContent = `
   background-color: light-dark(var(--skipto-menu-background-color), var(--skipto-menu-background-dark-color));
   border-width: 2px;
   border-style: solid;
-  border-color: light-dark(var(--skipto-focus-border-color), var(--skipto-focus-border-dark-color));
+  border-color: light-dark(var(--skipto-menu-text-color), var(--skipto-menu-text-dark-color));
   border-radius: 5px;
   z-index: var(--skipto-z-index-1) !important;
   touch-action: none;
@@ -895,7 +905,7 @@ function updateCSS (containerNode, config, useURLTheme=false) {
 
   updateStyle(containerNode, '--skipto-menu-text-color',            config.menuTextColor,           theme.menuTextColor,           d.menuTextColor);
   updateStyle(containerNode, '--skipto-menu-text-dark-color',       config.menuTextDarkColor,       theme.menuTextDarkColor,       d.menuTextDarkColor);
-  updateStyle(containerNode, '--skipto-menu-background-color',      config.menuBackgroundColor,     theme.menuBackgroundColor,     d.menuTextDarkColor);
+  updateStyle(containerNode, '--skipto-menu-background-color',      config.menuBackgroundColor,     theme.menuBackgroundColor,     d.menuBackgroundColor);
   updateStyle(containerNode, '--skipto-menu-background-dark-color', config.menuBackgroundDarkColor, theme.menuBackgroundDarkColor, d.menuBackgroundDarkColor);
 
   updateStyle(containerNode, '--skipto-menuitem-focus-text-color',            config.menuitemFocusTextColor,           theme.menuitemFocusTextColor,           d.menuitemFocusTextColor);

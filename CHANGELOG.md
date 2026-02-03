@@ -2,6 +2,8 @@
 
 ## Version 5.10.1
 * Updated styling of "hide" button
+* Fixed bug with default color styling for the menu background color
+* Updated default styling of button and menus
 
 ## Version 5.10
 * Adds KBD element in button label to improve the rendering of 0 with a slash in it
