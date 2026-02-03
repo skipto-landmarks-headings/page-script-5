@@ -1,7 +1,7 @@
 /* constants.js */
 
 // Version
-export const VERSION = '5.10';
+export const VERSION = '5.10.1';
 
 // Numbers
 

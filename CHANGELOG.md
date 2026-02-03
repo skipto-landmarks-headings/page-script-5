@@ -1,5 +1,8 @@
 # Version history for SkipTo.js
 
+## Version 5.10.1
+* Updated styling of "hide" button
+
 ## Version 5.10
 * Adds KBD element in button label to improve the rendering of 0 with a slash in it
 * Fixed bug in CSS media query for screen, hard coded 588px and 992px for breaks

@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.10
+ * Version: 5.10.1
  * Copyright (c) 2022, 2023, 2024, 2025, 2026 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
