@@ -125,6 +125,14 @@ const examplePages = [
     isExample: true
   },
   { content: 'example/content-example.njk',
+    link: 'Wisconsin Theme',
+    title: 'Wisconsin Theme',
+    filename: 'example-wisc.html',
+    description: 'The color theme of the button and the menu uses the "Illinois" theme.',
+    config: `colorTheme: wisc`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
     link: 'ARIA Theme',
     title: 'ARIA Theme',
     filename: 'example-aria.html',

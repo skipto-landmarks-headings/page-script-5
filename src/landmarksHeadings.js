@@ -219,7 +219,7 @@ function isInContextForComplementary (node) {
   node = node && node.parentNode;
   while (node && (node.nodeType === Node.ELEMENT_NODE)) {
     const tagName = node.tagName.toLowerCase();
-    const role = node.role.toLowerCase().trim();
+    const role = node.role ? node.role.toLowerCase().trim() : '';
     if (asideNotAllowedContextRoles.includes(role)) {
       return false;
     }
