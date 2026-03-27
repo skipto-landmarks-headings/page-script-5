@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.10.1
+ * Version: 5.10.2
  * Copyright (c) 2022, 2023, 2024, 2025, 2026 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -189,6 +189,23 @@
       menuitemFocusTextDarkColor: 'hsl(215, 100%, 70%)',
       menuitemFocusBackgroundColor: 'hsl(0, 0%, 100%)',
       menuitemFocusBackgroundDarkColor: 'hsl(0, 0%, 0%)',
+    },
+    'wisc': {
+      hostnameSelector: 'wisc.edu',
+      buttonTextColor: 'hsl(0, 0%, 100%)',
+      buttonTextDarkColor: 'hsl(0, 0%, 0%)',
+      buttonBackgroundColor: 'hsl(358, 95%, 40%)',
+      buttonBackgroundDarkColor: 'hsl(358, 95%, 60%)',
+      focusBorderColor: 'hsl(200, 11%, 89%)',
+      focusBorderDarkColor: 'hsl(200, 11%, 11%)',
+      menuTextColor: 'hsl(0, 0%, 100%)',
+      menuTextDarkColor: 'hsl(0, 0%, 0%)',
+      menuBackgroundColor: 'hsl(358, 95%, 40%)',
+      menuBackgroundDarkColor: 'hsl(358, 95%, 60%)',
+      menuitemFocusTextColor: 'hsl(358, 95%, 40%)',
+      menuitemFocusTextDarkColor: 'hsl(358, 95%, 60%)',
+      menuitemFocusBackgroundColor: 'hsl(0, 0%, 100%)',
+      menuitemFocusBackgroundDarkColor: 'hsl(0, 0%, 0%)',
     }
   };
 
@@ -285,7 +302,7 @@
   /* constants.js */
 
   // Version
-  const VERSION = '5.10.1';
+  const VERSION = '5.10.2';
 
   // Numbers
 
@@ -564,6 +581,7 @@
 }
 
 .menu-button.popup {
+  top: 0;
   transform: translateY(var(--skipto-popup-offset));
   transition: top 0.35s ease;
 }
@@ -2603,6 +2621,23 @@ dialog button:hover {
     'h6'
   ];
 
+  const asideNotAllowedContextElements = [
+    'article',
+    'aside',
+    'form',
+    'nav',
+    'section'
+    ];
+
+  const asideNotAllowedContextRoles = [
+    'article',
+    'complementary',
+    'form',
+    'navigation',
+    'region',
+    ];
+
+
   let idIndex = 0;
 
   /*
@@ -2679,7 +2714,7 @@ dialog button:hover {
   *         elements with default landmark roles or is the descendant
   *         of an element with a defined landmark role
   *
-  *   @param  {Object}  node  - Element node from a berowser DOM
+  *   @param  {Object}  node  - Element node from a browser DOM
   * 
   *   @reutrn {Boolean} Returns true if top level landmark, otherwise false
   */
@@ -2702,6 +2737,34 @@ dialog button:hover {
     return true;
   }  
 
+
+  /**
+  * @function isInContextForComplementary
+  *
+  * @desc Tests the node to see if it is in the context of any other
+  *       elements with default landmark roles or is the descendant
+  *       of an element with a main landmark role
+  *
+  * @param  {Object}  node        - Element node from a browser DOM
+  */
+
+  function isInContextForComplementary (node) {
+    node = node && node.parentNode;
+    while (node && (node.nodeType === Node.ELEMENT_NODE)) {
+      const tagName = node.tagName.toLowerCase();
+      const role = node.role.toLowerCase().trim();
+      if (asideNotAllowedContextRoles.includes(role)) {
+        return false;
+      }
+
+      if (asideNotAllowedContextElements.includes(tagName)) {
+        return false;
+      }
+      node = node.parentNode;
+    }
+    return true;
+  }
+
   /*
    *   @function checkForLandmarkRole
    *
@@ -2723,7 +2786,10 @@ dialog button:hover {
 
       switch (tagName) {
         case 'aside':
-          return 'complementary';
+          if (isInContextForComplementary(element)) {
+            return 'complementary';
+          }
+          break;
 
         case 'main':
           return 'main';

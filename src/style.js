@@ -86,6 +86,7 @@ cssStyleTemplate.textContent = `
 }
 
 .menu-button.popup {
+  top: 0;
   transform: translateY(var(--skipto-popup-offset));
   transition: top 0.35s ease;
 }

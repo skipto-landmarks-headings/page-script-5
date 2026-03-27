@@ -30,6 +30,6 @@ gulp
 
 ## Copyright and license
 
-Copyright 2022, 2023, 2024, 2025 Jon Gunderson under the [BSD license](LICENSE.md).
+Copyright 2022, 2023, 2024, 2025, 2026 Jon Gunderson under the [BSD license](LICENSE.md).
 
 Copyright 2021 University of Illinois and PayPal under the [BSD license](LICENSE.md).

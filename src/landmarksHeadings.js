@@ -88,6 +88,23 @@ const headingTags = [
   'h6'
 ];
 
+const asideNotAllowedContextElements = [
+  'article',
+  'aside',
+  'form',
+  'nav',
+  'section'
+  ];
+
+const asideNotAllowedContextRoles = [
+  'article',
+  'complementary',
+  'form',
+  'navigation',
+  'region',
+  ];
+
+
 let idIndex = 0;
 
 /*
@@ -164,7 +181,7 @@ function isSlotElement(node) {
 *         elements with default landmark roles or is the descendant
 *         of an element with a defined landmark role
 *
-*   @param  {Object}  node  - Element node from a berowser DOM
+*   @param  {Object}  node  - Element node from a browser DOM
 * 
 *   @reutrn {Boolean} Returns true if top level landmark, otherwise false
 */
@@ -187,6 +204,34 @@ function isTopLevel (node) {
   return true;
 }  
 
+
+/**
+* @function isInContextForComplementary
+*
+* @desc Tests the node to see if it is in the context of any other
+*       elements with default landmark roles or is the descendant
+*       of an element with a main landmark role
+*
+* @param  {Object}  node        - Element node from a browser DOM
+*/
+
+function isInContextForComplementary (node) {
+  node = node && node.parentNode;
+  while (node && (node.nodeType === Node.ELEMENT_NODE)) {
+    const tagName = node.tagName.toLowerCase();
+    const role = node.role.toLowerCase().trim();
+    if (asideNotAllowedContextRoles.includes(role)) {
+      return false;
+    }
+
+    if (asideNotAllowedContextElements.includes(tagName)) {
+      return false;
+    }
+    node = node.parentNode;
+  }
+  return true;
+}
+
 /*
  *   @function checkForLandmarkRole
  *
@@ -208,7 +253,10 @@ function checkForLandmarkRole (element) {
 
     switch (tagName) {
       case 'aside':
-        return 'complementary';
+        if (isInContextForComplementary(element)) {
+          return 'complementary';
+        }
+        break;
 
       case 'main':
         return 'main';

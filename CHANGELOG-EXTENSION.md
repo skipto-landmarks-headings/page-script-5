@@ -1,5 +1,8 @@
 # Version history for SkipTo.js for Firefox, Chrome and Opera
 
+## Version 1.3.4
+* Updated to SkipTo.js 5.10.2, improved rendering of keyboard short for button
+
 ## Version 1.3.3
 * Updated to SkipTo.js 5.10.1, improved rendering of keyboard short for button
 

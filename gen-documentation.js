@@ -398,7 +398,7 @@ function createPage(page, mainNav, dropdownName='', dropdownPages=false, subPage
     console.log(`  [createPage]: ${page.filename}`);
 
     const desc   = page.description ? page.description : '';
-    let config = page.config ? page.config : '';
+    let config = page.config ? page.config : 'colorTheme:skipto';
     if (!config.includes('positionLeft')) {
       config += config ? ';positionLeft: 30%' : 'positionLeft: 30%';
     }

@@ -169,5 +169,22 @@ export const colorThemes = {
     menuitemFocusTextDarkColor: 'hsl(215, 100%, 70%)',
     menuitemFocusBackgroundColor: 'hsl(0, 0%, 100%)',
     menuitemFocusBackgroundDarkColor: 'hsl(0, 0%, 0%)',
+  },
+  'wisc': {
+    hostnameSelector: 'wisc.edu',
+    buttonTextColor: 'hsl(0, 0%, 100%)',
+    buttonTextDarkColor: 'hsl(0, 0%, 0%)',
+    buttonBackgroundColor: 'hsl(358, 95%, 40%)',
+    buttonBackgroundDarkColor: 'hsl(358, 95%, 60%)',
+    focusBorderColor: 'hsl(200, 11%, 89%)',
+    focusBorderDarkColor: 'hsl(200, 11%, 11%)',
+    menuTextColor: 'hsl(0, 0%, 100%)',
+    menuTextDarkColor: 'hsl(0, 0%, 0%)',
+    menuBackgroundColor: 'hsl(358, 95%, 40%)',
+    menuBackgroundDarkColor: 'hsl(358, 95%, 60%)',
+    menuitemFocusTextColor: 'hsl(358, 95%, 40%)',
+    menuitemFocusTextDarkColor: 'hsl(358, 95%, 60%)',
+    menuitemFocusBackgroundColor: 'hsl(0, 0%, 100%)',
+    menuitemFocusBackgroundDarkColor: 'hsl(0, 0%, 0%)',
   }
 };

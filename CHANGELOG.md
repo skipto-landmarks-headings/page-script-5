@@ -1,7 +1,12 @@
 # Version history for SkipTo.js
 
+## Version 5.10.2
+* Fixed issue with popup button not being hidden in some cases with a CSS fixed header
+* Updated how ASIDE element defines a complementary landmark
+* Added proposed theme for wisc.edu
+
 ## Version 5.10.1
-* Updated styling of "hide" button
+* Updated styling of "hide" button for default button
 * Fixed bug with default color styling for the menu background color
 * Updated default styling of button and menus
 
