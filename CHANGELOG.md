@@ -2,8 +2,8 @@
 
 ## Version 5.10.2
 * Fixed issue with popup button not being hidden in some cases with a CSS fixed header
-* Updated how ASIDE element defines a complementary landmark
-* Added proposed theme for wisc.edu
+* Updated how ASIDE element defines a complementary landmark based on browser behavior
+* Added a new theme based on University of Wisconsin branding colors
 
 ## Version 5.10.1
 * Updated styling of "hide" button for default button
