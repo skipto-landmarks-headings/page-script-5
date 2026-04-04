@@ -79,7 +79,7 @@ export default class HighlightElement {
                             'Region is hidden';
 
     this.msgElementIsHidden = typeof config.msgElementIsHidden === 'string' ?
-                            config.msgElemenIsHidden :
+                            config.msgElementIsHidden :
                             'Element is hidden';
 
     [this.borderWidth, this.shadowWidth, this.offset, this.fontSize] = getHighlightInfo(config.highlightBorderSize);
@@ -95,7 +95,7 @@ export default class HighlightElement {
    *   @param {Object}  elem            : DOM node of element to highlight
    *   @param {String}  highlightTarget : value of highlight target
    *   @param {String}  info            : Information about target
-   *   @param {Boolean} force           : If true override isRduced
+   *   @param {Boolean} force           : If true override isReduced
    */
 
   highlight(elem, highlightTarget='instant', info='', force=false) {
@@ -114,7 +114,7 @@ export default class HighlightElement {
 
       if (this.isElementHidden(elem)) {
         // If element is hidden make hidden element message visible
-        // and use for highlighing
+        // and use for highlighting
         this.hiddenElem.textContent = this.getHiddenMessage(elem);
         this.hiddenElem.style.display = 'block';
 
@@ -288,7 +288,7 @@ export default class HighlightElement {
    *   @method isElementInViewport
    *
    *   @desc  Returns true if element is already visible in view port,
-   *          otheriwse false
+   *          otherwise false
    *
    *   @param {Object} elem : DOM node of element to highlight
    *
@@ -333,7 +333,7 @@ export default class HighlightElement {
    *   @method isElementHeightLarge
    *
    *   @desc  Returns true if element client height is larger than clientHeight,
-   *          otheriwse false
+   *          otherwise false
    *
    *   @param {Object} elem : DOM node of element to highlight
    *

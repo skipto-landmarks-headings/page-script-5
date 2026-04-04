@@ -411,7 +411,7 @@ export default class SkipToContent592 extends HTMLElement {
   /*
    * @method supportShortcuts
    *
-   * @desc  Set suuportShortcuts configuration property
+   * @desc  Set supportShortcuts configuration property
    *
    * @param  {Boolean}  value - If true support keyboard shortcuts, otherwise disable
    */
@@ -435,7 +435,7 @@ export default class SkipToContent592 extends HTMLElement {
    *   @param {Object}  elem            : DOM node of element to highlight
    *   @param {String}  highlightTarget : value of highlight target
    *   @param {String}  info            : Information about target
-   *   @param {Boolean} force           : If true override isRduced
+   *   @param {Boolean} force           : If true override isReduced
    */
 
   highlight(elem, highlightTarget='instant', info='', force=false) {

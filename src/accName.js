@@ -22,11 +22,11 @@ export {
 };
 
 /**
- *   @fuction getAccessibleName
+ *   @function getAccessibleName
  *
  *   @desc Returns the accessible name for an heading or landmark
  *
- *   @paramn {Object}   dom      - Document of the current element
+ *   @param  {Object}   dom      - Document of the current element
  *   @param  {node}     element  - DOM element node for either a heading or
  *                               landmark
  *   @param  {Boolean}  fromContent  - if true will compute name from content
