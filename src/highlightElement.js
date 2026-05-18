@@ -98,7 +98,7 @@ export default class HighlightElement {
    *   @param {Boolean} force           : If true override isRduced
    */
 
-  highlight(elem, highlightTarget='instant', info='', force=false) {
+  highlight(elem, highlightTarget, info='', force=false) {
     let scrollElement;
     const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
     const isReduced = !mediaQuery || mediaQuery.matches;

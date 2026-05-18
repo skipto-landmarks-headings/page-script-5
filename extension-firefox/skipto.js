@@ -43,9 +43,6 @@
 
       zIndex: '2000000',
       displayOption: 'fixed',
-      highlightTarget: 'instant',
-      highlightBorderSize: 'small',
-      highlightBorderStyle: 'solid'
     },
     'aria': {
       hostnameSelector: 'w3.org',
@@ -1875,7 +1872,7 @@ dialog button:hover {
      *   @param {Boolean} force           : If true override isRduced
      */
 
-    highlight(elem, highlightTarget='instant', info='', force=false) {
+    highlight(elem, highlightTarget, info='', force=false) {
       let scrollElement;
       const mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
       const isReduced = !mediaQuery || mediaQuery.matches;
@@ -3636,7 +3633,7 @@ dialog button:hover {
 
       const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME) || document.querySelector(BOOKMARKLET_ELEMENT_NAME);
       if (skipToContentElem) {
-        skipToContentElem.buttonSkipTo.highlight(elem, 'instant', info, true);  // force highlight
+        skipToContentElem.buttonSkipTo.highlight(elem, info, true);  // force highlight
       }
 
     }
@@ -4017,7 +4014,7 @@ dialog button:hover {
    * @desc Constructor for creating a button to open a menu of headings and landmarks on 
    *       a web page
    *
-   * @param {Object}  skipToContentElem  -  The skip-to-content objecy
+   * @param {Object}  skipToContentElem  -  The skip-to-content object
    * 
    * @returns {Object}  DOM element node that is the container for the button and the menu
    */
@@ -4156,7 +4153,6 @@ dialog button:hover {
         }
 
         this.focusMenuitem = null;
-
       }
 
       /*
@@ -4191,14 +4187,15 @@ dialog button:hover {
        * @desc Returns normalized value for the highlightTarget option
        */
       scrollBehavior () {
-        let value = this.config.highlightTarget.trim().toLowerCase();
 
-        if ('enabled smooth'.includes(value)) {
-          return 'smooth';
+        const value = this.config.highlightTarget.trim().toLowerCase();
+
+        if ('enabled instant'.includes(value)) {
+          return 'instant';
         }
 
-        if (value === 'instant') {
-          return 'instant';
+        if (value === 'smooth') {
+          return 'smooth';
         }
 
         return '';
@@ -4212,13 +4209,13 @@ dialog button:hover {
        *          is enabled (NOTE: Highlight is enabled by default)
        *
        *   @param {Object}  elem            : DOM node of element to highlight
-       *   @param {String}  scrollBehavior  : value of highlight target
        *   @param {String}  info            : Information about target
        *   @param {Boolean} force           : If true override isRduced
        */
 
-      highlight(elem, scrollBehavior='instant', info='', force=false) {
-        this.highlightElement.highlight(elem, scrollBehavior, info, force);
+      highlight(elem, info='', force=false) {
+
+        this.highlightElement.highlight(elem, this.scrollBehavior(), info, force);
       }
 
       /*
@@ -5424,13 +5421,11 @@ dialog button:hover {
   const debug$1 = new DebugLogging('skiptoContent', false);
   debug$1.flag = false;
 
-  const defaultStyleOptions = colorThemes['default'];
-
-  /* @class SkipToContent592
+  /* @class SkipToContent5103
    *
    */
 
-  class SkipToContent592 extends HTMLElement {
+  class SkipToContent5103 extends HTMLElement {
 
     constructor() {
       // Always call super first in constructor
@@ -5561,12 +5556,9 @@ dialog button:hover {
         headings: 'h1 h2',
 
         // Highlight options
-        highlightTarget:      defaultStyleOptions.highlightTarget,
-                              // options: 'instant' (default), 'smooth' and 'auto'
-        highlightBorderSize:  defaultStyleOptions.highlightBorderSize,
-                              // options: 'small' (default), 'medium', 'large', 'x-large'
-        highlightBorderStyle: defaultStyleOptions.highlightBorderStyle,
-                              // options: 'solid' (default), 'dotted', 'dashed'
+        highlightTarget:      'instant', // options: 'instant' (default), 'smooth' and 'auto'
+        highlightBorderSize:  'small', // options: 'small' (default), 'medium', 'large', 'x-large'
+        highlightBorderStyle: 'solid', // options: 'solid' (default), 'dotted', 'dashed'
 
         // Hidden heading when highlighting
         hiddenTextColor: '#000000',
@@ -5684,6 +5676,7 @@ dialog button:hover {
     init(globalConfig=false) {
       if (!this.initialized) {
         this.initialized = true;
+
         if (globalConfig) {
           this.config = this.setupConfigFromGlobal(this.config, globalConfig);
         }
@@ -5707,8 +5700,7 @@ dialog button:hover {
         }
 
         // Position hide button after all styling updates
-              this.buttonSkipTo.positionHideButton();
-
+        this.buttonSkipTo.positionHideButton();
       }
     }
 
@@ -5831,13 +5823,12 @@ dialog button:hover {
      *          is enabled (NOTE: Highlight is enabled by default)
      *
      *   @param {Object}  elem            : DOM node of element to highlight
-     *   @param {String}  highlightTarget : value of highlight target
      *   @param {String}  info            : Information about target
      *   @param {Boolean} force           : If true override isRduced
      */
 
-    highlight(elem, highlightTarget='instant', info='', force=false) {
-      this.buttonSkipto.highlight(elem, highlightTarget, info, force);
+    highlight(elem, info='', force=false) {
+      this.buttonSkipto.highlight(elem, info, force);
     }
 
     /*
@@ -5953,7 +5944,7 @@ dialog button:hover {
           if (!isExtensionLoaded) {
             if (!isBookmarkletLoaded) {
               removePageSkipTo();
-              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent592);
+              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent5103);
               skipToContentElem = document.createElement(BOOKMARKLET_ELEMENT_NAME);
               skipToContentElem.setAttribute('version', skipToContentElem.version);
               skipToContentElem.setAttribute('type', type);
@@ -5969,7 +5960,7 @@ dialog button:hover {
           if (!isExtensionLoaded) {
             removePageSkipTo();
             removeBookmarkletSkipTo();
-            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent592);
+            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent5103);
             skipToContentElem = document.createElement(EXTENSION_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
@@ -5982,7 +5973,7 @@ dialog button:hover {
 
         default:
           if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
-            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent592);
+            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent5103);
             skipToContentElem = document.createElement(PAGE_SCRIPT_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);

@@ -3,7 +3,7 @@
   "version": "5.10.3",
   "homepage": "https://github.com/skipto-landmarks-headings/page-script-5",
   "authors": [
-    "Jon Gunderson, Open Web Accessibility and  University of Illinois"
+    "Jon Gunderson, Open Web Accessibility"
   ],
   "description": "This plugin provides a dynamically-generated drop-down menu that allows keyboard and screen reader users to skip to the most important places on the webpage.",
   "main": "dist/skipto.js",

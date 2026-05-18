@@ -53,6 +53,14 @@ const examplePages = [
     isExample: true
   },
   { content: 'example/content-example.njk',
+    link: 'No Scroll',
+    title: 'No Scrolling to Page',
+    filename: 'example-no-scroll.html',
+    description: 'When navigating menu items with the keyboard or the mouse the page is no scrolled to the corresponding content, reducing the motion of page content when interacting with the menu.',
+    config: `highlightTarget: disabled`,
+    isExample: true
+  },
+  { content: 'example/content-example.njk',
     link: 'Popup',
     title: 'Popup Menu Button',
     filename: 'example-popup.html',

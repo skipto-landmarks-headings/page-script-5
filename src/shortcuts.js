@@ -95,7 +95,7 @@ function navigateContent (target, direction, msgHeadingLevel, useFirst=false, na
 
     const skipToContentElem = document.querySelector(EXTENSION_ELEMENT_NAME) || document.querySelector(BOOKMARKLET_ELEMENT_NAME);
     if (skipToContentElem) {
-      skipToContentElem.buttonSkipTo.highlight(elem, 'instant', info, true);  // force highlight
+      skipToContentElem.buttonSkipTo.highlight(elem, info, true);  // force highlight
     }
 
   }

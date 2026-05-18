@@ -11,10 +11,6 @@ import {
 } from './constants.js';
 
 import {
-  colorThemes
-} from './colorThemes.js';
-
-import {
   getLandmarksAndHeadings
 } from './landmarksHeadings.js';
 
@@ -26,13 +22,11 @@ import {
 const debug = new DebugLogging('skiptoContent', false);
 debug.flag = false;
 
-const defaultStyleOptions = colorThemes['default'];
-
-/* @class SkipToContent592
+/* @class SkipToContent5103
  *
  */
 
-export default class SkipToContent592 extends HTMLElement {
+export default class SkipToContent5103 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
@@ -163,12 +157,9 @@ export default class SkipToContent592 extends HTMLElement {
       headings: 'h1 h2',
 
       // Highlight options
-      highlightTarget:      defaultStyleOptions.highlightTarget,
-                            // options: 'instant' (default), 'smooth' and 'auto'
-      highlightBorderSize:  defaultStyleOptions.highlightBorderSize,
-                            // options: 'small' (default), 'medium', 'large', 'x-large'
-      highlightBorderStyle: defaultStyleOptions.highlightBorderStyle,
-                            // options: 'solid' (default), 'dotted', 'dashed'
+      highlightTarget:      'instant', // options: 'instant' (default), 'smooth' and 'auto'
+      highlightBorderSize:  'small', // options: 'small' (default), 'medium', 'large', 'x-large'
+      highlightBorderStyle: 'solid', // options: 'solid' (default), 'dotted', 'dashed'
 
       // Hidden heading when highlighting
       hiddenTextColor: '#000000',
@@ -286,6 +277,7 @@ export default class SkipToContent592 extends HTMLElement {
   init(globalConfig=false) {
     if (!this.initialized) {
       this.initialized = true;
+
       if (globalConfig) {
         this.config = this.setupConfigFromGlobal(this.config, globalConfig);
       }
@@ -309,8 +301,7 @@ export default class SkipToContent592 extends HTMLElement {
       }
 
       // Position hide button after all styling updates
-            this.buttonSkipTo.positionHideButton();
-
+      this.buttonSkipTo.positionHideButton();
     }
   }
 
@@ -433,13 +424,12 @@ export default class SkipToContent592 extends HTMLElement {
    *          is enabled (NOTE: Highlight is enabled by default)
    *
    *   @param {Object}  elem            : DOM node of element to highlight
-   *   @param {String}  highlightTarget : value of highlight target
    *   @param {String}  info            : Information about target
    *   @param {Boolean} force           : If true override isRduced
    */
 
-  highlight(elem, highlightTarget='instant', info='', force=false) {
-    this.buttonSkipto.highlight(elem, highlightTarget, info, force);
+  highlight(elem, info='', force=false) {
+    this.buttonSkipto.highlight(elem, info, force);
   }
 
   /*

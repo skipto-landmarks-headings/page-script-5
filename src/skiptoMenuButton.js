@@ -135,7 +135,7 @@ templateMenuButton.innerHTML = `
  * @desc Constructor for creating a button to open a menu of headings and landmarks on 
  *       a web page
  *
- * @param {Object}  skipToContentElem  -  The skip-to-content objecy
+ * @param {Object}  skipToContentElem  -  The skip-to-content object
  * 
  * @returns {Object}  DOM element node that is the container for the button and the menu
  */
@@ -274,7 +274,6 @@ export default class SkiptoMenuButton {
       }
 
       this.focusMenuitem = null;
-
     }
 
     /*
@@ -309,14 +308,15 @@ export default class SkiptoMenuButton {
      * @desc Returns normalized value for the highlightTarget option
      */
     scrollBehavior () {
-      let value = this.config.highlightTarget.trim().toLowerCase();
 
-      if ('enabled smooth'.includes(value)) {
-        return 'smooth';
+      const value = this.config.highlightTarget.trim().toLowerCase();
+
+      if ('enabled instant'.includes(value)) {
+        return 'instant';
       }
 
-      if (value === 'instant') {
-        return 'instant';
+      if (value === 'smooth') {
+        return 'smooth';
       }
 
       return '';
@@ -330,13 +330,13 @@ export default class SkiptoMenuButton {
      *          is enabled (NOTE: Highlight is enabled by default)
      *
      *   @param {Object}  elem            : DOM node of element to highlight
-     *   @param {String}  scrollBehavior  : value of highlight target
      *   @param {String}  info            : Information about target
      *   @param {Boolean} force           : If true override isRduced
      */
 
-    highlight(elem, scrollBehavior='instant', info='', force=false) {
-      this.highlightElement.highlight(elem, scrollBehavior, info, force);
+    highlight(elem, info='', force=false) {
+
+      this.highlightElement.highlight(elem, this.scrollBehavior(), info, force);
     }
 
     /*
