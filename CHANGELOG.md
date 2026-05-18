@@ -1,5 +1,8 @@
 # Version history for SkipTo.js
 
+## Version 5.10.3
+* Fixed button positioning issue when using the mouse to point at menu items
+
 ## Version 5.10.2
 * Fixed issue with popup button not being hidden in some cases with a CSS fixed header
 * Updated how ASIDE element defines a complementary landmark based on browser behavior

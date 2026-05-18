@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.10.2
+ * Version: 5.10.3
  * Copyright (c) 2022, 2023, 2024, 2025, 2026 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -302,7 +302,7 @@
   /* constants.js */
 
   // Version
-  const VERSION = '5.10.2';
+  const VERSION = '5.10.3';
 
   // Numbers
 
@@ -732,10 +732,6 @@
     transition: top 0.35s ease;
     display: none;
   }
-}
-
-.menu-button.static {
-  position: absolute !important;
 }
 
 .menu-button [role="menu"] {

@@ -239,10 +239,6 @@ cssStyleTemplate.textContent = `
   }
 }
 
-.menu-button.static {
-  position: absolute !important;
-}
-
 .menu-button [role="menu"] {
   min-width: 16em;
   display: none;
