@@ -78,7 +78,7 @@ const examplePages = [
   },
   { content: 'example/content-example.njk',
     link: 'Disable Scrolling',
-    title: 'Dsiabled automatic scrolling to associated menu options',
+    title: 'Disabled automatic scrolling to associated menu options',
     filename: 'example-disable-scrolling.html',
     description: 'When navigating menu items with the keyboard or the pointer the page is not scrolled to the corresponding content, reducing the motion of page content when interacting with the menu.',
     config: `highlightTarget: disabled`,
