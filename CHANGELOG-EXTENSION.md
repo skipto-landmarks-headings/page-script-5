@@ -1,5 +1,8 @@
 # Version history for SkipTo.js for Firefox, Chrome and Opera
 
+## Version 1.4.0
+* Updated to use version of SkipTo.js that does not use HTML templates
+
 ## Version 1.3.4
 * Updated to SkipTo.js 5.10.2, fixed issue with positioning for fixed headers
 * Changed default configuration to be all H1 and H2 headings, removing 'main-only' option from the default

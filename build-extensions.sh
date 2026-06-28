@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 echo "Building extensions.."
 
-version="1.3.5"
+version="1.4.0"
 
 zip -r ./docs/dist/skipto-for-firefox-$version.zip extension-firefox/*  -x ".*" -x "__MACOSX"
 zip -r ./docs/dist/skipto-for-chrome-$version.zip  extension-chrome/*   -x ".*" -x "__MACOSX"

@@ -1,5 +1,10 @@
 # Version history for SkipTo.js
 
+## Version 5.11
+* Removed templates to create dialogs and menu button.  This is needed for the
+  extensions to work on pages with security features that do not allow for the
+  use of templates.
+
 ## Version 5.10.3
 * Fixed button positioning issue when using the mouse to point at menu items
 * Fixed bug in customizing highlightTarget
