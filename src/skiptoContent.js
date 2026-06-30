@@ -95,30 +95,31 @@ export default class SkipToContent5110 extends HTMLElement {
       aboutSupported: 'true',
       aboutInfoLabel: `About SkipTo.js`,
       aboutHappy: `Happy Skipping!`,
-      aboutVersion: `Version ${this.version}`,
-      aboutCopyright: 'BSD License, Copyright 2021-2025',
+      aboutVersion: `Version ${VERSION}`,
+      aboutCopyright: 'BSD License, Copyright 2021-2026',
+      aboutDescLabel: 'Purpose',
       aboutDesc: 'SkipTo.js is a free and open source utility to support the WCAG 2.4.1 Bypass Block requirement.  ',
       aboutPrivacyLabel: 'Privacy',
       aboutPrivacy: 'SkipTo.js does not collect or store any information about users or work with any other parties to collect or share user browsing information.',
+      aboutShortcutLabel :'"Skip To Content" Button Shortcut',
+      aboutShortcut :'Open Menu',
+
 
       closeLabel: 'Close',
       moreInfoLabel: 'More Information',
       msgKey: 'Key',
       msgDescription: 'Description',
 
-      msgElementHidden: 'Element is hidden',
-
-      msgNextRegion:     'Next region',
-      msgPreviousRegion: 'Previous region',
-      msgRegionIsHidden: 'Region is hidden',
+      msgNextRegion:           'Next region',
+      msgPreviousRegion:       'Previous region',
+      msgRegionIsHidden:       'Region is hidden',
+      msgMainRegions:          'Main regions',
+      msgNavigationRegions:    'Navigation regions',
+      msgComplementaryRegions: 'Complementary regions',
 
       msgNextHeading:     'Next heading',
       msgPreviousHeading: 'Previous heading',
       msgHeadingIsHidden: 'Heading is hidden',
-
-      msgMainRegions: 'Main regions',
-      msgNavigationRegions: 'Navigation regions',
-      msgComplementaryRegions: 'Complementary regions',
 
       msgHeadingLevel: 'Level #',
       msgH1Headings: 'Level 1 headings',
@@ -130,12 +131,16 @@ export default class SkipToContent5110 extends HTMLElement {
 
       // Messages for navigation
 
+      msgElementHidden: 'Element is hidden',
+      msgDialogLabel: 'SkipTo.js Message',
+
       msgNoMoreRegions: 'No more regions',
       msgNoRegionsFound: 'No %r regions found',
       msgNoMoreHeadings: 'No more headings',
       msgNoHeadingsLevelFound: 'No level %h headings found',
 
       // Menu labels and messages
+      menuButtonLabel: 'Menu Button',
       menuLabel: 'Landmarks and Headings',
       landmarkGroupLabel: 'Landmark Regions',
       headingGroupLabel: 'Headings',

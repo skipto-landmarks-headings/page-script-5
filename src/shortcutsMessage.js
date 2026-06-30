@@ -24,15 +24,15 @@ debug.flag = false;
 
 // Creates a elements for shortcuts message
 
-function getMessageElements() {
+function getMessageElements(messageLabel) {
 
   const divElem     = document.createElement('div');
   divElem.id        = MESSAGE_ID;
   divElem.className = 'hidden';
-  divElem.textContent = `SkipTo.js Message`; // i18n issue
 
   const divHeaderElem     = document.createElement('div');
   divHeaderElem.className = 'header';
+  divHeaderElem.textContent = messageLabel;
   divElem.appendChild(divHeaderElem);
 
   const divContentElem     = document.createElement('div');
@@ -43,9 +43,9 @@ function getMessageElements() {
 }
 
 export default class ShortcutsMessage {
-  constructor (attachElem) {
+  constructor (attachElem, messageLabel) {
 
-    attachElem.appendChild(getMessageElements());
+    attachElem.appendChild(getMessageElements(messageLabel));
 
     // Get references
 

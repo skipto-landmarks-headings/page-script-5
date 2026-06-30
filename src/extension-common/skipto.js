@@ -1528,9 +1528,10 @@ dialog button:hover {
    * @desc Returns common elements needed in a dialog box
    */
 
-  function getInfoDialogElems (id) {
+  function getInfoDialogElems (id, title, config) {
 
     const dialogElem = createElem('dialog', '', '', id);
+    dialogElem.tabIndex = -1;
 
     const divContainerElem = createElem('div');
     dialogElem.appendChild(divContainerElem);
@@ -1540,11 +1541,11 @@ dialog button:hover {
     const divHeaderElem = createElem('div', '', 'header');
     divContainerElem.appendChild(divHeaderElem);
 
-    const divH2Elem = createElem('h2', '', 'title');
+    const divH2Elem = createElem('h2', title, 'title');
     divHeaderElem.appendChild(divH2Elem);
 
     const divClose1ButtonElem = createElem('button', '×');
-    divClose1ButtonElem.ariaLabel = 'Close';
+    divClose1ButtonElem.ariaLabel = config.closeLabel;
     divHeaderElem.appendChild(divClose1ButtonElem);
 
     // Dialog content container
@@ -1557,10 +1558,10 @@ dialog button:hover {
     const divButtonsElem = createElem('div', '', 'buttons');
     divContainerElem.appendChild(divButtonsElem);
 
-    const divButtonMoreElem = createElem('button', 'More Information', 'more');
+    const divButtonMoreElem = createElem('button', config.moreInfoLabel, 'more');
     divButtonsElem.appendChild(divButtonMoreElem);
 
-    const divButton2CloseElem = createElem('button', 'Close', 'close');
+    const divButton2CloseElem = createElem('button', config.closeLabel, 'close');
     divButtonsElem.appendChild(divButton2CloseElem);
 
     return dialogElem;
@@ -1571,32 +1572,32 @@ dialog button:hover {
    *
    * @desc Add shortcut information to content element
    *
-   * @param  {Object}  contentElem  - DOM node to add content
+   * @param  {Object}  config  - SkipTo.js configuration object used for i18n
    */
 
-  function addShortcutsContentElems (contentElem) {
+  function addShortcutsContentElems (contentElem, config) {
 
     const buttonShortcuts = [
-      {shortcut: 'Alt+0', desc: 'Open Menu', kbdClass: 'os-shortcut'},
+      {shortcut: config.osShortcut, desc: config.aboutShortcut},
     ];
 
     const landmarkShortcuts = [
-      {shortcut: 'r', desc: 'Next region'},
-      {shortcut: 'R', desc: 'Previous region'},
-      {shortcut: 'm', desc: 'Main regions'},
-      {shortcut: 'n', desc: 'Navigation regions'},
-      {shortcut: 'c', desc: 'Complementary regions'},
+      {shortcut: config.shortcutRegionNext,          desc: config.msgNextRegion},
+      {shortcut: config.shortcutRegionPrevious,      desc: config.msgPreviousRegion},
+      {shortcut: config.shortcutRegionMain,          desc: config.msgMainRegions},
+      {shortcut: config.shortcutRegionNavigation,    desc: config.msgNavigationRegions},
+      {shortcut: config.shortcutRegionComplementary, desc: config.msgComplementaryRegions},
     ];
 
     const headingShortcuts = [
-      {shortcut: 'h', desc: 'Next heading'},
-      {shortcut: 'H', desc: 'Previous heading'},
-      {shortcut: '1', desc: 'Level 1 headings'},
-      {shortcut: '2', desc: 'Level 2 headings'},
-      {shortcut: '3', desc: 'Level 3 headings'},
-      {shortcut: '4', desc: 'Level 4 headings'},
-      {shortcut: '5', desc: 'Level 5 headings'},
-      {shortcut: '6', desc: 'Level 6 headings'},
+      {shortcut: config.shortcutHeadingNext,     desc: config.msgNextHeading},
+      {shortcut: config.shortcutHeadingPrevious, desc: config.msgPreviousHeading},
+      {shortcut: config.shortcutHeadingH1,       desc: config.msgH1Headings},
+      {shortcut: config.shortcutHeadingH2,       desc: config.msgH2Headings},
+      {shortcut: config.shortcutHeadingH3,       desc: config.msgH3Headings},
+      {shortcut: config.shortcutHeadingH4,       desc: config.msgH4Headings},
+      {shortcut: config.shortcutHeadingH5,       desc: config.msgH5Headings},
+      {shortcut: config.shortcutHeadingH5,       desc: config.msgH6Headings},
     ];
 
     function getShortcutTable(caption, shortcuts) {
@@ -1614,10 +1615,10 @@ dialog button:hover {
       trElem = createElem('tr');
       theadElem.appendChild(trElem);
 
-      thElem = createElem('th', 'key', 'shortcut');
+      thElem = createElem('th', config.headerKey, 'shortcut');
       trElem.appendChild(thElem);
 
-      thElem = createElem('th', 'Description', 'desc');
+      thElem = createElem('th', config.headerDesc, 'desc');
       trElem.appendChild(thElem);
 
       const tbodyElem = createElem('tbody');
@@ -1644,9 +1645,9 @@ dialog button:hover {
       return tableElem;
     }
 
-    contentElem.appendChild(getShortcutTable('Button', buttonShortcuts));
-    contentElem.appendChild(getShortcutTable('Landmark Regions', landmarkShortcuts));
-    contentElem.appendChild(getShortcutTable('Headings', headingShortcuts));
+    contentElem.appendChild(getShortcutTable(config.menuButtonLabel, buttonShortcuts));
+    contentElem.appendChild(getShortcutTable(config.landmarkGroupLabel, landmarkShortcuts));
+    contentElem.appendChild(getShortcutTable(config.headingGroupLabel, headingShortcuts));
 
   }
 
@@ -1655,42 +1656,42 @@ dialog button:hover {
    *
    * @desc Add about information to content element
    *
-   * @param  {Object}  contentElem  - DOM node to add content
+   * @param  {Object}  config  - SkipTo.js configuration object used for i18n
    */
 
-  function addAboutContentElems (contentElem) {
+  function addAboutContentElems (contentElem, config) {
 
-    const divDescLabelElem = createElem('div', 'Purpose', 'privacy-label');
+    const divDescLabelElem = createElem('div', config.aboutDescLabel, 'privacy-label');
     contentElem.appendChild(divDescLabelElem);
 
-    const divDescElem = createElem('div', 'SkipTo.js is a free and open source utility to support the WCAG 2.4.1 Bypass Block requirement.', 'desc');
+    const divDescElem = createElem('div', config.aboutDesc, 'desc');
     contentElem.appendChild(divDescElem);
 
     // Button menu shortcut key
 
-    const divShortcutLabelElem = createElem('div', 'Shortcut', 'shortcut-label');
+    const divShortcutLabelElem = createElem('div', config.aboutShortcutLabel, 'shortcut-label');
     contentElem.appendChild(divShortcutLabelElem);
 
     const divShortcutElem = createElem('div', '', 'shortcut');
     contentElem.appendChild(divShortcutElem);
-    divShortcutElem.appendChild(document.createTextNode('Use the '));
-    const kbdElem = createElem('kbd', 'Alt+0', 'os-shortcut');
+    const kbdElem = createElem('kbd', config.osShortcut);
     divShortcutElem.appendChild(kbdElem);
-    divShortcutElem.appendChild(document.createTextNode(' keyboard shortcut to open the "Skip To Content" menu.'));
+    divShortcutElem.appendChild(document.createTextNode(': '));
+    divShortcutElem.appendChild(document.createTextNode(config.aboutShortcut));
 
-    const divPrivacyLabelElem = createElem('div', 'Privacy', 'privacy-label');
+    const divPrivacyLabelElem = createElem('div', config.aboutPrivacyLabel, 'privacy-label');
     contentElem.appendChild(divPrivacyLabelElem);
 
-    const divPrivacyElem = createElem('div', 'SkipTo.js does not collect or store any information about users or work with any other parties to collect or share user browsing information.', 'privacy');
+    const divPrivacyElem = createElem('div', config.aboutPrivacy, 'privacy');
     contentElem.appendChild(divPrivacyElem);
 
-    const divHappyElem = createElem('div', 'Happy Skipping!', 'happy');
+    const divHappyElem = createElem('div', config.happySkipping, 'happy');
     contentElem.appendChild(divHappyElem);
 
-    const divVersionElem = createElem('div', `Version ${VERSION}`, 'version');
+    const divVersionElem = createElem('div', config.aboutVersion, 'version');
     contentElem.appendChild(divVersionElem);
 
-    const divCopyrightElem = createElem('div', 'BSD License, Copyright 2021-2026', 'copyright');
+    const divCopyrightElem = createElem('div', config.aboutCopyright, 'copyright');
     contentElem.appendChild(divCopyrightElem);
 
   }
@@ -1702,14 +1703,13 @@ dialog button:hover {
    */
 
   class InfoDialog {
-    constructor (attachElem, id, title) {
+    constructor (attachElem, id, title, config) {
 
       // Get references
 
-      console.log(`[InfoDialog][id]: ${id}`);
-
-      this.dialogElem = getInfoDialogElems(id);
+      this.dialogElem = getInfoDialogElems(id, title, config);
       attachElem.appendChild(this.dialogElem);
+      this.dialogElem.addEventListener('keydown', this.onKeyDown.bind(this));
 
       this.closeButtonElem1  = attachElem.querySelector(`#${id} .header button`);
       this.closeButtonElem1.addEventListener('click', this.onCloseButtonClick.bind(this));
@@ -1718,9 +1718,6 @@ dialog button:hover {
       this.closeButtonElem2  = attachElem.querySelector(`#${id} .buttons button.close`);
       this.closeButtonElem2.addEventListener('click', this.onCloseButtonClick.bind(this));
       this.closeButtonElem2.addEventListener('keydown', this.onKeyDown.bind(this));
-
-      const titleElem           = attachElem.querySelector(`#${id} .title`);
-      titleElem.textContent = title;
 
       const moreInfoButtonElem = attachElem.querySelector(`#${id} .buttons button.more`);
       moreInfoButtonElem.addEventListener('click', this.onMoreInfoClick.bind(this));
@@ -1743,7 +1740,7 @@ dialog button:hover {
 
     openDialog () {
       this.dialogElem.showModal();
-      this.closeButtonElem2.focus();
+      this.dialogElem.focus();
     }
 
     onKeyDown (event) {
@@ -1753,17 +1750,16 @@ dialog button:hover {
           !event.ctlKey &&
           !event.metaKey) {
 
-        debug$a.log(`shift: ${event.shiftKey} ${event.currentTarget === this.closeButtonElem1} ${event.currentTarget === this.closeButtonElem2}`);
-
         if (event.shiftKey &&
-            (event.currentTarget === this.closeButtonElem1)) {
+            ((event.target === this.closeButtonElem1) ||
+             (event.target === this.dialogElem))) {
           this.closeButtonElem2.focus();
           event.preventDefault();
           event.stopPropagation();
         }
 
         if (!event.shiftKey &&
-            (event.currentTarget === this.closeButtonElem2)) {
+            (event.target === this.closeButtonElem2)) {
           this.closeButtonElem1.focus();
           event.preventDefault();
           event.stopPropagation();
@@ -1780,17 +1776,12 @@ dialog button:hover {
 
   class ShortcutsDialog extends InfoDialog {
 
-    constructor (attachElem, title, osShortcut) {
+    constructor (attachElem, config) {
 
-      super(attachElem, SHORTCUTS_DIALOG_ID, title);
+      super(attachElem, SHORTCUTS_DIALOG_ID, config.shortcutsInfoLabel, config);
 
       const contentElem = attachElem.querySelector(`#${SHORTCUTS_DIALOG_ID} .content`);
-      addShortcutsContentElems(contentElem);
-
-      const osShortcutElem  = attachElem.querySelector(`#${SHORTCUTS_DIALOG_ID} .os-shortcut`);
-      if (osShortcutElem) {
-        osShortcutElem.textContent = osShortcut;
-      }
+      addShortcutsContentElems(contentElem, config);
 
       return this;
     }
@@ -1799,17 +1790,12 @@ dialog button:hover {
 
   class AboutDialog extends InfoDialog {
 
-    constructor (attachElem, title, osShortcut) {
+    constructor (attachElem, config) {
 
-      super(attachElem, ABOUT_DIALOG_ID, title);
+      super(attachElem, ABOUT_DIALOG_ID, config.aboutInfoLabel, config);
 
       const contentElem = attachElem.querySelector(`#${ABOUT_DIALOG_ID} .content`);
-      addAboutContentElems(contentElem);
-
-      const osShortcutElem  = attachElem.querySelector(`#${ABOUT_DIALOG_ID} .os-shortcut`);
-      if (osShortcutElem) {
-        osShortcutElem.textContent = osShortcut;
-      }
+      addAboutContentElems(contentElem, config);
 
       return this;
     }
@@ -1834,15 +1820,15 @@ dialog button:hover {
 
   // Creates a elements for shortcuts message
 
-  function getMessageElements() {
+  function getMessageElements(messageLabel) {
 
     const divElem     = document.createElement('div');
     divElem.id        = MESSAGE_ID;
     divElem.className = 'hidden';
-    divElem.textContent = `SkipTo.js Message`; // i18n issue
 
     const divHeaderElem     = document.createElement('div');
     divHeaderElem.className = 'header';
+    divHeaderElem.textContent = messageLabel;
     divElem.appendChild(divHeaderElem);
 
     const divContentElem     = document.createElement('div');
@@ -1853,9 +1839,9 @@ dialog button:hover {
   }
 
   class ShortcutsMessage {
-    constructor (attachElem) {
+    constructor (attachElem, messageLabel) {
 
-      attachElem.appendChild(getMessageElements());
+      attachElem.appendChild(getMessageElements(messageLabel));
 
       // Get references
 
@@ -4418,11 +4404,11 @@ dialog button:hover {
         }
 
         // Information dialog
-        this.shortcutsDialog = new ShortcutsDialog(this.containerNode, this.config.shortcutsInfoLabel, this.config.osShortcut);
-        this.aboutDialog     = new AboutDialog(this.containerNode, this.config.aboutInfoLabel, this.config.osShortcut);
+        this.shortcutsDialog = new ShortcutsDialog(this.containerNode, this.config);
+        this.aboutDialog     = new AboutDialog(this.containerNode, this.config);
 
         // Shortcut messages
-        this.shortcutsMessage = new ShortcutsMessage(this.containerNode);
+        this.shortcutsMessage = new ShortcutsMessage(this.containerNode, this.config.msgDialogLabel);
 
         // Highlight element
 
@@ -5774,6 +5760,9 @@ dialog button:hover {
         shortcutRegionNavigation: 'n',
         shortcutRegionComplementary: 'c',
 
+        headerKey:  'Key',
+        headerDesc: 'Description',
+
         shortcutsInfoLabel:          'Keyboard Shortcuts',
         shortcutsGroupEnabledLabel:  'Shortcuts: Enabled',
         shortcutsGroupDisabledLabel: 'Shortcuts: Disabled',
@@ -5783,11 +5772,15 @@ dialog button:hover {
         aboutSupported: 'true',
         aboutInfoLabel: `About SkipTo.js`,
         aboutHappy: `Happy Skipping!`,
-        aboutVersion: `Version ${this.version}`,
-        aboutCopyright: 'BSD License, Copyright 2021-2025',
+        aboutVersion: `Version ${VERSION}`,
+        aboutCopyright: 'BSD License, Copyright 2021-2026',
+        aboutDescLabel: 'Purpose',
         aboutDesc: 'SkipTo.js is a free and open source utility to support the WCAG 2.4.1 Bypass Block requirement.  ',
         aboutPrivacyLabel: 'Privacy',
         aboutPrivacy: 'SkipTo.js does not collect or store any information about users or work with any other parties to collect or share user browsing information.',
+        aboutShortcutLabel :'"Skip To Content" Button Shortcut',
+        aboutShortcut :'Open Menu',
+
 
         closeLabel: 'Close',
         moreInfoLabel: 'More Information',
@@ -5796,17 +5789,18 @@ dialog button:hover {
 
         msgElementHidden: 'Element is hidden',
 
-        msgNextRegion:     'Next region',
-        msgPreviousRegion: 'Previous region',
-        msgRegionIsHidden: 'Region is hidden',
+        msgDialogLabel: 'SkipTo.js Message',
+
+        msgNextRegion:           'Next region',
+        msgPreviousRegion:       'Previous region',
+        msgRegionIsHidden:       'Region is hidden',
+        msgMainRegions:          'Main regions',
+        msgNavigationRegions:    'Navigation regions',
+        msgComplementaryRegions: 'Complementary regions',
 
         msgNextHeading:     'Next heading',
         msgPreviousHeading: 'Previous heading',
         msgHeadingIsHidden: 'Heading is hidden',
-
-        msgMainRegions: 'Main regions',
-        msgNavigationRegions: 'Navigation regions',
-        msgComplementaryRegions: 'Complementary regions',
 
         msgHeadingLevel: 'Level #',
         msgH1Headings: 'Level 1 headings',
@@ -5824,6 +5818,7 @@ dialog button:hover {
         msgNoHeadingsLevelFound: 'No level %h headings found',
 
         // Menu labels and messages
+        menuButtonLabel: 'Menu Button',
         menuLabel: 'Landmarks and Headings',
         landmarkGroupLabel: 'Landmark Regions',
         headingGroupLabel: 'Headings',

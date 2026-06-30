@@ -608,9 +608,9 @@
 
             <h3 id="about-dialog">About Dialog</h3>
 
-            <p>The names of landmark region names can be localized for specific languages or reflect user preferences.</p>
+            <p>Setting and internationalization messaging in the About Dialog.</p>
 
-            <table class="table table-striped" aria-labelledby="menu-landmark-names">
+            <table class="table table-striped" aria-labelledby="about-dialog">
                <thead>
                   <tr>
                      <th style="text-align: left">Property</th>
@@ -619,8 +619,6 @@
                   </tr>
                </thead>
                <tbody>
-
-
                   <tr>
                      <td style="text-align: left"><code>aboutSupported</code></td>
                      <td style="text-align: left">true</td>
@@ -632,9 +630,24 @@
                      <td style="text-align: left">Title of the About dialog box.</td>
                   </tr>
                   <tr>
+                     <td style="text-align: left"><code>aboutDescLabel</code></td>
+                     <td style="text-align: left">‘Purpose’</td>
+                     <td style="text-align: left">Label to for the description information.</td>
+                  </tr>
+                  <tr>
                      <td style="text-align: left"><code>aboutDesc</code></td>
                      <td style="text-align: left">‘SkipTo.js is a free and open source utility to support implementing the WCAG 2.4.1 Bypass Block requirement.’</td>
                      <td style="text-align: left">A description of SkipTo.js, emphasizing it is free to use and open source and does not collect any information.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>aboutShortcutLabel</code></td>
+                     <td style="text-align: left">'"Skip To Content" Button Shortcut'</td>
+                     <td style="text-align: left">Label for the Menu Button Shortcut.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>aboutShortcut</code></td>
+                     <td style="text-align: left">‘Open menu’</td>
+                     <td style="text-align: left">What the shortcut key does (e.g. open the menu)</td>
                   </tr>
                   <tr>
                      <td style="text-align: left"><code>aboutPrivacyLabel</code></td>
@@ -663,6 +676,194 @@
                   </tr>
                </tbody>
             </table>
+
+           <h3 id="shortcut-keys">Shortcut Keys</h3>
+
+            <p>The shortcuts used to sequentially navigate landmark regions and headings.</p>
+
+            <table class="table table-striped" aria-labelledby="shortcut-keys">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Property</th>
+                     <th style="text-align: left">Default</th>
+                     <th style="text-align: left">Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutHeadingNext</code></td>
+                     <td style="text-align: left">'h'</td>
+                     <td style="text-align: left">Next headings</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutHeadingPrevious</code></td>
+                     <td style="text-align: left">'H'</td>
+                     <td style="text-align: left">Previous headings</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutHeadingH1</code></td>
+                     <td style="text-align: left">'1'</td>
+                     <td style="text-align: left">Level 1 headings</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutHeadingH2</code></td>
+                     <td style="text-align: left">'2'</td>
+                     <td style="text-align: left">Level 2 headings</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutHeadingH3</code></td>
+                     <td style="text-align: left">'3'</td>
+                     <td style="text-align: left">Level 3 headings</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutHeadingH4</code></td>
+                     <td style="text-align: left">'4'</td>
+                     <td style="text-align: left">Level 4 headings</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutHeadingH5</code></td>
+                     <td style="text-align: left">'5'</td>
+                     <td style="text-align: left">Level 5 headings</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutHeadingH6</code></td>
+                     <td style="text-align: left">'6'</td>
+                     <td style="text-align: left">Level 6 headings</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutRegionNext</code></td>
+                     <td style="text-align: left">'r'</td>
+                     <td style="text-align: left">Next landmark region</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutRegionPrevious</code></td>
+                     <td style="text-align: left">'R'</td>
+                     <td style="text-align: left">Previous landmark region</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutRegionMain</code></td>
+                     <td style="text-align: left">'m'</td>
+                     <td style="text-align: left">Main landmark regions</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutRegionNavigation</code></td>
+                     <td style="text-align: left">'n'</td>
+                     <td style="text-align: left">Navigation landmark regions</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutRegionComplementary</code></td>
+                     <td style="text-align: left">'c'</td>
+                     <td style="text-align: left">Complementary landmark regions</td>
+                  </tr>
+               </tbody>
+            </table>
+
+          <h3 id="shortcuts-menuitems">Shortcuts Menu Items</h3>
+
+            <p>The internationalization of shortcut information in the menu.</p>
+
+            <table class="table table-striped" aria-labelledby="shortcuts-menuitems">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Property</th>
+                     <th style="text-align: left">Default</th>
+                     <th style="text-align: left">Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutsInfoLabel</code></td>
+                     <td style="text-align: left">'Keyboard Shortcuts'</td>
+                     <td style="text-align: left">Group labeling for shortcut items in the menu.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutsGroupEnabledLabel</code></td>
+                     <td style="text-align: left">'Shortcuts: Enabled'</td>
+                     <td style="text-align: left">Indicates shortcuts are currently enabled</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutsGroupDisabledLabel</code></td>
+                     <td style="text-align: left">'Shortcuts: Disabled'</td>
+                     <td style="text-align: left">Indicates shortcuts are currently disabled</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutsToggleEnableLabel</code></td>
+                     <td style="text-align: left">'Enable shortcuts'</td>
+                     <td style="text-align: left">Menu item to enable shortcuts.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>shortcutsToggleDisableLabel</code></td>
+                     <td style="text-align: left">'Disable shortcuts'</td>
+                     <td style="text-align: left">Menu item to disable shortcuts.</td>
+                  </tr>
+               </tbody>
+            </table>
+
+            <h3 id="shortcut-msg">Shortcut Messages</h3>
+
+            <p>Messages used in the Shortcuts Dialog.</p>
+
+            <table class="table table-striped" aria-labelledby="shortcut-msg">
+               <thead>
+                  <tr>
+                     <th style="text-align: left">Property</th>
+                     <th style="text-align: left">Default</th>
+                     <th style="text-align: left">Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td style="text-align: left"><code>closeLabel</code></td>
+                     <td style="text-align: left">'Close'</td>
+                     <td style="text-align: left">Label for Close button in dialog boxes.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>headerDesc</code></td>
+                     <td style="text-align: left">'Description'</td>
+                     <td style="text-align: left">Heading for the description column in the shortcut tables.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>headerKey</code></td>
+                     <td style="text-align: left">'Key'</td>
+                     <td style="text-align: left">Heading for the key column in the shortcut tables.</td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: left"><code>headerDesc</code></td>
+                     <td style="text-align: left">'Description'</td>
+                     <td style="text-align: left">Heading for the description column in the shortcut tables.</td>
+                  </tr>
+               </tbody>
+            </table>
+
+      closeLabel: 'Close',
+      moreInfoLabel: 'More Information',
+      msgKey: 'Key',
+      msgDescription: 'Description',
+
+      msgElementHidden: 'Element is hidden',
+
+      msgDialogLabel: 'SkipTo.js Message',
+
+      msgNextRegion:           'Next region',
+      msgPreviousRegion:       'Previous region',
+      msgRegionIsHidden:       'Region is hidden',
+      msgMainRegions:          'Main regions',
+      msgNavigationRegions:    'Navigation regions',
+      msgComplementaryRegions: 'Complementary regions',
+
+      msgNextHeading:     'Next heading',
+      msgPreviousHeading: 'Previous heading',
+      msgHeadingIsHidden: 'Heading is hidden',
+
+      msgHeadingLevel: 'Level #',
+      msgH1Headings: 'Level 1 headings',
+      msgH2Headings: 'Level 2 headings',
+      msgH3Headings: 'Level 3 headings',
+      msgH4Headings: 'Level 4 headings',
+      msgH5Headings: 'Level 5 headings',
+      msgH6Headings: 'Level 6 headings',
+
+
 
             <h2 id="example-settings">Example Settings</h2>
 
