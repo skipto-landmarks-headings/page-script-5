@@ -11,8 +11,8 @@ import {
 const debug = new DebugLogging('[shortcutsMessage]', false);
 debug.flag = false;
 
-const templateMessage = document.createElement('template');
-templateMessage.innerHTML = `
+/*
+  Code for message
   <div id="${MESSAGE_ID}" class="hidden">
     <div class="header">
       SkipTo.js Message
@@ -20,13 +20,32 @@ templateMessage.innerHTML = `
     <div class="content">
     </div>
   </div>
-`;
+*/
 
+// Creates a elements for shortcuts message
+
+function getMessageElements() {
+
+  const divElem     = document.createElement('div');
+  divElem.id        = MESSAGE_ID;
+  divElem.className = 'hidden';
+  divElem.textContent = `SkipTo.js Message`; // i18n issue
+
+  const divHeaderElem     = document.createElement('div');
+  divHeaderElem.className = 'header';
+  divElem.appendChild(divHeaderElem);
+
+  const divContentElem     = document.createElement('div');
+  divContentElem.className = 'content';
+  divElem.appendChild(divContentElem);
+
+  return divElem;
+}
 
 export default class ShortcutsMessage {
   constructor (attachElem) {
 
-    attachElem.appendChild(templateMessage.content.cloneNode(true));
+    attachElem.appendChild(getMessageElements());
 
     // Get references
 

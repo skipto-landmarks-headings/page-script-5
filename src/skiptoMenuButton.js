@@ -8,9 +8,13 @@ import {
   isNotEmptyString
 } from './utils.js';
 
-import SkipToContentInfoDialog  from './skipToContentInfoDialog.js';
-import ShortcutsMessage         from './shortcutsMessage.js';
-import HighlightElement         from './highlightElement.js';
+import {
+  ShortcutsDialog,
+  AboutDialog
+} from './skipToContentInfoDialog.js';
+
+import ShortcutsMessage from './shortcutsMessage.js';
+import HighlightElement from './highlightElement.js';
 
 import {
   BUTTON_ID,
@@ -23,7 +27,8 @@ import {
   MENU_SHORTCUTS_GROUP_ID,
   MENU_SHORTCUTS_GROUP_LABEL_ID,
   MENU_ABOUT_ID,
-  SKIP_TO_ID
+  SKIP_TO_ID,
+  SVG_NS
 } from './constants.js';
 
 import {
@@ -50,8 +55,7 @@ import {
 const debug = new DebugLogging('SkipToButton', false);
 debug.flag = false;
 
-const templateMenuButton = document.createElement('template');
-templateMenuButton.innerHTML = `
+/*  Menu button HTML template
     <button id="${BUTTON_ID}"
             aria-haspopup="menu"
             aria-expanded= "false"
@@ -121,13 +125,203 @@ templateMenuButton.innerHTML = `
       <div id="${MENU_ABOUT_ID}"
            role="menuitem"
            data-about-info=""
-           class="about skip-to-nav skip-to-nesting-level-0 last"
-           tabindex="-1">
+           class="about skip-to-nav skip-to-nesting-level-0 last">
         <span class="label">About SkipTo.js</span>
       </div>
     </div>
 `;
+*/
 
+/*
+ * @function getMenuButtonElements
+ *
+ * @desc  Returns the elements for the basic menu button structure
+ *
+ * @returns {Object}  DOM node
+ */
+
+function getMenuButtonElements (containerElement, buttonLabel, customClass) {
+
+  // svgCircle Helper function
+
+  function svgCircle(cx, cy, r, strokeWidth, fill, className) {
+    const circleElem = document.createElementNS(SVG_NS, "circle");
+    circleElem.setAttribute('cx', cx);
+    circleElem.setAttribute('cy', cy);
+    circleElem.setAttribute('r', r);
+    if (strokeWidth) {
+      circleElem.setAttribute('stroke-width', strokeWidth);
+    }
+    if (fill) {
+      circleElem.setAttribute('fill', fill);
+    }
+    if (className) {
+      circleElem.setAttribute('class', className);
+    }
+    return circleElem;
+  }
+
+  // svgLine Helper function
+
+  function svgLine(x1, y1, x2, y2, strokeWidth, strokeLinecap) {
+    const lineElem = document.createElementNS(SVG_NS, "line");
+    lineElem.setAttribute('x1', x1);
+    lineElem.setAttribute('y1', y1);
+    lineElem.setAttribute('x2', x2);
+    lineElem.setAttribute('y2', y2);
+
+    if (strokeWidth) {
+      lineElem.setAttribute('stroke-width', strokeWidth);
+    }
+    if (strokeLinecap) {
+      lineElem.setAttribute('stroke-linecap', strokeLinecap);
+    }
+    return lineElem;
+  }
+
+  // createDiv Helper function
+
+  function createDiv(id, role, textContent='', ariaLabel='', ariaLabelledby='', className='') {
+    const divElem = document.createElement('div');
+    if (id) {
+      divElem.id = id;
+    }
+    if (role) {
+      divElem.role = role;
+    }
+    if (textContent) {
+      divElem.textContent = textContent;
+    }
+    if (ariaLabel) {
+      divElem.arialLabel = ariaLabel;
+    }
+    if (ariaLabelledby) {
+      divElem.arialLabelledby = ariaLabelledby;
+    }
+    if (className) {
+      divElem.className = className;
+    }
+
+    return divElem;
+  }
+
+  // Start main function code
+
+  // check for 'nav' element, if not use 'div' element
+  const ce = containerElement.toLowerCase().trim() === 'nav' ? 'nav' : 'div';
+
+  const menuButtonElem = document.createElement(ce);
+  menuButtonElem.className = 'menu-button';
+  menuButtonElem.id = SKIP_TO_ID;
+
+  if (ce === 'nav') {
+    menuButtonElem.setAttribute('aria-label', buttonLabel);
+  }
+
+  if (isNotEmptyString(customClass)) {
+    menuButtonElem.classList.add(customClass);
+  }
+
+  // Skip To Content Button and its children
+  const buttonElem = document.createElement('button');
+  buttonElem.id = BUTTON_ID;
+  buttonElem.ariaHasPopup = 'menu';
+  buttonElem.ariaExpanded = 'false';
+  buttonElem.ariaLabel    = 'Skip To Content';
+  buttonElem.ariaControls = 'id-skip-to-menu';
+  buttonElem.className    = 'open';
+
+  const spanLargeElem = document.createElement('span');
+  spanLargeElem.className = 'skipto-large';
+  buttonElem.appendChild(spanLargeElem);
+
+  const spanTextElem = document.createElement('span');
+  spanTextElem.className = 'skipto-text';
+  spanLargeElem.appendChild(spanTextElem);
+
+  spanLargeElem.appendChild(document.createTextNode('('));
+
+  const kbdElem = document.createElement('kbd');
+  kbdElem.className = 'skipto-shortcut';
+  spanLargeElem.appendChild(kbdElem);
+
+  spanLargeElem.appendChild(document.createTextNode(')'));
+
+  const spanMediumElem = document.createElement('span');
+  spanMediumElem.className = 'skipto-medium';
+  buttonElem.appendChild(spanMediumElem);
+
+  const spanSmallElem = document.createElement('span');
+  spanSmallElem.className = 'skipto-small';
+  buttonElem.appendChild(spanSmallElem);
+
+  menuButtonElem.appendChild(buttonElem);
+
+  // Hide menu button
+
+  const buttonHideElem = document.createElement('button');
+  buttonHideElem.className = 'hide';
+
+  const svgElem = document.createElementNS(SVG_NS, 'svg');
+  svgElem.setAttribute('width', '24');
+  svgElem.setAttribute('height', '24');
+  svgElem.setAttribute('viewbox', '0 0 28 28');
+  svgElem.setAttribute('role', 'none');
+
+  svgElem.appendChild(svgCircle(14, 14, 12, 2, 'none', 'focus'));
+  svgElem.appendChild(svgCircle(14, 14, 9, 0, '', ''));
+
+  svgElem.appendChild(svgLine(10, 10, 18, 18, 2, 'round'));
+  svgElem.appendChild(svgLine(18, 10, 10, 18, 2, 'round'));
+
+  buttonHideElem.appendChild(svgElem);
+
+  menuButtonElem.appendChild(buttonHideElem);
+
+  // Menu Structure
+
+  const divMenuElem = createDiv(MENU_ID, 'menu', '', 'Skip to Content', '', '');
+  divMenuElem.setAttribute('style', 'display: none');
+
+  // Landmarks
+  const divSeparatorElem1 = createDiv(MENU_LANDMARK_GROUP_LABEL_ID, 'separator', 'Landmark Regions (nn)', 'Landmark Regions', '', '');
+  divMenuElem.appendChild(divSeparatorElem1);
+
+  const divGroupElem1 = createDiv(MENU_LANDMARK_GROUP_ID, 'group', '', '', 'MENU_LANDMARK_GROUP_LABEL_ID', 'overflow');
+  divMenuElem.appendChild(divGroupElem1);
+
+  // Headings
+  const divSeparatorElem2 = createDiv(MENU_HEADINGS_GROUP_LABEL_ID, 'separator', 'Headings (nn)', 'Headings');
+  divMenuElem.appendChild(divSeparatorElem2);
+
+  const divGroupElem2 = createDiv(MENU_HEADINGS_GROUP_ID, 'group', '', '', MENU_HEADINGS_GROUP_LABEL_ID, 'overflow');
+  divMenuElem.appendChild(divGroupElem2);
+
+  // Shortcuts
+  const divSeparatorElem3 = createDiv(MENU_SHORTCUTS_GROUP_LABEL_ID, 'separator', 'Shortcuts: Disabled', 'Landmark Regions', '', 'shortcuts-disabled');
+  divMenuElem.appendChild(divSeparatorElem3);
+
+  const divGroupElem3 = createDiv(MENU_SHORTCUTS_GROUP_ID, 'group', '', '', MENU_SHORTCUTS_GROUP_LABEL_ID, 'shortcuts-disabled');
+  divMenuElem.appendChild(divGroupElem3);
+
+  // About
+  const divSeparatorElem4 = createDiv('', 'separator');
+  divMenuElem.appendChild(divSeparatorElem4);
+
+  const divMenuitemElem = createDiv(MENU_ABOUT_ID, 'menuitem', '', '', MENU_SHORTCUTS_GROUP_LABEL_ID, 'about skip-to-nav skip-to-nesting-level-0 last');
+  divMenuitemElem.setAttribute('data-about-info', '');
+  divMenuitemElem.tabIndex = -1;
+  divMenuElem.appendChild(divMenuitemElem);
+
+  const spanElem = document.createElement('span');
+  spanElem.className = 'label';
+  spanElem.textContent = 'About Skipto.js';
+  divMenuitemElem.appendChild(spanElem);
+
+  menuButtonElem.appendChild(divMenuElem);
+
+  return menuButtonElem;
+}
 
 /**
  * @class SkiptoMenuButton
@@ -149,24 +343,9 @@ export default class SkiptoMenuButton {
       this.containerNode.className = 'container';
       skipToContentElem.shadowRoot.appendChild(this.containerNode);
 
-      // check for 'nav' element, if not use 'div' element
-      const ce = this.config.containerElement.toLowerCase().trim() === 'nav' ? 'nav' : 'div';
-
-      this.menuButtonNode = document.createElement(ce);
-      this.menuButtonNode.className = 'menu-button';
-      this.menuButtonNode.id = SKIP_TO_ID;
-      this.containerNode.appendChild(this.menuButtonNode);
-
-      if (ce === 'nav') {
-        this.menuButtonNode.setAttribute('aria-label', this.config.buttonLabel);
-      }
-
-      if (isNotEmptyString(this.config.customClass)) {
-        this.menuButtonNode.classList.add(this.config.customClass);
-      }
+      this.menuButtonNode = getMenuButtonElements(this.config.containerElement, this.config.buttonLabel, this.config.customClass);
       this.setDisplayOption(this.menuButtonNode, this.config.displayOption);
-
-      this.menuButtonNode.appendChild(templateMenuButton.content.cloneNode(true));
+      this.containerNode.appendChild(this.menuButtonNode);
 
       this.linkNode = false;
       // If Mobile add a link to open menu when clicked and hide button
@@ -251,7 +430,8 @@ export default class SkiptoMenuButton {
       }
 
       // Information dialog
-      this.infoDialog = new SkipToContentInfoDialog(this.containerNode);
+      this.shortcutsDialog = new ShortcutsDialog(this.containerNode, this.config.shortcutsInfoLabel, this.config.osShortcut);
+      this.aboutDialog     = new AboutDialog(this.containerNode, this.config.aboutInfoLabel, this.config.osShortcut);
 
       // Shortcut messages
       this.shortcutsMessage = new ShortcutsMessage(this.containerNode);
@@ -1334,12 +1514,12 @@ export default class SkiptoMenuButton {
 
       if (tgt.hasAttribute('data-shortcuts-info')) {
         this.closePopup();
-        this.infoDialog.openDialog('shortcuts', this.config.shortcutsInfoLabel, this.config.osShortcut);
+        this.shortcutsDialog.openDialog();
       }
 
       if (tgt.hasAttribute('data-about-info')) {
         this.closePopup();
-        this.infoDialog.openDialog('about', this.config.aboutInfoLabel, this.config.osShortcut);
+        this.aboutDialog.openDialog();
       }
 
     }

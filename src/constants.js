@@ -27,12 +27,13 @@ export const MENU_SHORTCUTS_GROUP_LABEL_ID = 'id-skip-to-shortcuts-group-label';
 
 export const MENU_ABOUT_ID     = 'id-skip-to-about';
 
-export const BUTTON_ID         = 'id-skip-to-button';
-export const MENU_ID           = 'id-skip-to-menu';
-export const DIALOG_ID         = 'id-skip-to-dialog';
-export const MESSAGE_ID        = 'id-skip-to-message';
-export const HIGHLIGHT_ID      = 'id-skip-to-highlight-overlay';
-export const HIDDEN_ELEMENT_ID = 'id-skip-to-hidden-element';
+export const BUTTON_ID           = 'id-skip-to-button';
+export const MENU_ID             = 'id-skip-to-menu';
+export const SHORTCUTS_DIALOG_ID = 'id-skip-to-dialog-shortcuts';
+export const ABOUT_DIALOG_ID     = 'id-skip-to-dialog-about';
+export const MESSAGE_ID          = 'id-skip-to-message';
+export const HIGHLIGHT_ID        = 'id-skip-to-highlight-overlay';
+export const HIDDEN_ELEMENT_ID   = 'id-skip-to-hidden-element';
 
 
 // Custom element names
@@ -47,6 +48,7 @@ export const ATTR_SKIP_TO_DATA = 'data-skipto';
 
 // URLs to more information
 
+export const SVG_NS = 'https://www.w3.org/2000/svg';
 export const MORE_ABOUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/';
 export const MORE_SHORTCUT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 

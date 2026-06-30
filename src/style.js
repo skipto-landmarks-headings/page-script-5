@@ -489,6 +489,7 @@ dialog .content .desc {
   text-align: center;
 }
 
+dialog .shortcut-label,
 dialog .content .privacy-label {
   margin: 0;
   margin-top: 1em;
@@ -496,6 +497,7 @@ dialog .content .privacy-label {
   font-weight: bold;
 }
 
+dialog .shortcut,
 dialog .content .privacy {
   text-align: center;
   margin-bottom: 1em;
