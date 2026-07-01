@@ -1615,10 +1615,10 @@ dialog button:hover {
       trElem = createElem('tr');
       theadElem.appendChild(trElem);
 
-      thElem = createElem('th', config.headerKey, 'shortcut');
+      thElem = createElem('th', config.msgKey, 'shortcut');
       trElem.appendChild(thElem);
 
-      thElem = createElem('th', config.headerDesc, 'desc');
+      thElem = createElem('th', config.msgDescription, 'desc');
       trElem.appendChild(thElem);
 
       const tbodyElem = createElem('tbody');
@@ -4408,7 +4408,7 @@ dialog button:hover {
         this.aboutDialog     = new AboutDialog(this.containerNode, this.config);
 
         // Shortcut messages
-        this.shortcutsMessage = new ShortcutsMessage(this.containerNode, this.config.msgDialogLabel);
+        this.shortcutsMessage = new ShortcutsMessage(this.containerNode, this.config.msgMessageLabel);
 
         // Highlight element
 
@@ -5760,9 +5760,6 @@ dialog button:hover {
         shortcutRegionNavigation: 'n',
         shortcutRegionComplementary: 'c',
 
-        headerKey:  'Key',
-        headerDesc: 'Description',
-
         shortcutsInfoLabel:          'Keyboard Shortcuts',
         shortcutsGroupEnabledLabel:  'Shortcuts: Enabled',
         shortcutsGroupDisabledLabel: 'Shortcuts: Disabled',
@@ -5787,10 +5784,6 @@ dialog button:hover {
         msgKey: 'Key',
         msgDescription: 'Description',
 
-        msgElementHidden: 'Element is hidden',
-
-        msgDialogLabel: 'SkipTo.js Message',
-
         msgNextRegion:           'Next region',
         msgPreviousRegion:       'Previous region',
         msgRegionIsHidden:       'Region is hidden',
@@ -5811,6 +5804,9 @@ dialog button:hover {
         msgH6Headings: 'Level 6 headings',
 
         // Messages for navigation
+
+        msgElementHidden: 'Element is hidden',
+        msgMessageLabel: 'SkipTo.js Message',
 
         msgNoMoreRegions: 'No more regions',
         msgNoRegionsFound: 'No %r regions found',

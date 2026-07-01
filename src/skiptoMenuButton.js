@@ -434,7 +434,7 @@ export default class SkiptoMenuButton {
       this.aboutDialog     = new AboutDialog(this.containerNode, this.config);
 
       // Shortcut messages
-      this.shortcutsMessage = new ShortcutsMessage(this.containerNode, this.config.msgDialogLabel);
+      this.shortcutsMessage = new ShortcutsMessage(this.containerNode, this.config.msgMessageLabel);
 
       // Highlight element
 

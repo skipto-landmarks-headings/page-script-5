@@ -132,7 +132,7 @@ export default class SkipToContent5110 extends HTMLElement {
       // Messages for navigation
 
       msgElementHidden: 'Element is hidden',
-      msgDialogLabel: 'SkipTo.js Message',
+      msgMessageLabel: 'SkipTo.js Message',
 
       msgNoMoreRegions: 'No more regions',
       msgNoRegionsFound: 'No %r regions found',

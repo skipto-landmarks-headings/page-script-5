@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.11
+ * Version: 5.10.3
  * Copyright (c) 2022, 2023, 2024, 2025, 2026 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -299,7 +299,7 @@
   /* constants.js */
 
   // Version
-  const VERSION = '5.11';
+  const VERSION = '5.10.3';
 
   // Numbers
 
@@ -324,13 +324,12 @@
 
   const MENU_ABOUT_ID     = 'id-skip-to-about';
 
-  const BUTTON_ID           = 'id-skip-to-button';
-  const MENU_ID             = 'id-skip-to-menu';
-  const SHORTCUTS_DIALOG_ID = 'id-skip-to-dialog-shortcuts';
-  const ABOUT_DIALOG_ID     = 'id-skip-to-dialog-about';
-  const MESSAGE_ID          = 'id-skip-to-message';
-  const HIGHLIGHT_ID        = 'id-skip-to-highlight-overlay';
-  const HIDDEN_ELEMENT_ID   = 'id-skip-to-hidden-element';
+  const BUTTON_ID         = 'id-skip-to-button';
+  const MENU_ID           = 'id-skip-to-menu';
+  const DIALOG_ID         = 'id-skip-to-dialog';
+  const MESSAGE_ID        = 'id-skip-to-message';
+  const HIGHLIGHT_ID      = 'id-skip-to-highlight-overlay';
+  const HIDDEN_ELEMENT_ID = 'id-skip-to-hidden-element';
 
 
   // Custom element names
@@ -345,7 +344,6 @@
 
   // URLs to more information
 
-  const SVG_NS = 'https://www.w3.org/2000/svg';
   const MORE_ABOUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/';
   const MORE_SHORTCUT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 
@@ -983,7 +981,6 @@ dialog .content .desc {
   text-align: center;
 }
 
-dialog .shortcut-label,
 dialog .content .privacy-label {
   margin: 0;
   margin-top: 1em;
@@ -991,7 +988,6 @@ dialog .content .privacy-label {
   font-weight: bold;
 }
 
-dialog .shortcut,
 dialog .content .privacy {
   text-align: center;
   margin-bottom: 1em;
@@ -1504,225 +1500,189 @@ dialog button:hover {
   const debug$a = new DebugLogging('[shortcutsInfoDialog]', false);
   debug$a.flag = false;
 
-  /*
-   * @function createElem
-   *
-   * @desc Helper function in create dialog box content
-   */
+  const templateInfoDialog = document.createElement('template');
+  templateInfoDialog.innerHTML = `
+  <dialog id="${DIALOG_ID}">
 
-  function createElem(tag, textContent='', className='', id='') {
-    const elem = document.createElement(tag);
-    elem.textContent = textContent;
-    if (className) {
-      elem.className = className;
-    }
-    if (id) {
-      elem.id = id;
-    }
-    return elem;
-  }
+    <div>
+      <div class="header">
+        <h2 class="title"></h2>
+        <button aria-label="Close">&times;</button>
+      </div>
+      <div class="shortcuts content">
 
-  /*
-   * @function getInfoDialogElems
-   *
-   * @desc Returns common elements needed in a dialog box
-   */
+         <table>
+            <caption>Landmark Regions</caption>
+            <thead>
+               <tr>
+                  <th class="shortcut">Key</th>
+                  <th class="desc">Description</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td class="shortcut">r</td>
+                  <td class="desc">Next region</td>
+               </tr>
+               <tr>
+                  <td class="shortcut">R</td>
+                  <td class="desc">Previous region</td>
+               </tr>
+               <tr>
+                  <td class="shortcut">m</td>
+                  <td class="desc">Main regions</td>
+               </tr>
+               <tr>
+                  <td class="shortcut">n</td>
+                  <td class="desc">Navigation regions</td>
+               </tr>
+               <tr>
+                  <td class="shortcut">c</td>
+                  <td class="desc">Complementary regions</td>
+               </tr>
+            </tbody>
+         </table>
 
-  function getInfoDialogElems (id, title, config) {
+         <table>
+            <caption>Headings</caption>
+            <thead>
+               <tr>
+                  <th class="shortcut">Key</th>
+                  <th class="desc">Description</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td class="shortcut">h</td>
+                  <td class="desc">Next heading</td>
+               </tr>
+               <tr>
+                  <td class="shortcut">H</td>
+                  <td class="desc">Previous heading</td>
+               </tr>
+               <tr>
+                  <td class="shortcut">1</td>
+                  <td class="desc">Level 1 headings</td>
+               </tr>
+               <tr>
+                  <td class="shortcut">2</td>
+                  <td class="desc">Level 2 headings</td>
+               </tr>
+               <tr>
+                  <td class="shortcut">3</td>
+                  <td class="desc">Level 3 headings</td>
+               </tr>
+               <tr>
+                  <td class="shortcut">4</td>
+                  <td class="desc">Level 4 headings</td>
+               </tr>
+               <tr>
+                  <td class="shortcut">5</td>
+                  <td class="desc">Level 5 headings</td>
+               </tr>
+               <tr>
+                  <td class="shortcut">6</td>
+                  <td class="desc">Level 6 headings</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+    </div>
 
-    const dialogElem = createElem('dialog', '', '', id);
-    dialogElem.tabIndex = -1;
+    <div>
+      <div class="about content">
+        <div class="desc">
+          SkipTo.js is a free and open source utility to support the WCAG 2.4.1 Bypass Block requirement.
+        </div>
+        <div class="privacy-label">
+          Button Shortcut
+        </div>
+        <div class="privacy">
+          Use the <kbd id="os-shortcut">Alt+0</kbd> keyboard shortcut to open the "Skip To Content" menu.
+        </div>
+        <div class="privacy-label">
+          Privacy
+        </div>
+        <div class="privacy">
+          SkipTo.js does not collect or store any information about users or work with any other parties to collect or share user browsing information.
+        </div>
+        <div class="happy">
+          Happy Skipping!
+        </div>
+        <div class="version">
+          Version ${VERSION}
+        </div>
+        <div class="copyright">
+          BSD License, Copyright 2021-2026
+        </div>
+      </div>
+    </div>
 
-    const divContainerElem = createElem('div');
-    dialogElem.appendChild(divContainerElem);
+    <div class="buttons">
+      <button class="more">
+        More Information
+      </button>
+      <button class="close">
+        Close
+      </button>
+    </div>
 
-    // Dialog Header
-
-    const divHeaderElem = createElem('div', '', 'header');
-    divContainerElem.appendChild(divHeaderElem);
-
-    const divH2Elem = createElem('h2', title, 'title');
-    divHeaderElem.appendChild(divH2Elem);
-
-    const divClose1ButtonElem = createElem('button', '×');
-    divClose1ButtonElem.ariaLabel = config.closeLabel;
-    divHeaderElem.appendChild(divClose1ButtonElem);
-
-    // Dialog content container
-
-    const divContentElem = createElem('div', '', 'content');
-    divContainerElem.appendChild(divContentElem);
-
-    // Dialog buttons
-
-    const divButtonsElem = createElem('div', '', 'buttons');
-    divContainerElem.appendChild(divButtonsElem);
-
-    const divButtonMoreElem = createElem('button', config.moreInfoLabel, 'more');
-    divButtonsElem.appendChild(divButtonMoreElem);
-
-    const divButton2CloseElem = createElem('button', config.closeLabel, 'close');
-    divButtonsElem.appendChild(divButton2CloseElem);
-
-    return dialogElem;
-  }
-
-  /*
-   * @function addShortcutsContentElems
-   *
-   * @desc Add shortcut information to content element
-   *
-   * @param  {Object}  config  - SkipTo.js configuration object used for i18n
-   */
-
-  function addShortcutsContentElems (contentElem, config) {
-
-    const buttonShortcuts = [
-      {shortcut: config.osShortcut, desc: config.aboutShortcut},
-    ];
-
-    const landmarkShortcuts = [
-      {shortcut: config.shortcutRegionNext,          desc: config.msgNextRegion},
-      {shortcut: config.shortcutRegionPrevious,      desc: config.msgPreviousRegion},
-      {shortcut: config.shortcutRegionMain,          desc: config.msgMainRegions},
-      {shortcut: config.shortcutRegionNavigation,    desc: config.msgNavigationRegions},
-      {shortcut: config.shortcutRegionComplementary, desc: config.msgComplementaryRegions},
-    ];
-
-    const headingShortcuts = [
-      {shortcut: config.shortcutHeadingNext,     desc: config.msgNextHeading},
-      {shortcut: config.shortcutHeadingPrevious, desc: config.msgPreviousHeading},
-      {shortcut: config.shortcutHeadingH1,       desc: config.msgH1Headings},
-      {shortcut: config.shortcutHeadingH2,       desc: config.msgH2Headings},
-      {shortcut: config.shortcutHeadingH3,       desc: config.msgH3Headings},
-      {shortcut: config.shortcutHeadingH4,       desc: config.msgH4Headings},
-      {shortcut: config.shortcutHeadingH5,       desc: config.msgH5Headings},
-      {shortcut: config.shortcutHeadingH5,       desc: config.msgH6Headings},
-    ];
-
-    function getShortcutTable(caption, shortcuts) {
-
-      let trElem, thElem, tdElem, kbdElem;
-
-      const tableElem = createElem('table');
-
-      const captionElem = createElem('caption', caption);
-      tableElem.appendChild(captionElem);
-
-      const theadElem = createElem('thead');
-      tableElem.appendChild(theadElem);
-
-      trElem = createElem('tr');
-      theadElem.appendChild(trElem);
-
-      thElem = createElem('th', config.msgKey, 'shortcut');
-      trElem.appendChild(thElem);
-
-      thElem = createElem('th', config.msgDescription, 'desc');
-      trElem.appendChild(thElem);
-
-      const tbodyElem = createElem('tbody');
-      tableElem.appendChild(tbodyElem);
-
-      shortcuts.forEach( (item) => {
-        trElem = createElem('tr');
-        tbodyElem.appendChild(trElem);
-
-        tdElem = createElem('td', '', 'shortcut');
-        trElem.appendChild(tdElem);
-
-        kbdElem = createElem('kbd', item.shortcut);
-        tdElem.appendChild(kbdElem);
-
-        if (item.kbdClass) {
-          kbdElem.className = item.kbdClass;
-        }
-
-        tdElem = createElem('td', item.desc, 'desc');
-        trElem.appendChild(tdElem);
-      });
-
-      return tableElem;
-    }
-
-    contentElem.appendChild(getShortcutTable(config.menuButtonLabel, buttonShortcuts));
-    contentElem.appendChild(getShortcutTable(config.landmarkGroupLabel, landmarkShortcuts));
-    contentElem.appendChild(getShortcutTable(config.headingGroupLabel, headingShortcuts));
-
-  }
+  </dialog>
+`;
 
   /*
-   * @function addAboutContentElems
    *
-   * @desc Add about information to content element
    *
-   * @param  {Object}  config  - SkipTo.js configuration object used for i18n
    */
 
-  function addAboutContentElems (contentElem, config) {
-
-    const divDescLabelElem = createElem('div', config.aboutDescLabel, 'privacy-label');
-    contentElem.appendChild(divDescLabelElem);
-
-    const divDescElem = createElem('div', config.aboutDesc, 'desc');
-    contentElem.appendChild(divDescElem);
-
-    // Button menu shortcut key
-
-    const divShortcutLabelElem = createElem('div', config.aboutShortcutLabel, 'shortcut-label');
-    contentElem.appendChild(divShortcutLabelElem);
-
-    const divShortcutElem = createElem('div', '', 'shortcut');
-    contentElem.appendChild(divShortcutElem);
-    const kbdElem = createElem('kbd', config.osShortcut);
-    divShortcutElem.appendChild(kbdElem);
-    divShortcutElem.appendChild(document.createTextNode(': '));
-    divShortcutElem.appendChild(document.createTextNode(config.aboutShortcut));
-
-    const divPrivacyLabelElem = createElem('div', config.aboutPrivacyLabel, 'privacy-label');
-    contentElem.appendChild(divPrivacyLabelElem);
-
-    const divPrivacyElem = createElem('div', config.aboutPrivacy, 'privacy');
-    contentElem.appendChild(divPrivacyElem);
-
-    const divHappyElem = createElem('div', config.happySkipping, 'happy');
-    contentElem.appendChild(divHappyElem);
-
-    const divVersionElem = createElem('div', config.aboutVersion, 'version');
-    contentElem.appendChild(divVersionElem);
-
-    const divCopyrightElem = createElem('div', config.aboutCopyright, 'copyright');
-    contentElem.appendChild(divCopyrightElem);
-
-  }
-
-  /*
-   * @class InfoDialog
-   *
-   * @desc Base class for SkipTo.js dialogs
-   */
-
-  class InfoDialog {
-    constructor (attachElem, id, title, config) {
+  class SkipToContentInfoDialog {
+    constructor (attachElem) {
 
       // Get references
 
-      this.dialogElem = getInfoDialogElems(id, title, config);
-      attachElem.appendChild(this.dialogElem);
-      this.dialogElem.addEventListener('keydown', this.onKeyDown.bind(this));
+      attachElem.appendChild(templateInfoDialog.content.cloneNode(true));
 
-      this.closeButtonElem1  = attachElem.querySelector(`#${id} .header button`);
+      this.dialogElem = attachElem.querySelector('dialog');
+
+      this.closeButtonElem1  = attachElem.querySelector(`#${DIALOG_ID} .header button`);
       this.closeButtonElem1.addEventListener('click', this.onCloseButtonClick.bind(this));
       this.closeButtonElem1.addEventListener('keydown', this.onKeyDown.bind(this));
 
-      this.closeButtonElem2  = attachElem.querySelector(`#${id} .buttons button.close`);
+      this.titleElem           = attachElem.querySelector(`#${DIALOG_ID} .title`);
+      this.shortcutContentElem = attachElem.querySelector(`#${DIALOG_ID} .shortcuts`);
+      this.aboutContentElem    = attachElem.querySelector(`#${DIALOG_ID} .about`);
+      this.osShortcutElem  = attachElem.querySelector(`#${DIALOG_ID} #os-shortcut`);
+
+      const moreInfoButtonElem = attachElem.querySelector(`#${DIALOG_ID} .buttons button.more`);
+      moreInfoButtonElem.addEventListener('click', this.onMoreInfoClick.bind(this));
+
+      this.closeButtonElem2  = attachElem.querySelector(`#${DIALOG_ID} .buttons button.close`);
       this.closeButtonElem2.addEventListener('click', this.onCloseButtonClick.bind(this));
       this.closeButtonElem2.addEventListener('keydown', this.onKeyDown.bind(this));
 
-      const moreInfoButtonElem = attachElem.querySelector(`#${id} .buttons button.more`);
-      moreInfoButtonElem.addEventListener('click', this.onMoreInfoClick.bind(this));
-
       return this;
+    }
+
+    onCloseButtonClick () {
+      this.dialogElem.close();
+    }
+
+    openDialog (content, title, osShortcut) {
+      this.content = content;
+
+      if (content === 'shortcuts') {
+        this.shortcutContentElem.style.display = 'block';
+        this.aboutContentElem.style.display = 'none';
+        this.titleElem.textContent = title;
+      }
+      else {
+        this.shortcutContentElem.style.display = 'none';
+        this.aboutContentElem.style.display = 'block';
+        this.titleElem.textContent = title;
+        this.osShortcutElem.textContent = osShortcut;
+      }
+      this.dialogElem.showModal();
+      this.closeButtonElem2.focus();
     }
 
     onMoreInfoClick () {
@@ -1734,15 +1694,6 @@ dialog button:hover {
       }
     }
 
-    onCloseButtonClick () {
-      this.dialogElem.close();
-    }
-
-    openDialog () {
-      this.dialogElem.showModal();
-      this.dialogElem.focus();
-    }
-
     onKeyDown (event) {
 
       if ((event.key === "Tab") &&
@@ -1750,54 +1701,22 @@ dialog button:hover {
           !event.ctlKey &&
           !event.metaKey) {
 
+        debug$a.log(`shift: ${event.shiftKey} ${event.currentTarget === this.closeButtonElem1} ${event.currentTarget === this.closeButtonElem2}`);
+
         if (event.shiftKey &&
-            ((event.target === this.closeButtonElem1) ||
-             (event.target === this.dialogElem))) {
+            (event.currentTarget === this.closeButtonElem1)) {
           this.closeButtonElem2.focus();
           event.preventDefault();
           event.stopPropagation();
         }
 
         if (!event.shiftKey &&
-            (event.target === this.closeButtonElem2)) {
+            (event.currentTarget === this.closeButtonElem2)) {
           this.closeButtonElem1.focus();
           event.preventDefault();
           event.stopPropagation();
         }
       }
-    }
-  }
-
-  /*
-   * @class ShortcutsDialog
-   *
-   * @desc Class for SkipTo.js shortcuts dialogs
-   */
-
-  class ShortcutsDialog extends InfoDialog {
-
-    constructor (attachElem, config) {
-
-      super(attachElem, SHORTCUTS_DIALOG_ID, config.shortcutsInfoLabel, config);
-
-      const contentElem = attachElem.querySelector(`#${SHORTCUTS_DIALOG_ID} .content`);
-      addShortcutsContentElems(contentElem, config);
-
-      return this;
-    }
-
-  }
-
-  class AboutDialog extends InfoDialog {
-
-    constructor (attachElem, config) {
-
-      super(attachElem, ABOUT_DIALOG_ID, config.aboutInfoLabel, config);
-
-      const contentElem = attachElem.querySelector(`#${ABOUT_DIALOG_ID} .content`);
-      addAboutContentElems(contentElem, config);
-
-      return this;
     }
   }
 
@@ -1807,41 +1726,22 @@ dialog button:hover {
   const debug$9 = new DebugLogging('[shortcutsMessage]', false);
   debug$9.flag = false;
 
-  /*
-    Code for message
-    <div id="${MESSAGE_ID}" class="hidden">
-      <div class="header">
-        SkipTo.js Message
-      </div>
-      <div class="content">
-      </div>
+  const templateMessage = document.createElement('template');
+  templateMessage.innerHTML = `
+  <div id="${MESSAGE_ID}" class="hidden">
+    <div class="header">
+      SkipTo.js Message
     </div>
-  */
+    <div class="content">
+    </div>
+  </div>
+`;
 
-  // Creates a elements for shortcuts message
-
-  function getMessageElements(messageLabel) {
-
-    const divElem     = document.createElement('div');
-    divElem.id        = MESSAGE_ID;
-    divElem.className = 'hidden';
-
-    const divHeaderElem     = document.createElement('div');
-    divHeaderElem.className = 'header';
-    divHeaderElem.textContent = messageLabel;
-    divElem.appendChild(divHeaderElem);
-
-    const divContentElem     = document.createElement('div');
-    divContentElem.className = 'content';
-    divElem.appendChild(divContentElem);
-
-    return divElem;
-  }
 
   class ShortcutsMessage {
-    constructor (attachElem, messageLabel) {
+    constructor (attachElem) {
 
-      attachElem.appendChild(getMessageElements(messageLabel));
+      attachElem.appendChild(templateMessage.content.cloneNode(true));
 
       // Get references
 
@@ -4029,273 +3929,84 @@ dialog button:hover {
   const debug$2 = new DebugLogging('SkipToButton', false);
   debug$2.flag = false;
 
-  /*  Menu button HTML template
-      <button id="${BUTTON_ID}"
-              aria-haspopup="menu"
-              aria-expanded= "false"
-              aria-label="Skip To Content"
-              aria-controls="id-skip-to-menu"
-              class="open">
-        <span class="skipto-large">
-          <span class="skipto-text">Skip To Content</span>
-          (<kbd class="skipto-shortcut">Alt+0</kbd>)
-        </span>
-        <span class="skipto-medium">Skip To Content</span>
-        <span class="skipto-small">SkipTo</span>
-      </button>
-      <button class="hide">
-        <svg xmlns="http://www.w3.org/2000/svg"
-             width="24"
-             height="24"
-             viewBox="0 0 28 28"
-             role="none">
+  const templateMenuButton = document.createElement('template');
+  templateMenuButton.innerHTML = `
+    <button id="${BUTTON_ID}"
+            aria-haspopup="menu"
+            aria-expanded= "false"
+            aria-label="Skip To Content"
+            aria-controls="id-skip-to-menu"
+            class="open">
+      <span class="skipto-large">
+        <span class="skipto-text">Skip To Content</span>
+        (<kbd class="skipto-shortcut">Alt+0</kbd>)
+      </span>
+      <span class="skipto-medium">Skip To Content</span>
+      <span class="skipto-small">SkipTo</span>
+    </button>
+    <button class="hide">
+      <svg xmlns="http://www.w3.org/2000/svg"
+           width="24"
+           height="24"
+           viewBox="0 0 28 28"
+           role="none">
 
 
-          <!-- Circle outline -->
-          <circle cx="14" cy="14" r="12" class="focus" stroke-width="2" fill="none"/>
+        <!-- Circle outline -->
+        <circle cx="14" cy="14" r="12" class="focus" stroke-width="2" fill="none"/>
 
-          <circle cx="14" cy="14" r="9" class="background" stroke-width="0"/>
+        <circle cx="14" cy="14" r="9" class="background" stroke-width="0"/>
 
-          <!-- X lines -->
-          <line x1="10" y1="10" x2="18" y2="18" stroke-width="2" stroke-linecap="round" />
-          <line x1="18" y1="10" x2="10" y2="18" stroke-width="2" stroke-linecap="round" />
-        </svg>
-      </button>
-      <div id="${MENU_ID}"
-           role="menu"
-           aria-label="Skip to Content"
-           style="display: none;">
-        <div id="${MENU_LANDMARK_GROUP_LABEL_ID}"
-             role="separator"
-             aria-label="Landmark Regions">
-          Landmark Regions (nn)
-        </div>
-        <div id="${MENU_LANDMARK_GROUP_ID}"
-             role="group"
-             class="overflow"
-             aria-labelledby="${MENU_LANDMARK_GROUP_LABEL_ID}" >
-        </div>
-        <div id="${MENU_HEADINGS_GROUP_LABEL_ID}"
-             role="separator"
-             aria-label="Headings">
-          Headings (nn)
-        </div>
-        <div id="${MENU_HEADINGS_GROUP_ID}"
-             role="group"
-             class="overflow"
-             aria-labelledby="${MENU_HEADINGS_GROUP_LABEL_ID}">
-        </div>
-        <div id="${MENU_SHORTCUTS_GROUP_LABEL_ID}"
-             role="separator"
-             class="shortcuts-disabled">
-          Shortcuts: Disabled
-        </div>
-        <div id="${MENU_SHORTCUTS_GROUP_ID}"
-             role="group"
-             aria-labelledby="${MENU_SHORTCUTS_GROUP_LABEL_ID}"
-             class="shortcuts-disabled">
-        </div>
-        <div role="separator"></div>
-        <div id="${MENU_ABOUT_ID}"
-             role="menuitem"
-             data-about-info=""
-             class="about skip-to-nav skip-to-nesting-level-0 last">
-          <span class="label">About SkipTo.js</span>
-        </div>
+        <!-- X lines -->
+        <line x1="10" y1="10" x2="18" y2="18" stroke-width="2" stroke-linecap="round" />
+        <line x1="18" y1="10" x2="10" y2="18" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </button>
+    <div id="${MENU_ID}"
+         role="menu"
+         aria-label="Skip to Content"
+         style="display: none;">
+      <div id="${MENU_LANDMARK_GROUP_LABEL_ID}"
+           role="separator"
+           aria-label="Landmark Regions">
+        Landmark Regions (nn)
       </div>
-  `;
-  */
+      <div id="${MENU_LANDMARK_GROUP_ID}"
+           role="group"
+           class="overflow"
+           aria-labelledby="${MENU_LANDMARK_GROUP_LABEL_ID}" >
+      </div>
+      <div id="${MENU_HEADINGS_GROUP_LABEL_ID}"
+           role="separator"
+           aria-label="Headings">
+        Headings (nn)
+      </div>
+      <div id="${MENU_HEADINGS_GROUP_ID}"
+           role="group"
+           class="overflow"
+           aria-labelledby="${MENU_HEADINGS_GROUP_LABEL_ID}">
+      </div>
+      <div id="${MENU_SHORTCUTS_GROUP_LABEL_ID}"
+           role="separator"
+           class="shortcuts-disabled">
+        Shortcuts: Disabled
+      </div>
+      <div id="${MENU_SHORTCUTS_GROUP_ID}"
+           role="group"
+           aria-labelledby="${MENU_SHORTCUTS_GROUP_LABEL_ID}"
+           class="shortcuts-disabled">
+      </div>
+      <div role="separator"></div>
+      <div id="${MENU_ABOUT_ID}"
+           role="menuitem"
+           data-about-info=""
+           class="about skip-to-nav skip-to-nesting-level-0 last"
+           tabindex="-1">
+        <span class="label">About SkipTo.js</span>
+      </div>
+    </div>
+`;
 
-  /*
-   * @function getMenuButtonElements
-   *
-   * @desc  Returns the elements for the basic menu button structure
-   *
-   * @returns {Object}  DOM node
-   */
-
-  function getMenuButtonElements (containerElement, buttonLabel, customClass) {
-
-    // svgCircle Helper function
-
-    function svgCircle(cx, cy, r, strokeWidth, fill, className) {
-      const circleElem = document.createElementNS(SVG_NS, "circle");
-      circleElem.setAttribute('cx', cx);
-      circleElem.setAttribute('cy', cy);
-      circleElem.setAttribute('r', r);
-      if (strokeWidth) {
-        circleElem.setAttribute('stroke-width', strokeWidth);
-      }
-      if (fill) {
-        circleElem.setAttribute('fill', fill);
-      }
-      if (className) {
-        circleElem.setAttribute('class', className);
-      }
-      return circleElem;
-    }
-
-    // svgLine Helper function
-
-    function svgLine(x1, y1, x2, y2, strokeWidth, strokeLinecap) {
-      const lineElem = document.createElementNS(SVG_NS, "line");
-      lineElem.setAttribute('x1', x1);
-      lineElem.setAttribute('y1', y1);
-      lineElem.setAttribute('x2', x2);
-      lineElem.setAttribute('y2', y2);
-
-      if (strokeWidth) {
-        lineElem.setAttribute('stroke-width', strokeWidth);
-      }
-      if (strokeLinecap) {
-        lineElem.setAttribute('stroke-linecap', strokeLinecap);
-      }
-      return lineElem;
-    }
-
-    // createDiv Helper function
-
-    function createDiv(id, role, textContent='', ariaLabel='', ariaLabelledby='', className='') {
-      const divElem = document.createElement('div');
-      if (id) {
-        divElem.id = id;
-      }
-      if (role) {
-        divElem.role = role;
-      }
-      if (textContent) {
-        divElem.textContent = textContent;
-      }
-      if (ariaLabel) {
-        divElem.arialLabel = ariaLabel;
-      }
-      if (ariaLabelledby) {
-        divElem.arialLabelledby = ariaLabelledby;
-      }
-      if (className) {
-        divElem.className = className;
-      }
-
-      return divElem;
-    }
-
-    // Start main function code
-
-    // check for 'nav' element, if not use 'div' element
-    const ce = containerElement.toLowerCase().trim() === 'nav' ? 'nav' : 'div';
-
-    const menuButtonElem = document.createElement(ce);
-    menuButtonElem.className = 'menu-button';
-    menuButtonElem.id = SKIP_TO_ID;
-
-    if (ce === 'nav') {
-      menuButtonElem.setAttribute('aria-label', buttonLabel);
-    }
-
-    if (isNotEmptyString(customClass)) {
-      menuButtonElem.classList.add(customClass);
-    }
-
-    // Skip To Content Button and its children
-    const buttonElem = document.createElement('button');
-    buttonElem.id = BUTTON_ID;
-    buttonElem.ariaHasPopup = 'menu';
-    buttonElem.ariaExpanded = 'false';
-    buttonElem.ariaLabel    = 'Skip To Content';
-    buttonElem.ariaControls = 'id-skip-to-menu';
-    buttonElem.className    = 'open';
-
-    const spanLargeElem = document.createElement('span');
-    spanLargeElem.className = 'skipto-large';
-    buttonElem.appendChild(spanLargeElem);
-
-    const spanTextElem = document.createElement('span');
-    spanTextElem.className = 'skipto-text';
-    spanLargeElem.appendChild(spanTextElem);
-
-    spanLargeElem.appendChild(document.createTextNode('('));
-
-    const kbdElem = document.createElement('kbd');
-    kbdElem.className = 'skipto-shortcut';
-    spanLargeElem.appendChild(kbdElem);
-
-    spanLargeElem.appendChild(document.createTextNode(')'));
-
-    const spanMediumElem = document.createElement('span');
-    spanMediumElem.className = 'skipto-medium';
-    buttonElem.appendChild(spanMediumElem);
-
-    const spanSmallElem = document.createElement('span');
-    spanSmallElem.className = 'skipto-small';
-    buttonElem.appendChild(spanSmallElem);
-
-    menuButtonElem.appendChild(buttonElem);
-
-    // Hide menu button
-
-    const buttonHideElem = document.createElement('button');
-    buttonHideElem.className = 'hide';
-
-    const svgElem = document.createElementNS(SVG_NS, 'svg');
-    svgElem.setAttribute('width', '24');
-    svgElem.setAttribute('height', '24');
-    svgElem.setAttribute('viewbox', '0 0 28 28');
-    svgElem.setAttribute('role', 'none');
-
-    svgElem.appendChild(svgCircle(14, 14, 12, 2, 'none', 'focus'));
-    svgElem.appendChild(svgCircle(14, 14, 9, 0, '', ''));
-
-    svgElem.appendChild(svgLine(10, 10, 18, 18, 2, 'round'));
-    svgElem.appendChild(svgLine(18, 10, 10, 18, 2, 'round'));
-
-    buttonHideElem.appendChild(svgElem);
-
-    menuButtonElem.appendChild(buttonHideElem);
-
-    // Menu Structure
-
-    const divMenuElem = createDiv(MENU_ID, 'menu', '', 'Skip to Content', '', '');
-    divMenuElem.setAttribute('style', 'display: none');
-
-    // Landmarks
-    const divSeparatorElem1 = createDiv(MENU_LANDMARK_GROUP_LABEL_ID, 'separator', 'Landmark Regions (nn)', 'Landmark Regions', '', '');
-    divMenuElem.appendChild(divSeparatorElem1);
-
-    const divGroupElem1 = createDiv(MENU_LANDMARK_GROUP_ID, 'group', '', '', 'MENU_LANDMARK_GROUP_LABEL_ID', 'overflow');
-    divMenuElem.appendChild(divGroupElem1);
-
-    // Headings
-    const divSeparatorElem2 = createDiv(MENU_HEADINGS_GROUP_LABEL_ID, 'separator', 'Headings (nn)', 'Headings');
-    divMenuElem.appendChild(divSeparatorElem2);
-
-    const divGroupElem2 = createDiv(MENU_HEADINGS_GROUP_ID, 'group', '', '', MENU_HEADINGS_GROUP_LABEL_ID, 'overflow');
-    divMenuElem.appendChild(divGroupElem2);
-
-    // Shortcuts
-    const divSeparatorElem3 = createDiv(MENU_SHORTCUTS_GROUP_LABEL_ID, 'separator', 'Shortcuts: Disabled', 'Landmark Regions', '', 'shortcuts-disabled');
-    divMenuElem.appendChild(divSeparatorElem3);
-
-    const divGroupElem3 = createDiv(MENU_SHORTCUTS_GROUP_ID, 'group', '', '', MENU_SHORTCUTS_GROUP_LABEL_ID, 'shortcuts-disabled');
-    divMenuElem.appendChild(divGroupElem3);
-
-    // About
-    const divSeparatorElem4 = createDiv('', 'separator');
-    divMenuElem.appendChild(divSeparatorElem4);
-
-    const divMenuitemElem = createDiv(MENU_ABOUT_ID, 'menuitem', '', '', MENU_SHORTCUTS_GROUP_LABEL_ID, 'about skip-to-nav skip-to-nesting-level-0 last');
-    divMenuitemElem.setAttribute('data-about-info', '');
-    divMenuitemElem.tabIndex = -1;
-    divMenuElem.appendChild(divMenuitemElem);
-
-    const spanElem = document.createElement('span');
-    spanElem.className = 'label';
-    spanElem.textContent = 'About Skipto.js';
-    divMenuitemElem.appendChild(spanElem);
-
-    menuButtonElem.appendChild(divMenuElem);
-
-    return menuButtonElem;
-  }
 
   /**
    * @class SkiptoMenuButton
@@ -4317,9 +4028,24 @@ dialog button:hover {
         this.containerNode.className = 'container';
         skipToContentElem.shadowRoot.appendChild(this.containerNode);
 
-        this.menuButtonNode = getMenuButtonElements(this.config.containerElement, this.config.buttonLabel, this.config.customClass);
-        this.setDisplayOption(this.menuButtonNode, this.config.displayOption);
+        // check for 'nav' element, if not use 'div' element
+        const ce = this.config.containerElement.toLowerCase().trim() === 'nav' ? 'nav' : 'div';
+
+        this.menuButtonNode = document.createElement(ce);
+        this.menuButtonNode.className = 'menu-button';
+        this.menuButtonNode.id = SKIP_TO_ID;
         this.containerNode.appendChild(this.menuButtonNode);
+
+        if (ce === 'nav') {
+          this.menuButtonNode.setAttribute('aria-label', this.config.buttonLabel);
+        }
+
+        if (isNotEmptyString(this.config.customClass)) {
+          this.menuButtonNode.classList.add(this.config.customClass);
+        }
+        this.setDisplayOption(this.menuButtonNode, this.config.displayOption);
+
+        this.menuButtonNode.appendChild(templateMenuButton.content.cloneNode(true));
 
         this.linkNode = false;
         // If Mobile add a link to open menu when clicked and hide button
@@ -4404,11 +4130,10 @@ dialog button:hover {
         }
 
         // Information dialog
-        this.shortcutsDialog = new ShortcutsDialog(this.containerNode, this.config);
-        this.aboutDialog     = new AboutDialog(this.containerNode, this.config);
+        this.infoDialog = new SkipToContentInfoDialog(this.containerNode);
 
         // Shortcut messages
-        this.shortcutsMessage = new ShortcutsMessage(this.containerNode, this.config.msgMessageLabel);
+        this.shortcutsMessage = new ShortcutsMessage(this.containerNode);
 
         // Highlight element
 
@@ -5481,12 +5206,12 @@ dialog button:hover {
 
         if (tgt.hasAttribute('data-shortcuts-info')) {
           this.closePopup();
-          this.shortcutsDialog.openDialog();
+          this.infoDialog.openDialog('shortcuts', this.config.shortcutsInfoLabel, this.config.osShortcut);
         }
 
         if (tgt.hasAttribute('data-about-info')) {
           this.closePopup();
-          this.aboutDialog.openDialog();
+          this.infoDialog.openDialog('about', this.config.aboutInfoLabel, this.config.osShortcut);
         }
 
       }
@@ -5696,11 +5421,11 @@ dialog button:hover {
   const debug$1 = new DebugLogging('skiptoContent', false);
   debug$1.flag = false;
 
-  /* @class SkipToContent5110
+  /* @class SkipToContent5103
    *
    */
 
-  class SkipToContent5110 extends HTMLElement {
+  class SkipToContent5103 extends HTMLElement {
 
     constructor() {
       // Always call super first in constructor
@@ -5769,31 +5494,30 @@ dialog button:hover {
         aboutSupported: 'true',
         aboutInfoLabel: `About SkipTo.js`,
         aboutHappy: `Happy Skipping!`,
-        aboutVersion: `Version ${VERSION}`,
-        aboutCopyright: 'BSD License, Copyright 2021-2026',
-        aboutDescLabel: 'Purpose',
+        aboutVersion: `Version ${this.version}`,
+        aboutCopyright: 'BSD License, Copyright 2021-2025',
         aboutDesc: 'SkipTo.js is a free and open source utility to support the WCAG 2.4.1 Bypass Block requirement.  ',
         aboutPrivacyLabel: 'Privacy',
         aboutPrivacy: 'SkipTo.js does not collect or store any information about users or work with any other parties to collect or share user browsing information.',
-        aboutShortcutLabel :'"Skip To Content" Button Shortcut',
-        aboutShortcut :'Open Menu',
-
 
         closeLabel: 'Close',
         moreInfoLabel: 'More Information',
         msgKey: 'Key',
         msgDescription: 'Description',
 
-        msgNextRegion:           'Next region',
-        msgPreviousRegion:       'Previous region',
-        msgRegionIsHidden:       'Region is hidden',
-        msgMainRegions:          'Main regions',
-        msgNavigationRegions:    'Navigation regions',
-        msgComplementaryRegions: 'Complementary regions',
+        msgElementHidden: 'Element is hidden',
+
+        msgNextRegion:     'Next region',
+        msgPreviousRegion: 'Previous region',
+        msgRegionIsHidden: 'Region is hidden',
 
         msgNextHeading:     'Next heading',
         msgPreviousHeading: 'Previous heading',
         msgHeadingIsHidden: 'Heading is hidden',
+
+        msgMainRegions: 'Main regions',
+        msgNavigationRegions: 'Navigation regions',
+        msgComplementaryRegions: 'Complementary regions',
 
         msgHeadingLevel: 'Level #',
         msgH1Headings: 'Level 1 headings',
@@ -5805,16 +5529,12 @@ dialog button:hover {
 
         // Messages for navigation
 
-        msgElementHidden: 'Element is hidden',
-        msgMessageLabel: 'SkipTo.js Message',
-
         msgNoMoreRegions: 'No more regions',
         msgNoRegionsFound: 'No %r regions found',
         msgNoMoreHeadings: 'No more headings',
         msgNoHeadingsLevelFound: 'No level %h headings found',
 
         // Menu labels and messages
-        menuButtonLabel: 'Menu Button',
         menuLabel: 'Landmarks and Headings',
         landmarkGroupLabel: 'Landmark Regions',
         headingGroupLabel: 'Headings',
@@ -6224,7 +5944,7 @@ dialog button:hover {
           if (!isExtensionLoaded) {
             if (!isBookmarkletLoaded) {
               removePageSkipTo();
-              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent5110);
+              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent5103);
               skipToContentElem = document.createElement(BOOKMARKLET_ELEMENT_NAME);
               skipToContentElem.setAttribute('version', skipToContentElem.version);
               skipToContentElem.setAttribute('type', type);
@@ -6240,7 +5960,7 @@ dialog button:hover {
           if (!isExtensionLoaded) {
             removePageSkipTo();
             removeBookmarkletSkipTo();
-            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent5110);
+            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent5103);
             skipToContentElem = document.createElement(EXTENSION_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
@@ -6253,7 +5973,7 @@ dialog button:hover {
 
         default:
           if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
-            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent5110);
+            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent5103);
             skipToContentElem = document.createElement(PAGE_SCRIPT_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
