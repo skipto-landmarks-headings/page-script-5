@@ -161,8 +161,8 @@ cssStyleTemplate.textContent = `
   margin: 0;
   padding: 0;
   position: relative;
-  top: -2px;
-  left: -4px;
+  top: 0px;
+  left: -2px;
 }
 
 .menu-button button.hide line {

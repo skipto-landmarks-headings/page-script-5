@@ -261,9 +261,9 @@ function getMenuButtonElements (containerElement, buttonLabel, customClass) {
   buttonHideElem.className = 'hide';
 
   const svgElem = document.createElementNS(SVG_NS, 'svg');
-  svgElem.setAttribute('width', '26');
-  svgElem.setAttribute('height', '26');
-  svgElem.setAttribute('viewbox', '0 0 30 30');
+  svgElem.setAttribute('width', '25');
+  svgElem.setAttribute('height', '25');
+  svgElem.setAttribute('viewbox', '0 0 28 28');
   svgElem.setAttribute('role', 'none');
 
   svgElem.appendChild(svgCircle(14, 14, 10, 2, 'none', 'focus'));
