@@ -48,7 +48,7 @@ export const ATTR_SKIP_TO_DATA = 'data-skipto';
 
 // URLs to more information
 
-export const SVG_NS = 'https://www.w3.org/2000/svg';
+export const SVG_NS = 'http://www.w3.org/2000/svg';
 export const MORE_ABOUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/';
 export const MORE_SHORTCUT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 

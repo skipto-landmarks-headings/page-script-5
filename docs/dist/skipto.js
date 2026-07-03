@@ -345,7 +345,7 @@
 
   // URLs to more information
 
-  const SVG_NS = 'https://www.w3.org/2000/svg';
+  const SVG_NS = 'http://www.w3.org/2000/svg';
   const MORE_ABOUT_INFO_URL    ='https://skipto-landmarks-headings.github.io/page-script-5/';
   const MORE_SHORTCUT_INFO_URL ='https://skipto-landmarks-headings.github.io/page-script-5/shortcuts.html';
 
@@ -655,7 +655,8 @@
   margin: 0;
   padding: 0;
   position: relative;
-  top: 1px;
+  top: -2px;
+  left: -4px;
 }
 
 .menu-button button.hide line {
@@ -4123,9 +4124,7 @@ dialog button:hover {
       circleElem.setAttribute('cx', cx);
       circleElem.setAttribute('cy', cy);
       circleElem.setAttribute('r', r);
-      if (strokeWidth) {
-        circleElem.setAttribute('stroke-width', strokeWidth);
-      }
+      circleElem.setAttribute('stroke-width', strokeWidth);
       if (fill) {
         circleElem.setAttribute('fill', fill);
       }
@@ -4237,16 +4236,16 @@ dialog button:hover {
     buttonHideElem.className = 'hide';
 
     const svgElem = document.createElementNS(SVG_NS, 'svg');
-    svgElem.setAttribute('width', '24');
-    svgElem.setAttribute('height', '24');
-    svgElem.setAttribute('viewbox', '0 0 28 28');
+    svgElem.setAttribute('width', '26');
+    svgElem.setAttribute('height', '26');
+    svgElem.setAttribute('viewbox', '0 0 30 30');
     svgElem.setAttribute('role', 'none');
 
-    svgElem.appendChild(svgCircle(14, 14, 12, 2, 'none', 'focus'));
-    svgElem.appendChild(svgCircle(14, 14, 9, 0, '', ''));
+    svgElem.appendChild(svgCircle(14, 14, 10, 2, 'none', 'focus'));
+    svgElem.appendChild(svgCircle(14, 14, 7, 0, '', 'background'));
 
-    svgElem.appendChild(svgLine(10, 10, 18, 18, 2, 'round'));
-    svgElem.appendChild(svgLine(18, 10, 10, 18, 2, 'round'));
+    svgElem.appendChild(svgLine(11, 11, 17, 17, 2, 'round'));
+    svgElem.appendChild(svgLine(17, 11, 11, 17, 2, 'round'));
 
     buttonHideElem.appendChild(svgElem);
 

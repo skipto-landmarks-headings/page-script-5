@@ -149,9 +149,7 @@ function getMenuButtonElements (containerElement, buttonLabel, customClass) {
     circleElem.setAttribute('cx', cx);
     circleElem.setAttribute('cy', cy);
     circleElem.setAttribute('r', r);
-    if (strokeWidth) {
-      circleElem.setAttribute('stroke-width', strokeWidth);
-    }
+    circleElem.setAttribute('stroke-width', strokeWidth);
     if (fill) {
       circleElem.setAttribute('fill', fill);
     }
@@ -263,16 +261,16 @@ function getMenuButtonElements (containerElement, buttonLabel, customClass) {
   buttonHideElem.className = 'hide';
 
   const svgElem = document.createElementNS(SVG_NS, 'svg');
-  svgElem.setAttribute('width', '24');
-  svgElem.setAttribute('height', '24');
-  svgElem.setAttribute('viewbox', '0 0 28 28');
+  svgElem.setAttribute('width', '26');
+  svgElem.setAttribute('height', '26');
+  svgElem.setAttribute('viewbox', '0 0 30 30');
   svgElem.setAttribute('role', 'none');
 
-  svgElem.appendChild(svgCircle(14, 14, 12, 2, 'none', 'focus'));
-  svgElem.appendChild(svgCircle(14, 14, 9, 0, '', ''));
+  svgElem.appendChild(svgCircle(14, 14, 10, 2, 'none', 'focus'));
+  svgElem.appendChild(svgCircle(14, 14, 7, 0, '', 'background'));
 
-  svgElem.appendChild(svgLine(10, 10, 18, 18, 2, 'round'));
-  svgElem.appendChild(svgLine(18, 10, 10, 18, 2, 'round'));
+  svgElem.appendChild(svgLine(11, 11, 17, 17, 2, 'round'));
+  svgElem.appendChild(svgLine(17, 11, 11, 17, 2, 'round'));
 
   buttonHideElem.appendChild(svgElem);
 
