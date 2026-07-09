@@ -1,5 +1,10 @@
 # Version history for SkipTo.js
 
+## Version 5.11.1
+* Fixed aria controls relationship between menu button and menu widgets
+* Updated accessible name calculation code to use "ariaLabelledByElements"
+  property in the accessible name computation
+
 ## Version 5.11
 * Removed templates (e.g. innerHTML) to create dialogs and menu button.  This is needed for the
   extensions to work on pages with security features that do not allow for the

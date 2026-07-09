@@ -10,10 +10,6 @@ debug.flag = false;
 /* Exports */
 
 import {
-  getAttributeValue
-} from './utils';
-
-import {
   getNodeContents,
 } from './namefrom';
 
@@ -37,7 +33,7 @@ export {
 function getAccessibleName (doc, element, fromContent=false) {
   let accName = '';
 
-  accName = nameFromAttributeIdRefs(doc, element, 'aria-labelledby');
+  accName = nameFromRefs(doc, element, 'ariaLabelledByElements');
 
   if (accName === '' && element.hasAttribute('aria-label')) {
     accName =  element.getAttribute('aria-label').trim();
@@ -55,7 +51,7 @@ function getAccessibleName (doc, element, fromContent=false) {
 }
 
 /*
-*   @function nameFromAttributeIdRefs
+*   @function nameFromRefs
 *
 *   @desc Get the value of attrName on element (a space-
 *         separated list of IDREFs), visit each referenced element in the order it
@@ -66,25 +62,21 @@ function getAccessibleName (doc, element, fromContent=false) {
 *
 *   @param {Object}  doc       -  Browser document object
 *   @param {Object}  element   -  DOM element node
-*   @param {String}  attribute -  Attribute name (e.g. "aria-labelledby", "aria-describedby",
-*                                 or "aria-errormessage")
+*   @param {String}  property  -  Property name (e.g. "ariaLabelledByElements",
+*                                 "ariaDescribedByElements", or "ariaErrorMessageElements")
 *
 *   @returns {String} see @desc 
 */
-function nameFromAttributeIdRefs (doc, element, attribute) {
-  const value = getAttributeValue(element, attribute);
+function nameFromRefs (doc, element, property) {
   const arr = [];
 
-  if (value.length) {
-    const idRefs = value.split(' ');
+  if (element[property] && element[property].length) {
 
-    for (let i = 0; i < idRefs.length; i++) {
-      const refElement = doc.getElementById(idRefs[i]);
-      if (refElement) {
-        const accName = getNodeContents(refElement);
-        if (accName && accName.length) arr.push(accName);
-      }
-    }
+    element[property].forEach ((elem) => {
+      const accName = getNodeContents(elem);
+      console.log(`[accName]: ${accName}`);
+      if (accName && accName.length) arr.push(accName);
+    });
   }
 
   if (arr.length) {

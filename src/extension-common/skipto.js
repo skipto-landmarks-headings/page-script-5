@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.11
+ * Version: 5.11.1
  * Copyright (c) 2022, 2023, 2024, 2025, 2026 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -299,7 +299,7 @@
   /* constants.js */
 
   // Version
-  const VERSION = '5.11';
+  const VERSION = '5.11.1';
 
   // Numbers
 
@@ -2601,7 +2601,7 @@ dialog button:hover {
   function getAccessibleName (doc, element, fromContent=false) {
     let accName = '';
 
-    accName = nameFromAttributeIdRefs(doc, element, 'aria-labelledby');
+    accName = nameFromRefs(doc, element, 'ariaLabelledByElements');
 
     if (accName === '' && element.hasAttribute('aria-label')) {
       accName =  element.getAttribute('aria-label').trim();
@@ -2619,7 +2619,7 @@ dialog button:hover {
   }
 
   /*
-  *   @function nameFromAttributeIdRefs
+  *   @function nameFromRefs
   *
   *   @desc Get the value of attrName on element (a space-
   *         separated list of IDREFs), visit each referenced element in the order it
@@ -2630,25 +2630,21 @@ dialog button:hover {
   *
   *   @param {Object}  doc       -  Browser document object
   *   @param {Object}  element   -  DOM element node
-  *   @param {String}  attribute -  Attribute name (e.g. "aria-labelledby", "aria-describedby",
-  *                                 or "aria-errormessage")
+  *   @param {String}  property  -  Property name (e.g. "ariaLabelledByElements",
+  *                                 "ariaDescribedByElements", or "ariaErrorMessageElements")
   *
   *   @returns {String} see @desc 
   */
-  function nameFromAttributeIdRefs (doc, element, attribute) {
-    const value = getAttributeValue(element, attribute);
+  function nameFromRefs (doc, element, property) {
     const arr = [];
 
-    if (value.length) {
-      const idRefs = value.split(' ');
+    if (element[property] && element[property].length) {
 
-      for (let i = 0; i < idRefs.length; i++) {
-        const refElement = doc.getElementById(idRefs[i]);
-        if (refElement) {
-          const accName = getNodeContents(refElement);
-          if (accName && accName.length) arr.push(accName);
-        }
-      }
+      element[property].forEach ((elem) => {
+        const accName = getNodeContents(elem);
+        console.log(`[accName]: ${accName}`);
+        if (accName && accName.length) arr.push(accName);
+      });
     }
 
     if (arr.length) {
@@ -4201,7 +4197,7 @@ dialog button:hover {
     buttonElem.ariaHasPopup = 'menu';
     buttonElem.ariaExpanded = 'false';
     buttonElem.ariaLabel    = 'Skip To Content';
-    buttonElem.ariaControls = 'id-skip-to-menu';
+    buttonElem.setAttribute('aria-controls', MENU_ID);
     buttonElem.className    = 'open';
 
     const spanLargeElem = document.createElement('span');
@@ -4241,8 +4237,8 @@ dialog button:hover {
     svgElem.setAttribute('viewbox', '0 0 28 28');
     svgElem.setAttribute('role', 'none');
 
-    svgElem.appendChild(svgCircle(14, 14, 10, 2, 'none', 'focus'));
-    svgElem.appendChild(svgCircle(14, 14, 7, 0, '', 'background'));
+    svgElem.appendChild(svgCircle(14, 14, 11, 2, 'none', 'focus'));
+    svgElem.appendChild(svgCircle(14, 14, 8, 0, '', 'background'));
 
     svgElem.appendChild(svgLine(11, 11, 17, 17, 2, 'round'));
     svgElem.appendChild(svgLine(17, 11, 11, 17, 2, 'round'));

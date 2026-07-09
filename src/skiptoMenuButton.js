@@ -226,7 +226,7 @@ function getMenuButtonElements (containerElement, buttonLabel, customClass) {
   buttonElem.ariaHasPopup = 'menu';
   buttonElem.ariaExpanded = 'false';
   buttonElem.ariaLabel    = 'Skip To Content';
-  buttonElem.ariaControls = 'id-skip-to-menu';
+  buttonElem.setAttribute('aria-controls', MENU_ID);
   buttonElem.className    = 'open';
 
   const spanLargeElem = document.createElement('span');
@@ -266,8 +266,8 @@ function getMenuButtonElements (containerElement, buttonLabel, customClass) {
   svgElem.setAttribute('viewbox', '0 0 28 28');
   svgElem.setAttribute('role', 'none');
 
-  svgElem.appendChild(svgCircle(14, 14, 10, 2, 'none', 'focus'));
-  svgElem.appendChild(svgCircle(14, 14, 7, 0, '', 'background'));
+  svgElem.appendChild(svgCircle(14, 14, 11, 2, 'none', 'focus'));
+  svgElem.appendChild(svgCircle(14, 14, 8, 0, '', 'background'));
 
   svgElem.appendChild(svgLine(11, 11, 17, 17, 2, 'round'));
   svgElem.appendChild(svgLine(17, 11, 11, 17, 2, 'round'));

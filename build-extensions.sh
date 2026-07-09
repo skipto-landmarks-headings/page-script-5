@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 echo "Building extensions.."
 
-version="1.4.0"
+version="1.4.1"
 
 echo "
 Building SkipTo.js browser extensions
