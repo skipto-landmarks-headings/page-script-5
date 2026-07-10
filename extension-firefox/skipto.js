@@ -2601,7 +2601,12 @@ dialog button:hover {
   function getAccessibleName (doc, element, fromContent=false) {
     let accName = '';
 
-    accName = nameFromRefs(doc, element, 'ariaLabelledByElements');
+    accName = nameFromRefs(element);
+
+    // This condition is for compatibility with older browsers
+    if (accName === '' && element.hasAttribute('aria-labelledby')) {
+      accName = nameFromAttributeIdRefs(doc, element);
+    }
 
     if (accName === '' && element.hasAttribute('aria-label')) {
       accName =  element.getAttribute('aria-label').trim();
@@ -2621,6 +2626,38 @@ dialog button:hover {
   /*
   *   @function nameFromRefs
   *
+  *   @desc Get the value of attrName on element an array of referenced element nodes,
+  *         visit each referenced element in the order it
+  *         appears in the list and obtain its accessible name
+  *
+  *   @param {Object}  element   -  DOM element node
+  *
+  *   @returns {String} see @desc
+  */
+  function nameFromRefs (element) {
+    const arr = [];
+    const property = 'ariaLabelledByElements';
+
+    if (element[property] && element[property].length) {
+
+      element[property].forEach ((refElement) => {
+        if (typeof refElement === 'object') {
+          const accName = getNodeContents(refElement);
+          if (accName && accName.length) arr.push(accName);
+        }
+      });
+    }
+
+    if (arr.length) {
+      return arr.join(' ');
+    }
+
+    return '';
+  }
+
+  /*
+  *   @function nameFromAttributeIdRefs
+  *
   *   @desc Get the value of attrName on element (a space-
   *         separated list of IDREFs), visit each referenced element in the order it
   *         appears in the list and obtain its accessible name (skipping recursive
@@ -2630,21 +2667,23 @@ dialog button:hover {
   *
   *   @param {Object}  doc       -  Browser document object
   *   @param {Object}  element   -  DOM element node
-  *   @param {String}  property  -  Property name (e.g. "ariaLabelledByElements",
-  *                                 "ariaDescribedByElements", or "ariaErrorMessageElements")
   *
-  *   @returns {String} see @desc 
+  *   @returns {String} see @desc
   */
-  function nameFromRefs (doc, element, property) {
+  function nameFromAttributeIdRefs (doc, element) {
+    const value = getAttributeValue(element, 'aria-labelledby');
     const arr = [];
 
-    if (element[property] && element[property].length) {
+    if (value.length) {
+      const idRefs = value.split(' ');
 
-      element[property].forEach ((elem) => {
-        const accName = getNodeContents(elem);
-        console.log(`[accName]: ${accName}`);
-        if (accName && accName.length) arr.push(accName);
-      });
+      for (let i = 0; i < idRefs.length; i++) {
+        const refElement = doc.getElementById(idRefs[i]);
+        if (refElement) {
+          const accName = getNodeContents(refElement);
+          if (accName && accName.length) arr.push(accName);
+        }
+      }
     }
 
     if (arr.length) {

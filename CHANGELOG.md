@@ -2,7 +2,7 @@
 
 ## Version 5.11.1
 * Fixed aria controls relationship between menu button and menu widgets
-* Updated accessible name calculation code to use "ariaLabelledByElements"
+* Updated accessible name calculation code to support "ariaLabelledByElements"
   property in the accessible name computation
 
 ## Version 5.11

@@ -2,6 +2,7 @@
 
 ## Version 1.4.1
 * Updated to version 5.11.1
+* Moved extensions archive to a extensions directory
 
 ## Version 1.4.0
 * Updated to use version 5.11 of SkipTo.js that does not use HTML templates
