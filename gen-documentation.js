@@ -341,7 +341,7 @@ const mainPages = [
         spacer: ''
       },
       { url: 'https://opena11y.github.io/evaluation-library/',
-        link: 'Evaluation Library'
+        link: 'OpenA11y Evaluation Library'
       },
       { url: 'https://opena11y.github.io/ainspector/',
         link: 'AInspector for WCAG'
