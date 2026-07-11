@@ -22,11 +22,11 @@ import {
 const debug = new DebugLogging('skiptoContent', false);
 debug.flag = false;
 
-/* @class SkipToContent5110
+/* @class SkipToContent5111
  *
  */
 
-export default class SkipToContent5110 extends HTMLElement {
+export default class SkipToContent5111 extends HTMLElement {
 
   constructor() {
     // Always call super first in constructor
