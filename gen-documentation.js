@@ -246,6 +246,7 @@ const mainPages = [
     filename: 'shortcuts.html'
   },
   { dropdown: 'Extensions',
+    id: 'id-extensions',
     pages: [
       { content: 'content-extensions-overview.njk',
         title: 'SkipTo.js Browser Extensions',
@@ -290,6 +291,7 @@ const mainPages = [
     filename: 'bookmarklets.html'
   },
   { dropdown: 'Page Script',
+    id: 'id-page-script',
     pages: [
       { content: 'content-page-script-add.njk',
         title: 'Adding SkipTo.js to a Web Page',
@@ -321,6 +323,7 @@ const mainPages = [
     filename: 'faq.html'
   },
   { dropdown: 'About',
+    id: 'id-about',
     pages: [
       { content: 'content-about-history.njk',
         title: 'History',
@@ -370,8 +373,9 @@ function createNavigation(pages) {
              data-bs-toggle="dropdown"
             href="#"
             role="button"
-            aria-expanded="false">${item.dropdown}</a>
-          <ul class="dropdown-menu">`;
+            aria-expanded="false"
+            aria-controls="${item.id}">${item.dropdown}</a>
+          <ul class="dropdown-menu" id="${item.id}">`;
 
       item.pages.forEach( p => {
         console.log(`[dropdown][page]: ${p.filename}`);
