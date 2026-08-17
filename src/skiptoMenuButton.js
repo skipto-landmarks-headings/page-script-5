@@ -509,7 +509,7 @@ export default class SkiptoMenuButton {
      *
      *   @param {Object}  elem            : DOM node of element to highlight
      *   @param {String}  info            : Information about target
-     *   @param {Boolean} force           : If true override isRduced
+     *   @param {Boolean} force           : If true override isReduced
      */
 
     highlight(elem, info='', force=false) {
@@ -660,7 +660,7 @@ export default class SkiptoMenuButton {
     /*
      * @method updateKeyboardShortCuts
      *
-     * @desc Updates the keyboard short cuts for the curent menu items
+     * @desc Updates the keyboard short cuts for the current menu items
      */
     updateKeyboardShortCuts () {
       let mi;
@@ -773,7 +773,7 @@ export default class SkiptoMenuButton {
      * 
      * @param  {Object}  groupNode       -  DOM element node for the menu group
      * @param  {Array}   menuitems       -  Array of objects with menu item information
-     * @param  {String}  msgNoItesmFound -  Message to render if there are no menu items
+     * @param  {String}  msgNoItemsFound -  Message to render if there are no menu items
      */
     renderMenuitemsToGroup(groupNode, menuitems, msgNoItemsFound) {
       // remove all child nodes
@@ -1082,7 +1082,7 @@ export default class SkiptoMenuButton {
     /*
      * @method closePopup
      *
-     * @desc Closes the memu of landmark regions and headings
+     * @desc Closes the menu of landmark regions and headings
      */
     closePopup(moveFocusToButton=false) {
       if (this.isOpen()) {
@@ -1215,7 +1215,7 @@ export default class SkiptoMenuButton {
     /*
      * @method setDisplayOption
      *
-     * @desc Set display option for button visibility wehn it does not
+     * @desc Set display option for button visibility when it does not
      *       have focus
      *
      * @param  {Object}  elem  - DOM element to update style
