@@ -101,8 +101,8 @@ export default class SkipToContent5111 extends HTMLElement {
       aboutDesc: 'SkipTo.js is a free and open source utility to support the WCAG 2.4.1 Bypass Block requirement.  ',
       aboutPrivacyLabel: 'Privacy',
       aboutPrivacy: 'SkipTo.js does not collect or store any information about users or work with any other parties to collect or share user browsing information.',
-      aboutShortcutLabel :'"Skip To Content" Button Shortcut',
-      aboutShortcut :'Open Menu',
+      aboutShortcutLabel : 'Keyboard Shortcut',
+      aboutShortcut :'Opens the SkipTo.js menu and focuses the first menu item.',
 
 
       closeLabel: 'Close',

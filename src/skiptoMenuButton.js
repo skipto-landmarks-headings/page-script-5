@@ -428,8 +428,8 @@ export default class SkiptoMenuButton {
       }
 
       // Information dialog
-      this.shortcutsDialog = new ShortcutsDialog(this.containerNode, this.config);
-      this.aboutDialog     = new AboutDialog(this.containerNode, this.config);
+      this.shortcutsDialog = new ShortcutsDialog(this.buttonNode, this.containerNode, this.config);
+      this.aboutDialog     = new AboutDialog(this.buttonNode, this.containerNode, this.config);
 
       // Shortcut messages
       this.shortcutsMessage = new ShortcutsMessage(this.containerNode, this.config.msgMessageLabel);

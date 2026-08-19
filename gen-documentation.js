@@ -8,7 +8,7 @@ const nunjucks  = require('nunjucks');
 
 /* Constants */
 
-const version = "5.11";
+const version = "5.12";
 
 const tagLineName = "SkipTo.js for WCAG Bypass Blocks";
 const projectName   = "SkipTo.js";

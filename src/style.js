@@ -429,7 +429,7 @@ dialog {
   left: 50%;
   transform: translate(-50%,-50%);
   font-family: var(--skipto-font-family);
-  font-size: var(--skipto-font-size);
+  font-size: 12pt;
   max-width: 70%;
   margin: 0;
   padding: 0;
@@ -456,25 +456,14 @@ dialog .header {
   background-color: light-dark(var(--skipto-dialog-background-title-color), var(--skipto-dialog-background-title-dark-color));
   color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
   position: relative;
-  font-size: 100%;
 }
 
-dialog .header h2 {
+dialog .header h2,
+dialog button {
   margin: 0;
   padding: 0;
-  font-size: 120%;
-}
-
-dialog .header button {
-  position: absolute;
-  top: 0px;
-  right: 2px;
-  border: none;
-  background: transparent;
   font-weight: bold;
-  font-size: 1.75em;
-  color: light-dark(var(--skipto-dialog-text-color), var(--skipto-dialog-text-dark-color));
-  font-family: var(--skipto-font-family);
+  font-size: 12pt;
 }
 
 dialog .content {
@@ -482,7 +471,6 @@ dialog .content {
   margin-right: 2em;
   margin-top: 0;
   margin-bottom: 2em;
-  font-size: 110%;
 }
 
 dialog .content .desc {
@@ -507,7 +495,7 @@ dialog .content .privacy {
 dialog .content .happy {
   text-align: center;
   font-family: 'Brush Script MT', cursive;
-  font-size: 200%;
+  font-size: 24pt;
   letter-spacing: 0.05em;
 }
 
@@ -518,6 +506,9 @@ dialog .content .copyright {
 }
 
 dialog .content table {
+  margin: 0;
+  margin-top: 1em;
+  padding: 0.25em;
   width: auto;
   border-collapse: collapse;
 }
@@ -525,23 +516,20 @@ dialog .content table {
 dialog .content caption {
   margin: 0;
   padding: 0;
-  margin-top: 1em;
+  padding-left: 0.25em;
   text-align: left;
   font-weight: bold;
-  font-size: 110%;
 }
 
 dialog .content th {
   margin: 0;
   padding: 0;
+  padding-left: 0.25em;
   padding-top: 0.125em;
   padding-bottom: 0.125em;
   text-align: left;
   font-weight: bold;
-  font-size: 100%;
-}
-
-dialog .content th {
+  font-size: 11pt;
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: light-dark(#999999, #777777);
@@ -555,7 +543,6 @@ dialog .content td.desc {
   padding-top: 0.125em;
   padding-bottom: 0.125em;
   text-align: left;
-  font-size: 100%;
 }
 
 dialog .content th.shortcut {
@@ -580,9 +567,13 @@ dialog .buttons {
 
 dialog .buttons button {
   margin: 6px;
+  padding-top: .25em;
+  padding-left: .5em;
+  padding-right: .5em;
+  padding-bottom: .25em;
   min-width: 5em;
   font-family: var(--skipto-font-family);
-  font-size: 125%;
+  font-size: 12pt;
 }
 
 dialog button:focus {

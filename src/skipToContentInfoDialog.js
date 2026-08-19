@@ -54,10 +54,6 @@ function getInfoDialogElems (id, title, config) {
   const divH2Elem = createElem('h2', title, 'title');
   divHeaderElem.appendChild(divH2Elem);
 
-  const divClose1ButtonElem = createElem('button', '×');
-  divClose1ButtonElem.ariaLabel = config.closeLabel;
-  divHeaderElem.appendChild(divClose1ButtonElem);
-
   // Dialog content container
 
   const divContentElem = createElem('div', '', 'content');
@@ -107,7 +103,7 @@ function addShortcutsContentElems (contentElem, config) {
     {shortcut: config.shortcutHeadingH3,       desc: config.msgH3Headings},
     {shortcut: config.shortcutHeadingH4,       desc: config.msgH4Headings},
     {shortcut: config.shortcutHeadingH5,       desc: config.msgH5Headings},
-    {shortcut: config.shortcutHeadingH5,       desc: config.msgH6Headings},
+    {shortcut: config.shortcutHeadingH6,       desc: config.msgH6Headings},
   ];
 
   function getShortcutTable(caption, shortcuts) {
@@ -115,6 +111,8 @@ function addShortcutsContentElems (contentElem, config) {
     let trElem, thElem, tdElem, kbdElem;
 
     const tableElem = createElem('table');
+    tableElem.tabIndex = -1;
+    tableElem.id = 'focus';
 
     const captionElem = createElem('caption', caption);
     tableElem.appendChild(captionElem);
@@ -155,9 +153,9 @@ function addShortcutsContentElems (contentElem, config) {
     return tableElem;
   }
 
-  contentElem.appendChild(getShortcutTable(config.menuButtonLabel, buttonShortcuts));
   contentElem.appendChild(getShortcutTable(config.landmarkGroupLabel, landmarkShortcuts));
   contentElem.appendChild(getShortcutTable(config.headingGroupLabel, headingShortcuts));
+  contentElem.appendChild(getShortcutTable(config.menuButtonLabel, buttonShortcuts));
 
 }
 
@@ -175,6 +173,8 @@ function addAboutContentElems (contentElem, config) {
   contentElem.appendChild(divDescLabelElem);
 
   const divDescElem = createElem('div', config.aboutDesc, 'desc');
+  divDescElem.tabIndex = -1;
+  divDescElem.id = 'focus';
   contentElem.appendChild(divDescElem);
 
   // Button menu shortcut key
@@ -213,24 +213,22 @@ function addAboutContentElems (contentElem, config) {
  */
 
 class InfoDialog {
-  constructor (attachElem, id, title, config) {
+  constructor (buttonElem, attachElem, id, title, config) {
 
     // Get references
+
+    this.buttonElem = buttonElem;
 
     this.dialogElem = getInfoDialogElems(id, title, config);
     attachElem.appendChild(this.dialogElem);
     this.dialogElem.addEventListener('keydown', this.onKeyDown.bind(this));
 
-    this.closeButtonElem1  = attachElem.querySelector(`#${id} .header button`);
-    this.closeButtonElem1.addEventListener('click', this.onCloseButtonClick.bind(this));
-    this.closeButtonElem1.addEventListener('keydown', this.onKeyDown.bind(this));
+    this.closeButtonElem  = attachElem.querySelector(`#${id} .buttons button.close`);
+    this.closeButtonElem.addEventListener('click', this.onCloseButtonClick.bind(this));
+    this.closeButtonElem.addEventListener('keydown', this.onKeyDown.bind(this));
 
-    this.closeButtonElem2  = attachElem.querySelector(`#${id} .buttons button.close`);
-    this.closeButtonElem2.addEventListener('click', this.onCloseButtonClick.bind(this));
-    this.closeButtonElem2.addEventListener('keydown', this.onKeyDown.bind(this));
-
-    const moreInfoButtonElem = attachElem.querySelector(`#${id} .buttons button.more`);
-    moreInfoButtonElem.addEventListener('click', this.onMoreInfoClick.bind(this));
+    this.moreInfoButtonElem = attachElem.querySelector(`#${id} .buttons button.more`);
+    this.moreInfoButtonElem.addEventListener('click', this.onMoreInfoClick.bind(this));
 
     return this;
   }
@@ -246,11 +244,21 @@ class InfoDialog {
 
   onCloseButtonClick () {
     this.dialogElem.close();
+    this.buttonElem.parentNode.classList.add('focus');
+    this.buttonElem.focus();
   }
 
   openDialog () {
     this.dialogElem.showModal();
-    this.dialogElem.focus();
+
+    const focusElem = this.dialogElem.querySelector('#focus');
+
+    if (focusElem) {
+      focusElem.focus();
+    }
+    else {
+      this.dialogElem.focus();
+    }
   }
 
   onKeyDown (event) {
@@ -261,16 +269,15 @@ class InfoDialog {
         !event.metaKey) {
 
       if (event.shiftKey &&
-          ((event.target === this.closeButtonElem1) ||
-           (event.target === this.dialogElem))) {
-        this.closeButtonElem2.focus();
+          (event.target === this.moreInfoButtonElem)) {
+        this.closeButtonElem.focus();
         event.preventDefault();
         event.stopPropagation();
       }
 
       if (!event.shiftKey &&
-          (event.target === this.closeButtonElem2)) {
-        this.closeButtonElem1.focus();
+          (event.target === this.closeButtonElem)) {
+        this.moreInfoButtonElem.focus();
         event.preventDefault();
         event.stopPropagation();
       }
@@ -286,9 +293,9 @@ class InfoDialog {
 
 export class ShortcutsDialog extends InfoDialog {
 
-  constructor (attachElem, config) {
+  constructor (buttonElem, attachElem, config) {
 
-    super(attachElem, SHORTCUTS_DIALOG_ID, config.shortcutsInfoLabel, config);
+    super(buttonElem, attachElem, SHORTCUTS_DIALOG_ID, config.shortcutsInfoLabel, config);
 
     const contentElem = attachElem.querySelector(`#${SHORTCUTS_DIALOG_ID} .content`);
     addShortcutsContentElems(contentElem, config);
@@ -300,9 +307,9 @@ export class ShortcutsDialog extends InfoDialog {
 
 export class AboutDialog extends InfoDialog {
 
-  constructor (attachElem, config) {
+  constructor (buttonElem, attachElem, config) {
 
-    super(attachElem, ABOUT_DIALOG_ID, config.aboutInfoLabel, config);
+    super(buttonElem, attachElem, ABOUT_DIALOG_ID, config.aboutInfoLabel, config);
 
     const contentElem = attachElem.querySelector(`#${ABOUT_DIALOG_ID} .content`);
     addAboutContentElems(contentElem, config);
