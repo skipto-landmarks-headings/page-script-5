@@ -1533,8 +1533,8 @@ dialog button:hover {
     const divHeaderElem = createElem('div', '', 'header');
     divContainerElem.appendChild(divHeaderElem);
 
-    const divH2Elem = createElem('h2', title, 'title');
-    divHeaderElem.appendChild(divH2Elem);
+    const divTitleElem = createElem('h2', title, 'title');
+    divHeaderElem.appendChild(divTitleElem);
 
     // Dialog content container
 
@@ -1593,7 +1593,6 @@ dialog button:hover {
       let trElem, thElem, tdElem, kbdElem;
 
       const tableElem = createElem('table');
-      tableElem.tabIndex = -1;
       tableElem.id = 'focus';
 
       const captionElem = createElem('caption', caption);
@@ -1655,7 +1654,6 @@ dialog button:hover {
     contentElem.appendChild(divDescLabelElem);
 
     const divDescElem = createElem('div', config.aboutDesc, 'desc');
-    divDescElem.tabIndex = -1;
     divDescElem.id = 'focus';
     contentElem.appendChild(divDescElem);
 
@@ -1689,6 +1687,8 @@ dialog button:hover {
   }
 
   /*
+
+
    * @class InfoDialog
    *
    * @desc Base class for SkipTo.js dialogs
@@ -1711,6 +1711,8 @@ dialog button:hover {
 
       this.moreInfoButtonElem = attachElem.querySelector(`#${id} .buttons button.more`);
       this.moreInfoButtonElem.addEventListener('click', this.onMoreInfoClick.bind(this));
+
+      this.titleElem = this.dialogElem.querySelector('.header h2');
 
       return this;
     }
@@ -1736,10 +1738,12 @@ dialog button:hover {
       const focusElem = this.dialogElem.querySelector('#focus');
 
       if (focusElem) {
+        focusElem.tabIndex = -1;
         focusElem.focus();
       }
       else {
-        this.dialogElem.focus();
+        this.titleElem.tabIndex = -1;
+        this.titleElem.focus();
       }
     }
 
