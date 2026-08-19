@@ -106,12 +106,14 @@ function addShortcutsContentElems (contentElem, config) {
     {shortcut: config.shortcutHeadingH6,       desc: config.msgH6Headings},
   ];
 
-  function getShortcutTable(caption, shortcuts) {
+  function getShortcutTable(caption, shortcuts, initFocus=false) {
 
     let trElem, thElem, tdElem, kbdElem;
 
     const tableElem = createElem('table');
-    tableElem.id = 'focus';
+    if (initFocus) {
+      tableElem.id = 'focus';
+    }
 
     const captionElem = createElem('caption', caption);
     tableElem.appendChild(captionElem);
@@ -152,7 +154,7 @@ function addShortcutsContentElems (contentElem, config) {
     return tableElem;
   }
 
-  contentElem.appendChild(getShortcutTable(config.landmarkGroupLabel, landmarkShortcuts));
+  contentElem.appendChild(getShortcutTable(config.landmarkGroupLabel, landmarkShortcuts, true));
   contentElem.appendChild(getShortcutTable(config.headingGroupLabel, headingShortcuts));
   contentElem.appendChild(getShortcutTable(config.menuButtonLabel, buttonShortcuts));
 
@@ -213,11 +215,11 @@ function addAboutContentElems (contentElem, config) {
  */
 
 class InfoDialog {
-  constructor (buttonElem, attachElem, id, title, config) {
+  constructor (skipToElem, attachElem, id, title, config) {
 
     // Get references
 
-    this.buttonElem = buttonElem;
+    this.skipToElem = skipToElem;
 
     this.dialogElem = getInfoDialogElems(id, title, config);
     attachElem.appendChild(this.dialogElem);
@@ -246,8 +248,7 @@ class InfoDialog {
 
   onCloseButtonClick () {
     this.dialogElem.close();
-    this.buttonElem.parentNode.classList.add('focus');
-    this.buttonElem.focus();
+    this.skipToElem.setFocusToButton();
   }
 
   openDialog () {
@@ -297,9 +298,9 @@ class InfoDialog {
 
 export class ShortcutsDialog extends InfoDialog {
 
-  constructor (buttonElem, attachElem, config) {
+  constructor (skipToElem, attachElem, config) {
 
-    super(buttonElem, attachElem, SHORTCUTS_DIALOG_ID, config.shortcutsInfoLabel, config);
+    super(skipToElem, attachElem, SHORTCUTS_DIALOG_ID, config.shortcutsInfoLabel, config);
 
     const contentElem = attachElem.querySelector(`#${SHORTCUTS_DIALOG_ID} .content`);
     addShortcutsContentElems(contentElem, config);
@@ -311,9 +312,9 @@ export class ShortcutsDialog extends InfoDialog {
 
 export class AboutDialog extends InfoDialog {
 
-  constructor (buttonElem, attachElem, config) {
+  constructor (skipToElem, attachElem, config) {
 
-    super(buttonElem, attachElem, ABOUT_DIALOG_ID, config.aboutInfoLabel, config);
+    super(skipToElem, attachElem, ABOUT_DIALOG_ID, config.aboutInfoLabel, config);
 
     const contentElem = attachElem.querySelector(`#${ABOUT_DIALOG_ID} .content`);
     addAboutContentElems(contentElem, config);

@@ -1588,12 +1588,14 @@ dialog button:hover {
       {shortcut: config.shortcutHeadingH6,       desc: config.msgH6Headings},
     ];
 
-    function getShortcutTable(caption, shortcuts) {
+    function getShortcutTable(caption, shortcuts, initFocus=false) {
 
       let trElem, thElem, tdElem, kbdElem;
 
       const tableElem = createElem('table');
-      tableElem.id = 'focus';
+      if (initFocus) {
+        tableElem.id = 'focus';
+      }
 
       const captionElem = createElem('caption', caption);
       tableElem.appendChild(captionElem);
@@ -1634,7 +1636,7 @@ dialog button:hover {
       return tableElem;
     }
 
-    contentElem.appendChild(getShortcutTable(config.landmarkGroupLabel, landmarkShortcuts));
+    contentElem.appendChild(getShortcutTable(config.landmarkGroupLabel, landmarkShortcuts, true));
     contentElem.appendChild(getShortcutTable(config.headingGroupLabel, headingShortcuts));
     contentElem.appendChild(getShortcutTable(config.menuButtonLabel, buttonShortcuts));
 
@@ -1695,11 +1697,11 @@ dialog button:hover {
    */
 
   class InfoDialog {
-    constructor (buttonElem, attachElem, id, title, config) {
+    constructor (skipToElem, attachElem, id, title, config) {
 
       // Get references
 
-      this.buttonElem = buttonElem;
+      this.skipToElem = skipToElem;
 
       this.dialogElem = getInfoDialogElems(id, title, config);
       attachElem.appendChild(this.dialogElem);
@@ -1728,8 +1730,7 @@ dialog button:hover {
 
     onCloseButtonClick () {
       this.dialogElem.close();
-      this.buttonElem.parentNode.classList.add('focus');
-      this.buttonElem.focus();
+      this.skipToElem.setFocusToButton();
     }
 
     openDialog () {
@@ -1779,9 +1780,9 @@ dialog button:hover {
 
   class ShortcutsDialog extends InfoDialog {
 
-    constructor (buttonElem, attachElem, config) {
+    constructor (skipToElem, attachElem, config) {
 
-      super(buttonElem, attachElem, SHORTCUTS_DIALOG_ID, config.shortcutsInfoLabel, config);
+      super(skipToElem, attachElem, SHORTCUTS_DIALOG_ID, config.shortcutsInfoLabel, config);
 
       const contentElem = attachElem.querySelector(`#${SHORTCUTS_DIALOG_ID} .content`);
       addShortcutsContentElems(contentElem, config);
@@ -1793,9 +1794,9 @@ dialog button:hover {
 
   class AboutDialog extends InfoDialog {
 
-    constructor (buttonElem, attachElem, config) {
+    constructor (skipToElem, attachElem, config) {
 
-      super(buttonElem, attachElem, ABOUT_DIALOG_ID, config.aboutInfoLabel, config);
+      super(skipToElem, attachElem, ABOUT_DIALOG_ID, config.aboutInfoLabel, config);
 
       const contentElem = attachElem.querySelector(`#${ABOUT_DIALOG_ID} .content`);
       addAboutContentElems(contentElem, config);
@@ -4440,8 +4441,8 @@ dialog button:hover {
         }
 
         // Information dialog
-        this.shortcutsDialog = new ShortcutsDialog(this.buttonNode, this.containerNode, this.config);
-        this.aboutDialog     = new AboutDialog(this.buttonNode, this.containerNode, this.config);
+        this.shortcutsDialog = new ShortcutsDialog(this, this.containerNode, this.config);
+        this.aboutDialog     = new AboutDialog(this, this.containerNode, this.config);
 
         // Shortcut messages
         this.shortcutsMessage = new ShortcutsMessage(this.containerNode, this.config.msgMessageLabel);
@@ -4491,6 +4492,17 @@ dialog button:hover {
           this.hideButtonNode.style.left = left + 'px';
           this.hideButtonNode.style.top  = top + 'px';
        }
+
+      /*
+       * @method setFocusToButton
+       *
+       * @desc Shows button if hidden and gives it focus
+       */
+      setFocusToButton () {
+        this.menuButtonNode.classList.add('focus');
+        this.buttonNode.focus();
+      }
+
 
       /*
        * @method scrollBehavior

@@ -428,8 +428,8 @@ export default class SkiptoMenuButton {
       }
 
       // Information dialog
-      this.shortcutsDialog = new ShortcutsDialog(this.buttonNode, this.containerNode, this.config);
-      this.aboutDialog     = new AboutDialog(this.buttonNode, this.containerNode, this.config);
+      this.shortcutsDialog = new ShortcutsDialog(this, this.containerNode, this.config);
+      this.aboutDialog     = new AboutDialog(this, this.containerNode, this.config);
 
       // Shortcut messages
       this.shortcutsMessage = new ShortcutsMessage(this.containerNode, this.config.msgMessageLabel);
@@ -479,6 +479,17 @@ export default class SkiptoMenuButton {
         this.hideButtonNode.style.left = left + 'px';
         this.hideButtonNode.style.top  = top + 'px';
      }
+
+    /*
+     * @method setFocusToButton
+     *
+     * @desc Shows button if hidden and gives it focus
+     */
+    setFocusToButton () {
+      this.menuButtonNode.classList.add('focus');
+      this.buttonNode.focus();
+    }
+
 
     /*
      * @method scrollBehavior
