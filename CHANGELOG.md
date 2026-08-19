@@ -3,7 +3,7 @@
 ## Version 5.11.2
 * Updated about dialog box to have just one close button
 * Updated focused element when dialog opens
-* Focus goes to "skip to content" menu button when dialog closes
+* Focus goes to "skip to content" button when dialog closes
 
 ## Version 5.11.1
 * Fixed aria controls relationship between menu button and menu widgets
