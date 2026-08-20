@@ -259,10 +259,12 @@ class InfoDialog {
     if (focusElem) {
       focusElem.tabIndex = -1;
       focusElem.focus();
+      focusElem.addEventListener('keydown', this.onKeyDown.bind(this));
     }
     else {
       this.titleElem.tabIndex = -1;
       this.titleElem.focus();
+      this.titleElem.addEventListener('keydown', this.onKeyDown.bind(this));
     }
   }
 
@@ -274,7 +276,7 @@ class InfoDialog {
         !event.metaKey) {
 
       if (event.shiftKey &&
-          (event.target === this.moreInfoButtonElem)) {
+          (event.target !== this.closeButtonElem)) {
         this.closeButtonElem.focus();
         event.preventDefault();
         event.stopPropagation();
