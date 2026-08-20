@@ -1741,10 +1741,12 @@ dialog button:hover {
       if (focusElem) {
         focusElem.tabIndex = -1;
         focusElem.focus();
+        focusElem.addEventListener('keydown', this.onKeyDown.bind(this));
       }
       else {
         this.titleElem.tabIndex = -1;
         this.titleElem.focus();
+        this.titleElem.addEventListener('keydown', this.onKeyDown.bind(this));
       }
     }
 
@@ -1756,7 +1758,7 @@ dialog button:hover {
           !event.metaKey) {
 
         if (event.shiftKey &&
-            (event.target === this.moreInfoButtonElem)) {
+            (event.target !== this.closeButtonElem)) {
           this.closeButtonElem.focus();
           event.preventDefault();
           event.stopPropagation();
@@ -5744,11 +5746,11 @@ dialog button:hover {
   const debug$1 = new DebugLogging('skiptoContent', false);
   debug$1.flag = false;
 
-  /* @class SkipToContent5111
+  /* @class SkipToContent5112
    *
    */
 
-  class SkipToContent5111 extends HTMLElement {
+  class SkipToContent5112 extends HTMLElement {
 
     constructor() {
       // Always call super first in constructor
@@ -6272,7 +6274,7 @@ dialog button:hover {
           if (!isExtensionLoaded) {
             if (!isBookmarkletLoaded) {
               removePageSkipTo();
-              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent5111);
+              window.customElements.define(BOOKMARKLET_ELEMENT_NAME, SkipToContent5112);
               skipToContentElem = document.createElement(BOOKMARKLET_ELEMENT_NAME);
               skipToContentElem.setAttribute('version', skipToContentElem.version);
               skipToContentElem.setAttribute('type', type);
@@ -6288,7 +6290,7 @@ dialog button:hover {
           if (!isExtensionLoaded) {
             removePageSkipTo();
             removeBookmarkletSkipTo();
-            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent5111);
+            window.customElements.define(EXTENSION_ELEMENT_NAME, SkipToContent5112);
             skipToContentElem = document.createElement(EXTENSION_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
@@ -6301,7 +6303,7 @@ dialog button:hover {
 
         default:
           if (!isPageLoaded && !isBookmarkletLoaded && !isExtensionLoaded) {
-            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent5111);
+            window.customElements.define(PAGE_SCRIPT_ELEMENT_NAME, SkipToContent5112);
             skipToContentElem = document.createElement(PAGE_SCRIPT_ELEMENT_NAME);
             skipToContentElem.setAttribute('version', skipToContentElem.version);
             skipToContentElem.setAttribute('type', type);
