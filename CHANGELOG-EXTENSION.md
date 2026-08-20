@@ -1,10 +1,7 @@
 # Version history for SkipTo.js for Firefox, Chrome and Opera
 
-## Version 1.4.2
-* Updated to version 5.11.2
-
 ## Version 1.4.1
-* Updated to version 5.11.1
+* Updated to version 5.11.2
 * Moved extensions archive to a extensions directory
 
 ## Version 1.4.0

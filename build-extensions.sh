@@ -2,7 +2,7 @@
 echo "Building extensions.."
 
 scriptVersion="5.11.2"
-version="1.4.2"
+version="1.4.1"
 
 echo "
 Building SkipTo.js browser extensions
