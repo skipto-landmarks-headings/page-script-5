@@ -9,6 +9,7 @@ const nunjucks  = require('nunjucks');
 /* Constants */
 
 const version = "5.12";
+const extensionName = "skipto-for-opera-1.4.1.crx";
 
 const tagLineName = "SkipTo.js for WCAG Bypass Blocks";
 const projectName   = "SkipTo.js";
@@ -20,6 +21,7 @@ const outputDirectory   = './docs/';
 const templateDirectory = './src-docs/templates';
 const websiteURL        = 'https://skipto-landmarks-headings.github.io/page-script-5/';
 const repositoryURL = 'https://github.com/skipto-landmarks-headings/page-script-5/';
+
 
 // setUseCodeTags(true);
 
@@ -425,23 +427,24 @@ function createPage(page, mainNav, dropdownName='', dropdownPages=false, subPage
 
     outputFile(page.filename,
       nunjucks.render('./src-docs/templates/page.njk',{
+        config: config,
         content: page.content,
-        navigation: mainNav,
+        extensionName: extensionName,
+        description: desc,
         dropdownName: dropdownName,
         dropdownPages: dropdownPages,
-        websiteURL: websiteURL,
-        repositoryURL: repositoryURL,
-        projectName: projectName,
-        tagLineName: tagLineName,
         issuesURL: issuesURL,
         issuesEmail: issuesEmail,
-        version: version,
-        title: page.title,
-        description: desc,
-        config: config,
+        navigation: mainNav,
+        projectName: projectName,
+        repositoryURL: repositoryURL,
         subPages: subPages,
         subPagesTitle: subPagesTitle,
-        test: page.test
+        test: page.test,
+        tagLineName: tagLineName,
+        title: page.title,
+        version: version,
+        websiteURL: websiteURL
       })
     );
   }
