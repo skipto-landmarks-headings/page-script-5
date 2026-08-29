@@ -107,7 +107,7 @@ function normalize (s) {
 }
 
 /**
- * @fuction isNotEmptyString
+ * @function isNotEmptyString
  *
  * @desc Returns true if the string has content, otherwise false
  *
@@ -118,7 +118,7 @@ function isNotEmptyString (str) {
 }
 
 /**
- * @fuction isEmptyString
+ * @function isEmptyString
  *
  * @desc Returns true if the string is empty, otherwise false
  *
@@ -129,7 +129,7 @@ function isEmptyString (str) {
 }
 
 /**
- * @fuction normalizeName
+ * @function normalizeName
  *
  * @desc Removes extra spaces, linefeeds and cariage returns from a string
  *
@@ -143,11 +143,11 @@ function normalizeName (name) {
 }
 
 /**
- * @fuction isVisible
+ * @function isVisible
  *
  * @desc Returns true if the element is visible in the graphical rendering 
  *
- * @param {node}  elem  - DOM element node of a labelable element
+ * @param {node}  elem  - DOM element node of a labeled element
  */
 function isVisible (element) {
 
@@ -184,12 +184,12 @@ function isVisible (element) {
 }
 
 /**
- * @fuction isSmallOrOffScreen
+ * @function isSmallOrOffScreen
  *
  * @desc Returns true if the element is not very high or wide, or is
  *       positioned outside the graphical rendering
  *
- * @param {node}  elementNode  - DOM element node of a labelable element
+ * @param {node}  elementNode  - DOM element node of a labeled element
  */
 function isSmallOrOffScreen(elementNode) {
 
