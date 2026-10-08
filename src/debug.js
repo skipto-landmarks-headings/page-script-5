@@ -32,7 +32,7 @@
 */
 
 export default class DebugLogging {
-  constructor (...args) {
+  constructor () {
     // Default values for cases where fewer than two arguments are provided
     this._flag = false;
     this._label = 'debug';
@@ -40,9 +40,10 @@ export default class DebugLogging {
     // The constructor may be called with zero, one or two arguments. If two
     // arguments, they can be in any order: one is assumed to be the boolean
     // value for '_flag' and the other one the string value for '_label'.
-    try {
-      for (const [index, arg] of args.entries()) {
-        if (index < 2) {
+    if (arguments && arguments.length > 0) {
+      for (let i = 0; i < arguments.length; i += 1) {
+        const arg = arguments[i];
+        if (i < 2) {
           switch (typeof arg) {
             case 'boolean':
               this._flag = arg;
@@ -53,9 +54,6 @@ export default class DebugLogging {
           }
         }
       }
-    } catch (error) {
-      // Code to handle the error
-      console.error("Debug Creation Error:", error.message); //
     }
   }
 

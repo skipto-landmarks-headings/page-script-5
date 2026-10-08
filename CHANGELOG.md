@@ -1,5 +1,8 @@
 # Version history for SkipTo.js
 
+## Version 5.11.3
+* Update debug constructor to use argument param instead of an iterator
+
 ## Version 5.11.2
 * Updated about dialog box to have just one close button
 * Updated focused element when dialog opens

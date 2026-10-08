@@ -1,5 +1,5 @@
 /* ========================================================================
- * Version: 5.11.2
+ * Version: 5.11.3
  * Copyright (c) 2022, 2023, 2024, 2025, 2026 Jon Gunderson; Licensed BSD
  * Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD
  * All rights reserved.
@@ -240,7 +240,7 @@
   */
 
   class DebugLogging {
-    constructor (...args) {
+    constructor () {
       // Default values for cases where fewer than two arguments are provided
       this._flag = false;
       this._label = 'debug';
@@ -248,9 +248,10 @@
       // The constructor may be called with zero, one or two arguments. If two
       // arguments, they can be in any order: one is assumed to be the boolean
       // value for '_flag' and the other one the string value for '_label'.
-      try {
-        for (const [index, arg] of args.entries()) {
-          if (index < 2) {
+      if (arguments && arguments.length > 0) {
+        for (let i = 0; i < arguments.length; i += 1) {
+          const arg = arguments[i];
+          if (i < 2) {
             switch (typeof arg) {
               case 'boolean':
                 this._flag = arg;
@@ -261,9 +262,6 @@
             }
           }
         }
-      } catch (error) {
-        // Code to handle the error
-        console.error("Debug Creation Error:", error.message); //
       }
     }
 
@@ -304,7 +302,7 @@
   /* constants.js */
 
   // Version
-  const VERSION = '5.11.2';
+  const VERSION = '5.11.3';
 
   // Numbers
 
