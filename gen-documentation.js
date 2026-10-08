@@ -9,7 +9,7 @@ const nunjucks  = require('nunjucks');
 /* Constants */
 
 const version = "5.11";
-const extensionName = "skipto-for-opera-1.4.1.crx";
+const extensionName = "skipto-for-opera-1.4.2.crx";
 
 const tagLineName = "SkipTo.js for WCAG Bypass Blocks";
 const projectName   = "SkipTo.js";
