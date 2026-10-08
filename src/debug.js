@@ -40,17 +40,22 @@ export default class DebugLogging {
     // The constructor may be called with zero, one or two arguments. If two
     // arguments, they can be in any order: one is assumed to be the boolean
     // value for '_flag' and the other one the string value for '_label'.
-    for (const [index, arg] of args.entries()) {
-      if (index < 2) {
-        switch (typeof arg) {
-          case 'boolean':
-            this._flag = arg;
-            break;
-          case 'string':
-            this._label = arg;
-            break;
+    try {
+      for (const [index, arg] of args.entries()) {
+        if (index < 2) {
+          switch (typeof arg) {
+            case 'boolean':
+              this._flag = arg;
+              break;
+            case 'string':
+              this._label = arg;
+              break;
+          }
         }
       }
+    } catch (error) {
+      // Code to handle the error
+      console.error("Debug Creation Error:", error.message); //
     }
   }
 
